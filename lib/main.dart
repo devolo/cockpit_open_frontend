@@ -1,5 +1,7 @@
+import 'dart:ffi';
+import 'package:cockpit_devolo/deviceClass.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'parseXML.dart';
 import 'package:xml/xml.dart';
 import 'handleSocket.dart';
 
@@ -14,15 +16,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Devolo Cockpit',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blueGrey,
       ),
       home: MyHomePage(title: 'Devolo Cockpit'),
@@ -32,10 +25,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
 
   // This class is the configuration for the state. It holds the values (in this
   // case the title) provided by the parent (in this case the App widget) and
@@ -50,21 +39,20 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  XmlDocument doc = parseXML();
+  //XmlDocument doc = parseXML();
   //handleSocket();
+
+  @override
+  void initState() {
+    handleSocket();
+  }
 
   void _incrementCounter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      doc = parseXML();
+      //doc = parseXML();
       _counter++;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -101,20 +89,22 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Expanded(
-              child: ListView.builder(
-                itemCount: doc.findAllElements('type').toList(growable: true).length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text('${doc.findAllElements('type').toList()[index]}'),
-                    subtitle: Text('${doc.findAllElements('name').toList()[index]}'),
-                    hoverColor: Colors.blue,
-                  );
-                },
-              ),
-            ),
+            // Expanded(
+            //   child: ListView.builder(
+            //     itemCount: doc.findAllElements('type').toList(growable: true).length,
+            //     itemBuilder: (context, index) {
+            //       return ListTile(
+            //         title: Text('${doc.findAllElements('type').toList()[index]}'),
+            //         subtitle: Text('${doc.findAllElements('name').toList()[index]}'),
+            //         hoverColor: Colors.blue,
+            //       );
+            //     },
+            //   ),
+            // ),
+
             Text(
-              doc.findAllElements('type').toString(),
+              'blaaa'
+              //doc.findAllElements('type').toString(),
             ),
             Text(
               '$_counter',

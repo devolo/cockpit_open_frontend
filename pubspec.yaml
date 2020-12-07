@@ -24,6 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   xml: ^4.5.1
+  xml_parser: ^0.1.2
 
 
   # The following adds the Cupertino Icons font to your application.

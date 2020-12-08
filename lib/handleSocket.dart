@@ -1,7 +1,7 @@
 import 'dart:io';  //only for non-web apps!!!
 import 'dart:async';
-import 'package:xml/xml.dart'  as xml;
-import 'package:xml_parser/xml_parser.dart';
+import 'package:xml/xml.dart' ;
+import 'package:xml_parser/xml_parser.dart' as xml;
 import 'deviceClass.dart';
 
 Socket socket;
@@ -339,30 +339,28 @@ void parseXML(String xmlData) {
         </LocalDeviceList>
 </Message>
 </boost_serialization>''';*/
-  print("Entering parseXML______________________________________________________________________");
+  print("============================ Entering parseXML ================================");
 
   if(xmlData == null) {
     final emptyXml = '''<?xml version="1.0" ?>
 <metadata>
 </metadata>'''; //TODO Shitty workaround
     print("Empty String");
-    final document = XmlDocument.fromString(emptyXml);
+    final document = XmlDocument.parse(emptyXml);
     //return document;
   }
 
   xmlLength = xmlData.substring(7,15); // cut the head in front of recieved xml (example: MSGSOCK00001f63) first 7 bytes-> Magicword; next 8 bytes -> message length
   xmlLength = int.parse(xmlLength, radix: 16);  // parse HexSting to int  //print("XmlLength: " + xmlLength.toString());
-  xmlData = xmlData.substring(xmlData.indexOf('<?'), xmlLength+13); //why 13? I dont know -_(o.O)_-
-  XmlDocument document = XmlDocument.fromString(xmlData);
-  //final document = XmlDocument.parse(xmlData);
+  xmlData = xmlData.substring(xmlData.indexOf('<?'), xmlLength+13); //why 13? I dont know yet -_(o.O)_-
 
-print(document);
-  if(document.getElementWhere(name: 'LocalDeviceList') == null) {return;} //
-    var item = document.getElementWhere(name: 'LocalDeviceList').getElementWhere(name: 'item',);
-    Device device = Device.fromXML(item);
+  final document = XmlDocument.parse(xmlData);
+  if(document.findAllElements('LocalDeviceList').isEmpty) {print('DeviceList not found!');return;} //
+  var item = document.findAllElements('LocalDeviceList').first.getElement('item');
+  Device device = Device.fromXML(item);
   print(device.type);
-    for( var dev in device.remoteDevices){
-      print(dev.type);
-    }
+  for( var dev in device.remoteDevices){
+    print(dev.type);
+  }
   //return document;
 }

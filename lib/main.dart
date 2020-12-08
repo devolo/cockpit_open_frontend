@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Devolo Cockpit',
       theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
+        primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Devolo Cockpit'),
     );
@@ -39,12 +39,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  //XmlDocument doc = parseXML();
-  //handleSocket();
+  DeviceList deviceList;
 
   @override
   void initState() {
     handleSocket();
+    deviceList = DeviceList();
   }
 
   void _incrementCounter() {

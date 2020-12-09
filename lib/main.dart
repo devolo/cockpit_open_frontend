@@ -1,9 +1,9 @@
-import 'dart:ffi';
 import 'package:cockpit_devolo/deviceClass.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:xml/xml.dart';
 import 'handleSocket.dart';
+import 'DrawOverview.dart';
+import 'helpers.dart';
 
 void main() {
   runApp(MyApp());
@@ -39,12 +39,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  DeviceList deviceList;
+  DrawNetworkOverview _Painter;
+
+  //DeviceList deviceList = DeviceList();
 
   @override
   void initState() {
     handleSocket();
-    deviceList = DeviceList();
+    loadAllDeviceIcons();
   }
 
   void _incrementCounter() {
@@ -56,12 +58,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    _Painter = DrawNetworkOverview(context, deviceList.devices);
+
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
@@ -69,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
         centerTitle: true,
       ),
-      body: Center(
+      body: Container(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
@@ -87,28 +85,44 @@ class _MyHomePageState extends State<MyHomePage> {
           // center the children vertically; the main axis here is the vertical
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            // Expanded(
-            //   child: ListView.builder(
-            //     itemCount: doc.findAllElements('type').toList(growable: true).length,
-            //     itemBuilder: (context, index) {
-            //       return ListTile(
-            //         title: Text('${doc.findAllElements('type').toList()[index]}'),
-            //         subtitle: Text('${doc.findAllElements('name').toList()[index]}'),
-            //         hoverColor: Colors.blue,
-            //       );
-            //     },
-            //   ),
-            // ),
-
-            Text(
-              'blaaa'
-              //doc.findAllElements('type').toString(),
+            GestureDetector(
+              //onTapUp: _handleTap,
+              onTap: () {_handleTapDown(context);},
+              // onLongPress: _handleLongPressStart,
+              // onLongPressUp: _handleLongPressEnd,
+              child: Center(
+                child: CustomPaint(
+                  painter: _Painter,
+                  child: Container(),
+                ),
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+              ' Devices: ' +deviceList.devices.length.toString(),
+              style: Theme.of(context).textTheme.headline5,
+            ),),
+            Expanded(
+              child: ListView.builder(
+                  padding: const EdgeInsets.all(0),
+                  itemCount: deviceList.devices.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                      title: Text(deviceList.devices[index].type),
+                      subtitle: Text(deviceList.devices[index].name +
+                          ", " +
+                          deviceList.devices[index].ip +
+                          ", " +
+                          deviceList.devices[index].mac +
+                          ", " +
+                          deviceList.devices[index].serialno +
+                          ", " +
+                          deviceList.devices[index].MT),
+                    );
+                  }),
             ),
           ],
         ),
@@ -120,4 +134,44 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+}
+
+// void _handleTapDown(TapDownDetails details) {
+//   print('Tabed');
+//   showDialog(
+//     context: context,
+//     builder: (BuildContext context){
+//       return AlertDialog()
+//     },
+//   );
+// }
+
+//ToDo Tabhandler not working yet
+void _handleTapDown(BuildContext context) async {
+  print('entering dialog....');
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('AlertDialog Title'),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              Text('This is a demo alert dialog.'),
+              Text('Would you like to approve of this message?'),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: Text('Approve'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }

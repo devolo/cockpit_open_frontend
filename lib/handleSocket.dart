@@ -1,11 +1,11 @@
 import 'dart:io';  //only for non-web apps!!!
 import 'dart:async';
+import 'package:cockpit_devolo/main.dart';
 import 'package:xml/xml.dart' ;
 import 'package:xml_parser/xml_parser.dart' as xml;
 import 'deviceClass.dart';
 
 Socket socket;
-//String xmlData; //maybe final?
 dynamic xmlLength;
 
 void handleSocket() {
@@ -349,6 +349,7 @@ void parseXML(String xmlData) {
     final document = XmlDocument.parse(emptyXml);
     //return document;
   }
+  deviceList.clearList();
 
   xmlLength = xmlData.substring(7,15); // cut the head in front of recieved xml (example: MSGSOCK00001f63) first 7 bytes-> Magicword; next 8 bytes -> message length
   xmlLength = int.parse(xmlLength, radix: 16);  // parse HexSting to int  //print("XmlLength: " + xmlLength.toString());
@@ -356,11 +357,12 @@ void parseXML(String xmlData) {
 
   final document = XmlDocument.parse(xmlData);
   if(document.findAllElements('LocalDeviceList').isEmpty) {print('DeviceList not found!');return;} //
-  var item = document.findAllElements('LocalDeviceList').first.getElement('item');
+  var item = document.findAllElements('LocalDeviceList').first.getElement('item'); //TODO: call for every localDevice
   Device device = Device.fromXML(item);
   print(device.type);
   for( var dev in device.remoteDevices){
     print(dev.type);
   }
+
   //return document;
 }

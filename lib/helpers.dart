@@ -1,13 +1,13 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'deviceClass.dart';
 import 'dart:async';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:ui' as ui;
+import 'package:url_launcher/url_launcher.dart';
+import 'dart:io';
 
-final List<ui.Image> deviceIconList = new List(); //ToDo put somewhere else
-bool areDeviceIconsLoaded = false;
+final Color devoloBlue = Colors.blue[700];
 
 String macToCanonical(String mac) {
   if (mac != null)
@@ -21,20 +21,44 @@ String macToCanonical(String mac) {
     return "";
 }
 
+launchURL(String ip) async {
+  String url = "http://"+ ip;
+  print("Opening web UI at " + url);
+
+  if (Platform.isFuchsia || Platform.isLinux)
+    print("Would now have opened the Web-Interface at " +
+        url +
+        ", but we are experimental on the current platform. :-/");
+  else
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+}
+
 DeviceType getDeviceType(String deviceType){
   DeviceType dt;
   if (deviceType.toLowerCase().contains("wifi")) {
     if (deviceType.toLowerCase().contains("plus") ||
         deviceType.toLowerCase().contains("+")) {
       dt = DeviceType.dtWiFiPlus;
-    } else {
+    }
+    else if(deviceType.toLowerCase().contains("magic") ){ // Different Icon? else move the condition up
+      dt = DeviceType.dtWiFiPlus;
+    }
+    else {
       dt = DeviceType.dtWiFiMini;
     }
   } else {
     if (deviceType.toLowerCase().contains("plus") ||
         deviceType.toLowerCase().contains("+")) {
       dt = DeviceType.dtLanPlus;
-    } else {
+    }
+    else if(deviceType.toLowerCase().contains("magic") ){ // Different Icon? else move the condition up
+      dt = DeviceType.dtLanPlus;
+    }
+    else {
       dt = DeviceType.dtLanMini;
     }
   }
@@ -63,10 +87,9 @@ Future<Null> loadAllDeviceIcons() async {
   deviceIconList.add(image);
 
   areDeviceIconsLoaded = true;
-  print('IconList '+ deviceIconList.toString());
-  // setState(() {
+
   //   print("All device icons are loaded.");
-  // });
+
 }
 
 Future<ui.Image> loadImage(List<int> img) async {

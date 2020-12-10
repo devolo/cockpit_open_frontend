@@ -4,8 +4,13 @@ import 'package:flutter/material.dart';
 import 'handleSocket.dart';
 import 'DrawOverview.dart';
 import 'helpers.dart';
+import 'EmptyPage.dart';
+import 'package:flutter/foundation.dart'
+    show debugDefaultTargetPlatformOverride;
+import 'package:flutter_svg/flutter_svg.dart';
 
 void main() {
+  //debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
   runApp(MyApp());
 }
 
@@ -17,8 +22,10 @@ class MyApp extends StatelessWidget {
       title: 'Devolo Cockpit',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        backgroundColor: devoloBlue,
+        canvasColor: Colors.white,
       ),
-      home: MyHomePage(title: 'Devolo Cockpit'),
+      home: MyHomePage(title: 'devolo Cockpit'),
     );
   }
 }
@@ -38,10 +45,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
   DrawNetworkOverview _Painter;
-
-  //DeviceList deviceList = DeviceList();
+  int numDevices = 0;
+  Offset _lastTapDownPosition;
 
   @override
   void initState() {
@@ -51,8 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
-      //doc = parseXML();
-      _counter++;
+      //doc = parseXML()
     });
   }
 
@@ -62,34 +67,30 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        backgroundColor: devoloBlue,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Spacer(),
+            InkWell(
+                child: SvgPicture.asset('assets/logo.svg', height: 24, color: Colors.white)
+            ),
+            Spacer(),
+            SizedBox(width: 56)
+          ],
+        )
+        ,
         centerTitle: true,
       ),
       body: Container(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
+        child:
             GestureDetector(
-              //onTapUp: _handleTap,
-              onTap: () {_handleTapDown(context);},
+              behavior: HitTestBehavior.translucent,
+              onTapUp:_handleTap,
+              onTapDown:_handleTapDown,
               // onLongPress: _handleLongPressStart,
               // onLongPressUp: _handleLongPressEnd,
               child: Center(
@@ -99,79 +100,168 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-              ' Devices: ' +deviceList.devices.length.toString(),
-              style: Theme.of(context).textTheme.headline5,
-            ),),
-            Expanded(
-              child: ListView.builder(
-                  padding: const EdgeInsets.all(0),
-                  itemCount: deviceList.devices.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                      title: Text(deviceList.devices[index].type),
-                      subtitle: Text(deviceList.devices[index].name +
-                          ", " +
-                          deviceList.devices[index].ip +
-                          ", " +
-                          deviceList.devices[index].mac +
-                          ", " +
-                          deviceList.devices[index].serialno +
-                          ", " +
-                          deviceList.devices[index].MT),
-                    );
-                  }),
-            ),
-          ],
-        ),
+            // Align(
+            //   alignment: Alignment.centerLeft,
+            //   child: Text(
+            //     ' Devices: ' + deviceList.devices.length.toString(),
+            //     style: Theme
+            //         .of(context)
+            //         .textTheme
+            //         .headline5,
+            //   ),),
+            // Expanded(
+            //   child: ListView.builder(
+            //       padding: const EdgeInsets.all(0),
+            //       itemCount: deviceList.devices.length,
+            //       itemBuilder: (BuildContext context, int index) {
+            //         return ListTile(
+            //           title: Text(deviceList.devices[index].type),
+            //           subtitle: Text(deviceList.devices[index].name +
+            //               ", " +
+            //               deviceList.devices[index].ip +
+            //               ", " +
+            //               deviceList.devices[index].mac +
+            //               ", " +
+            //               deviceList.devices[index].serialno +
+            //               ", " +
+            //               deviceList.devices[index].MT),
+            //         );
+            //       }),
+            // ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        tooltip: 'Reload',
+        backgroundColor: devoloBlue,
+        hoverColor: Colors.blue,
         child: Icon(Icons.refresh),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
-}
 
-// void _handleTapDown(TapDownDetails details) {
-//   print('Tabed');
-//   showDialog(
-//     context: context,
-//     builder: (BuildContext context){
-//       return AlertDialog()
-//     },
-//   );
+
+  void _handleTapDown(TapDownDetails details) {
+    print('entering _tabDown');
+    _lastTapDownPosition = details.localPosition;
+  }
+
+
+  void _handleTap(TapUpDetails details) async {
+    print('entering dialog....');
+
+    int index = 0;
+    String hitDeviceName;
+    String hitDeviceType;
+    String hitDeviceSN;
+    String hitDeviceMT;
+    String hitDeviceIp;
+    String hitDeviceMac;
+
+    for (Offset deviceIconOffset in deviceIconOffsetList) {
+      if (index >
+          _Painter.numberFoundDevices) //do not check invisible circles
+        break;
+
+      Offset absoluteOffset = Offset(deviceIconOffset.dx + (_Painter.screenWidth / 2),
+          deviceIconOffset.dy + (_Painter.screenHeight / 2));
+
+      if (_Painter.isPointInsideCircle(details.localPosition, absoluteOffset, _Painter.hn_circle_radius)) {
+        print("Hit icon #" + index.toString());
+
+        hitDeviceName = deviceList.devices.elementAt(index).name;
+        hitDeviceType = deviceList.devices.elementAt(index).type;
+        hitDeviceSN = deviceList.devices.elementAt(index).serialno;
+        hitDeviceMT = deviceList.devices.elementAt(index).MT;
+        hitDeviceIp = deviceList.devices.elementAt(index).ip;
+        hitDeviceMac = deviceList.devices.elementAt(index).mac;
+
+        showDialog<void>(
+          context: context,
+          barrierDismissible: true, // user doesn't tap button!
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(hitDeviceName),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text('Name: ' +hitDeviceName),
+                    Text('Type: ' +hitDeviceType),
+                    Text('Serialnumber: ' +hitDeviceSN),
+                    Text('MT-number: ' +hitDeviceMT),
+                    Text('IP: ' +hitDeviceIp),
+                    Text('MAC: ' +hitDeviceMac),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                        IconButton(icon: Icon(Icons.web), tooltip: 'Launch Webinterface', onPressed: () => launchURL(hitDeviceIp),),
+                        IconButton(icon: Icon(Icons.settings), tooltip: 'Settings', onPressed: () => print('Settings'),),
+                        IconButton(icon: Icon(Icons.delete), tooltip: 'Delete Device', onPressed: () => print('Delete Device'),),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+      index++;
+    }
+  }
+
+// void _handleTap(TapUpDetails details) {
+//   print('entering _handleTab');
+//   RenderBox renderBox = context.findRenderObject();
+//
+//   int index = 0;
+//   String hitDeviceName;
+//   for (Offset deviceIconOffset in deviceIconOffsetList) {
+//     if (index >
+//         _Painter.numberFoundDevices) //do not check invisible circles
+//       break;
+//
+//     Offset absoluteOffset = Offset(deviceIconOffset.dx + (_Painter.screenWidth / 2),
+//         deviceIconOffset.dy + (_Painter.screenHeight / 2));
+//
+//     if (_Painter.isPointInsideCircle(details.localPosition, absoluteOffset, _Painter.hn_circle_radius)) {
+//       print("Hit icon #" + index.toString());
+//
+//       hitDeviceName = deviceList.devices.elementAt(index).name;
+//
+//       if (deviceList.devices.elementAt(index).ip != null &&
+//           deviceList.devices.elementAt(index).ip.length > 0 &&
+//           deviceList.devices.elementAt(index).ip.compareTo("http://") != 0 &&
+//           deviceList.devices.elementAt(index).ip.compareTo("https://") != 0) // ToDo understand... 3rd & 4th condition necessary? Ask what backend will send..just seen ips
+//       {
+//         String webUrl = "http://"+deviceList.devices.elementAt(index).ip;
+//         print("Opening web UI at " + webUrl);
+//
+//         if (Platform.isFuchsia || Platform.isLinux)
+//           print("Would now have opened the Web-Interface at " +
+//               webUrl +
+//               ", but we are experimental on the current platform. :-/");
+//         else
+//           launchURL(webUrl);
+//
+//       } else {
+//         Navigator.push(
+//           context,
+//           new MaterialPageRoute(
+//               builder: (context) => new EmptyScreen(title: hitDeviceName)),
+//         );
+//       }
+//     }
+//     index++;
+//   }
 // }
-
-//ToDo Tabhandler not working yet
-void _handleTapDown(BuildContext context) async {
-  print('entering dialog....');
-  return showDialog<void>(
-    context: context,
-    barrierDismissible: false, // user must tap button!
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('AlertDialog Title'),
-        content: SingleChildScrollView(
-          child: ListBody(
-            children: <Widget>[
-              Text('This is a demo alert dialog.'),
-              Text('Would you like to approve of this message?'),
-            ],
-          ),
-        ),
-        actions: <Widget>[
-          TextButton(
-            child: Text('Approve'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-    },
-  );
 }

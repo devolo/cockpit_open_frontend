@@ -2,7 +2,6 @@ import 'dart:io';  //only for non-web apps!!!
 import 'dart:async';
 import 'package:cockpit_devolo/main.dart';
 import 'package:xml/xml.dart' ;
-import 'package:xml_parser/xml_parser.dart' as xml;
 import 'deviceClass.dart';
 
 Socket socket;

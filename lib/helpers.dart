@@ -21,6 +21,10 @@ String macToCanonical(String mac) {
     return "";
 }
 
+double getLineThikness(){
+ return 3.0;
+}
+
 launchURL(String ip) async {
   String url = "http://"+ ip;
   print("Opening web UI at " + url);

@@ -1,43 +1,51 @@
 import 'dart:io';  //only for non-web apps!!!
 import 'dart:async';
 import 'package:cockpit_devolo/main.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:xml/xml.dart' ;
 import 'deviceClass.dart';
 
-Socket socket;
-dynamic xmlLength;
 
-void handleSocket() {
-  Socket.connect("localhost", 24271).then((Socket sock) {
-    socket = sock;
-    socket.listen(dataHandler,
-        onError: errorHandler,
-        onDone: doneHandler,
-        cancelOnError: false);
-  }).catchError((Object e) {  // was AsyncError before ???
-    print("Unable to connect: $e");
-  });
-  //Connect standard in to the socket
-  stdin.listen((data) => socket.write(new String.fromCharCodes(data).trim() + '\n'));
-}
+class dataHand extends ChangeNotifier {
+  Socket socket;
+  dynamic xmlLength;
 
-void dataHandler(data){
-  String xmlData = new String.fromCharCodes(data).trim();
-  //print(xmlData);
-  parseXML(xmlData);
-}
+  dataHand() {
+    print("Creating new NetworkOverviewModelDesktop");
+    handleSocket();
+  }
 
-void errorHandler(error, StackTrace trace){
-  print(error);
-  return(error);
-}
+  void handleSocket() {
+    Socket.connect("localhost", 24271).then((Socket sock) {
+      socket = sock;
+      socket.listen(dataHandler,
+          onError: errorHandler,
+          onDone: doneHandler,
+          cancelOnError: false);
+    }).catchError((Object e) { // was AsyncError before ???
+      print("Unable to connect: $e");
+    });
+    //Connect standard in to the socket
+    stdin.listen((data) => socket.write(new String.fromCharCodes(data).trim() + '\n'));
+  }
 
-void doneHandler(){
-  socket.destroy();
-}
+  void dataHandler(data) {
+    String xmlData = new String.fromCharCodes(data).trim();
+    //print(xmlData);
+    parseXML(xmlData);
+  }
 
-void parseXML(String xmlData) {
-  /*final backendXml = '''<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+  void errorHandler(error, StackTrace trace) {
+    print(error);
+    return (error);
+  }
+
+  void doneHandler() {
+    socket.destroy();
+  }
+
+  void parseXML(String xmlData) {
+    /*final backendXml = '''<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <!DOCTYPE boost_serialization>
 <boost_serialization signature="serialization::archive" version="13">
 <Message class_id="0" tracking_level="0" version="0">
@@ -338,30 +346,38 @@ void parseXML(String xmlData) {
         </LocalDeviceList>
 </Message>
 </boost_serialization>''';*/
-  print("============================ Entering parseXML ================================");
+    print("============================ Entering parseXML ================================");
 
-  if(xmlData == null) {
-    final emptyXml = '''<?xml version="1.0" ?>
+    if (xmlData == null) {
+      final emptyXml = '''<?xml version="1.0" ?>
 <metadata>
 </metadata>'''; //TODO Shitty workaround
-    print("Empty String");
-    final document = XmlDocument.parse(emptyXml);
+      print("Empty String");
+      final document = XmlDocument.parse(emptyXml);
+      //return document;
+    }
+    deviceList.clearList();
+
+    xmlLength = xmlData.substring(7, 15); // cut the head in front of recieved xml (example: MSGSOCK00001f63) first 7 bytes-> Magicword; next 8 bytes -> message length
+    xmlLength = int.parse(xmlLength, radix: 16); // parse HexSting to int  //print("XmlLength: " + xmlLength.toString());
+    xmlData = xmlData.substring(xmlData.indexOf('<?'), xmlLength + 13); //why 13? I dont know yet -_(o.O)_-
+
+    final document = XmlDocument.parse(xmlData);
+    if (document
+        .findAllElements('LocalDeviceList')
+        .isEmpty) {
+      print('DeviceList not found!');
+      return;
+    } //
+    var localDeviceList = document.findAllElements('LocalDeviceList'); //TODO: TEST call for every localDevice
+    for (var dev in localDeviceList) {
+      Device device = Device.fromXML(dev.getElement('item'));
+      print(device.type);
+      for (var dev in device.remoteDevices) {
+        print(dev.type);
+      }
+    }
+    notifyListeners();
     //return document;
   }
-  deviceList.clearList();
-
-  xmlLength = xmlData.substring(7,15); // cut the head in front of recieved xml (example: MSGSOCK00001f63) first 7 bytes-> Magicword; next 8 bytes -> message length
-  xmlLength = int.parse(xmlLength, radix: 16);  // parse HexSting to int  //print("XmlLength: " + xmlLength.toString());
-  xmlData = xmlData.substring(xmlData.indexOf('<?'), xmlLength+13); //why 13? I dont know yet -_(o.O)_-
-
-  final document = XmlDocument.parse(xmlData);
-  if(document.findAllElements('LocalDeviceList').isEmpty) {print('DeviceList not found!');return;} //
-  var item = document.findAllElements('LocalDeviceList').first.getElement('item'); //TODO: call for every localDevice
-  Device device = Device.fromXML(item);
-  print(device.type);
-  for( var dev in device.remoteDevices){
-    print(dev.type);
-  }
-
-  //return document;
 }

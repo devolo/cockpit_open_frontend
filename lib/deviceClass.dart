@@ -4,12 +4,12 @@ import 'package:xml/xml.dart';
 import 'helpers.dart';
 import 'package:cockpit_devolo/main.dart';
 
-enum DeviceType { dtLanMini, dtLanPlus, dtWiFiMini, dtWiFiPlus, dtWiFiOnly, dtUnknown }
 DeviceList deviceList = DeviceList(); // ToDo Better find another way to share devicelist
 final List<ui.Image> deviceIconList = new List(); //ToDo put somewhere else
 final List<Offset> deviceIconOffsetList = new List();
 bool areDeviceIconsLoaded = false;
 
+enum DeviceType { dtLanMini, dtLanPlus, dtWiFiMini, dtWiFiPlus, dtWiFiOnly, dtUnknown }
 
 class DataratePair {
   DataratePair(int rx, int tx) {
@@ -23,18 +23,17 @@ class DataratePair {
 
 class DeviceList {
   List<Device> devices = List<Device>();
-  List<Offset> _deviceIconOffsetList = new List();
 
-  DeviceList(){
+  DeviceList() {
     this.devices = List<Device>();
   }
 
-  void addDevice(Device device){
+  void addDevice(Device device) {
     this.devices.add(device);
     print(deviceList.devices.toString());
   }
 
-  void clearList(){
+  void clearList() {
     devices.clear();
   }
 }
@@ -65,10 +64,8 @@ class Device {
     this.version = version;
     this.remoteDevices = remoteDevices;
     this.icon = getIconForDeviceType(getDeviceType(type));
-    // if (icon != null)
-    //   this.icon = icon;
-
-    speeds = new Map(); // ToDo Speedsmap implementation
+    //if (icon != null) this.icon = icon;
+    this.speeds = new Map(); // ToDo Speedsmap implementation
   }
 
   factory Device.fromXML(XmlElement element) {
@@ -85,28 +82,61 @@ class Device {
     );
 
     if (element.getElement('remotes') != null) {
-      print('Find neasted Remotes');
       List<XmlNode> remotes = element.getElement('remotes').children;
-      //print(remotes);
-      remotes = testList(remotes); // Checking where items are devices returning the trimmed list
-      print(remotes.length);
+      remotes = testList(remotes, 'type'); // Checking where items are devices returning the trimmed list
+      // print(remotes.length);
       for (var remote in remotes) {
-        print('Remote add: ' + remote.getElement('type').text);
+        print('Remote Device found: ' + remote.getElement('type').text);
         retDevice.remoteDevices.add(Device.fromXML(remote));
       }
     }
+
+    if (element.getElement('dataRates') != null) {
+      List<XmlNode> dataRates = element.getElement('dataRates').children;
+      dataRates = testList(dataRates, 'macAddress');
+      //print(dataRates);
+      for (var item in dataRates) {
+        var txMac = item.getElement('first').getElement('first').getElement('macAddress').text;
+        var rxMac = item.getElement('first').getElement('second').getElement('macAddress').text;
+        //print(txMac + " " + rxMac);
+        var txRateStr = item.getElement('second').getElement('txRate').text;
+        var rxRateStr = item.getElement('second').getElement('rxRate').text;
+        //print(txRateStr + " " + rxRateStr);
+
+        int txRate = 0, rxRate = 0;
+        if (txRateStr.contains("."))
+          txRate = double.parse(txRateStr).round();
+        else
+          txRate = int.parse(txRateStr);
+        if (rxRateStr.contains("."))
+          rxRate = double.parse(rxRateStr).round();
+        else
+          rxRate = int.parse(rxRateStr);
+
+        if (retDevice.mac.compareTo(txMac) == 0) {
+          retDevice.speeds[rxMac] = new DataratePair(txRate, rxRate);
+          print(retDevice.name + " Rates added for " + txMac + " to " + rxMac + ": " + retDevice.speeds[rxMac].rx.toString() + ", " + retDevice.speeds[rxMac].tx.toString());
+        }
+        for (var remoteDevice in retDevice.remoteDevices) {
+          if (remoteDevice.mac.compareTo(txMac) == 0) {
+            remoteDevice.speeds[rxMac] = new DataratePair(txRate, rxRate);
+            print(remoteDevice.name+ " Rates added for " + txMac + " to " + rxMac + ": " + remoteDevice.speeds[rxMac].rx.toString() + ", " + remoteDevice.speeds[rxMac].tx.toString());
+          }
+        }
+      }
+    }
+
     deviceList.addDevice(retDevice);
     return retDevice;
   }
 }
 //=========================================== END Device =========================================
 
-
 // Tests if XmlNode remotes contains Information about a Device
-List<XmlNode> testList(List<XmlNode> remotes) {
+List<XmlNode> testList(List<XmlNode> remotes, String searchString) {
   List<XmlNode> deviceItems = List<XmlNode>();
   for (XmlNode remote in remotes) {
-    if (remote.findAllElements('type').isNotEmpty) {
+    if (remote.findAllElements(searchString).isNotEmpty) {
       deviceItems.add(remote);
     }
   }

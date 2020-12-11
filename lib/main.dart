@@ -1,6 +1,7 @@
 import 'package:cockpit_devolo/deviceClass.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'handleSocket.dart';
 import 'DrawOverview.dart';
 import 'helpers.dart';
@@ -11,7 +12,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 void main() {
   //debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
-  runApp(MyApp());
+
+  runApp(
+  MultiProvider(providers: [
+  ChangeNotifierProvider<dataHand>(
+  create: (context) => dataHand()),
+  ],
+  child: MyApp())
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -51,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    handleSocket();
+    //dataHand();
     loadAllDeviceIcons();
   }
 
@@ -63,6 +71,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+    final noModel = Provider.of<dataHand>(context);
     _Painter = DrawNetworkOverview(context, deviceList.devices);
 
     return Scaffold(
@@ -91,8 +101,8 @@ class _MyHomePageState extends State<MyHomePage> {
               behavior: HitTestBehavior.translucent,
               onTapUp:_handleTap,
               onTapDown:_handleTapDown,
-              // onLongPress: _handleLongPressStart,
-              // onLongPressUp: _handleLongPressEnd,
+              onLongPress: _handleLongPressStart,
+              onLongPressUp: _handleLongPressEnd,
               child: Center(
                 child: CustomPaint(
                   painter: _Painter,
@@ -141,10 +151,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   void _handleTapDown(TapDownDetails details) {
-    print('entering _tabDown');
+    print('entering tabDown');
     _lastTapDownPosition = details.localPosition;
   }
-
 
   void _handleTap(TapUpDetails details) async {
     print('entering dialog....');
@@ -168,12 +177,12 @@ class _MyHomePageState extends State<MyHomePage> {
       if (_Painter.isPointInsideCircle(details.localPosition, absoluteOffset, _Painter.hn_circle_radius)) {
         print("Hit icon #" + index.toString());
 
-        hitDeviceName = deviceList.devices.elementAt(index).name;
-        hitDeviceType = deviceList.devices.elementAt(index).type;
-        hitDeviceSN = deviceList.devices.elementAt(index).serialno;
-        hitDeviceMT = deviceList.devices.elementAt(index).MT;
-        hitDeviceIp = deviceList.devices.elementAt(index).ip;
-        hitDeviceMac = deviceList.devices.elementAt(index).mac;
+        hitDeviceName = deviceList.devices[index].name;
+        hitDeviceType = deviceList.devices[index].type;
+        hitDeviceSN = deviceList.devices[index].serialno;
+        hitDeviceMT = deviceList.devices[index].MT;
+        hitDeviceIp = deviceList.devices[index].ip;
+        hitDeviceMac = deviceList.devices[index].mac;
 
         showDialog<void>(
           context: context,
@@ -192,6 +201,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Text('MT-number: ' +hitDeviceMT),
                     Text('IP: ' +hitDeviceIp),
                     Text('MAC: ' +hitDeviceMac),
+                    //Text('Rates: ' +hitDeviceRx),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -219,6 +229,55 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  //ToDo UI doesn't change
+  void _handleLongPressStart() {
+    print("long press down");
+
+    RenderBox renderBox = context.findRenderObject();
+
+    int index = 0;
+    String hitDeviceName;
+    for (Offset deviceIconOffset in deviceIconOffsetList) {
+      if (index >
+          _Painter.numberFoundDevices) //do not check invisible circles
+        break;
+
+      Offset absoluteOffset = Offset(deviceIconOffset.dx + (_Painter.screenWidth / 2),
+          deviceIconOffset.dy + (_Painter.screenHeight / 2));
+
+      if (_Painter.isPointInsideCircle(_lastTapDownPosition, absoluteOffset, _Painter.hn_circle_radius)) {
+        print("Long press on icon #" + index.toString());
+        hitDeviceName = deviceList.devices[index].name;
+
+        setState(() {
+          if (_Painter.showSpeedsPermanently && index == _Painter.pivotDeviceIndex) {
+            _Painter.showingSpeeds = !_Painter.showingSpeeds;
+          } else {
+            _Painter.showingSpeeds = true;
+          }
+          //do not update pivot device when the "router device" is long pressed
+          _Painter.pivotDeviceIndex = index;
+          print(_Painter.showingSpeeds);
+        });
+        return;
+      }
+      index++;
+    }
+  }
+
+  void _handleLongPressEnd() {
+    print("long press up");
+
+    setState(() {
+      if (!_Painter.showSpeedsPermanently) {
+        _Painter.showingSpeeds = false;
+        _Painter.pivotDeviceIndex = 0;
+      } else {
+        if (!_Painter.showingSpeeds) _Painter.pivotDeviceIndex = 0;
+      }
+    });
+  }
+
 // void _handleTap(TapUpDetails details) {
 //   print('entering _handleTab');
 //   RenderBox renderBox = context.findRenderObject();
@@ -236,14 +295,14 @@ class _MyHomePageState extends State<MyHomePage> {
 //     if (_Painter.isPointInsideCircle(details.localPosition, absoluteOffset, _Painter.hn_circle_radius)) {
 //       print("Hit icon #" + index.toString());
 //
-//       hitDeviceName = deviceList.devices.elementAt(index).name;
+//       hitDeviceName = deviceList.devices[index].name;
 //
-//       if (deviceList.devices.elementAt(index).ip != null &&
-//           deviceList.devices.elementAt(index).ip.length > 0 &&
-//           deviceList.devices.elementAt(index).ip.compareTo("http://") != 0 &&
-//           deviceList.devices.elementAt(index).ip.compareTo("https://") != 0) // ToDo understand... 3rd & 4th condition necessary? Ask what backend will send..just seen ips
+//       if (deviceList.devices[index].ip != null &&
+//           deviceList.devices[index].ip.length > 0 &&
+//           deviceList.devices[index].ip.compareTo("http://") != 0 &&
+//           deviceList.devices[index].ip.compareTo("https://") != 0) // ToDo understand... 3rd & 4th condition necessary? Ask what backend will send..just seen ips
 //       {
-//         String webUrl = "http://"+deviceList.devices.elementAt(index).ip;
+//         String webUrl = "http://"+deviceList.devices[index].ip;
 //         print("Opening web UI at " + webUrl);
 //
 //         if (Platform.isFuchsia || Platform.isLinux)

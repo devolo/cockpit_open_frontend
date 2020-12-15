@@ -9,10 +9,21 @@ import 'deviceClass.dart';
 class dataHand extends ChangeNotifier {
   Socket socket;
   dynamic xmlLength;
+  final DeviceList _deviceList = DeviceList();
 
   dataHand() {
     print("Creating new NetworkOverviewModelDesktop");
     handleSocket();
+  }
+
+  DeviceList get getdeviceList {
+    //notifyListeners();
+    return _deviceList;
+  }
+
+  void set setdeviceList(List<Device> devList) {
+    notifyListeners();
+    _deviceList.devices = devList;
   }
 
   void handleSocket() {
@@ -45,318 +56,17 @@ class dataHand extends ChangeNotifier {
   }
 
   void parseXML(String xmlData) {
-    /*final backendXml = '''<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<!DOCTYPE boost_serialization>
-<boost_serialization signature="serialization::archive" version="13">
-<Message class_id="0" tracking_level="0" version="0">
-        <MessageType>NetworkUpdate</MessageType>
-        <LocalDeviceList class_id="1" tracking_level="0" version="0">
-                <count>1</count>
-                <item_version>0</item_version>
-                <item class_id="2" tracking_level="0" version="0">
-                        <type>Magic 2 LAN 1-1</type>
-                        <name>devolo-340</name>
-                        <network></network>
-                        <version>7.8.5.47</version>
-                        <date>2020-06-05</date>
-                        <product>MT2999</product>
-                        <serialno>1806154350000340</serialno>
-                        <classes class_id="3" tracking_level="0" version="0">
-                                <count>0</count>
-                                <item_version>0</item_version>
-                        </classes>
-                        <states class_id="4" tracking_level="0" version="0">
-                                <count>2</count>
-                                <item_version>0</item_version>
-                                <item class_id="5" tracking_level="0" version="0">
-                                        <first>gateway</first>
-                                        <second>38:10:D5:66:32:DE</second>
-                                </item>
-                                <item>
-                                        <first>network_type</first>
-                                        <second>powerline:ghn</second>
-                                </item>
-                        </states>
-                        <actions class_id="6" tracking_level="0" version="0">
-                                <count>3</count>
-                                <item_version>0</item_version>
-                                <item class_id="7" tracking_level="0" version="0">
-                                        <first>identify_device</first>
-                                        <second>
-                                                <count>1</count>
-                                                <item_version>0</item_version>
-                                                <item>
-                                                        <first>state</first>
-                                                        <second>0</second>
-                                                </item>
-                                        </second>
-                                </item>
-                                <item>
-                                        <first>vdsl_compat</first>
-                                        <second>
-                                                <count>2</count>
-                                                <item_version>0</item_version>
-                                                <item>
-                                                        <first>state</first>
-                                                        <second>mimo_vdsl17a</second>
-                                                </item>
-                                                <item>
-                                                        <first>supported</first>
-                                                        <second>mimo_vdsl17a siso_full siso_vdsl17a siso_vdsl35b mimo_full mimo_vdsl35b</second>
-                                                </item>
-                                        </second>
-                                </item>
-                                <item>
-                                        <first>web_interface</first>
-                                        <second>
-                                                <count>1</count>
-                                                <item_version>0</item_version>
-                                                <item>
-                                                        <first>url</first>
-                                                        <second>http://192.168.178.139/</second>
-                                                </item>
-                                        </second>
-                                </item>
-                        </actions>
-                        <macAddress>30:D3:2D:EE:8D:A1</macAddress>
-                        <ipAddress>192.168.178.139</ipAddress>
-                        <remotes class_id="8" tracking_level="0" version="0">
-                                <count>2</count>
-                                <item_version>0</item_version>
-                                <item class_id="9" tracking_level="0" version="0">
-                                        <type>Magic 1 WiFi 2-1</type>
-                                        <name></name>
-                                        <network></network>
-                                        <version>5.4.0</version>
-                                        <date></date>
-                                        <product>MT3064</product>
-                                        <serialno>1807255601000045</serialno>
-                                        <classes>
-                                                <count>1</count>
-                                                <item_version>0</item_version>
-                                                <item>wlan</item>
-                                        </classes>
-                                        <states>
-                                                <count>1</count>
-                                                <item_version>0</item_version>
-                                                <item>
-                                                        <first>network_type</first>
-                                                        <second>powerline:ghn</second>
-                                                </item>
-                                        </states>
-                                        <actions>
-                                                <count>3</count>
-                                                <item_version>0</item_version>
-                                                <item>
-                                                        <first>identify_device</first>
-                                                        <second>
-                                                                <count>1</count>
-                                                                <item_version>0</item_version>
-                                                                <item>
-                                                                        <first>state</first>
-                                                                        <second>0</second>
-                                                                </item>
-                                                        </second>
-                                                </item>
-                                                <item>
-                                                        <first>vdsl_compat</first>
-                                                        <second>
-                                                                <count>2</count>
-                                                                <item_version>0</item_version>
-                                                                <item>
-                                                                        <first>state</first>
-                                                                        <second>siso_vdsl17a</second>
-                                                                </item>
-                                                                <item>
-                                                                        <first>supported</first>
-                                                                        <second>siso_vdsl17a siso_full siso_vdsl35b</second>
-                                                                </item>
-                                                        </second>
-                                                </item>
-                                                <item>
-                                                        <first>web_interface</first>
-                                                        <second>
-                                                                <count>1</count>
-                                                                <item_version>0</item_version>
-                                                                <item>
-                                                                        <first>url</first>
-                                                                        <second>http://192.168.178.137/</second>
-                                                                </item>
-                                                        </second>
-                                                </item>
-                                        </actions>
-                                        <macAddress>B8:BE:F4:00:08:B5</macAddress>
-                                        <ipAddress>192.168.178.137</ipAddress>
-                                </item>
-                                <item>
-                                        <type>Magic 1 WiFi 2-1</type>
-                                        <name>AP-unten</name>
-                                        <network></network>
-                                        <version>5.6.0</version>
-                                        <date>2020-06-26</date>
-                                        <product>MT3064</product>
-                                        <serialno>1807255601000215</serialno>
-                                        <classes>
-                                                <count>1</count>
-                                                <item_version>0</item_version>
-                                                <item>wlan</item>
-                                        </classes>
-                                        <states>
-                                                <count>1</count>
-                                                <item_version>0</item_version>
-                                                <item>
-                                                        <first>network_type</first>
-                                                        <second>powerline:ghn</second>
-                                                </item>
-                                        </states>
-                                        <actions>
-                                                <count>3</count>
-                                                <item_version>0</item_version>
-                                                <item>
-                                                        <first>identify_device</first>
-                                                        <second>
-                                                                <count>1</count>
-                                                                <item_version>0</item_version>
-                                                                <item>
-                                                                        <first>state</first>
-                                                                        <second>0</second>
-                                                                </item>
-                                                        </second>
-                                                </item>
-                                                <item>
-                                                        <first>vdsl_compat</first>
-                                                        <second>
-                                                                <count>2</count>
-                                                                <item_version>0</item_version>
-                                                                <item>
-                                                                        <first>state</first>
-                                                                        <second>siso_vdsl17a</second>
-                                                                </item>
-                                                                <item>
-                                                                        <first>supported</first>
-                                                                        <second>siso_vdsl17a siso_full siso_vdsl35b</second>
-                                                                </item>
-                                                        </second>
-                                                </item>
-                                                <item>
-                                                        <first>web_interface</first>
-                                                        <second>
-                                                                <count>1</count>
-                                                                <item_version>0</item_version>
-                                                                <item>
-                                                                        <first>url</first>
-                                                                        <second>http://192.168.178.136/</second>
-                                                                </item>
-                                                        </second>
-                                                </item>
-                                        </actions>
-                                        <macAddress>B8:BE:F4:00:0C:07</macAddress>
-                                        <ipAddress>192.168.178.136</ipAddress>
-                                </item>
-                        </remotes>
-                        <dataRates class_id="10" tracking_level="0" version="0">
-                                <count>6</count>
-                                <item_version>0</item_version>
-                                <item class_id="11" tracking_level="0" version="0">
-                                        <first class_id="12" tracking_level="0" version="0">
-                                                <first class_id="13" tracking_level="0" version="0">
-                                                        <macAddress>30:D3:2D:EE:8D:A1</macAddress>
-                                                </first>
-                                                <second>
-                                                        <macAddress>B8:BE:F4:00:08:B5</macAddress>
-                                                </second>
-                                        </first>
-                                        <second class_id="14" tracking_level="0" version="0">
-                                                <txRate>2.91306666666666672e+02</txRate>
-                                                <rxRate>3.32906666666666638e+02</rxRate>
-                                        </second>
-                                </item>
-                                <item>
-                                        <first>
-                                                <first>
-                                                        <macAddress>30:D3:2D:EE:8D:A1</macAddress>
-                                                </first>
-                                                <second>
-                                                        <macAddress>B8:BE:F4:00:0C:07</macAddress>
-                                                </second>
-                                        </first>
-                                        <second>
-                                                <txRate>1.66506666666666661e+02</txRate>
-                                                <rxRate>1.96479999999999990e+02</rxRate>
-                                        </second>
-                                </item>
-                                <item>
-                                        <first>
-                                                <first>
-                                                        <macAddress>B8:BE:F4:00:08:B5</macAddress>
-                                                </first>
-                                                <second>
-                                                        <macAddress>30:D3:2D:EE:8D:A1</macAddress>
-                                                </second>
-                                        </first>
-                                        <second>
-                                                <txRate>3.32906666666666638e+02</txRate>
-                                                <rxRate>2.91306666666666672e+02</rxRate>
-                                        </second>
-                                </item>
-                                <item>
-                                        <first>
-                                                <first>
-                                                        <macAddress>B8:BE:F4:00:08:B5</macAddress>
-                                                </first>
-                                                <second>
-                                                        <macAddress>B8:BE:F4:00:0C:07</macAddress>
-                                                </second>
-                                        </first>
-                                        <second>
-                                                <txRate>1.19786666666666662e+02</txRate>
-                                                <rxRate>9.15199999999999960e+01</rxRate>
-                                        </second>
-                                </item>
-                                <item>
-                                        <first>
-                                                <first>
-                                                        <macAddress>B8:BE:F4:00:0C:07</macAddress>
-                                                </first>
-                                                <second>
-                                                        <macAddress>30:D3:2D:EE:8D:A1</macAddress>
-                                                </second>
-                                        </first>
-                                        <second>
-                                                <txRate>1.96479999999999990e+02</txRate>
-                                                <rxRate>1.66506666666666661e+02</rxRate>
-                                        </second>
-                                </item>
-                                <item>
-                                        <first>
-                                                <first>
-                                                        <macAddress>B8:BE:F4:00:0C:07</macAddress>
-                                                </first>
-                                                <second>
-                                                        <macAddress>B8:BE:F4:00:08:B5</macAddress>
-                                                </second>
-                                        </first>
-                                        <second>
-                                                <txRate>9.15199999999999960e+01</txRate>
-                                                <rxRate>1.19786666666666662e+02</rxRate>
-                                        </second>
-                                </item>
-                        </dataRates>
-                </item>
-        </LocalDeviceList>
-</Message>
-</boost_serialization>''';*/
     print("============================ Entering parseXML ================================");
 
     if (xmlData == null) {
       final emptyXml = '''<?xml version="1.0" ?>
 <metadata>
-</metadata>'''; //TODO Shitty workaround
+</metadata>'''; //TODO Shitty workaround,  Note: maby work with messagetype? NetworkUpdate
       print("Empty String");
       final document = XmlDocument.parse(emptyXml);
       //return document;
     }
-    deviceList.clearList();
+    _deviceList.clearList();
 
     xmlLength = xmlData.substring(7, 15); // cut the head in front of recieved xml (example: MSGSOCK00001f63) first 7 bytes-> Magicword; next 8 bytes -> message length
     xmlLength = int.parse(xmlLength, radix: 16); // parse HexSting to int  //print("XmlLength: " + xmlLength.toString());
@@ -369,15 +79,23 @@ class dataHand extends ChangeNotifier {
       print('DeviceList not found!');
       return;
     } //
+
     var localDeviceList = document.findAllElements('LocalDeviceList'); //TODO: TEST call for every localDevice
     for (var dev in localDeviceList) {
       Device device = Device.fromXML(dev.getElement('item'));
+      _deviceList.addDevice(device);
       print(device.type);
-      for (var dev in device.remoteDevices) {
-        print(dev.type);
+      for (var remotedev in device.remoteDevices) {
+        _deviceList.addDevice(remotedev);
+        print(remotedev.type);
       }
     }
     notifyListeners();
     //return document;
+  }
+
+  void sendXML() {
+    String xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>SetAdapterName</MessageType><macAddress>30:D3:2D:EE:8D:A1</macAddress><name>devolo-340Tes</name></Message></boost_serialization>';
+    socket.write('MSGSOCK0000015a' + xmlString);
   }
 }

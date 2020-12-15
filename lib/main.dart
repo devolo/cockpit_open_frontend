@@ -15,8 +15,7 @@ void main() {
 
   runApp(
   MultiProvider(providers: [
-  ChangeNotifierProvider<dataHand>(
-  create: (context) => dataHand()),
+  ChangeNotifierProvider<dataHand>(create: (context) => dataHand()),
   ],
   child: MyApp())
   );
@@ -26,6 +25,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       title: 'Devolo Cockpit',
       theme: ThemeData(
@@ -53,9 +53,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  DrawNetworkOverview _Painter;
   int numDevices = 0;
   Offset _lastTapDownPosition;
+  DrawNetworkOverview _Painter;
 
   @override
   void initState() {
@@ -72,8 +72,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
 
-    final noModel = Provider.of<dataHand>(context);
-    _Painter = DrawNetworkOverview(context, deviceList.devices);
+    final model = Provider.of<dataHand>(context);
+    _Painter = DrawNetworkOverview(context, model.getdeviceList.devices);
 
     return Scaffold(
       appBar: AppBar(
@@ -99,9 +99,9 @@ class _MyHomePageState extends State<MyHomePage> {
         child:
             GestureDetector(
               behavior: HitTestBehavior.translucent,
-              onTapUp:_handleTap,
+              onTapUp: _handleTap,
               onTapDown:_handleTapDown,
-              onLongPress: _handleLongPressStart,
+              onLongPress: () =>_handleLongPressStart(context),
               onLongPressUp: _handleLongPressEnd,
               child: Center(
                 child: CustomPaint(
@@ -140,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
             // ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () => model.sendXML(),
         tooltip: 'Reload',
         backgroundColor: devoloBlue,
         hoverColor: Colors.blue,
@@ -157,7 +157,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _handleTap(TapUpDetails details) async {
     print('entering dialog....');
-
     int index = 0;
     String hitDeviceName;
     String hitDeviceType;
@@ -177,25 +176,40 @@ class _MyHomePageState extends State<MyHomePage> {
       if (_Painter.isPointInsideCircle(details.localPosition, absoluteOffset, _Painter.hn_circle_radius)) {
         print("Hit icon #" + index.toString());
 
-        hitDeviceName = deviceList.devices[index].name;
-        hitDeviceType = deviceList.devices[index].type;
-        hitDeviceSN = deviceList.devices[index].serialno;
-        hitDeviceMT = deviceList.devices[index].MT;
-        hitDeviceIp = deviceList.devices[index].ip;
-        hitDeviceMac = deviceList.devices[index].mac;
+        final model = Provider.of<dataHand>(context);
+
+        hitDeviceName = model.getdeviceList.devices[index].name;
+        hitDeviceType = model.getdeviceList.devices[index].type;
+        hitDeviceSN = model.getdeviceList.devices[index].serialno;
+        hitDeviceMT = model.getdeviceList.devices[index].MT;
+        hitDeviceIp = model.getdeviceList.devices[index].ip;
+        hitDeviceMac = model.getdeviceList.devices[index].mac;
 
         showDialog<void>(
           context: context,
-          barrierDismissible: true, // user doesn't tap button!
+          barrierDismissible: true, // user doesn't need to tap button!
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text(hitDeviceName),
+              title: Text('Info '),
               content: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('Name: ' +hitDeviceName),
+                    TextFormField(
+                      initialValue: hitDeviceName,
+                      decoration: InputDecoration(
+                        labelText: 'Devicename',
+                        //helperText: 'Devicename',
+                      ),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 15,),
                     Text('Type: ' +hitDeviceType),
                     Text('Serialnumber: ' +hitDeviceSN),
                     Text('MT-number: ' +hitDeviceMT),
@@ -230,9 +244,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   //ToDo UI doesn't change
-  void _handleLongPressStart() {
+  void _handleLongPressStart(BuildContext context) {
     print("long press down");
-
     RenderBox renderBox = context.findRenderObject();
 
     int index = 0;
@@ -247,7 +260,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
       if (_Painter.isPointInsideCircle(_lastTapDownPosition, absoluteOffset, _Painter.hn_circle_radius)) {
         print("Long press on icon #" + index.toString());
-        hitDeviceName = deviceList.devices[index].name;
+
+        final model = Provider.of<dataHand>(context);
+        hitDeviceName = model.getdeviceList.devices[index].name;
 
         setState(() {
           if (_Painter.showSpeedsPermanently && index == _Painter.pivotDeviceIndex) {
@@ -255,8 +270,10 @@ class _MyHomePageState extends State<MyHomePage> {
           } else {
             _Painter.showingSpeeds = true;
           }
-          //do not update pivot device when the "router device" is long pressed
           _Painter.pivotDeviceIndex = index;
+
+          //do not update pivot device when the "router device" is long pressed
+          print(_Painter.pivotDeviceIndex);
           print(_Painter.showingSpeeds);
         });
         return;
@@ -270,7 +287,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     setState(() {
       if (!_Painter.showSpeedsPermanently) {
-        _Painter.showingSpeeds = false;
+        _Painter.showingSpeeds = true;
         _Painter.pivotDeviceIndex = 0;
       } else {
         if (!_Painter.showingSpeeds) _Painter.pivotDeviceIndex = 0;

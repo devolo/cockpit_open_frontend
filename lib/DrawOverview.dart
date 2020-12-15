@@ -7,7 +7,6 @@ class DrawNetworkOverview extends CustomPainter {
   final double hn_circle_radius = 35.0;
   List<Device> _deviceList = new List();
   List<Offset> _deviceIconOffsetList = deviceIconOffsetList;
-  //List<ui.Image> _deviceIconList = new List();
   bool areDeviceIconsLoaded = false;
   int pivotDeviceIndex = 0;
   bool showSpeedsPermanently = false; //true: a long press results in speeds being shown even after lifting the finger. false: speeds are hidden when lifting the finger.
@@ -146,6 +145,9 @@ class DrawNetworkOverview extends CustomPainter {
     Offset absoluteCenterOffset = Offset(_deviceIconOffsetList.elementAt(deviceIndex).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(deviceIndex).dy + (screenHeight / 2));
     Offset lineStart = Offset(absoluteCenterOffset.dx - hn_circle_radius + 10, absoluteCenterOffset.dy);
     Offset lineEnd = Offset(absoluteCenterOffset.dx + hn_circle_radius - 10, absoluteCenterOffset.dy);
+    print('Index: ' + deviceIndex.toString());
+    print('Pivot :' + pivotDeviceIndex.toString());
+    print(showingSpeeds);
 
     if (showingSpeeds && deviceIndex != pivotDeviceIndex) {
       int rx = 0, tx = 0;
@@ -183,7 +185,8 @@ class DrawNetworkOverview extends CustomPainter {
       _speedTextPainter.layout(minWidth: 0, maxWidth: 150);
 
       _speedTextPainter.paint(canvas, Offset(absoluteCenterOffset.dx - (_speedTextPainter.width / 2), absoluteCenterOffset.dy - (_speedTextPainter.height / 2)));
-    } else {
+    }
+    else {
       Offset imageRectUpperLeft = Offset(absoluteCenterOffset.dx - (hn_circle_radius / 1.6), absoluteCenterOffset.dy - (hn_circle_radius / 1.6));
       Offset imageRectLowerRight = Offset(absoluteCenterOffset.dx + (hn_circle_radius / 1.6), absoluteCenterOffset.dy + (hn_circle_radius / 1.6));
 

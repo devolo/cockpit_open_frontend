@@ -6,6 +6,12 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'dart:ui' as ui;
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
+import 'package:cockpit_devolo/helpers.dart';
+
+//DeviceList deviceList = DeviceList(); // ToDo Better find another way to share devicelist
+final List<ui.Image> deviceIconList = <ui.Image>[]; //ToDo put somewhere else
+final List<Offset> deviceIconOffsetList = <Offset>[];
+bool areDeviceIconsLoaded = false;
 
 final Color devoloBlue = Colors.blue[700];
 
@@ -21,7 +27,7 @@ String macToCanonical(String mac) {
     return "";
 }
 
-double getLineThikness(){
+double getLineThikness(){  // ToDo
  return 3.0;
 }
 

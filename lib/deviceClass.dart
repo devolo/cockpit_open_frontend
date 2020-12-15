@@ -1,13 +1,11 @@
 import 'dart:ui' as ui;
+import 'package:cockpit_devolo/handleSocket.dart';
 import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
 import 'helpers.dart';
 import 'package:cockpit_devolo/main.dart';
 
-DeviceList deviceList = DeviceList(); // ToDo Better find another way to share devicelist
-final List<ui.Image> deviceIconList = new List(); //ToDo put somewhere else
-final List<Offset> deviceIconOffsetList = new List();
-bool areDeviceIconsLoaded = false;
+
 
 enum DeviceType { dtLanMini, dtLanPlus, dtWiFiMini, dtWiFiPlus, dtWiFiOnly, dtUnknown }
 
@@ -21,16 +19,16 @@ class DataratePair {
   int rx;
 }
 
-class DeviceList {
-  List<Device> devices = List<Device>();
+class DeviceList extends ChangeNotifier{
+  List<Device> devices = <Device>[];
 
   DeviceList() {
-    this.devices = List<Device>();
+    this.devices = <Device>[];
   }
 
   void addDevice(Device device) {
     this.devices.add(device);
-    print(deviceList.devices.toString());
+    print(devices.toString());
   }
 
   void clearList() {
@@ -48,7 +46,7 @@ class Device {
   String version;
   String MT;
   String serialno;
-  List<Device> remoteDevices = List<Device>();
+  List<Device> remoteDevices = <Device>[];
   ui.Image icon;
   Map<String, DataratePair> speeds; //Map<mac address of remote device, datarates to and from this remote device>
   //ToDo bool AttatchedToRouter get from XML
@@ -125,8 +123,6 @@ class Device {
         }
       }
     }
-
-    deviceList.addDevice(retDevice);
     return retDevice;
   }
 }
@@ -134,7 +130,7 @@ class Device {
 
 // Tests if XmlNode remotes contains Information about a Device
 List<XmlNode> testList(List<XmlNode> remotes, String searchString) {
-  List<XmlNode> deviceItems = List<XmlNode>();
+  List<XmlNode> deviceItems = <XmlNode>[];
   for (XmlNode remote in remotes) {
     if (remote.findAllElements(searchString).isNotEmpty) {
       deviceItems.add(remote);

@@ -29,6 +29,7 @@ class DeviceList extends ChangeNotifier{
   void addDevice(Device device) {
     this.devices.add(device);
     print(devices.toString());
+    notifyListeners();
   }
 
   void clearList() {

@@ -8,8 +8,8 @@ import 'deviceClass.dart';
 
 class dataHand extends ChangeNotifier {
   Socket socket;
-  dynamic xmlLength;
   final DeviceList _deviceList = DeviceList();
+  dynamic xmlLength;
 
   dataHand() {
     print("Creating new NetworkOverviewModelDesktop");
@@ -17,7 +17,7 @@ class dataHand extends ChangeNotifier {
   }
 
   DeviceList get getdeviceList {
-    //notifyListeners();
+    //
     return _deviceList;
   }
 
@@ -42,7 +42,6 @@ class dataHand extends ChangeNotifier {
 
   void dataHandler(data) {
     String xmlData = new String.fromCharCodes(data).trim();
-    //print(xmlData);
     parseXML(xmlData);
   }
 
@@ -66,19 +65,18 @@ class dataHand extends ChangeNotifier {
       final document = XmlDocument.parse(emptyXml);
       //return document;
     }
-    _deviceList.clearList();
 
     xmlLength = xmlData.substring(7, 15); // cut the head in front of recieved xml (example: MSGSOCK00001f63) first 7 bytes-> Magicword; next 8 bytes -> message length
     xmlLength = int.parse(xmlLength, radix: 16); // parse HexSting to int  //print("XmlLength: " + xmlLength.toString());
-    xmlData = xmlData.substring(xmlData.indexOf('<?'), xmlLength + 13); //why 13? I dont know yet -_(o.O)_-
+    xmlData = xmlData.substring(xmlData.indexOf('<?'), xmlLength + 13); //why 13? I dont know yet -_(o.O)_- //TODO
 
     final document = XmlDocument.parse(xmlData);
-    if (document
-        .findAllElements('LocalDeviceList')
-        .isEmpty) {
+    if (document.findAllElements('LocalDeviceList').isEmpty) {
       print('DeviceList not found!');
       return;
-    } //
+    }
+
+    _deviceList.clearList();
 
     var localDeviceList = document.findAllElements('LocalDeviceList'); //TODO: TEST call for every localDevice
     for (var dev in localDeviceList) {
@@ -94,8 +92,13 @@ class dataHand extends ChangeNotifier {
     //return document;
   }
 
-  void sendXML() {
-    String xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>SetAdapterName</MessageType><macAddress>30:D3:2D:EE:8D:A1</macAddress><name>devolo-340Tes</name></Message></boost_serialization>';
-    socket.write('MSGSOCK0000015a' + xmlString);
+  void sendXML(String newName, String mac) {
+    print(newName);
+    String xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>SetAdapterName</MessageType><macAddress>'+mac+'</macAddress><name>'+newName+'</name></Message></boost_serialization>';
+    //var len = xmlString.runes.length;
+    String xmlLength = xmlString.runes.length.toRadixString(16).padLeft(8, '0');
+    print('LEEENNNGGTHHH ' + xmlLength);
+    print(xmlString);
+    socket.write('MSGSOCK'+ xmlLength + xmlString);
   }
 }

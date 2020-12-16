@@ -140,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
             // ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => model.sendXML(),
+        //onPressed: () => model.sendXML(),
         tooltip: 'Reload',
         backgroundColor: devoloBlue,
         hoverColor: Colors.blue,
@@ -185,6 +185,8 @@ class _MyHomePageState extends State<MyHomePage> {
         hitDeviceIp = model.getdeviceList.devices[index].ip;
         hitDeviceMac = model.getdeviceList.devices[index].mac;
 
+        String _newName = hitDeviceName;
+
         showDialog<void>(
           context: context,
           barrierDismissible: true, // user doesn't need to tap button!
@@ -197,7 +199,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     TextFormField(
-                      initialValue: hitDeviceName,
+                      initialValue: _newName,
                       decoration: InputDecoration(
                         labelText: 'Devicename',
                         //helperText: 'Devicename',
@@ -208,6 +210,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         }
                         return null;
                       },
+                      onChanged: (value) => ( _newName = value),
                     ),
                     SizedBox(height: 15,),
                     Text('Type: ' +hitDeviceType),
@@ -231,6 +234,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 TextButton(
                   child: Text('OK'),
                   onPressed: () {
+                    model.sendXML(_newName, hitDeviceMac);
                     Navigator.of(context).pop();
                   },
                 ),

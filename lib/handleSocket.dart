@@ -58,9 +58,7 @@ class dataHand extends ChangeNotifier {
     print("============================ Entering parseXML ================================");
 
     if (xmlData == null) {
-      final emptyXml = '''<?xml version="1.0" ?>
-<metadata>
-</metadata>'''; //TODO Shitty workaround,  Note: maby work with messagetype? NetworkUpdate
+      final emptyXml = '<?xml version="1.0" ?><metadata></metadata>'; //TODO Shitty workaround,  Note: maby work with messagetype? NetworkUpdate
       print("Empty String");
       final document = XmlDocument.parse(emptyXml);
       //return document;

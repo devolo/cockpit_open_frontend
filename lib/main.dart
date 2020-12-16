@@ -204,13 +204,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         labelText: 'Devicename',
                         //helperText: 'Devicename',
                       ),
+                      onChanged: (value) => ( _newName = value),
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Please enter some text';
                         }
                         return null;
                       },
-                      onChanged: (value) => ( _newName = value),
+
                     ),
                     SizedBox(height: 15,),
                     Text('Type: ' +hitDeviceType),

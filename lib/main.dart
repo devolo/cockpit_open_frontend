@@ -63,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
     loadAllDeviceIcons();
   }
 
-  void _incrementCounter() {
+  void _reloadTest() {
     setState(() {
       //doc = parseXML()
     });
@@ -71,7 +71,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     final model = Provider.of<dataHand>(context);
     _Painter = DrawNetworkOverview(context, model.getdeviceList.devices);
 
@@ -140,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
             // ),
       ),
       floatingActionButton: FloatingActionButton(
-        //onPressed: () => model.sendXML(),
+        onPressed: () =>_reloadTest,
         tooltip: 'Reload',
         backgroundColor: devoloBlue,
         hoverColor: Colors.blue,
@@ -192,7 +191,7 @@ class _MyHomePageState extends State<MyHomePage> {
           barrierDismissible: true, // user doesn't need to tap button!
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Info '),
+              title: Text('Device Info '),
               content: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -220,14 +219,17 @@ class _MyHomePageState extends State<MyHomePage> {
                     Text('IP: ' +hitDeviceIp),
                     Text('MAC: ' +hitDeviceMac),
                     //Text('Rates: ' +hitDeviceRx),
+                    Padding(padding: EdgeInsets.fromLTRB(0, 40, 0, 0)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                        IconButton(icon: Icon(Icons.web), tooltip: 'Launch Webinterface', onPressed: () => launchURL(hitDeviceIp),),
-                        IconButton(icon: Icon(Icons.settings), tooltip: 'Settings', onPressed: () => print('Settings'),),
+                        IconButton(icon: Icon(Icons.public), tooltip: 'Launch Webinterface', onPressed: () => launchURL(hitDeviceIp),),
+                        IconButton(icon: Icon(Icons.lightbulb), tooltip: 'Identify Device', onPressed: () => model.sendXML('IdentifyDevice', mac: hitDeviceMac)),
+                        IconButton(icon: Icon(Icons.find_in_page), tooltip: 'Show Manual', onPressed: () =>model.sendXML('GetManual', newValue: hitDeviceMT, valueType:'product', newValue2: 'de', valueType2:'language'),),
                         IconButton(icon: Icon(Icons.delete), tooltip: 'Delete Device', onPressed: () => print('Delete Device'),),
                       ],
-                    )
+                    ),
+
                   ],
                 ),
               ),
@@ -235,7 +237,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 TextButton(
                   child: Text('OK'),
                   onPressed: () {
-                    model.sendXML(_newName, hitDeviceMac);
+                    model.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
                     Navigator.of(context).pop();
                   },
                 ),
@@ -249,7 +251,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   //ToDo UI doesn't change
-  void _handleLongPressStart(BuildContext context) {
+  void _handleLongPressStart(context) {
     print("long press down");
     RenderBox renderBox = context.findRenderObject();
 
@@ -278,8 +280,8 @@ class _MyHomePageState extends State<MyHomePage> {
           _Painter.pivotDeviceIndex = index;
 
           //do not update pivot device when the "router device" is long pressed
-          print(_Painter.pivotDeviceIndex);
-          print(_Painter.showingSpeeds);
+          print('Pivot on longPress:' +_Painter.pivotDeviceIndex.toString());
+          print('sowingSpeed on longPress:' +_Painter.showingSpeeds.toString());
         });
         return;
       }

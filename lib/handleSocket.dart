@@ -42,7 +42,10 @@ class dataHand extends ChangeNotifier {
 
   void dataHandler(data) {
     String xmlData = new String.fromCharCodes(data).trim();
+    print('got Data');
     parseXML(xmlData);
+    notifyListeners();
+
   }
 
   void errorHandler(error, StackTrace trace) {
@@ -58,10 +61,8 @@ class dataHand extends ChangeNotifier {
     print("============================ Entering parseXML ================================");
 
     if (xmlData == null) {
-      final emptyXml = '<?xml version="1.0" ?><metadata></metadata>'; //TODO Shitty workaround,  Note: maby work with messagetype? NetworkUpdate
-      print("Empty String");
-      final document = XmlDocument.parse(emptyXml);
-      //return document;
+      print('XML empty');
+      return;
     }
 
     xmlLength = xmlData.substring(7, 15); // cut the head in front of recieved xml (example: MSGSOCK00001f63) first 7 bytes-> Magicword; next 8 bytes -> message length
@@ -86,17 +87,37 @@ class dataHand extends ChangeNotifier {
         print(remotedev.type);
       }
     }
+    print('DeviceList ready');
     notifyListeners();
     //return document;
   }
 
-  void sendXML(String newName, String mac) {
-    print(newName);
-    String xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>SetAdapterName</MessageType><macAddress>'+mac+'</macAddress><name>'+newName+'</name></Message></boost_serialization>';
+  void sendXML(String action, {String newValue, String valueType, String newValue2, String valueType2, String mac,}) {  //TODO getting response from backend, maybe use it
+    print(newValue);
+    String xmlString;
+    if(newValue == null){
+      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>'+action+'</MessageType><macAddress>'+mac+'</macAddress></Message></boost_serialization>';
+    }
+    else if (newValue2 == null){
+      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>'+action+'</MessageType><macAddress>'+mac+'</macAddress>'+'<'+valueType+'>'+newValue+'</'+valueType+'></Message></boost_serialization>';
+    }
+    else {
+      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>'+action+'</MessageType>'+'<'+valueType+'>'+newValue+'</'+valueType+'>'+'<'+valueType2+'>'+newValue2+'</'+valueType2+'>'+'</Message></boost_serialization>';
+    }
+
     //var len = xmlString.runes.length;
-    String xmlLength = xmlString.runes.length.toRadixString(16).padLeft(8, '0');
+    String xmlLength = xmlString.runes.length.toRadixString(16).padLeft(8, '0'); // message length for backend !disconnects if header wrong or missing!
     print('LEEENNNGGTHHH ' + xmlLength);
     print(xmlString);
     socket.write('MSGSOCK'+ xmlLength + xmlString);
   }
+
+  // void testSendXML(){
+  //   String send = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>'+action+'</MessageType><product>'+MT+'</product><language>de</language></Message></boost_serialization>';
+  //   print(send);
+  //   String xmlLength = send.runes.length.toRadixString(16).padLeft(8, '0');
+  //   print('LEEENNNGGTHHH ' + xmlLength);
+  //   socket.write('MSGSOCK'+ xmlLength + send);
+  // }
+
 }

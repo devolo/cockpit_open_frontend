@@ -5,7 +5,7 @@ import 'dart:io';
 
 class DrawNetworkOverview extends CustomPainter {
   final double hn_circle_radius = 35.0;
-  List<Device> _deviceList = new List();
+  List<Device> _deviceList = <Device>[];
   List<Offset> _deviceIconOffsetList = deviceIconOffsetList;
   bool areDeviceIconsLoaded = false;
   int pivotDeviceIndex = 0;
@@ -101,6 +101,8 @@ class DrawNetworkOverview extends CustomPainter {
       ..textDirection = TextDirection.ltr
       ..textAlign = TextAlign.left;
 
+
+
     //createFakeGetOverview(_numberFoundDevicesLater);
   }
 
@@ -111,7 +113,7 @@ class DrawNetworkOverview extends CustomPainter {
       text: "No devices found \nScanning for devices ...",
       style: _textStyle,
     );
-    CircularProgressIndicator(
+    final loading = CircularProgressIndicator(
       valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
     ); // ToDo Progressbar maybe?
 

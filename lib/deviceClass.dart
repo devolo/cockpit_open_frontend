@@ -20,10 +20,11 @@ class DataratePair {
 }
 
 class DeviceList extends ChangeNotifier{
-  List<Device> devices = <Device>[];
+  List<Device> devices;
 
   DeviceList() {
     this.devices = <Device>[];
+    //notifyListeners();
   }
 
   void addDevice(Device device) {
@@ -34,11 +35,12 @@ class DeviceList extends ChangeNotifier{
 
   void clearList() {
     devices.clear();
+    notifyListeners();
   }
 }
 
 //=========================================== Device =========================================
-class Device {
+class Device extends ChangeNotifier {
   DeviceType typeEnum;
   String type;
   String name = "";
@@ -64,7 +66,7 @@ class Device {
     this.remoteDevices = remoteDevices;
     this.icon = getIconForDeviceType(getDeviceType(type));
     //if (icon != null) this.icon = icon;
-    this.speeds = new Map(); // ToDo Speedsmap implementation
+    this.speeds = new Map();
   }
 
   factory Device.fromXML(XmlElement element) {

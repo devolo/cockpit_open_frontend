@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:cockpit_devolo/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:xml/xml.dart' ;
-import 'deviceClass.dart';
+import 'deviceModel.dart';
 
 
 class dataHand extends ChangeNotifier {
@@ -42,7 +42,7 @@ class dataHand extends ChangeNotifier {
 
   void dataHandler(data) {
     String xmlData = new String.fromCharCodes(data).trim();
-    print('got Data');
+    print(xmlData);
     parseXML(xmlData);
     notifyListeners();
 
@@ -70,7 +70,7 @@ class dataHand extends ChangeNotifier {
     xmlData = xmlData.substring(xmlData.indexOf('<?'), xmlLength + 13); //why 13? I dont know yet -_(o.O)_- //TODO
 
     final document = XmlDocument.parse(xmlData);
-    if (document.findAllElements('LocalDeviceList').isEmpty) {
+    if (document.findAllElements('LocalDeviceList').isEmpty) { // ToDo !!!BUG!!! think this is why its loading too long (2 xml in one split)
       print('DeviceList not found!');
       return;
     }
@@ -92,20 +92,20 @@ class dataHand extends ChangeNotifier {
     //return document;
   }
 
-  void sendXML(String action, {String newValue, String valueType, String newValue2, String valueType2, String mac,}) {  //TODO getting response from backend, maybe use it
+  void sendXML(String messageType, {String newValue, String valueType, String newValue2, String valueType2, String mac,}) {  //TODO getting response from backend, maybe use it
     print(newValue);
     String xmlString;
+
     if(newValue == null){
-      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>'+action+'</MessageType><macAddress>'+mac+'</macAddress></Message></boost_serialization>';
+      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>'+messageType+'</MessageType><macAddress>'+mac+'</macAddress></Message></boost_serialization>';
     }
     else if (newValue2 == null){
-      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>'+action+'</MessageType><macAddress>'+mac+'</macAddress>'+'<'+valueType+'>'+newValue+'</'+valueType+'></Message></boost_serialization>';
+      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>'+messageType+'</MessageType><macAddress>'+mac+'</macAddress>'+'<'+valueType+'>'+newValue+'</'+valueType+'></Message></boost_serialization>';
     }
     else {
-      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>'+action+'</MessageType>'+'<'+valueType+'>'+newValue+'</'+valueType+'>'+'<'+valueType2+'>'+newValue2+'</'+valueType2+'>'+'</Message></boost_serialization>';
+      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>'+messageType+'</MessageType>'+'<'+valueType+'>'+newValue+'</'+valueType+'>'+'<'+valueType2+'>'+newValue2+'</'+valueType2+'>'+'</Message></boost_serialization>';
     }
 
-    //var len = xmlString.runes.length;
     String xmlLength = xmlString.runes.length.toRadixString(16).padLeft(8, '0'); // message length for backend !disconnects if header wrong or missing!
     print('LEEENNNGGTHHH ' + xmlLength);
     print(xmlString);

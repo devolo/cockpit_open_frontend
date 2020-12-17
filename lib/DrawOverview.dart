@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'deviceClass.dart';
+import 'deviceModel.dart';
 import 'helpers.dart';
 import 'dart:io';
+import 'dart:ui';
 
 class DrawNetworkOverview extends CustomPainter {
   final double hn_circle_radius = 35.0;
@@ -272,6 +273,19 @@ class DrawNetworkOverview extends CustomPainter {
     _textPainter.paint(canvas, Offset(absoluteRouterOffset.dx - (_textPainter.width / 2), absoluteRouterOffset.dy + (10 + _textPainter.height)));
   }
 
+  void drawInternetIcon(Canvas canvas){
+    Offset absoluteRouterOffset = Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2));
+    Offset absoluteRouterDeviceOffset = Offset(_deviceIconOffsetList.elementAt(0).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(0).dy + (screenHeight / 2));
+
+    if (_deviceList.length > 0) canvas.drawLine(Offset(absoluteRouterOffset.dx, absoluteRouterOffset.dy + 50), absoluteRouterDeviceOffset, _linePaint);
+
+    final icon = Icons.public;
+    TextPainter _textPainter = TextPainter(textDirection: TextDirection.rtl);
+    _textPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: 70.0,fontFamily: icon.fontFamily, color: devoloBlue));
+    _textPainter.layout();
+    _textPainter.paint(canvas, Offset(absoluteRouterOffset.dx - (_textPainter.width / 2), absoluteRouterOffset.dy -10));
+  }
+
   void fillDeviceIconPositionList() {
     _deviceIconOffsetList.clear();
     _deviceIconOffsetList.add(Offset(0.0, -2.5 * _screenGridHeight));
@@ -401,7 +415,8 @@ class DrawNetworkOverview extends CustomPainter {
     if (Platform.isAndroid || Platform.isIOS)
       drawRouterIcon(canvas, size);
     else
-      drawPCIcon(canvas, size);
+      drawInternetIcon(canvas);
+      //drawPCIcon(canvas, size);
 
     drawAllDeviceConnections(canvas, size);
     drawAllDeviceIcons(canvas, size);

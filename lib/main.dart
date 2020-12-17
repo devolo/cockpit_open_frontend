@@ -1,11 +1,12 @@
-import 'package:cockpit_devolo/deviceClass.dart';
+import 'package:cockpit_devolo/deviceModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'handleSocket.dart';
 import 'DrawOverview.dart';
 import 'helpers.dart';
-import 'EmptyPage.dart';
+import 'emptyScreen.dart';
+import 'settingsScreen.dart';
 import 'package:flutter/foundation.dart'
     show debugDefaultTargetPlatformOverride;
 import 'package:flutter_svg/flutter_svg.dart';
@@ -53,6 +54,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  TextStyle _menuItemStyle;
   int numDevices = 0;
   Offset _lastTapDownPosition;
   DrawNetworkOverview _Painter;
@@ -61,6 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     //dataHand();
     loadAllDeviceIcons();
+    _menuItemStyle = TextStyle(color: devoloBlue, fontFamily: 'Roboto', decorationColor: devoloBlue);
   }
 
   void _reloadTest() {
@@ -77,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: devoloBlue,
+        centerTitle: true,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -88,13 +92,70 @@ class _MyHomePageState extends State<MyHomePage> {
             Spacer(),
             SizedBox(width: 56)
           ],
-        )
-        ,
-        centerTitle: true,
+        ),
       ),
+      drawer: Drawer(
+          child: ListView(padding: EdgeInsets.zero, children: <Widget>[
+            DrawerHeader(
+              child: Text('Home Network Desktop', style: TextStyle(fontSize: 23),),
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.workspaces_filled,color: devoloBlue), //miscellaneous_services
+                title: Text('Network Overview', style: _menuItemStyle),
+                onTap: () {
+                  Navigator.pop(context); //close drawer
+                }),
+            ListTile(
+                leading: Icon(Icons.download_rounded, color: devoloBlue),
+                title: Text('Updates', style: _menuItemStyle),
+                onTap: () {
+                  Navigator.pop(context); //close drawer
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => new EmptyScreen(title: "Updates")),
+                  );
+                }),
+            ListTile(
+                leading: Icon(Icons.miscellaneous_services, color: devoloBlue),
+                title: Text('Network Settings', style: _menuItemStyle),
+                onTap: () {
+                  Navigator.pop(context); //close drawer
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) =>
+                        new EmptyScreen(title: "Network Settings")),
+                  );
+                }),
+            ListTile(
+                leading: Icon(Icons.wifi, color: devoloBlue),
+                title: Text('WiFi Settings', style: _menuItemStyle),
+                onTap: () {
+                  Navigator.pop(context); //close drawer
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) =>
+                        new EmptyScreen(title: "WiFi Settings")),
+                  );
+                }),
+            ListTile(
+                leading: Icon(Icons.settings_applications, color: devoloBlue),
+                title: Text('App Settings', style: _menuItemStyle),
+                onTap: () {
+                  Navigator.pop(context); //close drawer
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => new SettingsScreen(painter: _Painter)),
+                  );
+                }),
+          ])),
       body: Container(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child:
             GestureDetector(
               behavior: HitTestBehavior.translucent,
@@ -139,7 +200,9 @@ class _MyHomePageState extends State<MyHomePage> {
             // ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () =>_reloadTest,
+        onPressed: () =>setState(() {
+          model.sendXML('RefreshNetwork');
+        }),
         tooltip: 'Reload',
         backgroundColor: devoloBlue,
         hoverColor: Colors.blue,

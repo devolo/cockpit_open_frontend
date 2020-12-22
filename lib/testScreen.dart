@@ -23,7 +23,7 @@ class _EmptyScreenState extends State<EmptyScreen> {
         title: new Text(title),
         backgroundColor: devoloBlue,
       ),
-      body: new Center(child: Text("TO DO")),
+      body: new Center(child: Text("Test Screen")),
       backgroundColor: Colors.white,
     );
   }

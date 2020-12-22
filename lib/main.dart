@@ -6,6 +6,7 @@ import 'handleSocket.dart';
 import 'DrawOverview.dart';
 import 'helpers.dart';
 import 'emptyScreen.dart';
+import 'updateScreen.dart';
 import 'settingsScreen.dart';
 import 'package:flutter/foundation.dart'
     show debugDefaultTargetPlatformOverride;
@@ -115,11 +116,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 leading: Icon(Icons.download_rounded, color: devoloBlue),
                 title: Text('Updates', style: _menuItemStyle),
                 onTap: () {
+                  //model.sendXML('UpdateCheck');
                   Navigator.pop(context); //close drawer
                   Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (context) => new EmptyScreen(title: "Updates")),
+                        builder: (context) => UpdateScreen(title: "Updates", model: model)),
                   );
                 }),
             ListTile(
@@ -154,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (context) => new SettingsScreen(painter: _Painter)),
+                        builder: (context) => new SettingsScreen(title: "Settings", painter: _Painter)),
                   );
                 }),
           ])),
@@ -226,6 +228,7 @@ class _MyHomePageState extends State<MyHomePage> {
     String hitDeviceType;
     String hitDeviceSN;
     String hitDeviceMT;
+    String hitDeviceVersion;
     String hitDeviceIp;
     String hitDeviceMac;
 
@@ -246,6 +249,7 @@ class _MyHomePageState extends State<MyHomePage> {
         hitDeviceType = model.getdeviceList.devices[index].type;
         hitDeviceSN = model.getdeviceList.devices[index].serialno;
         hitDeviceMT = model.getdeviceList.devices[index].MT;
+        hitDeviceVersion = model.getdeviceList.devices[index].version;
         hitDeviceIp = model.getdeviceList.devices[index].ip;
         hitDeviceMac = model.getdeviceList.devices[index].mac;
 
@@ -259,6 +263,7 @@ class _MyHomePageState extends State<MyHomePage> {
               title: Text('Device Info '),
               content: SingleChildScrollView(
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -278,11 +283,37 @@ class _MyHomePageState extends State<MyHomePage> {
 
                     ),
                     SizedBox(height: 15,),
-                    Text('Type: ' +hitDeviceType),
-                    Text('Serialnumber: ' +hitDeviceSN),
-                    Text('MT-number: ' +hitDeviceMT),
-                    Text('IP: ' +hitDeviceIp),
-                    Text('MAC: ' +hitDeviceMac),
+                    Table(
+                      defaultColumnWidth: FixedColumnWidth(200.0),
+                    children: [
+                      TableRow(children: [
+                        Text('Type: '),
+                        Text(hitDeviceType),
+                      ]),
+                      TableRow(children: [
+                        Text('Serialnumber: '),
+                        Text(hitDeviceSN),
+                      ]),
+                      TableRow(children: [
+                        Text('MT-number: '),
+                        Text(hitDeviceMT),
+                      ]),
+                      TableRow(children: [
+                        Text('Version: '),
+                        Text(hitDeviceVersion),
+
+                      ]),
+                      TableRow(children: [
+                        Text('IP: ' ),
+                        Text(hitDeviceIp),
+
+                      ]),
+                      TableRow(children: [
+                        Text('MAC: ' ),
+                        Text(hitDeviceMac),
+
+                      ]),
+                    ],),
                     //Text('Rates: ' +hitDeviceRx),
                     Padding(padding: EdgeInsets.fromLTRB(0, 40, 0, 0)),
                     Row(
@@ -292,7 +323,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         IconButton(icon: Icon(Icons.lightbulb), tooltip: 'Identify Device', onPressed: () => model.sendXML('IdentifyDevice', mac: hitDeviceMac)),
                         IconButton(icon: Icon(Icons.find_in_page), tooltip: 'Show Manual', onPressed: () =>model.sendXML('GetManual', newValue: hitDeviceMT, valueType:'product', newValue2: 'de', valueType2:'language'),),
                         IconButton(icon: Icon(Icons.upload_file), tooltip: 'Factory Reset', onPressed: () =>_handleCriticalActions(context, model, 'ResetAdapterToFactoryDefaults', mac: hitDeviceMac),),
-                        IconButton(icon: Icon(Icons.delete), tooltip: 'Delete Device', onPressed: () => print('Delete Device'),),
+                        IconButton(icon: Icon(Icons.delete), tooltip: 'Delete Device', onPressed: () => print('Delete Device'),), //ToDo Delete Device see wiki
                       ],
                     ),
 
@@ -301,7 +332,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               actions: <Widget>[
                 TextButton(
-                  child: Text('OK'),
+                  child: Icon(Icons.check_circle_outline, size: 35,color: devoloBlue,),//Text('Bestätigen'),
                   onPressed: () {
                     model.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
                     Navigator.of(context).pop();

@@ -4,34 +4,36 @@ import 'handleSocket.dart';
 import 'DrawOverview.dart';
 
 class SettingsScreen extends StatefulWidget {
-  SettingsScreen({Key key, this.painter}) : super(key: key);
+  SettingsScreen({Key key, this.title, this.painter}) : super(key: key);
 
+  final String title;
   DrawNetworkOverview painter;
 
   @override
-  _SettingsScreenState createState() => _SettingsScreenState(painter: painter);
+  _SettingsScreenState createState() => _SettingsScreenState();
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  _SettingsScreenState({this.painter});
-  DrawNetworkOverview painter;
+  //DrawNetworkOverview painter;
 
 
   void toggleCheckbox(bool value) async {
     setState(() {
-      painter.showSpeedsPermanently = value;
+      widget.painter.showingSpeeds = value;
+      print(widget.painter.showingSpeeds);
 
-      if (!painter.showSpeedsPermanently) {
-        painter.showingSpeeds = false;
-        painter.pivotDeviceIndex = 0;
+      if (widget.painter.showingSpeeds == false) {
+        widget.painter.showingSpeeds = false;
+        widget.painter.pivotDeviceIndex = 0;
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("App Settings"),
+        title: new Text(widget.title),
       ),
       body: new Center(
         child: new Column(
@@ -40,9 +42,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
             new Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  new Text("Enable Diagnostic Expert Mode"),
+                  new Text("Enable Showing Speeds"),
                   new Checkbox(
-                    value: painter.showSpeedsPermanently,
+                    value: widget.painter.showingSpeeds,
                     onChanged: toggleCheckbox,
                   ),
                 ])

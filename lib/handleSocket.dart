@@ -1,9 +1,10 @@
 import 'dart:io';  //only for non-web apps!!!
 import 'dart:async';
-import 'package:cockpit_devolo/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:xml/xml.dart' ;
 import 'deviceModel.dart';
+import 'helpers.dart';
+
 
 
 class dataHand extends ChangeNotifier {
@@ -17,7 +18,6 @@ class dataHand extends ChangeNotifier {
   }
 
   DeviceList get getdeviceList {
-    //
     return _deviceList;
   }
 
@@ -41,9 +41,9 @@ class dataHand extends ChangeNotifier {
   }
 
   void dataHandler(data) {
-    String xmlData = new String.fromCharCodes(data).trim();
-    print(xmlData);
-    parseXML(xmlData);
+    String xmlRawData = new String.fromCharCodes(data).trim();
+    //print(xmlRawData);
+    parseXML(xmlRawData);
     notifyListeners();
 
   }
@@ -57,38 +57,65 @@ class dataHand extends ChangeNotifier {
     socket.destroy();
   }
 
-  void parseXML(String xmlData) {
+  void parseXML(String rawData) {
     print("============================ Entering parseXML ================================");
 
-    if (xmlData == null) {
+    if (rawData == null) {
       print('XML empty');
       return;
     }
 
-    xmlLength = xmlData.substring(7, 15); // cut the head in front of recieved xml (example: MSGSOCK00001f63) first 7 bytes-> Magicword; next 8 bytes -> message length
-    xmlLength = int.parse(xmlLength, radix: 16); // parse HexSting to int  //print("XmlLength: " + xmlLength.toString());
-    xmlData = xmlData.substring(xmlData.indexOf('<?'), xmlLength + 13); //why 13? I dont know yet -_(o.O)_- //TODO
+    // xmlLength = xmlRawData.substring(7, 15); // cut the head in front of recieved xml (example: MSGSOCK00001f63) first 7 bytes-> Magicword; next 8 bytes -> message length
+    // xmlLength = int.parse(xmlLength, radix: 16); // parse HexSting to int  //print("XmlLength: " + xmlLength.toString());
+    // var xmlDataFirst = xmlRawData.substring(xmlRawData.indexOf('<?'), xmlLength + 13); //why 13? I dont know yet -_(o.O)_- //TODO
+    // xmlDataList.add(xmlDataFirst);
 
-    final document = XmlDocument.parse(xmlData);
-    if (document.findAllElements('LocalDeviceList').isEmpty) { // ToDo !!!BUG!!! think this is why its loading too long (2 xml in one split)
-      print('DeviceList not found!');
-      return;
+    var xmlDataList = []; //List for all xmlDocuments if dataHandler passes more than one xml
+    var xmlDataNext = rawData; //
+
+    while(xmlDataNext != null ){
+      xmlLength = xmlDataNext.substring(7, 15); // cut the head in front of recieved xml
+        print("XmlLengthHEX: " + xmlLength.toString());
+      xmlLength = int.parse(xmlLength, radix: 16);
+        print("XmlLength: " + xmlLength.toString());
+      var xmlSingleDoc = xmlDataNext.substring(rawData.indexOf('<?'), xmlLength + 13); //why 13? I dont know yet -_(o.O)_- //TODO
+      xmlDataList.add(xmlSingleDoc);
+      try {
+        xmlDataNext = xmlDataNext.substring(xmlLength + 15);
+      } catch (error) {
+        //print(error);
+        xmlDataNext = null;
+      }
     }
 
-    _deviceList.clearList();
+    print(xmlDataList);
 
-    var localDeviceList = document.findAllElements('LocalDeviceList'); //TODO: TEST call for every localDevice
+    XmlDocument document;
+    for(var xmlDoc in xmlDataList){
+      document = XmlDocument.parse(xmlDoc);
+      if (document.findAllElements('LocalDeviceList').isNotEmpty) {
+        _deviceList.clearList();
+        print('DeviceList found!');
+        break;
+      }
+      print('DeviceList NOT found!');
+    }
+
+    print('DOC: ' + document.toString());
+
+    var localDeviceList = document.findAllElements('LocalDeviceList'); //TODO: TEST call for every
     for (var dev in localDeviceList) {
       Device device = Device.fromXML(dev.getElement('item'));
       _deviceList.addDevice(device);
       print(device.type);
-      for (var remotedev in device.remoteDevices) {
-        _deviceList.addDevice(remotedev);
-        print(remotedev.type);
+      for (var remoteDev in device.remoteDevices) {
+        _deviceList.addDevice(remoteDev);
+        print(remoteDev.type);
       }
     }
     print('DeviceList ready');
-    notifyListeners();
+    if(areDeviceIconsLoaded)
+      notifyListeners();
     //return document;
   }
 
@@ -107,17 +134,10 @@ class dataHand extends ChangeNotifier {
     }
 
     String xmlLength = xmlString.runes.length.toRadixString(16).padLeft(8, '0'); // message length for backend !disconnects if header wrong or missing!
-    print('LEEENNNGGTHHH ' + xmlLength);
+    //print('LEEENNNGGTHHH ' + xmlLength);
     print(xmlString);
     socket.write('MSGSOCK'+ xmlLength + xmlString);
   }
 
-  // void testSendXML(){
-  //   String send = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>'+action+'</MessageType><product>'+MT+'</product><language>de</language></Message></boost_serialization>';
-  //   print(send);
-  //   String xmlLength = send.runes.length.toRadixString(16).padLeft(8, '0');
-  //   print('LEEENNNGGTHHH ' + xmlLength);
-  //   socket.write('MSGSOCK'+ xmlLength + send);
-  // }
 
 }

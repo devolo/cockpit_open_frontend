@@ -6,7 +6,6 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'dart:ui' as ui;
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
-import 'package:cockpit_devolo/helpers.dart';
 
 //DeviceList deviceList = DeviceList(); // ToDo Better find another way to share devicelist
 final List<ui.Image> deviceIconList = <ui.Image>[]; //ToDo put somewhere else
@@ -82,23 +81,24 @@ Future<Null> loadAllDeviceIcons() async {
 
   data = await rootBundle.load('assets/eu_wifi_icon.png');
   ui.Image image = await loadImage(new Uint8List.view(data.buffer));
-  deviceIconList.add(image);
+  await deviceIconList.add(image);
 
   data = await rootBundle.load('assets/eu_lan_icon.png');
   image = await loadImage(new Uint8List.view(data.buffer));
-  deviceIconList.add(image);
+  await deviceIconList.add(image);
 
   data = await rootBundle.load('assets/mini_wifi_icon.png');
   image = await loadImage(new Uint8List.view(data.buffer));
-  deviceIconList.add(image);
+  await deviceIconList.add(image);
 
   data = await rootBundle.load('assets/mini_lan_icon.png');
   image = await loadImage(new Uint8List.view(data.buffer));
-  deviceIconList.add(image);
+  await deviceIconList.add(image);
+
 
   areDeviceIconsLoaded = true;
-
-  //   print("All device icons are loaded.");
+  print("All device icons are loaded.");
+  //notifyListeners();
 
 }
 
@@ -111,7 +111,10 @@ Future<ui.Image> loadImage(List<int> img) async {
 }
 
 ui.Image getIconForDeviceType(DeviceType dt) {
-  if (!areDeviceIconsLoaded) return null;
+  //Task.Delay(5000);
+  if(!areDeviceIconsLoaded) {
+    return null; //TODo Placeholder image
+  }
 
   switch (dt) {
     case DeviceType.dtLanMini:
@@ -143,4 +146,8 @@ ui.Image getIconForDeviceType(DeviceType dt) {
         return deviceIconList.elementAt(3);
       }
   }
+}
+
+void justWait({int numberOfSeconds}) async {
+  await Future.delayed(Duration(seconds: numberOfSeconds));
 }

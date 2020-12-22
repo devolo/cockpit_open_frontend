@@ -64,7 +64,8 @@ class Device extends ChangeNotifier {
     this.serialno = serialno;
     this.version = version;
     this.remoteDevices = remoteDevices;
-    this.icon = getIconForDeviceType(getDeviceType(type));
+    if (areDeviceIconsLoaded)
+      this.icon = getIconForDeviceType(getDeviceType(type)); // areDeviceIconsLoaded ??
     //if (icon != null) this.icon = icon;
     this.speeds = new Map();
   }
@@ -127,6 +128,7 @@ class Device extends ChangeNotifier {
       }
     }
     return retDevice;
+
   }
 }
 //=========================================== END Device =========================================

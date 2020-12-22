@@ -8,7 +8,6 @@ class DrawNetworkOverview extends CustomPainter {
   final double hn_circle_radius = 35.0;
   List<Device> _deviceList = <Device>[];
   List<Offset> _deviceIconOffsetList = deviceIconOffsetList;
-  bool areDeviceIconsLoaded = false;
   int pivotDeviceIndex = 0;
   bool showSpeedsPermanently = false; //true: a long press results in speeds being shown even after lifting the finger. false: speeds are hidden when lifting the finger.
   bool showingSpeeds = false; //true: draw the device circles with speeds as content. false: draw device circles with icons as content.
@@ -194,11 +193,14 @@ class DrawNetworkOverview extends CustomPainter {
       Offset imageRectLowerRight = Offset(absoluteCenterOffset.dx + (hn_circle_radius / 1.6), absoluteCenterOffset.dy + (hn_circle_radius / 1.6));
 
       //canvas.drawImage(deviceIconList.elementAt(0), imageOffset, _deviceIconPaint);
-      paintImage(
+      if(areDeviceIconsLoaded && _deviceList.elementAt(deviceIndex).icon !=null){
+        paintImage(
           canvas: canvas,
           image: _deviceList.elementAt(deviceIndex).icon, //deviceIconList[0],
           fit: BoxFit.scaleDown,
-          rect: Rect.fromPoints(imageRectUpperLeft, imageRectLowerRight));
+          rect: Rect.fromPoints(imageRectUpperLeft, imageRectLowerRight)
+      );
+      }
     }
   }
 

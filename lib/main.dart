@@ -77,6 +77,8 @@ class _MyHomePageState extends State<MyHomePage> {
     final model = Provider.of<dataHand>(context);
     _Painter = DrawNetworkOverview(context, model.getdeviceList.devices);
 
+    print("building main");
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: devoloBlue,
@@ -94,6 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+
       drawer: Drawer(
           child: ListView(padding: EdgeInsets.zero, children: <Widget>[
             DrawerHeader(
@@ -156,8 +159,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 }),
           ])),
       body: Container(
-        child:
-            GestureDetector(
+        child: GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTapUp: _handleTap,
               onTapDown:_handleTapDown,
@@ -289,6 +291,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         IconButton(icon: Icon(Icons.public), tooltip: 'Launch Webinterface', onPressed: () => launchURL(hitDeviceIp),),
                         IconButton(icon: Icon(Icons.lightbulb), tooltip: 'Identify Device', onPressed: () => model.sendXML('IdentifyDevice', mac: hitDeviceMac)),
                         IconButton(icon: Icon(Icons.find_in_page), tooltip: 'Show Manual', onPressed: () =>model.sendXML('GetManual', newValue: hitDeviceMT, valueType:'product', newValue2: 'de', valueType2:'language'),),
+                        IconButton(icon: Icon(Icons.upload_file), tooltip: 'Factory Reset', onPressed: () =>_handleCriticalActions(context, model, 'ResetAdapterToFactoryDefaults', mac: hitDeviceMac),),
                         IconButton(icon: Icon(Icons.delete), tooltip: 'Delete Device', onPressed: () => print('Delete Device'),),
                       ],
                     ),
@@ -363,6 +366,35 @@ class _MyHomePageState extends State<MyHomePage> {
         if (!_Painter.showingSpeeds) _Painter.pivotDeviceIndex = 0;
       }
     });
+  }
+
+  void _handleCriticalActions(context, model, messageType, {mac}) {
+    showDialog<void>(
+    context: context,
+    barrierDismissible: true, // user doesn't need to tap button!
+    builder: (BuildContext context) {
+    return AlertDialog(
+      title: Text(messageType),
+      content: Text('Bitte Aktion bestätigen.'),
+      actions: <Widget>[
+        FlatButton(
+            child: Text('Abbrechen'),
+            onPressed: (){
+              // Cancel critical action
+              Navigator.of(context).pop();
+            }
+        ),
+        FlatButton(
+          child: Text('Bestätigen'),
+          onPressed: (){
+            // Critical things happening here
+            model.sendXML(messageType, mac: mac);
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
+  });
   }
 
 // void _handleTap(TapUpDetails details) {

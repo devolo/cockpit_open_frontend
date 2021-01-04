@@ -60,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Offset _lastTapDownPosition;
   DrawNetworkOverview _Painter;
 
+
   @override
   void initState() {
     //dataHand();
@@ -221,7 +222,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _lastTapDownPosition = details.localPosition;
   }
 
-  void _handleTap(TapUpDetails details) async {
+  void _handleTap(TapUpDetails details)  {
     print('entering dialog....');
     int index = 0;
     String hitDeviceName;
@@ -301,17 +302,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       TableRow(children: [
                         Text('Version: '),
                         Text(hitDeviceVersion),
-
                       ]),
                       TableRow(children: [
                         Text('IP: ' ),
                         Text(hitDeviceIp),
-
                       ]),
                       TableRow(children: [
                         Text('MAC: ' ),
                         Text(hitDeviceMac),
-
                       ]),
                     ],),
                     //Text('Rates: ' +hitDeviceRx),
@@ -321,7 +319,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: [
                         IconButton(icon: Icon(Icons.public), tooltip: 'Launch Webinterface', onPressed: () => launchURL(hitDeviceIp),),
                         IconButton(icon: Icon(Icons.lightbulb), tooltip: 'Identify Device', onPressed: () => model.sendXML('IdentifyDevice', mac: hitDeviceMac)),
-                        IconButton(icon: Icon(Icons.find_in_page), tooltip: 'Show Manual', onPressed: () =>model.sendXML('GetManual', newValue: hitDeviceMT, valueType:'product', newValue2: 'de', valueType2:'language'),),
+                        IconButton(icon: Icon(Icons.find_in_page), tooltip: 'Show Manual', onPressed: () {
+                          model.sendXML('GetManual', newValue: hitDeviceMT, valueType: 'product', newValue2: 'de', valueType2: 'language');
+                          setState(() {
+                            model.recieveXML(model.xmlResponse).then((value) => openFile(value.elementAt(0)));
+                          });
+                        }),
                         IconButton(icon: Icon(Icons.upload_file), tooltip: 'Factory Reset', onPressed: () =>_handleCriticalActions(context, model, 'ResetAdapterToFactoryDefaults', mac: hitDeviceMac),),
                         IconButton(icon: Icon(Icons.delete), tooltip: 'Delete Device', onPressed: () => print('Delete Device'),), //ToDo Delete Device see wiki
                       ],

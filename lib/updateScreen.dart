@@ -50,10 +50,11 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       context: context,
                       barrierDismissible: true, // user doesn't need to tap button!
                       builder: (BuildContext context) {
+                        var state = model.recieveXML(model.xmlResponse).then((value) => value.elementAt(1));
                         return AlertDialog(
-                          title: Text('Updating..'),
+                          title: Text('Updating'),
                           //content: Text('Bitte Aktion bestätigen. \n'+ model.xmlResponse.toString(),),
-                          content: Text(model.recieveXML(model.xmlResponse)[0] == 'none'? 'Gerät auf dem neusten Stand.': 'Gerät wird aktuallisiert...'),
+                          content: Text(state == 'none'? 'Gerät auf dem neusten Stand.': 'Gerät wird aktuallisiert...'),
                           actions: <Widget>[
                             FlatButton(
                               child: Icon(Icons.check_circle_outline, size: 35,color: devoloBlue,),//Text('Bestätigen'),

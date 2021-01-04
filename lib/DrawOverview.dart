@@ -114,7 +114,7 @@ class DrawNetworkOverview extends CustomPainter {
       style: _textStyle,
     );
     final loading = CircularProgressIndicator(
-      valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+      valueColor: AlwaysStoppedAnimation<Color>(devoloBlue),
     ); // ToDo Progressbar maybe?
 
     _textPainter.text = textSpan;
@@ -126,7 +126,11 @@ class DrawNetworkOverview extends CustomPainter {
     Offset absoluteOffset = Offset(deviceOffset.dx + (screenWidth / 2), deviceOffset.dy + (screenHeight / 2));
     Offset absolutePivotOffset = Offset(_deviceIconOffsetList.elementAt(pivotDeviceIndex).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(pivotDeviceIndex).dy + (screenHeight / 2));
 
+
     canvas.drawLine(absolutePivotOffset, absoluteOffset, _linePaint);
+    if(showingSpeeds == true)
+      canvas.drawLine(absolutePivotOffset, absoluteOffset, _linePaint..colorFilter= ColorFilter.mode(Colors.green, BlendMode.color)..strokeWidth= 1.0);
+
   }
 
   void drawDeviceIconEmpty(Canvas canvas, int deviceIndex) {

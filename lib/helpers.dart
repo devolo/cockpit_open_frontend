@@ -6,12 +6,14 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'dart:ui' as ui;
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
+import 'package:open_file/open_file.dart';
+//import 'package:dio/dio.dart';
 
 //DeviceList deviceList = DeviceList(); // ToDo Better find another way to share devicelist
 final List<ui.Image> deviceIconList = <ui.Image>[]; //ToDo put somewhere else
 final List<Offset> deviceIconOffsetList = <Offset>[];
 bool areDeviceIconsLoaded = false;
-
+String _openResult = 'Unknown';
 final Color devoloBlue = Colors.blue[700];
 
 String macToCanonical(String mac) {
@@ -27,7 +29,7 @@ String macToCanonical(String mac) {
 }
 
 double getLineThikness(){  // ToDo
- return 3.0;
+ return 4.0;
 }
 
 launchURL(String ip) async {
@@ -44,6 +46,13 @@ launchURL(String ip) async {
     } else {
       throw 'Could not launch $url';
     }
+}
+
+Future<void> openFile(var path) async {
+  final filePath = path;
+  //final filePath = "C:/Program Files (x86)\\devolo\\dlan\\updates\\manuals\\magic-2-lan\\manual-de.pdf";
+  final result = await OpenFile.open(filePath);
+  _openResult = "type=${result.type}  message=${result.message}";
 }
 
 DeviceType getDeviceType(String deviceType){
@@ -76,25 +85,24 @@ DeviceType getDeviceType(String deviceType){
 
 //======================================= Helper for Images ==============================
 
-Future<Null> loadAllDeviceIcons() async {
+Future<void> loadAllDeviceIcons() async {
   ByteData data;
 
   data = await rootBundle.load('assets/eu_wifi_icon.png');
   ui.Image image = await loadImage(new Uint8List.view(data.buffer));
-  await deviceIconList.add(image);
+  deviceIconList.add(image);
 
   data = await rootBundle.load('assets/eu_lan_icon.png');
   image = await loadImage(new Uint8List.view(data.buffer));
-  await deviceIconList.add(image);
+  deviceIconList.add(image);
 
   data = await rootBundle.load('assets/mini_wifi_icon.png');
   image = await loadImage(new Uint8List.view(data.buffer));
-  await deviceIconList.add(image);
+  deviceIconList.add(image);
 
   data = await rootBundle.load('assets/mini_lan_icon.png');
   image = await loadImage(new Uint8List.view(data.buffer));
-  await deviceIconList.add(image);
-
+  deviceIconList.add(image);
 
   areDeviceIconsLoaded = true;
   print("All device icons are loaded.");
@@ -113,9 +121,11 @@ Future<ui.Image> loadImage(List<int> img) async {
 ui.Image getIconForDeviceType(DeviceType dt) {
   //Task.Delay(5000);
   if(!areDeviceIconsLoaded) {
-    return null; //TODo Placeholder image
+      print('NOPE');
+      return null;
+    //TODo Placeholder image
   }
-
+  
   switch (dt) {
     case DeviceType.dtLanMini:
       {

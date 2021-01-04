@@ -12,6 +12,7 @@ class dataHand extends ChangeNotifier {
   final DeviceList _deviceList = DeviceList();
   dynamic xmlLength;
   var xmlResponse;
+  bool loading = true;
 
   dataHand() {
     print("Creating new NetworkOverviewModelDesktop");
@@ -41,10 +42,10 @@ class dataHand extends ChangeNotifier {
     stdin.listen((data) => socket.write(new String.fromCharCodes(data).trim() + '\n'));
   }
 
-  void dataHandler(data) {
+  Future<void> dataHandler(data) async {
     String xmlRawData = new String.fromCharCodes(data).trim();
     //print(xmlRawData);
-    parseXML(xmlRawData);
+    await parseXML(xmlRawData);
     notifyListeners();
 
   }
@@ -58,7 +59,7 @@ class dataHand extends ChangeNotifier {
     socket.destroy();
   }
 
-  void parseXML(String rawData) {
+  Future<void> parseXML(String rawData) async {
     print("============================ Entering parseXML ================================");
 
     if (rawData == null) {
@@ -144,16 +145,39 @@ class dataHand extends ChangeNotifier {
     socket.write('MSGSOCK'+ xmlLength + xmlString);
   }
 
-  List<String> recieveXML(XmlDocument revXML){ // ToDo generic?
+  Future<List<String>> recieveXML(XmlDocument revXML) async { // ToDo generic?
+    loading = true;
     List<String> response = [];
-    String status = revXML.findAllElements('status').first.innerText;
-    response.add(status);
+    Future.value(null);
+    //final Map response = new Map<String,String>();
+
+    String status = await findAllElem(revXML,'status');
+    if (status != null)
+      response.add(status);
+
+
+    String filename = await findAllElem(revXML, 'filename');
+    if (filename != null)
+      response.add(filename);
+
     String messageType = revXML.findAllElements('MessageType').first.innerText;
     response.add(messageType);
 
+    //if (response[1].isEmpty)
+
+    print("Response: "+ response.toString());
+    Future.value(response);
     return response;
+      }
 
-  }
+}
 
+Future<String> findAllElem(XmlDocument revXML, String word) async{
+  dynamic ret = revXML.findAllElements(word);
+  if (ret.isEmpty == false)
+    ret = ret.first.innerText;
+  else
+    ret = null;
+  return ret;
 
 }

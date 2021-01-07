@@ -9,7 +9,7 @@ import 'dart:io';
 import 'package:open_file/open_file.dart';
 //import 'package:dio/dio.dart';
 
-//DeviceList deviceList = DeviceList(); // ToDo Better find another way to share devicelist
+
 final List<ui.Image> deviceIconList = <ui.Image>[]; //ToDo put somewhere else
 final List<Offset> deviceIconOffsetList = <Offset>[];
 bool areDeviceIconsLoaded = false;
@@ -26,10 +26,6 @@ String macToCanonical(String mac) {
         .toLowerCase();
   else
     return "";
-}
-
-double getLineThikness(){  // ToDo
- return 4.0;
 }
 
 launchURL(String ip) async {
@@ -106,7 +102,6 @@ Future<void> loadAllDeviceIcons() async {
 
   areDeviceIconsLoaded = true;
   print("All device icons are loaded.");
-  //notifyListeners();
 
 }
 
@@ -119,13 +114,12 @@ Future<ui.Image> loadImage(List<int> img) async {
 }
 
 ui.Image getIconForDeviceType(DeviceType dt) {
-  //Task.Delay(5000);
   if(!areDeviceIconsLoaded) {
       print('NOPE');
       return null;
     //TODo Placeholder image
   }
-  
+
   switch (dt) {
     case DeviceType.dtLanMini:
       {

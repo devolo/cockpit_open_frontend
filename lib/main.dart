@@ -59,7 +59,31 @@ class _MyHomePageState extends State<MyHomePage> {
   int numDevices = 0;
   Offset _lastTapDownPosition;
   DrawNetworkOverview _Painter;
+  int _selectedIndex = 0;
 
+  static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+
+
+  List<dynamic> _widgetOptions = [
+    Text(
+      'Index 0: Overview',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 0: Add Device',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 2: Settings',
+      style: optionStyle,
+    ),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   void initState() {
@@ -161,48 +185,20 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
                 }),
           ])),
-      body: Container(
+      body:  Container(
         child: GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTapUp: _handleTap,
-              onTapDown:_handleTapDown,
-              onLongPress: () =>_handleLongPressStart(context),
-              onLongPressUp: _handleLongPressEnd,
-              child: Center(
-                child: CustomPaint(
-                  painter: _Painter,
-                  child: Container(),
-                ),
-              ),
+          behavior: HitTestBehavior.translucent,
+          onTapUp: _handleTap,
+          onTapDown:_handleTapDown,
+          onLongPress: () =>_handleLongPressStart(context),
+          onLongPressUp: _handleLongPressEnd,
+          child: Center(
+            child: CustomPaint(
+              painter: _Painter,
+              child: Container(),
             ),
-            // Align(
-            //   alignment: Alignment.centerLeft,
-            //   child: Text(
-            //     ' Devices: ' + deviceList.devices.length.toString(),
-            //     style: Theme
-            //         .of(context)
-            //         .textTheme
-            //         .headline5,
-            //   ),),
-            // Expanded(
-            //   child: ListView.builder(
-            //       padding: const EdgeInsets.all(0),
-            //       itemCount: deviceList.devices.length,
-            //       itemBuilder: (BuildContext context, int index) {
-            //         return ListTile(
-            //           title: Text(deviceList.devices[index].type),
-            //           subtitle: Text(deviceList.devices[index].name +
-            //               ", " +
-            //               deviceList.devices[index].ip +
-            //               ", " +
-            //               deviceList.devices[index].mac +
-            //               ", " +
-            //               deviceList.devices[index].serialno +
-            //               ", " +
-            //               deviceList.devices[index].MT),
-            //         );
-            //       }),
-            // ),
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () =>setState(() {
@@ -213,6 +209,30 @@ class _MyHomePageState extends State<MyHomePage> {
         hoverColor: Colors.blue,
         child: Icon(Icons.refresh),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: devoloBlue,
+        unselectedItemColor: Colors.grey[400],
+        selectedItemColor: Colors.white,
+        selectedFontSize: 15,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+            backgroundColor: Colors.blue,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_circle_outline),
+            label: 'Add device',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+
+        onTap: _onItemTapped,
+      ),
     );
   }
 
@@ -261,7 +281,7 @@ class _MyHomePageState extends State<MyHomePage> {
           barrierDismissible: true, // user doesn't need to tap button!
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Device Info '),
+              title: SelectableText('Device Info '),
               content: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -288,28 +308,28 @@ class _MyHomePageState extends State<MyHomePage> {
                       defaultColumnWidth: FixedColumnWidth(200.0),
                     children: [
                       TableRow(children: [
-                        Text('Type: '),
-                        Text(hitDeviceType),
+                        SelectableText('Type: '),
+                        SelectableText(hitDeviceType),
                       ]),
                       TableRow(children: [
-                        Text('Serialnumber: '),
-                        Text(hitDeviceSN),
+                        SelectableText('Serialnumber: '),
+                        SelectableText(hitDeviceSN),
                       ]),
                       TableRow(children: [
-                        Text('MT-number: '),
-                        Text(hitDeviceMT),
+                        SelectableText('MT-number: '),
+                        SelectableText(hitDeviceMT),
                       ]),
                       TableRow(children: [
-                        Text('Version: '),
-                        Text(hitDeviceVersion),
+                        SelectableText('Version: '),
+                        SelectableText(hitDeviceVersion),
                       ]),
                       TableRow(children: [
-                        Text('IP: ' ),
-                        Text(hitDeviceIp),
+                        SelectableText('IP: ' ),
+                        SelectableText(hitDeviceIp),
                       ]),
                       TableRow(children: [
-                        Text('MAC: ' ),
-                        Text(hitDeviceMac),
+                        SelectableText('MAC: ' ),
+                        SelectableText(hitDeviceMac),
                       ]),
                     ],),
                     //Text('Rates: ' +hitDeviceRx),
@@ -322,7 +342,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         IconButton(icon: Icon(Icons.find_in_page), tooltip: 'Show Manual', onPressed: () {
                           model.sendXML('GetManual', newValue: hitDeviceMT, valueType: 'product', newValue2: 'de', valueType2: 'language');
                           setState(() {
-                            model.recieveXML(model.xmlResponse).then((value) => openFile(value.elementAt(0)));
+                           model.recieveXML().then((path) =>openFile(path[0]));
                           });
                         }),
                         IconButton(icon: Icon(Icons.upload_file), tooltip: 'Factory Reset', onPressed: () =>_handleCriticalActions(context, model, 'ResetAdapterToFactoryDefaults', mac: hitDeviceMac),),

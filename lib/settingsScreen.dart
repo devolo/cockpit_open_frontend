@@ -34,6 +34,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(widget.title),
+        backgroundColor: devoloBlue,
       ),
       body: new Center(
         child: new Column(

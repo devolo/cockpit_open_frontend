@@ -52,9 +52,10 @@ class Device extends ChangeNotifier {
   List<Device> remoteDevices = <Device>[];
   ui.Image icon;
   Map<String, DataratePair> speeds; //Map<mac address of remote device, datarates to and from this remote device>
+  bool attachedToRouter;
   //ToDo bool AttatchedToRouter get from XML
 
-  Device(String type, String name, String mac, String ip, String MT, String serialno, String version, [ui.Image icon]) {
+  Device(String type, String name, String mac, String ip, String MT, String serialno, String version, atr, [ui.Image icon]) {
     this.typeEnum = getDeviceType(type);
     this.type = type;
     this.name = name;
@@ -63,14 +64,15 @@ class Device extends ChangeNotifier {
     this.MT = MT; // product
     this.serialno = serialno;
     this.version = version;
-    this.remoteDevices = remoteDevices;
+    this.attachedToRouter = atr;
+    //this.remoteDevices = remoteDevices;
     if (areDeviceIconsLoaded)
       this.icon = getIconForDeviceType(getDeviceType(type)); // areDeviceIconsLoaded ??
     //if (icon != null) this.icon = icon;
     this.speeds = new Map();
   }
 
-  factory Device.fromXML(XmlElement element) {
+  factory Device.fromXML(XmlElement element, bool attachedToRouter) {
     Device retDevice = Device(
       element.getElement('type').text,
       element.getElement('name').text,
@@ -79,6 +81,7 @@ class Device extends ChangeNotifier {
       element.getElement('product').text,
       element.getElement('serialno').text,
       element.getElement('version').text,
+        attachedToRouter
       //Device.fromXML(Element.getElement('remotes').getElement('item')),
       //genreElement.findElements('genre').map<Genre>((e) => Genre.fromElement(e)).toList(),
     );
@@ -89,7 +92,7 @@ class Device extends ChangeNotifier {
       // print(remotes.length);
       for (var remote in remotes) {
         print('Remote Device found: ' + remote.getElement('type').text);
-        retDevice.remoteDevices.add(Device.fromXML(remote));
+        retDevice.remoteDevices.add(Device.fromXML(remote, false));
       }
     }
 
@@ -130,6 +133,7 @@ class Device extends ChangeNotifier {
     return retDevice;
 
   }
+
 }
 //=========================================== END Device =========================================
 

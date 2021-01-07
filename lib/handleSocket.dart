@@ -11,7 +11,7 @@ class dataHand extends ChangeNotifier {
   Socket socket;
   final DeviceList _deviceList = DeviceList();
   dynamic xmlLength;
-  var xmlResponse;
+  dynamic xmlResponse;
   bool loading = true;
 
   dataHand() {
@@ -77,7 +77,7 @@ class dataHand extends ChangeNotifier {
 
     while(xmlDataNext != null ){
       xmlLength = xmlDataNext.substring(7, 15); // cut the head in front of recieved xml
-        print("XmlLengthHEX: " + xmlLength.toString());
+        //print("XmlLengthHEX: " + xmlLength.toString());
       xmlLength = int.parse(xmlLength, radix: 16);
         print("XmlLength: " + xmlLength.toString());
       var xmlSingleDoc = xmlDataNext.substring(rawData.indexOf('<?'), xmlLength + 13); //why 13? I dont know yet -_(o.O)_- //TODO
@@ -104,11 +104,11 @@ class dataHand extends ChangeNotifier {
       print('DeviceList NOT found!');
     }
 
-    print('DOC: ' + document.toString());
+    //print('DOC: ' + document.toString());
 
     var localDeviceList = document.findAllElements('LocalDeviceList'); //TODO: TEST call for every
     for (var dev in localDeviceList) {
-      Device device = Device.fromXML(dev.getElement('item'));
+      Device device = Device.fromXML(dev.getElement('item'),true);
       _deviceList.addDevice(device);
       print(device.type);
       for (var remoteDev in device.remoteDevices) {
@@ -145,28 +145,33 @@ class dataHand extends ChangeNotifier {
     socket.write('MSGSOCK'+ xmlLength + xmlString);
   }
 
-  Future<List<String>> recieveXML(XmlDocument revXML) async { // ToDo generic?
+  Future<List<String>> recieveXML() async { // ToDo generic?
     loading = true;
     List<String> response = [];
-    Future.value(null);
     //final Map response = new Map<String,String>();
 
-    String status = await findAllElem(revXML,'status');
-    if (status != null)
+    await new Future.delayed(const Duration(seconds : 2));
+    final Completer<String> completer = new Completer();
+
+    String status = await findAllElem(xmlResponse,'status');
+    if (status != null) {
       response.add(status);
+      completer.complete(status);
+      Future.value(status);
+    }
 
-
-    String filename = await findAllElem(revXML, 'filename');
+    String filename = await findAllElem(xmlResponse, 'filename');
     if (filename != null)
       response.add(filename);
+      completer.complete(filename);
+      Future.value(filename);
 
-    String messageType = revXML.findAllElements('MessageType').first.innerText;
-    response.add(messageType);
-
-    //if (response[1].isEmpty)
+    // String messageType = xmlResponse.findAllElements('MessageType').first.innerText;
+    // response.add(messageType);
 
     print("Response: "+ response.toString());
-    Future.value(response);
+    //Future.value(response);
+    //return completer.future;
     return response;
       }
 

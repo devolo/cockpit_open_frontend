@@ -58,31 +58,32 @@ class _SettingsScreenState extends State<SettingsScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             new Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  new Text("Enable Showing Speeds"),
                   new Checkbox(
                     value: widget.painter.showSpeedsPermanently,
                     onChanged: toggleCheckbox,
                   ),
+                  new Text("Enable Showing Speeds"),
                 ]),
              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  new Text("Übertragungsleistung der Geräte Aaufzeichnen und an devolo übermitteln"),
                   new Checkbox(
                     value: widget.painter.showingSpeeds, //ToDo
                     onChanged: toggleCheckbox,
                   ),
+                  new Text("Übertragungsleistung der Geräte Aaufzeichnen und an devolo übermitteln"),
                 ]),
             Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  new Text("Alle zukünftigen Updates ignorieren"),
                   new Checkbox(
-                    value: widget.painter.showingSpeeds, //ToDo
-                    onChanged: toggleCheckbox,
-                  ),
+                  value: widget.painter.showingSpeeds, //ToDo
+                  onChanged: toggleCheckbox,
+                ),
+                  new Text("Alle zukünftigen Updates ignorieren"),
+
                 ])
           ],
         ),

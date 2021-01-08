@@ -61,7 +61,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Offset _lastTapDownPosition;
   DrawNetworkOverview _Painter;
   int _selectedIndex = 0;
-  bool showingSpeeds = false;
+
+  bool showingSpeedsFake = false;
+  int pivotDeviceIndexFake = 0;
 
   static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
@@ -105,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final socket = Provider.of<dataHand>(context);
     final deviceList = Provider.of<DeviceList>(context);
     socket.setDeviceList(deviceList);
-    _Painter = DrawNetworkOverview(context, deviceList, showingSpeeds);
+    _Painter = DrawNetworkOverview(context, deviceList, showingSpeedsFake, pivotDeviceIndexFake);
 
     print("building main");
 
@@ -399,11 +401,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
         setState(() {
           if (_Painter.showSpeedsPermanently && index == _Painter.pivotDeviceIndex) {
-            _Painter.showingSpeeds = !_Painter.showingSpeeds;
+            //_Painter.showingSpeeds = !_Painter.showingSpeeds;
           } else {
-            showingSpeeds = true;
+            //_Painter.showingSpeeds = true;
+            showingSpeedsFake = true;  // ToDo fix workaround see OverviewConsturctor
           }
-          _Painter.pivotDeviceIndex = index;
+          //_Painter.pivotDeviceIndex = index;
+          pivotDeviceIndexFake = index;
 
           //do not update pivot device when the "router device" is long pressed
           print('Pivot on longPress:' +_Painter.pivotDeviceIndex.toString());
@@ -420,8 +424,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
     setState(() {
       if (!_Painter.showSpeedsPermanently) {
-        showingSpeeds = false;
+        showingSpeedsFake = false;
         _Painter.pivotDeviceIndex = 0;
+        pivotDeviceIndexFake = 0;
       } else {
         if (!_Painter.showingSpeeds) _Painter.pivotDeviceIndex = 0;
       }

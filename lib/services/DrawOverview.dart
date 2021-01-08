@@ -52,11 +52,13 @@ class DrawNetworkOverview extends CustomPainter {
   double _screenGridWidth;
   double _screenGridHeight;
 
-  DrawNetworkOverview(BuildContext context, DeviceList foundDevices, bool showSpeeds ) {
+  DrawNetworkOverview(BuildContext context, DeviceList foundDevices, bool showSpeeds, int pivot ) {
     _deviceList = Provider.of<DeviceList>(context).getDeviceList();
     print("DrawNetworkOverview: " +_deviceList.toString());
     numberFoundDevices = _deviceList.length;
-    showingSpeeds = showSpeeds;
+
+    showingSpeeds = showSpeeds; //ToDo fix Hack
+    pivotDeviceIndex = pivot; // ToDo same
 
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;

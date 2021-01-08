@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'deviceModel.dart';
+import '../models/deviceModel.dart';
 import 'dart:async';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:ui' as ui;
@@ -14,7 +14,7 @@ final List<ui.Image> deviceIconList = <ui.Image>[]; //ToDo put somewhere else
 final List<Offset> deviceIconOffsetList = <Offset>[];
 bool areDeviceIconsLoaded = false;
 String _openResult = 'Unknown';
-final Color devoloBlue = Colors.blue[700];
+
 
 String macToCanonical(String mac) {
   if (mac != null)

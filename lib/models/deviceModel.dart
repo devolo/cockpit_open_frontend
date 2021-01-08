@@ -1,8 +1,8 @@
 import 'dart:ui' as ui;
-import 'package:cockpit_devolo/handleSocket.dart';
+import 'file:///C:/Users/caroline.toebben/AndroidStudioProjects/cockpit_devolo/lib/services/handleSocket.dart';
 import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
-import 'helpers.dart';
+import '../shared/helpers.dart';
 import 'package:cockpit_devolo/main.dart';
 
 
@@ -20,21 +20,34 @@ class DataratePair {
 }
 
 class DeviceList extends ChangeNotifier{
-  List<Device> devices;
+  List<Device> _devices = [];
 
   DeviceList() {
-    this.devices = <Device>[];
+    //this._devices = _devices;
     //notifyListeners();
   }
 
+  List<Device> getDeviceList(){
+      return _devices;
+  }
+
+  int getLength(){
+    return _devices.length;
+  }
+
+  void setDeviceList(List<Device> devList) {
+    _devices = devList;
+    notifyListeners();
+  }
+
   void addDevice(Device device) {
-    this.devices.add(device);
-    print(devices.toString());
+    this._devices.add(device);
+    print(_devices.toString());
     notifyListeners();
   }
 
   void clearList() {
-    devices.clear();
+    _devices.clear();
     notifyListeners();
   }
 }

@@ -1,12 +1,13 @@
-import 'package:cockpit_devolo/handleSocket.dart';
-import 'package:cockpit_devolo/helpers.dart';
+import 'file:///C:/Users/caroline.toebben/AndroidStudioProjects/cockpit_devolo/lib/services/handleSocket.dart';
+import 'file:///C:/Users/caroline.toebben/AndroidStudioProjects/cockpit_devolo/lib/shared/helpers.dart';
+import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'deviceModel.dart';
-import 'DrawOverview.dart';
+import '../models/deviceModel.dart';
+import '../services/DrawOverview.dart';
 
 class UpdateScreen extends StatefulWidget {
-  UpdateScreen({Key key, this.title, dataHand model}) : super(key: key);
+  UpdateScreen({Key key, this.title, DeviceList deviceList}) : super(key: key);
 
   final String title;
   //dataHand model;
@@ -43,17 +44,21 @@ class _UpdateScreenState extends State<UpdateScreen> {
             child: RaisedButton(
               color: devoloBlue,
                 textColor: Colors.white,
-                onPressed: () {
+                onPressed: () async {
                   _updating = true;
                   model.sendXML('UpdateCheck');
+                  String state;
+                  await model.recieveXML().then((status) {
+                    state =  status[0].toString();
+                  });
+                  print('State: '+state.toString());
                   showDialog<void>(
                       context: context,
                       barrierDismissible: true, // user doesn't need to tap button!
                       builder: (BuildContext context) {
                         return AlertDialog(
                           title: Text('Updating'),
-                          //content: Text('Bitte Aktion bestätigen. \n'+ model.xmlResponse.toString(),),
-                          content: Text(model.recieveXML().then((state) =>openFile(state[0].toString())) == 'none'? 'Geräte auf dem neusten Stand.': 'Geräte werden aktualisiert... '), //ToDo Handle error [] if updating
+                          content: Text(state == 'none'? 'Geräte auf dem neusten Stand.': state.toString()), //ToDo Handle error [] if updating //'Geräte werden aktualisiert... '
                           actions: <Widget>[
                             FlatButton(
                               child: Icon(Icons.check_circle_outline, size: 35,color: devoloBlue,),//Text('Bestätigen'),

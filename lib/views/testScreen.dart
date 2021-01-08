@@ -1,6 +1,7 @@
+import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'helpers.dart';
-import 'DrawOverview.dart';
+import '../shared/helpers.dart';
+import '../services/DrawOverview.dart';
 
 class EmptyScreen extends StatefulWidget {
   EmptyScreen({Key key, this.title}) : super(key: key);
@@ -23,7 +24,7 @@ class _EmptyScreenState extends State<EmptyScreen> {
         title: new Text(title),
         backgroundColor: devoloBlue,
       ),
-      body: new Center(child: Text("TO DO")),
+      body: new Center(child: Text("Test Screen")),
       backgroundColor: Colors.white,
     );
   }

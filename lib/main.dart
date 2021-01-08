@@ -1,23 +1,24 @@
-import 'package:cockpit_devolo/deviceModel.dart';
+import 'package:cockpit_devolo/services/handleSocket.dart';
+import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'handleSocket.dart';
-import 'DrawOverview.dart';
-import 'helpers.dart';
-import 'emptyScreen.dart';
-import 'updateScreen.dart';
-import 'settingsScreen.dart';
+import 'models/deviceModel.dart';
+import 'services/DrawOverview.dart';
+import 'shared/helpers.dart';
+import 'views/emptyScreen.dart';
+import 'views/updateScreen.dart';
+import 'views/settingsScreen.dart';
 import 'package:flutter/foundation.dart'
     show debugDefaultTargetPlatformOverride;
 import 'package:flutter_svg/flutter_svg.dart';
 
 void main() {
   //debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
-
   runApp(
   MultiProvider(providers: [
-  ChangeNotifierProvider<dataHand>(create: (context) => dataHand()),
+  ChangeNotifierProvider<dataHand>(create: (_) => dataHand()),
+    ChangeNotifierProvider<DeviceList>(create: (_) => DeviceList()),
   ],
   child: MyApp())
   );
@@ -60,6 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Offset _lastTapDownPosition;
   DrawNetworkOverview _Painter;
   int _selectedIndex = 0;
+  bool showingSpeeds = false;
 
   static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
@@ -100,8 +102,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final model = Provider.of<dataHand>(context);
-    _Painter = DrawNetworkOverview(context, model.getdeviceList.devices);
+    final socket = Provider.of<dataHand>(context);
+    final deviceList = Provider.of<DeviceList>(context);
+    socket.setDeviceList(deviceList);
+    _Painter = DrawNetworkOverview(context, deviceList, showingSpeeds);
 
     print("building main");
 
@@ -141,12 +145,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 leading: Icon(Icons.download_rounded, color: devoloBlue),
                 title: Text('Updates', style: _menuItemStyle),
                 onTap: () {
-                  //model.sendXML('UpdateCheck');
+                  //socket.sendXML('UpdateCheck');
                   Navigator.pop(context); //close drawer
                   Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (context) => UpdateScreen(title: "Updates", model: model)),
+                        builder: (context) => UpdateScreen(title: "Updates", deviceList: deviceList)),
                   );
                 }),
             ListTile(
@@ -202,7 +206,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () =>setState(() {
-          model.sendXML('RefreshNetwork');
+          socket.sendXML('RefreshNetwork');
         }),
         tooltip: 'Reload',
         backgroundColor: devoloBlue,
@@ -211,9 +215,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: devoloBlue,
-        unselectedItemColor: Colors.grey[400],
+        unselectedItemColor: Colors.white,
         selectedItemColor: Colors.white,
         selectedFontSize: 15,
+        selectedIconTheme: IconThemeData(size: 30),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -264,15 +269,16 @@ class _MyHomePageState extends State<MyHomePage> {
       if (_Painter.isPointInsideCircle(details.localPosition, absoluteOffset, _Painter.hn_circle_radius)) {
         print("Hit icon #" + index.toString());
 
-        final model = Provider.of<dataHand>(context);
+        final socket = Provider.of<dataHand>(context);
+        final deviceList = Provider.of<DeviceList>(context);
 
-        hitDeviceName = model.getdeviceList.devices[index].name;
-        hitDeviceType = model.getdeviceList.devices[index].type;
-        hitDeviceSN = model.getdeviceList.devices[index].serialno;
-        hitDeviceMT = model.getdeviceList.devices[index].MT;
-        hitDeviceVersion = model.getdeviceList.devices[index].version;
-        hitDeviceIp = model.getdeviceList.devices[index].ip;
-        hitDeviceMac = model.getdeviceList.devices[index].mac;
+        hitDeviceName = deviceList.getDeviceList()[index].name;
+        hitDeviceType = deviceList.getDeviceList()[index].type;
+        hitDeviceSN = deviceList.getDeviceList()[index].serialno;
+        hitDeviceMT = deviceList.getDeviceList()[index].MT;
+        hitDeviceVersion = deviceList.getDeviceList()[index].version;
+        hitDeviceIp = deviceList.getDeviceList()[index].ip;
+        hitDeviceMac = deviceList.getDeviceList()[index].mac;
 
         String _newName = hitDeviceName;
 
@@ -338,14 +344,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                         IconButton(icon: Icon(Icons.public), tooltip: 'Launch Webinterface', onPressed: () => launchURL(hitDeviceIp),),
-                        IconButton(icon: Icon(Icons.lightbulb), tooltip: 'Identify Device', onPressed: () => model.sendXML('IdentifyDevice', mac: hitDeviceMac)),
+                        IconButton(icon: Icon(Icons.lightbulb), tooltip: 'Identify Device', onPressed: () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac)),
                         IconButton(icon: Icon(Icons.find_in_page), tooltip: 'Show Manual', onPressed: () {
-                          model.sendXML('GetManual', newValue: hitDeviceMT, valueType: 'product', newValue2: 'de', valueType2: 'language');
+                          socket.sendXML('GetManual', newValue: hitDeviceMT, valueType: 'product', newValue2: 'de', valueType2: 'language');
                           setState(() {
-                           model.recieveXML().then((path) =>openFile(path[0]));
+                            socket.recieveXML().then((path) =>openFile(path[0]));
                           });
                         }),
-                        IconButton(icon: Icon(Icons.upload_file), tooltip: 'Factory Reset', onPressed: () =>_handleCriticalActions(context, model, 'ResetAdapterToFactoryDefaults', mac: hitDeviceMac),),
+                        IconButton(icon: Icon(Icons.upload_file), tooltip: 'Factory Reset', onPressed: () =>_handleCriticalActions(context, socket, 'ResetAdapterToFactoryDefaults', mac: hitDeviceMac),),
                         IconButton(icon: Icon(Icons.delete), tooltip: 'Delete Device', onPressed: () => print('Delete Device'),), //ToDo Delete Device see wiki
                       ],
                     ),
@@ -357,7 +363,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 TextButton(
                   child: Icon(Icons.check_circle_outline, size: 35,color: devoloBlue,),//Text('Bestätigen'),
                   onPressed: () {
-                    model.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
+                    socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
                     Navigator.of(context).pop();
                   },
                 ),
@@ -388,14 +394,14 @@ class _MyHomePageState extends State<MyHomePage> {
       if (_Painter.isPointInsideCircle(_lastTapDownPosition, absoluteOffset, _Painter.hn_circle_radius)) {
         print("Long press on icon #" + index.toString());
 
-        final model = Provider.of<dataHand>(context);
-        hitDeviceName = model.getdeviceList.devices[index].name;
+        final deviceList = Provider.of<DeviceList>(context);
+        hitDeviceName = deviceList.getDeviceList()[index].name;
 
         setState(() {
           if (_Painter.showSpeedsPermanently && index == _Painter.pivotDeviceIndex) {
             _Painter.showingSpeeds = !_Painter.showingSpeeds;
           } else {
-            _Painter.showingSpeeds = true;
+            showingSpeeds = true;
           }
           _Painter.pivotDeviceIndex = index;
 
@@ -414,7 +420,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     setState(() {
       if (!_Painter.showSpeedsPermanently) {
-        _Painter.showingSpeeds = true;
+        showingSpeeds = false;
         _Painter.pivotDeviceIndex = 0;
       } else {
         if (!_Painter.showingSpeeds) _Painter.pivotDeviceIndex = 0;
@@ -422,7 +428,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _handleCriticalActions(context, model, messageType, {mac}) {
+  void _handleCriticalActions(context, socket, messageType, {mac}) {
     showDialog<void>(
     context: context,
     barrierDismissible: true, // user doesn't need to tap button!
@@ -442,7 +448,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Text('Bestätigen'),
           onPressed: (){
             // Critical things happening here
-            model.sendXML(messageType, mac: mac);
+            socket.sendXML(messageType, mac: mac);
             Navigator.of(context).pop();
           },
         ),

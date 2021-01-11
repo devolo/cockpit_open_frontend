@@ -108,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final socket = Provider.of<dataHand>(context);
     final deviceList = Provider.of<DeviceList>(context);
     socket.setDeviceList(deviceList);
-    pivotDeviceIndexFake = deviceList.getPivot();
+    //pivotDeviceIndexFake = deviceList.getPivot();
     _Painter = DrawNetworkOverview(context, deviceList, showingSpeedsFake, pivotDeviceIndexFake);
 
     print("building main");

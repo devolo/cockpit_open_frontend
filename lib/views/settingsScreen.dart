@@ -62,8 +62,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   new Checkbox(
-                    value: widget.painter.showingSpeeds, //ToDo
-                    onChanged: toggleCheckbox,
+                      value: config["allow_data_collection"], //ToDo
+                      onChanged: (bool value) {
+                        setState(() {
+                          config["allow_data_collection"] = !config["allow_data_collection"];
+                          socket.sendXML('Config');
+                        });
+                      }
                   ),
                   new Text("Übertragungsleistung der Geräte Aufzeichnen und an devolo übermitteln"),
                 ]),

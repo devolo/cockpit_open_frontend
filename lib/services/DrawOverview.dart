@@ -17,7 +17,6 @@ class DrawNetworkOverview extends CustomPainter {
   bool showingSpeeds = false; //true: draw the device circles with speeds as content. false: draw device circles with icons as content.
   double dashWidth = 9, dashSpace = 5, startX = 0;
 
-
   final _textStyle = TextStyle(
     color: Colors.black,
     fontFamily: 'Roboto',
@@ -42,6 +41,7 @@ class DrawNetworkOverview extends CustomPainter {
   Paint _speedLinePaint;
   Paint _pcPaint;
   Paint _routerPaint;
+  Paint _arrowPaint;
   TextPainter _textPainter;
   TextPainter _speedTextPainter;
   double screenWidth;
@@ -50,9 +50,9 @@ class DrawNetworkOverview extends CustomPainter {
   double _screenGridWidth;
   double _screenGridHeight;
 
-  DrawNetworkOverview(BuildContext context, DeviceList foundDevices, bool showSpeeds, int pivot ) {
+  DrawNetworkOverview(BuildContext context, DeviceList foundDevices, bool showSpeeds, int pivot) {
     _deviceList = Provider.of<DeviceList>(context).getDeviceList();
-    print("DrawNetworkOverview: " +_deviceList.toString());
+    print("DrawNetworkOverview: " + _deviceList.toString());
     numberFoundDevices = _deviceList.length;
 
     showingSpeeds = showSpeeds; //ToDo fix Hack
@@ -111,6 +111,12 @@ class DrawNetworkOverview extends CustomPainter {
       ..textDirection = TextDirection.ltr
       ..textAlign = TextAlign.left;
 
+    _arrowPaint = Paint()
+      ..color = devoloBlue
+      ..strokeWidth = 3.0
+      ..style = PaintingStyle.stroke;
+    //..style = PaintingStyle.fill;
+
     //createFakeGetOverview(_numberFoundDevicesLater);
   }
 
@@ -131,97 +137,125 @@ class DrawNetworkOverview extends CustomPainter {
     _textPainter.paint(canvas, Offset(absoluteOffset.dx - (_textPainter.width / 2), absoluteOffset.dy + (hn_circle_radius + _textPainter.height) - 5));
   }
 
-  void drawDeviceConnection(Canvas canvas, Offset deviceOffset, Map thickness) { // TODO draw Path instead of Draw Line!
-    double arrowRadian = 30/57.295779513082; //Convert degree into radian
+  void drawDeviceConnection(Canvas canvas, Offset deviceOffset, Map thickness) {
+    double arrowRadian = 30 / 57.295779513082; //Convert degree into radian
 
     Offset absoluteOffset = Offset(deviceOffset.dx + (screenWidth / 2), deviceOffset.dy + (screenHeight / 2));
     Offset absolutePivotOffset = Offset(_deviceIconOffsetList.elementAt(pivotDeviceIndex).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(pivotDeviceIndex).dy + (screenHeight / 2));
 
-    double lineLength = sqrt(pow(absoluteOffset.dx-absolutePivotOffset.dx, 2)+pow(absoluteOffset.dy-absolutePivotOffset.dy, 2));
+    double lineLength = sqrt(pow(absoluteOffset.dx - absolutePivotOffset.dx, 2) + pow(absoluteOffset.dy - absolutePivotOffset.dy, 2));
 
-    double outerCircle = complete_circle_radius/lineLength;
-    double shiftFactor = 8/lineLength;
-    double arrowLength = 20/lineLength;
+    double outerCircle = complete_circle_radius / lineLength;
+    double shiftFactor = 8 / lineLength;
+    double arrowLength = 25 / lineLength;
 
     Offset lineDirection = Offset(absolutePivotOffset.dx - absoluteOffset.dx, absolutePivotOffset.dy - absoluteOffset.dy);
     print(lineDirection.toString());
 
-    Offset lineDirectionOrtho = Offset(lineDirection.dy,-lineDirection.dx); // orthogonal to connection line
+    Offset lineDirectionOrtho = Offset(lineDirection.dy, -lineDirection.dx); // orthogonal to connection line
 
-
-    if(lineDirection.dx <= 0){
+    if (lineDirection.dx <= 0) {
       shiftFactor = -shiftFactor;
       arrowRadian = -arrowRadian;
     }
 
-    Offset arrowDirection = Offset(lineDirection.dx * cos(arrowRadian) - lineDirection.dy *sin(arrowRadian), lineDirection.dx* sin(arrowRadian) + lineDirection.dy * cos(arrowRadian));
+    Offset arrowDirection = Offset(lineDirection.dx * cos(arrowRadian) - lineDirection.dy * sin(arrowRadian), lineDirection.dx * sin(arrowRadian) + lineDirection.dy * cos(arrowRadian));
 
-    Offset absoluteOffsetRx = Offset(deviceOffset.dx + (screenWidth / 2)+shiftFactor*lineDirectionOrtho.dx , deviceOffset.dy + (screenHeight / 2)+shiftFactor*lineDirectionOrtho.dy);
-    Offset absolutePivotOffsetRx = Offset(_deviceIconOffsetList.elementAt(pivotDeviceIndex).dx + (screenWidth / 2)+shiftFactor*lineDirectionOrtho.dx, _deviceIconOffsetList.elementAt(pivotDeviceIndex).dy + (screenHeight / 2)+shiftFactor*lineDirectionOrtho.dy);
+    Offset absoluteOffsetRx = Offset(deviceOffset.dx + (screenWidth / 2) + shiftFactor * lineDirectionOrtho.dx, deviceOffset.dy + (screenHeight / 2) + shiftFactor * lineDirectionOrtho.dy);
+    Offset absolutePivotOffsetRx = Offset(_deviceIconOffsetList.elementAt(pivotDeviceIndex).dx + (screenWidth / 2) + shiftFactor * lineDirectionOrtho.dx,
+        _deviceIconOffsetList.elementAt(pivotDeviceIndex).dy + (screenHeight / 2) + shiftFactor * lineDirectionOrtho.dy);
 
-    Offset absoluteOffsetTx = Offset(deviceOffset.dx + (screenWidth / 2)- shiftFactor*lineDirectionOrtho.dx, deviceOffset.dy + (screenHeight / 2)-shiftFactor*lineDirectionOrtho.dy);
-    Offset absolutePivotOffsetTx = Offset(_deviceIconOffsetList.elementAt(pivotDeviceIndex).dx + (screenWidth / 2)-shiftFactor*lineDirectionOrtho.dx, _deviceIconOffsetList.elementAt(pivotDeviceIndex).dy + (screenHeight / 2)-shiftFactor*lineDirectionOrtho.dy);
+    Offset absoluteOffsetTx = Offset(deviceOffset.dx + (screenWidth / 2) - shiftFactor * lineDirectionOrtho.dx, deviceOffset.dy + (screenHeight / 2) - shiftFactor * lineDirectionOrtho.dy);
+    Offset absolutePivotOffsetTx = Offset(_deviceIconOffsetList.elementAt(pivotDeviceIndex).dx + (screenWidth / 2) - shiftFactor * lineDirectionOrtho.dx,
+        _deviceIconOffsetList.elementAt(pivotDeviceIndex).dy + (screenHeight / 2) - shiftFactor * lineDirectionOrtho.dy);
 
-    Offset absoluteOffsetArrowStartRx = Offset(absolutePivotOffsetRx.dx - outerCircle * lineDirection.dx , absolutePivotOffsetRx.dy - outerCircle * lineDirection.dy);
+    Offset absoluteOffsetArrowStartRx = Offset(absolutePivotOffsetRx.dx - outerCircle * lineDirection.dx, absolutePivotOffsetRx.dy - outerCircle * lineDirection.dy);
     Offset absoluteOffsetArrowEndRx;
 
-    Offset absoluteOffsetArrowStartTx = Offset(absoluteOffsetTx.dx + outerCircle * lineDirection.dx , absoluteOffsetTx.dy + outerCircle * lineDirection.dy);
+    Offset absoluteOffsetArrowStartTx = Offset(absoluteOffsetTx.dx + outerCircle * lineDirection.dx, absoluteOffsetTx.dy + outerCircle * lineDirection.dy);
     Offset absoluteOffsetArrowEndTx;
 
-
-    if(lineDirection.dx > 0){
-      absoluteOffsetArrowEndRx=Offset(absoluteOffsetArrowStartRx.dx - arrowLength * arrowDirection.dx, absoluteOffsetArrowStartRx.dy - arrowLength * arrowDirection.dy);
-      absoluteOffsetArrowEndTx=Offset(absoluteOffsetArrowStartTx.dx + arrowLength * arrowDirection.dx, absoluteOffsetArrowStartTx.dy + arrowLength * arrowDirection.dy);
-    }
-    else{
-      absoluteOffsetArrowEndRx=Offset(absoluteOffsetArrowStartRx.dx - arrowLength * arrowDirection.dx, absoluteOffsetArrowStartRx.dy - arrowLength * arrowDirection.dy);
-      absoluteOffsetArrowEndTx=Offset(absoluteOffsetArrowStartTx.dx + arrowLength * arrowDirection.dx, absoluteOffsetArrowStartTx.dy + arrowLength * arrowDirection.dy);
+    if (lineDirection.dx > 0) {
+      absoluteOffsetArrowEndRx = Offset(absoluteOffsetArrowStartRx.dx - arrowLength * arrowDirection.dx, absoluteOffsetArrowStartRx.dy - arrowLength * arrowDirection.dy);
+      absoluteOffsetArrowEndTx = Offset(absoluteOffsetArrowStartTx.dx + arrowLength * arrowDirection.dx, absoluteOffsetArrowStartTx.dy + arrowLength * arrowDirection.dy);
+    } else {
+      absoluteOffsetArrowEndRx = Offset(absoluteOffsetArrowStartRx.dx - arrowLength * arrowDirection.dx, absoluteOffsetArrowStartRx.dy - arrowLength * arrowDirection.dy);
+      absoluteOffsetArrowEndTx = Offset(absoluteOffsetArrowStartTx.dx + arrowLength * arrowDirection.dx, absoluteOffsetArrowStartTx.dy + arrowLength * arrowDirection.dy);
     }
 
     // intersection between 2 vectors, see: https://de.wikipedia.org/wiki/Schnittpunkt
     Offset p1 = absoluteOffsetArrowEndRx;
-    Offset p2 = Offset(absoluteOffsetArrowEndRx.dx + 1*lineDirectionOrtho.dx,absoluteOffsetArrowEndRx.dy + 1*lineDirectionOrtho.dy);
+    Offset p2 = Offset(absoluteOffsetArrowEndRx.dx + 1 * lineDirectionOrtho.dx, absoluteOffsetArrowEndRx.dy + 1 * lineDirectionOrtho.dy);
     Offset p3 = absoluteOffsetRx;
-    Offset p4 = Offset(absoluteOffsetRx.dx + 1*lineDirection.dx,absoluteOffsetRx.dy + 1*lineDirection.dy);
+    Offset p4 = Offset(absoluteOffsetRx.dx + 1 * lineDirection.dx, absoluteOffsetRx.dy + 1 * lineDirection.dy);
 
-    double arrowCossLineX = ((p4.dx -p3.dx)*(p2.dx*p1.dy-p1.dx*p2.dy)-(p2.dx-p1.dx)*(p4.dx*p3.dy-p3.dx*p4.dy))
-        /((p4.dy-p3.dy)*(p2.dx-p1.dx)-(p2.dy-p1.dy)*(p4.dx-p3.dx));
-    double arrowCossLineY = ((p1.dy-p2.dy)*(p4.dx*p3.dy-p3.dx*p4.dy)-(p3.dy-p4.dy)*(p2.dx*p1.dy-p1.dx*p2.dy))
-        /((p4.dy-p3.dy)*(p2.dx-p1.dx)-(p2.dy-p1.dy)*(p4.dx-p3.dx));
+    double arrowCossLineX =
+        ((p4.dx - p3.dx) * (p2.dx * p1.dy - p1.dx * p2.dy) - (p2.dx - p1.dx) * (p4.dx * p3.dy - p3.dx * p4.dy)) / ((p4.dy - p3.dy) * (p2.dx - p1.dx) - (p2.dy - p1.dy) * (p4.dx - p3.dx));
+    double arrowCossLineY =
+        ((p1.dy - p2.dy) * (p4.dx * p3.dy - p3.dx * p4.dy) - (p3.dy - p4.dy) * (p2.dx * p1.dy - p1.dx * p2.dy)) / ((p4.dy - p3.dy) * (p2.dx - p1.dx) - (p2.dy - p1.dy) * (p4.dx - p3.dx));
 
     Offset arrowCrossLineRx = Offset(arrowCossLineX, arrowCossLineY);
 
     p1 = absoluteOffsetArrowEndTx;
-    p2 = Offset(absoluteOffsetArrowEndTx.dx + 1*lineDirectionOrtho.dx,absoluteOffsetArrowEndTx.dy + 1*lineDirectionOrtho.dy);
+    p2 = Offset(absoluteOffsetArrowEndTx.dx + 1 * lineDirectionOrtho.dx, absoluteOffsetArrowEndTx.dy + 1 * lineDirectionOrtho.dy);
     p3 = absoluteOffsetTx;
-    p4 = Offset(absoluteOffsetTx.dx + 1*lineDirection.dx,absoluteOffsetTx.dy + 1*lineDirection.dy);
+    p4 = Offset(absoluteOffsetTx.dx + 1 * lineDirection.dx, absoluteOffsetTx.dy + 1 * lineDirection.dy);
 
-    arrowCossLineX = ((p4.dx -p3.dx)*(p2.dx*p1.dy-p1.dx*p2.dy)-(p2.dx-p1.dx)*(p4.dx*p3.dy-p3.dx*p4.dy))
-        /((p4.dy-p3.dy)*(p2.dx-p1.dx)-(p2.dy-p1.dy)*(p4.dx-p3.dx));
-    arrowCossLineY = ((p1.dy-p2.dy)*(p4.dx*p3.dy-p3.dx*p4.dy)-(p3.dy-p4.dy)*(p2.dx*p1.dy-p1.dx*p2.dy))
-        /((p4.dy-p3.dy)*(p2.dx-p1.dx)-(p2.dy-p1.dy)*(p4.dx-p3.dx));
+    arrowCossLineX = ((p4.dx - p3.dx) * (p2.dx * p1.dy - p1.dx * p2.dy) - (p2.dx - p1.dx) * (p4.dx * p3.dy - p3.dx * p4.dy)) / ((p4.dy - p3.dy) * (p2.dx - p1.dx) - (p2.dy - p1.dy) * (p4.dx - p3.dx));
+    arrowCossLineY = ((p1.dy - p2.dy) * (p4.dx * p3.dy - p3.dx * p4.dy) - (p3.dy - p4.dy) * (p2.dx * p1.dy - p1.dx * p2.dy)) / ((p4.dy - p3.dy) * (p2.dx - p1.dx) - (p2.dy - p1.dy) * (p4.dx - p3.dx));
 
     Offset arrowCrossLineTx = Offset(arrowCossLineX, arrowCossLineY);
 
-    if(thickness['rx'] < 1.0) {
-      canvas.drawLine(absolutePivotOffsetRx, absoluteOffsetRx, _linePaint..colorFilter= ColorFilter.mode(Colors.blueGrey[200], BlendMode.color)..strokeWidth=thickness['rx']);
+    if (thickness['rx'] < 1.0) {
+      canvas.drawLine(
+          absolutePivotOffsetRx,
+          absoluteOffsetRx,
+          _linePaint
+            ..colorFilter = ColorFilter.mode(Colors.blueGrey[200], BlendMode.color)
+            ..strokeWidth = thickness['rx']);
     }
-    if(thickness['tx'] < 1.0) {
-      canvas.drawLine(absolutePivotOffsetTx, absoluteOffsetTx, _linePaint..colorFilter= ColorFilter.mode(Colors.blueGrey[200], BlendMode.color)..strokeWidth=thickness['tx']);
-    }
-    else {
-      canvas.drawLine(absolutePivotOffsetRx, absoluteOffsetRx, _linePaint..colorFilter= ColorFilter.mode(devoloBlue, BlendMode.color)..strokeWidth=thickness['rx']); // Draw Connection Line
-      canvas.drawLine(absoluteOffsetArrowEndRx, arrowCrossLineRx, _linePaint..colorFilter= ColorFilter.mode(devoloBlue, BlendMode.color)..strokeWidth=thickness['rx']); // Draw Arrow cross Line
-      canvas.drawLine(absoluteOffsetArrowStartRx, absoluteOffsetArrowEndRx, _linePaint..colorFilter= ColorFilter.mode(devoloBlue, BlendMode.color)..strokeWidth=thickness['rx']); // Draw Arrow
+    if (thickness['tx'] < 1.0) {
+      canvas.drawLine(
+          absolutePivotOffsetTx,
+          absoluteOffsetTx,
+          _linePaint
+            ..colorFilter = ColorFilter.mode(Colors.blueGrey[200], BlendMode.color)
+            ..strokeWidth = thickness['tx']);
+    } else {
+      canvas.drawLine(
+          absolutePivotOffsetRx,
+          absoluteOffsetRx,
+          _linePaint
+            ..colorFilter = ColorFilter.mode(devoloBlue, BlendMode.color)
+            ..strokeWidth = thickness['rx']); // Draw Connection Line
+      //canvas.drawLine(absoluteOffsetArrowEndRx, arrowCrossLineRx, _linePaint..colorFilter= ColorFilter.mode(devoloBlue, BlendMode.color)..strokeWidth=thickness['rx']); // Draw Arrow cross Line
+      //canvas.drawLine(absoluteOffsetArrowStartRx, absoluteOffsetArrowEndRx, _linePaint..colorFilter= ColorFilter.mode(devoloBlue, BlendMode.color)..strokeWidth=thickness['rx']); // Draw Arrow
+      paintTriangle(canvas, absoluteOffsetArrowStartRx, absoluteOffsetArrowEndRx, arrowCrossLineRx, thickness['rx']);
 
-      canvas.drawLine(absolutePivotOffsetTx, absoluteOffsetTx, _linePaint..colorFilter= ColorFilter.mode(devoloBlue, BlendMode.color)..strokeWidth=thickness['tx']); // Draw Connection Line
-      canvas.drawLine(absoluteOffsetArrowEndTx, arrowCrossLineTx, _linePaint..colorFilter= ColorFilter.mode(devoloBlue, BlendMode.color)..strokeWidth=thickness['tx']); // Draw Arrow cross Line
-      canvas.drawLine(absoluteOffsetArrowStartTx, absoluteOffsetArrowEndTx, _linePaint..colorFilter= ColorFilter.mode(devoloBlue, BlendMode.color)..strokeWidth=thickness['tx']); // Draw Arrow
+      canvas.drawLine(
+          absolutePivotOffsetTx,
+          absoluteOffsetTx,
+          _linePaint
+            ..colorFilter = ColorFilter.mode(devoloBlue, BlendMode.color)
+            ..strokeWidth = thickness['tx']); // Draw Connection Line
+      //canvas.drawLine(absoluteOffsetArrowEndTx, arrowCrossLineTx, _linePaint..colorFilter= ColorFilter.mode(devoloBlue, BlendMode.color)..strokeWidth=thickness['tx']); // Draw Arrow cross Line
+      //canvas.drawLine(absoluteOffsetArrowStartTx, absoluteOffsetArrowEndTx, _linePaint..colorFilter= ColorFilter.mode(devoloBlue, BlendMode.color)..strokeWidth=thickness['tx']); // Draw Arrow
+      paintTriangle(canvas, absoluteOffsetArrowStartTx, absoluteOffsetArrowEndTx, arrowCrossLineTx, thickness['tx']);
     }
 
     // if(showingSpeeds == true)
     //   canvas.drawLine(absolutePivotOffset, absoluteOffset, _linePaint..colorFilter= ColorFilter.mode(Colors.green, BlendMode.color)..strokeWidth= 2.0);
+  }
 
+  void paintTriangle(Canvas canvas, start, middle, end, thickness) {
+    var path = Path();
+
+    path.moveTo(start.dx, start.dy);
+    path.lineTo(middle.dx, middle.dy);
+    path.lineTo(end.dx, end.dy);
+    path.close();
+
+    canvas.drawPath(path, _arrowPaint..strokeWidth = thickness);
   }
 
   void drawDottedConnection(Canvas canvas, Size size) {
@@ -255,7 +289,7 @@ class DrawNetworkOverview extends CustomPainter {
     Offset lineEnd = Offset(absoluteCenterOffset.dx + hn_circle_radius - 10, absoluteCenterOffset.dy);
     print('Index: ' + deviceIndex.toString());
     print('Pivot :' + pivotDeviceIndex.toString());
-    print('showingSpeeds: '+showingSpeeds.toString());
+    print('showingSpeeds: ' + showingSpeeds.toString());
 
     if (showingSpeeds && deviceIndex != pivotDeviceIndex) {
       int rx = 0, tx = 0;
@@ -268,7 +302,7 @@ class DrawNetworkOverview extends CustomPainter {
         rx = _deviceList.elementAt(pivotDeviceIndex).speeds[_deviceList.elementAt(deviceIndex).mac].rx;
         tx = _deviceList.elementAt(pivotDeviceIndex).speeds[_deviceList.elementAt(deviceIndex).mac].tx;
       }
-      print(rx.toString() +'  '+ tx.toString());
+      print(rx.toString() + '  ' + tx.toString());
 
       if (rx > 0)
         speedUp = rx.toString();
@@ -293,19 +327,17 @@ class DrawNetworkOverview extends CustomPainter {
       _speedTextPainter.layout(minWidth: 0, maxWidth: 150);
 
       _speedTextPainter.paint(canvas, Offset(absoluteCenterOffset.dx - (_speedTextPainter.width / 2), absoluteCenterOffset.dy - (_speedTextPainter.height / 2)));
-    }
-    else {
+    } else {
       Offset imageRectUpperLeft = Offset(absoluteCenterOffset.dx - (hn_circle_radius / 1.6), absoluteCenterOffset.dy - (hn_circle_radius / 1.6));
       Offset imageRectLowerRight = Offset(absoluteCenterOffset.dx + (hn_circle_radius / 1.6), absoluteCenterOffset.dy + (hn_circle_radius / 1.6));
 
       //canvas.drawImage(deviceIconList.elementAt(0), imageOffset, _deviceIconPaint);
-      if(areDeviceIconsLoaded && _deviceList.elementAt(deviceIndex).icon !=null){
+      if (areDeviceIconsLoaded && _deviceList.elementAt(deviceIndex).icon != null) {
         paintImage(
-          canvas: canvas,
-          image: _deviceList.elementAt(deviceIndex).icon, //deviceIconList[0],
-          fit: BoxFit.scaleDown,
-          rect: Rect.fromPoints(imageRectUpperLeft, imageRectLowerRight)
-      );
+            canvas: canvas,
+            image: _deviceList.elementAt(deviceIndex).icon, //deviceIconList[0],
+            fit: BoxFit.scaleDown,
+            rect: Rect.fromPoints(imageRectUpperLeft, imageRectLowerRight));
       }
     }
   }
@@ -380,7 +412,7 @@ class DrawNetworkOverview extends CustomPainter {
     _textPainter.paint(canvas, Offset(absoluteRouterOffset.dx - (_textPainter.width / 2), absoluteRouterOffset.dy + (10 + _textPainter.height)));
   }
 
-  void drawInternetIcon(Canvas canvas){
+  void drawInternetIcon(Canvas canvas) {
     Offset absoluteRouterOffset = Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2));
     Offset absoluteRouterDeviceOffset = Offset(_deviceIconOffsetList.elementAt(0).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(0).dy + (screenHeight / 2));
 
@@ -388,9 +420,9 @@ class DrawNetworkOverview extends CustomPainter {
 
     final icon = Icons.public;
     TextPainter _textPainter = TextPainter(textDirection: TextDirection.rtl);
-    _textPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: 70.0,fontFamily: icon.fontFamily, color: devoloBlue));
+    _textPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: 70.0, fontFamily: icon.fontFamily, color: devoloBlue));
     _textPainter.layout();
-    _textPainter.paint(canvas, Offset(absoluteRouterOffset.dx - (_textPainter.width / 2), absoluteRouterOffset.dy -10));
+    _textPainter.paint(canvas, Offset(absoluteRouterOffset.dx - (_textPainter.width / 2), absoluteRouterOffset.dy - 10));
   }
 
   void fillDeviceIconPositionList() {
@@ -479,35 +511,35 @@ class DrawNetworkOverview extends CustomPainter {
     }
   }
 
-  Color getLineColor(int dev){  // ToDo
-    dynamic color =_deviceList[pivotDeviceIndex].speeds[_deviceList[dev].mac];
+  Color getLineColor(int dev) {
+    // ToDo
+    dynamic color = _deviceList[pivotDeviceIndex].speeds[_deviceList[dev].mac];
     if (color != null) {
-      color = color.rx*0.01;
-      print('COLOR'+color.toString());
+      color = color.rx * 0.01;
+      print('COLOR' + color.toString());
     }
     return color;
   }
 
-  Map<String, double> getLineThickness(int dev){
+  Map<String, double> getLineThickness(int dev) {
     Map thickness = Map<String, double>();
-    dynamic rates =_deviceList[pivotDeviceIndex].speeds[_deviceList[dev].mac];
+    dynamic rates = _deviceList[pivotDeviceIndex].speeds[_deviceList[dev].mac];
     if (rates != null) {
-      if(rates.rx*0.01 > 10.0)
-        thickness['rx']= 10.0;
+      if (rates.rx * 0.01 > 10.0)
+        thickness['rx'] = 10.0;
       else
-        thickness['rx']= rates.rx*0.01.toDouble();
+        thickness['rx'] = rates.rx * 0.01.toDouble();
 
-      if(rates.tx*0.01 > 10.0)
-        thickness['tx']= 10.0;
+      if (rates.tx * 0.01 > 10.0)
+        thickness['tx'] = 10.0;
       else
-        thickness['tx'] = rates.tx*0.01;
+        thickness['tx'] = rates.tx * 0.01;
 
-      print('THIIICKNESSS '+ dev.toString() +" "+thickness.toString());
+      print('THIIICKNESSS ' + dev.toString() + " " + thickness.toString());
     }
     //else{thickness.addAll({'tx': 3.0});}
     return thickness;
   }
-
 
   void drawAllDeviceIcons(Canvas canvas, Size size) {
     //first, draw all device circles and their lines to the pivot device
@@ -553,7 +585,7 @@ class DrawNetworkOverview extends CustomPainter {
       drawRouterIcon(canvas, size);
     else
       drawInternetIcon(canvas);
-      //drawPCIcon(canvas, size);
+    //drawPCIcon(canvas, size);
 
     drawAllDeviceConnections(canvas, size);
     drawAllDeviceIcons(canvas, size);
@@ -564,10 +596,8 @@ class DrawNetworkOverview extends CustomPainter {
 
   @override
   bool shouldRepaint(DrawNetworkOverview oldDelegate) {
-    if (oldDelegate.numberFoundDevices != numberFoundDevices)
-      return true;
-    if (oldDelegate.showingSpeeds != showingSpeeds)
-      return true;
+    if (oldDelegate.numberFoundDevices != numberFoundDevices) return true;
+    if (oldDelegate.showingSpeeds != showingSpeeds) return true;
 
     return false;
 

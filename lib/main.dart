@@ -1,9 +1,10 @@
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
+import 'package:cockpit_devolo/views/networkSettingsScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'models/deviceModel.dart';
+import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'services/DrawOverview.dart';
 import 'shared/helpers.dart';
 import 'views/emptyScreen.dart';
@@ -107,6 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final socket = Provider.of<dataHand>(context);
     final deviceList = Provider.of<DeviceList>(context);
     socket.setDeviceList(deviceList);
+    pivotDeviceIndexFake = deviceList.getPivot();
     _Painter = DrawNetworkOverview(context, deviceList, showingSpeedsFake, pivotDeviceIndexFake);
 
     print("building main");
@@ -163,8 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (context) =>
-                        new EmptyScreen(title: "Network Settings")),
+                        builder: (context) => NetworkSettingsScreen(title: "Network Settings", deviceList: deviceList)),
                   );
                 }),
             ListTile(
@@ -257,8 +258,10 @@ class _MyHomePageState extends State<MyHomePage> {
     String hitDeviceSN;
     String hitDeviceMT;
     String hitDeviceVersion;
+    String hitDeviceVersionDate;
     String hitDeviceIp;
     String hitDeviceMac;
+    bool hitDeviceAtr;
 
     for (Offset deviceIconOffset in deviceIconOffsetList) {
       if (index >
@@ -279,8 +282,10 @@ class _MyHomePageState extends State<MyHomePage> {
         hitDeviceSN = deviceList.getDeviceList()[index].serialno;
         hitDeviceMT = deviceList.getDeviceList()[index].MT;
         hitDeviceVersion = deviceList.getDeviceList()[index].version;
+        hitDeviceVersionDate = deviceList.getDeviceList()[index].version_date;
         hitDeviceIp = deviceList.getDeviceList()[index].ip;
         hitDeviceMac = deviceList.getDeviceList()[index].mac;
+        hitDeviceAtr = deviceList.getDeviceList()[index].attachedToRouter;
 
         String _newName = hitDeviceName;
 
@@ -289,55 +294,61 @@ class _MyHomePageState extends State<MyHomePage> {
           barrierDismissible: true, // user doesn't need to tap button!
           builder: (BuildContext context) {
             return AlertDialog(
-              title: SelectableText('Device Info '),
+              title: SelectableText('Geräteinfo'),
               content: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    TextFormField(
-                      initialValue: _newName,
-                      decoration: InputDecoration(
-                        labelText: 'Devicename',
-                        //helperText: 'Devicename',
-                      ),
-                      onChanged: (value) => ( _newName = value),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
-
-                    ),
                     SizedBox(height: 15,),
                     Table(
                       defaultColumnWidth: FixedColumnWidth(200.0),
                     children: [
                       TableRow(children: [
+                        SelectableText('Name: '),
+                      TextFormField(
+                        initialValue: _newName,
+                        decoration: InputDecoration(
+                          //labelText: 'Devicename',
+                          //helperText: 'Devicename',
+                        ),
+                        onChanged: (value) => ( _newName = value),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Bitte Gerätenamen eintargen';
+                          }
+                          return null;
+                        },
+                      ),
+                      ]),
+                      TableRow(children: [
                         SelectableText('Type: '),
                         SelectableText(hitDeviceType),
                       ]),
                       TableRow(children: [
-                        SelectableText('Serialnumber: '),
+                        SelectableText('Seriennummer: '),
                         SelectableText(hitDeviceSN),
                       ]),
                       TableRow(children: [
-                        SelectableText('MT-number: '),
-                        SelectableText(hitDeviceMT),
+                        SelectableText('MT-Nummer: '),
+                        SelectableText(hitDeviceMT.substring(2)),
                       ]),
                       TableRow(children: [
                         SelectableText('Version: '),
-                        SelectableText(hitDeviceVersion),
+                        SelectableText('${hitDeviceVersion} (${hitDeviceVersionDate})'),
                       ]),
                       TableRow(children: [
-                        SelectableText('IP: ' ),
+                        SelectableText('IP-Adresse: ' ),
                         SelectableText(hitDeviceIp),
                       ]),
                       TableRow(children: [
-                        SelectableText('MAC: ' ),
+                        SelectableText('MAC-Adresse: ' ),
                         SelectableText(hitDeviceMac),
+                      ]),
+                      TableRow(children: [
+                        SelectableText('Attached to Router: ' ),
+                        SelectableText(hitDeviceAtr.toString()),
                       ]),
                     ],),
                     //Text('Rates: ' +hitDeviceRx),
@@ -350,11 +361,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         IconButton(icon: Icon(Icons.find_in_page), tooltip: 'Show Manual', onPressed: () {
                           socket.sendXML('GetManual', newValue: hitDeviceMT, valueType: 'product', newValue2: 'de', valueType2: 'language');
                           setState(() {
-                            socket.recieveXML().then((path) =>openFile(path[0]));
+                            socket.recieveXML().then((path) =>openFile(path['filename']));
                           });
                         }),
                         IconButton(icon: Icon(Icons.upload_file), tooltip: 'Factory Reset', onPressed: () =>_handleCriticalActions(context, socket, 'ResetAdapterToFactoryDefaults', mac: hitDeviceMac),),
-                        IconButton(icon: Icon(Icons.delete), tooltip: 'Delete Device', onPressed: () => print('Delete Device'),), //ToDo Delete Device see wiki
+                        IconButton(icon: Icon(Icons.delete), tooltip: 'Delete Device', onPressed: () =>_handleCriticalActions(context, socket, 'RemoveAdapter', mac: hitDeviceMac),), //ToDo Delete Device see wiki
                       ],
                     ),
 

@@ -35,13 +35,27 @@ class DeviceList extends ChangeNotifier{
     return _devices.length;
   }
 
+  int getPivot(){
+    for(var elem in _devices){
+      if(elem.attachedToRouter==true){
+        return _devices.indexOf(elem);
+      }
+    }
+    return 0;
+  }
+
   void setDeviceList(List<Device> devList) {
     _devices = devList;
     notifyListeners();
   }
 
   void addDevice(Device device) {
-    this._devices.add(device);
+    if(device.attachedToRouter == true){
+      this._devices.insert(0, device);
+    }
+    else{
+      this._devices.add(device);
+    }
     print(_devices.toString());
     notifyListeners();
   }
@@ -60,15 +74,15 @@ class Device extends ChangeNotifier {
   String mac;
   String ip;
   String version;
+  String version_date;
   String MT;
   String serialno;
   List<Device> remoteDevices = <Device>[];
   ui.Image icon;
   Map<String, DataratePair> speeds; //Map<mac address of remote device, datarates to and from this remote device>
   bool attachedToRouter;
-  //ToDo bool AttatchedToRouter get from XML
 
-  Device(String type, String name, String mac, String ip, String MT, String serialno, String version, atr, [ui.Image icon]) {
+  Device(String type, String name, String mac, String ip, String MT, String serialno, String version, String versionDate, atr, [ui.Image icon]) {
     this.typeEnum = getDeviceType(type);
     this.type = type;
     this.name = name;
@@ -77,6 +91,7 @@ class Device extends ChangeNotifier {
     this.MT = MT; // product
     this.serialno = serialno;
     this.version = version;
+    this.version_date = versionDate;
     this.attachedToRouter = atr;
     //this.remoteDevices = remoteDevices;
     if (areDeviceIconsLoaded)
@@ -85,7 +100,14 @@ class Device extends ChangeNotifier {
     this.speeds = new Map();
   }
 
-  factory Device.fromXML(XmlElement element, bool attachedToRouter) {
+  factory Device.fromXML(XmlElement element) {
+    bool attachedToRouter = false;
+    for(var elem in element.getElement('states').children){
+      print(elem.innerText);
+      if(elem.innerText.contains("gateway"))
+        attachedToRouter = true;
+    }
+
     Device retDevice = Device(
       element.getElement('type').text,
       element.getElement('name').text,
@@ -94,7 +116,8 @@ class Device extends ChangeNotifier {
       element.getElement('product').text,
       element.getElement('serialno').text,
       element.getElement('version').text,
-        attachedToRouter
+        element.getElement('date').text,
+        attachedToRouter,
       //Device.fromXML(Element.getElement('remotes').getElement('item')),
       //genreElement.findElements('genre').map<Genre>((e) => Genre.fromElement(e)).toList(),
     );
@@ -102,10 +125,9 @@ class Device extends ChangeNotifier {
     if (element.getElement('remotes') != null) {
       List<XmlNode> remotes = element.getElement('remotes').children;
       remotes = testList(remotes, 'type'); // Checking where items are devices returning the trimmed list
-      // print(remotes.length);
       for (var remote in remotes) {
         print('Remote Device found: ' + remote.getElement('type').text);
-        retDevice.remoteDevices.add(Device.fromXML(remote, false));
+        retDevice.remoteDevices.add(Device.fromXML(remote));
       }
     }
 
@@ -146,7 +168,6 @@ class Device extends ChangeNotifier {
     return retDevice;
 
   }
-
 }
 //=========================================== END Device =========================================
 

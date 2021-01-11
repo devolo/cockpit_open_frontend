@@ -1,7 +1,5 @@
 import 'dart:math';
-
 import 'package:cockpit_devolo/shared/app_colors.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/deviceModel.dart';
@@ -133,7 +131,7 @@ class DrawNetworkOverview extends CustomPainter {
     _textPainter.paint(canvas, Offset(absoluteOffset.dx - (_textPainter.width / 2), absoluteOffset.dy + (hn_circle_radius + _textPainter.height) - 5));
   }
 
-  void drawDeviceConnection(Canvas canvas, Offset deviceOffset, Map thickness) {
+  void drawDeviceConnection(Canvas canvas, Offset deviceOffset, Map thickness) { // TODO draw Path instead of Draw Line!
     double arrowRadian = 30/57.295779513082; //Convert degree into radian
 
     Offset absoluteOffset = Offset(deviceOffset.dx + (screenWidth / 2), deviceOffset.dy + (screenHeight / 2));

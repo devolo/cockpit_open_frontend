@@ -152,6 +152,4 @@ ui.Image getIconForDeviceType(DeviceType dt) {
   }
 }
 
-void justWait({int numberOfSeconds}) async {
-  await Future.delayed(Duration(seconds: numberOfSeconds));
-}
+Map config = new Map<String,dynamic>();

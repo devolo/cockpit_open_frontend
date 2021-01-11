@@ -1,16 +1,15 @@
-import 'file:///C:/Users/caroline.toebben/AndroidStudioProjects/cockpit_devolo/lib/services/handleSocket.dart';
-import 'file:///C:/Users/caroline.toebben/AndroidStudioProjects/cockpit_devolo/lib/shared/helpers.dart';
+import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/deviceModel.dart';
+import 'package:cockpit_devolo/models/deviceModel.dart';
 import '../services/DrawOverview.dart';
 
 class UpdateScreen extends StatefulWidget {
   UpdateScreen({Key key, this.title, DeviceList deviceList}) : super(key: key);
 
   final String title;
-  //dataHand model;
+  dataHand model;
 
 
   @override
@@ -48,8 +47,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   _updating = true;
                   model.sendXML('UpdateCheck');
                   String state;
-                  await model.recieveXML().then((status) {
-                    state =  status[0].toString();
+                  await model.recieveXML().then((response) {
+                    state =  response["status"].toString();
                   });
                   print('State: '+state.toString());
                   showDialog<void>(

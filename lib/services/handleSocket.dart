@@ -11,7 +11,7 @@ class dataHand extends ChangeNotifier {
   Socket socket;
   DeviceList _deviceList;
   dynamic xmlLength;
-  dynamic xmlResponse;
+  XmlDocument xmlResponse;
   bool loading = true;
 
   dataHand() {
@@ -91,20 +91,24 @@ class dataHand extends ChangeNotifier {
     XmlDocument document;
     for(var xmlDoc in xmlDataList){
       document = XmlDocument.parse(xmlDoc);
-      if (document.findAllElements('LocalDeviceList').isNotEmpty) {
+      if (document.findAllElements('MessageType').first.innerText == "NetworkUpdate") {
         _deviceList.clearList();
         print('DeviceList found!');
         break;
       }
+      if (document.findAllElements('MessageType').first.innerText == "Config") {
+        parseConfig(document);
+        print('Config found!');
+      }
       xmlResponse = document;
-      print('DeviceList NOT found!');
+      print('Another Response found');
     }
 
     //print('DOC: ' + document.toString());
 
     var localDeviceList = document.findAllElements('LocalDeviceList'); //TODO: TEST call for every
     for (var dev in localDeviceList) {
-      Device device = Device.fromXML(dev.getElement('item'),true);
+      Device device = Device.fromXML(dev.getElement('item'));
       _deviceList.addDevice(device);
       //print(device.type);
       for (var remoteDev in device.remoteDevices) {
@@ -121,6 +125,7 @@ class dataHand extends ChangeNotifier {
   void sendXML(String messageType, {String newValue, String valueType, String newValue2, String valueType2, String mac,}) {  //TODO Test!!, getting response from backend, maybe use it
     print(newValue);
     String xmlString;
+
 
     if(newValue == null && mac != null){
       xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>'+messageType+'</MessageType><macAddress>'+mac+'</macAddress></Message></boost_serialization>';
@@ -141,44 +146,67 @@ class dataHand extends ChangeNotifier {
     socket.write('MSGSOCK'+ xmlLength + xmlString);
   }
 
-  Future<List<String>> recieveXML() async { // ToDo generic?
+  Future<Map<String,dynamic>> recieveXML() async { // ToDo generic?
     loading = true;
-    List<String> response = [];
-    //final Map response = new Map<String,String>();
+    final Map response = new Map<String,dynamic>();
 
     await new Future.delayed(const Duration(seconds : 2));
-    final Completer<String> completer = new Completer();
+    Completer<Map<String,dynamic>> completer = new Completer();
+    //handOut(completer.future);
 
-    String status = await findAllElem(xmlResponse,'status');
-    if (status != null) {
-      response.add(status);
-      //completer.complete(status);
+    String messageType = await findFirstElem(xmlResponse, 'MessageType');
+    response['messageType'] = messageType;
+    if(messageType == "Config"){
+      parseConfig(xmlResponse);
+      print(config.toString());
     }
 
-    String filename = await findAllElem(xmlResponse, 'filename');
-    if (filename != null)
-      response.add(filename);
-      //completer.complete(filename);
+    String status = await findFirstElem(xmlResponse,'status');
+    if (status != null) {
+      response['status'] = status;
+    }
 
+    String filename = await findFirstElem(xmlResponse, 'filename');
+    if (filename != null) {
+      response['filename'] = filename;
+    }
 
-    // String messageType = xmlResponse.findAllElements('MessageType').first.innerText;
-    // response.add(messageType);
+    String htmlfilename = await findFirstElem(xmlResponse, 'htmlfilename');
+    if (htmlfilename != null) {
+      response['htmlfilename'] = htmlfilename;
+    }
+    String zipfilename = await findFirstElem(xmlResponse, 'zipfilename');
+    if (zipfilename != null) {
+      response['zipfilename'] = zipfilename;
+    }
 
     print("Response: "+ response.toString());
     //Future.value(response);
-    //return completer.future;
     await Future.value(status);
     await Future.value(filename);
+    completer.complete();
     return response;
   }
 
 
-Future<String> findAllElem(XmlDocument revXML, String word) async {
+Future<String> findFirstElem(XmlDocument revXML, String word) async {
   dynamic ret = revXML.findAllElements(word);
   if (ret.isEmpty == false)
     ret = ret.first.innerText;
   else
     ret = null;
   return ret;
+}
+
+void parseConfig(XmlDocument xmlResponse) {
+  for (var element in xmlResponse.findAllElements('item')){
+    // print(element.firstElementChild.innerText);
+    // print(element.lastElementChild.innerText);
+    if(element.lastElementChild.innerText==1) {
+      config[element.firstElementChild.innerText] = true;
+    }else{
+      config[element.firstElementChild.innerText] = false;
+    }
+  }
 }
 }

@@ -64,6 +64,13 @@ class DeviceList extends ChangeNotifier{
     _devices.clear();
     notifyListeners();
   }
+
+  @override
+  String toString(){
+    for(var elem in _devices)
+      return "${elem.toString()} \n";
+    //return "Device: {name: ${elem.name}, type:${elem.type}, mac: ${elem.mac},ip: ${elem.ip}, version: ${elem.version},version_date:${elem.version_date}, MT: ${elem.MT}, serialno: ${elem.serialno},remoteDevices: ${elem.remoteDevices}, icon:${elem.icon},speeds: ${elem.speeds}, attachedToRouter: ${elem.attachedToRouter}";
+  }
 }
 
 //=========================================== Device =========================================
@@ -166,7 +173,11 @@ class Device extends ChangeNotifier {
       }
     }
     return retDevice;
+  }
 
+  @override
+  String toString(){
+      return "Device: {name: ${this.name}, type:${this.type}, mac: ${this.mac},ip: ${this.ip}, version: ${this.version},version_date:${this.version_date}, MT: ${this.MT}, serialno: ${this.serialno},remoteDevices: ${this.remoteDevices}, icon:${this.icon},speeds: ${this.speeds}, attachedToRouter: ${this.attachedToRouter} \n";
   }
 }
 //=========================================== END Device =========================================

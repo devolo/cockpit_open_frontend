@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
-import 'services/DrawOverview.dart';
+import 'services/drawOverview.dart';
 import 'shared/helpers.dart';
 import 'views/emptyScreen.dart';
 import 'views/updateScreen.dart';

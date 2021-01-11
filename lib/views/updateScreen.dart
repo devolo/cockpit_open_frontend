@@ -3,7 +3,7 @@ import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
-import '../services/DrawOverview.dart';
+import '../services/drawOverview.dart';
 
 class UpdateScreen extends StatefulWidget {
   UpdateScreen({Key key, this.title, DeviceList deviceList}) : super(key: key);

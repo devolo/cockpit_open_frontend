@@ -15,6 +15,7 @@ final List<Offset> deviceIconOffsetList = <Offset>[];
 bool areDeviceIconsLoaded = false;
 String _openResult = 'Unknown';
 
+Map<String,dynamic> config = {"internet_centered": false};
 
 String macToCanonical(String mac) {
   if (mac != null)
@@ -152,4 +153,4 @@ ui.Image getIconForDeviceType(DeviceType dt) {
   }
 }
 
-Map config = new Map<String,dynamic>();
+

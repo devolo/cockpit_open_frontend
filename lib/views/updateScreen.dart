@@ -3,13 +3,12 @@ import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
-import '../services/drawOverview.dart';
 
 class UpdateScreen extends StatefulWidget {
   UpdateScreen({Key key, this.title, DeviceList deviceList}) : super(key: key);
 
   final String title;
-  dataHand model;
+  //dataHand model;
 
 
   @override
@@ -24,12 +23,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final model = Provider.of<dataHand>(context);
+    final socket = Provider.of<dataHand>(context);
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(title),
-        backgroundColor: devoloBlue,
-      ),
       body: new Center(
         child: Column(
           children: <Widget>[
@@ -45,9 +40,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 textColor: Colors.white,
                 onPressed: () async {
                   _updating = true;
-                  model.sendXML('UpdateCheck');
+                  socket.sendXML('UpdateCheck');
                   String state;
-                  await model.recieveXML().then((response) {
+                  await socket.recieveXML().then((response) {
                     state =  response["status"].toString();
                   });
                   print('State: '+state.toString());

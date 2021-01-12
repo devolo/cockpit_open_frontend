@@ -3,7 +3,7 @@ import 'file:///C:/Users/caroline.toebben/AndroidStudioProjects/cockpit_devolo/l
 import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
 import '../shared/helpers.dart';
-import 'package:cockpit_devolo/main.dart';
+import 'file:///C:/Users/caroline.toebben/AndroidStudioProjects/cockpit_devolo/lib/views/overviewScreen.dart';
 
 
 
@@ -50,13 +50,9 @@ class DeviceList extends ChangeNotifier{
   }
 
   void addDevice(Device device) {
-    if(device.attachedToRouter == true){
-      this._devices.insert(0, device);
-    }
-    else{
-      this._devices.add(device);
-    }
-    print(_devices.toString());
+    if(device.attachedToRouter & config["internet_centered"]){this._devices.insert(0, device);}
+    else{this._devices.add(device);}
+    print(_devices);
     notifyListeners();
   }
 
@@ -65,12 +61,14 @@ class DeviceList extends ChangeNotifier{
     notifyListeners();
   }
 
-  @override
-  String toString(){
-    for(var elem in _devices)
+
+  String toRealString(){
+    for(var elem in _devices) {
       return "${elem.toString()} \n";
-    //return "Device: {name: ${elem.name}, type:${elem.type}, mac: ${elem.mac},ip: ${elem.ip}, version: ${elem.version},version_date:${elem.version_date}, MT: ${elem.MT}, serialno: ${elem.serialno},remoteDevices: ${elem.remoteDevices}, icon:${elem.icon},speeds: ${elem.speeds}, attachedToRouter: ${elem.attachedToRouter}";
+    }
+    return null;
   }
+
 }
 
 //=========================================== Device =========================================
@@ -110,7 +108,6 @@ class Device extends ChangeNotifier {
   factory Device.fromXML(XmlElement element) {
     bool attachedToRouter = false;
     for(var elem in element.getElement('states').children){
-      print(elem.innerText);
       if(elem.innerText.contains("gateway"))
         attachedToRouter = true;
     }
@@ -175,8 +172,7 @@ class Device extends ChangeNotifier {
     return retDevice;
   }
 
-  @override
-  String toString(){
+  String toRealString(){
       return "Device: {name: ${this.name}, type:${this.type}, mac: ${this.mac},ip: ${this.ip}, version: ${this.version},version_date:${this.version_date}, MT: ${this.MT}, serialno: ${this.serialno},remoteDevices: ${this.remoteDevices}, icon:${this.icon},speeds: ${this.speeds}, attachedToRouter: ${this.attachedToRouter} \n";
   }
 }

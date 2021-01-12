@@ -57,6 +57,10 @@ flutter:
     - assets/mini_wifi_icon.png
     - assets/mini_lan_icon.png
     - assets/logo.svg
+    - assets/optimisationImages/dLAN200AVmini2_A.png
+    - assets/optimisationImages/dLAN200AVmini2_B.png
+    - assets/optimisationImages/dLAN200AVmini2_C.png
+    - assets/optimisationImages/dLAN200AVplus_A.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

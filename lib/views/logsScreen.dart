@@ -25,6 +25,7 @@ class _DebugScreenState extends State<DebugScreen> {
     final socket = Provider.of<dataHand>(context);
     final deviceList = Provider.of<DeviceList>(context);
     return new Scaffold(
+      backgroundColor: Colors.white,
       appBar: new AppBar(
         title: new Text(title),
         backgroundColor: devoloBlue,
@@ -39,7 +40,6 @@ class _DebugScreenState extends State<DebugScreen> {
             SelectableText('XML-DeviceList', style: TextStyle(fontSize: 20,),),
             Expanded(child:SelectableText(deviceList.toString()),),
           ]),
-      backgroundColor: Colors.white,
     );
   }
 }

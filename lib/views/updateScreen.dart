@@ -25,6 +25,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
   Widget build(BuildContext context) {
     final socket = Provider.of<dataHand>(context);
     return new Scaffold(
+      backgroundColor: Colors.transparent,
       body: new Center(
         child: Column(
           children: <Widget>[
@@ -75,7 +76,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
           ],
         ),
       ),
-      backgroundColor: Colors.white,
     );
   }
 }

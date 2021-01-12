@@ -62,6 +62,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
     print("drawing Overview...");
 
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body:  Container(
         child: GestureDetector(
           behavior: HitTestBehavior.translucent,
@@ -99,6 +100,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
   void _handleTap(TapUpDetails details)  {
     print('entering dialog....');
     int index = 0;
+    Device hitDevice;
     String hitDeviceName;
     String hitDeviceType;
     String hitDeviceSN;
@@ -123,6 +125,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
         final socket = Provider.of<dataHand>(context);
         final deviceList = Provider.of<DeviceList>(context);
 
+        hitDevice = deviceList.getDeviceList()[index];
         hitDeviceName = deviceList.getDeviceList()[index].name;
         hitDeviceType = deviceList.getDeviceList()[index].type;
         hitDeviceSN = deviceList.getDeviceList()[index].serialno;
@@ -210,8 +213,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
                             socket.recieveXML().then((path) =>openFile(path['filename']));
                           });
                         }),
-                        IconButton(icon: Icon(Icons.upload_file), tooltip: 'Factory Reset', onPressed: () =>_handleCriticalActions(context, socket, 'ResetAdapterToFactoryDefaults', mac: hitDeviceMac),),
-                        IconButton(icon: Icon(Icons.delete), tooltip: 'Delete Device', onPressed: () =>_handleCriticalActions(context, socket, 'RemoveAdapter', mac: hitDeviceMac),), //ToDo Delete Device see wiki
+                        IconButton(icon: Icon(Icons.upload_file), tooltip: 'Factory Reset', onPressed: () =>_handleCriticalActions(context, socket, 'ResetAdapterToFactoryDefaults', hitDevice),),
+                        IconButton(icon: Icon(Icons.delete), tooltip: 'Delete Device', onPressed: () =>_handleCriticalActions(context, socket, 'RemoveAdapter', hitDevice),), //ToDo Delete Device see wiki
                       ],
                     ),
 
@@ -290,29 +293,30 @@ class _OverviewScreenState extends State<OverviewScreen> {
     });
   }
 
-  void _handleCriticalActions(context, socket, messageType, {mac}) {
+  void _handleCriticalActions(context, socket, messageType, Device hitDevice) {
     showDialog<void>(
     context: context,
     barrierDismissible: true, // user doesn't need to tap button!
     builder: (BuildContext context) {
     return AlertDialog(
       title: Text(messageType),
-      content: Text('Bitte Aktion bestätigen.'),
+      content: hitDevice.attachedToRouter?Text('Bitte Aktion bestätigen. \nAchtung! Ihr Router ist an dieses PLC-Gerät angeschlossen sie verlieren die Verbiondung zum Internet '):Text('Bitte Aktion bestätigen.'),
       actions: <Widget>[
         FlatButton(
-            child: Text('Abbrechen'),
+          child: Icon(Icons.check_circle_outline, size: 35,color: devoloBlue,),//Text('Bestätigen'),
+          onPressed: (){
+            // Critical things happening here
+            socket.sendXML(messageType, mac: hitDevice.mac);
+            Navigator.of(context).pop();
+          },
+        ),
+        Spacer(),
+        FlatButton(
+            child: Icon(Icons.cancel_outlined, size: 35,color: devoloBlue,),//Text('Abbrechen'),
             onPressed: (){
               // Cancel critical action
               Navigator.of(context).pop();
             }
-        ),
-        FlatButton(
-          child: Text('Bestätigen'),
-          onPressed: (){
-            // Critical things happening here
-            socket.sendXML(messageType, mac: mac);
-            Navigator.of(context).pop();
-          },
         ),
       ],
     );

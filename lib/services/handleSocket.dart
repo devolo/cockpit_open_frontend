@@ -92,10 +92,15 @@ class dataHand extends ChangeNotifier {
         print('DeviceList found!');
         break;
       }
-      if (document.findAllElements('MessageType').first.innerText == "Config") {
+      else if (document.findAllElements('MessageType').first.innerText == "Config") {
         parseConfig(document);
         print('Config found!');
       }
+      else if (document.findAllElements('MessageType').first.innerText == "UpdateIndication") {
+        parseConfig(document);
+        print('Update found!');
+      }
+
       xmlResponse = document;
       print('Another Response found');
     }
@@ -137,8 +142,6 @@ class dataHand extends ChangeNotifier {
     if (config["windows_network_throttling_disabled"] == true) {
       windowsNetworkThrottlingDisabled = 1;
     }
-
-    print(allowDataCollection + ignoreUpdates + windowsNetworkThrottlingDisabled);
 
     if (messageType == "Config") {
       xmlString =

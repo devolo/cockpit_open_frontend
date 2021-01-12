@@ -15,7 +15,7 @@ final List<Offset> deviceIconOffsetList = <Offset>[];
 bool areDeviceIconsLoaded = false;
 String _openResult = 'Unknown';
 
-Map<String,dynamic> config = {"internet_centered": false};
+Map<String,dynamic> config = {"internet_centered": true};
 
 String macToCanonical(String mac) {
   if (mac != null)
@@ -103,6 +103,22 @@ Future<void> loadAllDeviceIcons() async {
 
   areDeviceIconsLoaded = true;
   print("All device icons are loaded.");
+
+}
+
+List<Image> loadOptimizeImages() {
+  List<Image> retList = [];
+  Image image = Image.asset('assets/optimisationImages/dLAN200AVmini2_A.png');
+  retList.add(image);
+  image = Image.asset('assets/optimisationImages/dLAN200AVmini2_B.png');
+  retList.add(image);
+  image = Image.asset('assets/optimisationImages/dLAN200AVmini2_C.png');
+  retList.add(image);
+  image = Image.asset('assets/optimisationImages/dLAN200AVplus_A.png');
+  retList.add(image);
+
+  print("All device icons are loaded.");
+  return retList;
 
 }
 

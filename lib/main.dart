@@ -29,6 +29,18 @@ class MyApp extends StatelessWidget {
       child: Consumer<dataHand>(
         builder: (context, counter, _) {
           return MaterialApp(
+            title: 'Devolo Cockpit',
+      theme: ThemeData(
+        //primarySwatch: Colors.white,
+        backgroundColor: backgroundColor,
+        canvasColor: Colors.white,
+        // textTheme: TextTheme(
+        //   bodyText2: TextStyle(
+        //     color: Colors.white,
+        //   ),
+        // ),
+
+      ),
             home: MyHomePage(title: 'devolo Cockpit'),
           );
         },
@@ -138,6 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final socket = Provider.of<dataHand>(context);
 
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         backgroundColor: devoloBlue,
         centerTitle: true,

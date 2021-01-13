@@ -15,7 +15,7 @@ final List<Offset> deviceIconOffsetList = <Offset>[];
 bool areDeviceIconsLoaded = false;
 String _openResult = 'Unknown';
 
-Map<String,dynamic> config = {"internet_centered": true};
+Map<String,dynamic> config = {"internet_centered": true, "show_other_devices": true, "show_speeds_permanent": false};
 
 String macToCanonical(String mac) {
   if (mac != null)
@@ -89,7 +89,7 @@ Future<void> loadAllDeviceIcons() async {
   ui.Image image = await loadImage(new Uint8List.view(data.buffer));
   deviceIconList.add(image);
 
-  data = await rootBundle.load('assets/eu_lan_icon.png');
+  data = await rootBundle.load('assets/eu_lan_icon_small.png');
   image = await loadImage(new Uint8List.view(data.buffer));
   deviceIconList.add(image);
 

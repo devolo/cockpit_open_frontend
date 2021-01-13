@@ -11,7 +11,7 @@ class dataHand extends ChangeNotifier {
   DeviceList _deviceList;
   dynamic xmlLength;
   XmlDocument xmlResponse;
-  bool loading = true;
+  bool waitingResponse = false;
 
   dataHand() {
     print("Creating new NetworkOverviewModelDesktop");
@@ -82,7 +82,7 @@ class dataHand extends ChangeNotifier {
       }
     }
 
-    print(xmlDataList);
+    //print(xmlDataList);
 
     XmlDocument document;
     for (var xmlDoc in xmlDataList) {
@@ -90,31 +90,34 @@ class dataHand extends ChangeNotifier {
       if (document.findAllElements('MessageType').first.innerText == "NetworkUpdate") {
         _deviceList.clearList();
         print('DeviceList found!');
+
+        var localDeviceList = document.findAllElements('LocalDeviceList'); //TODO: TEST call for every
+        for (var dev in localDeviceList) {
+          Device device = Device.fromXML(dev.getElement('item'));
+          _deviceList.addDevice(device);
+          for (var remoteDev in device.remoteDevices) {
+            _deviceList.addDevice(remoteDev);
+          }
+        }
         break;
-      }
-      else if (document.findAllElements('MessageType').first.innerText == "Config") {
+      } else if (document.findAllElements('MessageType').first.innerText == "Config") {
         parseConfig(document);
         print('Config found!');
+      } else if (document.findAllElements('MessageType').first.innerText == "UpdateIndication") {
+        waitingResponse = false;
+        xmlResponse = document;
+        print('Update found ->');
+        print(document);
       }
-      else if (document.findAllElements('MessageType').first.innerText == "UpdateIndication") {
-        parseConfig(document);
-        print('Update found!');
-      }
-
-      xmlResponse = document;
-      print('Another Response found');
-    }
-
-    //print('DOC: ' + document.toString());
-
-    var localDeviceList = document.findAllElements('LocalDeviceList'); //TODO: TEST call for every
-    for (var dev in localDeviceList) {
-      Device device = Device.fromXML(dev.getElement('item'));
-      _deviceList.addDevice(device);
-      for (var remoteDev in device.remoteDevices) {
-        _deviceList.addDevice(remoteDev);
+      else{
+        waitingResponse = false;
+        xmlResponse = document;
+        print('Another Response found ->');
+        print(document);
       }
     }
+
+
     print('DeviceList ready');
     if (areDeviceIconsLoaded) notifyListeners();
     //return document;
@@ -128,7 +131,8 @@ class dataHand extends ChangeNotifier {
     String valueType2,
     String mac,
   }) {
-    //TODO Test!!, getting response from backend, maybe use it
+    //TODO Test!!, getting response from backend, use it
+    waitingResponse = true;
     print(newValue);
     String xmlString;
 
@@ -210,48 +214,61 @@ class dataHand extends ChangeNotifier {
 
   Future<Map<String, dynamic>> recieveXML() async {
     // ToDo generic?
-    loading = true;
     final Map response = new Map<String, dynamic>();
 
     await new Future.delayed(const Duration(seconds: 2));
     Completer<Map<String, dynamic>> completer = new Completer();
     //handOut(completer.future);
+    //await _waitingResponse = false;
 
-    String messageType = await findFirstElem(xmlResponse, 'MessageType');
-    response['messageType'] = messageType;
-    if (messageType == "Config") {
-      parseConfig(xmlResponse);
-      print(config.toString());
-    }
+    await Future.doWhile(() async {
+      print("waitingforResponse");
+      await new Future.delayed(const Duration(seconds: 2));
 
-    String status = await findFirstElem(xmlResponse, 'status');
-    if (status != null) {
-      response['status'] = status;
-    }
+      if (!waitingResponse) {
+        String messageType = await findFirstElem(xmlResponse, 'MessageType');
+        response['messageType'] = messageType;
+        if (messageType == "Config") {
+          parseConfig(xmlResponse);
+          print(config.toString());
+        }
 
-    String filename = await findFirstElem(xmlResponse, 'filename');
-    if (filename != null) {
-      response['filename'] = filename;
-    }
+        // for(var elem in xmlResponse.findAllElements('Message').first.children){
+        //   print("Element "+elem.toString());
+        //   print(elem.innerText);
+        // }
 
-    String htmlfilename = await findFirstElem(xmlResponse, 'htmlfilename');
-    if (htmlfilename != null) {
-      response['htmlfilename'] = htmlfilename;
-    }
-    String zipfilename = await findFirstElem(xmlResponse, 'zipfilename');
-    if (zipfilename != null) {
-      response['zipfilename'] = zipfilename;
-    }
+        String status = await findFirstElem(xmlResponse, 'status');
+        if (status != null) {
+          response['status'] = status;
+        }
+        String filename = await findFirstElem(xmlResponse, 'filename');
+        if (filename != null) {
+          response['filename'] = filename;
+        }
+        String htmlfilename = await findFirstElem(xmlResponse, 'htmlfilename');
+        if (htmlfilename != null) {
+          response['htmlfilename'] = htmlfilename;
+        }
+        String zipfilename = await findFirstElem(xmlResponse, 'zipfilename');
+        if (zipfilename != null) {
+          response['zipfilename'] = zipfilename;
+        }
 
+        //Future.value(response);
+        await Future.value(status);
+        await Future.value(filename);
+        completer.complete();
+        //return response;
+      }
+      return waitingResponse;
+    });
     print("Response: " + response.toString());
-    //Future.value(response);
-    await Future.value(status);
-    await Future.value(filename);
-    completer.complete();
     return response;
   }
 
   Future<String> findFirstElem(XmlDocument revXML, String word) async {
+    //print("revXML: "+ revXML.toString());
     dynamic ret = revXML.findAllElements(word);
     if (ret.isEmpty == false)
       ret = ret.first.innerText;

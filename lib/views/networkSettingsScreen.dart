@@ -12,7 +12,6 @@ class NetworkSettingsScreen extends StatefulWidget {
   final String title;
   dataHand model;
 
-
   @override
   _NetworkSettingsScreenState createState() => _NetworkSettingsScreenState(title: title);
 }
@@ -22,16 +21,22 @@ class _NetworkSettingsScreenState extends State<NetworkSettingsScreen> {
 
   final String title;
   String _newPw;
+  String _newTest;
   List<Image> optimizeImages = loadOptimizeImages();
   int _index = 0;
+
+  FocusNode myFocusNode = new FocusNode();
 
   @override
   Widget build(BuildContext context) {
     final socket = Provider.of<dataHand>(context);
     return new Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: new AppBar(
-        title: new Text(title),
+        title: new Text("Netzwerk Einstellungen"),
+        centerTitle: true,
         backgroundColor: devoloBlue,
+        shadowColor: Colors.transparent,
       ),
       body: new Center(
     child: Padding(
@@ -41,8 +46,30 @@ class _NetworkSettingsScreenState extends State<NetworkSettingsScreen> {
           children: <Widget>[
             TextFormField( //TODO sendXml find out Device Mac connected to Internet + Password formfield (hidden)
               initialValue: _newPw,
+              style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 labelText: 'PLC-Netzwerk Kennwort ändern',
+                  labelStyle: TextStyle(
+                      color: myFocusNode.hasFocus ? Colors.amberAccent : Colors.white
+                  )
+                //helperText: 'Devicename',
+              ),
+              onChanged: (value) => ( _newPw = value),
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Bitte neues Passwort eintragen';
+                }
+                return null;
+              },
+            ),
+            TextFormField( //TODO sendXml find out Device Mac connected to Internet + Password formfield (hidden)
+              initialValue: _newTest,
+              style: TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                labelText: 'Testing',
+                  labelStyle: TextStyle(
+                      color: myFocusNode.hasFocus ? Colors.amberAccent : Colors.white
+                  )
                 //helperText: 'Devicename',
               ),
               onChanged: (value) => ( _newPw = value),
@@ -64,7 +91,6 @@ class _NetworkSettingsScreenState extends State<NetworkSettingsScreen> {
         ),
     ),
       ),
-      backgroundColor: Colors.white,
     );
   }
 

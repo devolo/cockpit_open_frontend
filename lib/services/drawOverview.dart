@@ -169,7 +169,7 @@ class DrawNetworkOverview extends CustomPainter {
     double lineLength = sqrt(pow(absoluteOffset.dx - absolutePivotOffset.dx, 2) + pow(absoluteOffset.dy - absolutePivotOffset.dy, 2));
 
     double outerCircle = (complete_circle_radius+2) / lineLength;
-    double shiftFactor = 3 / lineLength;
+    double shiftFactor = 5 / lineLength;
     double arrowLength = 25 / lineLength;
 
     Offset lineDirection = Offset(absolutePivotOffset.dx - absoluteOffset.dx, absolutePivotOffset.dy - absoluteOffset.dy);

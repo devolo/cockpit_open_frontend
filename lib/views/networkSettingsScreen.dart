@@ -41,7 +41,7 @@ class _NetworkSettingsScreenState extends State<NetworkSettingsScreen> {
       ),
       body: new Center(
     child: Padding(
-    padding: EdgeInsets.all(30.0),
+      padding: const EdgeInsets.only(left: 20,right: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[

@@ -78,7 +78,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: new SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(30.0),
+          padding: const EdgeInsets.only(left: 20,right: 20),
           child: new Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[

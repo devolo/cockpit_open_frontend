@@ -36,7 +36,7 @@ class _DebugScreenState extends State<DebugScreen> {
             SelectableText('Config', style: TextStyle(fontSize: 20,),),
             SelectableText(config.toString()),
             SelectableText('XML-Response', style: TextStyle(fontSize: 20,),),
-            SelectableText(socket.xmlResponse.toXmlString(pretty: true)),
+            SelectableText(socket.xmlResponse!= null?socket.xmlResponse.toXmlString(pretty: true): "nothing send yet"),
             SelectableText('XML-DeviceList', style: TextStyle(fontSize: 20,),),
             Expanded(child:SelectableText(deviceList.toString()),),
           ]),

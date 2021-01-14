@@ -1,7 +1,6 @@
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
-import 'package:cockpit_devolo/views/emptyScreen.dart';
 import 'package:cockpit_devolo/views/networkSettingsScreen.dart';
 import 'package:cockpit_devolo/views/settingsScreen.dart';
 import 'package:cockpit_devolo/views/updateScreen.dart';
@@ -11,7 +10,6 @@ import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 
 import 'package:cockpit_devolo/views/overviewScreen.dart';
-import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 void main() {
@@ -172,9 +170,9 @@ class _MyHomePageState extends State<MyHomePage> {
       drawer: Drawer(
           child: ListView(padding: EdgeInsets.zero, children: <Widget>[
             DrawerHeader(
-              child: Text('Home Network Desktop', style: TextStyle(fontSize: 23),),
+              child: Text('Home Network Desktop', style: TextStyle(fontSize: 23,color: Colors.white),),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: devoloBlue,
               ),
             ),
             ListTile(

@@ -1,10 +1,9 @@
 import 'dart:io'; //only for non-web apps!!!
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
 import 'package:xml/xml.dart';
-import '../models/deviceModel.dart';
-import '../shared/helpers.dart';
+import 'package:cockpit_devolo/models/deviceModel.dart';
+import 'package:cockpit_devolo/shared/helpers.dart';
 
 class dataHand extends ChangeNotifier {
   Socket socket;
@@ -215,6 +214,7 @@ class dataHand extends ChangeNotifier {
   Future<Map<String, dynamic>> recieveXML() async {
     // ToDo generic?
     final Map response = new Map<String, dynamic>();
+    String responseElem;
 
     await new Future.delayed(const Duration(seconds: 2));
     Completer<Map<String, dynamic>> completer = new Completer();
@@ -253,6 +253,18 @@ class dataHand extends ChangeNotifier {
         String zipfilename = await findFirstElem(xmlResponse, 'zipfilename');
         if (zipfilename != null) {
           response['zipfilename'] = zipfilename;
+        }
+        responseElem  = await findFirstElem(xmlResponse, 'result');
+        if (responseElem != null) {
+          response['result'] = responseElem;
+        }
+        responseElem  = await findFirstElem(xmlResponse, 'commandline');
+        if (responseElem != null) {
+          response['commandline'] = responseElem;
+        }
+        responseElem  = await findFirstElem(xmlResponse, 'workdir');
+        if (responseElem != null) {
+          response['workdir'] = responseElem;
         }
 
         //Future.value(response);

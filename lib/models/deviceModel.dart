@@ -1,9 +1,7 @@
 import 'dart:ui' as ui;
-import '../services/handleSocket.dart';
 import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
-import '../shared/helpers.dart';
-import '../views/overviewScreen.dart';
+import 'package:cockpit_devolo/shared/helpers.dart';
 
 
 

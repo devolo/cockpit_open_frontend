@@ -1,12 +1,10 @@
 import 'dart:async';
-
 import 'package:cockpit_devolo/services/drawOverview.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'package:cockpit_devolo/views/logsScreen.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -23,6 +21,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   String _newPw;
   bool _hiddenPw = true;
   bool _isButtonDisabled = true;
+  bool _loading = false;
   var response;
 
   // void toggleCheckbox(bool value) {
@@ -45,12 +44,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
       print(value);
 
       if (config["show_speeds_permanent"]) {
-        widget.painter.showingSpeeds = true;
-        widget.painter.pivotDeviceIndex = 0;
+        config["show_speeds"] = true;
+        //widget.painter.pivotDeviceIndex = 0;
       }
       else {
-        widget.painter.showingSpeeds = false;
-        widget.painter.pivotDeviceIndex = 0;
+        config["show_speeds"] = false;
+        //widget.painter.pivotDeviceIndex = 0;
       }
     });
   }
@@ -94,7 +93,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 child: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                   new Text(" Enable Showing Speeds"),
                   new Checkbox(
-                    value: false, //widget.painter.showSpeedsPermanently,
+                    value: config["show_speeds_permanent"], //widget.painter.showSpeedsPermanently,
                     onChanged: toggleCheckbox,
                   ),
                 ]),
@@ -230,8 +229,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     child: Row(children: [
                       Text('Support Informationen generieren '),
                       if(response != null)
-                        Container(child: response["status"] == "success" ? Icon(Icons.check_circle_outline,color: Colors.green,) : Icon(Icons.cancel_outlined,color: Colors.red,)),
-                      socket.waitingResponse ? CircularProgressIndicator(): Text(""),
+                        Container(child: response["result"] == "ok" ? Icon(Icons.check_circle_outline,color: Colors.green,) : Icon(Icons.cancel_outlined,color: Colors.red,)),
+                      _loading ? CircularProgressIndicator(): Text(""),
 
                     ]),
                     //color: devoloBlue,
@@ -239,13 +238,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     onPressed: () async {
                       setState(() {
                         socket.sendXML('SupportInfoGenerate');
+                        _loading = socket.waitingResponse;
                       });
 
                       response = await socket.recieveXML();
                       print('Response: ' + response.toString());
 
                       setState(() {
-                      if (response["status"] == "success") {
+                      if (response["result"] == "ok") {
+                        _loading = socket.waitingResponse;
                         _isButtonDisabled = false;
                       }
                       });

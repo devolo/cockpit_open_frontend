@@ -2,8 +2,8 @@
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../shared/helpers.dart';
-import '../services/handleSocket.dart';
+import 'package:cockpit_devolo/shared/helpers.dart';
+import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 
 class DebugScreen extends StatefulWidget {

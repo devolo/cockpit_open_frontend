@@ -4,7 +4,6 @@ import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
-import '../services/drawOverview.dart';
 
 class NetworkSettingsScreen extends StatefulWidget {
   NetworkSettingsScreen({Key key, this.title, DeviceList deviceList}) : super(key: key);
@@ -23,12 +22,14 @@ class _NetworkSettingsScreenState extends State<NetworkSettingsScreen> {
   String _newPw;
   String _newTest;
   List<Image> optimizeImages = loadOptimizeImages();
+  Image _currImage;
   int _index = 0;
 
   FocusNode myFocusNode = new FocusNode();
 
   @override
   Widget build(BuildContext context) {
+    _currImage = optimizeImages.first;
     final socket = Provider.of<dataHand>(context);
     return new Scaffold(
       backgroundColor: Colors.transparent,
@@ -111,15 +112,19 @@ class _NetworkSettingsScreenState extends State<NetworkSettingsScreen> {
                   onPressed: () { print("back");
                   setState(() {
                     _index--;
+                    _currImage =optimizeImages[_index];
                   });
                   },),
-                  optimizeImages[_index],
+                  Container(
+                    child: _currImage,
+                  ),
                 IconButton(
                   icon: Icon(Icons.arrow_forward_ios),
                   onPressed: () {
                     print("forward");
                     setState(() {
                       _index++;
+                      _currImage =optimizeImages[_index];
                     });
                     },),
 

@@ -62,7 +62,7 @@ class DrawNetworkOverview extends CustomPainter {
     print("DrawNetworkOverview: " + _deviceList.toString());
     numberFoundDevices = _deviceList.length;
 
-    showingSpeeds = showSpeeds; //ToDo fix Hack
+    showingSpeeds = config["show_speeds"]; //ToDo fix Hack
     pivotDeviceIndex = pivot; // ToDo same
 
     screenWidth = MediaQuery.of(context).size.width;

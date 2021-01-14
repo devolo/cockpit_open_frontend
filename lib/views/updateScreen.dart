@@ -55,14 +55,14 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     var response = await socket.recieveXML();
                     print('Response: ' + response.toString());
 
-                    response == null
+                    response["status"] == 'none'
                         ? showDialog<void>(
                             context: context,
                             barrierDismissible: true, // user doesn't need to tap button!
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: Text('Updating Failed'),
-                                content: Text("Whoops, something went wrong!"),
+                                title: Text('Update'),
+                                content: Text("Geräte auf dem neusten Stand."),
                                 actions: <Widget>[
                                   FlatButton(
                                     child: Icon(
@@ -84,20 +84,24 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               return AlertDialog(
                                 title: Text('Updating'),
                                 content:
-                                    Text(response["status"] == 'none' ? 'Geräte auf dem neusten Stand.' : response.toString()), //ToDo Handle error [] if updating //'Geräte werden aktualisiert... '
+                                    Text(response["status"] == 'downloaded_setup' ? 'Updates bereit zur installation' : response.toString()), //ToDo Handle error [] if updating //'Geräte werden aktualisiert... '
                                 actions: <Widget>[
                                   FlatButton(
-                                    child: Icon(
-                                      Icons.check_circle_outline,
-                                      size: 35,
-                                      color: devoloBlue,
-                                    ), //Text('Bestätigen'),
-                                    onPressed: () {
+                                    child: Icon(Icons.check_circle_outline, size: 35,color: devoloBlue,),//Text('Bestätigen'),
+                                    onPressed: (){
                                       // Critical things happening here
-                                      //model.sendXML(messageType, mac: mac);
-                                      setState(() {});
+                                      socket.sendXML('UpdateResponse', valueType: 'action', newValue: 'execute');
                                       Navigator.of(context).pop();
                                     },
+                                  ),
+                                  Spacer(),
+                                  FlatButton(
+                                      child: Icon(Icons.cancel_outlined, size: 35,color: devoloBlue,),//Text('Abbrechen'),
+                                      onPressed: (){
+                                        // Cancel critical action
+                                        socket.sendXML('UpdateResponse', valueType: 'action', newValue: 'skip');
+                                        Navigator.of(context).pop();
+                                      }
                                   ),
                                 ],
                               );

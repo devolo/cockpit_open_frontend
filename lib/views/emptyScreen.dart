@@ -1,7 +1,5 @@
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:flutter/material.dart';
-import '../shared/helpers.dart';
-import '../services/drawOverview.dart';
 
 class EmptyScreen extends StatefulWidget {
   EmptyScreen({Key key, this.title}) : super(key: key);

@@ -1,13 +1,12 @@
 import 'dart:typed_data';
-import 'package:flutter/material.dart';
-import '../models/deviceModel.dart';
 import 'dart:async';
-import 'package:flutter/services.dart' show rootBundle;
-import 'dart:ui' as ui;
-import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
+import 'dart:ui' as ui;
+import 'package:flutter/material.dart';
+import 'package:cockpit_devolo/models/deviceModel.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:url_launcher/url_launcher.dart';
 import 'package:open_file/open_file.dart';
-//import 'package:dio/dio.dart';
 
 
 final List<ui.Image> deviceIconList = <ui.Image>[]; //ToDo put somewhere else
@@ -15,7 +14,7 @@ final List<Offset> deviceIconOffsetList = <Offset>[];
 bool areDeviceIconsLoaded = false;
 String _openResult = 'Unknown';
 
-Map<String,dynamic> config = {"internet_centered": true, "show_other_devices": true, "show_speeds_permanent": false};
+Map<String,dynamic> config = {"internet_centered": true, "show_other_devices": true, "show_speeds_permanent": false, "show_speeds": false};
 
 String macToCanonical(String mac) {
   if (mac != null)

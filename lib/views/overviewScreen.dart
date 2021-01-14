@@ -2,18 +2,15 @@ import 'package:cockpit_devolo/services/drawOverview.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
-import 'package:cockpit_devolo/views/networkSettingsScreen.dart';
-import 'package:cockpit_devolo/views/settingsScreen.dart';
-import 'package:cockpit_devolo/views/updateScreen.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:flutter/foundation.dart'
     show debugDefaultTargetPlatformOverride;
-import 'package:flutter_svg/flutter_svg.dart';
 
-import 'emptyScreen.dart';
+
 
 
 
@@ -265,6 +262,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
           } else {
             //_Painter.showingSpeeds = true;
             showingSpeedsFake = true;  // ToDo fix workaround see OverviewConsturctor
+            config["show_speeds"] = true;
           }
           //_Painter.pivotDeviceIndex = index;
           pivotDeviceIndexFake = index;
@@ -285,6 +283,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
     setState(() {
       if (!_Painter.showSpeedsPermanently) {
         showingSpeedsFake = false;
+        config["show_speeds"] = false;
         _Painter.pivotDeviceIndex = 0;
         pivotDeviceIndexFake = 0;
       } else {

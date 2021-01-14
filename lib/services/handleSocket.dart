@@ -215,6 +215,7 @@ class dataHand extends ChangeNotifier {
   Future<Map<String, dynamic>> recieveXML() async {
     // ToDo generic?
     final Map response = new Map<String, dynamic>();
+    String responseElem;
 
     await new Future.delayed(const Duration(seconds: 2));
     Completer<Map<String, dynamic>> completer = new Completer();
@@ -253,6 +254,10 @@ class dataHand extends ChangeNotifier {
         String zipfilename = await findFirstElem(xmlResponse, 'zipfilename');
         if (zipfilename != null) {
           response['zipfilename'] = zipfilename;
+        }
+        responseElem  = await findFirstElem(xmlResponse, 'result');
+        if (status != null) {
+          response['result'] = responseElem;
         }
 
         //Future.value(response);

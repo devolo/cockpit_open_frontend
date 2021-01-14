@@ -230,7 +230,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     child: Row(children: [
                       Text('Support Informationen generieren '),
                       if(response != null)
-                        Container(child: response["status"] == "success" ? Icon(Icons.check_circle_outline,color: Colors.green,) : Icon(Icons.cancel_outlined,color: Colors.red,)),
+                        Container(child: response["result"] == "ok" ? Icon(Icons.check_circle_outline,color: Colors.green,) : Icon(Icons.cancel_outlined,color: Colors.red,)),
                       socket.waitingResponse ? CircularProgressIndicator(): Text(""),
 
                     ]),
@@ -245,7 +245,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       print('Response: ' + response.toString());
 
                       setState(() {
-                      if (response["status"] == "success") {
+                      if (response["result"] == "ok") {
                         _isButtonDisabled = false;
                       }
                       });

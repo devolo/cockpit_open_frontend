@@ -23,6 +23,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
   final String title;
 
   bool _loading = false;
+  bool _loadingFW = false;
 
   @override
   Widget build(BuildContext context) {
@@ -101,17 +102,16 @@ class _UpdateScreenState extends State<UpdateScreen> {
                             ],
                           ),
                           subtitle: Text('${device.type}'),
-                          trailing: device.updateAvailable
-                              ? IconButton(
-                                  icon: Icon(
-                                    Icons.refresh,
-                                    color: devoloBlue,
-                                  ),
+                          trailing: device.updateStateInt !=0 ?
+                          Text(device.updateStateInt.toInt().toString() +" %", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),):
+                          device.updateAvailable ?
+                          IconButton(
+                                  icon: Icon(Icons.refresh, color: devoloBlue,),
                                   onPressed: () async {
                                     print("Updating ${device.mac}");
                                     setState(() {
                                       socket.sendXML('FirmwareUpdateResponse', newValue: device.mac);
-                                      //_loadingFW = socket.waitingResponse;
+                                      _loadingFW = socket.waitingResponse;
                                     });
 
                                     var response = await socket.recieveXML();
@@ -122,7 +122,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                   color: Colors.green,
                                 ),
                         ),
-                        device.updateAvailable?LinearProgressIndicator(backgroundColor: secondColor,):LinearProgressIndicator(backgroundColor: secondColor,value: 0,),
+                        device.updateStateInt != 0?LinearProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(Colors.green), minHeight: 5, backgroundColor: secondColor,value: device.updateStateInt*0.01,):LinearProgressIndicator(backgroundColor: secondColor,value: 0,),
                       ],
                     );
                   },

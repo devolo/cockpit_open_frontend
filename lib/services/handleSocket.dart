@@ -9,7 +9,7 @@ class dataHand extends ChangeNotifier {
   Socket socket;
   DeviceList _deviceList;
   dynamic xmlLength;
-  XmlDocument xmlResponse;
+  XmlDocument xmlResponse = XmlDocument();
   bool waitingResponse = false;
 
   dataHand() {
@@ -80,7 +80,6 @@ class dataHand extends ChangeNotifier {
         xmlDataNext = null;
       }
     }
-
     //print(xmlDataList);
 
     XmlDocument document;
@@ -99,11 +98,8 @@ class dataHand extends ChangeNotifier {
             _deviceList.addDevice(remoteDev);
           }
         }
-
         // Check if new Devices have Updates to set updateAvailable
         sendXML('UpdateCheck');
-        await recieveXML();
-        _deviceList.changedList();
         break;
       }
       else if (document.findAllElements('MessageType').first.innerText == "Config") {
@@ -111,14 +107,22 @@ class dataHand extends ChangeNotifier {
         print('Config found!');
       }
       else if (document.findAllElements('MessageType').first.innerText == "UpdateIndication") {
-        waitingResponse = false;
-        xmlResponse = document;
-        print('Update found ->');
+        parseUpdateIndication(document);
+        print('UpdateIndication found ->');
+        print(document);
+      }else if (document.findAllElements('MessageType').first.innerText == "FirmwareUpdateIndication") {
+        parseFWUpdateIndication(document);
+        print('FirmwareUpdateIndication found ->');
+        print(document);
+      }
+      else if(document.findAllElements('MessageType').first.innerText == "FirmwareUpdateStatus") {
+        parseUpdateStatus(document);
+        print('UpdateStatus found ->');
         print(document);
       }
       else {
-        waitingResponse = false;
         xmlResponse = document;
+        waitingResponse = false;
         print('Another Response found ->');
         print(document);
       }
@@ -137,9 +141,8 @@ class dataHand extends ChangeNotifier {
     String valueType,
     String newValue2,
     String valueType2,
-    String mac,
-  }) {
-    //TODO Test!!, getting response from backend, use it
+    String mac,})
+  {
     waitingResponse = true;
     print(newValue);
     String xmlString;
@@ -186,6 +189,8 @@ class dataHand extends ChangeNotifier {
     socket.write('MSGSOCK' + xmlLength + xmlString);
   }
 
+
+
   Future<Map<String, dynamic>> recieveXML() async {
     // ToDo generic?
     final Map response = new Map<String, dynamic>();
@@ -193,16 +198,17 @@ class dataHand extends ChangeNotifier {
 
     await new Future.delayed(const Duration(seconds: 2));
     Completer<Map<String, dynamic>> completer = new Completer();
-    //handOut(completer.future);
-    //await _waitingResponse = false;
+
 
     await Future.doWhile(() async {
       print("waitingforResponse");
-      await new Future.delayed(const Duration(seconds: 1));
+      await new Future.delayed(const Duration(seconds: 2));
 
       if (!waitingResponse) {
+
         String messageType = await findFirstElem(xmlResponse, 'MessageType');
         response['messageType'] = messageType;
+
         if (messageType == "Config") {
           parseConfig(xmlResponse);
           print(config.toString());
@@ -247,13 +253,17 @@ class dataHand extends ChangeNotifier {
           int devIndex = _deviceList.getDeviceList().indexWhere((element) => element.mac == responseElem);
           _deviceList.getDeviceList()[devIndex].updateAvailable = true;
         }
-
         //Future.value(response);
-        completer.complete();
+        //completer.complete();
         //return response;
       }
       return waitingResponse;
+    }).timeout(Duration(seconds: 15), onTimeout: () {
+      waitingResponse = false;
+      print('> Timed Out');
     });
+
+
     print("Response: " + response.toString());
     return response;
   }
@@ -261,11 +271,13 @@ class dataHand extends ChangeNotifier {
   Future<String> findFirstElem(XmlDocument revXML, String word) async {
     //print("revXML: "+ revXML.toString());
     dynamic ret = revXML.findAllElements(word);
-    if (ret.isEmpty == false)
-      ret = ret.first.innerText;
+    if(ret == null)
+      return null;
+    else if (ret.isEmpty == false)
+      return ret.first.innerText;
     else
-      ret = null;
-    return ret;
+      return null;
+
   }
 
   void parseConfig(XmlDocument xmlResponse) {
@@ -278,4 +290,57 @@ class dataHand extends ChangeNotifier {
       }
     }
   }
+
+  void parseUpdateStatus(XmlDocument xmlResponse){
+    var items = xmlResponse.findAllElements("item");
+    //var macs = item.findAllElements("macAddress"); //ToDo List
+    for(var item in items){
+      Device dev = _deviceList.getDeviceList().where((element) => element.mac == item.getElement("first").getElement("macAddress").innerText).first;
+      String status = item.getElement("second").innerText;
+
+      dev.updateState = status;
+      if(status.endsWith("%"))
+        dev.updateStateInt = double.parse(status.substring(status.indexOf(" "), status.indexOf("%")));
+
+      print(dev.toRealString());
+    }
+    _deviceList.changedList();
+  }
+
+  void parseFWUpdateIndication(XmlDocument xmlResponse){
+    var items = xmlResponse.findAllElements("item");
+    //var macs = item.findAllElements("macAddress"); //ToDo List
+    for(var item in items){
+      Device dev = _deviceList.getDeviceList().where((element) => element.mac == item.getElement("first").getElement("macAddress").innerText).first;
+      dev.updateAvailable = true;
+      print(dev.toRealString());
+    }
+    _deviceList.changedList();
+  }
+
+  Future<Map<String, dynamic>> parseUpdateIndication(XmlDocument xmlResponse) async {
+    final Map response = new Map<String, dynamic>();
+    String responseElem;
+
+    String messageType = xmlResponse.findAllElements("MessageType").first.innerText;
+    response['messageType'] = messageType;
+
+    responseElem = await findFirstElem(xmlResponse, 'status');
+    if (responseElem != null) {
+      response['status'] = responseElem;
+    }
+    responseElem = await findFirstElem(xmlResponse, 'commandline');
+    if (responseElem != null) {
+      response['commandline'] = responseElem;
+    }
+    responseElem = await findFirstElem(xmlResponse, 'workdir');
+    if (responseElem != null) {
+      response['workdir'] = responseElem;
+    }
+
+    _deviceList.changedList();
+    return response;
+
+    }
+
 }

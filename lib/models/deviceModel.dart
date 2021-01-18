@@ -90,8 +90,10 @@ class Device extends ChangeNotifier {
   bool attachedToRouter;
   bool isLocalDevice;
   bool updateAvailable = false;
+  String updateState = "";
+  double updateStateInt = 0;
 
-  Device(String type, String name, String mac, String ip, String MT, String serialno, String version, String versionDate, atr, isLocal,[ui.Image icon]) {
+  Device(String type, String name, String mac, String ip, String MT, String serialno, String version, String versionDate, atRouter, isLocal,[ui.Image icon]) {
     this.typeEnum = getDeviceType(type);
     this.type = type;
     this.name = name;
@@ -99,7 +101,7 @@ class Device extends ChangeNotifier {
     this.ip = ip;
     this.MT = MT; // product
     this.serialno = serialno;
-    this.attachedToRouter = atr;
+    this.attachedToRouter = atRouter;
     this.isLocalDevice = isLocal;
     if(version.contains("_")) {
       this.version = version.substring(0,version.indexOf("_"));
@@ -185,7 +187,7 @@ class Device extends ChangeNotifier {
   }
 
   String toRealString(){
-      return "Device: {name: ${this.name}, type:${this.type}, mac: ${this.mac},ip: ${this.ip}, version: ${this.version},version_date:${this.version_date}, MT: ${this.MT}, serialno: ${this.serialno},remoteDevices: ${this.remoteDevices}, icon:${this.icon},speeds: ${this.speeds}, attachedToRouter: ${this.attachedToRouter} \n";
+      return "Device: {name: ${this.name}, type:${this.type}, mac: ${this.mac},ip: ${this.ip}, version: ${this.version},version_date:${this.version_date}, MT: ${this.MT}, serialno: ${this.serialno},remoteDevices: ${this.remoteDevices}, icon:${this.icon},speeds: ${this.speeds}, attachedToRouter: ${this.attachedToRouter}, isLocalDevice: ${this.isLocalDevice},UpdateAvailable: ${this.updateAvailable}, UpdateStatus: ${this.updateState},  UpdateStatusInt: ${this.updateStateInt} \n";
   }
 }
 //=========================================== END Device =========================================

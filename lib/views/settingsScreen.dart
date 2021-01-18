@@ -22,6 +22,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool _hiddenPw = true;
   bool _isButtonDisabled = true;
   bool _loading = false;
+  String zipfilename;
+  String htmlfilename;
   var response;
 
   // void toggleCheckbox(bool value) {
@@ -46,8 +48,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       if (config["show_speeds_permanent"]) {
         config["show_speeds"] = true;
         //widget.painter.pivotDeviceIndex = 0;
-      }
-      else {
+      } else {
         config["show_speeds"] = false;
         //widget.painter.pivotDeviceIndex = 0;
       }
@@ -78,7 +79,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: new SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(left: 20,right: 20),
+          padding: const EdgeInsets.only(left: 20, right: 20),
           child: new Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -225,30 +226,45 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Card(
                 color: secondColor,
                 child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                  RaisedButton(
+                  FlatButton(
+                    height: 60,
+                    hoverColor: devoloBlue.withOpacity(0.4),
                     child: Row(children: [
                       Text('Support Informationen generieren '),
-                      if(response != null)
-                        Container(child: response["result"] == "ok" ? Icon(Icons.check_circle_outline,color: Colors.green,) : Icon(Icons.cancel_outlined,color: Colors.red,)),
-                      _loading ? CircularProgressIndicator(): Text(""),
 
+                        Stack(children: <Widget>[
+                          Container(child: _loading ? CircularProgressIndicator() : Text("")),
+                          if (response != null && _loading == false)
+                          Container(
+                              child: (response["result"] == "ok" && response.isNotEmpty)
+                                  ? Icon(
+                                      Icons.check_circle_outline,
+                                      color: Colors.green,
+                                    )
+                                  : Icon(
+                                      Icons.cancel_outlined,
+                                      color: Colors.red,
+                                    )),
+                        ]),
                     ]),
                     //color: devoloBlue,
                     //textColor: Colors.white,
                     onPressed: () async {
                       setState(() {
+                        _loading = true;
                         socket.sendXML('SupportInfoGenerate');
-                        _loading = socket.waitingResponse;
                       });
 
                       response = await socket.recieveXML();
                       print('Response: ' + response.toString());
 
                       setState(() {
-                      if (response["result"] == "ok") {
-                        _loading = socket.waitingResponse;
-                        _isButtonDisabled = false;
-                      }
+                        if (response["result"] == "ok") {
+                          htmlfilename = response["htmlfilename"];
+                          zipfilename = response["zipfilename"];
+                          _loading = false;
+                          _isButtonDisabled = false;
+                        }
                       });
                     },
                   ),
@@ -263,7 +279,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             tooltip: 'öffne bowser',
                             color: _isButtonDisabled ? Colors.grey : devoloBlue,
                             onPressed: () {
-                              socket.recieveXML().then((response) => openFile(response['htmlfilename']));
+                              openFile(htmlfilename);
                             },
                           ),
                           IconButton(
@@ -271,7 +287,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             tooltip: 'öffne zip',
                             color: _isButtonDisabled ? Colors.grey : devoloBlue,
                             onPressed: () {
-                              socket.recieveXML().then((response) => openFile(response['zipfilename']));
+                              openFile(zipfilename);
                             },
                           ),
                           IconButton(

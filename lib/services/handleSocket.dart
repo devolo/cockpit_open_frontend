@@ -86,29 +86,37 @@ class dataHand extends ChangeNotifier {
     XmlDocument document;
     for (var xmlDoc in xmlDataList) {
       document = XmlDocument.parse(xmlDoc);
-      if (document.findAllElements('MessageType').first.innerText == "NetworkUpdate") {
+
+      if (document.findAllElements('MessageType').first.innerText == "NetworkUpdate") { // If received Message is general NetworkUpdate
         _deviceList.clearList();
         print('DeviceList found!');
 
         var localDeviceList = document.findAllElements('LocalDeviceList'); //TODO: TEST call for every
         for (var dev in localDeviceList) {
-          Device device = Device.fromXML(dev.getElement('item'));
+          Device device = Device.fromXML(dev.getElement('item'),true);
           _deviceList.addDevice(device);
           for (var remoteDev in device.remoteDevices) {
             _deviceList.addDevice(remoteDev);
           }
         }
+
+        // Check if new Devices have Updates to set updateAvailable
+        sendXML('UpdateCheck');
+        await recieveXML();
+        _deviceList.changedList();
         break;
-      } else if (document.findAllElements('MessageType').first.innerText == "Config") {
+      }
+      else if (document.findAllElements('MessageType').first.innerText == "Config") {
         parseConfig(document);
         print('Config found!');
-      } else if (document.findAllElements('MessageType').first.innerText == "UpdateIndication") {
+      }
+      else if (document.findAllElements('MessageType').first.innerText == "UpdateIndication") {
         waitingResponse = false;
         xmlResponse = document;
         print('Update found ->');
         print(document);
       }
-      else{
+      else {
         waitingResponse = false;
         xmlResponse = document;
         print('Another Response found ->');
@@ -116,12 +124,13 @@ class dataHand extends ChangeNotifier {
       }
     }
 
-
     print('DeviceList ready');
+
     if (areDeviceIconsLoaded) notifyListeners();
     //return document;
   }
 
+  //ToDo send real xml not just string
   void sendXML(
     String messageType, {
     String newValue,
@@ -147,62 +156,28 @@ class dataHand extends ChangeNotifier {
     }
 
     if (messageType == "Config") {
-      xmlString =
-          '<?xml version="1.0" encoding="UTF-8" standalone="yes"?> <!DOCTYPE boost_serialization><boost_serialization signature="serialization::archive" version="13"><Message class_id="0" tracking_level="0" version="0"><MessageType>' +
-              messageType +
-              '</MessageType><Config class_id="1" tracking_level="0" version="0"><count>3</count><item_version>0</item_version><item class_id="2" tracking_level="0" version="0"><first>allow_data_collection</first><second>' +
-              allowDataCollection.toString() +
-              '</second></item><item><first>ignore_updates</first><second>' +
-              ignoreUpdates.toString() +
-              '</second></item><item><first>windows_network_throttling_disabled</first><second>' +
-              windowsNetworkThrottlingDisabled.toString() +
-              '</second></item></Config></Message></boost_serialization>';
-    } else if (newValue == null && mac != null) {
-      xmlString =
-          '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' +
-              messageType +
-              '</MessageType><macAddress>' +
-              mac +
-              '</macAddress></Message></boost_serialization>';
+      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?> <!DOCTYPE boost_serialization><boost_serialization signature="serialization::archive" version="13"><Message class_id="0" tracking_level="0" version="0"><MessageType>' +
+          messageType +
+          '</MessageType><Config class_id="1" tracking_level="0" version="0"><count>3</count><item_version>0</item_version><item class_id="2" tracking_level="0" version="0"><first>allow_data_collection</first><second>' +
+          allowDataCollection.toString() +
+          '</second></item><item><first>ignore_updates</first><second>' +
+          ignoreUpdates.toString() +
+          '</second></item><item><first>windows_network_throttling_disabled</first><second>' +
+          windowsNetworkThrottlingDisabled.toString() +
+          '</second></item></Config></Message></boost_serialization>';
+    }
+    else if (messageType == "FirmwareUpdateResponse"){ // ToDo Update more devices
+      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="2" version="0" tracking_level="0"><MessageType>FirmwareUpdateResponse</MessageType><DeviceList class_id="3" version="0" tracking_level="0"><count>1</count><item_version>0</item_version><item><first class_id="4" version="0" tracking_level="0"><macAddress>' + newValue + '</macAddress></first><second></second></item></DeviceList></Message></boost_serialization>';
+    }
+
+    else if (newValue == null && mac != null) {
+      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType><macAddress>' + mac + '</macAddress></Message></boost_serialization>';
     } else if (newValue2 == null && mac != null) {
-      xmlString =
-          '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' +
-              messageType +
-              '</MessageType><macAddress>' +
-              mac +
-              '</macAddress>' +
-              '<' +
-              valueType +
-              '>' +
-              newValue +
-              '</' +
-              valueType +
-              '></Message></boost_serialization>';
+      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType><macAddress>' + mac + '</macAddress>' + '<' + valueType + '>' + newValue + '</' + valueType + '></Message></boost_serialization>';
     } else if (newValue2 != null && mac == null) {
-      xmlString =
-          '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' +
-              messageType +
-              '</MessageType>' +
-              '<' +
-              valueType +
-              '>' +
-              newValue +
-              '</' +
-              valueType +
-              '>' +
-              '<' +
-              valueType2 +
-              '>' +
-              newValue2 +
-              '</' +
-              valueType2 +
-              '>' +
-              '</Message></boost_serialization>';
+      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType>' + '<' + valueType + '>' + newValue + '</' + valueType + '>' + '<' + valueType2 + '>' + newValue2 + '</' + valueType2 + '>' + '</Message></boost_serialization>';
     } else if (mac == null) {
-      xmlString =
-          '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' +
-              messageType +
-              '</MessageType></Message></boost_serialization>';
+      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType></Message></boost_serialization>';
     }
 
     String xmlLength = xmlString.runes.length.toRadixString(16).padLeft(8, '0'); // message length for backend !disconnects if header wrong or missing!
@@ -223,7 +198,7 @@ class dataHand extends ChangeNotifier {
 
     await Future.doWhile(() async {
       print("waitingforResponse");
-      await new Future.delayed(const Duration(seconds: 2));
+      await new Future.delayed(const Duration(seconds: 1));
 
       if (!waitingResponse) {
         String messageType = await findFirstElem(xmlResponse, 'MessageType');
@@ -238,38 +213,42 @@ class dataHand extends ChangeNotifier {
         //   print(elem.innerText);
         // }
 
-        String status = await findFirstElem(xmlResponse, 'status');
-        if (status != null) {
-          response['status'] = status;
+        responseElem = await findFirstElem(xmlResponse, 'status');
+        if (responseElem != null) {
+          response['status'] = responseElem;
         }
-        String filename = await findFirstElem(xmlResponse, 'filename');
-        if (filename != null) {
-          response['filename'] = filename;
+        responseElem = await findFirstElem(xmlResponse, 'filename');
+        if (responseElem != null) {
+          response['filename'] = responseElem;
         }
-        String htmlfilename = await findFirstElem(xmlResponse, 'htmlfilename');
-        if (htmlfilename != null) {
-          response['htmlfilename'] = htmlfilename;
+        responseElem = await findFirstElem(xmlResponse, 'htmlfilename');
+        if (responseElem != null) {
+          response['htmlfilename'] = responseElem;
         }
-        String zipfilename = await findFirstElem(xmlResponse, 'zipfilename');
-        if (zipfilename != null) {
-          response['zipfilename'] = zipfilename;
+        responseElem = await findFirstElem(xmlResponse, 'zipfilename');
+        if (responseElem != null) {
+          response['zipfilename'] = responseElem;
         }
-        responseElem  = await findFirstElem(xmlResponse, 'result');
+        responseElem = await findFirstElem(xmlResponse, 'result');
         if (responseElem != null) {
           response['result'] = responseElem;
         }
-        responseElem  = await findFirstElem(xmlResponse, 'commandline');
+        responseElem = await findFirstElem(xmlResponse, 'commandline');
         if (responseElem != null) {
           response['commandline'] = responseElem;
         }
-        responseElem  = await findFirstElem(xmlResponse, 'workdir');
+        responseElem = await findFirstElem(xmlResponse, 'workdir');
         if (responseElem != null) {
           response['workdir'] = responseElem;
         }
+        responseElem = await findFirstElem(xmlResponse, 'macAddress'); //ToDo probably more Macs!
+        if (responseElem != null) {
+          response['macAddress'] = responseElem;
+          int devIndex = _deviceList.getDeviceList().indexWhere((element) => element.mac == responseElem);
+          _deviceList.getDeviceList()[devIndex].updateAvailable = true;
+        }
 
         //Future.value(response);
-        await Future.value(status);
-        await Future.value(filename);
         completer.complete();
         //return response;
       }

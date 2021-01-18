@@ -49,26 +49,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// class MyApp extends StatelessWidget {
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//
-//     return MaterialApp(
-//       title: 'Devolo Cockpit',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//         backgroundColor: devoloBlue,
-//         canvasColor: Colors.white,
-//       ),
-//       home: MultiProvider(providers: [
-//       ChangeNotifierProvider<dataHand>(create: (_) => dataHand()),
-//       ChangeNotifierProvider<DeviceList>(create: (_) => DeviceList()),
-//     ],
-//     child: MyHomePage(title: 'devolo Cockpit'),
-//       ));
-//   }
-// }
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -160,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             Spacer(),
             InkWell(
-                child: SvgPicture.asset('assets/logo.svg', height: 24, color: Colors.white)
+                child: SvgPicture.asset('assets/logo.svg', height: 24, color: drawingColor)
             ),
             Spacer(),
             SizedBox(width: 56)
@@ -170,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
       drawer: Drawer(
           child: ListView(padding: EdgeInsets.zero, children: <Widget>[
             DrawerHeader(
-              child: Text('Home Network Desktop', style: TextStyle(fontSize: 23,color: Colors.white),),
+              child: Text('Home Network Desktop', style: TextStyle(fontSize: 23,color: drawingColor),),
               decoration: BoxDecoration(
                 color: devoloBlue,
               ),
@@ -224,8 +204,8 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: BottomNavigationBar(
         type : BottomNavigationBarType.fixed,
         backgroundColor: devoloBlue,
-        unselectedItemColor: Colors.blue[200],
-        selectedItemColor: Colors.white,
+        unselectedItemColor: secondColor,
+        selectedItemColor: drawingColor,
         selectedIconTheme: IconThemeData(size: 35),
         selectedFontSize: 15,
         currentIndex: bottomSelectedIndex,
@@ -249,7 +229,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 //crossAxisAlignment: CrossAxisAlignment.center,
                 //mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SvgPicture.asset('assets/logo.svg', height: 24, color: Colors.white),
+                  SvgPicture.asset('assets/logo.svg', height: 24, color: drawingColor),
                   Text("Version 0 01.01.2021\n"),
                   //launch("https://www.devolo.de/"),
                   GestureDetector(

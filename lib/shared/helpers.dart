@@ -14,7 +14,7 @@ final List<Offset> deviceIconOffsetList = <Offset>[];
 bool areDeviceIconsLoaded = false;
 String _openResult = 'Unknown';
 
-Map<String,dynamic> config = {"internet_centered": true, "show_other_devices": true, "show_speeds_permanent": false, "show_speeds": false};
+Map<String,dynamic> config = {"ignore_updates": false, "allow_data_collection": false, "windows_network_throttling_disabled":true, "internet_centered": true, "show_other_devices": true, "show_speeds_permanent": false, "show_speeds": false};
 
 String macToCanonical(String mac) {
   if (mac != null)
@@ -116,7 +116,7 @@ List<Image> loadOptimizeImages() {
   image = Image.asset('assets/optimisationImages/dLAN200AVplus_A.png');
   retList.add(image);
 
-  print("All device icons are loaded.");
+  print("All Images are loaded.");
   return retList;
 
 }
@@ -130,10 +130,8 @@ Future<ui.Image> loadImage(List<int> img) async {
 }
 
 ui.Image getIconForDeviceType(DeviceType dt) {
-  if(!areDeviceIconsLoaded) {
-      print('NOPE');
+  if(!areDeviceIconsLoaded) { //ToDo
       return null;
-    //TODo Placeholder image
   }
 
   switch (dt) {

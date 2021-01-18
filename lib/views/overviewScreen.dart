@@ -202,16 +202,16 @@ class _OverviewScreenState extends State<OverviewScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                        IconButton(icon: Icon(Icons.public), tooltip: 'Launch Webinterface', onPressed: () => launchURL(hitDeviceIp),),
-                        IconButton(icon: Icon(Icons.lightbulb), tooltip: 'Identify Device', onPressed: () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac)),
-                        IconButton(icon: Icon(Icons.find_in_page), tooltip: 'Show Manual', onPressed: () {
+                        IconButton(icon: Icon(Icons.public, color: devoloBlue,), tooltip: 'Launch Webinterface', onPressed: () => launchURL(hitDeviceIp),),
+                        IconButton(icon: Icon(Icons.lightbulb, color: devoloBlue,), tooltip: 'Identify Device', onPressed: () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac)),
+                        IconButton(icon: Icon(Icons.find_in_page, color: devoloBlue,), tooltip: 'Show Manual', onPressed: () {
                           socket.sendXML('GetManual', newValue: hitDeviceMT, valueType: 'product', newValue2: 'de', valueType2: 'language');
                           setState(() {
                             socket.recieveXML().then((path) =>openFile(path['filename']));
                           });
                         }),
-                        IconButton(icon: Icon(Icons.upload_file), tooltip: 'Factory Reset', onPressed: () =>_handleCriticalActions(context, socket, 'ResetAdapterToFactoryDefaults', hitDevice),),
-                        IconButton(icon: Icon(Icons.delete), tooltip: 'Delete Device', onPressed: () =>_handleCriticalActions(context, socket, 'RemoveAdapter', hitDevice),), //ToDo Delete Device see wiki
+                        IconButton(icon: Icon(Icons.upload_file, color: devoloBlue,), tooltip: 'Factory Reset', onPressed: () =>_handleCriticalActions(context, socket, 'ResetAdapterToFactoryDefaults', hitDevice),),
+                        IconButton(icon: Icon(Icons.delete, color: devoloBlue,), tooltip: 'Delete Device', onPressed: () =>_handleCriticalActions(context, socket, 'RemoveAdapter', hitDevice),), //ToDo Delete Device see wiki
                       ],
                     ),
 

@@ -85,11 +85,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                 Text(
                   "GUI",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+                  style: TextStyle(color: drawingColor, fontSize: 20),
                 )
               ]),
               Card(
-                color: Colors.blueGrey[50],
+                color: secondColor,
                 child: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                   new Text(" Enable Showing Speeds"),
                   new Checkbox(
@@ -99,7 +99,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ]),
               ),
               Card(
-                color: Colors.blueGrey[50],
+                color: secondColor,
                 child: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                   new Text(" Internetzentrisch"),
                   new Switch(
@@ -116,7 +116,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ]),
               ),
               Card(
-                color: Colors.blueGrey[50],
+                color: secondColor,
                 child: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                   new Text(" Andere Geräte anzeigen (Laptop)"),
                   new Switch(
@@ -135,11 +135,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                 Text(
                   "Netzwerk",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+                  style: TextStyle(color: drawingColor, fontSize: 20),
                 )
               ]),
               Card(
-                color: Colors.blueGrey[50],
+                color: secondColor,
                 child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                   new Text(" Alle zukünftigen Updates ignorieren"),
                   new Checkbox(
@@ -153,7 +153,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ]),
               ),
               Card(
-                color: Colors.blueGrey[50],
+                color: secondColor,
                 child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                   new Text(" Übertragungsleistung der Geräte Aufzeichnen und an devolo übermitteln"),
                   new Checkbox(
@@ -167,7 +167,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ]),
               ),
               Card(
-                color: Colors.blueGrey[50],
+                color: secondColor,
                 child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                   new Text(" Windows Netzwerkdrosselung"),
                   new Switch(
@@ -184,7 +184,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ]),
               ),
               Card(
-                color: Colors.blueGrey[50],
+                color: secondColor,
                 child: Row(
                   children: [
                     Flexible(
@@ -219,11 +219,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                 Text(
                   "Support",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+                  style: TextStyle(color: drawingColor, fontSize: 20),
                 )
               ]),
               Card(
-                color: Colors.blueGrey[50],
+                color: secondColor,
                 child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                   RaisedButton(
                     child: Row(children: [
@@ -262,7 +262,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             icon: Icon(Icons.open_in_browser_rounded),
                             tooltip: 'öffne bowser',
                             color: _isButtonDisabled ? Colors.grey : devoloBlue,
-                            disabledColor: Colors.greenAccent,
                             onPressed: () {
                               socket.recieveXML().then((response) => openFile(response['htmlfilename']));
                             },
@@ -291,7 +290,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 IconButton(
                   icon: Icon(Icons.list_alt),
                   tooltip: 'Show Logs',
-                  color: Colors.white,
+                  color: drawingColor,
                   onPressed: () {
                     Navigator.push(
                       context,

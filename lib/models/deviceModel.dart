@@ -51,11 +51,15 @@ class DeviceList extends ChangeNotifier{
     if(device.attachedToRouter & config["internet_centered"]){this._devices.insert(0, device);}
     else{this._devices.add(device);}
     print(_devices);
-    notifyListeners();
+    //notifyListeners();
   }
 
   void clearList() {
     _devices.clear();
+    notifyListeners();
+  }
+
+  void changedList() {
     notifyListeners();
   }
 
@@ -84,8 +88,10 @@ class Device extends ChangeNotifier {
   ui.Image icon;
   Map<String, DataratePair> speeds; //Map<mac address of remote device, datarates to and from this remote device>
   bool attachedToRouter;
+  bool isLocalDevice;
+  bool updateAvailable = false;
 
-  Device(String type, String name, String mac, String ip, String MT, String serialno, String version, String versionDate, atr, [ui.Image icon]) {
+  Device(String type, String name, String mac, String ip, String MT, String serialno, String version, String versionDate, atr, isLocal,[ui.Image icon]) {
     this.typeEnum = getDeviceType(type);
     this.type = type;
     this.name = name;
@@ -93,9 +99,16 @@ class Device extends ChangeNotifier {
     this.ip = ip;
     this.MT = MT; // product
     this.serialno = serialno;
-    this.version = version;
-    this.version_date = versionDate;
     this.attachedToRouter = atr;
+    this.isLocalDevice = isLocal;
+    if(version.contains("_")) {
+      this.version = version.substring(0,version.indexOf("_"));
+      this.version_date = version.substring(version.indexOf("_")+1);
+    }
+    else {
+      this.version = version;
+      this.version_date = versionDate;
+    }
     //this.remoteDevices = remoteDevices;
     if (areDeviceIconsLoaded)
       this.icon = getIconForDeviceType(getDeviceType(type)); // areDeviceIconsLoaded ??
@@ -103,7 +116,7 @@ class Device extends ChangeNotifier {
     this.speeds = new Map();
   }
 
-  factory Device.fromXML(XmlElement element) {
+  factory Device.fromXML(XmlElement element, bool islocalDevice) {
     bool attachedToRouter = false;
     for(var elem in element.getElement('states').children){
       if(elem.innerText.contains("gateway"))
@@ -120,6 +133,7 @@ class Device extends ChangeNotifier {
       element.getElement('version').text,
         element.getElement('date').text,
         attachedToRouter,
+      islocalDevice,
       //Device.fromXML(Element.getElement('remotes').getElement('item')),
       //genreElement.findElements('genre').map<Genre>((e) => Genre.fromElement(e)).toList(),
     );
@@ -129,7 +143,7 @@ class Device extends ChangeNotifier {
       remotes = testList(remotes, 'type'); // Checking where items are devices returning the trimmed list
       for (var remote in remotes) {
         print('Remote Device found: ' + remote.getElement('type').text);
-        retDevice.remoteDevices.add(Device.fromXML(remote));
+        retDevice.remoteDevices.add(Device.fromXML(remote, false));
       }
     }
 

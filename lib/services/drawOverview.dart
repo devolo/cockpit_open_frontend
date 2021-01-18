@@ -2,8 +2,8 @@ import 'dart:math';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/deviceModel.dart';
-import '../shared/helpers.dart';
+import 'package:cockpit_devolo/models/deviceModel.dart';
+import 'package:cockpit_devolo/shared/helpers.dart';
 import 'dart:io';
 import 'dart:ui';
 
@@ -18,7 +18,7 @@ class DrawNetworkOverview extends CustomPainter {
   double dashWidth = 9, dashSpace = 5, startX = 0;
 
   final _textStyle = TextStyle(
-    color: Colors.white,
+    color: drawingColor,
     fontFamily: 'Roboto',
     fontSize: 14,
     backgroundColor: backgroundColor,
@@ -26,7 +26,7 @@ class DrawNetworkOverview extends CustomPainter {
   );
 
   final _textNameStyle = TextStyle(
-    color: Colors.white,
+    color: drawingColor,
     fontFamily: 'Roboto',
     fontSize: 14,
     backgroundColor: backgroundColor,
@@ -71,12 +71,12 @@ class DrawNetworkOverview extends CustomPainter {
     _screenGridHeight = (screenHeight / 10);
 
     _deviceIconPaint = Paint()
-      ..color = Colors.white
+      ..color = drawingColor
       ..strokeWidth = 1.0
       ..style = PaintingStyle.stroke;
 
     _circleBorderPaint = Paint()
-      ..color = Colors.white
+      ..color = drawingColor
       ..strokeWidth = 7.0
       ..style = PaintingStyle.stroke;
 
@@ -86,12 +86,12 @@ class DrawNetworkOverview extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     _speedCircleAreaPaint = Paint()
-      ..color = Colors.white
+      ..color = drawingColor
       ..strokeWidth = 2.0
       ..style = PaintingStyle.fill;
 
     _linePaint = Paint()
-      ..color = secondColor
+      ..color = drawingColor
       ..strokeWidth = 3.0
       ..style = PaintingStyle.stroke;
 
@@ -101,12 +101,12 @@ class DrawNetworkOverview extends CustomPainter {
       ..style = PaintingStyle.stroke;
 
     _pcPaint = Paint()
-      ..color = secondColor
+      ..color = drawingColor
       ..strokeWidth = 3.0
       ..style = PaintingStyle.stroke;
 
     _routerPaint = Paint()
-      ..color = Colors.green
+      ..color = drawingColor
       ..strokeWidth = 3.0
       ..style = PaintingStyle.stroke;
 
@@ -119,7 +119,7 @@ class DrawNetworkOverview extends CustomPainter {
       ..textAlign = TextAlign.left;
 
     _arrowPaint = Paint()
-      ..color = secondColor
+      ..color = drawingColor
       ..strokeWidth = 3.0
       ..style = PaintingStyle.stroke;
     //..style = PaintingStyle.fill;
@@ -144,7 +144,7 @@ class DrawNetworkOverview extends CustomPainter {
     _textPainter.paint(canvas, Offset(absoluteOffset.dx - (_textPainter.width / 2), absoluteOffset.dy + (hn_circle_radius + _textPainter.height) - 5));
   }
 
-  void drawOtherConnection(Canvas canvas, Offset deviceOffset){
+  void drawOtherConnection(Canvas canvas, Offset deviceOffset){ //ToDo fix internet icon attached to Router
     Offset absoluteOffset = Offset(deviceOffset.dx + (screenWidth / 2), deviceOffset.dy + (screenHeight / 2));
     Offset toOffset = Offset(deviceOffset.dx + (screenWidth / 2)+100, deviceOffset.dy + (screenHeight / 2));
 
@@ -316,7 +316,6 @@ class DrawNetworkOverview extends CustomPainter {
       String speedDown = "";
 
       print("speeds for " + _deviceList.elementAt(deviceIndex).mac + ": ");
-
       if (_deviceList.elementAt(pivotDeviceIndex).speeds[_deviceList.elementAt(deviceIndex).mac] != null) {
         rx = _deviceList.elementAt(pivotDeviceIndex).speeds[_deviceList.elementAt(deviceIndex).mac].rx;
         tx = _deviceList.elementAt(pivotDeviceIndex).speeds[_deviceList.elementAt(deviceIndex).mac].tx;
@@ -447,7 +446,7 @@ class DrawNetworkOverview extends CustomPainter {
 
     canvas.drawCircle(absoluteAreaOffset, hn_circle_radius + 5, _circleAreaPaint); //"shadow" of the device circle. covers the connection lines.
 
-    _textPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: 70.0, fontFamily: icon.fontFamily, color: secondColor));
+    _textPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: 70.0, fontFamily: icon.fontFamily, color: drawingColor));
     _textPainter.layout();
     _textPainter.paint(canvas, Offset(absoluteRouterOffset.dx - (_textPainter.width / 2), absoluteRouterOffset.dy - 10));
 
@@ -458,7 +457,7 @@ class DrawNetworkOverview extends CustomPainter {
 
     canvas.drawCircle(offset, hn_circle_radius-10, _circleAreaPaint);
 
-    _textPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: 30.0, fontFamily: icon.fontFamily, color: secondColor,backgroundColor: backgroundColor));
+    _textPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: 30.0, fontFamily: icon.fontFamily, color: drawingColor,backgroundColor: backgroundColor));
     _textPainter.layout();
     _textPainter.paint(canvas, Offset(offset.dx - (_textPainter.width / 2), offset.dy - 15));
   }
@@ -541,6 +540,8 @@ class DrawNetworkOverview extends CustomPainter {
 
   void drawAllDeviceConnections(Canvas canvas, Size size) {
     //draw all device connection lines to the pivot device
+    int localIndex =_deviceList.indexWhere((element) => element.isLocalDevice == true);
+    int attachedToRouter = _deviceList.indexWhere((element) => element.attachedToRouter == true);
     for (int numDev = 0; numDev < _deviceList.length; numDev++) {
       if (numDev > _deviceIconOffsetList.length) break;
 
@@ -548,8 +549,14 @@ class DrawNetworkOverview extends CustomPainter {
       if (numDev != pivotDeviceIndex) {
         drawDeviceConnection(canvas, _deviceIconOffsetList.elementAt(numDev), getLineThickness(numDev));
       }
+
       if(config["show_other_devices"]){
-        drawOtherConnection(canvas, _deviceIconOffsetList.elementAt(1)); //To Do get Local
+        if(config["internet_centered"]){
+          drawOtherConnection(canvas, _deviceIconOffsetList.elementAt(localIndex)); //To Do get Local
+        }else{
+          drawOtherConnection(canvas, _deviceIconOffsetList.elementAt(attachedToRouter));
+        }
+
       }
     }
   }
@@ -578,7 +585,7 @@ class DrawNetworkOverview extends CustomPainter {
       else
         thickness['tx'] = rates.tx * 0.01;
 
-      print('THIIICKNESSS ' + dev.toString() + " " + thickness.toString());
+      //print('THIIICKNESSS ' + dev.toString() + " " + thickness.toString());
     }
     //else{thickness.addAll({'tx': 3.0});}
     return thickness;
@@ -625,12 +632,13 @@ class DrawNetworkOverview extends CustomPainter {
     fillDeviceIconPositionList();
 
     if (Platform.isAndroid || Platform.isIOS)
-      drawRouterIcon(canvas, size);
+      drawMainIcon(canvas, Icons.router_outlined);
     else if(config["internet_centered"])
       drawMainIcon(canvas, Icons.public_outlined);
     else
       drawMainIcon(canvas, Icons.computer);
     //drawPCIcon(canvas, size);
+    //drawRouterIcon(canvas, size);
 
     drawAllDeviceConnections(canvas, size);
     drawAllDeviceIcons(canvas, size);

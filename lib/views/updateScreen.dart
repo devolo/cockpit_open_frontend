@@ -24,6 +24,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
   bool _loading = false;
   bool _loadingFW = false;
+  DateTime _lastPoll= DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +107,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                           Text(device.updateStateInt.toInt().toString() +" %", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),):
                           device.updateAvailable ?
                           IconButton(
-                                  icon: Icon(Icons.refresh, color: devoloBlue,),
+                                  icon: Icon(Icons.download_rounded, color: devoloBlue,),
                                   onPressed: () async {
                                     print("Updating ${device.mac}");
                                     setState(() {
@@ -173,7 +174,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                   ],
                                 );
                               })
-                          : showDialog<void>(
+                          : response["status"] == 'downloaded_setup'
+                          ?showDialog<void>(
                               context: context,
                               barrierDismissible: true, // user doesn't need to tap button!
                               builder: (BuildContext context) {
@@ -202,21 +204,58 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                           size: 35,
                                           color: devoloBlue,
                                         ), //Text('Abbrechen'),
-                                        tooltip: "Abbrechen",
+                                        tooltip: "skip",
                                         onPressed: () {
                                           // Cancel critical action
                                           socket.sendXML('UpdateResponse', valueType: 'action', newValue: 'skip');
                                           Navigator.of(context).pop();
                                         }),
+                                    IconButton(
+                                        icon: Icon(
+                                          Icons.cancel_outlined,
+                                          size: 35,
+                                          color: Colors.grey,
+                                        ), //Text('Abbrechen'),
+                                        tooltip: "Abbrechen",
+                                        onPressed: () {
+                                          // Cancel critical action
+                                          Navigator.of(context).pop();
+                                        }),
                                   ],
                                 );
-                              });
+                              }): _lastPoll = DateTime.now();
+                      // showDialog<void>(
+                      //     context: context,
+                      //     barrierDismissible: true, // user doesn't need to tap button!
+                      //     builder: (BuildContext context) {
+                      //       return AlertDialog(
+                      //         title: Text('Update'),
+                      //         content: Text(response.toString()),
+                      //         //ToDo Handle error [] if updating 'Geräte werden aktualisiert... '
+                      //         actions: <Widget>[
+                      //           IconButton(
+                      //               icon: Icon(
+                      //                 Icons.cancel_outlined,
+                      //                 size: 35,
+                      //                 color: Colors.grey,
+                      //               ), //Text('Abbrechen'),
+                      //               tooltip: "Abbrechen",
+                      //               onPressed: () {
+                      //                 // Cancel critical action
+                      //                 Navigator.of(context).pop();
+                      //               }),
+                      //         ],
+                      //       );
+                      //     });
                     },
                     child: Row(
                       children: [
-                        Icon(Icons.download_rounded),
-                        Text(' Update Cockpit '),
+                        Icon(Icons.refresh),
+                        Text(' Check Updates '),
                         if (_loading) const CircularProgressIndicator(),
+                        Spacer(),
+                        //Text(""),
+                        Text(_lastPoll.toString().substring(0,_lastPoll.toString().indexOf("."))),
                       ],
                     )),
               ),

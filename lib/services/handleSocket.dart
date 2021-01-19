@@ -10,6 +10,7 @@ class dataHand extends ChangeNotifier {
   DeviceList _deviceList;
   dynamic xmlLength;
   XmlDocument xmlResponse = XmlDocument();
+  List<dynamic> xmlResponseList = [];
   bool waitingResponse = false;
 
   dataHand() {
@@ -108,20 +109,36 @@ class dataHand extends ChangeNotifier {
       }
       else if (document.findAllElements('MessageType').first.innerText == "UpdateIndication") {
         parseUpdateIndication(document);
+        xmlResponseList.insert(0,document);
+        xmlResponseList.insert(0,DateTime.now());
+
+        waitingResponse = false;
         print('UpdateIndication found ->');
         print(document);
       }else if (document.findAllElements('MessageType').first.innerText == "FirmwareUpdateIndication") {
         parseFWUpdateIndication(document);
+
+        xmlResponseList.insert(0,document);
+        xmlResponseList.insert(0,DateTime.now());
+
+        waitingResponse = false;
         print('FirmwareUpdateIndication found ->');
         print(document);
       }
       else if(document.findAllElements('MessageType').first.innerText == "FirmwareUpdateStatus") {
         parseUpdateStatus(document);
+        xmlResponseList.insert(0,document);
+        xmlResponseList.insert(0,DateTime.now());
+
         print('UpdateStatus found ->');
         print(document);
       }
       else {
         xmlResponse = document;
+
+        xmlResponseList.insert(0,document);
+        xmlResponseList.insert(0,DateTime.now());
+
         waitingResponse = false;
         print('Another Response found ->');
         print(document);
@@ -338,6 +355,7 @@ class dataHand extends ChangeNotifier {
       response['workdir'] = responseElem;
     }
 
+    waitingResponse = false;
     _deviceList.changedList();
     return response;
 

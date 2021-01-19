@@ -33,13 +33,21 @@ class DeviceList extends ChangeNotifier{
     return _devices.length;
   }
 
-  int getPivot(){
+  int getPivotIndex(){
     for(var elem in _devices){
       if(elem.attachedToRouter==true){
         return _devices.indexOf(elem);
       }
     }
     return 0;
+  }
+  Device getPivot(){
+    for(var dev in _devices){
+      if(dev.attachedToRouter==true){
+        return dev;
+      }
+    }
+    return null;
   }
 
   void setDeviceList(List<Device> devList) {
@@ -65,8 +73,14 @@ class DeviceList extends ChangeNotifier{
 
 
   String toRealString(){
-    for(var elem in _devices) {
-      return "${elem.toString()} \n";
+    String ret;
+    for(var devlocal in _devices) {
+      ret = "${devlocal.toRealString()} \n";
+      for(var devremote in devlocal.remoteDevices){
+        ret += "${devremote.toRealString()} \n";
+      }
+
+      return ret;
     }
     return null;
   }
@@ -187,7 +201,7 @@ class Device extends ChangeNotifier {
   }
 
   String toRealString(){
-      return "Device: {name: ${this.name}, type:${this.type}, mac: ${this.mac},ip: ${this.ip}, version: ${this.version},version_date:${this.version_date}, MT: ${this.MT}, serialno: ${this.serialno},remoteDevices: ${this.remoteDevices}, icon:${this.icon},speeds: ${this.speeds}, attachedToRouter: ${this.attachedToRouter}, isLocalDevice: ${this.isLocalDevice},UpdateAvailable: ${this.updateAvailable}, UpdateStatus: ${this.updateState},  UpdateStatusInt: ${this.updateStateInt} \n";
+      return "Name: ${this.name},\n type:${this.type},\n mac: ${this.mac},\n ip: ${this.ip},\n version: ${this.version},\n version_date:${this.version_date},\n MT: ${this.MT}, serialno: ${this.serialno},\n remoteDevices: ${this.remoteDevices},\n icon:${this.icon},\n speeds: ${this.speeds},\n attachedToRouter: ${this.attachedToRouter},\n isLocalDevice: ${this.isLocalDevice},\n UpdateAvailable: ${this.updateAvailable},\n UpdateStatus: ${this.updateState},\n UpdateStatusInt: ${this.updateStateInt} \n";
   }
 }
 //=========================================== END Device =========================================

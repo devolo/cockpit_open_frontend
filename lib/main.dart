@@ -1,7 +1,7 @@
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
-import 'package:cockpit_devolo/views/networkSettingsScreen.dart';
+import 'package:cockpit_devolo/views/addDeviceScreen.dart';
 import 'package:cockpit_devolo/views/settingsScreen.dart';
 import 'package:cockpit_devolo/views/updateScreen.dart';
 import 'package:flutter/material.dart';
@@ -106,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
         SettingsScreen(title: "Einstellungen",),
         OverviewScreen(),
         UpdateScreen(title: "Update",),
-        NetworkSettingsScreen(),
+        AddDeviceScreen(),
       ],
     );
   }
@@ -182,7 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (context) => NetworkSettingsScreen(title: "Network Settings")),
+                        builder: (context) => AddDeviceScreen(title: "Network Settings")),
                   );
                 }),
             ListTile(

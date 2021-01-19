@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:cockpit_devolo/services/drawOverview.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
@@ -22,8 +23,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool _hiddenPw = true;
   bool _isButtonDisabled = true;
   bool _loading = false;
-  String zipfilename;
-  String htmlfilename;
+  String _zipfilename;
+  String _htmlfilename;
   var response;
 
   // void toggleCheckbox(bool value) {
@@ -68,6 +69,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     dataHand socket = Provider.of<dataHand>(context);
+    var _deviceList = Provider.of<DeviceList>(context);
 
     return new Scaffold(
       backgroundColor: Colors.transparent,
@@ -177,6 +179,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       setState(() {
                         config["windows_network_throttling_disabled"] = !value;
                         print(config["windows_network_throttling_disabled"]);
+                        socket.sendXML('Config');
                       });
                     },
                     activeTrackColor: devoloBlue.withAlpha(120),
@@ -213,7 +216,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             _hiddenPw = !_hiddenPw;
                           });
                         }),
-                    Text("Kennwort anzeigen ")
+                    Text("Kennwort anzeigen "),
+                    FlatButton(
+                      height: 62,
+                        hoverColor: devoloBlue.withOpacity(0.4),
+                        color: devoloBlue.withOpacity(0.4),
+                        onPressed: () {
+                          socket.sendXML('SetNetworkPassword', newValue: _newPw,valueType: "password", mac: _deviceList.getPivot().mac);
+                        },
+                        child: Text("setzen ",/*style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),*/),
+                    )
                   ],
                 ),
               ),
@@ -229,6 +241,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   FlatButton(
                     height: 60,
                     hoverColor: devoloBlue.withOpacity(0.4),
+                    color: devoloBlue.withOpacity(0.4),
                     child: Row(children: [
                       Text('Support Informationen generieren '),
 
@@ -260,8 +273,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                       setState(() {
                         if (response["result"] == "ok") {
-                          htmlfilename = response["htmlfilename"];
-                          zipfilename = response["zipfilename"];
+                          _htmlfilename = response["htmlfilename"];
+                          _zipfilename = response["zipfilename"];
                           _loading = false;
                           _isButtonDisabled = false;
                         }
@@ -279,7 +292,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             tooltip: 'öffne bowser',
                             color: _isButtonDisabled ? Colors.grey : devoloBlue,
                             onPressed: () {
-                              openFile(htmlfilename);
+                              openFile(_htmlfilename);
                             },
                           ),
                           IconButton(
@@ -287,7 +300,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             tooltip: 'öffne zip',
                             color: _isButtonDisabled ? Colors.grey : devoloBlue,
                             onPressed: () {
-                              openFile(zipfilename);
+                              openFile(_zipfilename);
                             },
                           ),
                           IconButton(

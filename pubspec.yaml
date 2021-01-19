@@ -28,6 +28,8 @@ dependencies:
   url_launcher: ^5.7.10
   flutter_svg: ^0.19.2+1
   open_file: ^3.0.3
+  flutter_localizations:
+    sdk: flutter
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -92,3 +94,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_intl:
+  enabled: true

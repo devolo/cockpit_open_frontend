@@ -67,8 +67,8 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                 children: [
                   Image(image: AssetImage('assets/addDevice1.png')),
                   Image(image: AssetImage('assets/addDevice2.png')),
-                  Image(image: AssetImage('assets/addDevice1.png')),
-                  Image(image: AssetImage('assets/addDevice1.png')),
+                  Image(image: AssetImage('assets/addDevice3.png')),
+                  Image(image: AssetImage('assets/addDevice4.png')),
                 ],
               ),
               SizedBox(

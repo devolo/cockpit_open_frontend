@@ -1,3 +1,4 @@
+import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
@@ -34,7 +35,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
     return new Scaffold(
       backgroundColor: Colors.transparent,
       appBar: new AppBar(
-        title: new Text("Updates"),
+        title: new Text(S.of(context).updates),
         centerTitle: true,
         backgroundColor: devoloBlue,
         shadowColor: Colors.transparent,
@@ -51,19 +52,19 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Name ',
+                      S.of(context).name,
                       style: TextStyle(fontWeight: FontWeight.bold, color: drawingColor, fontSize: 16),
                     ),
                     Text(
-                      'aktuelle Version',
+                      S.of(context).currentVersion,
                       style: TextStyle(color: drawingColor, fontSize: 16),
                     ),
                     Text(
-                      'neue Version',
+                      S.of(context).newVersion,
                       style: TextStyle(color: drawingColor, fontSize: 16),
                     ),
                     Text(
-                      'Status ',
+                      S.of(context).state,
                       style: TextStyle(color: drawingColor, fontSize: 16),
                     ),
                   ],
@@ -158,8 +159,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               barrierDismissible: true, // user doesn't need to tap button!
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  title: Text('Update'),
-                                  content: Text("Cockpit Software auf dem neusten Stand."),
+                                  title: Text(S.of(context).update),
+                                  content: Text(S.of(context).cockpitSoftwareIsUpToDate),
                                   actions: <Widget>[
                                     FlatButton(
                                       child: Icon(
@@ -180,8 +181,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               barrierDismissible: true, // user doesn't need to tap button!
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  title: Text('Update'),
-                                  content: Text(response["status"] == 'downloaded_setup' ? 'Update bereit zur Installation' : response.toString()),
+                                  title: Text(S.of(context).update),
+                                  content: Text(response["status"] == 'downloaded_setup' ? S.of(context).updateReadyToInstall : response.toString()),
                                   //ToDo Handle error [] if updating 'Geräte werden aktualisiert... '
                                   actions: <Widget>[
                                     IconButton(
@@ -251,7 +252,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     child: Row(
                       children: [
                         Icon(Icons.refresh),
-                        Text(' Check Updates '),
+                        Text(S.of(context).checkUpdates),
                         if (_loading) const CircularProgressIndicator(),
                         Spacer(),
                         //Text(""),

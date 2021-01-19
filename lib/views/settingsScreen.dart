@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:cockpit_devolo/services/drawOverview.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
@@ -21,6 +22,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   String _newPw;
   bool _hiddenPw = true;
+  String _dropdownValue = 'de';
   bool _isButtonDisabled = true;
   bool _loading = false;
   String _zipfilename;
@@ -74,7 +76,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return new Scaffold(
       backgroundColor: Colors.transparent,
       appBar: new AppBar(
-        title: new Text("Einstellungen"),
+        title: new Text(S.of(context).settings),
         centerTitle: true,
         backgroundColor: devoloBlue,
         shadowColor: Colors.transparent,
@@ -86,25 +88,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                Text(
-                  "GUI",
-                  style: TextStyle(color: drawingColor, fontSize: 20),
-                )
+                Text(S.of(context).gui, style: TextStyle(color: drawingColor, fontSize: 20),)
               ]),
-              Card(
-                color: secondColor,
-                child: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                  new Text(" Enable Showing Speeds"),
+              ListTile(
+                contentPadding: EdgeInsets.only(left: 10, right: 10),
+                tileColor: secondColor,
+                title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                  new Text(S.of(context).enableShowingSpeeds),
                   new Checkbox(
                     value: config["show_speeds_permanent"], //widget.painter.showSpeedsPermanently,
                     onChanged: toggleCheckbox,
                   ),
                 ]),
               ),
-              Card(
-                color: secondColor,
-                child: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                  new Text(" Internetzentrisch"),
+              Divider(),
+              ListTile(
+                contentPadding: EdgeInsets.only(left: 10, right: 10),
+                tileColor: secondColor,
+                title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                  new Text(S.of(context).internetcentered),
                   new Switch(
                     value: config["internet_centered"],
                     onChanged: (value) {
@@ -118,10 +120,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ]),
               ),
-              Card(
-                color: secondColor,
-                child: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                  new Text(" Andere Geräte anzeigen (Laptop)"),
+              Divider(),
+              ListTile(
+                contentPadding: EdgeInsets.only(left: 10, right: 10),
+                tileColor: secondColor,
+                title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                  new Text(S.of(context).showOtherDevices),
                   new Switch(
                     value: config["show_other_devices"],
                     onChanged: (value) {
@@ -135,16 +139,49 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ]),
               ),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                Text(
-                  "Netzwerk",
-                  style: TextStyle(color: drawingColor, fontSize: 20),
+              Divider(),
+              ListTile(
+                contentPadding: EdgeInsets.only(left: 10, right: 10),
+                tileColor: secondColor,
+                title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                  new Text(S.of(context).language),
+                  DropdownButton<String>(
+                    value: _dropdownValue,
+                    icon: Icon(Icons.arrow_downward),
+                    iconSize: 24,
+                    elevation: 1,
+                    //style: TextStyle(color: Colors.deepPurple),
+                    underline: Container(
+                      height: 2,
+                      color: Colors.grey,
+                    ),
+                    onChanged: (String newValue) {
+                      setState(() {
+                        _dropdownValue = newValue;
+                        S.load(Locale(newValue, ''));
+                      });
+                    },
+                    items: <String>['en', 'de']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ]),
+              ),
+              Divider(),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                Text(S.of(context).network, style: TextStyle(color: drawingColor, fontSize: 20),
                 )
               ]),
-              Card(
-                color: secondColor,
-                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                  new Text(" Alle zukünftigen Updates ignorieren"),
+              ListTile(
+                contentPadding: EdgeInsets.only(left: 10, right: 10),
+                tileColor: secondColor,
+                title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                  new Text(S.of(context).ignoreUpdates),
                   new Checkbox(
                       value: config["ignore_updates"], //ToDo
                       onChanged: (bool value) {
@@ -155,10 +192,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       }),
                 ]),
               ),
-              Card(
-                color: secondColor,
-                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                  new Text(" Übertragungsleistung der Geräte Aufzeichnen und an devolo übermitteln"),
+              Divider(),
+              ListTile(
+                contentPadding: EdgeInsets.only(left: 10, right: 10),
+                tileColor: secondColor,
+                title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                  new Text(S.of(context).recordTheTransmissionPowerOfTheDevicesAndTransmitIt),
                   new Checkbox(
                       value: config["allow_data_collection"], //ToDo
                       onChanged: (bool value) {
@@ -169,10 +208,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       }),
                 ]),
               ),
-              Card(
-                color: secondColor,
-                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                  new Text(" Windows Netzwerkdrosselung"),
+              Divider(),
+              ListTile(
+                contentPadding: EdgeInsets.only(left: 10, right: 10),
+                tileColor: secondColor,
+                title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                  new Text(S.of(context).windowsNetworkThrottling),
                   new Switch(
                     value: !config["windows_network_throttling_disabled"],
                     onChanged: (value) {
@@ -187,9 +228,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ]),
               ),
-              Card(
-                color: secondColor,
-                child: Row(
+              Divider(),
+              ListTile(
+                contentPadding: EdgeInsets.only(left: 10, right: 10),
+                tileColor: secondColor,
+                title: Row(
                   children: [
                     Flexible(
                       child: TextFormField(
@@ -197,13 +240,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         initialValue: _newPw,
                         obscureText: _hiddenPw,
                         decoration: InputDecoration(
-                          labelText: ' PLC-Netzwerk Kennwort ändern',
+                          labelText: S.of(context).changePlcnetworkPassword,
                           //helperText: 'Devicename',
                         ),
                         onChanged: (value) => (_newPw = value),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Bitte neues Passwort eintragen';
+                            return S.of(context).pleaseEnterPassword;
                           }
                           return null;
                         },
@@ -216,7 +259,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             _hiddenPw = !_hiddenPw;
                           });
                         }),
-                    Text("Kennwort anzeigen "),
+                    Text(S.of(context).showPassword),
                     FlatButton(
                       height: 62,
                         hoverColor: devoloBlue.withOpacity(0.4),
@@ -224,26 +267,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         onPressed: () {
                           socket.sendXML('SetNetworkPassword', newValue: _newPw,valueType: "password", mac: _deviceList.getPivot().mac);
                         },
-                        child: Text("setzen ",/*style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),*/),
+                        child: Text(S.of(context).set,/*style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),*/),
                     )
                   ],
                 ),
               ),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                Text(
-                  "Support",
-                  style: TextStyle(color: drawingColor, fontSize: 20),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                Text(S.of(context).support, style: TextStyle(color: drawingColor, fontSize: 20),
                 )
               ]),
-              Card(
-                color: secondColor,
-                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+              ListTile(
+                contentPadding: EdgeInsets.only(left: 10, right: 10),
+                tileColor: secondColor,
+                title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                   FlatButton(
                     height: 60,
                     hoverColor: devoloBlue.withOpacity(0.4),
                     color: devoloBlue.withOpacity(0.4),
                     child: Row(children: [
-                      Text('Support Informationen generieren '),
+                      Text(S.of(context).generateSupportInformation),
 
                         Stack(children: <Widget>[
                           Container(child: _loading ? CircularProgressIndicator() : Text("")),
@@ -289,7 +332,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         children: [
                           IconButton(
                             icon: Icon(Icons.open_in_browser_rounded),
-                            tooltip: 'öffne bowser',
+                            tooltip: S.of(context).openBrowser,
                             color: _isButtonDisabled ? Colors.grey : devoloBlue,
                             onPressed: () {
                               openFile(_htmlfilename);
@@ -297,7 +340,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ),
                           IconButton(
                             icon: Icon(Icons.archive_outlined),
-                            tooltip: 'öffne zip',
+                            tooltip: S.of(context).openZip,
                             color: _isButtonDisabled ? Colors.grey : devoloBlue,
                             onPressed: () {
                               openFile(_zipfilename);
@@ -305,7 +348,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ),
                           IconButton(
                             icon: Icon(Icons.send_and_archive),
-                            tooltip: 'sende an devolo',
+                            tooltip: S.of(context).sendToDevolo,
                             color: _isButtonDisabled ? Colors.grey : devoloBlue,
                             onPressed: () {
                               _contactInfoAlert(context);
@@ -318,7 +361,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Row(mainAxisAlignment: MainAxisAlignment.end, crossAxisAlignment: CrossAxisAlignment.end, children: <Widget>[
                 IconButton(
                   icon: Icon(Icons.list_alt),
-                  tooltip: 'Show Logs',
+                  tooltip: S.of(context).showLogs,
                   color: drawingColor,
                   onPressed: () {
                     Navigator.push(
@@ -342,7 +385,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(messageType),
-            content: Text('Bitte Aktion bestätigen.'),
+            content: Text(S.of(context).pleaseConfirmAction),
             actions: <Widget>[
               FlatButton(
                 child: Icon(
@@ -377,20 +420,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
         barrierDismissible: true, // user doesn't need to tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Kontakt Info"),
+            title: Text(S.of(context).contactInfo),
             content: Column(
               children: <Widget>[
-                Text('Die erstellten Support-Informationen können jetzt zum devolo Support gesendet werden.\nBitte füllen sie folgende Felder aus.'),
+                Text(S.of(context).theCreatedSupportInformationCanNowBeSentToDevolo),
                 TextFormField(
                   //initialValue: _newPw,
                   decoration: InputDecoration(
-                    labelText: ' Bearbeitungsnummer',
+                    labelText: S.of(context).processNumber,
                     //helperText: 'Devicename',
                   ),
                   onChanged: (value) => (_newPw = value),
                   validator: (value) {
                     if (value.isEmpty) {
-                      return 'Bitte Bearbeitungsnummer eintragen';
+                      return S.of(context).pleaseEnterProcessingNumber;
                     }
                     return null;
                   },
@@ -398,13 +441,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 TextFormField(
                   //initialValue: _newPw,
                   decoration: InputDecoration(
-                    labelText: ' Ihr Name',
+                    labelText: S.of(context).yourName,
                     //helperText: 'Devicename',
                   ),
                   onChanged: (value) => (_newPw = value),
                   validator: (value) {
                     if (value.isEmpty) {
-                      return 'Bitte ihren Namen eintragen';
+                      return S.of(context).pleaseFillInYourName;
                     }
                     return null;
                   },
@@ -418,7 +461,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   onChanged: (value) => (_newPw = value),
                   validator: (value) {
                     if (value.isEmpty) {
-                      return 'Bitte ihre Mail-Adresse eintragen';
+                      return S.of(context).pleaseEnterYourMailAddress;
                     }
                     return null;
                   },

@@ -474,6 +474,136 @@ class S {
       args: [],
     );
   }
+
+  /// `Add Device`
+  String get addDevice {
+    return Intl.message(
+      'Add Device',
+      name: 'addDevice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `open Optimization`
+  String get openOptimization {
+    return Intl.message(
+      'open Optimization',
+      name: 'openOptimization',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Optimization help`
+  String get optimizationHelp {
+    return Intl.message(
+      'Optimization help',
+      name: 'optimizationHelp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please confirm action. \nAttention! Your router is connected to this PLC device you lose connection to the Internet`
+  String get pleaseConfirmActionNattentionYourRouterIsConnectedToThis {
+    return Intl.message(
+      'Please confirm action. \nAttention! Your router is connected to this PLC device you lose connection to the Internet',
+      name: 'pleaseConfirmActionNattentionYourRouterIsConnectedToThis',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `install`
+  String get install {
+    return Intl.message(
+      'install',
+      name: 'install',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `confirm`
+  String get confirm {
+    return Intl.message(
+      'confirm',
+      name: 'confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `cancel`
+  String get cancel {
+    return Intl.message(
+      'cancel',
+      name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `show manual`
+  String get showManual {
+    return Intl.message(
+      'show manual',
+      name: 'showManual',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `identify device`
+  String get identifyDevice {
+    return Intl.message(
+      'identify device',
+      name: 'identifyDevice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `launch webinterface`
+  String get launchWebinterface {
+    return Intl.message(
+      'launch webinterface',
+      name: 'launchWebinterface',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `factory reset`
+  String get factoryReset {
+    return Intl.message(
+      'factory reset',
+      name: 'factoryReset',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `delete device`
+  String get deleteDevice {
+    return Intl.message(
+      'delete device',
+      name: 'deleteDevice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1.) Plug both PLC devices into the desired wall sockets and wait for about 45 seconds.\n2.) Briefly press the encryption button of the first (possibly already existing) PLC device.\n3.) Within two minutes, press the encryption button of the second (new) PLC device also briefly.\n4.) As soon as the LEDs light up permanently, the PLC devices are ready for operation.`
+  String get addDeviceInstructionText {
+    return Intl.message(
+      '1.) Plug both PLC devices into the desired wall sockets and wait for about 45 seconds.\n2.) Briefly press the encryption button of the first (possibly already existing) PLC device.\n3.) Within two minutes, press the encryption button of the second (new) PLC device also briefly.\n4.) As soon as the LEDs light up permanently, the PLC devices are ready for operation.',
+      name: 'addDeviceInstructionText',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

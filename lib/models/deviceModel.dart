@@ -58,7 +58,7 @@ class DeviceList extends ChangeNotifier{
   void addDevice(Device device) {
     if(device.attachedToRouter & config["internet_centered"]){this._devices.insert(0, device);}
     else{this._devices.add(device);}
-    print(_devices);
+    //print(_devices);
     //notifyListeners();
   }
 
@@ -158,7 +158,7 @@ class Device extends ChangeNotifier {
       List<XmlNode> remotes = element.getElement('remotes').children;
       remotes = testList(remotes, 'type'); // Checking where items are devices returning the trimmed list
       for (var remote in remotes) {
-        print('Remote Device found: ' + remote.getElement('type').text);
+        //print('Remote Device found: ' + remote.getElement('type').text);
         retDevice.remoteDevices.add(Device.fromXML(remote, false));
       }
     }
@@ -187,12 +187,12 @@ class Device extends ChangeNotifier {
 
         if (retDevice.mac.compareTo(txMac) == 0) {
           retDevice.speeds[rxMac] = new DataratePair(txRate, rxRate);
-          print(retDevice.name + " Rates added for " + txMac + " to " + rxMac + ": " + retDevice.speeds[rxMac].rx.toString() + ", " + retDevice.speeds[rxMac].tx.toString());
+          //print(retDevice.name + " Rates added for " + txMac + " to " + rxMac + ": " + retDevice.speeds[rxMac].rx.toString() + ", " + retDevice.speeds[rxMac].tx.toString());
         }
         for (var remoteDevice in retDevice.remoteDevices) {
           if (remoteDevice.mac.compareTo(txMac) == 0) {
             remoteDevice.speeds[rxMac] = new DataratePair(txRate, rxRate);
-            print(remoteDevice.name+ " Rates added for " + txMac + " to " + rxMac + ": " + remoteDevice.speeds[rxMac].rx.toString() + ", " + remoteDevice.speeds[rxMac].tx.toString());
+            //print(remoteDevice.name+ " Rates added for " + txMac + " to " + rxMac + ": " + remoteDevice.speeds[rxMac].rx.toString() + ", " + remoteDevice.speeds[rxMac].tx.toString());
           }
         }
       }

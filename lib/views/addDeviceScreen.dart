@@ -1,3 +1,4 @@
+import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
@@ -34,7 +35,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
     return new Scaffold(
       backgroundColor: Colors.transparent,
       appBar: new AppBar(
-        title: new Text("Netzwerk Einstellungen"),
+        title: new Text(S.of(context).addDevice),
         centerTitle: true,
         backgroundColor: devoloBlue,
         shadowColor: Colors.transparent,
@@ -46,17 +47,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SelectableText(
-                'Gerät hinzufügen',
-                style: TextStyle(fontSize: 20, color: Colors.white),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              SelectableText(
-                "1.) Stecken Sie beide PLC-Geräte in die gewünschten Wandsteckdosen und warten ca. 45 Sekunden.\n"
-                    "2.) Drücken Sie kurz den Verschlüsselungsknopf des ersten (evtl. bereits vorhandenen) PLC-Gerätes.\n"
-                    "3.) Drücken Sie innerhalb von zwei Minuten den Verschlüsselungsknopf des zweiten (neuen) PLC-Gerätes ebenfalls kurz.\n"
-                    "4.) Sobald die LEDs dauerhaft leuchten, sind die PLC-Geräte betriebsbereit.",
+                    S.of(context).addDeviceInstructionText,
                 style: TextStyle(color: Colors.white),
               ),
               SizedBox(
@@ -75,7 +66,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                 height: 20,
               ),
               RaisedButton(
-                  child: Text("Optimierungshilfe öffnen"),
+                  child: Text(S.of(context).openOptimization),
                   color: Colors.blue[800],
                   textColor: Colors.white,
                   onPressed: () {
@@ -113,7 +104,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
         barrierDismissible: true, // user doesn't need to tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-              title: Text("Optimierungs Hilfe"),
+              title: Text(S.of(context).optimizationHelp),
               content: StatefulBuilder(// You need this, notice the parameters below:
                   builder: (BuildContext context, StateSetter setState) {
                 return Container(

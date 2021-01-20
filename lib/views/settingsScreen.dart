@@ -5,6 +5,7 @@ import 'package:cockpit_devolo/services/drawOverview.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
+import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/views/logsScreen.dart';
@@ -22,7 +23,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   String _newPw;
   bool _hiddenPw = true;
-  String _dropdownValue = 'de';
+  String _dropdownValue = 'en';
   bool _isButtonDisabled = true;
   bool _loading = false;
   String _zipfilename;
@@ -147,13 +148,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   new Text(S.of(context).language),
                   DropdownButton<String>(
                     value: _dropdownValue,
-                    icon: Icon(Icons.arrow_downward),
+                    icon: Icon(Icons.arrow_drop_down_rounded,color: devoloBlue,),
                     iconSize: 24,
-                    elevation: 1,
+                    elevation: 8,
                     //style: TextStyle(color: Colors.deepPurple),
                     underline: Container(
                       height: 2,
-                      color: Colors.grey,
+                      color: devoloBlue,
                     ),
                     onChanged: (String newValue) {
                       setState(() {
@@ -165,7 +166,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
-                        child: Text(value),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("  "+value),
+                            Flag(
+                              value=="en"?"gb": value,
+                              height: 15,
+                              width: 25,
+                              fit: BoxFit.fill,
+                            ),
+                          ],
+                        ),
                       );
                     }).toList(),
                   ),
@@ -311,8 +323,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         socket.sendXML('SupportInfoGenerate');
                       });
 
-                      response = await socket.recieveXML();
-                      print('Response: ' + response.toString());
+                      response = await socket.recieveXML(["SupportInfoGenerateStatus"]);
+                      //print('Response: ' + response.toString());
 
                       setState(() {
                         if (response["result"] == "ok") {

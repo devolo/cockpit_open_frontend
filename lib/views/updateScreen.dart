@@ -54,18 +54,22 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     Text(
                       S.of(context).name,
                       style: TextStyle(fontWeight: FontWeight.bold, color: drawingColor, fontSize: 16),
+                      semanticsLabel: S.of(context).name,
                     ),
                     Text(
                       S.of(context).currentVersion,
                       style: TextStyle(color: drawingColor, fontSize: 16),
+                        semanticsLabel: S.of(context).currentVersion,
                     ),
                     Text(
                       S.of(context).newVersion,
                       style: TextStyle(color: drawingColor, fontSize: 16),
+                        semanticsLabel: S.of(context).newVersion,
                     ),
                     Text(
                       S.of(context).state,
                       style: TextStyle(color: drawingColor, fontSize: 16),
+                        semanticsLabel: S.of(context).state,
                     ),
                   ],
                 ),
@@ -116,7 +120,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                       _loadingFW = socket.waitingResponse;
                                     });
 
-                                    var response = await socket.recieveXML();
+                                    var response = await socket.recieveXML([]);
                                     print('Response: ' + response.toString());
                                   })
                               : Icon(
@@ -146,8 +150,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         _loading = socket.waitingResponse;
                       });
 
-                      var response = await socket.recieveXML();
-                      print('Response: ' + response.toString());
+                      var response = await socket.recieveXML(["UpdateIndication", "FirmwareUpdateIndication"]);
 
                       setState(() {
                         _loading = socket.waitingResponse; //ToDo set state?
@@ -191,7 +194,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                         size: 35,
                                         color: devoloBlue,
                                       ), //Text('Bestätigen'),
-                                      tooltip: "Installieren",
+                                      tooltip: S.of(context).install,
                                       onPressed: () {
                                         // Critical things happening here
                                         socket.sendXML('UpdateResponse', valueType: 'action', newValue: 'execute');
@@ -205,49 +208,26 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                           size: 35,
                                           color: devoloBlue,
                                         ), //Text('Abbrechen'),
-                                        tooltip: "skip",
+                                        tooltip: S.of(context).cancel,
                                         onPressed: () {
                                           // Cancel critical action
                                           socket.sendXML('UpdateResponse', valueType: 'action', newValue: 'skip');
                                           Navigator.of(context).pop();
                                         }),
-                                    IconButton(
-                                        icon: Icon(
-                                          Icons.cancel_outlined,
-                                          size: 35,
-                                          color: Colors.grey,
-                                        ), //Text('Abbrechen'),
-                                        tooltip: "Abbrechen",
-                                        onPressed: () {
-                                          // Cancel critical action
-                                          Navigator.of(context).pop();
-                                        }),
+                                    // IconButton(
+                                    //     icon: Icon(
+                                    //       Icons.cancel_outlined,
+                                    //       size: 35,
+                                    //       color: Colors.grey,
+                                    //     ), //Text('Abbrechen'),
+                                    //     tooltip: "Abbrechen",
+                                    //     onPressed: () {
+                                    //       // Cancel critical action
+                                    //       Navigator.of(context).pop();
+                                    //     }),
                                   ],
                                 );
                               }): _lastPoll = DateTime.now();
-                      // showDialog<void>(
-                      //     context: context,
-                      //     barrierDismissible: true, // user doesn't need to tap button!
-                      //     builder: (BuildContext context) {
-                      //       return AlertDialog(
-                      //         title: Text('Update'),
-                      //         content: Text(response.toString()),
-                      //         //ToDo Handle error [] if updating 'Geräte werden aktualisiert... '
-                      //         actions: <Widget>[
-                      //           IconButton(
-                      //               icon: Icon(
-                      //                 Icons.cancel_outlined,
-                      //                 size: 35,
-                      //                 color: Colors.grey,
-                      //               ), //Text('Abbrechen'),
-                      //               tooltip: "Abbrechen",
-                      //               onPressed: () {
-                      //                 // Cancel critical action
-                      //                 Navigator.of(context).pop();
-                      //               }),
-                      //         ],
-                      //       );
-                      //     });
                     },
                     child: Row(
                       children: [

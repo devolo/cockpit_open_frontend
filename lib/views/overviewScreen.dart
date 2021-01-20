@@ -1,3 +1,4 @@
+import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/services/drawOverview.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
@@ -199,16 +200,18 @@ class _OverviewScreenState extends State<OverviewScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                        IconButton(icon: Icon(Icons.public, color: devoloBlue,), tooltip: 'Launch Webinterface', onPressed: () => launchURL(hitDeviceIp),),
-                        IconButton(icon: Icon(Icons.lightbulb, color: devoloBlue,), tooltip: 'Identify Device', onPressed: () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac)),
-                        IconButton(icon: Icon(Icons.find_in_page, color: devoloBlue,), tooltip: 'Show Manual', onPressed: () {
+                        IconButton(icon: Icon(Icons.public, color: devoloBlue,), tooltip: S.of(context).launchWebinterface, onPressed: () => launchURL(hitDeviceIp),),
+                        IconButton(icon: Icon(Icons.lightbulb, color: devoloBlue,), tooltip: S.of(context).identifyDevice, onPressed: () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac)),
+                        IconButton(icon: Icon(Icons.find_in_page, color: devoloBlue,), tooltip: S.of(context).showManual,
+                            onPressed: () async {
                           socket.sendXML('GetManual', newValue: hitDeviceMT, valueType: 'product', newValue2: 'de', valueType2: 'language');
+                          var response = await socket.recieveXML(["GetManualResponse"]);
                           setState(() {
-                            socket.recieveXML().then((path) =>openFile(path['filename']));
+                            openFile(response['filename']);
                           });
                         }),
-                        IconButton(icon: Icon(Icons.upload_file, color: devoloBlue,), tooltip: 'Factory Reset', onPressed: () =>_handleCriticalActions(context, socket, 'ResetAdapterToFactoryDefaults', hitDevice),),
-                        IconButton(icon: Icon(Icons.delete, color: devoloBlue,), tooltip: 'Delete Device', onPressed: () =>_handleCriticalActions(context, socket, 'RemoveAdapter', hitDevice),), //ToDo Delete Device see wiki
+                        IconButton(icon: Icon(Icons.upload_file, color: devoloBlue,), tooltip: S.of(context).factoryReset, onPressed: () =>_handleCriticalActions(context, socket, 'ResetAdapterToFactoryDefaults', hitDevice),),
+                        IconButton(icon: Icon(Icons.delete, color: devoloBlue,), tooltip: S.of(context).deleteDevice, onPressed: () =>_handleCriticalActions(context, socket, 'RemoveAdapter', hitDevice),), //ToDo Delete Device see wiki
                       ],
                     ),
 
@@ -216,9 +219,15 @@ class _OverviewScreenState extends State<OverviewScreen> {
                 ),
               ),
               actions: <Widget>[
-                TextButton(
-                  child: Icon(Icons.check_circle_outline, size: 35,color: devoloBlue,),//Text('Bestätigen'),
+                IconButton(
+                  icon: Icon(
+                    Icons.check_circle_outline,
+                    size: 35,
+                    color: devoloBlue,
+                  ), //Text('Bestätigen'),
+                  tooltip: S.of(context).confirm,
                   onPressed: () {
+                    // Critical things happening here
                     socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
                     Navigator.of(context).pop();
                   },
@@ -296,72 +305,37 @@ class _OverviewScreenState extends State<OverviewScreen> {
     builder: (BuildContext context) {
     return AlertDialog(
       title: Text(messageType),
-      content: hitDevice.attachedToRouter?Text('Bitte Aktion bestätigen. \nAchtung! Ihr Router ist an dieses PLC-Gerät angeschlossen sie verlieren die Verbiondung zum Internet '):Text('Bitte Aktion bestätigen.'),
+      content: hitDevice.attachedToRouter?Text(S.of(context).pleaseConfirmActionNattentionYourRouterIsConnectedToThis):Text(S.of(context).pleaseConfirmAction),
       actions: <Widget>[
-        FlatButton(
-          child: Icon(Icons.check_circle_outline, size: 35,color: devoloBlue,),//Text('Bestätigen'),
-          onPressed: (){
+        IconButton(
+          icon: Icon(
+            Icons.check_circle_outline,
+            size: 35,
+            color: devoloBlue,
+          ), //Text('Bestätigen'),
+          tooltip: S.of(context).confirm,
+          onPressed: () {
             // Critical things happening here
             socket.sendXML(messageType, mac: hitDevice.mac);
             Navigator.of(context).pop();
           },
         ),
         Spacer(),
-        FlatButton(
-            child: Icon(Icons.cancel_outlined, size: 35,color: devoloBlue,),//Text('Abbrechen'),
-            onPressed: (){
+        IconButton(
+            icon: Icon(
+              Icons.cancel_outlined,
+              size: 35,
+              color: devoloBlue,
+            ), //Text('Abbrechen'),
+            tooltip: S.of(context).cancel,
+            onPressed: () {
               // Cancel critical action
               Navigator.of(context).pop();
-            }
-        ),
+            }),
+
       ],
     );
   });
   }
 
-// void _handleTap(TapUpDetails details) {
-//   print('entering _handleTab');
-//   RenderBox renderBox = context.findRenderObject();
-//
-//   int index = 0;
-//   String hitDeviceName;
-//   for (Offset deviceIconOffset in deviceIconOffsetList) {
-//     if (index >
-//         _Painter.numberFoundDevices) //do not check invisible circles
-//       break;
-//
-//     Offset absoluteOffset = Offset(deviceIconOffset.dx + (_Painter.screenWidth / 2),
-//         deviceIconOffset.dy + (_Painter.screenHeight / 2));
-//
-//     if (_Painter.isPointInsideCircle(details.localPosition, absoluteOffset, _Painter.hn_circle_radius)) {
-//       print("Hit icon #" + index.toString());
-//
-//       hitDeviceName = deviceList.devices[index].name;
-//
-//       if (deviceList.devices[index].ip != null &&
-//           deviceList.devices[index].ip.length > 0 &&
-//           deviceList.devices[index].ip.compareTo("http://") != 0 &&
-//           deviceList.devices[index].ip.compareTo("https://") != 0) // ToDo understand... 3rd & 4th condition necessary? Ask what backend will send..just seen ips
-//       {
-//         String webUrl = "http://"+deviceList.devices[index].ip;
-//         print("Opening web UI at " + webUrl);
-//
-//         if (Platform.isFuchsia || Platform.isLinux)
-//           print("Would now have opened the Web-Interface at " +
-//               webUrl +
-//               ", but we are experimental on the current platform. :-/");
-//         else
-//           launchURL(webUrl);
-//
-//       } else {
-//         Navigator.push(
-//           context,
-//           new MaterialPageRoute(
-//               builder: (context) => new EmptyScreen(title: hitDeviceName)),
-//         );
-//       }
-//     }
-//     index++;
-//   }
-// }
 }

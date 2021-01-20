@@ -89,7 +89,8 @@ class dataHand extends ChangeNotifier {
 
       if (document.findAllElements('MessageType').first.innerText == "NetworkUpdate") { // If received Message is general NetworkUpdate
         _deviceList.clearList();
-        print('DeviceList found!');
+        print('DeviceList found ->');
+        //print(document);
 
         var localDeviceList = document.findAllElements('LocalDeviceList'); //TODO: TEST call for every
         for (var dev in localDeviceList) {
@@ -105,23 +106,27 @@ class dataHand extends ChangeNotifier {
       }
       else if (document.findAllElements('MessageType').first.innerText == "Config") {
         parseConfig(document);
-        print('Config found!');
+        print('Config found ->');
+        //print(document);
       }
-      else if (document.findAllElements('MessageType').first.innerText == "UpdateIndication") {
-        parseUpdateIndication(document);
-        xmlResponseList.insert(0,document);
-        xmlResponseList.insert(0,DateTime.now());
-
-        waitingResponse = false;
-        print('UpdateIndication found ->');
-        print(document);
-      }else if (document.findAllElements('MessageType').first.innerText == "FirmwareUpdateIndication") {
+      // else if (document.findAllElements('MessageType').first.innerText == "UpdateIndication") {
+      //   xmlResponse = document;
+      //   parseUpdateIndication(document);
+      //
+      //   xmlResponseList.insert(0,document);
+      //   xmlResponseList.insert(0,DateTime.now());
+      //
+      //   waitingResponse = false;
+      //   print('UpdateIndication found ->');
+      //   print(document);
+      //}
+      else if (document.findAllElements('MessageType').first.innerText == "FirmwareUpdateIndication") {
+        xmlResponse = document;
         parseFWUpdateIndication(document);
 
         xmlResponseList.insert(0,document);
         xmlResponseList.insert(0,DateTime.now());
 
-        waitingResponse = false;
         print('FirmwareUpdateIndication found ->');
         print(document);
       }
@@ -139,7 +144,7 @@ class dataHand extends ChangeNotifier {
         xmlResponseList.insert(0,document);
         xmlResponseList.insert(0,DateTime.now());
 
-        waitingResponse = false;
+        //waitingResponse = false;
         print('Another Response found ->');
         print(document);
       }
@@ -208,9 +213,9 @@ class dataHand extends ChangeNotifier {
 
 
 
-  Future<Map<String, dynamic>> recieveXML() async {
+  Future<Map<String, dynamic>> recieveXML([List<String> wantedMessageTypes]) async {
     // ToDo generic?
-    final Map response = new Map<String, dynamic>();
+    Map response = new Map<String, dynamic>();
     String responseElem;
 
     await new Future.delayed(const Duration(seconds: 2));
@@ -219,68 +224,91 @@ class dataHand extends ChangeNotifier {
 
     await Future.doWhile(() async {
       print("waitingforResponse");
-      await new Future.delayed(const Duration(seconds: 2));
+      await new Future.delayed(const Duration(seconds: 1));
 
-      if (!waitingResponse) {
+      if (waitingResponse) {
 
         String messageType = await findFirstElem(xmlResponse, 'MessageType');
         response['messageType'] = messageType;
-
-        if (messageType == "Config") {
-          parseConfig(xmlResponse);
-          print(config.toString());
-        }
+        print(messageType);
+        print(wantedMessageTypes);
+        print(wantedMessageTypes.contains(messageType));
 
         // for(var elem in xmlResponse.findAllElements('Message').first.children){
         //   print("Element "+elem.toString());
         //   print(elem.innerText);
         // }
 
-        responseElem = await findFirstElem(xmlResponse, 'status');
-        if (responseElem != null) {
-          response['status'] = responseElem;
+        if (wantedMessageTypes.contains(messageType)) {
+          if (messageType == "Config") {
+            parseConfig(xmlResponse);
+            print(config.toString());
+          }
+          else if (messageType == "UpdateIndication") { //"UpdateIndication"
+            response = await parseUpdateIndication(xmlResponse);
+            //waitingResponse = false;
+          }
+          else if(messageType == "FirmwareUpdateIndication"){ //"FirmwareUpdateIndication"
+            responseElem = await findFirstElem(xmlResponse, 'macAddress'); //ToDo probably more Macs!
+            if (responseElem != null) {
+              response['macAddress'] = responseElem;
+              int devIndex = _deviceList.getDeviceList().indexWhere((element) => element.mac == responseElem);
+              _deviceList.getDeviceList()[devIndex].updateAvailable = true;
+            }
+            //waitingResponse = false;
+          }
+          else if (messageType == "SupportInfoGenerateStatus"){  //"SupportInfoGenerateStatus"
+            responseElem = await findFirstElem(xmlResponse, 'status');
+            if (responseElem != null) {
+              response['status'] = responseElem;
+            }
+            responseElem = await findFirstElem(xmlResponse, 'htmlfilename');
+            if (responseElem != null) {
+              response['htmlfilename'] = responseElem;
+            }
+            responseElem = await findFirstElem(xmlResponse, 'zipfilename');
+            if (responseElem != null) {
+              response['zipfilename'] = responseElem;
+            }
+            responseElem = await findFirstElem(xmlResponse, 'result');
+            if (responseElem != null) {
+              response['result'] = responseElem;
+            }
+            //waitingResponse = false;
+          }
+          else {
+
+            responseElem = await findFirstElem(xmlResponse, 'filename');
+            if (responseElem != null) {
+              response['filename'] = responseElem;
+            }
+            responseElem = await findFirstElem(xmlResponse, 'commandline');
+            if (responseElem != null) {
+              response['commandline'] = responseElem;
+            }
+            responseElem = await findFirstElem(xmlResponse, 'workdir');
+            if (responseElem != null) {
+              response['workdir'] = responseElem;
+            }
+            responseElem = await findFirstElem(xmlResponse, 'macAddress'); //ToDo probably more Macs!
+            if (responseElem != null) {
+              response['macAddress'] = responseElem;
+              int devIndex = _deviceList.getDeviceList().indexWhere((element) => element.mac == responseElem);
+              _deviceList.getDeviceList()[devIndex].updateAvailable = true;
+            }
+            //waitingResponse = false;
+          }
+          waitingResponse = false;
         }
-        responseElem = await findFirstElem(xmlResponse, 'filename');
-        if (responseElem != null) {
-          response['filename'] = responseElem;
-        }
-        responseElem = await findFirstElem(xmlResponse, 'htmlfilename');
-        if (responseElem != null) {
-          response['htmlfilename'] = responseElem;
-        }
-        responseElem = await findFirstElem(xmlResponse, 'zipfilename');
-        if (responseElem != null) {
-          response['zipfilename'] = responseElem;
-        }
-        responseElem = await findFirstElem(xmlResponse, 'result');
-        if (responseElem != null) {
-          response['result'] = responseElem;
-        }
-        responseElem = await findFirstElem(xmlResponse, 'commandline');
-        if (responseElem != null) {
-          response['commandline'] = responseElem;
-        }
-        responseElem = await findFirstElem(xmlResponse, 'workdir');
-        if (responseElem != null) {
-          response['workdir'] = responseElem;
-        }
-        responseElem = await findFirstElem(xmlResponse, 'macAddress'); //ToDo probably more Macs!
-        if (responseElem != null) {
-          response['macAddress'] = responseElem;
-          int devIndex = _deviceList.getDeviceList().indexWhere((element) => element.mac == responseElem);
-          _deviceList.getDeviceList()[devIndex].updateAvailable = true;
-        }
-        //Future.value(response);
-        //completer.complete();
-        //return response;
+        //Future.value(response);//completer.complete();//return response;
       }
       return waitingResponse;
-    }).timeout(Duration(seconds: 15), onTimeout: () {
-      waitingResponse = false;
+    }).timeout(Duration(seconds: 30), onTimeout: () {
       print('> Timed Out');
+      waitingResponse = false;
     });
 
-
+    waitingResponse = false;
     print("Response: " + response.toString());
     return response;
   }
@@ -310,7 +338,6 @@ class dataHand extends ChangeNotifier {
 
   void parseUpdateStatus(XmlDocument xmlResponse){
     var items = xmlResponse.findAllElements("item");
-    //var macs = item.findAllElements("macAddress"); //ToDo List
     for(var item in items){
       Device dev = _deviceList.getDeviceList().where((element) => element.mac == item.getElement("first").getElement("macAddress").innerText).first;
       String status = item.getElement("second").innerText;
@@ -330,13 +357,13 @@ class dataHand extends ChangeNotifier {
     for(var item in items){
       Device dev = _deviceList.getDeviceList().where((element) => element.mac == item.getElement("first").getElement("macAddress").innerText).first;
       dev.updateAvailable = true;
-      print(dev.toRealString());
+      //print(dev.toRealString());
     }
     _deviceList.changedList();
   }
 
   Future<Map<String, dynamic>> parseUpdateIndication(XmlDocument xmlResponse) async {
-    final Map response = new Map<String, dynamic>();
+    Map response = new Map<String, dynamic>();
     String responseElem;
 
     String messageType = xmlResponse.findAllElements("MessageType").first.innerText;
@@ -355,8 +382,8 @@ class dataHand extends ChangeNotifier {
       response['workdir'] = responseElem;
     }
 
-    waitingResponse = false;
-    _deviceList.changedList();
+    //_deviceList.changedList();
+    print("ResponseUpdateIndication: " + response.toString());
     return response;
 
     }

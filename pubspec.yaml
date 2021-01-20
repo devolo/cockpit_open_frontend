@@ -28,6 +28,7 @@ dependencies:
   url_launcher: ^5.7.10
   flutter_svg: ^0.19.2+1
   open_file: ^3.0.3
+  flag: ^3.2.0
   flutter_localizations:
     sdk: flutter
 

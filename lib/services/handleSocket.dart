@@ -13,6 +13,8 @@ class dataHand extends ChangeNotifier {
   List<dynamic> xmlResponseList = [];
   bool waitingResponse = false;
 
+  int networkIndex = 0;
+
   dataHand() {
     print("Creating new NetworkOverviewModelDesktop");
     handleSocket();
@@ -81,7 +83,7 @@ class dataHand extends ChangeNotifier {
         xmlDataNext = null;
       }
     }
-    //print(xmlDataList);
+    print(xmlDataList);
 
     XmlDocument document;
     for (var xmlDoc in xmlDataList) {
@@ -89,16 +91,20 @@ class dataHand extends ChangeNotifier {
 
       if (document.findAllElements('MessageType').first.innerText == "NetworkUpdate") { // If received Message is general NetworkUpdate
         _deviceList.clearList();
+        _deviceList.clearListList();
         print('DeviceList found ->');
         //print(document);
 
-        var localDeviceList = document.findAllElements('LocalDeviceList'); //TODO: TEST call for every
+        var localDeviceList = document.findAllElements('LocalDeviceList').first.findElements('item'); //TODO: TEST call for every
+        print(localDeviceList);
+        int listCounter = 0;
         for (var dev in localDeviceList) {
-          Device device = Device.fromXML(dev.getElement('item'),true);
-          _deviceList.addDevice(device);
+          Device device = Device.fromXML(dev,true);
+          _deviceList.addDevice(device, listCounter);
           for (var remoteDev in device.remoteDevices) {
-            _deviceList.addDevice(remoteDev);
+            _deviceList.addDevice(remoteDev, listCounter);
           }
+          listCounter++;
         }
         // Check if new Devices have Updates to set updateAvailable
         sendXML('UpdateCheck');
@@ -252,8 +258,8 @@ class dataHand extends ChangeNotifier {
             responseElem = await findFirstElem(xmlResponse, 'macAddress'); //ToDo probably more Macs!
             if (responseElem != null) {
               response['macAddress'] = responseElem;
-              int devIndex = _deviceList.getDeviceList().indexWhere((element) => element.mac == responseElem);
-              _deviceList.getDeviceList()[devIndex].updateAvailable = true;
+              int devIndex = _deviceList.getDeviceList(networkIndex).indexWhere((element) => element.mac == responseElem);
+              _deviceList.getDeviceList(networkIndex)[devIndex].updateAvailable = true;
             }
             //waitingResponse = false;
           }
@@ -293,8 +299,8 @@ class dataHand extends ChangeNotifier {
             responseElem = await findFirstElem(xmlResponse, 'macAddress'); //ToDo probably more Macs!
             if (responseElem != null) {
               response['macAddress'] = responseElem;
-              int devIndex = _deviceList.getDeviceList().indexWhere((element) => element.mac == responseElem);
-              _deviceList.getDeviceList()[devIndex].updateAvailable = true;
+              int devIndex = _deviceList.getDeviceList(networkIndex).indexWhere((element) => element.mac == responseElem);
+              _deviceList.getDeviceList(networkIndex)[devIndex].updateAvailable = true;
             }
             //waitingResponse = false;
           }
@@ -339,7 +345,7 @@ class dataHand extends ChangeNotifier {
   void parseUpdateStatus(XmlDocument xmlResponse){
     var items = xmlResponse.findAllElements("item");
     for(var item in items){
-      Device dev = _deviceList.getDeviceList().where((element) => element.mac == item.getElement("first").getElement("macAddress").innerText).first;
+      Device dev = _deviceList.getDeviceList(networkIndex).where((element) => element.mac == item.getElement("first").getElement("macAddress").innerText).first;
       String status = item.getElement("second").innerText;
 
       dev.updateState = status;
@@ -355,7 +361,7 @@ class dataHand extends ChangeNotifier {
     var items = xmlResponse.findAllElements("item");
     //var macs = item.findAllElements("macAddress"); //ToDo List
     for(var item in items){
-      Device dev = _deviceList.getDeviceList().where((element) => element.mac == item.getElement("first").getElement("macAddress").innerText).first;
+      Device dev = _deviceList.getDeviceList(networkIndex).where((element) => element.mac == item.getElement("first").getElement("macAddress").innerText).first;
       dev.updateAvailable = true;
       //print(dev.toRealString());
     }

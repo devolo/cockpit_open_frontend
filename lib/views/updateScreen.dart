@@ -12,7 +12,7 @@ class UpdateScreen extends StatefulWidget {
 
   final String title;
 
-  //dataHand model;
+  int networkIndex = 0;
 
   @override
   _UpdateScreenState createState() => _UpdateScreenState(title: title);
@@ -81,9 +81,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 //height: 350,
                 child: ListView.separated(
                   //padding: const EdgeInsets.all(8),
-                  itemCount: _deviceList.getDeviceList().length,
+                  itemCount: _deviceList.getDeviceList(widget.networkIndex).length,
                   itemBuilder: (BuildContext context, int index) {
-                    var device = _deviceList.getDeviceList()[index];
+                    var device = _deviceList.getDeviceList(widget.networkIndex)[index];
                     return Column(
                       children: [
                         ListTile(

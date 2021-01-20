@@ -57,8 +57,8 @@ class DrawNetworkOverview extends CustomPainter {
   double _screenGridWidth;
   double _screenGridHeight;
 
-  DrawNetworkOverview(BuildContext context, DeviceList foundDevices, bool showSpeeds, int pivot) {
-    _deviceList = Provider.of<DeviceList>(context).getDeviceList();
+  DrawNetworkOverview(BuildContext context, DeviceList foundDevices, bool showSpeeds, int pivot, int networkIndex) {
+    _deviceList = Provider.of<DeviceList>(context).getDeviceList(networkIndex);
     print("DrawNetworkOverview: " + _deviceList.toString());
     numberFoundDevices = _deviceList.length;
 
@@ -584,10 +584,11 @@ class DrawNetworkOverview extends CustomPainter {
         thickness['tx'] = 10.0;
       else
         thickness['tx'] = rates.tx * 0.01;
-
       //print('THIIICKNESSS ' + dev.toString() + " " + thickness.toString());
+      return thickness;
     }
-    //else{thickness.addAll({'tx': 3.0});}
+    thickness['rx'] = 0.3;
+    thickness['tx'] = 0.3;
     return thickness;
   }
 

@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
               //     color: Colors.white,
               //   ),
               // ),
+
             ),
             localizationsDelegates: [
               // ... app-specific localization delegate[s] here

@@ -4,29 +4,22 @@ import 'package:xml/xml.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 
 
-
-enum DeviceType { dtLanMini, dtLanPlus, dtWiFiMini, dtWiFiPlus, dtWiFiOnly, dtUnknown }
-
-class DataratePair {
-  DataratePair(int rx, int tx) {
-    this.rx = rx;
-    this.tx = tx;
-  }
-
-  int tx;
-  int rx;
-}
-
 class DeviceList extends ChangeNotifier{
   List<Device> _devices = [];
+  List<List<Device>> _networkList = [];
 
   DeviceList() {
     //this._devices = _devices;
     //notifyListeners();
   }
 
-  List<Device> getDeviceList(){
-      return _devices;
+  List<Device> getDeviceList(int networkIndex){
+      //return _devices;
+    return _networkList[networkIndex];
+  }
+
+  List<List<Device>> getNetworkList(){
+    return _networkList;
   }
 
   int getLength(){
@@ -55,15 +48,29 @@ class DeviceList extends ChangeNotifier{
     notifyListeners();
   }
 
-  void addDevice(Device device) {
+  void addDevice(Device device, int whichListIndex) {
     if(device.attachedToRouter & config["internet_centered"]){this._devices.insert(0, device);}
     else{this._devices.add(device);}
+    print(whichListIndex);
+    //for multiple localDevices with its own remote devices
+      if(_networkList[whichListIndex] == null){
+        _networkList.insert(whichListIndex, []);
+      }
+    _networkList[whichListIndex].add(device);
+      //_deviceListList.insert(listCounter, _devices);
+
     //print(_devices);
     //notifyListeners();
   }
 
   void clearList() {
     _devices.clear();
+    notifyListeners();
+  }
+
+  void clearListList() {
+    _networkList.clear();
+    _networkList = [[],[],[]]; //TODO some bug...must be initialized ...supports 3 (local/parallel) network lists right now
     notifyListeners();
   }
 
@@ -86,6 +93,7 @@ class DeviceList extends ChangeNotifier{
   }
 
 }
+
 
 //=========================================== Device =========================================
 class Device extends ChangeNotifier {
@@ -134,10 +142,14 @@ class Device extends ChangeNotifier {
 
   factory Device.fromXML(XmlElement element, bool islocalDevice) {
     bool attachedToRouter = false;
-    for(var elem in element.getElement('states').children){
-      if(elem.innerText.contains("gateway"))
-        attachedToRouter = true;
+    var gatewayStates=element.getElement('states');
+    if(gatewayStates != null){
+      for(var elem in gatewayStates.children){
+        if(elem.innerText.contains("gateway"))
+          attachedToRouter = true;
+      }
     }
+
 
     Device retDevice = Device(
       element.getElement('type').text,
@@ -205,6 +217,18 @@ class Device extends ChangeNotifier {
   }
 }
 //=========================================== END Device =========================================
+enum DeviceType { dtLanMini, dtLanPlus, dtWiFiMini, dtWiFiPlus, dtWiFiOnly, dtUnknown }
+
+class DataratePair {
+  DataratePair(int rx, int tx) {
+    this.rx = rx;
+    this.tx = tx;
+  }
+
+  int tx;
+  int rx;
+}
+
 
 // Tests if XmlNode remotes contains Information about a Device
 List<XmlNode> testList(List<XmlNode> remotes, String searchString) {

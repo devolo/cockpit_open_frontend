@@ -13,14 +13,14 @@ import 'package:flutter/foundation.dart'
 
 
 class OverviewScreen extends StatefulWidget {
-  OverviewScreen({Key key, this.title}) : super(key: key);
+  OverviewScreen({Key key}) : super(key: key);
 
   // This class is the configuration for the state. It holds the values (in this
   // case the title) provided by the parent (in this case the App widget) and
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
+  final networkIndex = 0;
 
-  final String title;
 
   @override
   _OverviewScreenState createState() => _OverviewScreenState();
@@ -52,7 +52,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
     final deviceList = Provider.of<DeviceList>(context);
     socket.setDeviceList(deviceList);
 
-    _Painter = DrawNetworkOverview(context, deviceList, showingSpeedsFake, pivotDeviceIndexFake);
+    _Painter = DrawNetworkOverview(context, deviceList, showingSpeedsFake, pivotDeviceIndexFake, widget.networkIndex);
 
     print("drawing Overview...");
 
@@ -120,16 +120,16 @@ class _OverviewScreenState extends State<OverviewScreen> {
         final socket = Provider.of<dataHand>(context);
         final deviceList = Provider.of<DeviceList>(context);
 
-        hitDevice = deviceList.getDeviceList()[index];
-        hitDeviceName = deviceList.getDeviceList()[index].name;
-        hitDeviceType = deviceList.getDeviceList()[index].type;
-        hitDeviceSN = deviceList.getDeviceList()[index].serialno;
-        hitDeviceMT = deviceList.getDeviceList()[index].MT;
-        hitDeviceVersion = deviceList.getDeviceList()[index].version;
-        hitDeviceVersionDate = deviceList.getDeviceList()[index].version_date;
-        hitDeviceIp = deviceList.getDeviceList()[index].ip;
-        hitDeviceMac = deviceList.getDeviceList()[index].mac;
-        hitDeviceAtr = deviceList.getDeviceList()[index].attachedToRouter;
+        hitDevice = deviceList.getDeviceList(widget.networkIndex)[index];
+        hitDeviceName = deviceList.getDeviceList(widget.networkIndex)[index].name;
+        hitDeviceType = deviceList.getDeviceList(widget.networkIndex)[index].type;
+        hitDeviceSN = deviceList.getDeviceList(widget.networkIndex)[index].serialno;
+        hitDeviceMT = deviceList.getDeviceList(widget.networkIndex)[index].MT;
+        hitDeviceVersion = deviceList.getDeviceList(widget.networkIndex)[index].version;
+        hitDeviceVersionDate = deviceList.getDeviceList(widget.networkIndex)[index].version_date;
+        hitDeviceIp = deviceList.getDeviceList(widget.networkIndex)[index].ip;
+        hitDeviceMac = deviceList.getDeviceList(widget.networkIndex)[index].mac;
+        hitDeviceAtr = deviceList.getDeviceList(widget.networkIndex)[index].attachedToRouter;
 
         String _newName = hitDeviceName;
 
@@ -260,7 +260,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
         print("Long press on icon #" + index.toString());
 
         final deviceList = Provider.of<DeviceList>(context);
-        hitDeviceName = deviceList.getDeviceList()[index].name;
+        hitDeviceName = deviceList.getDeviceList(widget.networkIndex)[index].name;
 
         setState(() {
           if (_Painter.showSpeedsPermanently && index == _Painter.pivotDeviceIndex) {

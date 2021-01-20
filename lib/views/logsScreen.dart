@@ -61,6 +61,11 @@ class _DebugScreenState extends State<DebugScreen> {
               SelectableText('DeviceList', style: TextStyle(fontSize: 20,),),
               Expanded(child:SelectableText(deviceList.toRealString()),),
 
+              SelectableText('DeviceListList', style: TextStyle(fontSize: 20,),),
+              Expanded(
+                child:SelectableText(deviceList.getNetworkList().toString()),
+              ),
+
 
             ]),
       ),

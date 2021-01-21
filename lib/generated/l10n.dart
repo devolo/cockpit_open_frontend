@@ -75,16 +75,6 @@ class S {
     );
   }
 
-  /// `App Settings`
-  String get appSettings {
-    return Intl.message(
-      'App Settings',
-      name: 'appSettings',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `App Info`
   String get appInfo {
     return Intl.message(
@@ -600,6 +590,26 @@ class S {
     return Intl.message(
       '1.) Plug both PLC devices into the desired wall sockets and wait for about 45 seconds.\n2.) Briefly press the encryption button of the first (possibly already existing) PLC device.\n3.) Within two minutes, press the encryption button of the second (new) PLC device also briefly.\n4.) As soon as the LEDs light up permanently, the PLC devices are ready for operation.',
       name: 'addDeviceInstructionText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `back`
+  String get back {
+    return Intl.message(
+      'back',
+      name: 'back',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `forward`
+  String get forward {
+    return Intl.message(
+      'forward',
+      name: 'forward',
       desc: '',
       args: [],
     );

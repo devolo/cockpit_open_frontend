@@ -3,7 +3,6 @@
   "networkoverview": "Networkoverview",
   "updates": "Updates",
   "networkSettings": "Network Settings",
-  "appSettings": "App Settings",
   "appInfo": "App Info",
   "appInformation": "App information",
   "settings": "Settings",
@@ -55,5 +54,7 @@
   "launchWebinterface": "launch webinterface",
   "factoryReset": "factory reset",
   "deleteDevice": "delete device",
-  "addDeviceInstructionText":  "1.) Plug both PLC devices into the desired wall sockets and wait for about 45 seconds.\n2.) Briefly press the encryption button of the first (possibly already existing) PLC device.\n3.) Within two minutes, press the encryption button of the second (new) PLC device also briefly.\n4.) As soon as the LEDs light up permanently, the PLC devices are ready for operation."
+  "addDeviceInstructionText":  "1.) Plug both PLC devices into the desired wall sockets and wait for about 45 seconds.\n2.) Briefly press the encryption button of the first (possibly already existing) PLC device.\n3.) Within two minutes, press the encryption button of the second (new) PLC device also briefly.\n4.) As soon as the LEDs light up permanently, the PLC devices are ready for operation.",
+  "back": "back",
+  "forward": "forward"
 }

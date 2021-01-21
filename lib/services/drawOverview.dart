@@ -57,8 +57,8 @@ class DrawNetworkOverview extends CustomPainter {
   double _screenGridWidth;
   double _screenGridHeight;
 
-  DrawNetworkOverview(BuildContext context, DeviceList foundDevices, bool showSpeeds, int pivot, int networkIndex) {
-    _deviceList = Provider.of<DeviceList>(context).getDeviceList(networkIndex);
+  DrawNetworkOverview(BuildContext context, DeviceList foundDevices, bool showSpeeds, int pivot) {
+    _deviceList = Provider.of<DeviceList>(context).getDeviceList();
     print("DrawNetworkOverview: " + _deviceList.toString());
     numberFoundDevices = _deviceList.length;
 
@@ -169,7 +169,7 @@ class DrawNetworkOverview extends CustomPainter {
     double lineLength = sqrt(pow(absoluteOffset.dx - absolutePivotOffset.dx, 2) + pow(absoluteOffset.dy - absolutePivotOffset.dy, 2));
 
     double outerCircle = (complete_circle_radius+2) / lineLength;
-    double shiftFactor = 5 / lineLength;
+    double shiftFactor = (1 + (thickness["tx"] + thickness["tx"]) / 4 ) / lineLength;
     double arrowLength = 25 / lineLength;
 
     Offset lineDirection = Offset(absolutePivotOffset.dx - absoluteOffset.dx, absolutePivotOffset.dy - absoluteOffset.dy);
@@ -575,21 +575,23 @@ class DrawNetworkOverview extends CustomPainter {
     Map thickness = Map<String, double>();
     dynamic rates = _deviceList[pivotDeviceIndex].speeds[_deviceList[dev].mac];
     if (rates != null) {
-      if (rates.rx * 0.01 > 10.0)
-        thickness['rx'] = 10.0;
+      if (rates.rx * 0.01 > 7.0) //
+        thickness['rx'] = 7.0;
       else
         thickness['rx'] = rates.rx * 0.01.toDouble();
 
-      if (rates.tx * 0.01 > 10.0)
-        thickness['tx'] = 10.0;
+      if (rates.tx * 0.01 > 7.0)
+        thickness['tx'] = 7.0;
       else
         thickness['tx'] = rates.tx * 0.01;
       //print('THIIICKNESSS ' + dev.toString() + " " + thickness.toString());
       return thickness;
     }
-    thickness['rx'] = 0.3;
-    thickness['tx'] = 0.3;
-    return thickness;
+    else {
+      thickness['rx'] = 0.3;
+      thickness['tx'] = 0.3;
+      return thickness;
+    }
   }
 
   void drawAllDeviceIcons(Canvas canvas, Size size) {

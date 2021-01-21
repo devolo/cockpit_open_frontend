@@ -5,37 +5,52 @@ import 'package:cockpit_devolo/shared/helpers.dart';
 
 
 class DeviceList extends ChangeNotifier{
-  List<Device> _devices = [];
-  List<List<Device>> _networkList = [];
+  List<Device> _devices = [];  //contains all devices
+  List<List<Device>> _networkList = [];//[[],[],[]]; // ToDo growable List doesn't work atm -> supports 3 parallel Networks now
+  int selectedNetworkIndex = 0;
 
   DeviceList() {
     //this._devices = _devices;
     //notifyListeners();
   }
 
-  List<Device> getDeviceList(int networkIndex){
+  List<Device> getDeviceList(){
       //return _devices;
-    return _networkList[networkIndex];
+    if(_networkList.isEmpty){
+      print("emptyyyyy");
+      return [];
+    }else
+      return _networkList[selectedNetworkIndex];
   }
 
   List<List<Device>> getNetworkList(){
     return _networkList;
+
   }
 
-  int getLength(){
-    return _devices.length;
+  int getNetworkListLength(){
+    int length = 0;
+    for(var elem in _networkList){
+      if(elem.isNotEmpty){
+        length++;
+        print(length);
+      }
+    }
+    return length;
+    //return _networkList[selectedNetworkIndex].length;
   }
 
   int getPivotIndex(){
-    for(var elem in _devices){
+    for(var elem in _networkList[selectedNetworkIndex]){
       if(elem.attachedToRouter==true){
-        return _devices.indexOf(elem);
+        return _networkList[selectedNetworkIndex].indexOf(elem);
       }
     }
     return 0;
   }
+
   Device getPivot(){
-    for(var dev in _devices){
+    for(var dev in _networkList[selectedNetworkIndex]){
       if(dev.attachedToRouter==true){
         return dev;
       }
@@ -43,20 +58,29 @@ class DeviceList extends ChangeNotifier{
     return null;
   }
 
+  Device getLocal(){
+    for(var dev in _networkList[selectedNetworkIndex]){
+      if(dev.isLocalDevice==true){
+        return dev;
+      }
+    }
+    return null;
+  }
+
   void setDeviceList(List<Device> devList) {
-    _devices = devList;
+    _networkList[selectedNetworkIndex] = devList;
     notifyListeners();
   }
 
-  void addDevice(Device device, int whichListIndex) {
+  void addDevice(Device device, int whichNetworkIndex) {
     if(device.attachedToRouter & config["internet_centered"]){this._devices.insert(0, device);}
     else{this._devices.add(device);}
-    print(whichListIndex);
+    print(whichNetworkIndex);
     //for multiple localDevices with its own remote devices
-      if(_networkList[whichListIndex] == null){
-        _networkList.insert(whichListIndex, []);
+      if(!_networkList.asMap().containsKey(whichNetworkIndex)){ // is testing if "whichNetworkIndex" exists in List
+        _networkList.insert(whichNetworkIndex, []);
       }
-    _networkList[whichListIndex].add(device);
+    _networkList[whichNetworkIndex].add(device);
       //_deviceListList.insert(listCounter, _devices);
 
     //print(_devices);
@@ -64,13 +88,13 @@ class DeviceList extends ChangeNotifier{
   }
 
   void clearList() {
-    _devices.clear();
+    _networkList[selectedNetworkIndex].clear();
     notifyListeners();
   }
 
   void clearListList() {
     _networkList.clear();
-    _networkList = [[],[],[]]; //TODO some bug...must be initialized ...supports 3 (local/parallel) network lists right now
+    //_networkList = [[],[],[]]; //TODO some bug...must be initialized ...supports 3 (local/parallel) network lists right now s.o
     notifyListeners();
   }
 
@@ -81,17 +105,15 @@ class DeviceList extends ChangeNotifier{
 
   String toRealString(){
     String ret;
-    for(var devlocal in _devices) {
+    for(var devlocal in _networkList[selectedNetworkIndex]) {
       ret = "${devlocal.toRealString()} \n";
       for(var devremote in devlocal.remoteDevices){
         ret += "${devremote.toRealString()} \n";
       }
-
       return ret;
     }
     return null;
   }
-
 }
 
 

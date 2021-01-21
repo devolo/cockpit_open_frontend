@@ -81,9 +81,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 //height: 350,
                 child: ListView.separated(
                   //padding: const EdgeInsets.all(8),
-                  itemCount: _deviceList.getDeviceList(widget.networkIndex).length,
+                  itemCount: _deviceList.getDeviceList().length,
                   itemBuilder: (BuildContext context, int index) {
-                    var device = _deviceList.getDeviceList(widget.networkIndex)[index];
+                    var device = _deviceList.getDeviceList()[index];
                     return Column(
                       children: [
                         ListTile(

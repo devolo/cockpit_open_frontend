@@ -106,11 +106,11 @@ class _MyHomePageState extends State<MyHomePage> {
       },
       children: <Widget>[
         SettingsScreen(
-          title: "Einstellungen",
+          title: S.of(context).settings,
         ),
         OverviewScreen(),
         UpdateScreen(
-          title: "Update",
+          title: S.of(context).update,
         ),
         AddDeviceScreen(),
       ],
@@ -177,18 +177,15 @@ class _MyHomePageState extends State<MyHomePage> {
               // );
             }),
         ListTile(
-            leading: Icon(Icons.wifi, color: devoloBlue),
-            title: Text(S.of(context).networkSettings, style: _menuItemStyle),
+            leading: Icon(Icons.add_circle, color: devoloBlue),
+            title: Text(S.of(context).addDevice, style: _menuItemStyle),
             onTap: () {
+              bottomTapped(0);
               Navigator.pop(context); //close drawer
-              Navigator.push(
-                context,
-                new MaterialPageRoute(builder: (context) => AddDeviceScreen(title: "Network Settings")),
-              );
             }),
         ListTile(
             leading: Icon(Icons.miscellaneous_services, color: devoloBlue),
-            title: Text(S.of(context).appSettings, style: _menuItemStyle),
+            title: Text(S.of(context).settings, style: _menuItemStyle),
             onTap: () {
               bottomTapped(0);
               Navigator.pop(context); //close drawer

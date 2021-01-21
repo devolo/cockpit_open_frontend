@@ -31,8 +31,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
   Offset _lastTapDownPosition;
   DrawNetworkOverview _Painter;
 
-  bool showingSpeedsFake = false;
-  int pivotDeviceIndexFake = 0;
+  bool showingSpeeds = false;
+  int pivotDeviceIndex = 0;
 
 
   @override
@@ -49,29 +49,64 @@ class _OverviewScreenState extends State<OverviewScreen> {
   @override
   Widget build(BuildContext context) {
     final socket = Provider.of<dataHand>(context);
-    final deviceList = Provider.of<DeviceList>(context);
-    socket.setDeviceList(deviceList);
+    final _deviceList = Provider.of<DeviceList>(context);
+    socket.setDeviceList(_deviceList);
 
-    _Painter = DrawNetworkOverview(context, deviceList, showingSpeedsFake, pivotDeviceIndexFake, widget.networkIndex);
+    _Painter = DrawNetworkOverview(context, _deviceList, showingSpeeds, pivotDeviceIndex);
 
     print("drawing Overview...");
 
     return Scaffold(
       backgroundColor: Colors.transparent,
       body:  Container(
-        child: GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTapUp: _handleTap,
-          onTapDown:_handleTapDown,
-          onLongPress: () =>_handleLongPressStart(context),
-          onLongPressUp: _handleLongPressEnd,
-          child: Center(
-            child: CustomPaint(
-              painter: _Painter,
-              child: Container(),
+            child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTapUp: _handleTap,
+              onTapDown:_handleTapDown,
+              onLongPress: () =>_handleLongPressStart(context),
+              onLongPressUp: _handleLongPressEnd,
+              child: Stack(
+                children: [
+                  Center(
+                    child: CustomPaint(
+                      painter: _Painter,
+                      child: Container(),
+                    ),
+                  ),
+                  if(_deviceList.getNetworkListLength()-1 == 1)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.arrow_back_ios,color: Colors.white,),
+                        tooltip: S.of(context).back,
+                        onPressed: () {
+                          print("back");
+                          setState(() {
+                            if(_deviceList.selectedNetworkIndex  > 0){
+                              _deviceList.selectedNetworkIndex --;
+                              //_currImage = optimizeImages[_index];
+                            }
+                          });
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.arrow_forward_ios, color: Colors.white,),
+                        tooltip: S.of(context).forward,
+                        onPressed: () {
+                          print("forward");
+                          setState(() {
+                            if(_deviceList.selectedNetworkIndex < _deviceList.getNetworkListLength()-1){ // -1 to not switch
+                              _deviceList.selectedNetworkIndex++;
+                              //_currImage = optimizeImages[_index];
+                            }
+                          });
+                        },
+                      ),
+                    ],),
+                ],
+              ),
             ),
-          ),
-        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {setState(() {
@@ -120,16 +155,16 @@ class _OverviewScreenState extends State<OverviewScreen> {
         final socket = Provider.of<dataHand>(context);
         final deviceList = Provider.of<DeviceList>(context);
 
-        hitDevice = deviceList.getDeviceList(widget.networkIndex)[index];
-        hitDeviceName = deviceList.getDeviceList(widget.networkIndex)[index].name;
-        hitDeviceType = deviceList.getDeviceList(widget.networkIndex)[index].type;
-        hitDeviceSN = deviceList.getDeviceList(widget.networkIndex)[index].serialno;
-        hitDeviceMT = deviceList.getDeviceList(widget.networkIndex)[index].MT;
-        hitDeviceVersion = deviceList.getDeviceList(widget.networkIndex)[index].version;
-        hitDeviceVersionDate = deviceList.getDeviceList(widget.networkIndex)[index].version_date;
-        hitDeviceIp = deviceList.getDeviceList(widget.networkIndex)[index].ip;
-        hitDeviceMac = deviceList.getDeviceList(widget.networkIndex)[index].mac;
-        hitDeviceAtr = deviceList.getDeviceList(widget.networkIndex)[index].attachedToRouter;
+        hitDevice = deviceList.getDeviceList()[index];
+        hitDeviceName = deviceList.getDeviceList()[index].name;
+        hitDeviceType = deviceList.getDeviceList()[index].type;
+        hitDeviceSN = deviceList.getDeviceList()[index].serialno;
+        hitDeviceMT = deviceList.getDeviceList()[index].MT;
+        hitDeviceVersion = deviceList.getDeviceList()[index].version;
+        hitDeviceVersionDate = deviceList.getDeviceList()[index].version_date;
+        hitDeviceIp = deviceList.getDeviceList()[index].ip;
+        hitDeviceMac = deviceList.getDeviceList()[index].mac;
+        hitDeviceAtr = deviceList.getDeviceList()[index].attachedToRouter;
 
         String _newName = hitDeviceName;
 
@@ -260,18 +295,18 @@ class _OverviewScreenState extends State<OverviewScreen> {
         print("Long press on icon #" + index.toString());
 
         final deviceList = Provider.of<DeviceList>(context);
-        hitDeviceName = deviceList.getDeviceList(widget.networkIndex)[index].name;
+        hitDeviceName = deviceList.getDeviceList()[index].name;
 
         setState(() {
           if (_Painter.showSpeedsPermanently && index == _Painter.pivotDeviceIndex) {
             //_Painter.showingSpeeds = !_Painter.showingSpeeds;
           } else {
             //_Painter.showingSpeeds = true;
-            showingSpeedsFake = true;  // ToDo fix workaround see OverviewConsturctor
+            showingSpeeds = true;  // ToDo fix workaround see OverviewConsturctor
             config["show_speeds"] = true;
           }
           //_Painter.pivotDeviceIndex = index;
-          pivotDeviceIndexFake = index;
+          pivotDeviceIndex = index;
 
           //do not update pivot device when the "router device" is long pressed
           print('Pivot on longPress:' +_Painter.pivotDeviceIndex.toString());
@@ -288,10 +323,10 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
     setState(() {
       if (!_Painter.showSpeedsPermanently) {
-        showingSpeedsFake = false;
+        showingSpeeds = false;
         config["show_speeds"] = false;
         _Painter.pivotDeviceIndex = 0;
-        pivotDeviceIndexFake = 0;
+        pivotDeviceIndex = 0;
       } else {
         if (!_Painter.showingSpeeds) _Painter.pivotDeviceIndex = 0;
       }

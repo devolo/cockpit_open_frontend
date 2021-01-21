@@ -86,6 +86,49 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ListTile(
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
+                  title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                    new Text(S.of(context).language),
+                    DropdownButton<String>(
+                      value: _dropdownValue,
+                      icon: Icon(Icons.arrow_drop_down_rounded,color: devoloBlue,),
+                      iconSize: 24,
+                      elevation: 8,
+                      //style: TextStyle(color: Colors.deepPurple),
+                      underline: Container(
+                        height: 2,
+                        color: devoloBlue,
+                      ),
+                      onChanged: (String newValue) {
+                        setState(() {
+                          _dropdownValue = newValue;
+                          S.load(Locale(newValue, ''));
+                        });
+                      },
+                      items: <String>['en', 'de']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("  "+value),
+                              Flag(
+                                value=="en"?"gb": value,
+                                height: 15,
+                                width: 25,
+                                fit: BoxFit.fill,
+                              ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ]),
+                ),
+                Divider(),
+                ListTile(
+                  contentPadding: EdgeInsets.only(left: 10, right: 10),
+                  tileColor: secondColor,
                   title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                     new Text(S.of(context).enableShowingSpeeds),
                     new Checkbox(
@@ -129,49 +172,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       },
                       activeTrackColor: devoloBlue.withAlpha(120),
                       activeColor: devoloBlue,
-                    ),
-                  ]),
-                ),
-                Divider(),
-                ListTile(
-                  contentPadding: EdgeInsets.only(left: 10, right: 10),
-                  tileColor: secondColor,
-                  title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(S.of(context).language),
-                    DropdownButton<String>(
-                      value: _dropdownValue,
-                      icon: Icon(Icons.arrow_drop_down_rounded,color: devoloBlue,),
-                      iconSize: 24,
-                      elevation: 8,
-                      //style: TextStyle(color: Colors.deepPurple),
-                      underline: Container(
-                        height: 2,
-                        color: devoloBlue,
-                      ),
-                      onChanged: (String newValue) {
-                        setState(() {
-                          _dropdownValue = newValue;
-                          S.load(Locale(newValue, ''));
-                        });
-                      },
-                      items: <String>['en', 'de']
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("  "+value),
-                              Flag(
-                                value=="en"?"gb": value,
-                                height: 15,
-                                width: 25,
-                                fit: BoxFit.fill,
-                              ),
-                            ],
-                          ),
-                        );
-                      }).toList(),
                     ),
                   ]),
                 ),
@@ -269,7 +269,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           hoverColor: devoloBlue.withOpacity(0.4),
                           color: devoloBlue.withOpacity(0.4),
                           onPressed: () {
-                            socket.sendXML('SetNetworkPassword', newValue: _newPw,valueType: "password", mac: _deviceList.getPivot().mac);
+                            socket.sendXML('SetNetworkPassword', newValue: _newPw,valueType: "password", mac: _deviceList.getLocal().mac);
                           },
                           child: Text(S.of(context).set,/*style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),*/),
                       )
@@ -364,6 +364,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 Row(mainAxisAlignment: MainAxisAlignment.end, crossAxisAlignment: CrossAxisAlignment.end, children: <Widget>[
                   IconButton(
+                    icon: Icon(Icons.text_fields_sharp),
+                    tooltip: "Test",
+                    color: drawingColor,
+                    onPressed: () {
+                      if(_deviceList.selectedNetworkIndex == 0){
+                        _deviceList.selectedNetworkIndex = 1;
+                      }else{
+                        _deviceList.selectedNetworkIndex = 0;
+                      }
+                    },
+                  ),
+                  IconButton(
                     icon: Icon(Icons.list_alt),
                     tooltip: S.of(context).showLogs,
                     color: drawingColor,
@@ -372,8 +384,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         context,
                         new MaterialPageRoute(builder: (context) => new DebugScreen(title: 'Logs')),
                       );
-                    }, //ToDo
+                    },
                   ),
+
                 ]),
               ],
             ),

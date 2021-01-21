@@ -21,6 +21,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "add" : MessageLookupByLibrary.simpleMessage("Add"),
     "addDevice" : MessageLookupByLibrary.simpleMessage("Add Device"),
     "addDeviceInstructionText" : MessageLookupByLibrary.simpleMessage("1.) Plug both PLC devices into the desired wall sockets and wait for about 45 seconds.\n2.) Briefly press the encryption button of the first (possibly already existing) PLC device.\n3.) Within two minutes, press the encryption button of the second (new) PLC device also briefly.\n4.) As soon as the LEDs light up permanently, the PLC devices are ready for operation."),
     "appInfo" : MessageLookupByLibrary.simpleMessage("App Info"),
@@ -56,6 +57,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "openOptimization" : MessageLookupByLibrary.simpleMessage("open Optimization"),
     "openZip" : MessageLookupByLibrary.simpleMessage("open zip"),
     "optimizationHelp" : MessageLookupByLibrary.simpleMessage("Optimization help"),
+    "overview" : MessageLookupByLibrary.simpleMessage("Overview"),
     "pleaseConfirmAction" : MessageLookupByLibrary.simpleMessage("Please confirm action."),
     "pleaseConfirmActionNattentionYourRouterIsConnectedToThis" : MessageLookupByLibrary.simpleMessage("Please confirm action. \nAttention! Your router is connected to this PLC device you lose connection to the Internet"),
     "pleaseEnterPassword" : MessageLookupByLibrary.simpleMessage("Please enter password"),

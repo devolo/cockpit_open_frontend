@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 
 import 'package:cockpit_devolo/views/overviewScreen.dart';
+import 'package:cockpit_devolo/views/overviewNetworkScreen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 void main() {
@@ -86,10 +87,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List<BottomNavigationBarItem> buildBottomNavBarItems() {
     return [
-      BottomNavigationBarItem(icon: Icon(Icons.settings_rounded), label: "Settings"),
-      BottomNavigationBarItem(icon: Icon(Icons.home_rounded), label: "Home"),
-      BottomNavigationBarItem(icon: Icon(Icons.download_rounded), label: "Update"),
-      BottomNavigationBarItem(icon: Icon(Icons.add_circle), label: "Hinzufügen"),
+      BottomNavigationBarItem(icon: Icon(Icons.settings_rounded), label: S.of(context).settings,),
+      BottomNavigationBarItem(icon: Icon(Icons.home_rounded), label: S.of(context).overview),
+      BottomNavigationBarItem(icon: Icon(Icons.download_rounded), label: S.of(context).update,),
+      BottomNavigationBarItem(icon: Icon(Icons.add_circle), label: S.of(context).add),
     ];
   }
 
@@ -108,11 +109,12 @@ class _MyHomePageState extends State<MyHomePage> {
         SettingsScreen(
           title: S.of(context).settings,
         ),
-        OverviewScreen(),
+        showNetwork?OverviewScreen(): OverviewNetworkScreen(),
         UpdateScreen(
           title: S.of(context).update,
         ),
         AddDeviceScreen(),
+
       ],
     );
   }
@@ -132,7 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceList = Provider.of<DeviceList>(context);
+    final _networkList = Provider.of<DeviceList>(context);
     final socket = Provider.of<dataHand>(context);
 
     return Scaffold(
@@ -145,6 +147,17 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [Spacer(), InkWell(child: SvgPicture.asset('assets/logo.svg', height: 24, color: drawingColor)), Spacer(), SizedBox(width: 56)],
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.graphic_eq),
+            tooltip: 'Change to Networkview',
+            onPressed: () {
+              setState(() {
+                showNetwork = !showNetwork;
+              });
+              },
+          ),
+        ],
       ),
       drawer: Drawer(
           child: ListView(padding: EdgeInsets.zero, children: <Widget>[
@@ -180,7 +193,7 @@ class _MyHomePageState extends State<MyHomePage> {
             leading: Icon(Icons.add_circle, color: devoloBlue),
             title: Text(S.of(context).addDevice, style: _menuItemStyle),
             onTap: () {
-              bottomTapped(0);
+              bottomTapped(3);
               Navigator.pop(context); //close drawer
             }),
         ListTile(

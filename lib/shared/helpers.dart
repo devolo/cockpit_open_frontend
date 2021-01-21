@@ -12,6 +12,7 @@ import 'package:open_file/open_file.dart';
 final List<ui.Image> deviceIconList = <ui.Image>[]; //ToDo put somewhere else
 final List<Offset> deviceIconOffsetList = <Offset>[];
 bool areDeviceIconsLoaded = false;
+bool showNetwork = true;
 String _openResult = 'Unknown';
 
 Map<String,dynamic> config = {"ignore_updates": false, "allow_data_collection": false, "windows_network_throttling_disabled":true, "internet_centered": true, "show_other_devices": true, "show_speeds_permanent": false, "show_speeds": false};
@@ -97,6 +98,10 @@ Future<void> loadAllDeviceIcons() async {
   deviceIconList.add(image);
 
   data = await rootBundle.load('assets/mini_lan_icon.png');
+  image = await loadImage(new Uint8List.view(data.buffer));
+  deviceIconList.add(image);
+
+  data = await rootBundle.load('assets/network.png');
   image = await loadImage(new Uint8List.view(data.buffer));
   deviceIconList.add(image);
 

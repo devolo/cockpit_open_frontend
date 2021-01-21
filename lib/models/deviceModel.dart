@@ -15,17 +15,16 @@ class DeviceList extends ChangeNotifier{
   }
 
   List<Device> getDeviceList(){
-      //return _devices;
     if(_networkList.isEmpty){
-      print("emptyyyyy");
       return [];
-    }else
+    }else {
       return _networkList[selectedNetworkIndex];
+    }
+    //return _devices;
   }
 
   List<List<Device>> getNetworkList(){
     return _networkList;
-
   }
 
   int getNetworkListLength(){
@@ -76,14 +75,18 @@ class DeviceList extends ChangeNotifier{
     if(device.attachedToRouter & config["internet_centered"]){this._devices.insert(0, device);}
     else{this._devices.add(device);}
     print(whichNetworkIndex);
-    //for multiple localDevices with its own remote devices
-      if(!_networkList.asMap().containsKey(whichNetworkIndex)){ // is testing if "whichNetworkIndex" exists in List
-        _networkList.insert(whichNetworkIndex, []);
-      }
-    _networkList[whichNetworkIndex].add(device);
-      //_deviceListList.insert(listCounter, _devices);
 
-    //print(_devices);
+    //for multiple localDevices with its own remote devices
+    if(!_networkList.asMap().containsKey(whichNetworkIndex)){ // is testing if "whichNetworkIndex" exists in List
+      _networkList.insert(whichNetworkIndex, []);
+    }
+    _networkList[whichNetworkIndex].add(device);
+
+    if(_networkList.length == 1){
+      print("NertworkList length: ${_networkList.length}");
+      showNetwork = false;
+    }
+
     //notifyListeners();
   }
 

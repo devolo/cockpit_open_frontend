@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
-import 'package:cockpit_devolo/services/drawOverview.dart';
+import 'package:cockpit_devolo/services/drawNetworkOverview.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';

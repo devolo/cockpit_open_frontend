@@ -57,5 +57,7 @@
   "deleteDevice": "Gerät löschen",
   "addDeviceInstructionText": "1.) Stecken Sie beide PLC-Geräte in die gewünschten Wandsteckdosen und warten ca. 45 Sekunden.\n2.) Drücken Sie kurz den Verschlüsselungsknopf des ersten (evtl. bereits vorhandenen) PLC-Gerätes.\n3.) Drücken Sie innerhalb von zwei Minuten den Verschlüsselungsknopf des zweiten (neuen) PLC-Gerätes ebenfalls kurz.\n4.) Sobald die LEDs dauerhaft leuchten, sind die PLC-Geräte betriebsbereit.",
   "back": "zurück",
-  "forward": "weiter"
+  "forward": "weiter",
+  "overview": "Übersicht",
+  "add": "Hinzufügen"
 }

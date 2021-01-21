@@ -96,7 +96,8 @@ class dataHand extends ChangeNotifier {
         //print(document);
 
         var localDeviceList = document.findAllElements('LocalDeviceList').first.findElements('item'); //TODO: TEST call for every
-        print(localDeviceList);
+        //print(localDeviceList);
+
         int listCounter = 0;
         for (var dev in localDeviceList) {
           Device device = Device.fromXML(dev,true);
@@ -115,17 +116,6 @@ class dataHand extends ChangeNotifier {
         print('Config found ->');
         //print(document);
       }
-      // else if (document.findAllElements('MessageType').first.innerText == "UpdateIndication") {
-      //   xmlResponse = document;
-      //   parseUpdateIndication(document);
-      //
-      //   xmlResponseList.insert(0,document);
-      //   xmlResponseList.insert(0,DateTime.now());
-      //
-      //   waitingResponse = false;
-      //   print('UpdateIndication found ->');
-      //   print(document);
-      //}
       else if (document.findAllElements('MessageType').first.innerText == "FirmwareUpdateIndication") {
         xmlResponse = document;
         parseFWUpdateIndication(document);

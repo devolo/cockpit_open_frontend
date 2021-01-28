@@ -155,19 +155,13 @@ class _MyHomePageState extends State<MyHomePage> {
               });
               },
           ),
-          IconButton(
-            icon: const Icon(Icons.graphic_eq),
-            tooltip: 'Testing',
-            onPressed: () {
-              setState(() {
-                showNetwork = !showNetwork;
-              });
-            },
-          ),
         ],
       ),
       drawer: Drawer(
-          child: ListView(padding: EdgeInsets.zero, children: <Widget>[
+        semanticLabel: "menu",
+          child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
         DrawerHeader(
           child: Text(
             S.of(context).homeNetworkDesktop,
@@ -180,6 +174,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ListTile(
             leading: Icon(Icons.workspaces_filled, color: devoloBlue), //miscellaneous_services
             title: Text(S.of(context).networkoverview, style: _menuItemStyle),
+            //tileColor: devoloBlue,
             onTap: () {
               bottomTapped(1);
               Navigator.pop(context); //close drawer
@@ -249,7 +244,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 //mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgPicture.asset('assets/logo.svg', height: 24, color: drawingColor),
-                  Text("Version 0 01.01.2021\n"),
+                  Text("Version 0 01.01.2021\n"), // ToDo
                   //launch("https://www.devolo.de/"),
                   GestureDetector(
                       child: Text("\nwww.devolo.de", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue)),

@@ -93,6 +93,7 @@ class DeviceList extends ChangeNotifier{
     //notifyListeners();
   }
 
+
   void clearList() {
     _networkList[selectedNetworkIndex].clear();
     notifyListeners();

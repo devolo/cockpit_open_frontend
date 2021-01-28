@@ -148,13 +148,10 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
     print(_Painter.networkOffsets);
 
     _Painter.networkOffsets.asMap().forEach((i, networkIconOffset) { //for (Offset networkIconOffset in _Painter.networkOffsets) {
-      print('index=$i, value=$networkIconOffset');
-
       //Offset absoluteOffset = Offset(networkIconOffset.dx + (_Painter.screenWidth / 2), networkIconOffset.dy + (_Painter.screenHeight / 2));
       print("NetworkIcon: " + networkIconOffset.toString());
       print("Local: " + details.localPosition.toString());
       //print("absolute: " + absoluteOffset.toString());
-
 
       //test if network got hit
       if (_Painter.isPointInsideNetworkIcon(details.localPosition, networkIconOffset, _Painter.hn_circle_radius)) {
@@ -162,9 +159,7 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
         setState(() {
           deviceList.selectedNetworkIndex = i;
         });
-
       }
-
     });
 
     for (Offset deviceIconOffset in deviceIconOffsetList) {

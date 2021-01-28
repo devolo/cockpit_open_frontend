@@ -177,7 +177,6 @@ class DrawNetworkOverview extends CustomPainter {
 
     for(var item in _networkList){
       print(toOffset);
-      offsetAdd += 100;
 
       if(offsetAdd.sign > 0)
         offsetAdd= -offsetAdd;
@@ -186,10 +185,15 @@ class DrawNetworkOverview extends CustomPainter {
       toOffset = toOffset.scale(-1, 1);
       
       networkOffsets.add(toOffset);
+      offsetAdd += 100;
     }
 
+    // draw networkOffsetList from back to front to avoid overdrawing
     int index = _networkList.length-1;
     for(var item in _networkList) {
+      if(offsetAdd.sign > 0)
+        offsetAdd= -offsetAdd;
+      networkOffsets[index] = networkOffsets[index].translate(_ProviderDevicelist.selectedNetworkIndex.toDouble()*offsetAdd,0 );
       canvas.drawLine(absoluteAreaOffset, networkOffsets[index], _linePaint..strokeWidth = 2.0);
       drawIcon(canvas, networkOffsets[index], Icons.workspaces_filled);
       index--;

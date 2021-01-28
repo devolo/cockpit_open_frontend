@@ -103,11 +103,11 @@ class dataHand extends ChangeNotifier {
           Device device = Device.fromXML(dev,true);
           _deviceList.addDevice(device, listCounter);
           _deviceList.addDevice(device, listCounter+1);
-          _deviceList.addDevice(device, listCounter+2);
+          //_deviceList.addDevice(device, listCounter+2);
           for (var remoteDev in device.remoteDevices) {
             _deviceList.addDevice(remoteDev, listCounter);
-            _deviceList.addDevice(remoteDev, listCounter+1);
-            _deviceList.addDevice(remoteDev, listCounter+2);
+            //_deviceList.addDevice(remoteDev, listCounter+1);
+            //_deviceList.addDevice(remoteDev, listCounter+2);
           }
           listCounter++;
         }

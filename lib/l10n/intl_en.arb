@@ -1,4 +1,10 @@
 {
+  "@@locale": "en",
+  "title": "devolo Cockpit",
+  "@title": {
+    "type": "text",
+    "placeholders": {}
+  },
   "homeNetworkDesktop": "Home Network Desktop",
   "networkoverview": "Networkoverview",
   "updates": "Updates",
@@ -6,7 +12,7 @@
   "appInfo": "App Info",
   "appInformation": "App information",
   "settings": "Settings",
-  "gui": "GUI",
+  "appearance": "Appearance",
   "enableShowingSpeeds": "Enable Showing Speeds",
   "internetcentered": "Internet-centered",
   "showOtherDevices": "Show other devices",
@@ -58,5 +64,18 @@
   "back": "back",
   "forward": "forward",
   "overview": "Overview",
-  "add": "Add"
+  "add": "Add",
+  "changeNetworkview": "Change networkview",
+  "noDevicesFoundNscanningForDevices": "No devices found \nScanning for devices ...",
+  "previousNetwork": "previous network",
+  "nextNetwork": "next network",
+  "pleaseEnterDevicename": "Please enter devicename",
+  "type": "Type:",
+  "serialNumber": "Serial number:",
+  "mtnumber": "MT-number:",
+  "version": "Version:",
+  "ipaddress": "IP-Address:",
+  "macaddress": "MAC-Address:",
+  "attachedToRouter": "Attached to Router:",
+  "yourEmailaddress": " Your email-address"
 }

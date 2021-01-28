@@ -87,6 +87,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     return Column(
                       children: [
                         ListTile(
+                          onTap: () => _handleTap(device),
                           tileColor: secondColor,
                           leading: RawImage(
                             image: getIconForDeviceType(device.typeEnum),
@@ -246,4 +247,179 @@ class _UpdateScreenState extends State<UpdateScreen> {
       ),
     );
   }
+
+  void _handleTap(Device dev)  {
+    print('entering dialog....');
+    int index = 0;
+    Device hitDevice;
+    String hitDeviceName;
+    String hitDeviceType;
+    String hitDeviceSN;
+    String hitDeviceMT;
+    String hitDeviceVersion;
+    String hitDeviceVersionDate;
+    String hitDeviceIp;
+    String hitDeviceMac;
+    bool hitDeviceAtr;
+
+        hitDevice = dev;
+        hitDeviceName = dev.name;
+        hitDeviceType = dev.type;
+        hitDeviceSN = dev.serialno;
+        hitDeviceMT = dev.MT;
+        hitDeviceVersion = dev.version;
+        hitDeviceVersionDate = dev.version_date;
+        hitDeviceIp = dev.ip;
+        hitDeviceMac = dev.mac;
+        hitDeviceAtr = dev.attachedToRouter;
+
+        String _newName = hitDeviceName;
+
+    final socket = Provider.of<dataHand>(context);
+
+        showDialog<void>(
+          context: context,
+          barrierDismissible: true, // user doesn't need to tap button!
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: SelectableText('Geräteinfo'),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(height: 15,),
+                    Table(
+                      defaultColumnWidth: FixedColumnWidth(200.0),
+                      children: [
+                        TableRow(children: [
+                          SelectableText('Name: '),
+                          TextFormField(
+                            initialValue: _newName,
+                            decoration: InputDecoration(
+                              //labelText: 'Devicename',
+                              //helperText: 'Devicename',
+                            ),
+                            onChanged: (value) => ( _newName = value),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return S.of(context).pleaseEnterDevicename;
+                              }
+                              return null;
+                            },
+                          ),
+                        ]),
+                        TableRow(children: [
+                          SelectableText(S.of(context).type),
+                          SelectableText(hitDeviceType),
+                        ]),
+                        TableRow(children: [
+                          SelectableText(S.of(context).serialNumber),
+                          SelectableText(hitDeviceSN),
+                        ]),
+                        TableRow(children: [
+                          SelectableText(S.of(context).mtnumber),
+                          SelectableText(hitDeviceMT.substring(2)),
+                        ]),
+                        TableRow(children: [
+                          SelectableText(S.of(context).version),
+                          SelectableText('${hitDeviceVersion} (${hitDeviceVersionDate})'),
+                        ]),
+                        TableRow(children: [
+                          SelectableText(S.of(context).ipaddress ),
+                          SelectableText(hitDeviceIp),
+                        ]),
+                        TableRow(children: [
+                          SelectableText(S.of(context).macaddress ),
+                          SelectableText(hitDeviceMac),
+                        ]),
+                        TableRow(children: [
+                          SelectableText(S.of(context).attachedToRouter ),
+                          SelectableText(hitDeviceAtr.toString()),
+                        ]),
+                      ],),
+                    //Text('Rates: ' +hitDeviceRx),
+                    Padding(padding: EdgeInsets.fromLTRB(0, 40, 0, 0)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(icon: Icon(Icons.public, color: devoloBlue,), tooltip: S.of(context).launchWebinterface, onPressed: () => launchURL(hitDeviceIp),),
+                        IconButton(icon: Icon(Icons.lightbulb, color: devoloBlue,), tooltip: S.of(context).identifyDevice, onPressed: () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac)),
+                        IconButton(icon: Icon(Icons.find_in_page, color: devoloBlue,), tooltip: S.of(context).showManual,
+                            onPressed: () async {
+                              socket.sendXML('GetManual', newValue: hitDeviceMT, valueType: 'product', newValue2: 'de', valueType2: 'language');
+                              var response = await socket.recieveXML(["GetManualResponse"]);
+                              setState(() {
+                                openFile(response['filename']);
+                              });
+                            }),
+                        IconButton(icon: Icon(Icons.upload_file, color: devoloBlue,semanticLabel: "update",), tooltip: S.of(context).factoryReset, onPressed: () =>_handleCriticalActions(context, socket, 'ResetAdapterToFactoryDefaults', hitDevice),),
+                        IconButton(icon: Icon(Icons.delete, color: devoloBlue,), tooltip: S.of(context).deleteDevice, onPressed: () =>_handleCriticalActions(context, socket, 'RemoveAdapter', hitDevice),), //ToDo Delete Device see wiki
+                      ],
+                    ),
+
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(
+                    Icons.check_circle_outline,
+                    size: 35,
+                    color: devoloBlue,
+                  ), //Text('Bestätigen'),
+                  tooltip: S.of(context).confirm,
+                  onPressed: () {
+                    // Critical things happening here
+                    socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      index++;
+  }
+
+void _handleCriticalActions(context, socket, messageType, Device hitDevice) {
+  showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user doesn't need to tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(messageType),
+          content: hitDevice.attachedToRouter?Text(S.of(context).pleaseConfirmActionNattentionYourRouterIsConnectedToThis):Text(S.of(context).pleaseConfirmAction),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.check_circle_outline,
+                size: 35,
+                color: devoloBlue,
+              ), //Text('Bestätigen'),
+              tooltip: S.of(context).confirm,
+              onPressed: () {
+                // Critical things happening here
+                socket.sendXML(messageType, mac: hitDevice.mac);
+                Navigator.of(context).pop();
+              },
+            ),
+            Spacer(),
+            IconButton(
+                icon: Icon(
+                  Icons.cancel_outlined,
+                  size: 35,
+                  color: devoloBlue,
+                ), //Text('Abbrechen'),
+                tooltip: S.of(context).cancel,
+                onPressed: () {
+                  // Cancel critical action
+                  Navigator.of(context).pop();
+                }),
+
+          ],
+        );
+      });
+}
 }

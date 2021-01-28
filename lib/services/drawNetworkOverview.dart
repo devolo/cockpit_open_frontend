@@ -11,6 +11,7 @@ class DrawNetworkOverview extends CustomPainter {
   final double hn_circle_radius = 35.0;
   final double complete_circle_radius = 50.0;
   List<Device> _deviceList;//List<Device> _deviceList;
+  var _networkList;
   List<Offset> _deviceIconOffsetList = deviceIconOffsetList;
   int pivotDeviceIndex = 0;
   bool showSpeedsPermanently = false; //true: a long press results in speeds being shown even after lifting the finger. false: speeds are hidden when lifting the finger.
@@ -59,6 +60,7 @@ class DrawNetworkOverview extends CustomPainter {
 
   DrawNetworkOverview(BuildContext context, DeviceList foundDevices, bool showSpeeds, int pivot) {
     _deviceList = Provider.of<DeviceList>(context).getDeviceList();
+    _networkList = Provider.of<DeviceList>(context).getNetworkList();
     print("DrawNetworkOverview: " + _deviceList.toString());
     numberFoundDevices = _deviceList.length;
 
@@ -115,7 +117,7 @@ class DrawNetworkOverview extends CustomPainter {
       ..textAlign = TextAlign.center;
 
     _speedTextPainter = TextPainter()
-      ..textDirection = TextDirection.ltr
+      ..textDirection = TextDirection.rtl
       ..textAlign = TextAlign.left;
 
     _arrowPaint = Paint()
@@ -159,6 +161,40 @@ class DrawNetworkOverview extends CustomPainter {
       drawIcon(canvas, toOffset, Icons.public_outlined);
 
   }
+
+
+  void drawNetworksConnections(Canvas canvas){
+    //Offset absoluteRouterOffset = Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2));
+    Offset absoluteAreaOffset = Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2)+25);
+    Offset toOffset = Offset(screenWidth / 2 +100, -4.5 * _screenGridHeight + (screenHeight / 2)+25);
+    for(var item in _networkList){
+      //absoluteAreaOffset.translate(0, 0);
+      toOffset = toOffset.scale(1, 1);
+
+      canvas.drawLine(
+          absoluteAreaOffset,
+          toOffset,
+          _linePaint..strokeWidth= 2.0);
+
+      drawIcon(canvas, toOffset, Icons.workspaces_filled);
+    }
+
+  }
+
+  void drawNetworkIcons(Canvas canvas, icon) {
+    Offset absoluteRouterOffset = Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2));
+    Offset absoluteAreaOffset = Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2)+25);
+    Offset absoluteRouterDeviceOffset = Offset(_deviceIconOffsetList.elementAt(0).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(0).dy + (screenHeight / 2));
+
+    if (_deviceList.length > 0) canvas.drawLine(Offset(absoluteRouterOffset.dx, absoluteRouterOffset.dy + 50), absoluteRouterDeviceOffset, _linePaint..strokeWidth=3.0);
+
+    canvas.drawCircle(absoluteAreaOffset, hn_circle_radius + 5, _circleAreaPaint); //"shadow" of the device circle. covers the connection lines.
+
+    _textPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: 70.0, fontFamily: icon.fontFamily, color: drawingColor));
+    _textPainter.layout();
+    _textPainter.paint(canvas, Offset(absoluteRouterOffset.dx - (_textPainter.width / 2), absoluteRouterOffset.dy - 10));
+  }
+
 
   void drawDeviceConnection(Canvas canvas, Offset deviceOffset, Map thickness) {
     double arrowRadian = 30 / 57.295779513082; //Convert degree into radian
@@ -277,7 +313,7 @@ class DrawNetworkOverview extends CustomPainter {
     canvas.drawPath(path, _arrowPaint..strokeWidth = thickness);
   }
 
-  void drawDottedConnection(Canvas canvas, Size size) {
+  void drawDottedConnection(Canvas canvas, Size size) { // ToDo Not used yet!
     double dashWidth = 9, dashSpace = 5, startX = 0;
     final _dottedPaint = Paint()
       ..color = Colors.grey
@@ -336,7 +372,7 @@ class DrawNetworkOverview extends CustomPainter {
       print(speedDown);
 
       final downStreamTextSpan = TextSpan(
-        text: String.fromCharCode(0x2191) + " " + speedUp + "\n" + String.fromCharCode(0x2193) + " " + speedDown,
+        text:  speedUp  + " " + String.fromCharCode(0x2191) + "\n" + speedDown + " " + String.fromCharCode(0x2193), //text: String.fromCharCode(0x2191) + " " + speedUp + "\n" + String.fromCharCode(0x2193) + " " + speedDown,
         style: _speedTextStyle,
       );
       final mbpsTextSpan = TextSpan(
@@ -374,25 +410,20 @@ class DrawNetworkOverview extends CustomPainter {
       text: (uName.length > 0 ? uName  : ""),
       style: _textStyle,
     );
-
     _textPainter.text = userNameTextSpan;
     _textPainter.layout(minWidth: 0, maxWidth: 150);
-
     double userNameHeight = _textPainter.height;
-
     _textPainter.paint(canvas, Offset(absoluteOffset.dx - (_textPainter.width / 2), absoluteOffset.dy + hn_circle_radius + userNameHeight ));
 
     final productNameTextSpan = TextSpan(
       text: pName,
       style: _textNameStyle,
     );
-
     _textPainter.text = productNameTextSpan;
     _textPainter.layout(minWidth: 0, maxWidth: 150);
-
     double productNameHeight = _textPainter.height;
-
     _textPainter.paint(canvas, Offset(absoluteOffset.dx - (_textPainter.width / 2), absoluteOffset.dy + hn_circle_radius + productNameHeight + userNameHeight));
+
   }
 
   void drawPCIcon(Canvas canvas, Size size) {
@@ -449,12 +480,9 @@ class DrawNetworkOverview extends CustomPainter {
     _textPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: 70.0, fontFamily: icon.fontFamily, color: drawingColor));
     _textPainter.layout();
     _textPainter.paint(canvas, Offset(absoluteRouterOffset.dx - (_textPainter.width / 2), absoluteRouterOffset.dy - 10));
-
-
   }
 
   void drawIcon(Canvas canvas, offset, icon){
-
     canvas.drawCircle(offset, hn_circle_radius-10, _circleAreaPaint);
 
     _textPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: 30.0, fontFamily: icon.fontFamily, color: drawingColor,backgroundColor: backgroundColor));
@@ -541,7 +569,7 @@ class DrawNetworkOverview extends CustomPainter {
   void drawAllDeviceConnections(Canvas canvas, Size size) {
     //draw all device connection lines to the pivot device
     int localIndex =_deviceList.indexWhere((element) => element.isLocalDevice == true);
-    int attachedToRouter = _deviceList.indexWhere((element) => element.attachedToRouter == true);
+    int attachedToRouterIndex = _deviceList.indexWhere((element) => element.attachedToRouter == true);
     for (int numDev = 0; numDev < _deviceList.length; numDev++) {
       if (numDev > _deviceIconOffsetList.length) break;
 
@@ -554,9 +582,8 @@ class DrawNetworkOverview extends CustomPainter {
         if(config["internet_centered"]){
           drawOtherConnection(canvas, _deviceIconOffsetList.elementAt(localIndex)); //To Do get Local
         }else{
-          drawOtherConnection(canvas, _deviceIconOffsetList.elementAt(attachedToRouter));
+          drawOtherConnection(canvas, _deviceIconOffsetList.elementAt(attachedToRouterIndex));
         }
-
       }
     }
   }
@@ -633,6 +660,8 @@ class DrawNetworkOverview extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     fillDeviceIconPositionList();
+
+    //drawNetworksConnections(canvas);
 
     if (Platform.isAndroid || Platform.isIOS)
       drawMainIcon(canvas, Icons.router_outlined);

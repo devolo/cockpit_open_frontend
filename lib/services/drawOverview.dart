@@ -16,7 +16,6 @@ class DrawOverview extends CustomPainter {
   int pivotDeviceIndex = 0;
   bool showSpeedsPermanently = false; //true: a long press results in speeds being shown even after lifting the finger. false: speeds are hidden when lifting the finger.
   bool showingSpeeds = false; //true: draw the device circles with speeds as content. false: draw device circles with icons as content.
-  double dashWidth = 9, dashSpace = 5, startX = 0;
 
   final _textStyle = TextStyle(
     color: drawingColor,
@@ -33,25 +32,12 @@ class DrawOverview extends CustomPainter {
     backgroundColor: backgroundColor,
   );
 
-  final _speedTextStyle = TextStyle(
-    color: devoloBlue,
-    fontFamily: 'Roboto',
-    fontSize: 15,
-    //backgroundColor: Colors.white,
-    fontWeight: FontWeight.bold,
-  );
-
   Paint _deviceIconPaint;
   Paint _circleBorderPaint;
   Paint _circleAreaPaint;
   Paint _speedCircleAreaPaint;
   Paint _linePaint;
-  Paint _speedLinePaint;
-  Paint _pcPaint;
-  Paint _routerPaint;
-  Paint _arrowPaint;
   TextPainter _textPainter;
-  TextPainter _speedTextPainter;
   double screenWidth;
   double screenHeight;
   int numberFoundDevices;
@@ -60,11 +46,9 @@ class DrawOverview extends CustomPainter {
 
   DrawOverview(BuildContext context, DeviceList foundDevices, bool showSpeeds, int pivot) {
     _networkList = Provider.of<DeviceList>(context).getNetworkList();
-    print("DrawNetworkOverview: " + _networkList.toString());
+    print("DrawOverview: " + _networkList.toString());
     numberFoundDevices = _networkList.length;
-
-    showingSpeeds = config["show_speeds"]; //ToDo fix Hack
-    //pivotDeviceIndex = pivot; // ToDo same
+    
 
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
@@ -77,7 +61,7 @@ class DrawOverview extends CustomPainter {
       ..style = PaintingStyle.stroke;
 
     _circleBorderPaint = Paint()
-      ..color = drawingColor
+      ..color = backgroundColor
       ..strokeWidth = 7.0
       ..style = PaintingStyle.stroke;
 
@@ -96,34 +80,10 @@ class DrawOverview extends CustomPainter {
       ..strokeWidth = 3.0
       ..style = PaintingStyle.stroke;
 
-    _speedLinePaint = Paint()
-      ..color = devoloBlue
-      ..strokeWidth = 2.0
-      ..style = PaintingStyle.stroke;
-
-    _pcPaint = Paint()
-      ..color = drawingColor
-      ..strokeWidth = 3.0
-      ..style = PaintingStyle.stroke;
-
-    _routerPaint = Paint()
-      ..color = drawingColor
-      ..strokeWidth = 3.0
-      ..style = PaintingStyle.stroke;
-
     _textPainter = TextPainter()
       ..textDirection = TextDirection.ltr
       ..textAlign = TextAlign.center;
-
-    _speedTextPainter = TextPainter()
-      ..textDirection = TextDirection.ltr
-      ..textAlign = TextAlign.left;
-
-    _arrowPaint = Paint()
-      ..color = drawingColor
-      ..strokeWidth = 3.0
-      ..style = PaintingStyle.stroke;
-    //..style = PaintingStyle.fill;
+    
 
     //createFakeGetOverview(_numberFoundDevicesLater);
   }
@@ -241,20 +201,20 @@ class DrawOverview extends CustomPainter {
     switch (_networkList.length) {
       case 1:
         {
-          _deviceIconOffsetList.add(Offset(0.0, 0.3 * _screenGridHeight));
+          _deviceIconOffsetList.add(Offset(0.0, 1.5 * _screenGridHeight));
         }
         break;
       case 2:
         {
-          _deviceIconOffsetList.add(Offset(1.0 * _screenGridWidth, 0.1 * _screenGridHeight));
-          _deviceIconOffsetList.add(Offset(-1.0 * _screenGridWidth, 0.1 * _screenGridHeight));
+          _deviceIconOffsetList.add(Offset(1.0 * _screenGridWidth, -1.5 * _screenGridHeight));
+          _deviceIconOffsetList.add(Offset(-1.0 * _screenGridWidth, -1.5 * _screenGridHeight));
         }
         break;
       case 3:
         {
-          _deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, 0.3 * _screenGridHeight));
+          _deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, -2 * _screenGridHeight));
           _deviceIconOffsetList.add(Offset(0.0, 2 * _screenGridHeight));
-          _deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, 0.3 * _screenGridHeight));
+          _deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, -2 * _screenGridHeight));
         }
         break;
       case 4:

@@ -1,7 +1,6 @@
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/services/drawOverview.dart';
 import 'package:cockpit_devolo/services/drawNetworkOverview.dart';
-import 'package:cockpit_devolo/views/overviewNetworkScreen.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
@@ -34,12 +33,6 @@ class _OverviewScreenState extends State<OverviewScreen> {
     //dataHand();
   }
 
-  void _reloadTest() {
-    setState(() {
-      //doc = parseXML()
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final socket = Provider.of<dataHand>(context);
@@ -50,6 +43,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
     print("drawing Overview...");
 
+    //if(devic)
     return Scaffold(
       backgroundColor: Colors.transparent,
       body:  Container(

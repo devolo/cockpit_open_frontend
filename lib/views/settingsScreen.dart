@@ -23,7 +23,6 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   String _newPw;
   bool _hiddenPw = true;
-  String _dropdownValue = 'en';
   bool _isButtonDisabled = true;
   bool _loading = false;
   String _zipfilename;
@@ -62,6 +61,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     dataHand socket = Provider.of<dataHand>(context);
     var _deviceList = Provider.of<DeviceList>(context);
 
+    if(config["language"] == ""){
+      config["language"] = Localizations.localeOf(context).toString();
+    }
+
     return new Scaffold(
       backgroundColor: Colors.transparent,
       appBar: new AppBar(
@@ -81,7 +84,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                  Text(S.of(context).gui, style: TextStyle(color: drawingColor, fontSize: 20),)
+                  Text(S.of(context).appearance, style: TextStyle(color: drawingColor, fontSize: 20),)
                 ]),
                 ListTile(
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
@@ -89,7 +92,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                     new Text(S.of(context).language),
                     DropdownButton<String>(
-                      value: _dropdownValue,
+                      value: config["language"],
                       icon: Icon(Icons.arrow_drop_down_rounded,color: devoloBlue,),
                       iconSize: 24,
                       elevation: 8,
@@ -100,7 +103,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       onChanged: (String newValue) {
                         setState(() {
-                          _dropdownValue = newValue;
+                          config["language"] = newValue;
                           S.load(Locale(newValue, ''));
                         });
                       },
@@ -111,9 +114,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("  "+value),
+                              Text(value+ "  "),
                               Flag(
-                                value=="en"?"gb": value,
+                                value=="en"?"gb": value, // ToDo which flag?
                                 height: 15,
                                 width: 25,
                                 fit: BoxFit.fill,
@@ -130,7 +133,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
                   title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(S.of(context).enableShowingSpeeds),
+                    new Text(S.of(context).enableShowingSpeeds, semanticsLabel: "Show Speeds"),
                     new Checkbox(
                       value: config["show_speeds_permanent"], //widget.painter.showSpeedsPermanently,
                       onChanged: toggleCheckbox,
@@ -473,7 +476,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 TextFormField(
                   //initialValue: _newPw,
                   decoration: InputDecoration(
-                    labelText: ' Ihre Mail-Adresse',
+                    labelText: S.of(context).yourEmailaddress,
                     //helperText: 'Devicename',
                   ),
                   onChanged: (value) => (_newPw = value),

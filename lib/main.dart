@@ -134,8 +134,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final _networkList = Provider.of<DeviceList>(context);
-    final socket = Provider.of<dataHand>(context);
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -149,13 +147,22 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.graphic_eq),
-            tooltip: 'Change to Networkview',
+            icon: const Icon(Icons.workspaces_filled),
+            tooltip: S.of(context).changeNetworkview,
             onPressed: () {
               setState(() {
                 showNetwork = !showNetwork;
               });
               },
+          ),
+          IconButton(
+            icon: const Icon(Icons.graphic_eq),
+            tooltip: 'Testing',
+            onPressed: () {
+              setState(() {
+                showNetwork = !showNetwork;
+              });
+            },
           ),
         ],
       ),

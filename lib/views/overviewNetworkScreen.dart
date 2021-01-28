@@ -80,7 +80,7 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
                     children: [
                       IconButton(
                         icon: Icon(Icons.arrow_back_ios,color: Colors.white,),
-                        tooltip: S.of(context).back,
+                        tooltip: S.of(context).previousNetwork,
                         onPressed: () {
                           print("back");
                           setState(() {
@@ -93,7 +93,7 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
                       ),
                       IconButton(
                         icon: Icon(Icons.arrow_forward_ios, color: Colors.white,),
-                        tooltip: S.of(context).forward,
+                        tooltip: S.of(context).nextNetwork,
                         onPressed: () {
                           print("forward");
                           setState(() {

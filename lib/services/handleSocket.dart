@@ -91,7 +91,7 @@ class dataHand extends ChangeNotifier {
 
       if (document.findAllElements('MessageType').first.innerText == "NetworkUpdate") { // If received Message is general NetworkUpdate
         //_deviceList.clearList();
-        _deviceList.clearListList();
+        _deviceList.clearNetworkList();
         print('DeviceList found ->');
         //print(document);
 

@@ -6,7 +6,7 @@ import 'package:cockpit_devolo/shared/helpers.dart';
 
 class DeviceList extends ChangeNotifier{
   List<Device> _devices = [];  //contains all devices
-  List<List<Device>> _networkList = [];//[[],[],[]]; // ToDo growable List doesn't work atm -> supports 3 parallel Networks now
+  List<List<Device>> _networkList = [];
   int selectedNetworkIndex = 0;
 
   DeviceList() {
@@ -72,18 +72,23 @@ class DeviceList extends ChangeNotifier{
   }
 
   void addDevice(Device device, int whichNetworkIndex) {
-    if(device.attachedToRouter & config["internet_centered"]){this._devices.insert(0, device);}
-    else{this._devices.add(device);}
-    print(whichNetworkIndex);
-
     //for multiple localDevices with its own remote devices
     if(!_networkList.asMap().containsKey(whichNetworkIndex)){ // is testing if "whichNetworkIndex" exists in List
-      _networkList.insert(whichNetworkIndex, []);
+      this._networkList.insert(whichNetworkIndex, []);
     }
-    _networkList[whichNetworkIndex].add(device);
+
+    if(device.attachedToRouter & config["internet_centered"]){
+      this._devices.insert(0, device);
+      this._networkList[whichNetworkIndex].insert(0, device);
+    }
+    else{
+      this._devices.add(device);
+      this._networkList[whichNetworkIndex].add(device);
+    }
+    print(whichNetworkIndex);
 
     if(_networkList.length == 1){
-      print("NertworkList length: ${_networkList.length}");
+      print("NetworkList length: ${_networkList.length}");
       showNetwork = false;
     }
 
@@ -95,9 +100,8 @@ class DeviceList extends ChangeNotifier{
     notifyListeners();
   }
 
-  void clearListList() {
+  void clearNetworkList() {
     _networkList.clear();
-    //_networkList = [[],[],[]]; //TODO some bug...must be initialized ...supports 3 (local/parallel) network lists right now s.o
     notifyListeners();
   }
 

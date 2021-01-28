@@ -35,6 +35,16 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `devolo Cockpit`
+  String get title {
+    return Intl.message(
+      'devolo Cockpit',
+      name: 'title',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Home Network Desktop`
   String get homeNetworkDesktop {
     return Intl.message(
@@ -105,11 +115,11 @@ class S {
     );
   }
 
-  /// `GUI`
-  String get gui {
+  /// `Appearance`
+  String get appearance {
     return Intl.message(
-      'GUI',
-      name: 'gui',
+      'Appearance',
+      name: 'appearance',
       desc: '',
       args: [],
     );
@@ -630,6 +640,136 @@ class S {
     return Intl.message(
       'Add',
       name: 'add',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change networkview`
+  String get changeNetworkview {
+    return Intl.message(
+      'Change networkview',
+      name: 'changeNetworkview',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No devices found \nScanning for devices ...`
+  String get noDevicesFoundNscanningForDevices {
+    return Intl.message(
+      'No devices found \nScanning for devices ...',
+      name: 'noDevicesFoundNscanningForDevices',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `previous network`
+  String get previousNetwork {
+    return Intl.message(
+      'previous network',
+      name: 'previousNetwork',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `next network`
+  String get nextNetwork {
+    return Intl.message(
+      'next network',
+      name: 'nextNetwork',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter devicename`
+  String get pleaseEnterDevicename {
+    return Intl.message(
+      'Please enter devicename',
+      name: 'pleaseEnterDevicename',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Type:`
+  String get type {
+    return Intl.message(
+      'Type:',
+      name: 'type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Serial number:`
+  String get serialNumber {
+    return Intl.message(
+      'Serial number:',
+      name: 'serialNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `MT-number:`
+  String get mtnumber {
+    return Intl.message(
+      'MT-number:',
+      name: 'mtnumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Version:`
+  String get version {
+    return Intl.message(
+      'Version:',
+      name: 'version',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `IP-Address:`
+  String get ipaddress {
+    return Intl.message(
+      'IP-Address:',
+      name: 'ipaddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `MAC-Address:`
+  String get macaddress {
+    return Intl.message(
+      'MAC-Address:',
+      name: 'macaddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Attached to Router:`
+  String get attachedToRouter {
+    return Intl.message(
+      'Attached to Router:',
+      name: 'attachedToRouter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// ` Your email-address`
+  String get yourEmailaddress {
+    return Intl.message(
+      ' Your email-address',
+      name: 'yourEmailaddress',
       desc: '',
       args: [],
     );

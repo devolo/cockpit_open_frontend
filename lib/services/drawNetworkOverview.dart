@@ -12,8 +12,11 @@ class DrawNetworkOverview extends CustomPainter {
   final double complete_circle_radius = 50.0;
   List<Device> _deviceList;//List<Device> _deviceList;
   var _networkList;
+  DeviceList _ProviderDevicelist;
   List<Offset> _deviceIconOffsetList = deviceIconOffsetList;
+  List<Offset> networkOffsets = [];
   int pivotDeviceIndex = 0;
+  int selectedNetworkIndex = 0;
   bool showSpeedsPermanently = false; //true: a long press results in speeds being shown even after lifting the finger. false: speeds are hidden when lifting the finger.
   bool showingSpeeds = false; //true: draw the device circles with speeds as content. false: draw device circles with icons as content.
   double dashWidth = 9, dashSpace = 5, startX = 0;
@@ -59,10 +62,12 @@ class DrawNetworkOverview extends CustomPainter {
   double _screenGridHeight;
 
   DrawNetworkOverview(BuildContext context, DeviceList foundDevices, bool showSpeeds, int pivot) {
-    _deviceList = Provider.of<DeviceList>(context).getDeviceList();
-    _networkList = Provider.of<DeviceList>(context).getNetworkList();
+    _ProviderDevicelist = Provider.of<DeviceList>(context);
+    _deviceList = _ProviderDevicelist.getDeviceList();
+    _networkList = _ProviderDevicelist.getNetworkList();
     print("DrawNetworkOverview: " + _deviceList.toString());
     numberFoundDevices = _deviceList.length;
+    selectedNetworkIndex = _ProviderDevicelist.selectedNetworkIndex;
 
     showingSpeeds = config["show_speeds"]; //ToDo fix Hack
     pivotDeviceIndex = pivot; // ToDo same
@@ -163,22 +168,32 @@ class DrawNetworkOverview extends CustomPainter {
   }
 
 
-  void drawNetworksConnections(Canvas canvas){
+  void drawNetworksConnections(Canvas canvas, Size size){
     //Offset absoluteRouterOffset = Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2));
     Offset absoluteAreaOffset = Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2)+25);
-    Offset toOffset = Offset(screenWidth / 2 +100, -4.5 * _screenGridHeight + (screenHeight / 2)+25);
+    double offsetAdd = 0;
+    Offset toOffset = absoluteAreaOffset; //Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2)+25);
+    networkOffsets.clear();
+
     for(var item in _networkList){
-      //absoluteAreaOffset.translate(0, 0);
-      toOffset = toOffset.scale(1, 1);
+      print(toOffset);
+      offsetAdd += 100;
 
-      canvas.drawLine(
-          absoluteAreaOffset,
-          toOffset,
-          _linePaint..strokeWidth= 2.0);
+      if(offsetAdd.sign > 0)
+        offsetAdd= -offsetAdd;
 
-      drawIcon(canvas, toOffset, Icons.workspaces_filled);
+      toOffset = toOffset.translate(-screenWidth+offsetAdd, 0);
+      toOffset = toOffset.scale(-1, 1);
+      
+      networkOffsets.add(toOffset);
     }
 
+    int index = _networkList.length-1;
+    for(var item in _networkList) {
+      canvas.drawLine(absoluteAreaOffset, networkOffsets[index], _linePaint..strokeWidth = 2.0);
+      drawIcon(canvas, networkOffsets[index], Icons.workspaces_filled);
+      index--;
+    }
   }
 
   void drawNetworkIcons(Canvas canvas, icon) {
@@ -657,11 +672,16 @@ class DrawNetworkOverview extends CustomPainter {
     return point.dx < (center.dx + radius) && point.dx > (center.dx - radius) && point.dy < (center.dy + radius) && point.dy > (center.dy - radius);
   }
 
+  bool isPointInsideNetworkIcon(Offset point, Offset center, double rradius) {
+    var radius = rradius * 1.2;
+    return point.dx < (center.dx + radius) && point.dx > (center.dx - radius) && point.dy < (center.dy + radius) && point.dy > (center.dy - radius);
+  }
+
   @override
   void paint(Canvas canvas, Size size) {
     fillDeviceIconPositionList();
 
-    //drawNetworksConnections(canvas);
+    drawNetworksConnections(canvas, size);
 
     if (Platform.isAndroid || Platform.isIOS)
       drawMainIcon(canvas, Icons.router_outlined);
@@ -683,6 +703,7 @@ class DrawNetworkOverview extends CustomPainter {
   bool shouldRepaint(DrawNetworkOverview oldDelegate) {
     if (oldDelegate.numberFoundDevices != numberFoundDevices) return true;
     if (oldDelegate.showingSpeeds != showingSpeeds) return true;
+    if (oldDelegate.selectedNetworkIndex != selectedNetworkIndex) return true;
 
     return false;
 

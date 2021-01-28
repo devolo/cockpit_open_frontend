@@ -32,7 +32,6 @@ class DeviceList extends ChangeNotifier{
     for(var elem in _networkList){
       if(elem.isNotEmpty){
         length++;
-        print(length);
       }
     }
     return length;
@@ -85,10 +84,9 @@ class DeviceList extends ChangeNotifier{
       this._devices.add(device);
       this._networkList[whichNetworkIndex].add(device);
     }
-    print(whichNetworkIndex);
 
     if(_networkList.length == 1){
-      print("NetworkList length: ${_networkList.length}");
+      //print("NetworkList length: ${_networkList.length}");
       showNetwork = false;
     }
 

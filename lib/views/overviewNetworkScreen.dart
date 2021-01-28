@@ -142,6 +142,31 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
     String hitDeviceMac;
     bool hitDeviceAtr;
 
+    final socket = Provider.of<dataHand>(context);
+    final deviceList = Provider.of<DeviceList>(context);
+
+    print(_Painter.networkOffsets);
+
+    _Painter.networkOffsets.asMap().forEach((i, networkIconOffset) { //for (Offset networkIconOffset in _Painter.networkOffsets) {
+      print('index=$i, value=$networkIconOffset');
+
+      //Offset absoluteOffset = Offset(networkIconOffset.dx + (_Painter.screenWidth / 2), networkIconOffset.dy + (_Painter.screenHeight / 2));
+      print("NetworkIcon: " + networkIconOffset.toString());
+      print("Local: " + details.localPosition.toString());
+      //print("absolute: " + absoluteOffset.toString());
+
+
+      //test if network got hit
+      if (_Painter.isPointInsideNetworkIcon(details.localPosition, networkIconOffset, _Painter.hn_circle_radius)) {
+        print("Hit Network #" + i.toString());
+        setState(() {
+          deviceList.selectedNetworkIndex = i;
+        });
+
+      }
+
+    });
+
     for (Offset deviceIconOffset in deviceIconOffsetList) {
       if (index >
           _Painter.numberFoundDevices) //do not check invisible circles
@@ -150,11 +175,10 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
       Offset absoluteOffset = Offset(deviceIconOffset.dx + (_Painter.screenWidth / 2),
           deviceIconOffset.dy + (_Painter.screenHeight / 2));
 
+        //test if device got hit
       if (_Painter.isPointInsideCircle(details.localPosition, absoluteOffset, _Painter.hn_circle_radius)) {
         print("Hit icon #" + index.toString());
 
-        final socket = Provider.of<dataHand>(context);
-        final deviceList = Provider.of<DeviceList>(context);
 
         hitDevice = deviceList.getDeviceList()[index];
         hitDeviceName = deviceList.getDeviceList()[index].name;

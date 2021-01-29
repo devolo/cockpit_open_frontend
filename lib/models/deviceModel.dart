@@ -18,7 +18,12 @@ class DeviceList extends ChangeNotifier{
     if(_networkList.isEmpty){
       return [];
     }else {
-      return _networkList[selectedNetworkIndex];
+      try {
+        return _networkList[selectedNetworkIndex];
+      }
+      catch(e) {
+        print("Error Networks not ready");
+      return _networkList[0];}
     }
     //return _devices;
   }

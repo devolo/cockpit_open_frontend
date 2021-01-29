@@ -173,9 +173,11 @@ class DrawNetworkOverview extends CustomPainter {
     Offset absoluteOffset = Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2)+25);
     double offsetAdd = 0;
     Offset toOffset = absoluteOffset; //Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2)+25);
+    int index = _networkList.length-1;
     networkOffsets.clear();
 
     for(var item in _networkList){
+
       offsetAdd += 100;
       //print(toOffset);
       if(offsetAdd.sign > 0)
@@ -185,21 +187,21 @@ class DrawNetworkOverview extends CustomPainter {
       toOffset = toOffset.scale(-1, 1);
 
       networkOffsets.add(toOffset);
-
     }
 
     // draw networkOffsetList from back to front to avoid overdrawing
-    int index = _networkList.length-1;
+
     for(var item in _networkList) {
       if(offsetAdd.sign > 0)
         offsetAdd= -offsetAdd;
       networkOffsets[index] = networkOffsets[index].translate(_ProviderDevicelist.selectedNetworkIndex.toDouble()*offsetAdd,0 );
-      canvas.drawLine(absoluteOffset, networkOffsets[index], _linePaint..strokeWidth = 2.0);
-      drawIcon(canvas, networkOffsets[index], Icons.workspaces_filled);
+
       if(_ProviderDevicelist.selectedNetworkIndex == index){
-        drawNetworkName(canvas, size,"Network ${index}", networkOffsets[index], true);
+        drawNetworkName(canvas, size,"Network ${index+1}", absoluteOffset, true);
       }else{
-        drawNetworkName(canvas, size,"Network ${index}", networkOffsets[index], false);
+        drawNetworkName(canvas, size,"Network ${index+1}", networkOffsets[index], false);
+        canvas.drawLine(absoluteOffset, networkOffsets[index], _linePaint..strokeWidth = 2.0);
+        drawIcon(canvas, networkOffsets[index], Icons.workspaces_filled);
       }
 
       index--;

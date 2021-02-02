@@ -20,7 +20,7 @@ class _EmptyScreenState extends State<EmptyScreen> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(title),
-        backgroundColor: devoloBlue,
+        backgroundColor: mainColor,
       ),
       body: new Center(child: Text("TO DO")),
       backgroundColor: Colors.white,

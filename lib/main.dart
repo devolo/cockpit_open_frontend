@@ -36,11 +36,13 @@ class MyApp extends StatelessWidget {
               //primarySwatch: Colors.white,
               backgroundColor: backgroundColor,
               canvasColor: Colors.white,
-              // textTheme: TextTheme(
-              //   bodyText2: TextStyle(
-              //     color: Colors.white,
-              //   ),
-              // ),
+              textTheme: Theme.of(context).textTheme.apply(
+                fontSizeFactor: fontSizeFactor,
+                fontSizeDelta: fontSizeDelta,
+                displayColor: fontColorLight,
+                bodyColor: fontColorLight,
+                decorationColor: fontColorLight,
+              ),
 
             ),
             localizationsDelegates: [
@@ -81,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    _menuItemStyle = TextStyle(color: devoloBlue, fontFamily: 'Roboto', decorationColor: devoloBlue);
+    _menuItemStyle = TextStyle(color: mainColor, fontFamily: 'Roboto', decorationColor: mainColor);
     loadAllDeviceIcons();
   }
 
@@ -138,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: devoloBlue,
+        backgroundColor: mainColor,
         centerTitle: true,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -168,11 +170,11 @@ class _MyHomePageState extends State<MyHomePage> {
             style: TextStyle(fontSize: 23, color: drawingColor),
           ),
           decoration: BoxDecoration(
-            color: devoloBlue,
+            color: mainColor,
           ),
         ),
         ListTile(
-            leading: Icon(Icons.workspaces_filled, color: devoloBlue), //miscellaneous_services
+            leading: Icon(Icons.workspaces_filled, color: mainColor), //miscellaneous_services
             title: Text(S.of(context).networkoverview, style: _menuItemStyle),
             //tileColor: devoloBlue,
             onTap: () {
@@ -180,7 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Navigator.pop(context); //close drawer
             }),
         ListTile(
-            leading: Icon(Icons.download_rounded, color: devoloBlue),
+            leading: Icon(Icons.download_rounded, color: mainColor),
             title: Text(S.of(context).updates, style: _menuItemStyle),
             onTap: () {
               bottomTapped(2);
@@ -192,21 +194,21 @@ class _MyHomePageState extends State<MyHomePage> {
               // );
             }),
         ListTile(
-            leading: Icon(Icons.add_circle, color: devoloBlue),
+            leading: Icon(Icons.add_circle, color: mainColor),
             title: Text(S.of(context).addDevice, style: _menuItemStyle),
             onTap: () {
               bottomTapped(3);
               Navigator.pop(context); //close drawer
             }),
         ListTile(
-            leading: Icon(Icons.miscellaneous_services, color: devoloBlue),
+            leading: Icon(Icons.miscellaneous_services, color: mainColor),
             title: Text(S.of(context).settings, style: _menuItemStyle),
             onTap: () {
               bottomTapped(0);
               Navigator.pop(context); //close drawer
             }),
         ListTile(
-            leading: Icon(Icons.info_outline_rounded, color: devoloBlue),
+            leading: Icon(Icons.info_outline_rounded, color: mainColor),
             title: Text(S.of(context).appInfo, style: _menuItemStyle),
             onTap: () {
               Navigator.pop(context); //close drawer
@@ -216,9 +218,9 @@ class _MyHomePageState extends State<MyHomePage> {
       body: buildPageView(),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: devoloBlue,
+        backgroundColor: mainColor,
         unselectedItemColor: secondColor,
-        selectedItemColor: drawingColor,
+        selectedItemColor: fontColorLight,
         selectedIconTheme: IconThemeData(size: 35),
         selectedFontSize: 15,
         currentIndex: bottomSelectedIndex,
@@ -259,7 +261,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Icon(
                   Icons.check_circle_outline,
                   size: 35,
-                  color: devoloBlue,
+                  color: mainColor,
                 ), //Text('Bestätigen'),
                 onPressed: () {
                   // Critical things happening here

@@ -27,7 +27,7 @@
   "showPassword": "show password ",
   "set": "set",
   "support": "Support",
-  "generateSupportInformation": "Generate support information",
+  "generateSupportInformation": "Generate support information ",
   "openBrowser": "open browser",
   "openZip": "open zip",
   "sendToDevolo": "send to devolo",
@@ -47,11 +47,11 @@
   "update": "Update",
   "cockpitSoftwareIsUpToDate": "Cockpit software is up to date.",
   "updateReadyToInstall": "Update ready to install",
-  "checkUpdates": "Check Updates",
+  "checkUpdates": " Check Updates ",
   "addDevice": "Add Device",
-  "openOptimization": "open Optimization",
+  "openOptimization": "open optimization",
   "optimizationHelp": "Optimization help",
-  "pleaseConfirmActionNattentionYourRouterIsConnectedToThis": "Please confirm action. \nAttention! Your router is connected to this PLC device you lose connection to the Internet",
+  "pleaseConfirmActionAttentionYourRouterIsConnectedToThis": "Please confirm action. \nAttention! Your router is connected to this PLC device you lose connection to the Internet",
   "install": "install",
   "confirm": "confirm",
   "cancel": "cancel",
@@ -77,5 +77,6 @@
   "ipaddress": "IP-Address:",
   "macaddress": "MAC-Address:",
   "attachedToRouter": "Attached to Router:",
-  "yourEmailaddress": " Your email-address"
+  "yourEmailaddress": " Your email-address",
+  "refresh": "refresh"
 }

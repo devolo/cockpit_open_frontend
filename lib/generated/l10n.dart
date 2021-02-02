@@ -265,10 +265,10 @@ class S {
     );
   }
 
-  /// `Generate support information`
+  /// `Generate support information `
   String get generateSupportInformation {
     return Intl.message(
-      'Generate support information',
+      'Generate support information ',
       name: 'generateSupportInformation',
       desc: '',
       args: [],
@@ -465,10 +465,10 @@ class S {
     );
   }
 
-  /// `Check Updates`
+  /// ` Check Updates `
   String get checkUpdates {
     return Intl.message(
-      'Check Updates',
+      ' Check Updates ',
       name: 'checkUpdates',
       desc: '',
       args: [],
@@ -485,10 +485,10 @@ class S {
     );
   }
 
-  /// `open Optimization`
+  /// `open optimization`
   String get openOptimization {
     return Intl.message(
-      'open Optimization',
+      'open optimization',
       name: 'openOptimization',
       desc: '',
       args: [],
@@ -506,10 +506,10 @@ class S {
   }
 
   /// `Please confirm action. \nAttention! Your router is connected to this PLC device you lose connection to the Internet`
-  String get pleaseConfirmActionNattentionYourRouterIsConnectedToThis {
+  String get pleaseConfirmActionAttentionYourRouterIsConnectedToThis {
     return Intl.message(
       'Please confirm action. \nAttention! Your router is connected to this PLC device you lose connection to the Internet',
-      name: 'pleaseConfirmActionNattentionYourRouterIsConnectedToThis',
+      name: 'pleaseConfirmActionAttentionYourRouterIsConnectedToThis',
       desc: '',
       args: [],
     );
@@ -770,6 +770,16 @@ class S {
     return Intl.message(
       ' Your email-address',
       name: 'yourEmailaddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `refresh`
+  String get refresh {
+    return Intl.message(
+      'refresh',
+      name: 'refresh',
       desc: '',
       args: [],
     );

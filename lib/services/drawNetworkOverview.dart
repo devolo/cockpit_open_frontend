@@ -37,7 +37,7 @@ class DrawNetworkOverview extends CustomPainter {
   );
 
   final _speedTextStyle = TextStyle(
-    color: devoloBlue,
+    color: mainColor,
     fontFamily: 'Roboto',
     fontSize: 15,
     //backgroundColor: Colors.white,
@@ -104,7 +104,7 @@ class DrawNetworkOverview extends CustomPainter {
       ..style = PaintingStyle.stroke;
 
     _speedLinePaint = Paint()
-      ..color = devoloBlue
+      ..color = mainColor
       ..strokeWidth = 2.0
       ..style = PaintingStyle.stroke;
 
@@ -143,7 +143,7 @@ class DrawNetworkOverview extends CustomPainter {
       style: _textStyle,
     );
     final loading = CircularProgressIndicator(
-      valueColor: AlwaysStoppedAnimation<Color>(devoloBlue),
+      valueColor: AlwaysStoppedAnimation<Color>(mainColor),
     ); // ToDo Progressbar maybe?
 
     _textPainter.text = textSpan;
@@ -299,7 +299,7 @@ class DrawNetworkOverview extends CustomPainter {
           absoluteOffsetRx,
           _linePaint..strokeWidth = thickness['rx']); // Draw Connection Line
       //canvas.drawLine(absoluteOffsetArrowEndRx, arrowCrossLineRx, _linePaint..colorFilter= ColorFilter.mode(devoloBlue, BlendMode.color)..strokeWidth=thickness['rx']); // Draw Arrow cross Line
-      canvas.drawLine(absoluteOffsetArrowStartRx, absoluteOffsetArrowEndRx, _linePaint..colorFilter= ColorFilter.mode(devoloBlue, BlendMode.color)..strokeWidth=thickness['rx']); // Draw Arrow
+      canvas.drawLine(absoluteOffsetArrowStartRx, absoluteOffsetArrowEndRx, _linePaint..colorFilter= ColorFilter.mode(mainColor, BlendMode.color)..strokeWidth=thickness['rx']); // Draw Arrow
       //paintTriangle(canvas, absoluteOffsetArrowStartRx, absoluteOffsetArrowEndRx, arrowCrossLineRx, thickness['rx']);
 
       canvas.drawLine(
@@ -307,7 +307,7 @@ class DrawNetworkOverview extends CustomPainter {
           absoluteOffsetArrowStartTx,
           _linePaint..strokeWidth = thickness['tx']); // Draw Connection Line
       //canvas.drawLine(absoluteOffsetArrowEndTx, arrowCrossLineTx, _linePaint..colorFilter= ColorFilter.mode(devoloBlue, BlendMode.color)..strokeWidth=thickness['tx']); // Draw Arrow cross Line
-      canvas.drawLine(absoluteOffsetArrowStartTx, absoluteOffsetArrowEndTx, _linePaint..colorFilter= ColorFilter.mode(devoloBlue, BlendMode.color)..strokeWidth=thickness['tx']); // Draw Arrow
+      canvas.drawLine(absoluteOffsetArrowStartTx, absoluteOffsetArrowEndTx, _linePaint..colorFilter= ColorFilter.mode(mainColor, BlendMode.color)..strokeWidth=thickness['tx']); // Draw Arrow
       //paintTriangle(canvas, absoluteOffsetArrowStartTx, absoluteOffsetArrowEndTx, arrowCrossLineTx, thickness['tx']);
     }
 
@@ -390,7 +390,7 @@ class DrawNetworkOverview extends CustomPainter {
       );
       final mbpsTextSpan = TextSpan(
         text: "Mbps",
-        style: TextStyle(color: devoloBlue, fontSize: 12),
+        style: TextStyle(color: mainColor, fontSize: 12),
       );
       canvas.drawLine(lineStart, lineEnd, _speedLinePaint);
 

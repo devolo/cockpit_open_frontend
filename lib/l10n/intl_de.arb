@@ -28,7 +28,7 @@
   "showPassword": "Passwort anzeigen ",
   "set": "setzen",
   "support": "Support",
-  "generateSupportInformation": "Support Informationen generieren",
+  "generateSupportInformation": "Support Informationen generieren ",
   "openBrowser": "öffne browser",
   "openZip": "öffne zip",
   "sendToDevolo": "sende an devolo",
@@ -48,11 +48,11 @@
   "update": "Aktualisierung",
   "cockpitSoftwareIsUpToDate": "Cockpit Software auf dem neusten Stand.",
   "updateReadyToInstall": "Update bereit zur Installation.",
-  "checkUpdates": "Updates suchen",
+  "checkUpdates": " Updates suchen ",
   "addDevice": "Gerät hinzufügen",
   "openOptimization": "Optimierungshilfe öffnen",
   "optimizationHelp": "Optimierungs Hilfe",
-  "pleaseConfirmActionNattentionYourRouterIsConnectedToThis": "Bitte Aktion bestätigen. \n Achtung! Ihr Router ist an dieses PLC-Gerät angeschlossen sie verlieren die Verbiondung zum Internet ",
+  "pleaseConfirmActionAttentionYourRouterIsConnectedToThis": "Bitte Aktion bestätigen. \n Achtung! Ihr Router ist an dieses PLC-Gerät angeschlossen sie verlieren die Verbiondung zum Internet ",
   "install": "Installieren",
   "confirm": "Bestätigen",
   "cancel": "Abbrechen",
@@ -78,5 +78,6 @@
   "ipaddress": "IP-Adresse:",
   "macaddress": "MAC-Adresse:",
   "attachedToRouter": "An Router angeschlossen:",
-  "yourEmailaddress": " Ihre E-mail Adresse"
+  "yourEmailaddress": " Ihre E-mail Adresse",
+  "refresh": "neu laden"
 }

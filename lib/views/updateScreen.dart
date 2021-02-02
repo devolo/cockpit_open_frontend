@@ -35,9 +35,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
     return new Scaffold(
       backgroundColor: Colors.transparent,
       appBar: new AppBar(
-        title: new Text(S.of(context).updates),
+        title: new Text(S.of(context).updates, style: TextStyle(color: fontColorLight),),
         centerTitle: true,
-        backgroundColor: devoloBlue,
+        backgroundColor: mainColor,
         shadowColor: Colors.transparent,
       ),
       body: new Center(
@@ -53,22 +53,22 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   children: [
                     Text(
                       S.of(context).name,
-                      style: TextStyle(fontWeight: FontWeight.bold, color: drawingColor, fontSize: 16),
+                      style: TextStyle(fontWeight: FontWeight.bold, color: fontColorLight, fontSize: 16),
                       semanticsLabel: S.of(context).name,
                     ),
                     Text(
                       S.of(context).currentVersion,
-                      style: TextStyle(color: drawingColor, fontSize: 16),
+                      style: TextStyle(color: fontColorLight, fontSize: 16),
                         semanticsLabel: S.of(context).currentVersion,
                     ),
                     Text(
                       S.of(context).newVersion,
-                      style: TextStyle(color: drawingColor, fontSize: 16),
+                      style: TextStyle(color: fontColorLight, fontSize: 16),
                         semanticsLabel: S.of(context).newVersion,
                     ),
                     Text(
                       S.of(context).state,
-                      style: TextStyle(color: drawingColor, fontSize: 16),
+                      style: TextStyle(color: fontColorLight, fontSize: 16),
                         semanticsLabel: S.of(context).state,
                     ),
                   ],
@@ -99,21 +99,21 @@ class _UpdateScreenState extends State<UpdateScreen> {
                             children: [
                               SelectableText(
                                 device.name,
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(fontWeight: FontWeight.bold, color: fontColorDark),
                               ),
                               Spacer(),
-                              SelectableText('${device.version}'),
+                              SelectableText('${device.version}', style: TextStyle(color: fontColorDark),),
                               Spacer(),
-                              SelectableText('---'), //ToDo somehow get new FW version
+                              SelectableText('---', style: TextStyle(color: fontColorDark),), //ToDo somehow get new FW version
                               Spacer(),
                             ],
                           ),
-                          subtitle: Text('${device.type}'),
+                          subtitle: Text('${device.type}', style: TextStyle(color: fontColorDark),),
                           trailing: device.updateStateInt !=0 ?
                           Text(device.updateStateInt.toInt().toString() +" %", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),):
                           device.updateAvailable ?
                           IconButton(
-                                  icon: Icon(Icons.download_rounded, color: devoloBlue,),
+                                  icon: Icon(Icons.download_rounded, color: mainColor,),
                                   onPressed: () async {
                                     print("Updating ${device.mac}");
                                     setState(() {
@@ -143,7 +143,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 minWidth: 100.0,
                 height: 50.0,
                 child: RaisedButton(
-                    color: devoloBlue,
+                    color: mainColor,
                     textColor: Colors.white,
                     onPressed: () async {
                       setState(() {
@@ -170,7 +170,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                       child: Icon(
                                         Icons.check_circle_outline,
                                         size: 35,
-                                        color: devoloBlue,
+                                        color: mainColor,
                                       ), //Text('Bestätigen'),
                                       onPressed: () {
                                         Navigator.of(context).pop();
@@ -193,7 +193,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                       icon: Icon(
                                         Icons.check_circle_outline,
                                         size: 35,
-                                        color: devoloBlue,
+                                        color: mainColor,
                                       ), //Text('Bestätigen'),
                                       tooltip: S.of(context).install,
                                       onPressed: () {
@@ -207,7 +207,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                         icon: Icon(
                                           Icons.cancel_outlined,
                                           size: 35,
-                                          color: devoloBlue,
+                                          color: mainColor,
                                         ), //Text('Abbrechen'),
                                         tooltip: S.of(context).cancel,
                                         onPressed: () {
@@ -231,10 +231,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               }): _lastPoll = DateTime.now();
                     },
                     child: Row(
+                      //crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Icon(Icons.refresh),
                         Text(S.of(context).checkUpdates),
-                        if (_loading) const CircularProgressIndicator(),
+                        if (_loading) CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(secondColor),),
                         Spacer(),
                         //Text(""),
                         Text(_lastPoll.toString().substring(0,_lastPoll.toString().indexOf("."))),
@@ -344,9 +346,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        IconButton(icon: Icon(Icons.public, color: devoloBlue,), tooltip: S.of(context).launchWebinterface, onPressed: () => launchURL(hitDeviceIp),),
-                        IconButton(icon: Icon(Icons.lightbulb, color: devoloBlue,), tooltip: S.of(context).identifyDevice, onPressed: () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac)),
-                        IconButton(icon: Icon(Icons.find_in_page, color: devoloBlue,), tooltip: S.of(context).showManual,
+                        IconButton(icon: Icon(Icons.public, color: mainColor,), tooltip: S.of(context).launchWebinterface, onPressed: () => launchURL(hitDeviceIp),),
+                        IconButton(icon: Icon(Icons.lightbulb, color: mainColor,), tooltip: S.of(context).identifyDevice, onPressed: () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac)),
+                        IconButton(icon: Icon(Icons.find_in_page, color: mainColor,), tooltip: S.of(context).showManual,
                             onPressed: () async {
                               socket.sendXML('GetManual', newValue: hitDeviceMT, valueType: 'product', newValue2: 'de', valueType2: 'language');
                               var response = await socket.recieveXML(["GetManualResponse"]);
@@ -354,8 +356,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                 openFile(response['filename']);
                               });
                             }),
-                        IconButton(icon: Icon(Icons.upload_file, color: devoloBlue,semanticLabel: "update",), tooltip: S.of(context).factoryReset, onPressed: () =>_handleCriticalActions(context, socket, 'ResetAdapterToFactoryDefaults', hitDevice),),
-                        IconButton(icon: Icon(Icons.delete, color: devoloBlue,), tooltip: S.of(context).deleteDevice, onPressed: () =>_handleCriticalActions(context, socket, 'RemoveAdapter', hitDevice),), //ToDo Delete Device see wiki
+                        IconButton(icon: Icon(Icons.upload_file, color: mainColor,semanticLabel: "update",), tooltip: S.of(context).factoryReset, onPressed: () =>_handleCriticalActions(context, socket, 'ResetAdapterToFactoryDefaults', hitDevice),),
+                        IconButton(icon: Icon(Icons.delete, color: mainColor,), tooltip: S.of(context).deleteDevice, onPressed: () =>_handleCriticalActions(context, socket, 'RemoveAdapter', hitDevice),), //ToDo Delete Device see wiki
                       ],
                     ),
 
@@ -367,7 +369,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   icon: Icon(
                     Icons.check_circle_outline,
                     size: 35,
-                    color: devoloBlue,
+                    color: mainColor,
                   ), //Text('Bestätigen'),
                   tooltip: S.of(context).confirm,
                   onPressed: () {
@@ -390,13 +392,13 @@ void _handleCriticalActions(context, socket, messageType, Device hitDevice) {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(messageType),
-          content: hitDevice.attachedToRouter?Text(S.of(context).pleaseConfirmActionNattentionYourRouterIsConnectedToThis):Text(S.of(context).pleaseConfirmAction),
+          content: hitDevice.attachedToRouter?Text(S.of(context).pleaseConfirmActionAttentionYourRouterIsConnectedToThis):Text(S.of(context).pleaseConfirmAction),
           actions: <Widget>[
             IconButton(
               icon: Icon(
                 Icons.check_circle_outline,
                 size: 35,
-                color: devoloBlue,
+                color: mainColor,
               ), //Text('Bestätigen'),
               tooltip: S.of(context).confirm,
               onPressed: () {
@@ -410,7 +412,7 @@ void _handleCriticalActions(context, socket, messageType, Device hitDevice) {
                 icon: Icon(
                   Icons.cancel_outlined,
                   size: 35,
-                  color: devoloBlue,
+                  color: mainColor,
                 ), //Text('Abbrechen'),
                 tooltip: S.of(context).cancel,
                 onPressed: () {

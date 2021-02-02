@@ -43,7 +43,7 @@ class _DebugScreenState extends State<DebugScreen> {
       backgroundColor: Colors.white,
       appBar: new AppBar(
         title: new Text(title),
-        backgroundColor: devoloBlue,
+        backgroundColor: mainColor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),

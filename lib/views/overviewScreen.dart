@@ -66,9 +66,9 @@ class _OverviewScreenState extends State<OverviewScreen> {
           socket.sendXML('RefreshNetwork');
         });
         },
-        tooltip: 'Neu laden',
-        backgroundColor: devoloBlue,
-        hoverColor: Colors.blue,
+        tooltip: S.of(context).refresh,
+        backgroundColor: mainColor,
+        hoverColor: secondColor,
         child: Icon(Icons.refresh),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
@@ -174,13 +174,13 @@ class _OverviewScreenState extends State<OverviewScreen> {
     builder: (BuildContext context) {
     return AlertDialog(
       title: Text(messageType),
-      content: hitDevice.attachedToRouter?Text(S.of(context).pleaseConfirmActionNattentionYourRouterIsConnectedToThis):Text(S.of(context).pleaseConfirmAction),
+      content: hitDevice.attachedToRouter?Text(S.of(context).pleaseConfirmActionAttentionYourRouterIsConnectedToThis):Text(S.of(context).pleaseConfirmAction),
       actions: <Widget>[
         IconButton(
           icon: Icon(
             Icons.check_circle_outline,
             size: 35,
-            color: devoloBlue,
+            color: mainColor,
           ), //Text('Bestätigen'),
           tooltip: S.of(context).confirm,
           onPressed: () {
@@ -194,7 +194,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
             icon: Icon(
               Icons.cancel_outlined,
               size: 35,
-              color: devoloBlue,
+              color: mainColor,
             ), //Text('Abbrechen'),
             tooltip: S.of(context).cancel,
             onPressed: () {

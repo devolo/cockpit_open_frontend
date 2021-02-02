@@ -96,7 +96,7 @@ class DrawOverview extends CustomPainter {
       style: _textStyle,
     );
     final loading = CircularProgressIndicator(
-      valueColor: AlwaysStoppedAnimation<Color>(devoloBlue),
+      valueColor: AlwaysStoppedAnimation<Color>(mainColor),
     ); // ToDo Progressbar maybe?
 
     _textPainter.text = textSpan;

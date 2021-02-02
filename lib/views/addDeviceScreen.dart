@@ -35,9 +35,9 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
     return new Scaffold(
       backgroundColor: Colors.transparent,
       appBar: new AppBar(
-        title: new Text(S.of(context).addDevice),
+        title: new Text(S.of(context).addDevice, style: TextStyle(color: fontColorLight),),
         centerTitle: true,
-        backgroundColor: devoloBlue,
+        backgroundColor: mainColor,
         shadowColor: Colors.transparent,
       ),
       body: new SingleChildScrollView(
@@ -46,13 +46,6 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SelectableText(
-                    S.of(context).addDeviceInstructionText,
-                style: TextStyle(color: Colors.white),
-              ),
-              SizedBox(
-                height: 20,
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -65,9 +58,16 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
               SizedBox(
                 height: 20,
               ),
+              SelectableText(
+                S.of(context).addDeviceInstructionText,
+                style: TextStyle(color: Colors.white),
+              ),
+              SizedBox(
+                height: 20,
+              ),
               RaisedButton(
                   child: Text(S.of(context).openOptimization),
-                  color: Colors.blue[800],
+                  color: mainColor,
                   textColor: Colors.white,
                   onPressed: () {
                     _optimiseAlert(context);
@@ -75,21 +75,21 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
               SizedBox(
                 height: 20,
               ),
-              TextFormField(
-                //TODO sendXml find out Device Mac connected to Internet + Password formfield (hidden)
-                initialValue: _newTest,
-                style: TextStyle(color: Colors.white),
-                decoration: InputDecoration(labelText: 'Testing', labelStyle: TextStyle(color: myFocusNode.hasFocus ? Colors.amberAccent : Colors.white)
-                    //helperText: 'Devicename',
-                    ),
-                onChanged: (value) => (_newPw = value),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Bitte neues Passwort eintragen';
-                  }
-                  return null;
-                },
-              ),
+              // TextFormField(
+              //   //TODO sendXml find out Device Mac connected to Internet + Password formfield (hidden)
+              //   initialValue: _newTest,
+              //   style: TextStyle(color: Colors.white),
+              //   decoration: InputDecoration(labelText: 'Testing', labelStyle: TextStyle(color: myFocusNode.hasFocus ? Colors.amberAccent : Colors.white)
+              //       //helperText: 'Devicename',
+              //       ),
+              //   onChanged: (value) => (_newPw = value),
+              //   validator: (value) {
+              //     if (value.isEmpty) {
+              //       return 'Bitte neues Passwort eintragen';
+              //     }
+              //     return null;
+              //   },
+              // ),
             ],
           ),
         ),

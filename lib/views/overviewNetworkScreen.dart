@@ -115,7 +115,7 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
         });
         },
         tooltip: 'Neu laden',
-        backgroundColor: devoloBlue,
+        backgroundColor: mainColor,
         hoverColor: Colors.blue,
         child: Icon(Icons.refresh),
       ), // This trailing comma makes auto-formatting nicer for build methods.
@@ -141,6 +141,7 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
     String hitDeviceIp;
     String hitDeviceMac;
     bool hitDeviceAtr;
+    bool hitDeviceisLocal;
 
     final socket = Provider.of<dataHand>(context);
     final deviceList = Provider.of<DeviceList>(context);
@@ -185,6 +186,7 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
         hitDeviceIp = deviceList.getDeviceList()[index].ip;
         hitDeviceMac = deviceList.getDeviceList()[index].mac;
         hitDeviceAtr = deviceList.getDeviceList()[index].attachedToRouter;
+        hitDeviceisLocal = deviceList.getDeviceList()[index].isLocalDevice;
 
         String _newName = hitDeviceName;
 
@@ -193,6 +195,7 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
           barrierDismissible: true, // user doesn't need to tap button!
           builder: (BuildContext context) {
             return AlertDialog(
+              backgroundColor: backgroundColor.withOpacity(0.9),
               title: SelectableText('Geräteinfo'),
               content: SingleChildScrollView(
                 child: Column(
@@ -249,15 +252,19 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
                         SelectableText('Attached to Router: ' ),
                         SelectableText(hitDeviceAtr.toString()),
                       ]),
+                      TableRow(children: [
+                        SelectableText('Is Local Device: ' ),
+                        SelectableText(hitDeviceisLocal.toString()),
+                      ]),
                     ],),
                     //Text('Rates: ' +hitDeviceRx),
                     Padding(padding: EdgeInsets.fromLTRB(0, 40, 0, 0)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                        IconButton(icon: Icon(Icons.public, color: devoloBlue,), tooltip: S.of(context).launchWebinterface, onPressed: () => launchURL(hitDeviceIp),),
-                        IconButton(icon: Icon(Icons.lightbulb, color: devoloBlue,), tooltip: S.of(context).identifyDevice, onPressed: () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac)),
-                        IconButton(icon: Icon(Icons.find_in_page, color: devoloBlue,), tooltip: S.of(context).showManual,
+                        IconButton(icon: Icon(Icons.public, color: mainColor,), tooltip: S.of(context).launchWebinterface, onPressed: () => launchURL(hitDeviceIp),),
+                        IconButton(icon: Icon(Icons.lightbulb, color: mainColor,), tooltip: S.of(context).identifyDevice, onPressed: () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac)),
+                        IconButton(icon: Icon(Icons.find_in_page, color: mainColor,), tooltip: S.of(context).showManual,
                             onPressed: () async {
                           socket.sendXML('GetManual', newValue: hitDeviceMT, valueType: 'product', newValue2: 'de', valueType2: 'language');
                           var response = await socket.recieveXML(["GetManualResponse"]);
@@ -265,8 +272,8 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
                             openFile(response['filename']);
                           });
                         }),
-                        IconButton(icon: Icon(Icons.upload_file, color: devoloBlue,), tooltip: S.of(context).factoryReset, onPressed: () =>_handleCriticalActions(context, socket, 'ResetAdapterToFactoryDefaults', hitDevice),),
-                        IconButton(icon: Icon(Icons.delete, color: devoloBlue,), tooltip: S.of(context).deleteDevice, onPressed: () =>_handleCriticalActions(context, socket, 'RemoveAdapter', hitDevice),), //ToDo Delete Device see wiki
+                        IconButton(icon: Icon(Icons.upload_file, color: mainColor,), tooltip: S.of(context).factoryReset, onPressed: () =>_handleCriticalActions(context, socket, 'ResetAdapterToFactoryDefaults', hitDevice),),
+                        IconButton(icon: Icon(Icons.delete, color: mainColor,), tooltip: S.of(context).deleteDevice, onPressed: () =>_handleCriticalActions(context, socket, 'RemoveAdapter', hitDevice),), //ToDo Delete Device see wiki
                       ],
                     ),
 
@@ -278,7 +285,7 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
                   icon: Icon(
                     Icons.check_circle_outline,
                     size: 35,
-                    color: devoloBlue,
+                    color: fontColorDark,
                   ), //Text('Bestätigen'),
                   tooltip: S.of(context).confirm,
                   onPressed: () {
@@ -360,13 +367,13 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
     builder: (BuildContext context) {
     return AlertDialog(
       title: Text(messageType),
-      content: hitDevice.attachedToRouter?Text(S.of(context).pleaseConfirmActionNattentionYourRouterIsConnectedToThis):Text(S.of(context).pleaseConfirmAction),
+      content: hitDevice.attachedToRouter?Text(S.of(context).pleaseConfirmActionAttentionYourRouterIsConnectedToThis):Text(S.of(context).pleaseConfirmAction),
       actions: <Widget>[
         IconButton(
           icon: Icon(
             Icons.check_circle_outline,
             size: 35,
-            color: devoloBlue,
+            color: mainColor,
           ), //Text('Bestätigen'),
           tooltip: S.of(context).confirm,
           onPressed: () {
@@ -380,7 +387,7 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
             icon: Icon(
               Icons.cancel_outlined,
               size: 35,
-              color: devoloBlue,
+              color: mainColor,
             ), //Text('Abbrechen'),
             tooltip: S.of(context).cancel,
             onPressed: () {

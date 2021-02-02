@@ -9,12 +9,16 @@ import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/views/logsScreen.dart';
+import 'package:flutter_spinbox/flutter_spinbox.dart';
+import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 
 class SettingsScreen extends StatefulWidget {
   SettingsScreen({Key key, this.title, this.painter}) : super(key: key);
 
   final String title;
   DrawNetworkOverview painter;
+
+
 
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
@@ -28,6 +32,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
   String _zipfilename;
   String _htmlfilename;
   var response;
+
+  ColorSwatch _tempMainColor;
+  ColorSwatch _mainColor;
+
+  Color _tempShadeMainColor= mainColor;
+  Color _shadeMainColor = mainColor;
+
+  Color _tempShadeSecondColor= secondColor;
+  Color _shadeSecondColor = secondColor;
+
+  Color _tempShadeFontColorLight  = fontColorLight;
+  Color _shadeFontColorLight = fontColorLight;
+  Color _tempShadeFontColorDark  = fontColorDark;
+  Color _shadeFontColorDark = fontColorDark;
 
   final _scrollController = ScrollController();
 
@@ -46,6 +64,82 @@ class _SettingsScreenState extends State<SettingsScreen> {
     });
   }
 
+  void _mainColorPicker(title, title2) async {
+    _openDialog(title,
+      MaterialColorPicker(
+        colors: fullMaterialColors,
+        selectedColor: mainColor,
+        onColorChange: (color) {
+          setState(() {
+            _tempShadeMainColor = color;
+            mainColor = color;
+            backgroundColor = color;
+          });
+        },
+        onMainColorChange: (color) {
+          setState(() {
+            _tempMainColor = color;
+            mainColor = color;
+            backgroundColor = color;
+          });
+        },
+        onBack: () => print("Back button pressed"),
+      ),
+      title2,
+      MaterialColorPicker(
+        colors: fullMaterialColors,
+        selectedColor: secondColor,
+        onColorChange: (color) {
+          setState(() {
+            _tempShadeSecondColor = color;
+            secondColor = color;
+          });
+        },
+        onMainColorChange: (color) {
+          setState(() {
+            _shadeSecondColor = color;
+            secondColor = color;
+          });
+        },
+        onBack: () => print("Back button pressed"),
+      ),
+    );
+  }
+
+  void _fontColorPicker(title, title2) async {
+    _openDialog(
+      title,
+      MaterialColorPicker(
+        colors: fullMaterialColors,
+        selectedColor: _shadeFontColorLight,
+        onColorChange: (color) {
+          setState(() {
+            _tempShadeFontColorLight = color;
+            fontColorDark = color;
+            drawingColor = color;
+          });
+        },
+        onMainColorChange: (color) => setState(() => _tempShadeFontColorLight = color),
+        onBack: () => print("Back button pressed"),
+      ),
+      title2,
+      MaterialColorPicker(
+        colors: fullMaterialColors,
+        selectedColor: _shadeFontColorDark,
+        onColorChange: (color) {
+          setState(() {
+            _tempShadeFontColorDark = color;
+            fontColorDark = color;
+            //drawingColor = color;
+          });
+        },
+        onMainColorChange: (color) => setState(() => _tempShadeFontColorDark = color),
+        onBack: () => print("Back button pressed"),
+      ),
+    );
+  }
+
+
   //creating the timer that stops the loading after 15 secs
   void startTimer() {
     Timer.periodic(const Duration(seconds: 10), (t) {
@@ -61,7 +155,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     dataHand socket = Provider.of<dataHand>(context);
     var _deviceList = Provider.of<DeviceList>(context);
 
-    if(config["language"] == ""){
+    if (config["language"] == "") {
       config["language"] = Localizations.localeOf(context).toString();
     }
 
@@ -70,36 +164,42 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: new AppBar(
         title: new Text(S.of(context).settings),
         centerTitle: true,
-        backgroundColor: devoloBlue,
+        backgroundColor: mainColor,
         shadowColor: Colors.transparent,
       ),
-      body:Scrollbar(
+      body: Scrollbar(
         controller: _scrollController, // <---- Here, the controller
         isAlwaysShown: true, // <---- Required
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: new SingleChildScrollView(
-              controller: _scrollController,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20, right: 20),
+          child: new SingleChildScrollView(
+            controller: _scrollController,
             child: new Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                  Text(S.of(context).appearance, style: TextStyle(color: drawingColor, fontSize: 20),)
+                  Text(
+                    S.of(context).appearance,
+                    style: TextStyle(color: drawingColor, fontSize: 20),
+                  )
                 ]),
                 ListTile(
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
                   title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(S.of(context).language),
+                    new Text(S.of(context).language, style: TextStyle(color: fontColorDark),),
                     DropdownButton<String>(
                       value: config["language"],
-                      icon: Icon(Icons.arrow_drop_down_rounded,color: devoloBlue,),
+                      icon: Icon(
+                        Icons.arrow_drop_down_rounded,
+                        color: mainColor,
+                      ),
                       iconSize: 24,
                       elevation: 8,
                       //style: TextStyle(color: Colors.deepPurple),
                       underline: Container(
                         height: 2,
-                        color: devoloBlue,
+                        color: mainColor,
                       ),
                       onChanged: (String newValue) {
                         setState(() {
@@ -107,16 +207,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           S.load(Locale(newValue, ''));
                         });
                       },
-                      items: <String>['en', 'de']
-                          .map<DropdownMenuItem<String>>((String value) {
+                      items: <String>['en', 'de'].map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(value+ "  "),
+                              Text(value + "  ", style: TextStyle(color: fontColorDark),),
                               Flag(
-                                value=="en"?"gb": value, // ToDo which flag?
+                                value == "en" ? "gb" : value, // ToDo which flag?
                                 height: 15,
                                 width: 25,
                                 fit: BoxFit.fill,
@@ -133,10 +232,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
                   title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(S.of(context).enableShowingSpeeds, semanticsLabel: "Show Speeds"),
+                    new Text(S.of(context).enableShowingSpeeds, style: TextStyle(color: fontColorDark), semanticsLabel: "Show Speeds"),
                     new Checkbox(
                       value: config["show_speeds_permanent"], //widget.painter.showSpeedsPermanently,
                       onChanged: toggleCheckbox,
+                      activeColor: mainColor,
                     ),
                   ]),
                 ),
@@ -145,7 +245,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
                   title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(S.of(context).internetcentered),
+                    new Text(S.of(context).internetcentered, style: TextStyle(color: fontColorDark),),
                     new Switch(
                       value: config["internet_centered"],
                       onChanged: (value) {
@@ -154,8 +254,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           socket.sendXML('RefreshNetwork');
                         });
                       },
-                      activeTrackColor: devoloBlue.withAlpha(120),
-                      activeColor: devoloBlue,
+                      activeTrackColor: mainColor.withAlpha(120),
+                      activeColor: mainColor,
                     ),
                   ]),
                 ),
@@ -164,7 +264,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
                   title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(S.of(context).showOtherDevices),
+                    new Text(S.of(context).showOtherDevices, style: TextStyle(color: fontColorDark),),
                     new Switch(
                       value: config["show_other_devices"],
                       onChanged: (value) {
@@ -173,24 +273,117 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           socket.sendXML('RefreshNetwork');
                         });
                       },
-                      activeTrackColor: devoloBlue.withAlpha(120),
-                      activeColor: devoloBlue,
+                      activeTrackColor: mainColor.withAlpha(120),
+                      activeColor: mainColor,
                     ),
                   ]),
                 ),
                 Divider(),
-                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                  Text(S.of(context).network, style: TextStyle(color: drawingColor, fontSize: 20),
+                ListTile(
+                  contentPadding: EdgeInsets.only(left: 10, right: 10),
+                  tileColor: secondColor,
+                  title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                    new Text("Fontsize", style: TextStyle(color: fontColorDark),),
+                    Spacer(),
+                    Flexible(
+                      child: new SpinBox(
+                        min: 0.1,
+                        max: 5.0,
+                        step: 0.1,
+                        acceleration: 0.1,
+                        decimals: 1,
+                        value: fontSizeFactor.toDouble(),
+                        //fontSizeDelta,
+                        onChanged: (value) {
+                          setState(() {
+                            fontSizeFactor = value;
+                          });
+                        },
+                        //decoration: InputDecoration(labelText: 'Fontsize'),
+                      ),
+                    ),
+                  ]),
+                ),
+                Divider(),
+                ListTile(
+                  contentPadding: EdgeInsets.only(left: 10, right: 10),
+                  tileColor: secondColor,
+                  title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                    new Text("Main App Color", style: TextStyle(color: fontColorDark),),
+                    Spacer(),
+                    SizedBox(width: 10,),
+                    CircleAvatar(
+                      backgroundColor: mainColor,//_tempMainColor,
+                      radius: 18.0,
+                      child: FlatButton(
+                        height: 40,
+                        //hoverColor: devoloBlue.withOpacity(0.4),
+                        //color: devoloBlue.withOpacity(0.4),
+                        onPressed: () {
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: secondColor,//_tempShadeColor,
+                          radius: 18.0,
+                          child: FlatButton(
+                            height: 40,
+                            //hoverColor: devoloBlue.withOpacity(0.4),
+                            //color: devoloBlue.withOpacity(0.4),
+                            onPressed: () {
+                              //_secondColorPicker("Choose secondary color");
+                              _mainColorPicker("Choose main color","Choose accent color" );
+
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ]),
+                ),
+                ListTile(
+                  contentPadding: EdgeInsets.only(left: 10, right: 10),
+                  tileColor: secondColor,
+                  title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                    new Text("Font Color", style: TextStyle(color: fontColorDark),),
+                    Spacer(),
+                    CircleAvatar(
+                      backgroundColor: _tempShadeFontColorLight,
+                      radius: 15.0,
+                      child: FlatButton(
+                        height: 40,
+                        onPressed: () {
+                          _fontColorPicker("Choose light font color", "Choose dark font color");
+                          //_openFullMaterialColorPicker();
+                        },
+                      ),
+                    ),
+                    CircleAvatar(
+                      backgroundColor: _tempShadeFontColorDark,
+                      radius: 15.0,
+                      child: FlatButton(
+                        height: 40,
+                        onPressed: () {
+                          _fontColorPicker("Choose light font color", "Choose dark font color");
+                          //_openFullMaterialColorPicker();
+                        },
+                      ),
+                    ),
+                  ]),
+                ),
+                Divider(),
+                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                  Text(
+                    S.of(context).network,
+                    style: TextStyle(color: drawingColor, fontSize: 20),
                   )
                 ]),
                 ListTile(
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
                   title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(S.of(context).ignoreUpdates),
+                    new Text(S.of(context).ignoreUpdates, style: TextStyle(color: fontColorDark),),
                     new Checkbox(
-                        value: config["ignore_updates"], //ToDo
+                        value: config["ignore_updates"],
+                        activeColor: mainColor,
                         onChanged: (bool value) {
                           setState(() {
                             config["ignore_updates"] = !config["ignore_updates"];
@@ -204,9 +397,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
                   title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(S.of(context).recordTheTransmissionPowerOfTheDevicesAndTransmitIt),
+                    new Text(S.of(context).recordTheTransmissionPowerOfTheDevicesAndTransmitIt, style: TextStyle(color: fontColorDark),),
                     new Checkbox(
-                        value: config["allow_data_collection"], //ToDo
+                        value: config["allow_data_collection"],
+                        activeColor: mainColor,
                         onChanged: (bool value) {
                           setState(() {
                             config["allow_data_collection"] = !config["allow_data_collection"];
@@ -220,7 +414,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
                   title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(S.of(context).windowsNetworkThrottling),
+                    new Text(S.of(context).windowsNetworkThrottling, style: TextStyle(color: fontColorDark),),
                     new Switch(
                       value: !config["windows_network_throttling_disabled"],
                       onChanged: (value) {
@@ -230,8 +424,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           socket.sendXML('Config');
                         });
                       },
-                      activeTrackColor: devoloBlue.withAlpha(120),
-                      activeColor: devoloBlue,
+                      activeTrackColor: mainColor.withAlpha(120),
+                      activeColor: mainColor,
                     ),
                   ]),
                 ),
@@ -260,28 +454,32 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                       ),
                       new Checkbox(
-                          value: !_hiddenPw, //ToDo
+                          value: !_hiddenPw,
+                          activeColor: mainColor,
                           onChanged: (bool value) {
                             setState(() {
                               _hiddenPw = !_hiddenPw;
                             });
                           }),
-                      Text(S.of(context).showPassword),
+                      Text(S.of(context).showPassword, style: TextStyle(color: fontColorDark),),
                       FlatButton(
                         height: 62,
-                          hoverColor: devoloBlue.withOpacity(0.4),
-                          color: devoloBlue.withOpacity(0.4),
-                          onPressed: () {
-                            socket.sendXML('SetNetworkPassword', newValue: _newPw,valueType: "password", mac: _deviceList.getLocal().mac);
-                          },
-                          child: Text(S.of(context).set,/*style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),*/),
+                        hoverColor: mainColor.withOpacity(0.4),
+                        color: mainColor.withOpacity(0.4),
+                        onPressed: () {
+                          socket.sendXML('SetNetworkPassword', newValue: _newPw, valueType: "password", mac: _deviceList.getLocal().mac);
+                        },
+                        child: Text(
+                          S.of(context).set, /*style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),*/
+                        ),
                       )
                     ],
                   ),
                 ),
-                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                  Text(S.of(context).support, style: TextStyle(color: drawingColor, fontSize: 20),
+                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                  Text(
+                    S.of(context).support,
+                    style: TextStyle(color: drawingColor, fontSize: 20),
                   )
                 ]),
                 ListTile(
@@ -290,14 +488,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                     FlatButton(
                       height: 60,
-                      hoverColor: devoloBlue.withOpacity(0.4),
-                      color: devoloBlue.withOpacity(0.4),
+                      hoverColor: mainColor.withOpacity(0.4),
+                      color: mainColor.withOpacity(0.4),
                       child: Row(children: [
-                        Text(S.of(context).generateSupportInformation),
-
-                          Stack(children: <Widget>[
-                            Container(child: _loading ? CircularProgressIndicator() : Text("")),
-                            if (response != null && _loading == false)
+                        Text(S.of(context).generateSupportInformation, style: TextStyle(color: fontColorDark),),
+                        Stack(children: <Widget>[
+                          Container(child: _loading ? CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(mainColor)) : Text("")),
+                          if (response != null && _loading == false)
                             Container(
                                 child: (response["result"] == "ok" && response.isNotEmpty)
                                     ? Icon(
@@ -308,7 +505,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         Icons.cancel_outlined,
                                         color: Colors.red,
                                       )),
-                          ]),
+                        ]),
                       ]),
                       //color: devoloBlue,
                       //textColor: Colors.white,
@@ -340,7 +537,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             IconButton(
                               icon: Icon(Icons.open_in_browser_rounded),
                               tooltip: S.of(context).openBrowser,
-                              color: _isButtonDisabled ? Colors.grey : devoloBlue,
+                              color: _isButtonDisabled ? Colors.grey : mainColor,
                               onPressed: () {
                                 openFile(_htmlfilename);
                               },
@@ -348,7 +545,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             IconButton(
                               icon: Icon(Icons.archive_outlined),
                               tooltip: S.of(context).openZip,
-                              color: _isButtonDisabled ? Colors.grey : devoloBlue,
+                              color: _isButtonDisabled ? Colors.grey : mainColor,
                               onPressed: () {
                                 openFile(_zipfilename);
                               },
@@ -356,7 +553,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             IconButton(
                               icon: Icon(Icons.send_and_archive),
                               tooltip: S.of(context).sendToDevolo,
-                              color: _isButtonDisabled ? Colors.grey : devoloBlue,
+                              color: _isButtonDisabled ? Colors.grey : mainColor,
                               onPressed: () {
                                 _contactInfoAlert(context);
                               },
@@ -371,9 +568,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     tooltip: "Test",
                     color: drawingColor,
                     onPressed: () {
-                      if(_deviceList.selectedNetworkIndex == 0){
+                      if (_deviceList.selectedNetworkIndex == 0) {
                         _deviceList.selectedNetworkIndex = 1;
-                      }else{
+                      } else {
                         _deviceList.selectedNetworkIndex = 0;
                       }
                     },
@@ -389,12 +586,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       );
                     },
                   ),
-
                 ]),
               ],
             ),
-        ),
           ),
+        ),
       ),
     );
   }
@@ -412,7 +608,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 child: Icon(
                   Icons.check_circle_outline,
                   size: 35,
-                  color: devoloBlue,
+                  color: fontColorLight,
                 ), //Text('Bestätigen'),
                 onPressed: () {
                   // Critical things happening here
@@ -424,7 +620,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   child: Icon(
                     Icons.cancel_outlined,
                     size: 35,
-                    color: devoloBlue,
+                    color: fontColorLight,
                   ), //Text('Abbrechen'),
                   onPressed: () {
                     // Cancel critical action
@@ -494,7 +690,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 child: Icon(
                   Icons.check_circle_outline,
                   size: 35,
-                  color: devoloBlue,
+                  color: mainColor,
                 ), //Text('Bestätigen'),
                 onPressed: () {
                   // action happening here
@@ -505,7 +701,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   child: Icon(
                     Icons.cancel_outlined,
                     size: 35,
-                    color: devoloBlue,
+                    color: mainColor,
                   ), //Text('Abbrechen'),
                   onPressed: () {
                     // Cancel critical action
@@ -514,5 +710,56 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ],
           );
         });
+  }
+
+  void _openDialog(String title, Widget content, [String title2, Widget content2]) {
+    showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          backgroundColor: backgroundColor.withOpacity(0.7),
+          contentPadding: const EdgeInsets.all(6.0),
+          title: Text(title, style: TextStyle(color: fontColorLight),),
+          content: Column(
+            children: [
+              Text(title, style: TextStyle(color: fontColorLight),),
+              Flexible(child: content),
+              if(content2 != null)
+              Text(title2, style: TextStyle(color: fontColorLight),),
+              if(content2 != null)
+              Flexible(child: content2)
+            ],
+          ),
+          actions: [
+            FlatButton(
+              child: Icon(
+                Icons.check_circle_outline,
+                size: 35,
+                color: mainColor,
+              ), //Text('Bestätigen'),
+              onPressed: () {
+                // action happening here
+                Navigator.of(context).pop();
+                setState(() {
+                });
+              },
+            ),
+            FlatButton(
+                child: Icon(
+                  Icons.cancel_outlined,
+                  size: 35,
+                  color: mainColor,
+                ), //Text('Abbrechen'),
+                onPressed: () {
+                  // Cancel critical action
+                  Navigator.of(context).pop();
+                  setState(() {
+                  });
+                }),
+          ],
+        );
+      },
+    );
   }
 }

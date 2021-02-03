@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:cockpit_devolo/generated/l10n.dart';
-import 'package:cockpit_devolo/models/deviceModel.dart';
+import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/services/drawNetworkOverview.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
@@ -153,7 +153,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     dataHand socket = Provider.of<dataHand>(context);
-    var _deviceList = Provider.of<DeviceList>(context);
+    var _deviceList = Provider.of<NetworkList>(context);
 
     if (config["language"] == "") {
       config["language"] = Localizations.localeOf(context).toString();
@@ -564,18 +564,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ]),
                 ),
                 Row(mainAxisAlignment: MainAxisAlignment.end, crossAxisAlignment: CrossAxisAlignment.end, children: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.text_fields_sharp),
-                    tooltip: "Test",
-                    color: drawingColor,
-                    onPressed: () {
-                      if (_deviceList.selectedNetworkIndex == 0) {
-                        _deviceList.selectedNetworkIndex = 1;
-                      } else {
-                        _deviceList.selectedNetworkIndex = 0;
-                      }
-                    },
-                  ),
+                  // IconButton(
+                  //   icon: Icon(Icons.text_fields_sharp),
+                  //   tooltip: "Test",
+                  //   color: drawingColor,
+                  //   onPressed: () {
+                  //     if (_deviceList.selectedNetworkIndex == 0) {
+                  //       _deviceList.selectedNetworkIndex = 1;
+                  //     } else {
+                  //       _deviceList.selectedNetworkIndex = 0;
+                  //     }
+                  //   },
+                  // ),
                   IconButton(
                     icon: Icon(Icons.list_alt),
                     tooltip: S.of(context).showLogs,

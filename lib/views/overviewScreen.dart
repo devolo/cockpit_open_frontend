@@ -1,4 +1,5 @@
 import 'package:cockpit_devolo/generated/l10n.dart';
+import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:cockpit_devolo/services/drawOverview.dart';
 import 'package:cockpit_devolo/services/drawNetworkOverview.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
@@ -7,7 +8,7 @@ import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cockpit_devolo/models/deviceModel.dart';
+import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:flutter/foundation.dart'
     show debugDefaultTargetPlatformOverride;
 
@@ -36,7 +37,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
   @override
   Widget build(BuildContext context) {
     final socket = Provider.of<dataHand>(context);
-    final _deviceList = Provider.of<DeviceList>(context);
+    final _deviceList = Provider.of<NetworkList>(context);
     socket.setDeviceList(_deviceList);
 
     _Painter = DrawOverview(context, _deviceList, showingSpeeds, pivotDeviceIndex);
@@ -97,7 +98,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
         print("Hit icon #" + index.toString());
 
         final socket = Provider.of<dataHand>(context);
-        final _networkList = Provider.of<DeviceList>(context);
+        final _networkList = Provider.of<NetworkList>(context);
 
         setState(() {
           _networkList.selectedNetworkIndex = index;
@@ -128,7 +129,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
       if (_Painter.isPointInsideCircle(_lastTapDownPosition, absoluteOffset, _Painter.hn_circle_radius)) {
         print("Long press on icon #" + index.toString());
 
-        final deviceList = Provider.of<DeviceList>(context);
+        final deviceList = Provider.of<NetworkList>(context);
         hitDeviceName = deviceList.getDeviceList()[index].name;
 
         setState(() {

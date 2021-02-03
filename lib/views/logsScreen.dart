@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
-import 'package:cockpit_devolo/models/deviceModel.dart';
+import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:xml/xml.dart';
 
 class DebugScreen extends StatefulWidget {
@@ -38,7 +38,7 @@ class _DebugScreenState extends State<DebugScreen> {
   @override
   Widget build(BuildContext context) {
     final socket = Provider.of<dataHand>(context);
-    final deviceList = Provider.of<DeviceList>(context);
+    final deviceList = Provider.of<NetworkList>(context);
     return new Scaffold(
       backgroundColor: Colors.white,
       appBar: new AppBar(

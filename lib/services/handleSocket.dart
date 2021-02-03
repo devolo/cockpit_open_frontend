@@ -1,13 +1,14 @@
 import 'dart:io'; //only for non-web apps!!!
 import 'dart:async';
+import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:xml/xml.dart';
-import 'package:cockpit_devolo/models/deviceModel.dart';
+import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 
 class dataHand extends ChangeNotifier {
   Socket socket;
-  DeviceList _deviceList;
+  NetworkList _deviceList;
   dynamic xmlLength;
   XmlDocument xmlResponse = XmlDocument();
   List<dynamic> xmlResponseList = [];
@@ -19,7 +20,7 @@ class dataHand extends ChangeNotifier {
     handleSocket();
   }
 
-  void setDeviceList(DeviceList devList) {
+  void setDeviceList(NetworkList devList) {
     _deviceList = devList;
     //_deviceList.setDeviceList(devList);
   }

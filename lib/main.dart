@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:cockpit_devolo/models/deviceModel.dart';
+import 'package:cockpit_devolo/models/networkListModel.dart';
 
 import 'package:cockpit_devolo/views/overviewScreen.dart';
 import 'package:cockpit_devolo/views/overviewNetworkScreen.dart';
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<dataHand>(create: (_) => dataHand()),
-        ChangeNotifierProvider<DeviceList>(create: (_) => DeviceList()),
+        ChangeNotifierProvider<NetworkList>(create: (_) => NetworkList()),
       ],
       child: Consumer<dataHand>(
         builder: (context, counter, _) {

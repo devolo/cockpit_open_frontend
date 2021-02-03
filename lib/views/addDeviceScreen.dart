@@ -4,10 +4,10 @@ import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cockpit_devolo/models/deviceModel.dart';
+import 'package:cockpit_devolo/models/networkListModel.dart';
 
 class AddDeviceScreen extends StatefulWidget {
-  AddDeviceScreen({Key key, this.title, DeviceList deviceList}) : super(key: key);
+  AddDeviceScreen({Key key, this.title, NetworkList deviceList}) : super(key: key);
 
   final String title;
   dataHand model;

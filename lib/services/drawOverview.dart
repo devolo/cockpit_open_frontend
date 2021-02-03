@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cockpit_devolo/models/deviceModel.dart';
+import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:cockpit_devolo/services/drawNetworkOverview.dart';
 import 'dart:io';
@@ -44,8 +44,8 @@ class DrawOverview extends CustomPainter {
   double _screenGridWidth;
   double _screenGridHeight;
 
-  DrawOverview(BuildContext context, DeviceList foundDevices, bool showSpeeds, int pivot) {
-    _networkList = Provider.of<DeviceList>(context).getNetworkList();
+  DrawOverview(BuildContext context, NetworkList foundDevices, bool showSpeeds, int pivot) {
+    _networkList = Provider.of<NetworkList>(context).getNetworkList();
     print("DrawOverview: " + _networkList.toString());
     numberFoundDevices = _networkList.length;
     

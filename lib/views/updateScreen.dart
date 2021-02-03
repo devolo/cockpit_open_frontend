@@ -1,14 +1,15 @@
 import 'package:cockpit_devolo/generated/l10n.dart';
+import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cockpit_devolo/models/deviceModel.dart';
+import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'dart:ui' as ui;
 
 class UpdateScreen extends StatefulWidget {
-  UpdateScreen({Key key, this.title, DeviceList deviceList}) : super(key: key);
+  UpdateScreen({Key key, this.title, NetworkList deviceList}) : super(key: key);
 
   final String title;
 
@@ -30,7 +31,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
   @override
   Widget build(BuildContext context) {
     final socket = Provider.of<dataHand>(context);
-    var _deviceList = Provider.of<DeviceList>(context);
+    var _deviceList = Provider.of<NetworkList>(context);
 
     return new Scaffold(
       backgroundColor: Colors.transparent,
@@ -97,7 +98,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                           title: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              SelectableText(
+                              Text(
                                 device.name,
                                 style: TextStyle(fontWeight: FontWeight.bold, color: fontColorDark),
                               ),

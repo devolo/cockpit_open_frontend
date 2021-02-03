@@ -1,8 +1,9 @@
 import 'dart:math';
+import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cockpit_devolo/models/deviceModel.dart';
+import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'dart:io';
 import 'dart:ui';
@@ -12,9 +13,9 @@ class DrawNetworkOverview extends CustomPainter {
   final double complete_circle_radius = 50.0;
   List<Device> _deviceList;//List<Device> _deviceList;
   var _networkList;
-  DeviceList _ProviderDevicelist;
+  NetworkList _ProviderDevicelist;
   List<Offset> _deviceIconOffsetList = deviceIconOffsetList;
-  List<Offset> networkOffsets = [];
+  List<Offset> networkOffsetList = [];
   int pivotDeviceIndex = 0;
   int selectedNetworkIndex = 0;
   bool showSpeedsPermanently = false; //true: a long press results in speeds being shown even after lifting the finger. false: speeds are hidden when lifting the finger.
@@ -61,14 +62,14 @@ class DrawNetworkOverview extends CustomPainter {
   double _screenGridWidth;
   double _screenGridHeight;
 
-  DrawNetworkOverview(BuildContext context, DeviceList foundDevices, bool showSpeeds, int pivot) {
-    _ProviderDevicelist = Provider.of<DeviceList>(context);
+  DrawNetworkOverview(BuildContext context, NetworkList foundDevices, bool showSpeeds, int pivot) {
+    _ProviderDevicelist = Provider.of<NetworkList>(context);
     _deviceList = _ProviderDevicelist.getDeviceList();
     _networkList = _ProviderDevicelist.getNetworkList();
     print("DrawNetworkOverview: " + _deviceList.toString());
     numberFoundDevices = _deviceList.length;
     selectedNetworkIndex = _ProviderDevicelist.selectedNetworkIndex;
-    networkOffsets.insertAll(0,[Offset(840.0, 74.3), Offset(940.0, 74.3), Offset(740.0, 74.3), Offset(1040.0, 74.3)]); // is growable -100 +100 on the opposite site
+    networkOffsetList.insertAll(0,[Offset(740.0, 74.3), Offset(840.0, 74.3), Offset(640.0, 74.3), Offset(940.0, 74.3)]); // is growable -100 +100 on the opposite site
 
     showingSpeeds = config["show_speeds"]; //ToDo fix Hack
     pivotDeviceIndex = pivot; // ToDo same
@@ -174,7 +175,7 @@ class DrawNetworkOverview extends CustomPainter {
     double offsetAdd = 0;
     Offset toOffset = absoluteOffset; //Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2)+25);
     int index = _networkList.length-1;
-    networkOffsets.clear();
+    networkOffsetList.clear();
 
     for(var item in _networkList){
 
@@ -186,7 +187,7 @@ class DrawNetworkOverview extends CustomPainter {
       toOffset = toOffset.translate(-screenWidth+offsetAdd, 0);
       toOffset = toOffset.scale(-1, 1);
 
-      networkOffsets.add(toOffset);
+      networkOffsetList.add(toOffset);
     }
 
     // draw networkOffsetList from back to front to avoid overdrawing
@@ -194,14 +195,14 @@ class DrawNetworkOverview extends CustomPainter {
     for(var item in _networkList) {
       if(offsetAdd.sign > 0)
         offsetAdd= -offsetAdd;
-      networkOffsets[index] = networkOffsets[index].translate(_ProviderDevicelist.selectedNetworkIndex.toDouble()*offsetAdd,0 );
+      networkOffsetList[index] = networkOffsetList[index].translate(_ProviderDevicelist.selectedNetworkIndex.toDouble()*offsetAdd,0 );
 
       if(_ProviderDevicelist.selectedNetworkIndex == index){
         drawNetworkName(canvas, size,"Network ${index+1}", absoluteOffset, true);
       }else{
-        drawNetworkName(canvas, size,"Network ${index+1}", networkOffsets[index], false);
-        canvas.drawLine(absoluteOffset, networkOffsets[index], _linePaint..strokeWidth = 2.0);
-        drawIcon(canvas, networkOffsets[index], Icons.workspaces_filled);
+        drawNetworkName(canvas, size,"Network ${index+1}", networkOffsetList[index], false);
+        canvas.drawLine(absoluteOffset, networkOffsetList[index], _linePaint..strokeWidth = 2.0);
+        drawIcon(canvas, networkOffsetList[index], Icons.workspaces_filled);
       }
 
       index--;
@@ -359,7 +360,7 @@ class DrawNetworkOverview extends CustomPainter {
     print('Pivot :' + pivotDeviceIndex.toString());
     print('showingSpeeds: ' + showingSpeeds.toString());
 
-    if (showingSpeeds && deviceIndex != pivotDeviceIndex) {
+    if (showingSpeeds /*&& deviceIndex != pivotDeviceIndex*/) {
       int rx = 0, tx = 0;
       String speedUp = "";
       String speedDown = "";
@@ -615,7 +616,7 @@ class DrawNetworkOverview extends CustomPainter {
 
       if(config["show_other_devices"]){
         if(config["internet_centered"]){
-          drawOtherConnection(canvas, _deviceIconOffsetList.elementAt(localIndex)); //To Do get Local
+          drawOtherConnection(canvas, _deviceIconOffsetList.elementAt(localIndex)); //ToDo get Local
         }else{
           drawOtherConnection(canvas, _deviceIconOffsetList.elementAt(attachedToRouterIndex));
         }

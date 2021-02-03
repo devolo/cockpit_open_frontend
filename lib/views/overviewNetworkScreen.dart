@@ -1,4 +1,5 @@
 import 'package:cockpit_devolo/generated/l10n.dart';
+import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:cockpit_devolo/services/drawOverview.dart';
 import 'package:cockpit_devolo/services/drawNetworkOverview.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
@@ -8,7 +9,7 @@ import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cockpit_devolo/models/deviceModel.dart';
+import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:flutter/foundation.dart'
     show debugDefaultTargetPlatformOverride;
 
@@ -50,7 +51,7 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
   @override
   Widget build(BuildContext context) {
     final socket = Provider.of<dataHand>(context);
-    final _deviceList = Provider.of<DeviceList>(context);
+    final _deviceList = Provider.of<NetworkList>(context);
     socket.setDeviceList(_deviceList);
 
     _Painter = DrawNetworkOverview(context, _deviceList, showingSpeeds, pivotDeviceIndex);
@@ -145,11 +146,11 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
     bool hitDeviceisLocal;
 
     final socket = Provider.of<dataHand>(context);
-    final deviceList = Provider.of<DeviceList>(context);
+    final deviceList = Provider.of<NetworkList>(context);
 
-    print(_Painter.networkOffsets);
+    print(_Painter.networkOffsetList);
 
-    _Painter.networkOffsets.asMap().forEach((i, networkIconOffset) { //for (Offset networkIconOffset in _Painter.networkOffsets) {
+    _Painter.networkOffsetList.asMap().forEach((i, networkIconOffset) { //for (Offset networkIconOffset in _Painter.networkOffsets) {
       //Offset absoluteOffset = Offset(networkIconOffset.dx + (_Painter.screenWidth / 2), networkIconOffset.dy + (_Painter.screenHeight / 2));
       print("NetworkIcon: " + networkIconOffset.toString());
       print("Local: " + details.localPosition.toString());
@@ -322,12 +323,14 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
       if (_Painter.isPointInsideCircle(_lastTapDownPosition, absoluteOffset, _Painter.hn_circle_radius)) {
         print("Long press on icon #" + index.toString());
 
-        final deviceList = Provider.of<DeviceList>(context);
+        final deviceList = Provider.of<NetworkList>(context);
         hitDeviceName = deviceList.getDeviceList()[index].name;
 
         setState(() {
-          if (_Painter.showSpeedsPermanently && index == _Painter.pivotDeviceIndex) {
+          //if (_Painter.showSpeedsPermanently && index == _Painter.pivotDeviceIndex) {
+          if (config["show_speeds_permanent"] && index == _Painter.pivotDeviceIndex) {
             //_Painter.showingSpeeds = !_Painter.showingSpeeds;
+            showingSpeeds = true;
           } else {
             //_Painter.showingSpeeds = true;
             showingSpeeds = true;  // ToDo fix workaround see OverviewConsturctor
@@ -338,7 +341,7 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
 
           //do not update pivot device when the "router device" is long pressed
           print('Pivot on longPress:' +_Painter.pivotDeviceIndex.toString());
-          print('sowingSpeed on longPress:' +_Painter.showingSpeeds.toString());
+          print('sowingSpeed on longPress:' +showingSpeeds.toString());
         });
         return;
       }
@@ -350,13 +353,13 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
     print("long press up");
 
     setState(() {
-      if (!_Painter.showSpeedsPermanently) {
+      if (!config["show_speeds_permanent"]) {
         showingSpeeds = false;
         config["show_speeds"] = false;
         _Painter.pivotDeviceIndex = 0;
         pivotDeviceIndex = 0;
       } else {
-        if (!_Painter.showingSpeeds) _Painter.pivotDeviceIndex = 0;
+        if (!showingSpeeds) _Painter.pivotDeviceIndex = 0;
       }
     });
   }

@@ -213,7 +213,7 @@ class DrawOverview extends CustomPainter {
       case 3:
         {
           _deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, -2 * _screenGridHeight));
-          _deviceIconOffsetList.add(Offset(0.0, 2 * _screenGridHeight));
+          _deviceIconOffsetList.add(Offset(0.0, 1.5 * _screenGridHeight));
           _deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, -2 * _screenGridHeight));
         }
         break;
@@ -229,7 +229,7 @@ class DrawOverview extends CustomPainter {
         {
           _deviceIconOffsetList.add(Offset(1.6 * _screenGridWidth, -1 * _screenGridHeight));
           _deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, 1 * _screenGridHeight));
-          _deviceIconOffsetList.add(Offset(0.0, 2 * _screenGridHeight));
+          _deviceIconOffsetList.add(Offset(0.0, 1.5 * _screenGridHeight));
           _deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, 1 * _screenGridHeight));
           _deviceIconOffsetList.add(Offset(-1.6 * _screenGridWidth, -1 * _screenGridHeight));
         }
@@ -249,7 +249,7 @@ class DrawOverview extends CustomPainter {
           _deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, -3 * _screenGridHeight));
           _deviceIconOffsetList.add(Offset(1.6 * _screenGridWidth, -1 * _screenGridHeight));
           _deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, 1 * _screenGridHeight));
-          _deviceIconOffsetList.add(Offset(0.0, 2 * _screenGridHeight));
+          _deviceIconOffsetList.add(Offset(0.0, 1.5 * _screenGridHeight));
           _deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, 1 * _screenGridHeight));
           _deviceIconOffsetList.add(Offset(-1.6 * _screenGridWidth, -1 * _screenGridHeight));
           _deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, -3 * _screenGridHeight));
@@ -261,7 +261,7 @@ class DrawOverview extends CustomPainter {
           _deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, -3 * _screenGridHeight));
           _deviceIconOffsetList.add(Offset(1.6 * _screenGridWidth, -1 * _screenGridHeight));
           _deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, 1 * _screenGridHeight));
-          _deviceIconOffsetList.add(Offset(0.0, 2 * _screenGridHeight));
+          _deviceIconOffsetList.add(Offset(0.0, 1.5 * _screenGridHeight));
           _deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, 1 * _screenGridHeight));
           _deviceIconOffsetList.add(Offset(-1.6 * _screenGridWidth, -1 * _screenGridHeight));
           _deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, -3 * _screenGridHeight));

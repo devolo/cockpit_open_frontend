@@ -111,7 +111,9 @@ class dataHand extends ChangeNotifier {
             _deviceList.addDevice(remoteDev, listCounter);
              _deviceList.addDevice(remoteDev, listCounter+1);
              _deviceList.addDevice(remoteDev, listCounter+2);
-            // _deviceList.addDevice(remoteDev, listCounter+3);
+             _deviceList.addDevice(remoteDev, listCounter+3);
+            _deviceList.addDevice(remoteDev, listCounter+2);
+            //_deviceList.addDevice(remoteDev, listCounter+2);
           }
           listCounter++;
         }

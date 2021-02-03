@@ -164,13 +164,14 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   title: Text(S.of(context).update),
+                                  backgroundColor: backgroundColor.withOpacity(0.9),
                                   content: Text(S.of(context).cockpitSoftwareIsUpToDate),
                                   actions: <Widget>[
                                     FlatButton(
                                       child: Icon(
                                         Icons.check_circle_outline,
                                         size: 35,
-                                        color: mainColor,
+                                        color: fontColorLight,
                                       ), //Text('Bestätigen'),
                                       onPressed: () {
                                         Navigator.of(context).pop();
@@ -186,6 +187,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   title: Text(S.of(context).update),
+                                  backgroundColor: backgroundColor.withOpacity(0.9),
                                   content: Text(response["status"] == 'downloaded_setup' ? S.of(context).updateReadyToInstall : response.toString()),
                                   //ToDo Handle error [] if updating 'Geräte werden aktualisiert... '
                                   actions: <Widget>[
@@ -193,7 +195,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                       icon: Icon(
                                         Icons.check_circle_outline,
                                         size: 35,
-                                        color: mainColor,
+                                        color: fontColorLight,
                                       ), //Text('Bestätigen'),
                                       tooltip: S.of(context).install,
                                       onPressed: () {
@@ -207,7 +209,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                         icon: Icon(
                                           Icons.cancel_outlined,
                                           size: 35,
-                                          color: mainColor,
+                                          color: fontColorLight,
                                         ), //Text('Abbrechen'),
                                         tooltip: S.of(context).cancel,
                                         onPressed: () {
@@ -285,6 +287,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
           builder: (BuildContext context) {
             return AlertDialog(
               title: SelectableText('Geräteinfo'),
+              backgroundColor: backgroundColor.withOpacity(0.9),
               content: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -346,9 +349,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        IconButton(icon: Icon(Icons.public, color: mainColor,), tooltip: S.of(context).launchWebinterface, onPressed: () => launchURL(hitDeviceIp),),
-                        IconButton(icon: Icon(Icons.lightbulb, color: mainColor,), tooltip: S.of(context).identifyDevice, onPressed: () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac)),
-                        IconButton(icon: Icon(Icons.find_in_page, color: mainColor,), tooltip: S.of(context).showManual,
+                        IconButton(icon: Icon(Icons.public, color: secondColor,), tooltip: S.of(context).launchWebinterface, onPressed: () => launchURL(hitDeviceIp),),
+                        IconButton(icon: Icon(Icons.lightbulb, color: secondColor,), tooltip: S.of(context).identifyDevice, onPressed: () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac)),
+                        IconButton(icon: Icon(Icons.find_in_page, color: secondColor,), tooltip: S.of(context).showManual,
                             onPressed: () async {
                               socket.sendXML('GetManual', newValue: hitDeviceMT, valueType: 'product', newValue2: 'de', valueType2: 'language');
                               var response = await socket.recieveXML(["GetManualResponse"]);
@@ -356,8 +359,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                 openFile(response['filename']);
                               });
                             }),
-                        IconButton(icon: Icon(Icons.upload_file, color: mainColor,semanticLabel: "update",), tooltip: S.of(context).factoryReset, onPressed: () =>_handleCriticalActions(context, socket, 'ResetAdapterToFactoryDefaults', hitDevice),),
-                        IconButton(icon: Icon(Icons.delete, color: mainColor,), tooltip: S.of(context).deleteDevice, onPressed: () =>_handleCriticalActions(context, socket, 'RemoveAdapter', hitDevice),), //ToDo Delete Device see wiki
+                        IconButton(icon: Icon(Icons.upload_file, color: secondColor,semanticLabel: "update",), tooltip: S.of(context).factoryReset, onPressed: () =>_handleCriticalActions(context, socket, 'ResetAdapterToFactoryDefaults', hitDevice),),
+                        IconButton(icon: Icon(Icons.delete, color: secondColor,), tooltip: S.of(context).deleteDevice, onPressed: () =>_handleCriticalActions(context, socket, 'RemoveAdapter', hitDevice),), //ToDo Delete Device see wiki
                       ],
                     ),
 
@@ -369,7 +372,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   icon: Icon(
                     Icons.check_circle_outline,
                     size: 35,
-                    color: mainColor,
+                    color: fontColorLight,
                   ), //Text('Bestätigen'),
                   tooltip: S.of(context).confirm,
                   onPressed: () {
@@ -392,13 +395,14 @@ void _handleCriticalActions(context, socket, messageType, Device hitDevice) {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(messageType),
+          backgroundColor: backgroundColor.withOpacity(0.9),
           content: hitDevice.attachedToRouter?Text(S.of(context).pleaseConfirmActionAttentionYourRouterIsConnectedToThis):Text(S.of(context).pleaseConfirmAction),
           actions: <Widget>[
             IconButton(
               icon: Icon(
                 Icons.check_circle_outline,
                 size: 35,
-                color: mainColor,
+                color: fontColorLight,
               ), //Text('Bestätigen'),
               tooltip: S.of(context).confirm,
               onPressed: () {
@@ -412,7 +416,7 @@ void _handleCriticalActions(context, socket, messageType, Device hitDevice) {
                 icon: Icon(
                   Icons.cancel_outlined,
                   size: 35,
-                  color: mainColor,
+                  color: fontColorLight,
                 ), //Text('Abbrechen'),
                 tooltip: S.of(context).cancel,
                 onPressed: () {

@@ -287,6 +287,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Spacer(),
                     Flexible(
                       child: new SpinBox(
+                        cursorColor: Colors.green,
                         min: 0.1,
                         max: 5.0,
                         step: 0.1,
@@ -602,6 +603,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(messageType),
+            backgroundColor: backgroundColor.withOpacity(0.9),
             content: Text(S.of(context).pleaseConfirmAction),
             actions: <Widget>[
               FlatButton(
@@ -638,6 +640,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(S.of(context).contactInfo),
+            backgroundColor: backgroundColor.withOpacity(0.9),
             content: Column(
               children: <Widget>[
                 Text(S.of(context).theCreatedSupportInformationCanNowBeSentToDevolo),
@@ -718,7 +721,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       context: context,
       builder: (_) {
         return AlertDialog(
-          backgroundColor: backgroundColor.withOpacity(0.7),
+          backgroundColor: backgroundColor.withOpacity(0.9),
           contentPadding: const EdgeInsets.all(6.0),
           title: Text(title, style: TextStyle(color: fontColorLight),),
           content: Column(
@@ -736,7 +739,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Icon(
                 Icons.check_circle_outline,
                 size: 35,
-                color: mainColor,
+                color: fontColorLight,
               ), //Text('Bestätigen'),
               onPressed: () {
                 // action happening here
@@ -749,7 +752,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 child: Icon(
                   Icons.cancel_outlined,
                   size: 35,
-                  color: mainColor,
+                  color: fontColorLight,
                 ), //Text('Abbrechen'),
                 onPressed: () {
                   // Cancel critical action

@@ -115,7 +115,8 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
         });
         },
         tooltip: 'Neu laden',
-        backgroundColor: mainColor,
+        backgroundColor: secondColor,
+        foregroundColor: fontColorDark,
         hoverColor: Colors.blue,
         child: Icon(Icons.refresh),
       ), // This trailing comma makes auto-formatting nicer for build methods.
@@ -262,9 +263,9 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                        IconButton(icon: Icon(Icons.public, color: mainColor,), tooltip: S.of(context).launchWebinterface, onPressed: () => launchURL(hitDeviceIp),),
-                        IconButton(icon: Icon(Icons.lightbulb, color: mainColor,), tooltip: S.of(context).identifyDevice, onPressed: () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac)),
-                        IconButton(icon: Icon(Icons.find_in_page, color: mainColor,), tooltip: S.of(context).showManual,
+                        IconButton(icon: Icon(Icons.public, color: secondColor,), tooltip: S.of(context).launchWebinterface, onPressed: () => launchURL(hitDeviceIp),),
+                        IconButton(icon: Icon(Icons.lightbulb, color: secondColor,), tooltip: S.of(context).identifyDevice, onPressed: () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac)),
+                        IconButton(icon: Icon(Icons.find_in_page, color: secondColor,), tooltip: S.of(context).showManual,
                             onPressed: () async {
                           socket.sendXML('GetManual', newValue: hitDeviceMT, valueType: 'product', newValue2: 'de', valueType2: 'language');
                           var response = await socket.recieveXML(["GetManualResponse"]);
@@ -272,8 +273,8 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
                             openFile(response['filename']);
                           });
                         }),
-                        IconButton(icon: Icon(Icons.upload_file, color: mainColor,), tooltip: S.of(context).factoryReset, onPressed: () =>_handleCriticalActions(context, socket, 'ResetAdapterToFactoryDefaults', hitDevice),),
-                        IconButton(icon: Icon(Icons.delete, color: mainColor,), tooltip: S.of(context).deleteDevice, onPressed: () =>_handleCriticalActions(context, socket, 'RemoveAdapter', hitDevice),), //ToDo Delete Device see wiki
+                        IconButton(icon: Icon(Icons.upload_file, color: secondColor,), tooltip: S.of(context).factoryReset, onPressed: () =>_handleCriticalActions(context, socket, 'ResetAdapterToFactoryDefaults', hitDevice),),
+                        IconButton(icon: Icon(Icons.delete, color: secondColor,), tooltip: S.of(context).deleteDevice, onPressed: () =>_handleCriticalActions(context, socket, 'RemoveAdapter', hitDevice),), //ToDo Delete Device see wiki
                       ],
                     ),
 
@@ -285,7 +286,7 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
                   icon: Icon(
                     Icons.check_circle_outline,
                     size: 35,
-                    color: fontColorDark,
+                    color: fontColorLight,
                   ), //Text('Bestätigen'),
                   tooltip: S.of(context).confirm,
                   onPressed: () {
@@ -367,13 +368,14 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
     builder: (BuildContext context) {
     return AlertDialog(
       title: Text(messageType),
+      backgroundColor: backgroundColor.withOpacity(0.9),
       content: hitDevice.attachedToRouter?Text(S.of(context).pleaseConfirmActionAttentionYourRouterIsConnectedToThis):Text(S.of(context).pleaseConfirmAction),
       actions: <Widget>[
         IconButton(
           icon: Icon(
             Icons.check_circle_outline,
             size: 35,
-            color: mainColor,
+            color: fontColorLight,
           ), //Text('Bestätigen'),
           tooltip: S.of(context).confirm,
           onPressed: () {
@@ -387,7 +389,7 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
             icon: Icon(
               Icons.cancel_outlined,
               size: 35,
-              color: mainColor,
+              color: fontColorLight,
             ), //Text('Abbrechen'),
             tooltip: S.of(context).cancel,
             onPressed: () {

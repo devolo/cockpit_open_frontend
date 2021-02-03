@@ -39,9 +39,9 @@ class MyApp extends StatelessWidget {
               textTheme: Theme.of(context).textTheme.apply(
                 fontSizeFactor: fontSizeFactor,
                 fontSizeDelta: fontSizeDelta,
-                displayColor: fontColorLight,
+                displayColor: fontColorDark,
                 bodyColor: fontColorLight,
-                decorationColor: fontColorLight,
+                decorationColor: fontColorDark,
               ),
 
             ),

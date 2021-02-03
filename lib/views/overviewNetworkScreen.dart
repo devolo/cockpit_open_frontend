@@ -148,9 +148,9 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
     final socket = Provider.of<dataHand>(context);
     final deviceList = Provider.of<NetworkList>(context);
 
-    print(_Painter.networkOffsetList);
+    print(networkOffsetList);
 
-    _Painter.networkOffsetList.asMap().forEach((i, networkIconOffset) { //for (Offset networkIconOffset in _Painter.networkOffsets) {
+    networkOffsetList.asMap().forEach((i, networkIconOffset) { //for (Offset networkIconOffset in _Painter.networkOffsets) {
       //Offset absoluteOffset = Offset(networkIconOffset.dx + (_Painter.screenWidth / 2), networkIconOffset.dy + (_Painter.screenHeight / 2));
       print("NetworkIcon: " + networkIconOffset.toString());
       print("Local: " + details.localPosition.toString());

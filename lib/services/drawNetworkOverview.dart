@@ -15,7 +15,6 @@ class DrawNetworkOverview extends CustomPainter {
   var _networkList;
   NetworkList _ProviderDevicelist;
   List<Offset> _deviceIconOffsetList = deviceIconOffsetList;
-  List<Offset> networkOffsetList = [];
   int pivotDeviceIndex = 0;
   int selectedNetworkIndex = 0;
   bool showSpeedsPermanently = false; //true: a long press results in speeds being shown even after lifting the finger. false: speeds are hidden when lifting the finger.
@@ -69,7 +68,7 @@ class DrawNetworkOverview extends CustomPainter {
     print("DrawNetworkOverview: " + _deviceList.toString());
     numberFoundDevices = _deviceList.length;
     selectedNetworkIndex = _ProviderDevicelist.selectedNetworkIndex;
-    networkOffsetList.insertAll(0,[Offset(740.0, 74.3), Offset(840.0, 74.3), Offset(640.0, 74.3), Offset(940.0, 74.3)]); // is growable -100 +100 on the opposite site
+    //networkOffsetList.insertAll(0,[Offset(740.0, 74.3), Offset(840.0, 74.3), Offset(640.0, 74.3), Offset(940.0, 74.3)]); // is growable -100 +100 on the opposite site
 
     showingSpeeds = config["show_speeds"]; //ToDo fix Hack
     pivotDeviceIndex = pivot; // ToDo same
@@ -174,34 +173,48 @@ class DrawNetworkOverview extends CustomPainter {
     Offset absoluteOffset = Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2)+25);
     double offsetAdd = 0;
     Offset toOffset = absoluteOffset; //Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2)+25);
-    int index = _networkList.length-1;
+    int index = 0;
     networkOffsetList.clear();
 
     for(var item in _networkList){
-
-      offsetAdd += 100;
       //print(toOffset);
-      if(offsetAdd.sign > 0)
-        offsetAdd= -offsetAdd;
 
-      toOffset = toOffset.translate(-screenWidth+offsetAdd, 0);
-      toOffset = toOffset.scale(-1, 1);
+      if(index % 2 == 0)
+      {
+        toOffset = absoluteOffset.translate(-50.0*index, 0);
+      }else{
+        toOffset = absoluteOffset.translate(50.0*index, 0);
+        toOffset = toOffset.translate(50.0, 0);
+      }
+
+      if(selectedNetworkIndex % 2 == 0){
+        toOffset = toOffset.translate(50.0*selectedNetworkIndex, 0);
+      }else{
+        toOffset = toOffset.translate(-50.0*selectedNetworkIndex, 0);
+        toOffset = toOffset.translate(-50.0, 0);
+      }
 
       networkOffsetList.add(toOffset);
+      index++;
+
+    }
+
+    index = _networkList.length-1;
+    if(index > 0) {
+      canvas.drawLine(networkOffsetList[index - 1], networkOffsetList[index], _linePaint..strokeWidth = 2.0);
     }
 
     // draw networkOffsetList from back to front to avoid overdrawing
-
     for(var item in _networkList) {
       if(offsetAdd.sign > 0)
         offsetAdd= -offsetAdd;
       networkOffsetList[index] = networkOffsetList[index].translate(_ProviderDevicelist.selectedNetworkIndex.toDouble()*offsetAdd,0 );
 
       if(_ProviderDevicelist.selectedNetworkIndex == index){
-        drawNetworkName(canvas, size,"Network ${index+1}", absoluteOffset, true);
+        drawNetworkName(canvas, size,"Network ${index}", absoluteOffset, true);
       }else{
-        drawNetworkName(canvas, size,"Network ${index+1}", networkOffsetList[index], false);
-        canvas.drawLine(absoluteOffset, networkOffsetList[index], _linePaint..strokeWidth = 2.0);
+        drawNetworkName(canvas, size,"Network ${index}", networkOffsetList[index], false);
+        //canvas.drawLine(absoluteOffset, networkOffsetList[index], _linePaint..strokeWidth = 2.0);
         drawIcon(canvas, networkOffsetList[index], Icons.workspaces_filled);
       }
 

@@ -12,6 +12,7 @@ import 'package:open_file/open_file.dart';
 
 final List<ui.Image> deviceIconList = <ui.Image>[]; //ToDo put somewhere else
 final List<Offset> deviceIconOffsetList = <Offset>[];
+List<Offset> networkOffsetList = [];
 bool areDeviceIconsLoaded = false;
 bool showNetwork = true;
 String _openResult = 'Unknown';

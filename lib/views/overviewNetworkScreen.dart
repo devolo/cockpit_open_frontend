@@ -328,12 +328,13 @@ class _OverviewNetworkScreenState extends State<OverviewNetworkScreen> {
 
         setState(() {
           //if (_Painter.showSpeedsPermanently && index == _Painter.pivotDeviceIndex) {
-          if (config["show_speeds_permanent"] && index == _Painter.pivotDeviceIndex) {
+          if (config["show_speeds_permanent"]) {
             //_Painter.showingSpeeds = !_Painter.showingSpeeds;
             showingSpeeds = true;
+            config["show_speeds"] = true;
           } else {
             //_Painter.showingSpeeds = true;
-            showingSpeeds = true;  // ToDo fix workaround see OverviewConsturctor
+            showingSpeeds = true;
             config["show_speeds"] = true;
           }
           //_Painter.pivotDeviceIndex = index;

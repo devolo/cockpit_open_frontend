@@ -752,6 +752,7 @@ class DrawNetworkOverview extends CustomPainter {
   bool shouldRepaint(DrawNetworkOverview oldDelegate) {
     if (oldDelegate.numberFoundDevices != numberFoundDevices) return true;
     if (oldDelegate.showingSpeeds != showingSpeeds) return true;
+    if (oldDelegate.pivotDeviceIndex != pivotDeviceIndex) return true;
     if (oldDelegate.selectedNetworkIndex != selectedNetworkIndex) return true;
 
     return false;

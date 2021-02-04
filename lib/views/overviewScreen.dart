@@ -133,7 +133,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
         hitDeviceName = deviceList.getDeviceList()[index].name;
 
         setState(() {
-          if (_Painter.showSpeedsPermanently && index == _Painter.pivotDeviceIndex) {
+          if (config["show_speeds_permanent"] && index == _Painter.pivotDeviceIndex) {
             //_Painter.showingSpeeds = !_Painter.showingSpeeds;
           } else {
             //_Painter.showingSpeeds = true;
@@ -157,7 +157,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
     print("long press up");
 
     setState(() {
-      if (!_Painter.showSpeedsPermanently) {
+      if (!config["show_speeds_permanent"]) {
         showingSpeeds = false;
         config["show_speeds"] = false;
         _Painter.pivotDeviceIndex = 0;

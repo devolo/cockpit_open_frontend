@@ -415,6 +415,20 @@ class DrawNetworkOverview extends CustomPainter {
       _speedTextPainter.text = mbpsTextSpan;
       _speedTextPainter.layout(minWidth: 0, maxWidth: 150);
       _speedTextPainter.paint(canvas, Offset(absoluteCenterOffset.dx - (_speedTextPainter.width / 2), absoluteCenterOffset.dy - (_speedTextPainter.height / 2) +20));
+
+      if(deviceIndex == pivotDeviceIndex){
+        Offset imageRectUpperLeft = Offset(absoluteCenterOffset.dx - (hn_circle_radius / 1.6), absoluteCenterOffset.dy - (hn_circle_radius / 1.6));
+        Offset imageRectLowerRight = Offset(absoluteCenterOffset.dx + (hn_circle_radius / 1.6), absoluteCenterOffset.dy + (hn_circle_radius / 1.6));
+
+        if (areDeviceIconsLoaded && _deviceList.elementAt(pivotDeviceIndex).icon != null) {
+          paintImage(
+              canvas: canvas,
+              image: _deviceList.elementAt(pivotDeviceIndex).icon, //deviceIconList[0],
+              fit: BoxFit.scaleDown,
+              rect: Rect.fromPoints(imageRectUpperLeft, imageRectLowerRight));
+        }
+      }
+
     } else {
       Offset imageRectUpperLeft = Offset(absoluteCenterOffset.dx - (hn_circle_radius / 1.6), absoluteCenterOffset.dy - (hn_circle_radius / 1.6));
       Offset imageRectLowerRight = Offset(absoluteCenterOffset.dx + (hn_circle_radius / 1.6), absoluteCenterOffset.dy + (hn_circle_radius / 1.6));
@@ -428,6 +442,7 @@ class DrawNetworkOverview extends CustomPainter {
             rect: Rect.fromPoints(imageRectUpperLeft, imageRectLowerRight));
       }
     }
+
   }
 
   void drawNetworkName(Canvas canvas, Size size, String Name, Offset offset, isSelectedIndex) {

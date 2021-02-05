@@ -115,13 +115,14 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                        icon: Icon(Icons.arrow_back_ios),
+                        icon: Icon(Icons.arrow_back_ios, color: Colors.white,),
                         onPressed: () {
                           print("back");
                           setState(() {
                             if(_index > 0){
                             _index--;
                             _currImage = optimizeImages[_index];}
+                            else{return null;}
                           });
                         },
                       ),
@@ -129,13 +130,14 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                         child: _currImage,
                       ),
                       IconButton(
-                        icon: Icon(Icons.arrow_forward_ios),
+                        icon: Icon(Icons.arrow_forward_ios, color: Colors.white,),
                         onPressed: () {
                           print("forward");
                           setState(() {
                             if(_index < optimizeImages.length-1){
                             _index++;
                             _currImage = optimizeImages[_index];}
+                            else{return null;}
                           });
                         },
                       ),

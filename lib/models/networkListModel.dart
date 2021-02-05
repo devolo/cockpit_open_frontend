@@ -82,11 +82,11 @@ class NetworkList extends ChangeNotifier{
     }
 
     if(device.attachedToRouter & config["internet_centered"]){
-      this._devices.insert(0, device);
+      //this._devices.insert(0, device);
       this._networkList[whichNetworkIndex].insert(0, device);
     }
     else{
-      this._devices.add(device);
+      //this._devices.add(device);
       this._networkList[whichNetworkIndex].add(device);
     }
 

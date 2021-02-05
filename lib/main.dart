@@ -2,7 +2,7 @@ import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
-import 'package:cockpit_devolo/views/addDeviceScreen.dart';
+import 'package:cockpit_devolo/views/addScreen.dart';
 import 'package:cockpit_devolo/views/settingsScreen.dart';
 import 'package:cockpit_devolo/views/updateScreen.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +11,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
 
+import 'package:cockpit_devolo/views/overviewNetworksScreen.dart';
 import 'package:cockpit_devolo/views/overviewScreen.dart';
-import 'package:cockpit_devolo/views/overviewNetworkScreen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 void main() {
@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
               //primarySwatch: Colors.white,
               backgroundColor: backgroundColor,
               canvasColor: Colors.white,
+              //highlightColor: Colors.green,
               textTheme: Theme.of(context).textTheme.apply(
                 fontSizeFactor: fontSizeFactor,
                 fontSizeDelta: fontSizeDelta,
@@ -111,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
         SettingsScreen(
           title: S.of(context).settings,
         ),
-        showNetwork?OverviewScreen(): OverviewNetworkScreen(),
+        showNetwork?OverviewNetworksScreen(): OverviewScreen(),
         UpdateScreen(
           title: S.of(context).update,
         ),

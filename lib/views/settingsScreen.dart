@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
-import 'package:cockpit_devolo/services/drawNetworkOverview.dart';
+import 'package:cockpit_devolo/services/drawOverview.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
@@ -16,7 +16,7 @@ class SettingsScreen extends StatefulWidget {
   SettingsScreen({Key key, this.title, this.painter}) : super(key: key);
 
   final String title;
-  DrawNetworkOverview painter;
+  DrawOverview painter;
 
 
 
@@ -287,12 +287,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Spacer(),
                     Flexible(
                       child: new SpinBox(
-                        cursorColor: Colors.green,
                         min: 0.1,
                         max: 5.0,
                         step: 0.1,
                         acceleration: 0.1,
                         decimals: 1,
+                        decoration: InputDecoration(
+                          labelStyle: TextStyle(color: Colors.red),
+                          hintStyle: TextStyle(color: Colors.red),
+                          helperStyle: TextStyle(color: Colors.red),
+                          counterStyle: TextStyle(color: Colors.red),
+                        ),
                         value: fontSizeFactor.toDouble(),
                         //fontSizeDelta,
                         onChanged: (value) {

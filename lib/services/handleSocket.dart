@@ -162,7 +162,7 @@ class dataHand extends ChangeNotifier {
     //return document;
   }
 
-  //ToDo send real xml not just string
+  //ToDo create real xml not just string and parse
   void sendXML(
     String messageType, {
     String newValue,

@@ -79,5 +79,12 @@
   "attachedToRouter": "Attached to Router:",
   "yourEmailaddress": " Your email-address",
   "refresh": "refresh",
-  "isLocalDevice": "Is Local Device:"
+  "isLocalDevice": "Is Local Device:",
+  "fontsize": "Fontsize",
+  "appColor": "App Color",
+  "chooseMainColorAccentColorAndFontColors": "Choose main color, accent color and font colors",
+  "otherDevicesEgPcAreDisplayedInTheOverview": "Other devices, e.g. PC are displayed in the overview",
+  "theOverviewWillBeCenteredAroundThePlcDeviceConnected": "The overview will be centered around the PLC device connected to the Internet.",
+  "dataRatesArePermanentlyDisplayedInTheOverview": "Data rates are permanently displayed in the Overview",
+  "changeTheLanguageOfTheApp": "Change the language of the app"
 }

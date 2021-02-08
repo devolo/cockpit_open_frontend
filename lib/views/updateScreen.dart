@@ -209,8 +209,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               barrierDismissible: true, // user doesn't need to tap button!
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  title: Text(S.of(context).update),
+                                  title: Text(S.of(context).update, style: TextStyle(color: fontColorLight,),),
                                   backgroundColor: backgroundColor.withOpacity(0.9),
+                                  contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18),
                                   content: Text(S.of(context).cockpitSoftwareIsUpToDate),
                                   actions: <Widget>[
                                     FlatButton(
@@ -494,6 +495,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
           return AlertDialog(
             title: Text(messageType),
             backgroundColor: backgroundColor.withOpacity(0.9),
+            contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18),
             content: hitDevice.attachedToRouter ? Text(S.of(context).pleaseConfirmActionAttentionYourRouterIsConnectedToThis) : Text(S.of(context).pleaseConfirmAction),
             actions: <Widget>[
               IconButton(

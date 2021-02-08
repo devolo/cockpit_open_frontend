@@ -794,6 +794,76 @@ class S {
       args: [],
     );
   }
+
+  /// `Fontsize`
+  String get fontsize {
+    return Intl.message(
+      'Fontsize',
+      name: 'fontsize',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `App Color`
+  String get appColor {
+    return Intl.message(
+      'App Color',
+      name: 'appColor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose main color, accent color and font colors`
+  String get chooseMainColorAccentColorAndFontColors {
+    return Intl.message(
+      'Choose main color, accent color and font colors',
+      name: 'chooseMainColorAccentColorAndFontColors',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Other devices, e.g. PC are displayed in the overview`
+  String get otherDevicesEgPcAreDisplayedInTheOverview {
+    return Intl.message(
+      'Other devices, e.g. PC are displayed in the overview',
+      name: 'otherDevicesEgPcAreDisplayedInTheOverview',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The overview will be centered around the PLC device connected to the Internet.`
+  String get theOverviewWillBeCenteredAroundThePlcDeviceConnected {
+    return Intl.message(
+      'The overview will be centered around the PLC device connected to the Internet.',
+      name: 'theOverviewWillBeCenteredAroundThePlcDeviceConnected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Data rates are permanently displayed in the Overview`
+  String get dataRatesArePermanentlyDisplayedInTheOverview {
+    return Intl.message(
+      'Data rates are permanently displayed in the Overview',
+      name: 'dataRatesArePermanentlyDisplayedInTheOverview',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change the language of the app`
+  String get changeTheLanguageOfTheApp {
+    return Intl.message(
+      'Change the language of the app',
+      name: 'changeTheLanguageOfTheApp',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

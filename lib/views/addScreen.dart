@@ -104,8 +104,9 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
         barrierDismissible: true, // user doesn't need to tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-              title: Text(S.of(context).optimizationHelp, style: TextStyle(color: Colors.white),),
+              title: Center(child: Text(S.of(context).optimizationHelp, style: TextStyle(color: fontColorLight),)),
               backgroundColor: backgroundColor.withOpacity(0.9),
+            insetPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 100),
               content: StatefulBuilder(// You need this, notice the parameters below:
                   builder: (BuildContext context, StateSetter setState) {
                 return Container(
@@ -115,7 +116,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                        icon: Icon(Icons.arrow_back_ios, color: Colors.white,),
+                        icon: Icon(Icons.arrow_back_ios, color: fontColorLight,),
                         onPressed: () {
                           print("back");
                           setState(() {
@@ -130,7 +131,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                         child: _currImage,
                       ),
                       IconButton(
-                        icon: Icon(Icons.arrow_forward_ios, color: Colors.white,),
+                        icon: Icon(Icons.arrow_forward_ios, color: fontColorLight,),
                         onPressed: () {
                           print("forward");
                           setState(() {
@@ -144,7 +145,34 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                     ],
                   ),
                 );
-              }));
+              }),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(
+                  Icons.check_circle_outline,
+                  size: 35,
+                  color: fontColorLight,
+                ), //Text('Bestätigen'),
+                tooltip: S.of(context).confirm,
+                onPressed: () {
+                  // Critical things happening here
+                  Navigator.of(context).pop();
+                },
+              ),
+              Spacer(),
+              IconButton(
+                  icon: Icon(
+                    Icons.cancel_outlined,
+                    size: 35,
+                    color: fontColorLight,
+                  ), //Text('Abbrechen'),
+                  tooltip: S.of(context).cancel,
+                  onPressed: () {
+                    // Cancel critical action
+                    Navigator.of(context).pop();
+                  }),
+            ],
+          );
         });
   }
 }

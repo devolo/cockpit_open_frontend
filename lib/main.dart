@@ -13,6 +13,7 @@ import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/views/overviewNetworksScreen.dart';
 import 'package:cockpit_devolo/views/overviewScreen.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:cockpit_devolo/views/appBuilder.dart';
 
 void main() {
   //debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
@@ -29,38 +30,43 @@ class MyApp extends StatelessWidget {
       ],
       child: Consumer<dataHand>(
         builder: (context, counter, _) {
-          return MaterialApp(
-            title: 'Devolo Cockpit',
-            theme: ThemeData(
-              //primarySwatch: Colors.white,
-              backgroundColor: backgroundColor,
-              canvasColor: Colors.white,
-              //highlightColor: Colors.green,
-              textTheme: Theme.of(context).textTheme.apply(
-                fontSizeFactor: fontSizeFactor,
-                fontSizeDelta: fontSizeDelta,
-                displayColor: fontColorDark,
-                bodyColor: fontColorDark,
-                decorationColor: fontColorDark,
-              ),
-            ),
-            localizationsDelegates: [
-              // ... app-specific localization delegate[s] here
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              S.delegate,
-            ],
-            supportedLocales: S.delegate.supportedLocales,
-            /*supportedLocales: [
+    return AppBuilder(builder: (context)
+    {
+      return MaterialApp(
+        title: 'Devolo Cockpit',
+        theme: ThemeData(
+          //primarySwatch: Colors.white,
+          backgroundColor: backgroundColor,
+          canvasColor: Colors.white,
+          //highlightColor: Colors.green,
+          textTheme: Theme
+              .of(context)
+              .textTheme
+              .apply(
+            fontSizeFactor: fontSizeFactor,
+            fontSizeDelta: fontSizeDelta,
+            displayColor: fontColorDark,
+            bodyColor: fontColorDark,
+            decorationColor: fontColorDark,
+          ),
+        ),
+        localizationsDelegates: [
+          // ... app-specific localization delegate[s] here
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          S.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
+        /*supportedLocales: [
               const Locale('en', ''), // English
               const Locale('de', ''), // Deutsch
               // ... other locales the app supports
             ],*/
-            home: MyHomePage(title: 'devolo Cockpit'),
-          );
-        },
-      ),
+        home: MyHomePage(title: 'devolo Cockpit'),
+      );
+    },);
+        },),
     );
   }
 }

@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/views/logsScreen.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
+import 'package:cockpit_devolo/views/appBuilder.dart';
 
 class SettingsScreen extends StatefulWidget {
   SettingsScreen({Key key, this.title, this.painter}) : super(key: key);
@@ -73,6 +74,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             _tempShadeMainColor = color;
             mainColor = color;
             backgroundColor = color;
+            AppBuilder.of(context).rebuild();
           });
         },
         onMainColorChange: (color) {
@@ -80,6 +82,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             _tempMainColor = color;
             mainColor = color;
             backgroundColor = color;
+            AppBuilder.of(context).rebuild();
           });
         },
         onBack: () => print("Back button pressed"),
@@ -92,12 +95,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
           setState(() {
             _tempShadeSecondColor = color;
             secondColor = color;
+            AppBuilder.of(context).rebuild();
           });
         },
         onMainColorChange: (color) {
           setState(() {
             _shadeSecondColor = color;
             secondColor = color;
+            AppBuilder.of(context).rebuild();
           });
         },
         onBack: () => print("Back button pressed"),
@@ -111,9 +116,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
             _tempShadeFontColorLight = color;
             fontColorLight = color;
             drawingColor = color;
+            AppBuilder.of(context).rebuild();
           });
         },
-        onMainColorChange: (color) => setState(() { _tempShadeFontColorLight = color; fontColorLight = color;}),
+        onMainColorChange: (color) => setState(() {
+          _tempShadeFontColorLight = color;
+          fontColorLight = color;
+          AppBuilder.of(context).rebuild();
+        }),
         onBack: () => print("Back button pressed"),
       ),
       title4,
@@ -127,40 +137,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             //drawingColor = color;
           });
         },
-        onMainColorChange: (color) => setState(() { _tempShadeFontColorDark = color; fontColorDark = color;}),
-        onBack: () => print("Back button pressed"),
-      ),
-    );
-  }
-
-  void _fontColorPicker(title, title2) async {
-    _openDialog(
-      title,
-      MaterialColorPicker(
-        colors: fullMaterialColors,
-        selectedColor: _shadeFontColorLight,
-        onColorChange: (color) {
-          setState(() {
-            _tempShadeFontColorLight = color;
-            fontColorDark = color;
-            drawingColor = color;
-          });
-        },
-        onMainColorChange: (color) => setState(() => _tempShadeFontColorLight = color),
-        onBack: () => print("Back button pressed"),
-      ),
-      title2,
-      MaterialColorPicker(
-        colors: fullMaterialColors,
-        selectedColor: _shadeFontColorDark,
-        onColorChange: (color) {
-          setState(() {
-            _tempShadeFontColorDark = color;
-            fontColorDark = color;
-            //drawingColor = color;
-          });
-        },
-        onMainColorChange: (color) => setState(() => _tempShadeFontColorDark = color),
+        onMainColorChange: (color) => setState(() {
+          _tempShadeFontColorDark = color;
+          fontColorDark = color;
+        }),
         onBack: () => print("Back button pressed"),
       ),
     );
@@ -213,6 +193,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ListTile(
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
+                  subtitle: Text(S.of(context).changeTheLanguageOfTheApp, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 16 * fontSizeFactor)),
                   title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                     new Text(
                       S.of(context).language,
@@ -236,6 +217,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           config["language"] = newValue;
                           S.load(Locale(newValue, ''));
                         });
+                        AppBuilder.of(context).rebuild();
                       },
                       items: <String>['en', 'de'].map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
@@ -264,6 +246,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ListTile(
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
+                  subtitle: Text(S.of(context).dataRatesArePermanentlyDisplayedInTheOverview, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 16 * fontSizeFactor)),
                   title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                     new Text(S.of(context).enableShowingSpeeds, style: TextStyle(color: fontColorDark), semanticsLabel: "Show Speeds"),
                     new Checkbox(
@@ -277,6 +260,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ListTile(
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
+                  subtitle: Text(S.of(context).theOverviewWillBeCenteredAroundThePlcDeviceConnected, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 16 * fontSizeFactor)),
                   title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                     new Text(
                       S.of(context).internetcentered,
@@ -299,6 +283,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ListTile(
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
+                  subtitle: Text(S.of(context).otherDevicesEgPcAreDisplayedInTheOverview, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 16 * fontSizeFactor)),
                   title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                     new Text(
                       S.of(context).showOtherDevices,
@@ -323,7 +308,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   tileColor: secondColor,
                   title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                     new Text(
-                      "Fontsize",
+                      S.of(context).fontsize,
                       style: TextStyle(color: fontColorDark),
                     ),
                     Spacer(),
@@ -340,6 +325,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           setState(() {
                             fontSizeFactor = value;
                           });
+                          AppBuilder.of(context).rebuild();
                         },
                         //decoration: InputDecoration(labelText: 'Fontsize'),
                       ),
@@ -350,9 +336,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ListTile(
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
+                  subtitle: Text(S.of(context).chooseMainColorAccentColorAndFontColors, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 16 * fontSizeFactor)),
                   title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                     new Text(
-                      "Main App Color",
+                      S.of(context).appColor,
                       style: TextStyle(color: fontColorDark),
                     ),
                     Spacer(),
@@ -628,43 +615,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  void _handleCriticalActions(context, socket, messageType, {mac}) {
-    showDialog<void>(
-        context: context,
-        barrierDismissible: true, // user doesn't need to tap button!
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(messageType),
-            backgroundColor: backgroundColor.withOpacity(0.9),
-            content: Text(S.of(context).pleaseConfirmAction),
-            actions: <Widget>[
-              FlatButton(
-                child: Icon(
-                  Icons.check_circle_outline,
-                  size: 35,
-                  color: fontColorLight,
-                ), //Text('Bestätigen'),
-                onPressed: () {
-                  // Critical things happening here
-                  socket.sendXML(messageType, mac: mac);
-                  Navigator.of(context).pop();
-                },
-              ),
-              FlatButton(
-                  child: Icon(
-                    Icons.cancel_outlined,
-                    size: 35,
-                    color: fontColorLight,
-                  ), //Text('Abbrechen'),
-                  onPressed: () {
-                    // Cancel critical action
-                    Navigator.of(context).pop();
-                  }),
-            ],
-          );
-        });
-  }
-
   void _contactInfoAlert(context) {
     showDialog<void>(
         context: context,
@@ -773,53 +723,58 @@ class _SettingsScreenState extends State<SettingsScreen> {
             // You need this, notice the parameters below:
             builder: (BuildContext context, StateSetter setState) {
               return Column(
-                  children: [
-                    for(dynamic con in contents.entries)
-                      Column(
-                        children: [
-                          new GestureDetector(
-                            onTap: () =>
-                                setState(() {
-                                  print(con);
-                                  selected = con.key;
-                                  _animatedHeight != 0.0 ? _animatedHeight = 0.0 : _animatedHeight = 200.0;
-                                }),
-                            child: new Container(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-
-                                  new Text(
-                                    " "+con.key,
-                                    style: TextStyle(color: fontColorLight),
-                                  ),
-                                  Spacer(),
-                                  new CircleAvatar(
-                                    backgroundColor: con.value.selectedColor, //_tempShadeColor,
-                                    radius: 15.0,
-                                  ),
-                                  new Icon(Icons.arrow_drop_down_rounded, color: Colors.white,),
-                                ],
-                              ),
-                              color: Colors.grey[800].withOpacity(0.6),
-                              height: 40.0,
-                              width: 900.0,
-                            ),
-                          ),
-                          new AnimatedContainer(
-                            duration: const Duration(milliseconds: 120),
-                            child: Column(
+                children: [
+                  for (dynamic con in contents.entries)
+                    Column(
+                      children: [
+                        new GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              print(con);
+                              selected = con.key;
+                              _animatedHeight != 0.0 ? _animatedHeight = 0.0 : _animatedHeight = 200.0;
+                            });
+                            AppBuilder.of(context).rebuild();
+                          },
+                          child: new Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Expanded(child: con.value),
+                                new Text(
+                                  " " + con.key,
+                                  style: TextStyle(color: fontColorLight),
+                                ),
+                                Spacer(),
+                                // ToDo CircleAvatar doesn't change
+                                // new CircleAvatar(
+                                //   backgroundColor: con.value.selectedColor, //_tempShadeColor,
+                                //   radius: 15.0,
+                                // ),
+                                new Icon(
+                                  Icons.arrow_drop_down_rounded,
+                                  color: Colors.white,
+                                ),
                               ],
                             ),
-                            height: selected == con.key? _animatedHeight: 0.0,
-                            color: Colors.grey[850].withOpacity(0.6),
+                            color: Colors.grey[800].withOpacity(0.6),
+                            height: 40.0,
                             width: 900.0,
                           ),
-                        ],),
-                  ],
-
+                        ),
+                        new AnimatedContainer(
+                          duration: const Duration(milliseconds: 120),
+                          child: Column(
+                            children: [
+                              Expanded(child: con.value),
+                            ],
+                          ),
+                          height: selected == con.key ? _animatedHeight : 0.0,
+                          color: Colors.grey[850].withOpacity(0.6),
+                          width: 900.0,
+                        ),
+                      ],
+                    ),
+                ],
               );
             },
           ),

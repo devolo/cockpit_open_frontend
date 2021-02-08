@@ -374,8 +374,9 @@ class _OverviewScreenState extends State<OverviewScreen> {
     barrierDismissible: true, // user doesn't need to tap button!
     builder: (BuildContext context) {
     return AlertDialog(
-      title: Text(messageType),
+      title: Text(messageType, style: TextStyle(color: fontColorLight),),
       backgroundColor: backgroundColor.withOpacity(0.9),
+      contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18),
       content: hitDevice.attachedToRouter?Text(S.of(context).pleaseConfirmActionAttentionYourRouterIsConnectedToThis):Text(S.of(context).pleaseConfirmAction),
       actions: <Widget>[
         IconButton(

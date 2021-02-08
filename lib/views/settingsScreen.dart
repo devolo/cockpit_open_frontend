@@ -327,7 +327,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       style: TextStyle(color: fontColorDark),
                     ),
                     Spacer(),
-                    Flexible(
+                    Expanded(
                       child: new SpinBox(
                         min: 0.1,
                         max: 5.0,
@@ -460,7 +460,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   tileColor: secondColor,
                   title: Row(
                     children: [
-                      Flexible(
+                      Expanded(
                         child: TextFormField(
                           // ToDo sendXml find out Device Mac connected to Internet + Password formfield (hidden)
                           initialValue: _newPw,
@@ -808,7 +808,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ),
                           new AnimatedContainer(
                             duration: const Duration(milliseconds: 120),
-                            child: Flexible(child: con.value),
+                            child: Column(
+                              children: [
+                                Expanded(child: con.value),
+                              ],
+                            ),
                             height: selected == con.key? _animatedHeight: 0.0,
                             color: Colors.grey[850].withOpacity(0.6),
                             width: 900.0,

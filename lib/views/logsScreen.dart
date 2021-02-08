@@ -1,4 +1,3 @@
-
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,16 +20,19 @@ class _DebugScreenState extends State<DebugScreen> {
 
   final String title;
 
-  String printResponseList(socket){
+  final _scrollController = ScrollController();
+  final _scrollControllerInside = ScrollController();
+
+  String printResponseList(socket) {
     String ret = "";
-    for(var elem in socket.xmlResponseList) {
-      if(elem.runtimeType == XmlDocument) {
+    for (var elem in socket.xmlResponseList) {
+      if (elem.runtimeType == XmlDocument) {
         ret += elem.toXmlString(pretty: true);
-        ret+= "\n";
-      }else{
+        ret += "\n";
+      } else {
         ret += elem.toString();
       }
-      ret+= "\n";
+      ret += "\n";
     }
     return ret;
   }
@@ -43,31 +45,75 @@ class _DebugScreenState extends State<DebugScreen> {
       backgroundColor: Colors.white,
       appBar: new AppBar(
         title: new Text(title),
-        backgroundColor: mainColor,
+        backgroundColor: backgroundColor,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SelectableText('Config', style: TextStyle(fontSize: 20,),),
-              SelectableText(config.toString()),
-              SizedBox(height: 20,),
-
-              SelectableText('XML-Response', style: TextStyle(fontSize: 20,),),
-              Expanded(child: SelectableText(socket.xmlResponseList!= null? printResponseList(socket): "nothing send yet")),
-              SizedBox(height: 20,),
-
-              SelectableText('DeviceList', style: TextStyle(fontSize: 20,),),
-              Expanded(child:SelectableText(deviceList.toRealString()),),
-
-              SelectableText('DeviceListList', style: TextStyle(fontSize: 20,),),
-              Expanded(
-                child:SelectableText(deviceList.getNetworkList().toString()),
+      body: DefaultTextStyle(
+        style: TextStyle(color: Colors.white),
+        child: Container(
+          color: backgroundColor,
+          child: Scrollbar(
+            controller: _scrollController, // <---- Here, the controller
+            isAlwaysShown: true, // <---- Required
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: new SingleChildScrollView(
+                controller: _scrollController,
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
+                  SelectableText(
+                    'DeviceListList',
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                  SelectableText(deviceList.getNetworkList().toString()),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SelectableText(
+                    'Active DeviceList',
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      Scrollbar(
+                          controller: _scrollControllerInside, // <---- Here, the controller
+                          isAlwaysShown: true, // <---- Required
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: new SingleChildScrollView(
+                              controller: _scrollControllerInside,
+                              child: SelectableText(deviceList.toRealString()),
+                            ),
+                          )),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SelectableText(
+                    'XML-Response',
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                  SelectableText(socket.xmlResponseList != null ? printResponseList(socket) : "nothing send yet"),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SelectableText(
+                    'Config',
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                  SelectableText(config.toString()),
+                ]),
               ),
-
-
-            ]),
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -104,7 +104,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
         barrierDismissible: true, // user doesn't need to tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-              title: Text(S.of(context).optimizationHelp),
+              title: Text(S.of(context).optimizationHelp, style: TextStyle(color: Colors.white),),
               backgroundColor: backgroundColor.withOpacity(0.9),
               content: StatefulBuilder(// You need this, notice the parameters below:
                   builder: (BuildContext context, StateSetter setState) {

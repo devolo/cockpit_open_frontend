@@ -23,7 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static _notInlinedMessages(_) => <String, Function> {
     "add" : MessageLookupByLibrary.simpleMessage("Add"),
     "addDevice" : MessageLookupByLibrary.simpleMessage("Add Device"),
-    "addDeviceInstructionText" : MessageLookupByLibrary.simpleMessage("1.) Plug both PLC devices into the desired wall sockets and wait for about 45 seconds.\n2.) Briefly press the encryption button of the first (possibly already existing) PLC device.\n3.) Within two minutes, press the encryption button of the second (new) PLC device also briefly.\n4.) As soon as the LEDs light up permanently, the PLC devices are ready for operation."),
+    "addDeviceInstructionText" : MessageLookupByLibrary.simpleMessage("1.) Plug both PLC devices into the desired wall sockets and wait for about 45 seconds.\n2.) Briefly press the encryption button of the first (possibly already existing) PLC device.\n    (Alternatively, pairing can also be started via the web interface of the existing device.)\n 3.) Within two minutes, press the encryption button of the second (new) PLC device also briefly.\n4.) As soon as the LEDs light up permanently, the PLC devices are ready for operation."),
     "appInfo" : MessageLookupByLibrary.simpleMessage("App Info"),
     "appInformation" : MessageLookupByLibrary.simpleMessage("App information"),
     "appearance" : MessageLookupByLibrary.simpleMessage("Appearance"),
@@ -49,6 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "install" : MessageLookupByLibrary.simpleMessage("install"),
     "internetcentered" : MessageLookupByLibrary.simpleMessage("Internet-centered"),
     "ipaddress" : MessageLookupByLibrary.simpleMessage("IP-Address:"),
+    "isLocalDevice" : MessageLookupByLibrary.simpleMessage("Is Local Device:"),
     "language" : MessageLookupByLibrary.simpleMessage("Language"),
     "launchWebinterface" : MessageLookupByLibrary.simpleMessage("launch webinterface"),
     "macaddress" : MessageLookupByLibrary.simpleMessage("MAC-Address:"),

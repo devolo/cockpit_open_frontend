@@ -18,8 +18,6 @@ class SettingsScreen extends StatefulWidget {
   final String title;
   DrawOverview painter;
 
-
-
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }
@@ -36,15 +34,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
   ColorSwatch _tempMainColor;
   ColorSwatch _mainColor;
 
-  Color _tempShadeMainColor= mainColor;
+  Color _tempShadeMainColor = mainColor;
   Color _shadeMainColor = mainColor;
 
-  Color _tempShadeSecondColor= secondColor;
+  Color _tempShadeSecondColor = secondColor;
   Color _shadeSecondColor = secondColor;
 
-  Color _tempShadeFontColorLight  = fontColorLight;
+  Color _tempShadeFontColorLight = fontColorLight;
   Color _shadeFontColorLight = fontColorLight;
-  Color _tempShadeFontColorDark  = fontColorDark;
+  Color _tempShadeFontColorDark = fontColorDark;
   Color _shadeFontColorDark = fontColorDark;
 
   final _scrollController = ScrollController();
@@ -64,8 +62,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
     });
   }
 
-  void _mainColorPicker(title, title2) async {
-    _openDialog(title,
+  void _mainColorPicker(title, title2, title3, title4) async {
+    _openDialog(
+      title,
       MaterialColorPicker(
         colors: fullMaterialColors,
         selectedColor: mainColor,
@@ -103,6 +102,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
         },
         onBack: () => print("Back button pressed"),
       ),
+      title3,
+      MaterialColorPicker(
+        colors: fullMaterialColors,
+        selectedColor: _shadeFontColorLight,
+        onColorChange: (color) {
+          setState(() {
+            _tempShadeFontColorLight = color;
+            fontColorLight = color;
+            drawingColor = color;
+          });
+        },
+        onMainColorChange: (color) => setState(() { _tempShadeFontColorLight = color; fontColorLight = color;}),
+        onBack: () => print("Back button pressed"),
+      ),
+      title4,
+      MaterialColorPicker(
+        colors: fullMaterialColors,
+        selectedColor: _shadeFontColorDark,
+        onColorChange: (color) {
+          setState(() {
+            _tempShadeFontColorDark = color;
+            fontColorDark = color;
+            //drawingColor = color;
+          });
+        },
+        onMainColorChange: (color) => setState(() { _tempShadeFontColorDark = color; fontColorDark = color;}),
+        onBack: () => print("Back button pressed"),
+      ),
     );
   }
 
@@ -138,7 +165,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
     );
   }
-
 
   //creating the timer that stops the loading after 15 secs
   void startTimer() {
@@ -183,11 +209,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     style: TextStyle(color: drawingColor, fontSize: 20),
                   )
                 ]),
+                Divider(),
                 ListTile(
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
                   title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(S.of(context).language, style: TextStyle(color: fontColorDark),),
+                    new Text(
+                      S.of(context).language,
+                      style: TextStyle(color: fontColorDark),
+                    ),
                     DropdownButton<String>(
                       value: config["language"],
                       icon: Icon(
@@ -213,7 +243,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(value + "  ", style: TextStyle(color: fontColorDark),),
+                              Text(
+                                value + "  ",
+                                style: TextStyle(color: fontColorDark),
+                              ),
                               Flag(
                                 value == "en" ? "gb" : value, // ToDo which flag?
                                 height: 15,
@@ -245,7 +278,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
                   title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(S.of(context).internetcentered, style: TextStyle(color: fontColorDark),),
+                    new Text(
+                      S.of(context).internetcentered,
+                      style: TextStyle(color: fontColorDark),
+                    ),
                     new Switch(
                       value: config["internet_centered"],
                       onChanged: (value) {
@@ -264,7 +300,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
                   title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(S.of(context).showOtherDevices, style: TextStyle(color: fontColorDark),),
+                    new Text(
+                      S.of(context).showOtherDevices,
+                      style: TextStyle(color: fontColorDark),
+                    ),
                     new Switch(
                       value: config["show_other_devices"],
                       onChanged: (value) {
@@ -283,7 +322,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
                   title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text("Fontsize", style: TextStyle(color: fontColorDark),),
+                    new Text(
+                      "Fontsize",
+                      style: TextStyle(color: fontColorDark),
+                    ),
                     Spacer(),
                     Flexible(
                       child: new SpinBox(
@@ -292,12 +334,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         step: 0.1,
                         acceleration: 0.1,
                         decimals: 1,
-                        decoration: InputDecoration(
-                          labelStyle: TextStyle(color: Colors.red),
-                          hintStyle: TextStyle(color: Colors.red),
-                          helperStyle: TextStyle(color: Colors.red),
-                          counterStyle: TextStyle(color: Colors.red),
-                        ),
                         value: fontSizeFactor.toDouble(),
                         //fontSizeDelta,
                         onChanged: (value) {
@@ -315,20 +351,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
                   title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text("Main App Color", style: TextStyle(color: fontColorDark),),
+                    new Text(
+                      "Main App Color",
+                      style: TextStyle(color: fontColorDark),
+                    ),
                     Spacer(),
-                    SizedBox(width: 10,),
+                    SizedBox(
+                      width: 10,
+                    ),
                     CircleAvatar(
-                      backgroundColor: mainColor,//_tempMainColor,
+                      backgroundColor: mainColor, //_tempMainColor,
                       radius: 18.0,
                       child: FlatButton(
                         height: 40,
                         //hoverColor: devoloBlue.withOpacity(0.4),
                         //color: devoloBlue.withOpacity(0.4),
-                        onPressed: () {
-                        },
+                        onPressed: () {},
                         child: CircleAvatar(
-                          backgroundColor: secondColor,//_tempShadeColor,
+                          backgroundColor: secondColor, //_tempShadeColor,
                           radius: 18.0,
                           child: FlatButton(
                             height: 40,
@@ -336,41 +376,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             //color: devoloBlue.withOpacity(0.4),
                             onPressed: () {
                               //_secondColorPicker("Choose secondary color");
-                              _mainColorPicker("Choose main color","Choose accent color" );
-
+                              _mainColorPicker("Main color", "Accent color", "Light font color", "Dark font color");
                             },
                           ),
                         ),
-                      ),
-                    ),
-                  ]),
-                ),
-                ListTile(
-                  contentPadding: EdgeInsets.only(left: 10, right: 10),
-                  tileColor: secondColor,
-                  title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text("Font Color", style: TextStyle(color: fontColorDark),),
-                    Spacer(),
-                    CircleAvatar(
-                      backgroundColor: _tempShadeFontColorLight,
-                      radius: 15.0,
-                      child: FlatButton(
-                        height: 40,
-                        onPressed: () {
-                          _fontColorPicker("Choose light font color", "Choose dark font color");
-                          //_openFullMaterialColorPicker();
-                        },
-                      ),
-                    ),
-                    CircleAvatar(
-                      backgroundColor: _tempShadeFontColorDark,
-                      radius: 15.0,
-                      child: FlatButton(
-                        height: 40,
-                        onPressed: () {
-                          _fontColorPicker("Choose light font color", "Choose dark font color");
-                          //_openFullMaterialColorPicker();
-                        },
                       ),
                     ),
                   ]),
@@ -382,11 +391,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     style: TextStyle(color: drawingColor, fontSize: 20),
                   )
                 ]),
+                Divider(),
                 ListTile(
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
                   title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(S.of(context).ignoreUpdates, style: TextStyle(color: fontColorDark),),
+                    new Text(
+                      S.of(context).ignoreUpdates,
+                      style: TextStyle(color: fontColorDark),
+                    ),
                     new Checkbox(
                         value: config["ignore_updates"],
                         activeColor: mainColor,
@@ -403,7 +416,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
                   title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(S.of(context).recordTheTransmissionPowerOfTheDevicesAndTransmitIt, style: TextStyle(color: fontColorDark),),
+                    new Text(
+                      S.of(context).recordTheTransmissionPowerOfTheDevicesAndTransmitIt,
+                      style: TextStyle(color: fontColorDark),
+                    ),
                     new Checkbox(
                         value: config["allow_data_collection"],
                         activeColor: mainColor,
@@ -420,7 +436,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
                   title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(S.of(context).windowsNetworkThrottling, style: TextStyle(color: fontColorDark),),
+                    new Text(
+                      S.of(context).windowsNetworkThrottling,
+                      style: TextStyle(color: fontColorDark),
+                    ),
                     new Switch(
                       value: !config["windows_network_throttling_disabled"],
                       onChanged: (value) {
@@ -467,7 +486,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               _hiddenPw = !_hiddenPw;
                             });
                           }),
-                      Text(S.of(context).showPassword, style: TextStyle(color: fontColorDark),),
+                      Text(
+                        S.of(context).showPassword,
+                        style: TextStyle(color: fontColorDark),
+                      ),
                       FlatButton(
                         height: 62,
                         hoverColor: mainColor.withOpacity(0.4),
@@ -482,12 +504,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ],
                   ),
                 ),
+                Divider(),
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                   Text(
                     S.of(context).support,
                     style: TextStyle(color: drawingColor, fontSize: 20),
                   )
                 ]),
+                Divider(),
                 ListTile(
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
@@ -497,7 +521,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       hoverColor: mainColor.withOpacity(0.4),
                       color: mainColor.withOpacity(0.4),
                       child: Row(children: [
-                        Text(S.of(context).generateSupportInformation, style: TextStyle(color: fontColorDark),),
+                        Text(
+                          S.of(context).generateSupportInformation,
+                          style: TextStyle(color: fontColorDark),
+                        ),
                         Stack(children: <Widget>[
                           Container(child: _loading ? CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(mainColor)) : Text("")),
                           if (response != null && _loading == false)
@@ -720,24 +747,77 @@ class _SettingsScreenState extends State<SettingsScreen> {
         });
   }
 
-  void _openDialog(String title, Widget content, [String title2, Widget content2]) {
-    showDialog(
-      barrierDismissible: true,
+  void _openDialog(String title1, Widget content1, [String title2, Widget content2, String title3, Widget content3, String title4, Widget content4]) {
+    double _animatedHeight = 0.0;
+    String selected;
+
+    Map<String, dynamic> contents = Map();
+    contents[title1] = content1;
+    contents[title2] = content2;
+    contents[title3] = content3;
+    contents[title4] = content4;
+    print(contents.entries);
+
+    showDialog<void>(
       context: context,
-      builder: (_) {
+      barrierDismissible: true, // user doesn't need to tap button!
+      builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: backgroundColor.withOpacity(0.9),
-          contentPadding: const EdgeInsets.all(6.0),
-          title: Text(title, style: TextStyle(color: fontColorLight),),
-          content: Column(
-            children: [
-              Text(title, style: TextStyle(color: fontColorLight),),
-              Flexible(child: content),
-              if(content2 != null)
-              Text(title2, style: TextStyle(color: fontColorLight),),
-              if(content2 != null)
-              Flexible(child: content2)
-            ],
+          contentPadding: const EdgeInsets.all(20.0),
+          title: Text(
+            "Choose Color",
+            style: TextStyle(color: fontColorLight),
+          ),
+          content: StatefulBuilder(
+            // You need this, notice the parameters below:
+            builder: (BuildContext context, StateSetter setState) {
+              return Column(
+                  children: [
+                    for(dynamic con in contents.entries)
+                      Column(
+                        children: [
+                          new GestureDetector(
+                            onTap: () =>
+                                setState(() {
+                                  print(con);
+                                  selected = con.key;
+                                  _animatedHeight != 0.0 ? _animatedHeight = 0.0 : _animatedHeight = 200.0;
+                                }),
+                            child: new Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+
+                                  new Text(
+                                    " "+con.key,
+                                    style: TextStyle(color: fontColorLight),
+                                  ),
+                                  Spacer(),
+                                  new CircleAvatar(
+                                    backgroundColor: con.value.selectedColor, //_tempShadeColor,
+                                    radius: 15.0,
+                                  ),
+                                  new Icon(Icons.arrow_drop_down_rounded, color: Colors.white,),
+                                ],
+                              ),
+                              color: Colors.grey[800].withOpacity(0.6),
+                              height: 40.0,
+                              width: 900.0,
+                            ),
+                          ),
+                          new AnimatedContainer(
+                            duration: const Duration(milliseconds: 120),
+                            child: Flexible(child: con.value),
+                            height: selected == con.key? _animatedHeight: 0.0,
+                            color: Colors.grey[850].withOpacity(0.6),
+                            width: 900.0,
+                          ),
+                        ],),
+                  ],
+
+              );
+            },
           ),
           actions: [
             FlatButton(
@@ -749,8 +829,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onPressed: () {
                 // action happening here
                 Navigator.of(context).pop();
-                setState(() {
-                });
+                setState(() {});
               },
             ),
             FlatButton(
@@ -762,8 +841,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 onPressed: () {
                   // Cancel critical action
                   Navigator.of(context).pop();
-                  setState(() {
-                  });
+                  setState(() {});
                 }),
           ],
         );

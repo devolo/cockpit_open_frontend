@@ -595,10 +595,10 @@ class S {
     );
   }
 
-  /// `1.) Plug both PLC devices into the desired wall sockets and wait for about 45 seconds.\n2.) Briefly press the encryption button of the first (possibly already existing) PLC device.\n3.) Within two minutes, press the encryption button of the second (new) PLC device also briefly.\n4.) As soon as the LEDs light up permanently, the PLC devices are ready for operation.`
+  /// `1.) Plug both PLC devices into the desired wall sockets and wait for about 45 seconds.\n2.) Briefly press the encryption button of the first (possibly already existing) PLC device.\n    (Alternatively, pairing can also be started via the web interface of the existing device.)\n 3.) Within two minutes, press the encryption button of the second (new) PLC device also briefly.\n4.) As soon as the LEDs light up permanently, the PLC devices are ready for operation.`
   String get addDeviceInstructionText {
     return Intl.message(
-      '1.) Plug both PLC devices into the desired wall sockets and wait for about 45 seconds.\n2.) Briefly press the encryption button of the first (possibly already existing) PLC device.\n3.) Within two minutes, press the encryption button of the second (new) PLC device also briefly.\n4.) As soon as the LEDs light up permanently, the PLC devices are ready for operation.',
+      '1.) Plug both PLC devices into the desired wall sockets and wait for about 45 seconds.\n2.) Briefly press the encryption button of the first (possibly already existing) PLC device.\n    (Alternatively, pairing can also be started via the web interface of the existing device.)\n 3.) Within two minutes, press the encryption button of the second (new) PLC device also briefly.\n4.) As soon as the LEDs light up permanently, the PLC devices are ready for operation.',
       name: 'addDeviceInstructionText',
       desc: '',
       args: [],
@@ -780,6 +780,16 @@ class S {
     return Intl.message(
       'refresh',
       name: 'refresh',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Is Local Device:`
+  String get isLocalDevice {
+    return Intl.message(
+      'Is Local Device:',
+      name: 'isLocalDevice',
       desc: '',
       args: [],
     );

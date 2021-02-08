@@ -50,6 +50,7 @@ class Device extends ChangeNotifier {
       this.icon = getIconForDeviceType(getDeviceType(type)); // areDeviceIconsLoaded ??
     //if (icon != null) this.icon = icon;
     this.speeds = new Map();
+
   }
 
   factory Device.fromXML(XmlElement element, bool islocalDevice) {
@@ -61,7 +62,6 @@ class Device extends ChangeNotifier {
           attachedToRouter = true;
       }
     }
-
 
     Device retDevice = Device(
       element.getElement('type').text,
@@ -125,7 +125,7 @@ class Device extends ChangeNotifier {
   }
 
   String toRealString(){
-    return "Name: ${this.name},\n type:${this.type},\n mac: ${this.mac},\n ip: ${this.ip},\n version: ${this.version},\n version_date:${this.version_date},\n MT: ${this.MT}, serialno: ${this.serialno},\n remoteDevices: ${this.remoteDevices},\n icon:${this.icon},\n speeds: ${this.speeds},\n attachedToRouter: ${this.attachedToRouter},\n isLocalDevice: ${this.isLocalDevice},\n UpdateAvailable: ${this.updateAvailable},\n UpdateStatus: ${this.updateState},\n UpdateStatusInt: ${this.updateStateInt} \n";
+    return "Name: ${this.name},\n type:${this.type},\n mac: ${this.mac},\n ip: ${this.ip},\n version: ${this.version},\n version_date:${this.version_date},\n MT: ${this.MT},\n serialno: ${this.serialno},\n remoteDevices: ${this.remoteDevices},\n icon:${this.icon},\n speeds: ${this.speeds},\n attachedToRouter: ${this.attachedToRouter},\n isLocalDevice: ${this.isLocalDevice},\n UpdateAvailable: ${this.updateAvailable},\n UpdateStatus: ${this.updateState},\n UpdateStatusInt: ${this.updateStateInt} \n";
   }
 }
 //=========================================== END Device =========================================

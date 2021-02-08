@@ -349,6 +349,8 @@ class dataHand extends ChangeNotifier {
       String status = item.getElement("second").innerText;
 
       dev.updateState = status;
+      if(status == "complete")
+        _deviceList.getUpdateList().removeWhere((element) => element == dev.mac);
       if(status.endsWith("%"))
         dev.updateStateInt = double.parse(status.substring(status.indexOf(" "), status.indexOf("%")));
 
@@ -359,18 +361,21 @@ class dataHand extends ChangeNotifier {
 
   void parseFWUpdateIndication(XmlDocument xmlResponse){
     var items = xmlResponse.findAllElements("item");
-    //var macs = item.findAllElements("macAddress"); //ToDo List !! Get Test Devices to ge6t more devices with updates
+    //var macs = item.findAllElements("macAddress"); //ToDo List !! Get Test Devices to get more devices with updates
+    _deviceList.getUpdateList().clear();
+
     for(var item in items){
       try{
       Device dev = _deviceList.getDeviceList().where((element) => element.mac == item.getElement("first").getElement("macAddress").innerText).first;
       dev.updateAvailable = true;
+      _deviceList.getUpdateList().add(dev.mac);
       }catch(e) {
         print("ParseFWUpdateIndication failed! - Maybe not in selected deviceList");
         print(e);
         return null;
       }
-
       //print(dev.toRealString());
+      print(_deviceList.getUpdateList());
     }
     _deviceList.changedList();
   }

@@ -10,7 +10,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
-
 import 'package:cockpit_devolo/views/overviewNetworksScreen.dart';
 import 'package:cockpit_devolo/views/overviewScreen.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -41,10 +40,9 @@ class MyApp extends StatelessWidget {
                 fontSizeFactor: fontSizeFactor,
                 fontSizeDelta: fontSizeDelta,
                 displayColor: fontColorDark,
-                bodyColor: fontColorLight,
+                bodyColor: fontColorDark,
                 decorationColor: fontColorDark,
               ),
-
             ),
             localizationsDelegates: [
               // ... app-specific localization delegate[s] here

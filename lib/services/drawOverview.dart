@@ -210,12 +210,14 @@ class DrawOverview extends CustomPainter {
         offsetAdd= -offsetAdd;
       networkOffsetList[index] = networkOffsetList[index].translate(_providerList.selectedNetworkIndex.toDouble()*offsetAdd,0 );
 
-      if(_providerList.selectedNetworkIndex == index){
-        drawNetworkName(canvas, size,"Network ${index}", absoluteOffset, true);
-      }else{
-        drawNetworkName(canvas, size,"Network ${index}", networkOffsetList[index], false);
-        //canvas.drawLine(absoluteOffset, networkOffsetList[index], _linePaint..strokeWidth = 2.0);
-        drawIcon(canvas, networkOffsetList[index], Icons.workspaces_filled);
+      if (networkOffsetList.length > 1) {
+        if(_providerList.selectedNetworkIndex == index){
+          drawNetworkName(canvas, size,"Network ${index+1}", absoluteOffset, true);
+        }else{
+          drawNetworkName(canvas, size,"Network ${index+1}", networkOffsetList[index], false);
+          //canvas.drawLine(absoluteOffset, networkOffsetList[index], _linePaint..strokeWidth = 2.0);
+          drawIcon(canvas, networkOffsetList[index], Icons.workspaces_filled);
+        }
       }
 
       index--;

@@ -1,11 +1,9 @@
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
-import 'package:cockpit_devolo/services/drawNetworksOverview.dart';
 import 'package:cockpit_devolo/services/drawOverview.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -36,16 +34,12 @@ class _OverviewScreenState extends State<OverviewScreen> {
   bool showingSpeeds = false;
   int pivotDeviceIndex = 0;
 
+  FocusNode myFocusNode = new FocusNode();
+
 
   @override
   void initState() {
     //dataHand();
-  }
-
-  void _reloadTest() {
-    setState(() {
-      //doc = parseXML()
-    });
   }
 
   @override
@@ -198,7 +192,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
           builder: (BuildContext context) {
             return AlertDialog(
               backgroundColor: backgroundColor.withOpacity(0.9),
-              title: SelectableText('Geräteinfo'),
+              contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18),
+              title: SelectableText('Geräteinfo', style: TextStyle(color: Colors.white),),
               content: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -213,10 +208,18 @@ class _OverviewScreenState extends State<OverviewScreen> {
                         SelectableText('Name: '),
                       TextFormField(
                         initialValue: _newName,
-                        decoration: InputDecoration(
-                          //labelText: 'Devicename',
-                          //helperText: 'Devicename',
-                        ),
+                        style: TextStyle(color: Colors.white),
+                          decoration: InputDecoration(
+                            //labelText: 'Testing',
+                            labelStyle: TextStyle(color: myFocusNode.hasFocus ? Colors.amberAccent : Colors.white),
+                            focusColor: Colors.white,
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                          ),
                         onChanged: (value) => ( _newName = value),
                         validator: (value) {
                           if (value.isEmpty) {
@@ -227,35 +230,35 @@ class _OverviewScreenState extends State<OverviewScreen> {
                       ),
                       ]),
                       TableRow(children: [
-                        SelectableText('Type: '),
+                        SelectableText(S.of(context).type),
                         SelectableText(hitDeviceType),
                       ]),
                       TableRow(children: [
-                        SelectableText('Seriennummer: '),
+                        SelectableText((S.of(context).serialNumber)),
                         SelectableText(hitDeviceSN),
                       ]),
                       TableRow(children: [
-                        SelectableText('MT-Nummer: '),
+                        SelectableText(S.of(context).mtnumber),
                         SelectableText(hitDeviceMT.substring(2)),
                       ]),
                       TableRow(children: [
-                        SelectableText('Version: '),
+                        SelectableText((S.of(context).version)),
                         SelectableText('${hitDeviceVersion} (${hitDeviceVersionDate})'),
                       ]),
                       TableRow(children: [
-                        SelectableText('IP-Adresse: ' ),
+                        SelectableText(S.of(context).ipaddress),
                         SelectableText(hitDeviceIp),
                       ]),
                       TableRow(children: [
-                        SelectableText('MAC-Adresse: ' ),
+                        SelectableText((S.of(context).macaddress)),
                         SelectableText(hitDeviceMac),
                       ]),
                       TableRow(children: [
-                        SelectableText('Attached to Router: ' ),
+                        SelectableText(S.of(context).attachedToRouter),
                         SelectableText(hitDeviceAtr.toString()),
                       ]),
                       TableRow(children: [
-                        SelectableText('Is Local Device: ' ),
+                        SelectableText(S.of(context).isLocalDevice ),
                         SelectableText(hitDeviceisLocal.toString()),
                       ]),
                     ],),

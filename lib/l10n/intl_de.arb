@@ -61,7 +61,7 @@
   "launchWebinterface": "öffne Webinterface",
   "factoryReset": "Werkseinstellung setzen",
   "deleteDevice": "Gerät löschen",
-  "addDeviceInstructionText": "1.) Stecken Sie beide PLC-Geräte in die gewünschten Wandsteckdosen und warten ca. 45 Sekunden.\n2.) Drücken Sie kurz den Verschlüsselungsknopf des ersten (evtl. bereits vorhandenen) PLC-Gerätes.\n3.) Drücken Sie innerhalb von zwei Minuten den Verschlüsselungsknopf des zweiten (neuen) PLC-Gerätes ebenfalls kurz.\n4.) Sobald die LEDs dauerhaft leuchten, sind die PLC-Geräte betriebsbereit.",
+  "addDeviceInstructionText": "1.) Stecken Sie beide PLC-Geräte in die gewünschten Wandsteckdosen und warten ca. 45 Sekunden.\n2.) Drücken Sie kurz den Verschlüsselungsknopf des ersten (evtl. bereits vorhandenen) PLC-Gerätes.\n    (Alternativ kann das Pairing auch über das Webinterface des bereits vorhandenen Geräts gestartet werden.) \n3.) Drücken Sie innerhalb von zwei Minuten den Verschlüsselungsknopf des zweiten (neuen) PLC-Gerätes ebenfalls kurz.\n4.) Sobald die LEDs dauerhaft leuchten, sind die PLC-Geräte betriebsbereit.",
   "back": "zurück",
   "forward": "weiter",
   "overview": "Übersicht",
@@ -79,5 +79,6 @@
   "macaddress": "MAC-Adresse:",
   "attachedToRouter": "An Router angeschlossen:",
   "yourEmailaddress": " Ihre E-mail Adresse",
-  "refresh": "neu laden"
+  "refresh": "neu laden",
+  "isLocalDevice": "Ist lokales Gerät:"
 }

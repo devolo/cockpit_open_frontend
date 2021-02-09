@@ -192,17 +192,17 @@ class _OverviewScreenState extends State<OverviewScreen> {
           builder: (BuildContext context) {
             return AlertDialog(
               backgroundColor: backgroundColor.withOpacity(0.9),
-              contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18),
-              title: SelectableText('Geräteinfo', style: TextStyle(color: Colors.white),),
+              contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 17 * fontSizeFactor),
+              title: SelectableText(S.of(context).deviceinfo, style: TextStyle(color: Colors.white), textScaleFactor: fontSizeFactor,),
               content: SingleChildScrollView(
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
+                  //mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     SizedBox(height: 15,),
                     Table(
-                      defaultColumnWidth: FixedColumnWidth(200.0),
+                      defaultColumnWidth: FixedColumnWidth(250.0 * fontSizeFactor),
                     children: [
                       TableRow(children: [
                         SelectableText('Name: '),
@@ -376,8 +376,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
     return AlertDialog(
       title: Text(messageType, style: TextStyle(color: fontColorLight),),
       backgroundColor: backgroundColor.withOpacity(0.9),
-      contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18),
-      content: hitDevice.attachedToRouter?Text(S.of(context).pleaseConfirmActionAttentionYourRouterIsConnectedToThis):Text(S.of(context).pleaseConfirmAction),
+      contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white),
+      content: hitDevice.attachedToRouter?Text(S.of(context).pleaseConfirmActionAttentionYourRouterIsConnectedToThis, textScaleFactor: fontSizeFactor,):Text(S.of(context).pleaseConfirmAction, textScaleFactor: fontSizeFactor),
       actions: <Widget>[
         IconButton(
           icon: Icon(

@@ -60,24 +60,24 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   children: [
                   Expanded(flex: 2,child: Text(
                       S.of(context).name,
-                      style: TextStyle(fontWeight: FontWeight.bold, color: fontColorLight, fontSize: 16),
+                      style: TextStyle(fontWeight: FontWeight.bold, color: fontColorLight),
                       semanticsLabel: S.of(context).name,
                     ),),
                 Expanded(flex: 2,child: Text(
                       S.of(context).currentVersion,
-                      style: TextStyle(color: fontColorLight, fontSize: 16),
+                      style: TextStyle(color: fontColorLight ),
                       semanticsLabel: S.of(context).currentVersion,
                     ),),
                 Expanded(flex: 2,child: Text(
                       S.of(context).newVersion,
-                      style: TextStyle(color: fontColorLight, fontSize: 16),
+                      style: TextStyle(color: fontColorLight),
                       semanticsLabel: S.of(context).newVersion,
                     ),),
                   ],
                 ),
                 trailing: Text(
                   S.of(context).state,
-                  style: TextStyle(color: fontColorLight, fontSize: 16),
+                  style: TextStyle(color: fontColorLight),
                   semanticsLabel: S.of(context).state,
                 ),
               ),
@@ -189,8 +189,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 minWidth: 100.0,
                 height: 50.0,
                 child: RaisedButton(
-                    color: mainColor,
-                    textColor: Colors.white,
+                    color: secondColor,
+                    textColor: fontColorDark,
                     onPressed: () async {
                       setState(() {
                         socket.sendXML('UpdateCheck');
@@ -211,8 +211,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                 return AlertDialog(
                                   title: Text(S.of(context).update, style: TextStyle(color: fontColorLight,),),
                                   backgroundColor: backgroundColor.withOpacity(0.9),
-                                  contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18),
-                                  content: Text(S.of(context).cockpitSoftwareIsUpToDate),
+                                  contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white),
+                                  content: Text(S.of(context).cockpitSoftwareIsUpToDate, textScaleFactor: fontSizeFactor,),
                                   actions: <Widget>[
                                     FlatButton(
                                       child: Icon(
@@ -288,7 +288,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         Text(S.of(context).checkUpdates),
                         if (_loading)
                           CircularProgressIndicator(
-                            valueColor: new AlwaysStoppedAnimation<Color>(secondColor),
+                            valueColor: new AlwaysStoppedAnimation<Color>(fontColorDark),
                           ),
                         Spacer(),
                         //Text(""),
@@ -337,9 +337,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
       barrierDismissible: true, // user doesn't need to tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: SelectableText('Geräteinfo', style: TextStyle(color: Colors.white),),
+          title: SelectableText(S.of(context).deviceinfo, style: TextStyle(color: Colors.white), textScaleFactor: fontSizeFactor,),
           backgroundColor: backgroundColor.withOpacity(0.9),
-          contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18),
+          contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 17 * fontSizeFactor),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -350,7 +350,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   height: 15,
                 ),
                 Table(
-                  defaultColumnWidth: FixedColumnWidth(200.0),
+                  defaultColumnWidth: FixedColumnWidth(250.0 * fontSizeFactor),
                   children: [
                     TableRow(children: [
                       SelectableText('Name: '),

@@ -9,8 +9,8 @@ import 'dart:io';
 import 'dart:ui';
 
 class DrawOverview extends CustomPainter {
-  final double hn_circle_radius = 35.0;
-  final double complete_circle_radius = 50.0;
+  double hn_circle_radius = 35.0;
+  double complete_circle_radius = 50.0;
   List<Device> _deviceList;
   List<List<Device>> _networkList;
   NetworkList _providerList;
@@ -73,6 +73,9 @@ class DrawOverview extends CustomPainter {
     showingSpeeds = config["show_speeds"]; //ToDo fix Hack
     pivotDeviceIndex = pivot; // ToDo same
 
+    hn_circle_radius = hn_circle_radius*fontSizeFactor;
+    complete_circle_radius = complete_circle_radius*fontSizeFactor;
+
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
     _screenGridWidth = (screenWidth / 5);
@@ -120,7 +123,8 @@ class DrawOverview extends CustomPainter {
 
     _textPainter = TextPainter()
       ..textDirection = TextDirection.ltr
-      ..textAlign = TextAlign.center;
+      ..textAlign = TextAlign.center
+      ..textScaleFactor = fontSizeFactor;
 
     _speedTextPainter = TextPainter()
       ..textDirection = TextDirection.rtl
@@ -154,7 +158,7 @@ class DrawOverview extends CustomPainter {
 
   void drawOtherConnection(Canvas canvas, Offset deviceOffset){ //ToDo fix internet icon attached to Router
     Offset absoluteOffset = Offset(deviceOffset.dx + (screenWidth / 2), deviceOffset.dy + (screenHeight / 2));
-    Offset toOffset = Offset(deviceOffset.dx + (screenWidth / 2)+100, deviceOffset.dy + (screenHeight / 2));
+    Offset toOffset = Offset(deviceOffset.dx + (screenWidth / 2)+100*fontSizeFactor, deviceOffset.dy + (screenHeight / 2));
 
     canvas.drawLine(
         absoluteOffset,
@@ -469,19 +473,19 @@ class DrawOverview extends CustomPainter {
 
     final userNameTextSpan = TextSpan(
       text: (uName.length > 0 ? uName  : ""),
-      style: _textStyle,
+      style: _textStyle.apply(color: fontColorLight),
     );
     _textPainter.text = userNameTextSpan;
-    _textPainter.layout(minWidth: 0, maxWidth: 150);
+    _textPainter.layout(minWidth: 0, maxWidth: 300);
     double userNameHeight = _textPainter.height;
     _textPainter.paint(canvas, Offset(absoluteOffset.dx - (_textPainter.width / 2), absoluteOffset.dy + hn_circle_radius + userNameHeight ));
 
     final productNameTextSpan = TextSpan(
       text: pName,
-      style: _textNameStyle,
+      style: _textNameStyle.apply(color: fontColorLight),
     );
     _textPainter.text = productNameTextSpan;
-    _textPainter.layout(minWidth: 0, maxWidth: 150);
+    _textPainter.layout(minWidth: 0, maxWidth: 300);
     double productNameHeight = _textPainter.height;
     _textPainter.paint(canvas, Offset(absoluteOffset.dx - (_textPainter.width / 2), absoluteOffset.dy + hn_circle_radius + productNameHeight + userNameHeight));
 

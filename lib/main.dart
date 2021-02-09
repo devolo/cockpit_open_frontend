@@ -227,7 +227,8 @@ class _MyHomePageState extends State<MyHomePage> {
         unselectedItemColor: secondColor,
         selectedItemColor: fontColorLight,
         selectedIconTheme: IconThemeData(size: 35),
-        selectedFontSize: 15,
+        selectedFontSize: 16 * fontSizeFactor,
+        unselectedFontSize: 14 * fontSizeFactor,
         currentIndex: bottomSelectedIndex,
         onTap: (index) {
           bottomTapped(index);

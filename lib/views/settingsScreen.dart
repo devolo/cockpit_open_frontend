@@ -115,7 +115,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           setState(() {
             _tempShadeFontColorLight = color;
             fontColorLight = color;
-            drawingColor = color;
+            //drawingColor = color;
             AppBuilder.of(context).rebuild();
           });
         },
@@ -186,14 +186,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                   Text(
                     S.of(context).appearance,
-                    style: TextStyle(color: drawingColor, fontSize: 20),
+                    style: TextStyle(color: drawingColor),
                   )
                 ]),
                 Divider(),
                 ListTile(
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
-                  subtitle: Text(S.of(context).changeTheLanguageOfTheApp, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 16 * fontSizeFactor)),
+                  subtitle: Text(S.of(context).changeTheLanguageOfTheApp, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 15 * fontSizeFactor)),
                   title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                     new Text(
                       S.of(context).language,
@@ -246,7 +246,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ListTile(
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
-                  subtitle: Text(S.of(context).dataRatesArePermanentlyDisplayedInTheOverview, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 16 * fontSizeFactor)),
+                  subtitle: Text(S.of(context).dataRatesArePermanentlyDisplayedInTheOverview, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 15 * fontSizeFactor)),
                   title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                     new Text(S.of(context).enableShowingSpeeds, style: TextStyle(color: fontColorDark), semanticsLabel: "Show Speeds"),
                     new Checkbox(
@@ -260,7 +260,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ListTile(
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
-                  subtitle: Text(S.of(context).theOverviewWillBeCenteredAroundThePlcDeviceConnected, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 16 * fontSizeFactor)),
+                  subtitle: Text(S.of(context).theOverviewWillBeCenteredAroundThePlcDeviceConnected, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 15 * fontSizeFactor)),
                   title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                     new Text(
                       S.of(context).internetcentered,
@@ -283,7 +283,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ListTile(
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
-                  subtitle: Text(S.of(context).otherDevicesEgPcAreDisplayedInTheOverview, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 16 * fontSizeFactor)),
+                  subtitle: Text(S.of(context).otherDevicesEgPcAreDisplayedInTheOverview, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 15 * fontSizeFactor)),
                   title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                     new Text(
                       S.of(context).showOtherDevices,
@@ -336,7 +336,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ListTile(
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
-                  subtitle: Text(S.of(context).chooseMainColorAccentColorAndFontColors, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 16 * fontSizeFactor)),
+                  subtitle: Text(S.of(context).chooseMainColorAccentColorAndFontColors, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 15 * fontSizeFactor)),
                   title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                     new Text(
                       S.of(context).appColor,
@@ -375,7 +375,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                   Text(
                     S.of(context).network,
-                    style: TextStyle(color: drawingColor, fontSize: 20),
+                    style: TextStyle(color: drawingColor),
                   )
                 ]),
                 Divider(),
@@ -495,7 +495,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                   Text(
                     S.of(context).support,
-                    style: TextStyle(color: drawingColor, fontSize: 20),
+                    style: TextStyle(color: drawingColor),
                   )
                 ]),
                 Divider(),

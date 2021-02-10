@@ -143,6 +143,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         }),
         onBack: () => print("Back button pressed"),
       ),
+
     );
   }
 
@@ -706,6 +707,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     contents[title2] = content2;
     contents[title3] = content3;
     contents[title4] = content4;
+
     print(contents.entries);
 
     showDialog<void>(
@@ -724,6 +726,94 @@ class _SettingsScreenState extends State<SettingsScreen> {
             builder: (BuildContext context, StateSetter setState) {
               return Column(
                 children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                        SizedBox(
+                          width: 200,
+                            child: Image(image: AssetImage('assets/theme_images/theme_devolo.PNG'))
+                        ),
+                            Divider(),
+                        new FlatButton(
+                          minWidth: 200,
+                          color: secondColor,
+                          child: new Text(
+                            "Standard Theme",
+                            style: TextStyle(color: fontColorDark),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                                mainColor = theme_devolo["mainColor"];
+                                backgroundColor = theme_devolo["backgroundColor"];
+                                secondColor = theme_devolo["secondColor"];
+                                drawingColor = theme_devolo["drawingColor"];
+                                fontColorLight = theme_devolo["fontColorLight"];
+                                fontColorDark = theme_devolo["fontColorDark"];
+                              AppBuilder.of(context).rebuild();
+                            });
+                          },
+                        ),
+                      ]),
+
+                      Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                        SizedBox(
+                            width: 200,
+                            child: Image(image: AssetImage('assets/theme_images/theme_dark.PNG'))
+                        ),
+                        Divider(),
+                        new FlatButton(
+                          minWidth: 200,
+                          color: secondColor,
+                          child: new Text(
+                            "Dark Theme",
+                            style: TextStyle(color: fontColorDark),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              mainColor = theme_main["mainColor"];
+                              backgroundColor = theme_main["backgroundColor"];
+                              secondColor = theme_main["secondColor"];
+                              drawingColor = theme_main["drawingColor"];
+                              fontColorLight = theme_main["fontColorLight"];
+                              fontColorDark = theme_main["fontColorDark"];
+                              AppBuilder.of(context).rebuild();
+                            });
+                          },
+                        ),
+                      ]),
+
+                      Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                        SizedBox(
+                            width: 200,
+                            child: Image(image: AssetImage('assets/theme_images/theme_highContrast.PNG'))
+                        ),
+                        Divider(),
+                        new FlatButton(
+                          minWidth: 200,
+                          color: secondColor,
+                          child: new Text(
+                            "High Contrast Theme",
+                            style: TextStyle(color: fontColorDark),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              mainColor = theme_highContrast["mainColor"];
+                              backgroundColor = theme_highContrast["backgroundColor"];
+                              secondColor = theme_highContrast["secondColor"];
+                              drawingColor = theme_highContrast["drawingColor"];
+                              fontColorLight = theme_highContrast["fontColorLight"];
+                              fontColorDark = theme_highContrast["fontColorDark"];
+                              AppBuilder.of(context).rebuild();
+                            });
+                          },
+                        ),
+                      ]),
+                    ],
+                  ),
+                  Divider(),
                   for (dynamic con in contents.entries)
                     Column(
                       children: [
@@ -732,7 +822,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             setState(() {
                               print(con);
                               selected = con.key;
-                              _animatedHeight != 0.0 ? _animatedHeight = 0.0 : _animatedHeight = 200.0;
+                              _animatedHeight != 0.0 ? _animatedHeight = 0.0 : _animatedHeight = 180.0;
                             });
                             AppBuilder.of(context).rebuild();
                           },
@@ -742,7 +832,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               children: [
                                 new Text(
                                   " " + con.key,
-                                  style: TextStyle(color: fontColorLight),
+                                  style: TextStyle(color: fontColorDark),
                                 ),
                                 Spacer(),
                                 // ToDo CircleAvatar doesn't change
@@ -752,12 +842,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 // ),
                                 new Icon(
                                   Icons.arrow_drop_down_rounded,
-                                  color: Colors.white,
+                                  color: fontColorDark,
                                 ),
                               ],
                             ),
-                            color: Colors.grey[800].withOpacity(0.6),
-                            height: 40.0,
+                            color: secondColor,//Colors.grey[800].withOpacity(0.9),
+                            height: 50.0,
                             width: 900.0,
                           ),
                         ),
@@ -769,13 +859,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ],
                           ),
                           height: selected == con.key ? _animatedHeight : 0.0,
-                          color: Colors.grey[850].withOpacity(0.6),
+                          color: secondColor.withOpacity(0.8),//Colors.grey[800].withOpacity(0.6),
                           width: 900.0,
                         ),
                       ],
                     ),
-                ],
-              );
+                ],);
             },
           ),
           actions: [

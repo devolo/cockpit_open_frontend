@@ -55,6 +55,7 @@ class DrawOverview extends CustomPainter {
   Paint _arrowPaint;
   TextPainter _textPainter;
   TextPainter _speedTextPainter;
+  TextPainter _iconPainter;
   double screenWidth;
   double screenHeight;
   int numberFoundDevices;
@@ -73,8 +74,8 @@ class DrawOverview extends CustomPainter {
     showingSpeeds = config["show_speeds"]; //ToDo fix Hack
     pivotDeviceIndex = pivot; // ToDo same
 
-    hn_circle_radius = hn_circle_radius*fontSizeFactor;
-    complete_circle_radius = complete_circle_radius*fontSizeFactor;
+    //hn_circle_radius = hn_circle_radius*fontSizeFactor;
+    //complete_circle_radius = complete_circle_radius*fontSizeFactor;
 
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
@@ -130,6 +131,11 @@ class DrawOverview extends CustomPainter {
       ..textDirection = TextDirection.rtl
       ..textAlign = TextAlign.left;
 
+    _iconPainter = TextPainter()
+      ..textDirection = TextDirection.ltr
+      ..textAlign = TextAlign.center;
+      //..textScaleFactor = fontSizeFactor;
+
     _arrowPaint = Paint()
       ..color = drawingColor
       ..strokeWidth = 3.0
@@ -158,7 +164,7 @@ class DrawOverview extends CustomPainter {
 
   void drawOtherConnection(Canvas canvas, Offset deviceOffset){ //ToDo fix internet icon attached to Router
     Offset absoluteOffset = Offset(deviceOffset.dx + (screenWidth / 2), deviceOffset.dy + (screenHeight / 2));
-    Offset toOffset = Offset(deviceOffset.dx + (screenWidth / 2)+100*fontSizeFactor, deviceOffset.dy + (screenHeight / 2));
+    Offset toOffset = Offset(deviceOffset.dx + (screenWidth / 2)+110, deviceOffset.dy + (screenHeight / 2));
 
     canvas.drawLine(
         absoluteOffset,
@@ -216,9 +222,9 @@ class DrawOverview extends CustomPainter {
 
       if (networkOffsetList.length > 1) {
         if(_providerList.selectedNetworkIndex == index){
-          drawNetworkName(canvas, size,"Network ${index+1}", absoluteOffset, true);
+          drawNetworkName(canvas, size, "Network ${index+1}", absoluteOffset, true);
         }else{
-          drawNetworkName(canvas, size,"Network ${index+1}", networkOffsetList[index], false);
+          drawNetworkName(canvas, size, "Network ${index+1}", networkOffsetList[index], false);
           //canvas.drawLine(absoluteOffset, networkOffsetList[index], _linePaint..strokeWidth = 2.0);
           drawIcon(canvas, networkOffsetList[index], Icons.workspaces_filled);
         }
@@ -535,24 +541,26 @@ class DrawOverview extends CustomPainter {
 
   void drawMainIcon(Canvas canvas, icon) {
     Offset absoluteRouterOffset = Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2));
-    Offset absoluteAreaOffset = Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2)+25);
+    Offset absoluteAreaOffset = Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2)+30);
     Offset absoluteRouterDeviceOffset = Offset(_deviceIconOffsetList.elementAt(0).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(0).dy + (screenHeight / 2));
 
     if (_deviceList.length > 0) canvas.drawLine(Offset(absoluteRouterOffset.dx, absoluteRouterOffset.dy + 50), absoluteRouterDeviceOffset, _linePaint..strokeWidth=3.0);
 
-    canvas.drawCircle(absoluteAreaOffset, hn_circle_radius + 5, _circleAreaPaint); //"shadow" of the device circle. covers the connection lines.
+    canvas.drawCircle(absoluteAreaOffset, hn_circle_radius, _circleAreaPaint); //"shadow" of the device circle. covers the connection lines.
 
-    _textPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: 70.0, fontFamily: icon.fontFamily, color: drawingColor));
-    _textPainter.layout();
-    _textPainter.paint(canvas, Offset(absoluteRouterOffset.dx - (_textPainter.width / 2), absoluteRouterOffset.dy - 10));
+    _iconPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: 60.0, fontFamily: icon.fontFamily, color: drawingColor));
+    _iconPainter.layout();
+    _iconPainter.paint(canvas, Offset(absoluteRouterOffset.dx - (_iconPainter.width / 2), absoluteRouterOffset.dy ));
   }
 
-  void drawIcon(Canvas canvas, offset, icon){
+  void drawIcon(Canvas canvas, Offset offset, icon){
+    Offset offsetCircle =Offset(offset.dx-hn_circle_radius.toDouble()/2.0, offset.dy);
+
     canvas.drawCircle(offset, hn_circle_radius-10, _circleAreaPaint);
 
-    _textPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: 30.0, fontFamily: icon.fontFamily, color: drawingColor,backgroundColor: backgroundColor));
-    _textPainter.layout();
-    _textPainter.paint(canvas, Offset(offset.dx - (_textPainter.width / 2), offset.dy - 15));
+    _iconPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: 30.0, fontFamily: icon.fontFamily, color: drawingColor,backgroundColor: backgroundColor));
+    _iconPainter.layout();
+    _iconPainter.paint(canvas, Offset(offset.dx - (_iconPainter.width / 2), offset.dy - 15));
   }
 
   void fillDeviceIconPositionList() {

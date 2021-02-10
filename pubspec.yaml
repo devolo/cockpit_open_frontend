@@ -73,6 +73,9 @@ flutter:
     - assets/addDevice3.png
     - assets/addDevice4.png
     - assets/network.png
+    - assets/theme_images/theme_dark.PNG
+    - assets/theme_images/theme_devolo.PNG
+    - assets/theme_images/theme_highContrast.PNG
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

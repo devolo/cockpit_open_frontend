@@ -8,6 +8,7 @@ import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:open_file/open_file.dart';
+import 'package:cockpit_devolo/shared/app_colors.dart';
 
 
 final List<ui.Image> deviceIconList = <ui.Image>[]; //ToDo put somewhere else
@@ -17,7 +18,17 @@ bool areDeviceIconsLoaded = false;
 bool showNetwork = true;
 String _openResult = 'Unknown';
 
-Map<String,dynamic> config = {"ignore_updates": false, "allow_data_collection": false, "windows_network_throttling_disabled":true, "internet_centered": true, "show_other_devices": true, "show_speeds_permanent": false, "show_speeds": false, "language": ""};
+Map<String,dynamic> config = {"ignore_updates": false,
+  "allow_data_collection": false,
+  "windows_network_throttling_disabled":true,
+  "internet_centered": true,
+  "show_other_devices": true,
+  "show_speeds_permanent": false,
+  "show_speeds": false,
+  "high_contrast": false,
+  "theme": theme_main,
+  "language": ""
+};
 
 String macToCanonical(String mac) {
   if (mac != null)

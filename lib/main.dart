@@ -84,6 +84,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   TextStyle _menuItemStyle;
   int bottomSelectedIndex = 1;
+  bool highCon = MediaQueryData().highContrast;
+
 
   @override
   void initState() {
@@ -141,6 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print('CONTRAST:  ${highCon}');
 
     return Scaffold(
       backgroundColor: backgroundColor,

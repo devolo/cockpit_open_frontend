@@ -43,6 +43,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "currentVersion" : MessageLookupByLibrary.simpleMessage("current version"),
     "dataRatesArePermanentlyDisplayedInTheOverview" : MessageLookupByLibrary.simpleMessage("Data rates are permanently displayed in the Overview"),
     "deleteDevice" : MessageLookupByLibrary.simpleMessage("delete device"),
+    "deviceinfo" : MessageLookupByLibrary.simpleMessage("Deviceinfo"),
     "enableShowingSpeeds" : MessageLookupByLibrary.simpleMessage("Enable Showing Speeds"),
     "factoryReset" : MessageLookupByLibrary.simpleMessage("factory reset"),
     "fontsize" : MessageLookupByLibrary.simpleMessage("Fontsize"),

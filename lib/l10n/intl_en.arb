@@ -86,5 +86,6 @@
   "otherDevicesEgPcAreDisplayedInTheOverview": "Other devices, e.g. PC are displayed in the overview",
   "theOverviewWillBeCenteredAroundThePlcDeviceConnected": "The overview will be centered around the PLC device connected to the Internet.",
   "dataRatesArePermanentlyDisplayedInTheOverview": "Data rates are permanently displayed in the Overview",
-  "changeTheLanguageOfTheApp": "Change the language of the app"
+  "changeTheLanguageOfTheApp": "Change the language of the app",
+  "deviceinfo": "Deviceinfo"
 }

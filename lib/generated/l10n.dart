@@ -864,6 +864,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Deviceinfo`
+  String get deviceinfo {
+    return Intl.message(
+      'Deviceinfo',
+      name: 'deviceinfo',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

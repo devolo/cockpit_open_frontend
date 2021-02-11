@@ -169,7 +169,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return new Scaffold(
       backgroundColor: Colors.transparent,
       appBar: new AppBar(
-        title: new Text(S.of(context).settings),
+        title: new Text(S.of(context).settings, textScaleFactor: fontSizeFactor, style: TextStyle(color: fontColorLight),),
         centerTitle: true,
         backgroundColor: mainColor,
         shadowColor: Colors.transparent,
@@ -187,7 +187,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                   Text(
                     S.of(context).appearance,
-                    style: TextStyle(color: drawingColor),
+                    style: TextStyle(color: fontColorLight),
                   )
                 ]),
                 Divider(),
@@ -376,7 +376,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                   Text(
                     S.of(context).network,
-                    style: TextStyle(color: drawingColor),
+                    style: TextStyle(color: fontColorLight),
                   )
                 ]),
                 Divider(),
@@ -496,7 +496,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                   Text(
                     S.of(context).support,
-                    style: TextStyle(color: drawingColor),
+                    style: TextStyle(color: fontColorLight),
                   )
                 ]),
                 Divider(),
@@ -675,7 +675,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               FlatButton(
                 child: Icon(
                   Icons.check_circle_outline,
-                  size: 35,
+                  size: 35 * fontSizeFactor,
                   color: mainColor,
                 ), //Text('Bestätigen'),
                 onPressed: () {
@@ -686,7 +686,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               FlatButton(
                   child: Icon(
                     Icons.cancel_outlined,
-                    size: 35,
+                    size: 35 * fontSizeFactor,
                     color: mainColor,
                   ), //Text('Abbrechen'),
                   onPressed: () {
@@ -718,7 +718,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           backgroundColor: backgroundColor.withOpacity(0.9),
           contentPadding: const EdgeInsets.all(20.0),
           title: Text(
-            "Choose Color",
+            S.of(context).chooseTheme,
             style: TextStyle(color: fontColorLight),
           ),
           content: StatefulBuilder(
@@ -729,90 +729,100 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
+                      new FlatButton(
+                          minWidth: 200,
+                          color: secondColor,
+                          child: Column(
+                      children: [
                         SizedBox(
-                          width: 200,
+                            width: 200,
+                            height: 130,
                             child: Image(image: AssetImage('assets/theme_images/theme_devolo.PNG'))
                         ),
-                            Divider(),
-                        new FlatButton(
-                          minWidth: 200,
-                          color: secondColor,
-                          child: new Text(
-                            "Standard Theme",
-                            style: TextStyle(color: fontColorDark),
+                        new Text(
+                          "Standard Theme",
+                          style: TextStyle(color: fontColorDark),
+                        ),
+                      ],
                           ),
+                          hoverColor: fontColorLight,
                           onPressed: () {
-                            setState(() {
-                                mainColor = theme_devolo["mainColor"];
-                                backgroundColor = theme_devolo["backgroundColor"];
-                                secondColor = theme_devolo["secondColor"];
-                                drawingColor = theme_devolo["drawingColor"];
-                                fontColorLight = theme_devolo["fontColorLight"];
-                                fontColorDark = theme_devolo["fontColorDark"];
-                              AppBuilder.of(context).rebuild();
-                            });
+                      setState(() {
+                          mainColor = theme_devolo["mainColor"];
+                          backgroundColor = theme_devolo["backgroundColor"];
+                          secondColor = theme_devolo["secondColor"];
+                          drawingColor = theme_devolo["drawingColor"];
+                          fontColorLight = theme_devolo["fontColorLight"];
+                          fontColorDark = theme_devolo["fontColorDark"];
+                        AppBuilder.of(context).rebuild();
+                      });
                           },
                         ),
-                      ]),
 
-                      Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                        SizedBox(
-                            width: 200,
-                            child: Image(image: AssetImage('assets/theme_images/theme_dark.PNG'))
+                      new FlatButton(
+                        minWidth: 200,
+                        color: secondColor,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                                width: 200,
+                                height: 130,
+                                child: Image(image: AssetImage('assets/theme_images/theme_dark.PNG'))
+                            ),
+                            new Text(
+                              "Dark Theme",
+                              style: TextStyle(color: fontColorDark),
+                            ),
+                          ],
                         ),
-                        Divider(),
-                        new FlatButton(
-                          minWidth: 200,
-                          color: secondColor,
-                          child: new Text(
-                            "Dark Theme",
-                            style: TextStyle(color: fontColorDark),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              mainColor = theme_main["mainColor"];
-                              backgroundColor = theme_main["backgroundColor"];
-                              secondColor = theme_main["secondColor"];
-                              drawingColor = theme_main["drawingColor"];
-                              fontColorLight = theme_main["fontColorLight"];
-                              fontColorDark = theme_main["fontColorDark"];
-                              AppBuilder.of(context).rebuild();
-                            });
-                          },
-                        ),
-                      ]),
+                        hoverColor: fontColorLight,
+                        onPressed: () {
+                          setState(() {
+                            mainColor = theme_main["mainColor"];
+                            backgroundColor = theme_main["backgroundColor"];
+                            secondColor = theme_main["secondColor"];
+                            drawingColor = theme_main["drawingColor"];
+                            fontColorLight = theme_main["fontColorLight"];
+                            fontColorDark = theme_main["fontColorDark"];
+                            AppBuilder.of(context).rebuild();
+                          });
+                        },
+                      ),
 
-                      Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                        SizedBox(
-                            width: 200,
-                            child: Image(image: AssetImage('assets/theme_images/theme_highContrast.PNG'))
+                      new FlatButton(
+                        minWidth: 200,
+                        color: secondColor,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                                width: 200,
+                                height: 130,
+                                child: Image(image: AssetImage('assets/theme_images/theme_highContrast.PNG'))
+                            ),
+                            new Text(
+                              "High Contrast Theme",
+                              style: TextStyle(color: fontColorDark),
+                            ),
+                          ],
                         ),
-                        Divider(),
-                        new FlatButton(
-                          minWidth: 200,
-                          color: secondColor,
-                          child: new Text(
-                            "High Contrast Theme",
-                            style: TextStyle(color: fontColorDark),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              mainColor = theme_highContrast["mainColor"];
-                              backgroundColor = theme_highContrast["backgroundColor"];
-                              secondColor = theme_highContrast["secondColor"];
-                              drawingColor = theme_highContrast["drawingColor"];
-                              fontColorLight = theme_highContrast["fontColorLight"];
-                              fontColorDark = theme_highContrast["fontColorDark"];
-                              AppBuilder.of(context).rebuild();
-                            });
-                          },
-                        ),
-                      ]),
+                        hoverColor: fontColorLight,
+                        onPressed: () {
+                          setState(() {
+                            mainColor = theme_highContrast["mainColor"];
+                            backgroundColor = theme_highContrast["backgroundColor"];
+                            secondColor = theme_highContrast["secondColor"];
+                            drawingColor = theme_highContrast["drawingColor"];
+                            fontColorLight = theme_highContrast["fontColorLight"];
+                            fontColorDark = theme_highContrast["fontColorDark"];
+                            AppBuilder.of(context).rebuild();
+                          });
+                        },
+                      ),
                     ],
                   ),
+
+                  Divider(),
+                  Text(S.of(context).fullyCustomizeColors, style: TextStyle(color: fontColorLight),),
                   Divider(),
                   for (dynamic con in contents.entries)
                     Column(
@@ -871,7 +881,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             FlatButton(
               child: Icon(
                 Icons.check_circle_outline,
-                size: 35,
+                size: 35 * fontSizeFactor,
                 color: fontColorLight,
               ), //Text('Bestätigen'),
               onPressed: () {
@@ -883,7 +893,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             FlatButton(
                 child: Icon(
                   Icons.cancel_outlined,
-                  size: 35,
+                  size: 35 * fontSizeFactor,
                   color: fontColorLight,
                 ), //Text('Abbrechen'),
                 onPressed: () {

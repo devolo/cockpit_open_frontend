@@ -35,7 +35,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
     return new Scaffold(
       backgroundColor: Colors.transparent,
       appBar: new AppBar(
-        title: new Text(S.of(context).addDevice, style: TextStyle(color: fontColorLight),),
+        title: new Text(S.of(context).addDevice, style: TextStyle(color: fontColorLight), textScaleFactor: fontSizeFactor,),
         centerTitle: true,
         backgroundColor: mainColor,
         shadowColor: Colors.transparent,
@@ -61,14 +61,15 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
               SelectableText(
                 S.of(context).addDeviceInstructionText,
                 style: TextStyle(color: Colors.white),
+                //textHeightBehavior: TextHeightBehavior(applyHeightToFirstAscent: true),
               ),
               SizedBox(
                 height: 20,
               ),
               RaisedButton(
                   child: Text(S.of(context).openOptimization),
-                  color: mainColor,
-                  textColor: Colors.white,
+                  color: secondColor,
+                  textColor: fontColorDark,
                   onPressed: () {
                     _optimiseAlert(context);
                   }),

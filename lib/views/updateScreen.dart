@@ -42,6 +42,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
         title: new Text(
           S.of(context).updates,
           style: TextStyle(color: fontColorLight),
+          textScaleFactor: fontSizeFactor,
         ),
         centerTitle: true,
         backgroundColor: mainColor,
@@ -149,6 +150,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                           Icons.download_rounded,
                                           color: mainColor,
                                         ),
+                                        iconSize: 24 * fontSizeFactor,
                                         onPressed: () async {
                                           print("Updating ${device.mac}");
                                           setState(() {
@@ -162,6 +164,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                     : IconButton(
                                         icon: Icon(Icons.check_circle_outline,
                                         color: Colors.green,),
+                                        iconSize: 24 * fontSizeFactor,
+                                        // tooltip: "already Uptodate",
                                       ),
                           ),
                           device.updateStateInt != 0
@@ -316,6 +320,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
     String hitDeviceIp;
     String hitDeviceMac;
     bool hitDeviceAtr;
+    bool hitDeviceisLocal;
 
     hitDevice = dev;
     hitDeviceName = dev.name;
@@ -327,6 +332,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
     hitDeviceIp = dev.ip;
     hitDeviceMac = dev.mac;
     hitDeviceAtr = dev.attachedToRouter;
+    hitDeviceisLocal = dev.isLocalDevice;
 
     String _newName = hitDeviceName;
 
@@ -337,7 +343,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
       barrierDismissible: true, // user doesn't need to tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: SelectableText(S.of(context).deviceinfo, style: TextStyle(color: Colors.white), textScaleFactor: fontSizeFactor,),
+          title: SelectableText(S.of(context).deviceinfo, textScaleFactor: fontSizeFactor,),
+          titleTextStyle: TextStyle(color: Colors.white, fontSize: 23,),
           backgroundColor: backgroundColor.withOpacity(0.9),
           contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 17 * fontSizeFactor),
           content: SingleChildScrollView(
@@ -409,6 +416,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       SelectableText(S.of(context).attachedToRouter),
                       SelectableText(hitDeviceAtr.toString()),
                     ]),
+                    TableRow(children: [
+                      SelectableText(S.of(context).isLocalDevice ),
+                      SelectableText(hitDeviceisLocal.toString()),
+                    ]),
                   ],
                 ),
                 //Text('Rates: ' +hitDeviceRx),
@@ -416,50 +427,86 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    IconButton(
-                      icon: Icon(
-                        Icons.public,
-                        color: secondColor,
-                      ),
-                      tooltip: S.of(context).launchWebinterface,
-                      onPressed: () => launchURL(hitDeviceIp),
-                    ),
-                    IconButton(
-                        icon: Icon(
-                          Icons.lightbulb,
-                          color: secondColor,
+                    Column(
+                      children: [
+                        IconButton(
+                          icon: Icon(
+                            Icons.public,
+                            color: fontColorLight,
+                          ),
+                          //tooltip: S.of(context).launchWebinterface,
+                          hoverColor: fontColorLight.withAlpha(50),
+                          iconSize: 24.0 *fontSizeFactor,
+                          onPressed: () => launchURL(hitDeviceIp),
                         ),
-                        tooltip: S.of(context).identifyDevice,
-                        onPressed: () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac)),
-                    IconButton(
-                        icon: Icon(
-                          Icons.find_in_page,
-                          color: secondColor,
-                        ),
-                        tooltip: S.of(context).showManual,
-                        onPressed: () async {
-                          socket.sendXML('GetManual', newValue: hitDeviceMT, valueType: 'product', newValue2: 'de', valueType2: 'language');
-                          var response = await socket.recieveXML(["GetManualResponse"]);
-                          setState(() {
-                            openFile(response['filename']);
-                          });
-                        }),
-                    IconButton(
-                      icon: Icon(
-                        Icons.upload_file,
-                        color: secondColor,
-                        semanticLabel: "update",
-                      ),
-                      tooltip: S.of(context).factoryReset,
-                      onPressed: () => _handleCriticalActions(context, socket, 'ResetAdapterToFactoryDefaults', hitDevice),
+                        Text(S.of(context).launchWebinterface, style: TextStyle(fontSize: 14, color: fontColorLight ), textScaleFactor: fontSizeFactor, textAlign: TextAlign.center,)
+                      ],
                     ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.delete,
-                        color: secondColor,
-                      ),
-                      tooltip: S.of(context).deleteDevice,
-                      onPressed: () => _handleCriticalActions(context, socket, 'RemoveAdapter', hitDevice),
+                    Column(
+                      children: [
+                        IconButton(
+                            icon: Icon(
+                              Icons.lightbulb,
+                              color: fontColorLight,
+                            ),
+                            //tooltip: S.of(context).identifyDevice,
+                            hoverColor: fontColorLight.withAlpha(50),
+                            iconSize: 24.0 *fontSizeFactor,
+                            onPressed: () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac)
+                        ),
+                        Text(S.of(context).identifyDevice, style: TextStyle(fontSize: 14, color: fontColorLight ), textScaleFactor: fontSizeFactor, textAlign: TextAlign.center,)
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        IconButton(
+                            icon: Icon(
+                              Icons.find_in_page,
+                              color: fontColorLight,
+                            ),
+                            //tooltip: S.of(context).showManual,
+                            iconSize: 24.0 *fontSizeFactor,
+                            hoverColor: fontColorLight.withAlpha(50),
+                            onPressed: () async {
+                              socket.sendXML('GetManual', newValue: hitDeviceMT, valueType: 'product', newValue2: 'de', valueType2: 'language');
+                              var response = await socket.recieveXML(["GetManualResponse"]);
+                              setState(() {
+                                openFile(response['filename']);
+                              });
+                            }),
+                        Text(S.of(context).showManual, style: TextStyle(fontSize: 14, color: fontColorLight ), textScaleFactor: fontSizeFactor, textAlign: TextAlign.center,)
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        IconButton(
+                          icon: Icon(
+                            Icons.upload_file,
+                            color: fontColorLight,
+                            semanticLabel: "update",
+                          ),
+                          //tooltip: S.of(context).factoryReset,
+                          hoverColor: fontColorLight.withAlpha(50),
+                          iconSize: 24.0 *fontSizeFactor,
+                          onPressed: () => _handleCriticalActions(context, socket, 'ResetAdapterToFactoryDefaults', hitDevice),
+                        ),
+                        Text(S.of(context).factoryReset, style: TextStyle(fontSize: 14, color: fontColorLight ), textScaleFactor: fontSizeFactor, textAlign: TextAlign.center,)
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        IconButton(
+                          icon: Icon(
+                            Icons.delete,
+                            color: fontColorLight,
+                          ),
+                          //tooltip: S.of(context).deleteDevice,
+                          hoverColor: fontColorLight.withAlpha(50),
+                          iconSize: 24.0 *fontSizeFactor,
+                          onPressed: () => _handleCriticalActions(context, socket, 'RemoveAdapter', hitDevice),
+                        ),
+                        Text(S.of(context).deleteDevice, style: TextStyle(fontSize: 14, color: fontColorLight ), textScaleFactor: fontSizeFactor, textAlign: TextAlign.center,)
+                      ],
                     ), //ToDo Delete Device see wiki
                   ],
                 ),
@@ -470,10 +517,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
             IconButton(
               icon: Icon(
                 Icons.check_circle_outline,
-                size: 35,
                 color: fontColorLight,
               ), //Text('Bestätigen'),
               tooltip: S.of(context).confirm,
+              iconSize: 35.0 * fontSizeFactor,
               onPressed: () {
                 // Critical things happening here
                 socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
@@ -501,9 +548,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
               IconButton(
                 icon: Icon(
                   Icons.check_circle_outline,
-                  size: 35,
                   color: fontColorLight,
                 ), //Text('Bestätigen'),
+                iconSize: 35 * fontSizeFactor,
                 tooltip: S.of(context).confirm,
                 onPressed: () {
                   // Critical things happening here
@@ -515,9 +562,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
               IconButton(
                   icon: Icon(
                     Icons.cancel_outlined,
-                    size: 35,
                     color: fontColorLight,
                   ), //Text('Abbrechen'),
+                  iconSize: 35 * fontSizeFactor,
                   tooltip: S.of(context).cancel,
                   onPressed: () {
                     // Cancel critical action

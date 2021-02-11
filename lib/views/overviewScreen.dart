@@ -69,37 +69,37 @@ class _OverviewScreenState extends State<OverviewScreen> {
                       child: Container(),
                     ),
                   ),
-                  if(_deviceList.getNetworkListLength() > 1)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.arrow_back_ios,color: Colors.white,),
-                        tooltip: S.of(context).previousNetwork,
-                        onPressed: () {
-                          print("back");
-                          setState(() {
-                            if(_deviceList.selectedNetworkIndex  > 0){
-                              _deviceList.selectedNetworkIndex --;
-                              //_currImage = optimizeImages[_index];
-                            }
-                          });
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.arrow_forward_ios, color: Colors.white,),
-                        tooltip: S.of(context).nextNetwork,
-                        onPressed: () {
-                          print("forward");
-                          setState(() {
-                            if(_deviceList.selectedNetworkIndex < _deviceList.getNetworkListLength()-1){ // -1 to not switch
-                              _deviceList.selectedNetworkIndex++;
-                              //_currImage = optimizeImages[_index];
-                            }
-                          });
-                        },
-                      ),
-                    ],),
+                  //if(_deviceList.getNetworkListLength() > 1)
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     IconButton(
+                  //       icon: Icon(Icons.arrow_back_ios,color: Colors.white,),
+                  //       tooltip: S.of(context).previousNetwork,
+                  //       onPressed: () {
+                  //         print("back");
+                  //         setState(() {
+                  //           if(_deviceList.selectedNetworkIndex  > 0){
+                  //             _deviceList.selectedNetworkIndex --;
+                  //             //_currImage = optimizeImages[_index];
+                  //           }
+                  //         });
+                  //       },
+                  //     ),
+                  //     IconButton(
+                  //       icon: Icon(Icons.arrow_forward_ios, color: Colors.white,),
+                  //       tooltip: S.of(context).nextNetwork,
+                  //       onPressed: () {
+                  //         print("forward");
+                  //         setState(() {
+                  //           if(_deviceList.selectedNetworkIndex < _deviceList.getNetworkListLength()-1){ // -1 to not switch
+                  //             _deviceList.selectedNetworkIndex++;
+                  //             //_currImage = optimizeImages[_index];
+                  //           }
+                  //         });
+                  //       },
+                  //     ),
+                  //   ],),
                 ],
               ),
             ),
@@ -194,6 +194,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
               backgroundColor: backgroundColor.withOpacity(0.9),
               contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 17 * fontSizeFactor),
               title: SelectableText(S.of(context).deviceinfo, style: TextStyle(color: Colors.white), textScaleFactor: fontSizeFactor,),
+              titleTextStyle: TextStyle(color: Colors.white, fontSize: 23,),
               content: SingleChildScrollView(
                 child: Column(
                   //mainAxisSize: MainAxisSize.max,
@@ -266,21 +267,91 @@ class _OverviewScreenState extends State<OverviewScreen> {
                     Padding(padding: EdgeInsets.fromLTRB(0, 40, 0, 0)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                        IconButton(icon: Icon(Icons.public, color: secondColor,), tooltip: S.of(context).launchWebinterface, onPressed: () => launchURL(hitDeviceIp),),
-                        IconButton(icon: Icon(Icons.lightbulb, color: secondColor,), tooltip: S.of(context).identifyDevice, onPressed: () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac)),
-                        IconButton(icon: Icon(Icons.find_in_page, color: secondColor,), tooltip: S.of(context).showManual,
-                            onPressed: () async {
-                          socket.sendXML('GetManual', newValue: hitDeviceMT, valueType: 'product', newValue2: 'de', valueType2: 'language');
-                          var response = await socket.recieveXML(["GetManualResponse"]);
-                          setState(() {
-                            openFile(response['filename']);
-                          });
-                        }),
-                        IconButton(icon: Icon(Icons.upload_file, color: secondColor,), tooltip: S.of(context).factoryReset, onPressed: () =>_handleCriticalActions(context, socket, 'ResetAdapterToFactoryDefaults', hitDevice),),
-                        IconButton(icon: Icon(Icons.delete, color: secondColor,), tooltip: S.of(context).deleteDevice, onPressed: () =>_handleCriticalActions(context, socket, 'RemoveAdapter', hitDevice),), //ToDo Delete Device see wiki
+                      children: [
+                        Column(
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                Icons.public,
+                                color: fontColorLight,
+                              ),
+                              //tooltip: S.of(context).launchWebinterface,
+                              hoverColor: fontColorLight.withAlpha(50),
+                              iconSize: 24.0 *fontSizeFactor,
+                              onPressed: () => launchURL(hitDeviceIp),
+                            ),
+                            Text(S.of(context).launchWebinterface, style: TextStyle(fontSize: 14, color: fontColorLight), textScaleFactor: fontSizeFactor, textAlign: TextAlign.center,)
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            IconButton(
+                                icon: Icon(
+                                  Icons.lightbulb,
+                                  color: fontColorLight,
+                                ),
+                                //tooltip: S.of(context).identifyDevice,
+                                hoverColor: fontColorLight.withAlpha(50),
+                                iconSize: 24.0 *fontSizeFactor,
+                                onPressed: () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac)
+                            ),
+                            Text(S.of(context).identifyDevice, style: TextStyle(fontSize: 14, color: fontColorLight), textScaleFactor: fontSizeFactor, textAlign: TextAlign.center,)
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            IconButton(
+                                icon: Icon(
+                                  Icons.find_in_page,
+                                  color: fontColorLight,
+                                ),
+                                //tooltip: S.of(context).showManual,
+                                hoverColor: fontColorLight.withAlpha(50),
+                                iconSize: 24.0 *fontSizeFactor,
+                                onPressed: () async {
+                                  socket.sendXML('GetManual', newValue: hitDeviceMT, valueType: 'product', newValue2: 'de', valueType2: 'language');
+                                  var response = await socket.recieveXML(["GetManualResponse"]);
+                                  setState(() {
+                                    openFile(response['filename']);
+                                  });
+                                }),
+                            Text(S.of(context).showManual, style: TextStyle(fontSize: 14, color: fontColorLight ), textScaleFactor: fontSizeFactor, textAlign: TextAlign.center,)
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                Icons.upload_file,
+                                color: fontColorLight,
+                                semanticLabel: "update",
+                              ),
+                              //tooltip: S.of(context).factoryReset,
+                              hoverColor: fontColorLight.withAlpha(50),
+                              iconSize: 24.0 *fontSizeFactor,
+                              onPressed: () => _handleCriticalActions(context, socket, 'ResetAdapterToFactoryDefaults', hitDevice),
+                            ),
+                            Text(S.of(context).factoryReset, style: TextStyle(fontSize: 14, color: fontColorLight), textScaleFactor: fontSizeFactor, textAlign: TextAlign.center,)
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                Icons.delete,
+                                color: fontColorLight,
+                              ),
+                              //tooltip: S.of(context).deleteDevice,
+                              hoverColor: fontColorLight.withAlpha(50),
+                              iconSize: 24.0 *fontSizeFactor,
+                              onPressed: () => _handleCriticalActions(context, socket, 'RemoveAdapter', hitDevice),
+                            ),
+                            Text(S.of(context).deleteDevice, style: TextStyle(fontSize: 14, color: fontColorLight ), textScaleFactor: fontSizeFactor, textAlign: TextAlign.center,)
+                          ],
+                        ), //ToDo Delete Device see wiki
                       ],
                     ),
+
 
                   ],
                 ),
@@ -289,10 +360,10 @@ class _OverviewScreenState extends State<OverviewScreen> {
                 IconButton(
                   icon: Icon(
                     Icons.check_circle_outline,
-                    size: 35,
                     color: fontColorLight,
                   ), //Text('Bestätigen'),
                   tooltip: S.of(context).confirm,
+                  iconSize: 35 * fontSizeFactor,
                   onPressed: () {
                     // Critical things happening here
                     socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
@@ -382,10 +453,10 @@ class _OverviewScreenState extends State<OverviewScreen> {
         IconButton(
           icon: Icon(
             Icons.check_circle_outline,
-            size: 35,
             color: fontColorLight,
           ), //Text('Bestätigen'),
           tooltip: S.of(context).confirm,
+          iconSize: 35 * fontSizeFactor,
           onPressed: () {
             // Critical things happening here
             socket.sendXML(messageType, mac: hitDevice.mac);
@@ -396,10 +467,10 @@ class _OverviewScreenState extends State<OverviewScreen> {
         IconButton(
             icon: Icon(
               Icons.cancel_outlined,
-              size: 35,
               color: fontColorLight,
             ), //Text('Abbrechen'),
             tooltip: S.of(context).cancel,
+            iconSize: 35 * fontSizeFactor,
             onPressed: () {
               // Cancel critical action
               Navigator.of(context).pop();

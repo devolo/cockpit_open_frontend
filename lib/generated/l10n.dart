@@ -874,6 +874,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Choose Theme`
+  String get chooseTheme {
+    return Intl.message(
+      'Choose Theme',
+      name: 'chooseTheme',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fully customize colors`
+  String get fullyCustomizeColors {
+    return Intl.message(
+      'Fully customize colors',
+      name: 'fullyCustomizeColors',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

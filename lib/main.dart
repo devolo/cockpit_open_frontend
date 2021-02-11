@@ -84,7 +84,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   TextStyle _menuItemStyle;
   int bottomSelectedIndex = 1;
-  bool highCon = MediaQueryData().highContrast;
+  bool highContrast = MediaQueryData().highContrast;  // Query current device if high Contrast theme is set
+
 
 
   @override
@@ -92,6 +93,10 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     _menuItemStyle = TextStyle(color: mainColor, fontFamily: 'Roboto', decorationColor: mainColor);
     loadAllDeviceIcons();
+
+    print('CONTRAST:  ${highContrast}');
+    if(highContrast == true)
+      config["high_contrast"] =true;
   }
 
   List<BottomNavigationBarItem> buildBottomNavBarItems() {
@@ -143,7 +148,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print('CONTRAST:  ${highCon}');
+
+    double mediaFontScaleFactor =  MediaQuery.textScaleFactorOf(context); // Query current device for the System FontSize
+
+    print('SIZE:  ${mediaFontScaleFactor}');
 
     return Scaffold(
       backgroundColor: backgroundColor,

@@ -459,7 +459,7 @@ class DrawOverview extends CustomPainter {
     if(isSelectedIndex){
      NameTextSpan = TextSpan(
         text: (Name.length > 0 ? Name  : ""),
-        style: _textStyle,
+        style: _textStyle.apply(color: fontColorLight),
       );
     }else{
       NameTextSpan = TextSpan(

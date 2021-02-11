@@ -143,7 +143,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
         }),
         onBack: () => print("Back button pressed"),
       ),
-
     );
   }
 
@@ -169,7 +168,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return new Scaffold(
       backgroundColor: Colors.transparent,
       appBar: new AppBar(
-        title: new Text(S.of(context).settings, textScaleFactor: fontSizeFactor, style: TextStyle(color: fontColorLight),),
+        title: new Text(
+          S.of(context).settings,
+          textScaleFactor: fontSizeFactor,
+          style: TextStyle(color: fontColorLight),
+        ),
         centerTitle: true,
         backgroundColor: mainColor,
         shadowColor: Colors.transparent,
@@ -334,43 +337,48 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ]),
                 ),
                 Divider(),
-                ListTile(
-                  contentPadding: EdgeInsets.only(left: 10, right: 10),
-                  tileColor: secondColor,
-                  subtitle: Text(S.of(context).chooseMainColorAccentColorAndFontColors, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 15 * fontSizeFactor)),
-                  title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(
-                      S.of(context).appColor,
-                      style: TextStyle(color: fontColorDark),
-                    ),
-                    Spacer(),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    CircleAvatar(
-                      backgroundColor: mainColor, //_tempMainColor,
-                      radius: 18.0,
-                      child: FlatButton(
-                        height: 40,
-                        //hoverColor: devoloBlue.withOpacity(0.4),
-                        //color: devoloBlue.withOpacity(0.4),
-                        onPressed: () {},
-                        child: CircleAvatar(
-                          backgroundColor: secondColor, //_tempShadeColor,
-                          radius: 18.0,
-                          child: FlatButton(
-                            height: 40,
-                            //hoverColor: devoloBlue.withOpacity(0.4),
-                            //color: devoloBlue.withOpacity(0.4),
-                            onPressed: () {
-                              //_secondColorPicker("Choose secondary color");
-                              _mainColorPicker("Main color", "Accent color", "Light font color", "Dark font color");
-                            },
-                          ),
-                        ),
+                GestureDetector(
+                  onTap: () {
+                    _mainColorPicker("Main color", "Accent color", "Light font color", "Dark font color");
+                  },
+                  child: ListTile(
+                    contentPadding: EdgeInsets.only(left: 10, right: 10),
+                    tileColor: secondColor,
+                    subtitle: Text(S.of(context).chooseMainColorAccentColorAndFontColors, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 15 * fontSizeFactor)),
+                    title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                      new Text(
+                        S.of(context).appColor,
+                        style: TextStyle(color: fontColorDark),
                       ),
-                    ),
-                  ]),
+                      Spacer(),
+                      Text(config['theme']['name']),
+                      // CircleAvatar(
+                      //   backgroundColor: mainColor, //_tempMainColor,
+                      //   radius: 18.0,
+                      //   child: FlatButton(
+                      //     height: 40,
+                      //     //hoverColor: devoloBlue.withOpacity(0.4),
+                      //     //color: devoloBlue.withOpacity(0.4),
+                      //     onPressed: () {
+                      //       _mainColorPicker("Main color", "Accent color", "Light font color", "Dark font color");
+                      //     },
+                      //     child: CircleAvatar(
+                      //       backgroundColor: secondColor, //_tempShadeColor,
+                      //       radius: 18.0,
+                      //       child: FlatButton(
+                      //         height: 40,
+                      //         //hoverColor: devoloBlue.withOpacity(0.4),
+                      //         //color: devoloBlue.withOpacity(0.4),
+                      //         onPressed: () {
+                      //           //_secondColorPicker("Choose secondary color");
+                      //           _mainColorPicker("Main color", "Accent color", "Light font color", "Dark font color");
+                      //         },
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                    ]),
+                  ),
                 ),
                 Divider(),
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
@@ -718,57 +726,55 @@ class _SettingsScreenState extends State<SettingsScreen> {
           backgroundColor: backgroundColor.withOpacity(0.9),
           contentPadding: const EdgeInsets.all(20.0),
           title: Text(
-            S.of(context).chooseTheme,
+            S.of(context).appColor,
             style: TextStyle(color: fontColorLight),
+            textAlign: TextAlign.center,
           ),
           content: StatefulBuilder(
             // You need this, notice the parameters below:
             builder: (BuildContext context, StateSetter setState) {
               return Column(
                 children: [
+                  Text(
+                    S.of(context).chooseTheme,
+                    style: TextStyle(color: fontColorLight),
+                  ),
+                  Divider(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      new FlatButton(
-                          minWidth: 200,
-                          color: secondColor,
-                          child: Column(
-                      children: [
-                        SizedBox(
-                            width: 200,
-                            height: 130,
-                            child: Image(image: AssetImage('assets/theme_images/theme_devolo.PNG'))
-                        ),
-                        new Text(
-                          "Standard Theme",
-                          style: TextStyle(color: fontColorDark),
-                        ),
-                      ],
-                          ),
-                          hoverColor: fontColorLight,
-                          onPressed: () {
-                      setState(() {
-                          mainColor = theme_devolo["mainColor"];
-                          backgroundColor = theme_devolo["backgroundColor"];
-                          secondColor = theme_devolo["secondColor"];
-                          drawingColor = theme_devolo["drawingColor"];
-                          fontColorLight = theme_devolo["fontColorLight"];
-                          fontColorDark = theme_devolo["fontColorDark"];
-                        AppBuilder.of(context).rebuild();
-                      });
-                          },
-                        ),
-
                       new FlatButton(
                         minWidth: 200,
                         color: secondColor,
                         child: Column(
                           children: [
-                            SizedBox(
-                                width: 200,
-                                height: 130,
-                                child: Image(image: AssetImage('assets/theme_images/theme_dark.PNG'))
+                            SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_devolo.PNG'))),
+                            new Text(
+                              "Standard Theme",
+                              style: TextStyle(color: fontColorDark),
                             ),
+                          ],
+                        ),
+                        hoverColor: fontColorLight,
+                        onPressed: () {
+                          setState(() {
+                            config["theme"] = theme_devolo;
+                            mainColor = theme_devolo["mainColor"];
+                            backgroundColor = theme_devolo["backgroundColor"];
+                            secondColor = theme_devolo["secondColor"];
+                            drawingColor = theme_devolo["drawingColor"];
+                            fontColorLight = theme_devolo["fontColorLight"];
+                            fontColorDark = theme_devolo["fontColorDark"];
+                            AppBuilder.of(context).rebuild();
+                          });
+                        },
+                      ),
+                      new FlatButton(
+                        minWidth: 200,
+                        color: secondColor,
+                        child: Column(
+                          children: [
+                            SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_dark.PNG'))),
                             new Text(
                               "Dark Theme",
                               style: TextStyle(color: fontColorDark),
@@ -778,27 +784,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         hoverColor: fontColorLight,
                         onPressed: () {
                           setState(() {
-                            mainColor = theme_main["mainColor"];
-                            backgroundColor = theme_main["backgroundColor"];
-                            secondColor = theme_main["secondColor"];
-                            drawingColor = theme_main["drawingColor"];
-                            fontColorLight = theme_main["fontColorLight"];
-                            fontColorDark = theme_main["fontColorDark"];
+                            config["theme"] = theme_dark;
+                            mainColor = theme_dark["mainColor"];
+                            backgroundColor = theme_dark["backgroundColor"];
+                            secondColor = theme_dark["secondColor"];
+                            drawingColor = theme_dark["drawingColor"];
+                            fontColorLight = theme_dark["fontColorLight"];
+                            fontColorDark = theme_dark["fontColorDark"];
                             AppBuilder.of(context).rebuild();
                           });
                         },
                       ),
-
                       new FlatButton(
                         minWidth: 200,
                         color: secondColor,
                         child: Column(
                           children: [
-                            SizedBox(
-                                width: 200,
-                                height: 130,
-                                child: Image(image: AssetImage('assets/theme_images/theme_highContrast.PNG'))
-                            ),
+                            SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_highContrast.PNG'))),
                             new Text(
                               "High Contrast Theme",
                               style: TextStyle(color: fontColorDark),
@@ -808,6 +810,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         hoverColor: fontColorLight,
                         onPressed: () {
                           setState(() {
+                            config["theme"] = theme_highContrast;
                             mainColor = theme_highContrast["mainColor"];
                             backgroundColor = theme_highContrast["backgroundColor"];
                             secondColor = theme_highContrast["secondColor"];
@@ -820,9 +823,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                     ],
                   ),
-
                   Divider(),
-                  Text(S.of(context).fullyCustomizeColors, style: TextStyle(color: fontColorLight),),
+                  Text(
+                    S.of(context).fullyCustomizeColors,
+                    style: TextStyle(color: fontColorLight),
+                  ),
                   Divider(),
                   for (dynamic con in contents.entries)
                     Column(
@@ -856,7 +861,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 ),
                               ],
                             ),
-                            color: secondColor,//Colors.grey[800].withOpacity(0.9),
+                            color: secondColor, //Colors.grey[800].withOpacity(0.9),
                             height: 50.0,
                             width: 900.0,
                           ),
@@ -869,12 +874,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ],
                           ),
                           height: selected == con.key ? _animatedHeight : 0.0,
-                          color: secondColor.withOpacity(0.8),//Colors.grey[800].withOpacity(0.6),
+                          color: secondColor.withOpacity(0.8),
+                          //Colors.grey[800].withOpacity(0.6),
                           width: 900.0,
                         ),
                       ],
                     ),
-                ],);
+                ],
+              );
             },
           ),
           actions: [

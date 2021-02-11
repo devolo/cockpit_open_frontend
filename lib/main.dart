@@ -14,6 +14,8 @@ import 'package:cockpit_devolo/views/overviewNetworksScreen.dart';
 import 'package:cockpit_devolo/views/overviewScreen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cockpit_devolo/views/appBuilder.dart';
+import 'package:yaml/yaml.dart';
+import 'dart:io';
 
 void main() {
   //debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
@@ -86,6 +88,9 @@ class _MyHomePageState extends State<MyHomePage> {
   int bottomSelectedIndex = 1;
   bool highContrast = MediaQueryData().highContrast;  // Query current device if high Contrast theme is set
 
+  String versionName;
+  String versionCode;
+
 
 
   @override
@@ -97,6 +102,22 @@ class _MyHomePageState extends State<MyHomePage> {
     print('CONTRAST:  ${highContrast}');
     if(highContrast == true)
       config["high_contrast"] =true;
+
+    getVersion();
+  }
+
+  Future<void> getVersion() async {
+    File f = new File("pubspec.yaml");
+    f.readAsString().then((String text) {
+      Map yaml = loadYaml(text);
+      //print(yaml['name']);
+      //print(yaml['description']);
+      print(yaml['version']);
+      versionName = yaml['version'];
+      //print(yaml['author']);
+      //print(yaml['homepage']);
+      //print(yaml['dependencies']);
+    });
   }
 
   List<BottomNavigationBarItem> buildBottomNavBarItems() {
@@ -256,15 +277,17 @@ class _MyHomePageState extends State<MyHomePage> {
         barrierDismissible: true, // user doesn't need to tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(S.of(context).appInformation),
+            title: Text(S.of(context).appInformation, textAlign: TextAlign.center, style: TextStyle(color: fontColorLight),),
+            backgroundColor: mainColor,
+            contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18),
             content: Container(
               child: Column(
                 //crossAxisAlignment: CrossAxisAlignment.center,
                 //mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SvgPicture.asset('assets/logo.svg', height: 24, color: drawingColor),
-                  Text("Version 0 01.01.2021\n"), // ToDo
-                  //launch("https://www.devolo.de/"),
+                  SvgPicture.asset('assets/logo.svg', height: 20, color: drawingColor),
+                  SizedBox(height: 30,),
+                  Text('Version ${versionName.toString()}'), // ToDo
                   GestureDetector(
                       child: Text("\nwww.devolo.de", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue)),
                       onTap: () {

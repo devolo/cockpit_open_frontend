@@ -18,7 +18,8 @@ bool areDeviceIconsLoaded = false;
 bool showNetwork = true;
 String _openResult = 'Unknown';
 
-Map<String,dynamic> config = {"ignore_updates": false,
+Map<String,dynamic> config = {
+  "ignore_updates": false,
   "allow_data_collection": false,
   "windows_network_throttling_disabled":true,
   "internet_centered": true,
@@ -26,7 +27,7 @@ Map<String,dynamic> config = {"ignore_updates": false,
   "show_speeds_permanent": false,
   "show_speeds": false,
   "high_contrast": false,
-  "theme": theme_main,
+  "theme": theme_dark,
   "language": ""
 };
 

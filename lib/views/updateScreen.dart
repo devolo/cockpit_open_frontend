@@ -225,7 +225,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                         color: fontColorLight,
                                       ), //Text('Bestätigen'),
                                       onPressed: () {
-                                        Navigator.of(context).pop();
+                                        Navigator.maybeOf(context).pop();
                                       },
                                     ),
                                   ],
@@ -252,7 +252,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                           onPressed: () {
                                             // Critical things happening here
                                             socket.sendXML('UpdateResponse', valueType: 'action', newValue: 'execute');
-                                            Navigator.of(context).pop();
+                                            Navigator.maybeOf(context).pop();
                                           },
                                         ),
                                         Spacer(),
@@ -266,7 +266,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                             onPressed: () {
                                               // Cancel critical action
                                               socket.sendXML('UpdateResponse', valueType: 'action', newValue: 'skip');
-                                              Navigator.of(context).pop();
+                                              Navigator.maybeOf(context).pop();
                                             }),
                                         // IconButton(
                                         //     icon: Icon(
@@ -524,7 +524,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
               onPressed: () {
                 // Critical things happening here
                 socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
-                Navigator.of(context).pop();
+                Navigator.maybeOf(context).pop();
               },
             ),
           ],
@@ -555,7 +555,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 onPressed: () {
                   // Critical things happening here
                   socket.sendXML(messageType, mac: hitDevice.mac);
-                  Navigator.of(context).pop();
+                  Navigator.maybeOf(context).pop();
                 },
               ),
               Spacer(),
@@ -568,7 +568,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   tooltip: S.of(context).cancel,
                   onPressed: () {
                     // Cancel critical action
-                    Navigator.of(context).pop();
+                    Navigator.maybeOf(context).pop();
                   }),
             ],
           );

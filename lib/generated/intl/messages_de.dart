@@ -103,7 +103,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "update" : MessageLookupByLibrary.simpleMessage("Aktualisierung"),
     "updateReadyToInstall" : MessageLookupByLibrary.simpleMessage("Update bereit zur Installation."),
     "updates" : MessageLookupByLibrary.simpleMessage("Aktualisierungen"),
-    "version" : MessageLookupByLibrary.simpleMessage("Version:"),
+    "version" : MessageLookupByLibrary.simpleMessage("Firmware Version:"),
     "windowsNetworkThrottling" : MessageLookupByLibrary.simpleMessage("Windows Netzwerkdrosselung"),
     "yourEmailaddress" : MessageLookupByLibrary.simpleMessage(" Ihre E-mail Adresse"),
     "yourName" : MessageLookupByLibrary.simpleMessage("Ihr Name")

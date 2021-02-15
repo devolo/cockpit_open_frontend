@@ -157,7 +157,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                 tooltip: S.of(context).confirm,
                 onPressed: () {
                   // Critical things happening here
-                  Navigator.of(context).pop();
+                  Navigator.maybeOf(context).pop();
                 },
               ),
               Spacer(),
@@ -170,7 +170,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                   tooltip: S.of(context).cancel,
                   onPressed: () {
                     // Cancel critical action
-                    Navigator.of(context).pop();
+                    Navigator.maybeOf(context).pop();
                   }),
             ],
           );

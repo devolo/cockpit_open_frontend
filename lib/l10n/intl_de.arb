@@ -74,7 +74,7 @@
   "type": "Typ:",
   "serialNumber": "Seriennummer:",
   "mtnumber": "MT-Nummer:",
-  "version": "Version:",
+  "version": "Firmware Version:",
   "ipaddress": "IP-Adresse:",
   "macaddress": "MAC-Adresse:",
   "attachedToRouter": "An Router angeschlossen:",

@@ -13,6 +13,10 @@ import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:cockpit_devolo/views/appBuilder.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+
+
 class SettingsScreen extends StatefulWidget {
   SettingsScreen({Key key, this.title, this.painter}) : super(key: key);
 
@@ -34,19 +38,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   ColorSwatch _tempMainColor;
   ColorSwatch _mainColor;
-
   Color _tempShadeMainColor = mainColor;
   Color _shadeMainColor = mainColor;
-
   Color _tempShadeSecondColor = secondColor;
   Color _shadeSecondColor = secondColor;
-
   Color _tempShadeFontColorLight = fontColorLight;
   Color _shadeFontColorLight = fontColorLight;
   Color _tempShadeFontColorDark = fontColorDark;
   Color _shadeFontColorDark = fontColorDark;
 
   final _scrollController = ScrollController();
+
+  void saveToSharedPrefs(Map<String, dynamic> inputMap) async {
+    print('Config from Prog: ${inputMap}');
+
+    String jsonString = json.encode(inputMap);
+    print('Config from Prog: ${jsonString}');
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var config = prefs.get("config");
+    print('Config from Prefs: ${config}');
+
+    await prefs.setString('config', jsonString);
+
+  }
 
   void toggleCheckbox(bool value) {
     setState(() {
@@ -60,6 +75,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         config["show_speeds"] = false;
         //widget.painter.pivotDeviceIndex = 0;
       }
+      saveToSharedPrefs(config);
     });
   }
 
@@ -197,7 +213,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ListTile(
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
-                  subtitle: Text(S.of(context).changeTheLanguageOfTheApp, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 15 * fontSizeFactor)),
+                  subtitle: Text(S.of(context).changeTheLanguageOfTheApp, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)),
                   title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                     new Text(
                       S.of(context).language,
@@ -222,6 +238,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           S.load(Locale(newValue, ''));
                         });
                         AppBuilder.of(context).rebuild();
+                        saveToSharedPrefs(config);
                       },
                       items: <String>['en', 'de'].map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
@@ -250,7 +267,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ListTile(
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
-                  subtitle: Text(S.of(context).dataRatesArePermanentlyDisplayedInTheOverview, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 15 * fontSizeFactor)),
+                  subtitle: Text(S.of(context).dataRatesArePermanentlyDisplayedInTheOverview, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)),
                   title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                     new Text(S.of(context).enableShowingSpeeds, style: TextStyle(color: fontColorDark), semanticsLabel: "Show Speeds"),
                     new Checkbox(
@@ -264,7 +281,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ListTile(
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
-                  subtitle: Text(S.of(context).theOverviewWillBeCenteredAroundThePlcDeviceConnected, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 15 * fontSizeFactor)),
+                  subtitle: Text(S.of(context).theOverviewWillBeCenteredAroundThePlcDeviceConnected, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)),
                   title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                     new Text(
                       S.of(context).internetcentered,
@@ -276,6 +293,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         setState(() {
                           config["internet_centered"] = value;
                           socket.sendXML('RefreshNetwork');
+                          saveToSharedPrefs(config);
                         });
                       },
                       activeTrackColor: mainColor.withAlpha(120),
@@ -287,7 +305,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ListTile(
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
-                  subtitle: Text(S.of(context).otherDevicesEgPcAreDisplayedInTheOverview, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 15 * fontSizeFactor)),
+                  subtitle: Text(S.of(context).otherDevicesEgPcAreDisplayedInTheOverview, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)),
                   title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                     new Text(
                       S.of(context).showOtherDevices,
@@ -344,7 +362,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   child: ListTile(
                     contentPadding: EdgeInsets.only(left: 10, right: 10),
                     tileColor: secondColor,
-                    subtitle: Text(S.of(context).chooseMainColorAccentColorAndFontColors, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 15 * fontSizeFactor)),
+                    subtitle: Text(S.of(context).chooseMainColorAccentColorAndFontColors, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)),
                     title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                       new Text(
                         S.of(context).appColor,
@@ -688,7 +706,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ), //Text('Bestätigen'),
                 onPressed: () {
                   // action happening here
-                  Navigator.of(context).pop();
+                  Navigator.maybeOf(context).pop();
                 },
               ),
               FlatButton(
@@ -699,7 +717,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ), //Text('Abbrechen'),
                   onPressed: () {
                     // Cancel critical action
-                    Navigator.of(context).pop();
+                    Navigator.maybeOf(context).pop();
                   }),
             ],
           );
@@ -764,6 +782,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             secondColor = theme_devolo["secondColor"];
                             drawingColor = theme_devolo["drawingColor"];
                             fontColorLight = theme_devolo["fontColorLight"];
+                            fontColorMedium = theme_highContrast["fontColorMedium"];
                             fontColorDark = theme_devolo["fontColorDark"];
                             AppBuilder.of(context).rebuild();
                           });
@@ -790,6 +809,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             secondColor = theme_dark["secondColor"];
                             drawingColor = theme_dark["drawingColor"];
                             fontColorLight = theme_dark["fontColorLight"];
+                            fontColorMedium = theme_highContrast["fontColorMedium"];
                             fontColorDark = theme_dark["fontColorDark"];
                             AppBuilder.of(context).rebuild();
                           });
@@ -816,6 +836,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             secondColor = theme_highContrast["secondColor"];
                             drawingColor = theme_highContrast["drawingColor"];
                             fontColorLight = theme_highContrast["fontColorLight"];
+                            fontColorMedium = theme_highContrast["fontColorMedium"];
                             fontColorDark = theme_highContrast["fontColorDark"];
                             AppBuilder.of(context).rebuild();
                           });
@@ -893,7 +914,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ), //Text('Bestätigen'),
               onPressed: () {
                 // action happening here
-                Navigator.of(context).pop();
+                Navigator.maybeOf(context).pop();
                 setState(() {});
               },
             ),
@@ -905,7 +926,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ), //Text('Abbrechen'),
                 onPressed: () {
                   // Cancel critical action
-                  Navigator.of(context).pop();
+                  Navigator.maybeOf(context).pop();
                   setState(() {});
                 }),
           ],

@@ -17,6 +17,9 @@ import 'package:cockpit_devolo/views/appBuilder.dart';
 import 'package:yaml/yaml.dart';
 import 'dart:io';
 
+import 'package:package_info_plus/package_info_plus.dart';
+import 'dart:convert';
+
 void main() {
   //debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
   runApp(MyApp());
@@ -41,6 +44,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: backgroundColor,
           canvasColor: Colors.white,
           //highlightColor: Colors.green,
+
           textTheme: Theme
               .of(context)
               .textTheme
@@ -50,6 +54,7 @@ class MyApp extends StatelessWidget {
             displayColor: fontColorDark,
             bodyColor: fontColorDark,
             decorationColor: fontColorDark,
+
           ),
         ),
         localizationsDelegates: [
@@ -86,11 +91,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   TextStyle _menuItemStyle;
   int bottomSelectedIndex = 1;
-  bool highContrast = MediaQueryData().highContrast;  // Query current device if high Contrast theme is set
+  bool highContrast = false; // MediaQueryData().highContrast;  // Query current device if high Contrast theme is set
 
   String versionName;
-  String versionCode;
-
+  String buildNum;
+  String version;
+  String buildNr;
 
 
   @override
@@ -101,23 +107,27 @@ class _MyHomePageState extends State<MyHomePage> {
 
     print('CONTRAST:  ${highContrast}');
     if(highContrast == true)
-      config["high_contrast"] =true;
-
+      config["high_contrast"] = true;
     getVersion();
   }
 
   Future<void> getVersion() async {
-    File f = new File("pubspec.yaml");
+    File f = new File("data/flutter_assets/version.json");
     f.readAsString().then((String text) {
-      Map yaml = loadYaml(text);
+      Map <String, dynamic> versionJSON = jsonDecode(text);
+      print(versionJSON['version']);
+      versionName = versionJSON['version'];
+      buildNum = versionJSON['build_number'];
       //print(yaml['name']);
       //print(yaml['description']);
-      print(yaml['version']);
-      versionName = yaml['version'];
       //print(yaml['author']);
       //print(yaml['homepage']);
       //print(yaml['dependencies']);
     });
+
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    version = packageInfo.version;
+    buildNr = packageInfo.buildNumber;
   }
 
   List<BottomNavigationBarItem> buildBottomNavBarItems() {
@@ -170,9 +180,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
 
-    double mediaFontScaleFactor =  MediaQuery.textScaleFactorOf(context); // Query current device for the System FontSize
-
-    print('SIZE:  ${mediaFontScaleFactor}');
+    // double mediaFontScaleFactor =  MediaQuery.textScaleFactorOf(context); // Query current device for the System FontSize
+    // print('SIZE:  ${mediaFontScaleFactor}');
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -287,7 +296,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   SvgPicture.asset('assets/logo.svg', height: 20, color: drawingColor),
                   SizedBox(height: 30,),
-                  Text('Version ${versionName.toString()}'), // ToDo
+                  Text('Version ${versionName.toString()} + ${buildNum.toString()}'), // from version.json
+                  Text('Version_info ${version.toString()} + ${buildNr.toString()}' ), // from package_info_plus
                   GestureDetector(
                       child: Text("\nwww.devolo.de", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue)),
                       onTap: () {
@@ -306,7 +316,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () {
                   // Critical things happening here
 
-                  Navigator.of(context).pop();
+                  Navigator.maybeOf(context).pop();
                 },
               ),
             ],

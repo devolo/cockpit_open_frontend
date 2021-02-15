@@ -1,6 +1,6 @@
 # cockpit_devolo
 
-A new devolo cockpit application.
+cockpit_devolo
 
 ## Getting Started
 

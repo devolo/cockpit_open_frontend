@@ -187,7 +187,7 @@ class _OverviewNetworksScreenState extends State<OverviewNetworksScreen> {
           onPressed: () {
             // Critical things happening here
             socket.sendXML(messageType, mac: hitDevice.mac);
-            Navigator.of(context).pop();
+            Navigator.maybeOf(context).pop();
           },
         ),
         Spacer(),
@@ -200,7 +200,7 @@ class _OverviewNetworksScreenState extends State<OverviewNetworksScreen> {
             tooltip: S.of(context).cancel,
             onPressed: () {
               // Cancel critical action
-              Navigator.of(context).pop();
+              Navigator.maybeOf(context).pop();
             }),
 
       ],

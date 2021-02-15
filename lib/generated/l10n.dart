@@ -85,10 +85,10 @@ class S {
     );
   }
 
-  /// `App Info`
+  /// `App info`
   String get appInfo {
     return Intl.message(
-      'App Info',
+      'App info',
       name: 'appInfo',
       desc: '',
       args: [],
@@ -325,10 +325,10 @@ class S {
     );
   }
 
-  /// `Contact info`
+  /// `Contact information`
   String get contactInfo {
     return Intl.message(
-      'Contact info',
+      'Contact information',
       name: 'contactInfo',
       desc: '',
       args: [],
@@ -545,50 +545,50 @@ class S {
     );
   }
 
-  /// `show manual`
+  /// `Show manual`
   String get showManual {
     return Intl.message(
-      'show manual',
+      'Show manual',
       name: 'showManual',
       desc: '',
       args: [],
     );
   }
 
-  /// `identify device`
+  /// `Identify device`
   String get identifyDevice {
     return Intl.message(
-      'identify device',
+      'Identify device',
       name: 'identifyDevice',
       desc: '',
       args: [],
     );
   }
 
-  /// `launch webinterface`
+  /// `Web interface`
   String get launchWebinterface {
     return Intl.message(
-      'launch webinterface',
+      'Web interface',
       name: 'launchWebinterface',
       desc: '',
       args: [],
     );
   }
 
-  /// `factory reset`
+  /// `Factory reset`
   String get factoryReset {
     return Intl.message(
-      'factory reset',
+      'Factory reset',
       name: 'factoryReset',
       desc: '',
       args: [],
     );
   }
 
-  /// `delete device`
+  /// `Delete device`
   String get deleteDevice {
     return Intl.message(
-      'delete device',
+      'Delete device',
       name: 'deleteDevice',
       desc: '',
       args: [],
@@ -715,40 +715,40 @@ class S {
     );
   }
 
-  /// `MT-number:`
+  /// `MT number:`
   String get mtnumber {
     return Intl.message(
-      'MT-number:',
+      'MT number:',
       name: 'mtnumber',
       desc: '',
       args: [],
     );
   }
 
-  /// `Version:`
+  /// `Firmware version:`
   String get version {
     return Intl.message(
-      'Version:',
+      'Firmware version:',
       name: 'version',
       desc: '',
       args: [],
     );
   }
 
-  /// `IP-Address:`
+  /// `IP address:`
   String get ipaddress {
     return Intl.message(
-      'IP-Address:',
+      'IP address:',
       name: 'ipaddress',
       desc: '',
       args: [],
     );
   }
 
-  /// `MAC-Address:`
+  /// `MAC address:`
   String get macaddress {
     return Intl.message(
-      'MAC-Address:',
+      'MAC address:',
       name: 'macaddress',
       desc: '',
       args: [],
@@ -865,10 +865,10 @@ class S {
     );
   }
 
-  /// `Deviceinfo`
+  /// `Device information`
   String get deviceinfo {
     return Intl.message(
-      'Deviceinfo',
+      'Device information',
       name: 'deviceinfo',
       desc: '',
       args: [],

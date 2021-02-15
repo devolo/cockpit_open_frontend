@@ -139,8 +139,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
     bool hitDeviceAtr;
     bool hitDeviceisLocal;
 
-    final socket = Provider.of<dataHand>(context);
-    final deviceList = Provider.of<NetworkList>(context);
+    final socket = Provider.of<dataHand>(context, listen: false);
+    final deviceList = Provider.of<NetworkList>(context, listen: false);
 
     print(networkOffsetList);
 
@@ -367,7 +367,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                   onPressed: () {
                     // Critical things happening here
                     socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
-                    Navigator.of(context).pop();
+                    Navigator.maybeOf(context).pop();
                   },
                 ),
               ],
@@ -460,7 +460,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
           onPressed: () {
             // Critical things happening here
             socket.sendXML(messageType, mac: hitDevice.mac);
-            Navigator.of(context).pop();
+            Navigator.maybeOf(context).pop();
           },
         ),
         Spacer(),
@@ -473,7 +473,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
             iconSize: 35 * fontSizeFactor,
             onPressed: () {
               // Cancel critical action
-              Navigator.of(context).pop();
+              Navigator.maybeOf(context).pop();
             }),
 
       ],

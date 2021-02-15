@@ -645,6 +645,16 @@ class S {
     );
   }
 
+  /// `Help`
+  String get help {
+    return Intl.message(
+      'Help',
+      name: 'help',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Change networkview`
   String get changeNetworkview {
     return Intl.message(

@@ -85,6 +85,120 @@ class _UpdateScreenState extends State<UpdateScreen> {
               SizedBox(
                 height: 20,
               ),
+              ButtonTheme(
+                minWidth: 100.0,
+                height: 50.0,
+                child: RaisedButton(
+                    color: secondColor,
+                    textColor: fontColorDark,
+                    onPressed: () async {
+                      setState(() {
+                        socket.sendXML('UpdateCheck');
+                        _loading = socket.waitingResponse;
+                      });
+
+                      var response = await socket.recieveXML(["UpdateIndication", "FirmwareUpdateIndication"]);
+
+                      setState(() {
+                        _loading = socket.waitingResponse; //ToDo set state?
+                      });
+
+                      response["status"] == 'none'
+                          ? showDialog<void>(
+                          context: context,
+                          barrierDismissible: true, // user doesn't need to tap button!
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text(S.of(context).update, style: TextStyle(color: fontColorLight,),),
+                              backgroundColor: backgroundColor.withOpacity(0.9),
+                              contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white),
+                              content: Text(S.of(context).cockpitSoftwareIsUpToDate, textScaleFactor: fontSizeFactor,),
+                              actions: <Widget>[
+                                FlatButton(
+                                  child: Icon(
+                                    Icons.check_circle_outline,
+                                    size: 35,
+                                    color: fontColorLight,
+                                  ), //Text('Bestätigen'),
+                                  onPressed: () {
+                                    Navigator.maybeOf(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          })
+                          : response["status"] == 'downloaded_setup'
+                          ? showDialog<void>(
+                          context: context,
+                          barrierDismissible: true, // user doesn't need to tap button!
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text(S.of(context).update),
+                              backgroundColor: backgroundColor.withOpacity(0.9),
+                              content: Text(response["status"] == 'downloaded_setup' ? S.of(context).updateReadyToInstall : response.toString()),
+                              //ToDo Handle error [] if updating 'Geräte werden aktualisiert... '
+                              actions: <Widget>[
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.check_circle_outline,
+                                    size: 35,
+                                    color: fontColorLight,
+                                  ), //Text('Bestätigen'),
+                                  tooltip: S.of(context).install,
+                                  onPressed: () {
+                                    // Critical things happening here
+                                    socket.sendXML('UpdateResponse', valueType: 'action', newValue: 'execute');
+                                    Navigator.maybeOf(context).pop();
+                                  },
+                                ),
+                                Spacer(),
+                                IconButton(
+                                    icon: Icon(
+                                      Icons.cancel_outlined,
+                                      size: 35,
+                                      color: fontColorLight,
+                                    ), //Text('Abbrechen'),
+                                    tooltip: S.of(context).cancel,
+                                    onPressed: () {
+                                      // Cancel critical action
+                                      socket.sendXML('UpdateResponse', valueType: 'action', newValue: 'skip');
+                                      Navigator.maybeOf(context).pop();
+                                    }),
+                                // IconButton(
+                                //     icon: Icon(
+                                //       Icons.cancel_outlined,
+                                //       size: 35,
+                                //       color: Colors.grey,
+                                //     ), //Text('Abbrechen'),
+                                //     tooltip: "Abbrechen",
+                                //     onPressed: () {
+                                //       // Cancel critical action
+                                //       Navigator.of(context).pop();
+                                //     }),
+                              ],
+                            );
+                          })
+                          : _lastPoll = DateTime.now();
+                    },
+                    child: Row(
+                      //crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Icon(Icons.refresh),
+                        Text(S.of(context).checkUpdates),
+                        if (_loading)
+                          CircularProgressIndicator(
+                            valueColor: new AlwaysStoppedAnimation<Color>(fontColorDark),
+                          ),
+                        Spacer(),
+                        //Text(""),
+                        Text(_lastPoll.toString().substring(0, _lastPoll.toString().indexOf("."))),
+                      ],
+                    )),
+              ),
+              SizedBox(
+                height: 20,
+              ),
               Expanded(
                 child: Scrollbar(
                   isAlwaysShown: true,
@@ -93,9 +207,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   child: ListView.separated(
                     //padding: const EdgeInsets.all(8),
                     controller: _scrollController,
-                    itemCount: _deviceList.getDeviceList().length,
+                    itemCount: _deviceList.getAllDevices().length,//_deviceList.getDeviceList().length,
                     itemBuilder: (BuildContext context, int index) {
-                      var device = _deviceList.getDeviceList()[index];
+                      var device = _deviceList.getAllDevices()[index];
                       return new Column(
                         children: [
                           ListTile(
@@ -186,120 +300,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
-              ButtonTheme(
-                minWidth: 100.0,
-                height: 50.0,
-                child: RaisedButton(
-                    color: secondColor,
-                    textColor: fontColorDark,
-                    onPressed: () async {
-                      setState(() {
-                        socket.sendXML('UpdateCheck');
-                        _loading = socket.waitingResponse;
-                      });
-
-                      var response = await socket.recieveXML(["UpdateIndication", "FirmwareUpdateIndication"]);
-
-                      setState(() {
-                        _loading = socket.waitingResponse; //ToDo set state?
-                      });
-
-                      response["status"] == 'none'
-                          ? showDialog<void>(
-                              context: context,
-                              barrierDismissible: true, // user doesn't need to tap button!
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text(S.of(context).update, style: TextStyle(color: fontColorLight,),),
-                                  backgroundColor: backgroundColor.withOpacity(0.9),
-                                  contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white),
-                                  content: Text(S.of(context).cockpitSoftwareIsUpToDate, textScaleFactor: fontSizeFactor,),
-                                  actions: <Widget>[
-                                    FlatButton(
-                                      child: Icon(
-                                        Icons.check_circle_outline,
-                                        size: 35,
-                                        color: fontColorLight,
-                                      ), //Text('Bestätigen'),
-                                      onPressed: () {
-                                        Navigator.maybeOf(context).pop();
-                                      },
-                                    ),
-                                  ],
-                                );
-                              })
-                          : response["status"] == 'downloaded_setup'
-                              ? showDialog<void>(
-                                  context: context,
-                                  barrierDismissible: true, // user doesn't need to tap button!
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text(S.of(context).update),
-                                      backgroundColor: backgroundColor.withOpacity(0.9),
-                                      content: Text(response["status"] == 'downloaded_setup' ? S.of(context).updateReadyToInstall : response.toString()),
-                                      //ToDo Handle error [] if updating 'Geräte werden aktualisiert... '
-                                      actions: <Widget>[
-                                        IconButton(
-                                          icon: Icon(
-                                            Icons.check_circle_outline,
-                                            size: 35,
-                                            color: fontColorLight,
-                                          ), //Text('Bestätigen'),
-                                          tooltip: S.of(context).install,
-                                          onPressed: () {
-                                            // Critical things happening here
-                                            socket.sendXML('UpdateResponse', valueType: 'action', newValue: 'execute');
-                                            Navigator.maybeOf(context).pop();
-                                          },
-                                        ),
-                                        Spacer(),
-                                        IconButton(
-                                            icon: Icon(
-                                              Icons.cancel_outlined,
-                                              size: 35,
-                                              color: fontColorLight,
-                                            ), //Text('Abbrechen'),
-                                            tooltip: S.of(context).cancel,
-                                            onPressed: () {
-                                              // Cancel critical action
-                                              socket.sendXML('UpdateResponse', valueType: 'action', newValue: 'skip');
-                                              Navigator.maybeOf(context).pop();
-                                            }),
-                                        // IconButton(
-                                        //     icon: Icon(
-                                        //       Icons.cancel_outlined,
-                                        //       size: 35,
-                                        //       color: Colors.grey,
-                                        //     ), //Text('Abbrechen'),
-                                        //     tooltip: "Abbrechen",
-                                        //     onPressed: () {
-                                        //       // Cancel critical action
-                                        //       Navigator.of(context).pop();
-                                        //     }),
-                                      ],
-                                    );
-                                  })
-                              : _lastPoll = DateTime.now();
-                    },
-                    child: Row(
-                      //crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Icon(Icons.refresh),
-                        Text(S.of(context).checkUpdates),
-                        if (_loading)
-                          CircularProgressIndicator(
-                            valueColor: new AlwaysStoppedAnimation<Color>(fontColorDark),
-                          ),
-                        Spacer(),
-                        //Text(""),
-                        Text(_lastPoll.toString().substring(0, _lastPoll.toString().indexOf("."))),
-                      ],
-                    )),
-              ),
             ],
           ),
         ),
@@ -336,7 +336,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
     String _newName = hitDeviceName;
 
-    final socket = Provider.of<dataHand>(context);
+    final socket = Provider.of<dataHand>(context, listen: false);
 
     showDialog<void>(
       context: context,

@@ -90,7 +90,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   TextStyle _menuItemStyle;
-  int bottomSelectedIndex = 1;
+  int bottomSelectedIndex = 0;
   bool highContrast = false; // MediaQueryData().highContrast;  // Query current device if high Contrast theme is set
 
   String versionName;
@@ -118,11 +118,6 @@ class _MyHomePageState extends State<MyHomePage> {
       print(versionJSON['version']);
       versionName = versionJSON['version'];
       buildNum = versionJSON['build_number'];
-      //print(yaml['name']);
-      //print(yaml['description']);
-      //print(yaml['author']);
-      //print(yaml['homepage']);
-      //print(yaml['dependencies']);
     });
 
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -132,15 +127,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List<BottomNavigationBarItem> buildBottomNavBarItems() {
     return [
-      BottomNavigationBarItem(icon: Icon(Icons.settings_rounded), label: S.of(context).settings,),
-      BottomNavigationBarItem(icon: Icon(Icons.home_rounded), label: S.of(context).overview),
+      BottomNavigationBarItem(icon: Icon(Icons.workspaces_filled), label: S.of(context).overview),
       BottomNavigationBarItem(icon: Icon(Icons.download_rounded), label: S.of(context).update,),
-      BottomNavigationBarItem(icon: Icon(Icons.add_circle), label: S.of(context).add),
+      BottomNavigationBarItem(icon: Icon(Icons.help), label: S.of(context).help),
+      BottomNavigationBarItem(icon: Icon(Icons.settings_rounded), label: S.of(context).settings,),
     ];
   }
 
   PageController pageController = PageController(
-    initialPage: 1,
+    initialPage: 0,
     keepPage: true,
   );
 
@@ -151,14 +146,14 @@ class _MyHomePageState extends State<MyHomePage> {
         pageChanged(index);
       },
       children: <Widget>[
-        SettingsScreen(
-          title: S.of(context).settings,
-        ),
         showNetwork?OverviewNetworksScreen(): OverviewScreen(),
         UpdateScreen(
           title: S.of(context).update,
         ),
         AddDeviceScreen(),
+        SettingsScreen(
+          title: S.of(context).settings,
+        ),
 
       ],
     );

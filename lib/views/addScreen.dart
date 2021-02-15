@@ -35,7 +35,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
     return new Scaffold(
       backgroundColor: Colors.transparent,
       appBar: new AppBar(
-        title: new Text(S.of(context).addDevice, style: TextStyle(color: fontColorLight), textScaleFactor: fontSizeFactor,),
+        title: new Text(S.of(context).help, style: TextStyle(color: fontColorLight), textScaleFactor: fontSizeFactor,),
         centerTitle: true,
         backgroundColor: mainColor,
         shadowColor: Colors.transparent,

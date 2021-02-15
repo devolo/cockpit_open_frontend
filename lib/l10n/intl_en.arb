@@ -65,6 +65,7 @@
   "forward": "forward",
   "overview": "Overview",
   "add": "Add",
+  "help": "Help",
   "changeNetworkview": "Change networkview",
   "noDevicesFoundNscanningForDevices": "No devices found \nScanning for devices ...",
   "previousNetwork": "previous network",

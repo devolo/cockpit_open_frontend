@@ -8,6 +8,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
+import 'package:cockpit_devolo/views/appBuilder.dart';
+
 import 'package:flutter/foundation.dart'
     show debugDefaultTargetPlatformOverride;
 
@@ -69,6 +71,23 @@ class _OverviewScreenState extends State<OverviewScreen> {
                       child: Container(),
                     ),
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      for(var networkIdx = 0; networkIdx < _deviceList.getNetworkListLength(); networkIdx++ )
+                        FlatButton(
+                          textColor: fontColorLight,
+                            //color: networkIdx != _deviceList.selectedNetworkIndex? Colors.transparent: secondColor,
+                            child: networkIdx != _deviceList.selectedNetworkIndex? Text("${S.of(context).network} ${networkIdx}") : Text("${S.of(context).network} ${networkIdx}", style: TextStyle(fontWeight: FontWeight.bold),),
+                          onPressed: (){
+                            print(_deviceList.selectedNetworkIndex);
+                            _deviceList.selectedNetworkIndex = networkIdx;
+                            AppBuilder.of(context).rebuild();
+                            print(_deviceList.selectedNetworkIndex);
+
+                          },
+                        ),
+                    ],)
                   //if(_deviceList.getNetworkListLength() > 1)
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.spaceBetween,

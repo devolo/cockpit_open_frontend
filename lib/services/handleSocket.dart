@@ -93,6 +93,7 @@ class dataHand extends ChangeNotifier {
       if (document.findAllElements('MessageType').first.innerText == "NetworkUpdate") { // If received Message is general NetworkUpdate
         //_deviceList.clearList();
         _deviceList.clearNetworkList();
+        _deviceList.clearDeviceList();
         print('DeviceList found ->');
         //print(document);
 
@@ -103,16 +104,16 @@ class dataHand extends ChangeNotifier {
         for (var dev in localDeviceList) {
           Device device = Device.fromXML(dev,true);
           _deviceList.addDevice(device, listCounter);
-           _deviceList.addDevice(device, listCounter+1);
-           _deviceList.addDevice(device, listCounter+2);
-           _deviceList.addDevice(device, listCounter+3);
-          _deviceList.addDevice(device, listCounter+4);
+           //_deviceList.addDevice(device, listCounter+1);
+           //_deviceList.addDevice(device, listCounter+2);
+           //_deviceList.addDevice(device, listCounter+3);
+          //_deviceList.addDevice(device, listCounter+4);
           for (var remoteDev in device.remoteDevices) {
             _deviceList.addDevice(remoteDev, listCounter);
-             _deviceList.addDevice(remoteDev, listCounter+1);
-             _deviceList.addDevice(remoteDev, listCounter+2);
-             _deviceList.addDevice(remoteDev, listCounter+3);
-            _deviceList.addDevice(remoteDev, listCounter+2);
+             //_deviceList.addDevice(remoteDev, listCounter+1);
+             //_deviceList.addDevice(remoteDev, listCounter+2);
+             //_deviceList.addDevice(remoteDev, listCounter+3);
+            //_deviceList.addDevice(remoteDev, listCounter+2);
             //_deviceList.addDevice(remoteDev, listCounter+2);
           }
           listCounter++;

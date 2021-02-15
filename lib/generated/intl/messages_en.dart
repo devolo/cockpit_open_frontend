@@ -51,6 +51,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "forward" : MessageLookupByLibrary.simpleMessage("forward"),
     "fullyCustomizeColors" : MessageLookupByLibrary.simpleMessage("Fully customize colors"),
     "generateSupportInformation" : MessageLookupByLibrary.simpleMessage("Generate support information "),
+    "help" : MessageLookupByLibrary.simpleMessage("Help"),
     "homeNetworkDesktop" : MessageLookupByLibrary.simpleMessage("Home Network Desktop"),
     "identifyDevice" : MessageLookupByLibrary.simpleMessage("Identify device"),
     "ignoreUpdates" : MessageLookupByLibrary.simpleMessage("Ignore Updates"),

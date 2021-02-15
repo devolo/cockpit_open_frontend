@@ -739,7 +739,7 @@ class DrawOverview extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     fillDeviceIconPositionList();
 
-    drawNetworksAndConnections(canvas, size);
+    //drawNetworksAndConnections(canvas, size);
 
     if (Platform.isAndroid || Platform.isIOS)
       drawMainIcon(canvas, Icons.router_outlined);

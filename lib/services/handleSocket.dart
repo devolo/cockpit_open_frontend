@@ -251,12 +251,13 @@ class dataHand extends ChangeNotifier {
             parseConfig(xmlResponse);
             print(config.toString());
           }
-          else if (messageType == "UpdateIndication") { //"UpdateIndication"
+          else if (messageType == "UpdateIndication") { //"UpdateIndication" for Cockpit Software updates
             response = await parseUpdateIndication(xmlResponse);
+
             //waitingResponse = false;
           }
           else if(messageType == "FirmwareUpdateIndication"){ //"FirmwareUpdateIndication"
-            responseElem = await findFirstElem(xmlResponse, 'macAddress'); //ToDo probably more Macs!
+            responseElem = await findFirstElem(xmlResponse, 'macAddress'); //
             if (responseElem != null) {
               response['macAddress'] = responseElem;
               int devIndex = _deviceList.getDeviceList().indexWhere((element) => element.mac == responseElem);
@@ -399,6 +400,13 @@ class dataHand extends ChangeNotifier {
     responseElem = await findFirstElem(xmlResponse, 'workdir');
     if (responseElem != null) {
       response['workdir'] = responseElem;
+    }
+
+
+    if(response['status'] == "none") {
+      _deviceList.CockpitUpdate = false;
+    }else{
+      _deviceList.CockpitUpdate = true;
     }
 
     //_deviceList.changedList();

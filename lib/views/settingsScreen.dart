@@ -264,65 +264,88 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ]),
                 ),
                 Divider(),
-                ListTile(
-                  contentPadding: EdgeInsets.only(left: 10, right: 10),
-                  tileColor: secondColor,
-                  subtitle: Text(S.of(context).dataRatesArePermanentlyDisplayedInTheOverview, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)),
-                  title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(S.of(context).enableShowingSpeeds, style: TextStyle(color: fontColorDark), semanticsLabel: "Show Speeds"),
-                    new Checkbox(
-                      value: config["show_speeds_permanent"], //widget.painter.showSpeedsPermanently,
-                      onChanged: toggleCheckbox,
-                      activeColor: mainColor,
-                    ),
-                  ]),
+                GestureDetector(
+                  onTap: () {
+                    toggleCheckbox(!config["show_speeds_permanent"]);
+                    },
+                  child: ListTile(
+                    contentPadding: EdgeInsets.only(left: 10, right: 10),
+                    tileColor: secondColor,
+                    subtitle: Text(S.of(context).dataRatesArePermanentlyDisplayedInTheOverview, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)),
+                    title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                      new Text(S.of(context).enableShowingSpeeds, style: TextStyle(color: fontColorDark), semanticsLabel: "Show Speeds"),
+                      new Checkbox(
+                        value: config["show_speeds_permanent"], //widget.painter.showSpeedsPermanently,
+                        onChanged: toggleCheckbox,
+                        activeColor: mainColor,
+                      ),
+                    ]),
+                  ),
                 ),
                 Divider(),
-                ListTile(
-                  contentPadding: EdgeInsets.only(left: 10, right: 10),
-                  tileColor: secondColor,
-                  subtitle: Text(S.of(context).theOverviewWillBeCenteredAroundThePlcDeviceConnected, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)),
-                  title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(
-                      S.of(context).internetcentered,
-                      style: TextStyle(color: fontColorDark),
-                    ),
-                    new Switch(
-                      value: config["internet_centered"],
-                      onChanged: (value) {
-                        setState(() {
-                          config["internet_centered"] = value;
-                          socket.sendXML('RefreshNetwork');
-                          saveToSharedPrefs(config);
-                        });
-                      },
-                      activeTrackColor: mainColor.withAlpha(120),
-                      activeColor: mainColor,
-                    ),
-                  ]),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      config["internet_centered"] = !config["internet_centered"];
+                      socket.sendXML('RefreshNetwork');
+                      saveToSharedPrefs(config);
+                    });
+                  },
+                  child: ListTile(
+                    contentPadding: EdgeInsets.only(left: 10, right: 10),
+                    tileColor: secondColor,
+                    subtitle: Text(S.of(context).theOverviewWillBeCenteredAroundThePlcDeviceConnected, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)),
+                    title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                      new Text(
+                        S.of(context).internetcentered,
+                        style: TextStyle(color: fontColorDark),
+                      ),
+                      new Switch(
+                        value: config["internet_centered"],
+                        //materialTapTargetSize: MaterialTapTargetSize,
+                        onChanged: (value) {
+                          setState(() {
+                            config["internet_centered"] = value;
+                            socket.sendXML('RefreshNetwork');
+                            saveToSharedPrefs(config);
+                          });
+                        },
+                        activeTrackColor: mainColor.withAlpha(120),
+                        activeColor: mainColor,
+                      ),
+                    ]),
+                  ),
                 ),
                 Divider(),
-                ListTile(
-                  contentPadding: EdgeInsets.only(left: 10, right: 10),
-                  tileColor: secondColor,
-                  subtitle: Text(S.of(context).otherDevicesEgPcAreDisplayedInTheOverview, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)),
-                  title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(
-                      S.of(context).showOtherDevices,
-                      style: TextStyle(color: fontColorDark),
-                    ),
-                    new Switch(
-                      value: config["show_other_devices"],
-                      onChanged: (value) {
-                        setState(() {
-                          config["show_other_devices"] = value;
-                          socket.sendXML('RefreshNetwork');
-                        });
-                      },
-                      activeTrackColor: mainColor.withAlpha(120),
-                      activeColor: mainColor,
-                    ),
-                  ]),
+                GestureDetector(
+                  onTap:() {
+                    setState(() {
+                      config["show_other_devices"] = !config["show_other_devices"];
+                      socket.sendXML('RefreshNetwork');
+                    });
+                  },
+                  child: ListTile(
+                    contentPadding: EdgeInsets.only(left: 10, right: 10),
+                    tileColor: secondColor,
+                    subtitle: Text(S.of(context).otherDevicesEgPcAreDisplayedInTheOverview, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)),
+                    title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                      new Text(
+                        S.of(context).showOtherDevices,
+                        style: TextStyle(color: fontColorDark),
+                      ),
+                      new Switch(
+                        value: config["show_other_devices"],
+                        onChanged: (value) {
+                          setState(() {
+                            config["show_other_devices"] = value;
+                            socket.sendXML('RefreshNetwork');
+                          });
+                        },
+                        activeTrackColor: mainColor.withAlpha(120),
+                        activeColor: mainColor,
+                      ),
+                    ]),
+                  ),
                 ),
                 Divider(),
                 ListTile(
@@ -406,67 +429,91 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   )
                 ]),
                 Divider(),
-                ListTile(
-                  contentPadding: EdgeInsets.only(left: 10, right: 10),
-                  tileColor: secondColor,
-                  title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(
-                      S.of(context).ignoreUpdates,
-                      style: TextStyle(color: fontColorDark),
-                    ),
-                    new Checkbox(
-                        value: config["ignore_updates"],
-                        activeColor: mainColor,
-                        onChanged: (bool value) {
-                          setState(() {
-                            config["ignore_updates"] = !config["ignore_updates"];
-                            socket.sendXML('Config');
-                          });
-                        }),
-                  ]),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      config["ignore_updates"] = !config["ignore_updates"];
+                      socket.sendXML('Config');
+                    });
+                  },
+                  child: ListTile(
+                    contentPadding: EdgeInsets.only(left: 10, right: 10),
+                    tileColor: secondColor,
+                    title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                      new Text(
+                        S.of(context).ignoreUpdates,
+                        style: TextStyle(color: fontColorDark),
+                      ),
+                      new Checkbox(
+                          value: config["ignore_updates"],
+                          activeColor: mainColor,
+                          onChanged: (bool value) {
+                            setState(() {
+                              config["ignore_updates"] = !config["ignore_updates"];
+                              socket.sendXML('Config');
+                            });
+                          }),
+                    ]),
+                  ),
                 ),
                 Divider(),
-                ListTile(
-                  contentPadding: EdgeInsets.only(left: 10, right: 10),
-                  tileColor: secondColor,
-                  title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(
-                      S.of(context).recordTheTransmissionPowerOfTheDevicesAndTransmitIt,
-                      style: TextStyle(color: fontColorDark),
-                    ),
-                    new Checkbox(
-                        value: config["allow_data_collection"],
-                        activeColor: mainColor,
-                        onChanged: (bool value) {
-                          setState(() {
-                            config["allow_data_collection"] = !config["allow_data_collection"];
-                            socket.sendXML('Config');
-                          });
-                        }),
-                  ]),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      config["allow_data_collection"] = !config["allow_data_collection"];
+                      socket.sendXML('Config');
+                    });
+                  },
+                  child: ListTile(
+                    contentPadding: EdgeInsets.only(left: 10, right: 10),
+                    tileColor: secondColor,
+                    title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                      new Text(
+                        S.of(context).recordTheTransmissionPowerOfTheDevicesAndTransmitIt,
+                        style: TextStyle(color: fontColorDark),
+                      ),
+                      new Checkbox(
+                          value: config["allow_data_collection"],
+                          activeColor: mainColor,
+                          onChanged: (bool value) {
+                            setState(() {
+                              config["allow_data_collection"] = !config["allow_data_collection"];
+                              socket.sendXML('Config');
+                            });
+                          }),
+                    ]),
+                  ),
                 ),
                 Divider(),
-                ListTile(
-                  contentPadding: EdgeInsets.only(left: 10, right: 10),
-                  tileColor: secondColor,
-                  title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(
-                      S.of(context).windowsNetworkThrottling,
-                      style: TextStyle(color: fontColorDark),
-                    ),
-                    new Switch(
-                      value: !config["windows_network_throttling_disabled"],
-                      onChanged: (value) {
-                        setState(() {
-                          config["windows_network_throttling_disabled"] = !value;
-                          print(config["windows_network_throttling_disabled"]);
-                          socket.sendXML('Config');
-                        });
-                      },
-                      activeTrackColor: mainColor.withAlpha(120),
-                      activeColor: mainColor,
-                    ),
-                  ]),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      config["windows_network_throttling_disabled"] = !config["windows_network_throttling_disabled"];
+                      socket.sendXML('Config');
+                    });
+                  },
+                  child: ListTile(
+                    contentPadding: EdgeInsets.only(left: 10, right: 10),
+                    tileColor: secondColor,
+                    title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                      new Text(
+                        S.of(context).windowsNetworkThrottling,
+                        style: TextStyle(color: fontColorDark),
+                      ),
+                      new Switch(
+                        value: !config["windows_network_throttling_disabled"],
+                        onChanged: (value) {
+                          setState(() {
+                            config["windows_network_throttling_disabled"] = !value;
+                            print(config["windows_network_throttling_disabled"]);
+                            socket.sendXML('Config');
+                          });
+                        },
+                        activeTrackColor: mainColor.withAlpha(120),
+                        activeColor: mainColor,
+                      ),
+                    ]),
+                  ),
                 ),
                 Divider(),
                 ListTile(

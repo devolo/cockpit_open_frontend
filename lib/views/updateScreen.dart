@@ -199,6 +199,34 @@ class _UpdateScreenState extends State<UpdateScreen> {
               SizedBox(
                 height: 20,
               ),
+              ListTile(
+                leading: Icon(Icons.speed_rounded,color: Colors.white,),
+                title: Text("Cockpit Software"),
+                tileColor: secondColor,
+                trailing:
+                _deviceList.CockpitUpdate == false?
+                IconButton(
+                  icon: Icon(Icons.check_circle_outline,
+                    color: Colors.green,),
+                  iconSize: 24 * fontSizeFactor,
+                  // tooltip: "already uptodate",
+                )
+                :
+                IconButton(
+                    icon: Icon(Icons.download_rounded,color: mainColor,),
+                    iconSize: 24 * fontSizeFactor,
+                    onPressed: () async {
+                      print("Updating Cockpit...");
+                      setState(() {
+                        socket.sendXML('UpdateResponse', valueType: 'action', newValue: 'execute');
+                        //_loadingFW = socket.waitingResponse;
+                      });
+
+                      var response = await socket.recieveXML([]);
+                      print('Response: ' + response.toString());
+                    }),
+              ),
+              Divider(),
               Expanded(
                 child: Scrollbar(
                   isAlwaysShown: true,

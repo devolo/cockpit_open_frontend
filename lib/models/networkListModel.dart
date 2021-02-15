@@ -7,15 +7,11 @@ import 'package:cockpit_devolo/models/deviceModel.dart';
 class NetworkList extends ChangeNotifier{
   List<List<Device>> _networkList = [];
   int selectedNetworkIndex = 0;
-
   List<String> _updateMacs = [];
-
+  bool CockpitUpdate = false;
   List<Device> _devices = [];  //contains all devices
 
-  NetworkList() {
-    //this._devices = _devices;
-    //notifyListeners();
-  }
+  NetworkList();
 
   List<Device> getDeviceList(){
     if(_networkList.isEmpty){

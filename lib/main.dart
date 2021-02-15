@@ -191,7 +191,7 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.workspaces_filled),
-            tooltip: S.of(context).changeNetworkview,
+            tooltip: S.of(context).highContrast,
             onPressed: () {
               setState(() {
                 showNetwork = !showNetwork;
@@ -216,7 +216,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         ListTile(
             leading: Icon(Icons.workspaces_filled, color: mainColor), //miscellaneous_services
-            title: Text(S.of(context).networkoverview, style: _menuItemStyle),
+            title: Text(S.of(context).overview, style: _menuItemStyle),
             //tileColor: devoloBlue,
             onTap: () {
               bottomTapped(1);
@@ -235,8 +235,8 @@ class _MyHomePageState extends State<MyHomePage> {
               // );
             }),
         ListTile(
-            leading: Icon(Icons.add_circle, color: mainColor),
-            title: Text(S.of(context).addDevice, style: _menuItemStyle),
+            leading: Icon(Icons.help, color: mainColor),
+            title: Text(S.of(context).help, style: _menuItemStyle),
             onTap: () {
               bottomTapped(3);
               Navigator.pop(context); //close drawer

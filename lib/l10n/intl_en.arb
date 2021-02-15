@@ -66,7 +66,7 @@
   "overview": "Overview",
   "add": "Add",
   "help": "Help",
-  "changeNetworkview": "Change networkview",
+  "highContrast": "High Contrast",
   "noDevicesFoundNscanningForDevices": "No devices found \nScanning for devices ...",
   "previousNetwork": "previous network",
   "nextNetwork": "next network",

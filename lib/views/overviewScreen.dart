@@ -72,19 +72,18 @@ class _OverviewScreenState extends State<OverviewScreen> {
                     ),
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       for(var networkIdx = 0; networkIdx < _deviceList.getNetworkListLength(); networkIdx++ )
                         FlatButton(
-                          textColor: fontColorLight,
+                          textColor: networkIdx != _deviceList.selectedNetworkIndex? secondColor:fontColorLight,
+                            hoverColor: secondColor.withOpacity(0.3),
                             //color: networkIdx != _deviceList.selectedNetworkIndex? Colors.transparent: secondColor,
                             child: networkIdx != _deviceList.selectedNetworkIndex? Text("${S.of(context).network} ${networkIdx}") : Text("${S.of(context).network} ${networkIdx}", style: TextStyle(fontWeight: FontWeight.bold),),
                           onPressed: (){
-                            print(_deviceList.selectedNetworkIndex);
+                            //print(_deviceList.selectedNetworkIndex);
                             _deviceList.selectedNetworkIndex = networkIdx;
                             AppBuilder.of(context).rebuild();
-                            print(_deviceList.selectedNetworkIndex);
-
                           },
                         ),
                     ],)
@@ -416,7 +415,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
       if (_Painter.isPointInsideCircle(_lastTapDownPosition, absoluteOffset, _Painter.hn_circle_radius)) {
         print("Long press on icon #" + index.toString());
 
-        final deviceList = Provider.of<NetworkList>(context);
+        final deviceList = Provider.of<NetworkList>(context,listen: false);
         hitDeviceName = deviceList.getDeviceList()[index].name;
 
         setState(() {

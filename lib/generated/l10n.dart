@@ -655,11 +655,11 @@ class S {
     );
   }
 
-  /// `Change networkview`
-  String get changeNetworkview {
+  /// `High Contrast`
+  String get highContrast {
     return Intl.message(
-      'Change networkview',
-      name: 'changeNetworkview',
+      'High Contrast',
+      name: 'highContrast',
       desc: '',
       args: [],
     );

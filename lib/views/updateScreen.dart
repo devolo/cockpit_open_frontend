@@ -442,11 +442,13 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     ]),
                     TableRow(children: [
                       SelectableText(S.of(context).attachedToRouter),
-                      SelectableText(hitDeviceAtr.toString()),
+                      //SelectableText(hitDeviceAtr.toString()),
+                      hitDeviceAtr? SelectableText(S.of(context).yes): SelectableText(S.of(context).no),
                     ]),
                     TableRow(children: [
                       SelectableText(S.of(context).isLocalDevice ),
-                      SelectableText(hitDeviceisLocal.toString()),
+                      hitDeviceisLocal? SelectableText(S.of(context).yes): SelectableText(S.of(context).no),
+                      //SelectableText(hitDeviceisLocal.toString()),
                     ]),
                   ],
                 ),

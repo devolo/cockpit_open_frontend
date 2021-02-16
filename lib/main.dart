@@ -310,7 +310,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ), //Text('Bestätigen'),
                 onPressed: () {
                   // Critical things happening here
-
                   Navigator.maybeOf(context).pop();
                 },
               ),

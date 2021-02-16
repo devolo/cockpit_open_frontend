@@ -725,10 +725,10 @@ class S {
     );
   }
 
-  /// `MT number:`
+  /// `devolo MT number:`
   String get mtnumber {
     return Intl.message(
-      'MT number:',
+      'devolo MT number:',
       name: 'mtnumber',
       desc: '',
       args: [],
@@ -765,10 +765,10 @@ class S {
     );
   }
 
-  /// `Attached to Router:`
+  /// `Attached to router:`
   String get attachedToRouter {
     return Intl.message(
-      'Attached to Router:',
+      'Attached to router:',
       name: 'attachedToRouter',
       desc: '',
       args: [],
@@ -795,10 +795,10 @@ class S {
     );
   }
 
-  /// `Is Local Device:`
+  /// `Is local device:`
   String get isLocalDevice {
     return Intl.message(
-      'Is Local Device:',
+      'Is local device:',
       name: 'isLocalDevice',
       desc: '',
       args: [],
@@ -875,10 +875,10 @@ class S {
     );
   }
 
-  /// `Device information`
+  /// `Device Information`
   String get deviceinfo {
     return Intl.message(
-      'Device information',
+      'Device Information',
       name: 'deviceinfo',
       desc: '',
       args: [],
@@ -900,6 +900,56 @@ class S {
     return Intl.message(
       'Fully customize colors',
       name: 'fullyCustomizeColors',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter device name`
+  String get pleaseEnterDeviceName {
+    return Intl.message(
+      'Please enter device name',
+      name: 'pleaseEnterDeviceName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `yes`
+  String get yes {
+    return Intl.message(
+      'yes',
+      name: 'yes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `no`
+  String get no {
+    return Intl.message(
+      'no',
+      name: 'no',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This device is connected directly to the Internet router.`
+  String get thisDeviceIsConnectedDirectlyToTheInternetRouter {
+    return Intl.message(
+      'This device is connected directly to the Internet router.',
+      name: 'thisDeviceIsConnectedDirectlyToTheInternetRouter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your current terminal is connected to this devolo-device.`
+  String get yourCurrentTerminalIsConnectedToThisDevolodevice {
+    return Intl.message(
+      'Your current terminal is connected to this devolo-device.',
+      name: 'yourCurrentTerminalIsConnectedToThisDevolodevice',
       desc: '',
       args: [],
     );

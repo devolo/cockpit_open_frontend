@@ -7,15 +7,11 @@ import 'package:cockpit_devolo/models/deviceModel.dart';
 class NetworkList extends ChangeNotifier{
   List<List<Device>> _networkList = [];
   int selectedNetworkIndex = 0;
-
   List<String> _updateMacs = [];
-
+  bool CockpitUpdate = false;
   List<Device> _devices = [];  //contains all devices
 
-  NetworkList() {
-    //this._devices = _devices;
-    //notifyListeners();
-  }
+  NetworkList();
 
   List<Device> getDeviceList(){
     if(_networkList.isEmpty){
@@ -32,12 +28,15 @@ class NetworkList extends ChangeNotifier{
   }
 
   List<String> getUpdateList(){
-        return _updateMacs;
-
+    return _updateMacs;
   }
 
   List<List<Device>> getNetworkList(){
     return _networkList;
+  }
+
+  List<Device> getAllDevices(){
+    return _devices;
   }
 
   int getNetworkListLength(){
@@ -90,11 +89,11 @@ class NetworkList extends ChangeNotifier{
     }
 
     if(device.attachedToRouter & config["internet_centered"]){
-      //this._devices.insert(0, device);
+      this._devices.insert(0, device);
       this._networkList[whichNetworkIndex].insert(0, device);
     }
     else{
-      //this._devices.add(device);
+      this._devices.add(device);
       this._networkList[whichNetworkIndex].add(device);
     }
 
@@ -113,6 +112,11 @@ class NetworkList extends ChangeNotifier{
 
   void clearNetworkList() {
     _networkList.clear();
+    notifyListeners();
+  }
+
+  void clearDeviceList() {
+    _devices.clear();
     notifyListeners();
   }
 

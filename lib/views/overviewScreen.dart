@@ -224,7 +224,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                 overflow: Overflow.visible,
                 children: [
                   Positioned.fill(
-                    top: -85,
+                    top: -90,
                     right: -35,
                     child: GestureDetector(
                       onTap: () {
@@ -255,38 +255,57 @@ class _OverviewScreenState extends State<OverviewScreen> {
                             TableRow(children: [
                               Align(
                                 alignment: Alignment.bottomRight,
-                                child:
-                                  SelectableText(
-                                    'Name:   ', style: TextStyle(height: 2),
-                                  ),
+                                child: SelectableText(
+                                  'Name:   ',
+                                  style: TextStyle(height: 2),
+                                ),
                               ),
                               TextFormField(
                                 initialValue: _newName,
+                                focusNode: myFocusNode,
                                 style: TextStyle(color: Colors.white),
                                 decoration: InputDecoration(
                                   //labelText: 'Testing',
+                                  focusColor: Colors.green,
+                                  hoverColor: secondColor.withOpacity(0.2),
+                                  suffixIcon: IconButton(
+                                    icon: Icon(Icons.edit_outlined, color: fontColorLight,),
+                                    onPressed: (){
+                                      socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
+                                      //_showEditAlert(context, socket, hitDeviceMac, _newName);
+                                    },
+                                  ),
                                   contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                                   filled: true,
-                                  fillColor: secondColor.withOpacity(0.2),
+                                  fillColor: secondColor.withOpacity(0.2),//myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5.0),
                                     borderSide: BorderSide(
                                       color: fontColorLight,
+                                      width: 2.0,
                                     ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5.0),
                                     borderSide: BorderSide(
-                                      color: Colors.white,
-                                      width: 2.0,
+                                      color: fontColorLight,//Colors.transparent,
+                                      //width: 2.0,
                                     ),
                                   ),
-                                  labelStyle: TextStyle(color: myFocusNode.hasFocus ? Colors.amberAccent : Colors.white),
-                                  focusColor: Colors.white,
+                                  //labelStyle: TextStyle(color: myFocusNode.hasFocus ? Colors.amberAccent : Colors.blue),
+
                                 ),
                                 onChanged: (value) => (_newName = value),
                                 onFieldSubmitted: (value) {
                                   socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
+                                },
+                                onEditingComplete: () {
+                                  socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
+                                },
+                                onTap: (){
+                                  setState(() {
+                                    myFocusNode.hasFocus;
+                                  });
                                 },
                                 validator: (value) {
                                   if (value.isEmpty) {
@@ -297,126 +316,94 @@ class _OverviewScreenState extends State<OverviewScreen> {
                               ),
                             ]),
                             TableRow(children: [
-                              Align(
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                                child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: SelectableText(
+                                      "${S.of(context).type}   ",
+                                    )),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                                child: SelectableText(hitDeviceType),
+                              ),
+                            ]),
+                            TableRow(children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                                child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: SelectableText(
+                                      "${S.of(context).serialNumber}   ",
+                                    )),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                                child: SelectableText(hitDeviceSN),
+                              ),
+                            ]),
+                            TableRow(children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                                child: Align(
                                   alignment: Alignment.centerRight,
                                   child: SelectableText(
-                                    "${S.of(context).type}   ",
-                                  )),
-                              SelectableText(hitDeviceType),
+                                    "${S.of(context).mtnumber}   ",
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                                child: SelectableText(hitDeviceMT.substring(2)),
+                              ),
                             ]),
                             TableRow(children: [
-                              Align(
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                                child: Align(
                                   alignment: Alignment.centerRight,
                                   child: SelectableText(
-                                    "${S.of(context).serialNumber}   ",
-                                  )),
-                              SelectableText(hitDeviceSN),
-                            ]),
-                            TableRow(children: [
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: SelectableText(
-                                  "${S.of(context).mtnumber}   ",
+                                    "${S.of(context).version}   ",
+                                  ),
                                 ),
                               ),
-                              SelectableText(hitDeviceMT.substring(2)),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                                child: SelectableText('$hitDeviceVersion ($hitDeviceVersionDate)'),
+                              ),
                             ]),
                             TableRow(children: [
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: SelectableText(
-                                  "${S.of(context).version}   ",
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: SelectableText(
+                                    "${S.of(context).ipaddress}   ",
+                                  ),
                                 ),
                               ),
-                              SelectableText('$hitDeviceVersion ($hitDeviceVersionDate)'),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                                child: SelectableText(hitDeviceIp),
+                              ),
                             ]),
                             TableRow(children: [
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: SelectableText(
-                                  "${S.of(context).ipaddress}   ",
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: SelectableText(
+                                    "${S.of(context).macaddress}   ",
+                                  ),
                                 ),
                               ),
-                              SelectableText(hitDeviceIp),
-                            ]),
-                            TableRow(children: [
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: SelectableText(
-                                  "${S.of(context).macaddress}   ",
-                                ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                                child: SelectableText(hitDeviceMac),
                               ),
-                              SelectableText(hitDeviceMac),
                             ]),
-                            TableRow(children: [
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: Row(
-                                  //crossAxisAlignment: WrapCrossAlignment.end,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    new Tooltip(
-                                      message: S.of(context).thisDeviceIsConnectedDirectlyToTheInternetRouter,
-                                      textStyle: TextStyle(color: fontColorDark, fontSize: 17  * fontSizeFactor),
-                                      decoration: BoxDecoration(color: secondColor, borderRadius: BorderRadius.circular(5)),
-                                      child: FlatButton(
-                                        minWidth: 20,
-                                        child: Icon(
-                                          Icons.info_outline,
-                                          color: secondColor,
-                                          size: 20  * fontSizeFactor,
-                                        ),
-                                        //iconSize: 15,
-                                        onPressed: () {
 
-                                          //_showInfoAlert(context);
-                                        },
-                                      ),
-                                    ),
-                                    Text("${S.of(context).attachedToRouter}   ", style: TextStyle(fontSize: 18 * fontSizeFactor,)),
-                                  ],
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.bottomLeft,
-                                child: Text(hitDeviceAtr ? S.of(context).yes : S.of(context).no, style: TextStyle(fontSize: 18 * fontSizeFactor,  height: 1.5),),
-                              ),
-                            ]),
-                            TableRow(children: [
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: Row(
-                                  //crossAxisAlignment: WrapCrossAlignment.end,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                  new Tooltip(
-                                  message: S.of(context).yourCurrentTerminalIsConnectedToThisDevolodevice,
-                                  textStyle: TextStyle(color: fontColorDark, fontSize: 17 * fontSizeFactor),
-                                    decoration: BoxDecoration(color: secondColor, borderRadius: BorderRadius.circular(5)),
-                                    child: FlatButton(
-                                        minWidth: 20,
-                                        child: Icon(
-                                          Icons.info_outline,
-                                          color: secondColor,
-                                          size: 20 * fontSizeFactor,
-                                        ),
-                                        //iconSize: 15,
-                                        onPressed: () {
-                                          _showInfoAlert(context);
-                                        },
-                                      ),
-                                    ),
-                                    Text("${S.of(context).isLocalDevice}   ", style: TextStyle(fontSize: 18 * fontSizeFactor)),
-                                  ],
-                                ),
-                              ),
-                              Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Text(hitDeviceisLocal ? S.of(context).yes : S.of(context).no, style: TextStyle(fontSize: 18 * fontSizeFactor, height: 1.5),),
-                              ),
-                            ]),
                           ],
                         ),
                         //Text('Rates: ' +hitDeviceRx),
@@ -624,7 +611,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(
-              messageType,
+              S.of(context).confirmAction,//messageType,
               style: TextStyle(color: fontColorLight),
             ),
             backgroundColor: backgroundColor.withOpacity(0.9),
@@ -639,7 +626,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                       )
                     : Text(S.of(context).pleaseConfirmAction, textScaleFactor: fontSizeFactor),
                 Positioned(
-                  top: -85,
+                  top: -90,
                   right: -35,
                   child: GestureDetector(
                     onTap: () {
@@ -658,13 +645,17 @@ class _OverviewScreenState extends State<OverviewScreen> {
               ],
             ),
             actions: <Widget>[
-              IconButton(
-                icon: Icon(
-                  Icons.check_circle_outline,
-                  color: fontColorLight,
-                ), //Text('Bestätigen'),
-                tooltip: S.of(context).confirm,
-                iconSize: 35 * fontSizeFactor,
+              FlatButton(
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.check_circle_outline,
+                      color: fontColorLight,
+                      size: 35 * fontSizeFactor,
+                    ),
+                    Text(S.of(context).confirm, style: TextStyle(color: fontColorLight),),
+                  ],
+                ),
                 onPressed: () {
                   // Critical things happening here
                   socket.sendXML(messageType, mac: hitDevice.mac);
@@ -672,13 +663,17 @@ class _OverviewScreenState extends State<OverviewScreen> {
                 },
               ),
               Spacer(),
-              IconButton(
-                  icon: Icon(
-                    Icons.cancel_outlined,
-                    color: fontColorLight,
+              FlatButton(
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.cancel_outlined,
+                        color: fontColorLight,
+                        size: 35 * fontSizeFactor,
+                      ),
+                      Text(S.of(context).cancel, style: TextStyle(color: fontColorLight),),
+                    ],
                   ), //Text('Abbrechen'),
-                  tooltip: S.of(context).cancel,
-                  iconSize: 35 * fontSizeFactor,
                   onPressed: () {
                     // Cancel critical action
                     Navigator.maybeOf(context).pop();
@@ -688,14 +683,14 @@ class _OverviewScreenState extends State<OverviewScreen> {
         });
   }
 
-  void _showInfoAlert(context) {
+  void _showEditAlert(context, socket, hitDeviceMac, _newName) {
     showDialog<void>(
         context: context,
         barrierDismissible: true, // user doesn't need to tap button!
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(
-              "Information",
+              "Confirm",
               style: TextStyle(color: fontColorLight),
             ),
             backgroundColor: backgroundColor.withOpacity(0.9),
@@ -720,9 +715,45 @@ class _OverviewScreenState extends State<OverviewScreen> {
                     ),
                   ),
                 ),
-                Text("Gerät welches direkt an den Router angeschlossen ist."),
+                    Text("Do you really want to rename this device?"),
+
               ],
             ),
+            actions: <Widget>[
+              FlatButton(
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.check_circle_outline,
+                      color: fontColorLight,
+                      size: 35 * fontSizeFactor,
+                    ),
+                    Text(S.of(context).confirm, style: TextStyle(color: fontColorLight),),
+                  ],
+                ),
+                onPressed: () {
+                  // Critical things happening here
+                  socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
+                  Navigator.maybeOf(context).pop();
+                },
+              ),
+              Spacer(),
+              FlatButton(
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.cancel_outlined,
+                        color: fontColorLight,
+                        size: 35 * fontSizeFactor,
+                      ),
+                      Text(S.of(context).cancel, style: TextStyle(color: fontColorLight),),
+                    ],
+                  ), //Text('Abbrechen'),
+                  onPressed: () {
+                    // Cancel critical action
+                    Navigator.maybeOf(context).pop();
+                  }),
+            ],
           );
         });
   }

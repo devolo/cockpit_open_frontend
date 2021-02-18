@@ -395,10 +395,10 @@ class S {
     );
   }
 
-  /// `name`
+  /// `Name`
   String get name {
     return Intl.message(
-      'name',
+      'Name',
       name: 'name',
       desc: '',
       args: [],
@@ -485,10 +485,10 @@ class S {
     );
   }
 
-  /// `open optimization`
+  /// `open optimization help`
   String get openOptimization {
     return Intl.message(
-      'open optimization',
+      'open optimization help',
       name: 'openOptimization',
       desc: '',
       args: [],
@@ -950,6 +950,26 @@ class S {
     return Intl.message(
       'Your current terminal is connected to this devolo-device.',
       name: 'yourCurrentTerminalIsConnectedToThisDevolodevice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update all`
+  String get updateAll {
+    return Intl.message(
+      'Update all',
+      name: 'updateAll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm Action`
+  String get confirmAction {
+    return Intl.message(
+      'Confirm Action',
+      name: 'confirmAction',
       desc: '',
       args: [],
     );

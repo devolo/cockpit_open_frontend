@@ -109,6 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if(highContrast == true)
       config["high_contrast"] = true;
     getVersion();
+
   }
 
   Future<void> getVersion() async {
@@ -190,11 +191,32 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.workspaces_filled),
+            icon: const Icon(Icons.brightness_6_rounded),
             tooltip: S.of(context).highContrast,
             onPressed: () {
               setState(() {
-                showNetwork = !showNetwork;
+                if(config["theme"] != theme_highContrast) {
+                  config["previous_theme"] = config["theme"];
+                  config["theme"] = theme_highContrast;
+                  mainColor = theme_highContrast["mainColor"];
+                  backgroundColor = theme_highContrast["backgroundColor"];
+                  secondColor = theme_highContrast["secondColor"];
+                  drawingColor = theme_highContrast["drawingColor"];
+                  fontColorLight = theme_highContrast["fontColorLight"];
+                  fontColorMedium = theme_highContrast["fontColorMedium"];
+                  fontColorDark = theme_highContrast["fontColorDark"];
+                }else{
+                  config["theme"] = config["previous_theme"];
+                  mainColor = config["previous_theme"]["mainColor"];
+                  backgroundColor = config["previous_theme"]["backgroundColor"];
+                  secondColor = config["previous_theme"]["secondColor"];
+                  drawingColor = config["previous_theme"]["drawingColor"];
+                  fontColorLight = config["previous_theme"]["fontColorLight"];
+                  fontColorMedium = config["previous_theme"]["fontColorMedium"];
+                  fontColorDark = config["previous_theme"]["fontColorDark"];
+                }
+                AppBuilder.of(context).rebuild();
+                //showNetwork = !showNetwork;
               });
               },
           ),

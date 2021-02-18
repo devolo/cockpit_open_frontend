@@ -110,69 +110,67 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
             insetPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 100),
               content: StatefulBuilder(// You need this, notice the parameters below:
                   builder: (BuildContext context, StateSetter setState) {
-                return Container(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
+                return
+                  Stack(
+                    overflow: Overflow.visible,
                     children: [
-                      IconButton(
-                        icon: Icon(Icons.arrow_back_ios, color: fontColorLight,),
-                        onPressed: () {
-                          print("back");
-                          setState(() {
-                            if(_index > 0){
-                            _index--;
-                            _currImage = optimizeImages[_index];}
-                            else{return null;}
-                          });
-                        },
+                      Positioned.fill(
+                        top: -90,
+                        right: -35,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Align(
+                            alignment: Alignment.topRight,
+                            child: CircleAvatar(
+                              radius: 14.0,
+                              backgroundColor: secondColor,
+                              child: Icon(Icons.close, color: fontColorDark),
+                            ),
+                          ),
+                        ),
                       ),
-                      Container(
-                        child: _currImage,
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.arrow_forward_ios, color: fontColorLight,),
-                        onPressed: () {
-                          print("forward");
-                          setState(() {
-                            if(_index < optimizeImages.length-1){
-                            _index++;
-                            _currImage = optimizeImages[_index];}
-                            else{return null;}
-                          });
-                        },
+                      Center(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.arrow_back_ios, color: fontColorLight,),
+                              onPressed: () {
+                                print("back");
+                                setState(() {
+                                  if(_index > 0){
+                                  _index--;
+                                  _currImage = optimizeImages[_index];}
+                                  else{return null;}
+                                });
+                              },
+                            ),
+                            Container(
+                              child: _currImage,
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.arrow_forward_ios, color: fontColorLight,),
+                              onPressed: () {
+                                print("forward");
+                                setState(() {
+                                  if(_index < optimizeImages.length-1){
+                                  _index++;
+                                  _currImage = optimizeImages[_index];}
+                                  else{return null;}
+                                });
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ],
-                  ),
-                );
+                  );
               }),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(
-                  Icons.check_circle_outline,
-                  size: 35,
-                  color: fontColorLight,
-                ), //Text('Bestätigen'),
-                tooltip: S.of(context).confirm,
-                onPressed: () {
-                  // Critical things happening here
-                  Navigator.maybeOf(context).pop();
-                },
-              ),
-              Spacer(),
-              IconButton(
-                  icon: Icon(
-                    Icons.cancel_outlined,
-                    size: 35,
-                    color: fontColorLight,
-                  ), //Text('Abbrechen'),
-                  tooltip: S.of(context).cancel,
-                  onPressed: () {
-                    // Cancel critical action
-                    Navigator.maybeOf(context).pop();
-                  }),
-            ],
+
           );
         });
   }

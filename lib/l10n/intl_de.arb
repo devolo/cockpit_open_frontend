@@ -52,7 +52,7 @@
   "addDevice": "Gerät hinzufügen",
   "openOptimization": "Optimierungshilfe öffnen",
   "optimizationHelp": "Optimierungs Hilfe",
-  "pleaseConfirmActionAttentionYourRouterIsConnectedToThis": "Bitte Aktion bestätigen. \nAchtung! Ihr Router ist an dieses PLC-Gerät angeschlossen sie verlieren die Verbiondung zum Internet ",
+  "pleaseConfirmActionAttentionYourRouterIsConnectedToThis": "Bitte Aktion bestätigen. \nAchtung! Ihr Router ist an dieses PLC-Gerät angeschlossen sie verlieren die Verbindung zum Internet ",
   "install": "Installieren",
   "confirm": "Bestätigen",
   "cancel": "Abbrechen",
@@ -96,5 +96,7 @@
   "yes": "Ja",
   "no": "Nein",
   "thisDeviceIsConnectedDirectlyToTheInternetRouter": "Dieses Gerät ist direkt an den Internet-Router angeschlossen.",
-  "yourCurrentTerminalIsConnectedToThisDevolodevice": "Ihr aktuelles Endgerät ist mit diesem devolo-Gerät verbunden."
+  "yourCurrentTerminalIsConnectedToThisDevolodevice": "Ihr aktuelles Endgerät ist mit diesem devolo-Gerät verbunden.",
+  "updateAll": "Aktualisiere Alle",
+  "confirmAction": "Aktion Bestätigen"
 }

@@ -795,188 +795,186 @@ class _SettingsScreenState extends State<SettingsScreen> {
             style: TextStyle(color: fontColorLight),
             textAlign: TextAlign.center,
           ),
-          content: StatefulBuilder(
-            // You need this, notice the parameters below:
-            builder: (BuildContext context, StateSetter setState) {
-              return Column(
-                children: [
-                  Text(
-                    S.of(context).chooseTheme,
-                    style: TextStyle(color: fontColorLight),
+          content: Stack(
+            overflow: Overflow.visible,
+            children: [
+              Positioned.fill(
+                top: -90,
+                right: -35,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: CircleAvatar(
+                      radius: 14.0,
+                      backgroundColor: secondColor,
+                      child: Icon(Icons.close, color: fontColorDark),
+                    ),
                   ),
-                  Divider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                ),
+              ),
+              StatefulBuilder(
+                // You need this, notice the parameters below:
+                builder: (BuildContext context, StateSetter setState) {
+                  return Column(
                     children: [
-                      new FlatButton(
-                        minWidth: 200,
-                        color: secondColor,
-                        child: Column(
-                          children: [
-                            SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_devolo.PNG'))),
-                            new Text(
-                              "Standard Theme",
-                              style: TextStyle(color: fontColorDark),
-                            ),
-                          ],
-                        ),
-                        hoverColor: fontColorLight,
-                        onPressed: () {
-                          setState(() {
-                            config["theme"] = theme_devolo;
-                            mainColor = theme_devolo["mainColor"];
-                            backgroundColor = theme_devolo["backgroundColor"];
-                            secondColor = theme_devolo["secondColor"];
-                            drawingColor = theme_devolo["drawingColor"];
-                            fontColorLight = theme_devolo["fontColorLight"];
-                            fontColorMedium = theme_highContrast["fontColorMedium"];
-                            fontColorDark = theme_devolo["fontColorDark"];
-                            AppBuilder.of(context).rebuild();
-                          });
-                        },
+                      Text(
+                        S.of(context).chooseTheme,
+                        style: TextStyle(color: fontColorLight),
                       ),
-                      new FlatButton(
-                        minWidth: 200,
-                        color: secondColor,
-                        child: Column(
-                          children: [
-                            SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_dark.PNG'))),
-                            new Text(
-                              "Dark Theme",
-                              style: TextStyle(color: fontColorDark),
-                            ),
-                          ],
-                        ),
-                        hoverColor: fontColorLight,
-                        onPressed: () {
-                          setState(() {
-                            config["theme"] = theme_dark;
-                            mainColor = theme_dark["mainColor"];
-                            backgroundColor = theme_dark["backgroundColor"];
-                            secondColor = theme_dark["secondColor"];
-                            drawingColor = theme_dark["drawingColor"];
-                            fontColorLight = theme_dark["fontColorLight"];
-                            fontColorMedium = theme_highContrast["fontColorMedium"];
-                            fontColorDark = theme_dark["fontColorDark"];
-                            AppBuilder.of(context).rebuild();
-                          });
-                        },
-                      ),
-                      new FlatButton(
-                        minWidth: 200,
-                        color: secondColor,
-                        child: Column(
-                          children: [
-                            SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_highContrast.PNG'))),
-                            new Text(
-                              "High Contrast Theme",
-                              style: TextStyle(color: fontColorDark),
-                            ),
-                          ],
-                        ),
-                        hoverColor: fontColorLight,
-                        onPressed: () {
-                          setState(() {
-                            config["theme"] = theme_highContrast;
-                            mainColor = theme_highContrast["mainColor"];
-                            backgroundColor = theme_highContrast["backgroundColor"];
-                            secondColor = theme_highContrast["secondColor"];
-                            drawingColor = theme_highContrast["drawingColor"];
-                            fontColorLight = theme_highContrast["fontColorLight"];
-                            fontColorMedium = theme_highContrast["fontColorMedium"];
-                            fontColorDark = theme_highContrast["fontColorDark"];
-                            AppBuilder.of(context).rebuild();
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                  Divider(),
-                  Text(
-                    S.of(context).fullyCustomizeColors,
-                    style: TextStyle(color: fontColorLight),
-                  ),
-                  Divider(),
-                  for (dynamic con in contents.entries)
-                    Column(
-                      children: [
-                        new GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              print(con);
-                              selected = con.key;
-                              _animatedHeight != 0.0 ? _animatedHeight = 0.0 : _animatedHeight = 180.0;
-                            });
-                            AppBuilder.of(context).rebuild();
-                          },
-                          child: new Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Divider(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          new FlatButton(
+                            minWidth: 200,
+                            color: secondColor,
+                            child: Column(
                               children: [
+                                SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_devolo.PNG'))),
                                 new Text(
-                                  " " + con.key,
+                                  "Standard Theme",
                                   style: TextStyle(color: fontColorDark),
-                                ),
-                                Spacer(),
-                                // ToDo CircleAvatar doesn't change
-                                // new CircleAvatar(
-                                //   backgroundColor: con.value.selectedColor, //_tempShadeColor,
-                                //   radius: 15.0,
-                                // ),
-                                new Icon(
-                                  Icons.arrow_drop_down_rounded,
-                                  color: fontColorDark,
                                 ),
                               ],
                             ),
-                            color: secondColor, //Colors.grey[800].withOpacity(0.9),
-                            height: 50.0,
-                            width: 900.0,
+                            hoverColor: fontColorLight,
+                            onPressed: () {
+                              setState(() {
+                                config["theme"] = theme_devolo;
+                                mainColor = theme_devolo["mainColor"];
+                                backgroundColor = theme_devolo["backgroundColor"];
+                                secondColor = theme_devolo["secondColor"];
+                                drawingColor = theme_devolo["drawingColor"];
+                                fontColorLight = theme_devolo["fontColorLight"];
+                                fontColorMedium = theme_devolo["fontColorMedium"];
+                                fontColorDark = theme_devolo["fontColorDark"];
+                                AppBuilder.of(context).rebuild();
+                              });
+                            },
                           ),
-                        ),
-                        new AnimatedContainer(
-                          duration: const Duration(milliseconds: 120),
-                          child: Column(
-                            children: [
-                              Expanded(child: con.value),
-                            ],
+                          new FlatButton(
+                            minWidth: 200,
+                            color: secondColor,
+                            child: Column(
+                              children: [
+                                SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_dark.PNG'))),
+                                new Text(
+                                  "Dark Theme",
+                                  style: TextStyle(color: fontColorDark),
+                                ),
+                              ],
+                            ),
+                            hoverColor: fontColorLight,
+                            onPressed: () {
+                              setState(() {
+                                config["theme"] = theme_dark;
+                                mainColor = theme_dark["mainColor"];
+                                backgroundColor = theme_dark["backgroundColor"];
+                                secondColor = theme_dark["secondColor"];
+                                drawingColor = theme_dark["drawingColor"];
+                                fontColorLight = theme_dark["fontColorLight"];
+                                fontColorMedium = theme_dark["fontColorMedium"];
+                                fontColorDark = theme_dark["fontColorDark"];
+                                AppBuilder.of(context).rebuild();
+                              });
+                            },
                           ),
-                          height: selected == con.key ? _animatedHeight : 0.0,
-                          color: secondColor.withOpacity(0.8),
-                          //Colors.grey[800].withOpacity(0.6),
-                          width: 900.0,
+                          new FlatButton(
+                            minWidth: 200,
+                            color: secondColor,
+                            child: Column(
+                              children: [
+                                SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_highContrast.PNG'))),
+                                new Text(
+                                  "High Contrast Theme",
+                                  style: TextStyle(color: fontColorDark),
+                                ),
+                              ],
+                            ),
+                            hoverColor: fontColorLight,
+                            onPressed: () {
+                              setState(() {
+                                config["theme"] = theme_highContrast;
+                                mainColor = theme_highContrast["mainColor"];
+                                backgroundColor = theme_highContrast["backgroundColor"];
+                                secondColor = theme_highContrast["secondColor"];
+                                drawingColor = theme_highContrast["drawingColor"];
+                                fontColorLight = theme_highContrast["fontColorLight"];
+                                fontColorMedium = theme_highContrast["fontColorMedium"];
+                                fontColorDark = theme_highContrast["fontColorDark"];
+                                AppBuilder.of(context).rebuild();
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                      Divider(),
+                      Text(
+                        S.of(context).fullyCustomizeColors,
+                        style: TextStyle(color: fontColorLight),
+                      ),
+                      Divider(),
+                      for (dynamic con in contents.entries)
+                        Column(
+                          children: [
+                            new GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  print(con);
+                                  selected = con.key;
+                                  _animatedHeight != 0.0 ? _animatedHeight = 0.0 : _animatedHeight = 180.0;
+                                });
+                                AppBuilder.of(context).rebuild();
+                              },
+                              child: new Container(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    new Text(
+                                      " " + con.key,
+                                      style: TextStyle(color: fontColorDark),
+                                    ),
+                                    Spacer(),
+                                    // ToDo CircleAvatar doesn't change
+                                    // new CircleAvatar(
+                                    //   backgroundColor: con.value.selectedColor, //_tempShadeColor,
+                                    //   radius: 15.0,
+                                    // ),
+                                    new Icon(
+                                      Icons.arrow_drop_down_rounded,
+                                      color: fontColorDark,
+                                    ),
+                                  ],
+                                ),
+                                color: secondColor, //Colors.grey[800].withOpacity(0.9),
+                                height: 50.0,
+                                width: 900.0,
+                              ),
+                            ),
+                            new AnimatedContainer(
+                              duration: const Duration(milliseconds: 120),
+                              child: Column(
+                                children: [
+                                  Expanded(child: con.value),
+                                ],
+                              ),
+                              height: selected == con.key ? _animatedHeight : 0.0,
+                              color: secondColor.withOpacity(0.8),
+                              //Colors.grey[800].withOpacity(0.6),
+                              width: 900.0,
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                ],
-              );
-            },
+                    ],
+                  );
+                },
+              ),
+            ],
           ),
-          actions: [
-            FlatButton(
-              child: Icon(
-                Icons.check_circle_outline,
-                size: 35 * fontSizeFactor,
-                color: fontColorLight,
-              ), //Text('Bestätigen'),
-              onPressed: () {
-                // action happening here
-                Navigator.maybeOf(context).pop();
-                setState(() {});
-              },
-            ),
-            FlatButton(
-                child: Icon(
-                  Icons.cancel_outlined,
-                  size: 35 * fontSizeFactor,
-                  color: fontColorLight,
-                ), //Text('Abbrechen'),
-                onPressed: () {
-                  // Cancel critical action
-                  Navigator.maybeOf(context).pop();
-                  setState(() {});
-                }),
-          ],
+
         );
       },
     );

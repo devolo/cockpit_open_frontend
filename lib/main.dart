@@ -17,6 +17,9 @@ import 'package:cockpit_devolo/views/appBuilder.dart';
 import 'package:yaml/yaml.dart';
 import 'dart:io';
 
+import 'package:package_info_plus/package_info_plus.dart';
+import 'dart:convert';
+
 void main() {
   //debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
   runApp(MyApp());
@@ -41,6 +44,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: backgroundColor,
           canvasColor: Colors.white,
           //highlightColor: Colors.green,
+
           textTheme: Theme
               .of(context)
               .textTheme
@@ -50,6 +54,7 @@ class MyApp extends StatelessWidget {
             displayColor: fontColorDark,
             bodyColor: fontColorDark,
             decorationColor: fontColorDark,
+
           ),
         ),
         localizationsDelegates: [
@@ -85,12 +90,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   TextStyle _menuItemStyle;
-  int bottomSelectedIndex = 1;
-  bool highContrast = MediaQueryData().highContrast;  // Query current device if high Contrast theme is set
+  int bottomSelectedIndex = 0;
+  bool highContrast = false; // MediaQueryData().highContrast;  // Query current device if high Contrast theme is set
 
   String versionName;
-  String versionCode;
-
+  String buildNum;
+  String version;
+  String buildNr;
 
 
   @override
@@ -101,36 +107,36 @@ class _MyHomePageState extends State<MyHomePage> {
 
     print('CONTRAST:  ${highContrast}');
     if(highContrast == true)
-      config["high_contrast"] =true;
-
+      config["high_contrast"] = true;
     getVersion();
+
   }
 
   Future<void> getVersion() async {
-    File f = new File("pubspec.yaml");
+    File f = new File("data/flutter_assets/version.json");
     f.readAsString().then((String text) {
-      Map yaml = loadYaml(text);
-      //print(yaml['name']);
-      //print(yaml['description']);
-      print(yaml['version']);
-      versionName = yaml['version'];
-      //print(yaml['author']);
-      //print(yaml['homepage']);
-      //print(yaml['dependencies']);
+      Map <String, dynamic> versionJSON = jsonDecode(text);
+      print(versionJSON['version']);
+      versionName = versionJSON['version'];
+      buildNum = versionJSON['build_number'];
     });
+
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    version = packageInfo.version;
+    buildNr = packageInfo.buildNumber;
   }
 
   List<BottomNavigationBarItem> buildBottomNavBarItems() {
     return [
-      BottomNavigationBarItem(icon: Icon(Icons.settings_rounded), label: S.of(context).settings,),
-      BottomNavigationBarItem(icon: Icon(Icons.home_rounded), label: S.of(context).overview),
+      BottomNavigationBarItem(icon: Icon(Icons.workspaces_filled), label: S.of(context).overview),
       BottomNavigationBarItem(icon: Icon(Icons.download_rounded), label: S.of(context).update,),
-      BottomNavigationBarItem(icon: Icon(Icons.add_circle), label: S.of(context).add),
+      BottomNavigationBarItem(icon: Icon(Icons.help), label: S.of(context).help),
+      BottomNavigationBarItem(icon: Icon(Icons.settings_rounded), label: S.of(context).settings,),
     ];
   }
 
   PageController pageController = PageController(
-    initialPage: 1,
+    initialPage: 0,
     keepPage: true,
   );
 
@@ -141,14 +147,14 @@ class _MyHomePageState extends State<MyHomePage> {
         pageChanged(index);
       },
       children: <Widget>[
-        SettingsScreen(
-          title: S.of(context).settings,
-        ),
         showNetwork?OverviewNetworksScreen(): OverviewScreen(),
         UpdateScreen(
           title: S.of(context).update,
         ),
         AddDeviceScreen(),
+        SettingsScreen(
+          title: S.of(context).settings,
+        ),
 
       ],
     );
@@ -170,9 +176,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
 
-    double mediaFontScaleFactor =  MediaQuery.textScaleFactorOf(context); // Query current device for the System FontSize
-
-    print('SIZE:  ${mediaFontScaleFactor}');
+    // double mediaFontScaleFactor =  MediaQuery.textScaleFactorOf(context); // Query current device for the System FontSize
+    // print('SIZE:  ${mediaFontScaleFactor}');
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -186,11 +191,32 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.workspaces_filled),
-            tooltip: S.of(context).changeNetworkview,
+            icon: const Icon(Icons.brightness_6_rounded),
+            tooltip: S.of(context).highContrast,
             onPressed: () {
               setState(() {
-                showNetwork = !showNetwork;
+                if(config["theme"] != theme_highContrast) {
+                  config["previous_theme"] = config["theme"];
+                  config["theme"] = theme_highContrast;
+                  mainColor = theme_highContrast["mainColor"];
+                  backgroundColor = theme_highContrast["backgroundColor"];
+                  secondColor = theme_highContrast["secondColor"];
+                  drawingColor = theme_highContrast["drawingColor"];
+                  fontColorLight = theme_highContrast["fontColorLight"];
+                  fontColorMedium = theme_highContrast["fontColorMedium"];
+                  fontColorDark = theme_highContrast["fontColorDark"];
+                }else{
+                  config["theme"] = config["previous_theme"];
+                  mainColor = config["previous_theme"]["mainColor"];
+                  backgroundColor = config["previous_theme"]["backgroundColor"];
+                  secondColor = config["previous_theme"]["secondColor"];
+                  drawingColor = config["previous_theme"]["drawingColor"];
+                  fontColorLight = config["previous_theme"]["fontColorLight"];
+                  fontColorMedium = config["previous_theme"]["fontColorMedium"];
+                  fontColorDark = config["previous_theme"]["fontColorDark"];
+                }
+                AppBuilder.of(context).rebuild();
+                //showNetwork = !showNetwork;
               });
               },
           ),
@@ -212,7 +238,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         ListTile(
             leading: Icon(Icons.workspaces_filled, color: mainColor), //miscellaneous_services
-            title: Text(S.of(context).networkoverview, style: _menuItemStyle),
+            title: Text(S.of(context).overview, style: _menuItemStyle),
             //tileColor: devoloBlue,
             onTap: () {
               bottomTapped(1);
@@ -231,8 +257,8 @@ class _MyHomePageState extends State<MyHomePage> {
               // );
             }),
         ListTile(
-            leading: Icon(Icons.add_circle, color: mainColor),
-            title: Text(S.of(context).addDevice, style: _menuItemStyle),
+            leading: Icon(Icons.help, color: mainColor),
+            title: Text(S.of(context).help, style: _menuItemStyle),
             onTap: () {
               bottomTapped(3);
               Navigator.pop(context); //close drawer
@@ -287,7 +313,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   SvgPicture.asset('assets/logo.svg', height: 20, color: drawingColor),
                   SizedBox(height: 30,),
-                  Text('Version ${versionName.toString()}'), // ToDo
+                  Text('Version ${versionName.toString()} + ${buildNum.toString()}'), // from version.json
+                  Text('Version_info ${version.toString()} + ${buildNr.toString()}' ), // from package_info_plus
                   GestureDetector(
                       child: Text("\nwww.devolo.de", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue)),
                       onTap: () {
@@ -305,8 +332,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ), //Text('Bestätigen'),
                 onPressed: () {
                   // Critical things happening here
-
-                  Navigator.of(context).pop();
+                  Navigator.maybeOf(context).pop();
                 },
               ),
             ],

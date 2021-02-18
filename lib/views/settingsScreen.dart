@@ -13,6 +13,10 @@ import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:cockpit_devolo/views/appBuilder.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+
+
 class SettingsScreen extends StatefulWidget {
   SettingsScreen({Key key, this.title, this.painter}) : super(key: key);
 
@@ -34,19 +38,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   ColorSwatch _tempMainColor;
   ColorSwatch _mainColor;
-
   Color _tempShadeMainColor = mainColor;
   Color _shadeMainColor = mainColor;
-
   Color _tempShadeSecondColor = secondColor;
   Color _shadeSecondColor = secondColor;
-
   Color _tempShadeFontColorLight = fontColorLight;
   Color _shadeFontColorLight = fontColorLight;
   Color _tempShadeFontColorDark = fontColorDark;
   Color _shadeFontColorDark = fontColorDark;
 
   final _scrollController = ScrollController();
+
+  void saveToSharedPrefs(Map<String, dynamic> inputMap) async {
+    print('Config from Prog: ${inputMap}');
+
+    String jsonString = json.encode(inputMap);
+    print('Config from Prog: ${jsonString}');
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var config = prefs.get("config");
+    print('Config from Prefs: ${config}');
+
+    await prefs.setString('config', jsonString);
+
+  }
 
   void toggleCheckbox(bool value) {
     setState(() {
@@ -60,6 +75,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         config["show_speeds"] = false;
         //widget.painter.pivotDeviceIndex = 0;
       }
+      saveToSharedPrefs(config);
     });
   }
 
@@ -197,7 +213,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ListTile(
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
-                  subtitle: Text(S.of(context).changeTheLanguageOfTheApp, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 15 * fontSizeFactor)),
+                  subtitle: Text(S.of(context).changeTheLanguageOfTheApp, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)),
                   title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                     new Text(
                       S.of(context).language,
@@ -222,6 +238,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           S.load(Locale(newValue, ''));
                         });
                         AppBuilder.of(context).rebuild();
+                        saveToSharedPrefs(config);
                       },
                       items: <String>['en', 'de'].map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
@@ -247,64 +264,88 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ]),
                 ),
                 Divider(),
-                ListTile(
-                  contentPadding: EdgeInsets.only(left: 10, right: 10),
-                  tileColor: secondColor,
-                  subtitle: Text(S.of(context).dataRatesArePermanentlyDisplayedInTheOverview, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 15 * fontSizeFactor)),
-                  title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(S.of(context).enableShowingSpeeds, style: TextStyle(color: fontColorDark), semanticsLabel: "Show Speeds"),
-                    new Checkbox(
-                      value: config["show_speeds_permanent"], //widget.painter.showSpeedsPermanently,
-                      onChanged: toggleCheckbox,
-                      activeColor: mainColor,
-                    ),
-                  ]),
+                GestureDetector(
+                  onTap: () {
+                    toggleCheckbox(!config["show_speeds_permanent"]);
+                    },
+                  child: ListTile(
+                    contentPadding: EdgeInsets.only(left: 10, right: 10),
+                    tileColor: secondColor,
+                    subtitle: Text(S.of(context).dataRatesArePermanentlyDisplayedInTheOverview, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)),
+                    title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                      new Text(S.of(context).enableShowingSpeeds, style: TextStyle(color: fontColorDark), semanticsLabel: "Show Speeds"),
+                      new Checkbox(
+                        value: config["show_speeds_permanent"], //widget.painter.showSpeedsPermanently,
+                        onChanged: toggleCheckbox,
+                        activeColor: mainColor,
+                      ),
+                    ]),
+                  ),
                 ),
                 Divider(),
-                ListTile(
-                  contentPadding: EdgeInsets.only(left: 10, right: 10),
-                  tileColor: secondColor,
-                  subtitle: Text(S.of(context).theOverviewWillBeCenteredAroundThePlcDeviceConnected, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 15 * fontSizeFactor)),
-                  title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(
-                      S.of(context).internetcentered,
-                      style: TextStyle(color: fontColorDark),
-                    ),
-                    new Switch(
-                      value: config["internet_centered"],
-                      onChanged: (value) {
-                        setState(() {
-                          config["internet_centered"] = value;
-                          socket.sendXML('RefreshNetwork');
-                        });
-                      },
-                      activeTrackColor: mainColor.withAlpha(120),
-                      activeColor: mainColor,
-                    ),
-                  ]),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      config["internet_centered"] = !config["internet_centered"];
+                      socket.sendXML('RefreshNetwork');
+                      saveToSharedPrefs(config);
+                    });
+                  },
+                  child: ListTile(
+                    contentPadding: EdgeInsets.only(left: 10, right: 10),
+                    tileColor: secondColor,
+                    subtitle: Text(S.of(context).theOverviewWillBeCenteredAroundThePlcDeviceConnected, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)),
+                    title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                      new Text(
+                        S.of(context).internetcentered,
+                        style: TextStyle(color: fontColorDark),
+                      ),
+                      new Switch(
+                        value: config["internet_centered"],
+                        //materialTapTargetSize: MaterialTapTargetSize,
+                        onChanged: (value) {
+                          setState(() {
+                            config["internet_centered"] = value;
+                            socket.sendXML('RefreshNetwork');
+                            saveToSharedPrefs(config);
+                          });
+                        },
+                        activeTrackColor: mainColor.withAlpha(120),
+                        activeColor: mainColor,
+                      ),
+                    ]),
+                  ),
                 ),
                 Divider(),
-                ListTile(
-                  contentPadding: EdgeInsets.only(left: 10, right: 10),
-                  tileColor: secondColor,
-                  subtitle: Text(S.of(context).otherDevicesEgPcAreDisplayedInTheOverview, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 15 * fontSizeFactor)),
-                  title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(
-                      S.of(context).showOtherDevices,
-                      style: TextStyle(color: fontColorDark),
-                    ),
-                    new Switch(
-                      value: config["show_other_devices"],
-                      onChanged: (value) {
-                        setState(() {
-                          config["show_other_devices"] = value;
-                          socket.sendXML('RefreshNetwork');
-                        });
-                      },
-                      activeTrackColor: mainColor.withAlpha(120),
-                      activeColor: mainColor,
-                    ),
-                  ]),
+                GestureDetector(
+                  onTap:() {
+                    setState(() {
+                      config["show_other_devices"] = !config["show_other_devices"];
+                      socket.sendXML('RefreshNetwork');
+                    });
+                  },
+                  child: ListTile(
+                    contentPadding: EdgeInsets.only(left: 10, right: 10),
+                    tileColor: secondColor,
+                    subtitle: Text(S.of(context).otherDevicesEgPcAreDisplayedInTheOverview, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)),
+                    title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                      new Text(
+                        S.of(context).showOtherDevices,
+                        style: TextStyle(color: fontColorDark),
+                      ),
+                      new Switch(
+                        value: config["show_other_devices"],
+                        onChanged: (value) {
+                          setState(() {
+                            config["show_other_devices"] = value;
+                            socket.sendXML('RefreshNetwork');
+                          });
+                        },
+                        activeTrackColor: mainColor.withAlpha(120),
+                        activeColor: mainColor,
+                      ),
+                    ]),
+                  ),
                 ),
                 Divider(),
                 ListTile(
@@ -344,7 +385,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   child: ListTile(
                     contentPadding: EdgeInsets.only(left: 10, right: 10),
                     tileColor: secondColor,
-                    subtitle: Text(S.of(context).chooseMainColorAccentColorAndFontColors, style: TextStyle(color: fontColorDark.withAlpha(150), fontSize: 15 * fontSizeFactor)),
+                    subtitle: Text(S.of(context).chooseMainColorAccentColorAndFontColors, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)),
                     title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                       new Text(
                         S.of(context).appColor,
@@ -388,67 +429,91 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   )
                 ]),
                 Divider(),
-                ListTile(
-                  contentPadding: EdgeInsets.only(left: 10, right: 10),
-                  tileColor: secondColor,
-                  title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(
-                      S.of(context).ignoreUpdates,
-                      style: TextStyle(color: fontColorDark),
-                    ),
-                    new Checkbox(
-                        value: config["ignore_updates"],
-                        activeColor: mainColor,
-                        onChanged: (bool value) {
-                          setState(() {
-                            config["ignore_updates"] = !config["ignore_updates"];
-                            socket.sendXML('Config');
-                          });
-                        }),
-                  ]),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      config["ignore_updates"] = !config["ignore_updates"];
+                      socket.sendXML('Config');
+                    });
+                  },
+                  child: ListTile(
+                    contentPadding: EdgeInsets.only(left: 10, right: 10),
+                    tileColor: secondColor,
+                    title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                      new Text(
+                        S.of(context).ignoreUpdates,
+                        style: TextStyle(color: fontColorDark),
+                      ),
+                      new Checkbox(
+                          value: config["ignore_updates"],
+                          activeColor: mainColor,
+                          onChanged: (bool value) {
+                            setState(() {
+                              config["ignore_updates"] = !config["ignore_updates"];
+                              socket.sendXML('Config');
+                            });
+                          }),
+                    ]),
+                  ),
                 ),
                 Divider(),
-                ListTile(
-                  contentPadding: EdgeInsets.only(left: 10, right: 10),
-                  tileColor: secondColor,
-                  title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(
-                      S.of(context).recordTheTransmissionPowerOfTheDevicesAndTransmitIt,
-                      style: TextStyle(color: fontColorDark),
-                    ),
-                    new Checkbox(
-                        value: config["allow_data_collection"],
-                        activeColor: mainColor,
-                        onChanged: (bool value) {
-                          setState(() {
-                            config["allow_data_collection"] = !config["allow_data_collection"];
-                            socket.sendXML('Config');
-                          });
-                        }),
-                  ]),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      config["allow_data_collection"] = !config["allow_data_collection"];
+                      socket.sendXML('Config');
+                    });
+                  },
+                  child: ListTile(
+                    contentPadding: EdgeInsets.only(left: 10, right: 10),
+                    tileColor: secondColor,
+                    title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                      new Text(
+                        S.of(context).recordTheTransmissionPowerOfTheDevicesAndTransmitIt,
+                        style: TextStyle(color: fontColorDark),
+                      ),
+                      new Checkbox(
+                          value: config["allow_data_collection"],
+                          activeColor: mainColor,
+                          onChanged: (bool value) {
+                            setState(() {
+                              config["allow_data_collection"] = !config["allow_data_collection"];
+                              socket.sendXML('Config');
+                            });
+                          }),
+                    ]),
+                  ),
                 ),
                 Divider(),
-                ListTile(
-                  contentPadding: EdgeInsets.only(left: 10, right: 10),
-                  tileColor: secondColor,
-                  title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(
-                      S.of(context).windowsNetworkThrottling,
-                      style: TextStyle(color: fontColorDark),
-                    ),
-                    new Switch(
-                      value: !config["windows_network_throttling_disabled"],
-                      onChanged: (value) {
-                        setState(() {
-                          config["windows_network_throttling_disabled"] = !value;
-                          print(config["windows_network_throttling_disabled"]);
-                          socket.sendXML('Config');
-                        });
-                      },
-                      activeTrackColor: mainColor.withAlpha(120),
-                      activeColor: mainColor,
-                    ),
-                  ]),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      config["windows_network_throttling_disabled"] = !config["windows_network_throttling_disabled"];
+                      socket.sendXML('Config');
+                    });
+                  },
+                  child: ListTile(
+                    contentPadding: EdgeInsets.only(left: 10, right: 10),
+                    tileColor: secondColor,
+                    title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                      new Text(
+                        S.of(context).windowsNetworkThrottling,
+                        style: TextStyle(color: fontColorDark),
+                      ),
+                      new Switch(
+                        value: !config["windows_network_throttling_disabled"],
+                        onChanged: (value) {
+                          setState(() {
+                            config["windows_network_throttling_disabled"] = !value;
+                            print(config["windows_network_throttling_disabled"]);
+                            socket.sendXML('Config');
+                          });
+                        },
+                        activeTrackColor: mainColor.withAlpha(120),
+                        activeColor: mainColor,
+                      ),
+                    ]),
+                  ),
                 ),
                 Divider(),
                 ListTile(
@@ -688,7 +753,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ), //Text('Bestätigen'),
                 onPressed: () {
                   // action happening here
-                  Navigator.of(context).pop();
+                  Navigator.maybeOf(context).pop();
                 },
               ),
               FlatButton(
@@ -699,7 +764,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ), //Text('Abbrechen'),
                   onPressed: () {
                     // Cancel critical action
-                    Navigator.of(context).pop();
+                    Navigator.maybeOf(context).pop();
                   }),
             ],
           );
@@ -730,185 +795,186 @@ class _SettingsScreenState extends State<SettingsScreen> {
             style: TextStyle(color: fontColorLight),
             textAlign: TextAlign.center,
           ),
-          content: StatefulBuilder(
-            // You need this, notice the parameters below:
-            builder: (BuildContext context, StateSetter setState) {
-              return Column(
-                children: [
-                  Text(
-                    S.of(context).chooseTheme,
-                    style: TextStyle(color: fontColorLight),
+          content: Stack(
+            overflow: Overflow.visible,
+            children: [
+              Positioned.fill(
+                top: -90,
+                right: -35,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: CircleAvatar(
+                      radius: 14.0,
+                      backgroundColor: secondColor,
+                      child: Icon(Icons.close, color: fontColorDark),
+                    ),
                   ),
-                  Divider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                ),
+              ),
+              StatefulBuilder(
+                // You need this, notice the parameters below:
+                builder: (BuildContext context, StateSetter setState) {
+                  return Column(
                     children: [
-                      new FlatButton(
-                        minWidth: 200,
-                        color: secondColor,
-                        child: Column(
-                          children: [
-                            SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_devolo.PNG'))),
-                            new Text(
-                              "Standard Theme",
-                              style: TextStyle(color: fontColorDark),
-                            ),
-                          ],
-                        ),
-                        hoverColor: fontColorLight,
-                        onPressed: () {
-                          setState(() {
-                            config["theme"] = theme_devolo;
-                            mainColor = theme_devolo["mainColor"];
-                            backgroundColor = theme_devolo["backgroundColor"];
-                            secondColor = theme_devolo["secondColor"];
-                            drawingColor = theme_devolo["drawingColor"];
-                            fontColorLight = theme_devolo["fontColorLight"];
-                            fontColorDark = theme_devolo["fontColorDark"];
-                            AppBuilder.of(context).rebuild();
-                          });
-                        },
+                      Text(
+                        S.of(context).chooseTheme,
+                        style: TextStyle(color: fontColorLight),
                       ),
-                      new FlatButton(
-                        minWidth: 200,
-                        color: secondColor,
-                        child: Column(
-                          children: [
-                            SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_dark.PNG'))),
-                            new Text(
-                              "Dark Theme",
-                              style: TextStyle(color: fontColorDark),
-                            ),
-                          ],
-                        ),
-                        hoverColor: fontColorLight,
-                        onPressed: () {
-                          setState(() {
-                            config["theme"] = theme_dark;
-                            mainColor = theme_dark["mainColor"];
-                            backgroundColor = theme_dark["backgroundColor"];
-                            secondColor = theme_dark["secondColor"];
-                            drawingColor = theme_dark["drawingColor"];
-                            fontColorLight = theme_dark["fontColorLight"];
-                            fontColorDark = theme_dark["fontColorDark"];
-                            AppBuilder.of(context).rebuild();
-                          });
-                        },
-                      ),
-                      new FlatButton(
-                        minWidth: 200,
-                        color: secondColor,
-                        child: Column(
-                          children: [
-                            SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_highContrast.PNG'))),
-                            new Text(
-                              "High Contrast Theme",
-                              style: TextStyle(color: fontColorDark),
-                            ),
-                          ],
-                        ),
-                        hoverColor: fontColorLight,
-                        onPressed: () {
-                          setState(() {
-                            config["theme"] = theme_highContrast;
-                            mainColor = theme_highContrast["mainColor"];
-                            backgroundColor = theme_highContrast["backgroundColor"];
-                            secondColor = theme_highContrast["secondColor"];
-                            drawingColor = theme_highContrast["drawingColor"];
-                            fontColorLight = theme_highContrast["fontColorLight"];
-                            fontColorDark = theme_highContrast["fontColorDark"];
-                            AppBuilder.of(context).rebuild();
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                  Divider(),
-                  Text(
-                    S.of(context).fullyCustomizeColors,
-                    style: TextStyle(color: fontColorLight),
-                  ),
-                  Divider(),
-                  for (dynamic con in contents.entries)
-                    Column(
-                      children: [
-                        new GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              print(con);
-                              selected = con.key;
-                              _animatedHeight != 0.0 ? _animatedHeight = 0.0 : _animatedHeight = 180.0;
-                            });
-                            AppBuilder.of(context).rebuild();
-                          },
-                          child: new Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Divider(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          new FlatButton(
+                            minWidth: 200,
+                            color: secondColor,
+                            child: Column(
                               children: [
+                                SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_devolo.PNG'))),
                                 new Text(
-                                  " " + con.key,
+                                  "Standard Theme",
                                   style: TextStyle(color: fontColorDark),
-                                ),
-                                Spacer(),
-                                // ToDo CircleAvatar doesn't change
-                                // new CircleAvatar(
-                                //   backgroundColor: con.value.selectedColor, //_tempShadeColor,
-                                //   radius: 15.0,
-                                // ),
-                                new Icon(
-                                  Icons.arrow_drop_down_rounded,
-                                  color: fontColorDark,
                                 ),
                               ],
                             ),
-                            color: secondColor, //Colors.grey[800].withOpacity(0.9),
-                            height: 50.0,
-                            width: 900.0,
+                            hoverColor: fontColorLight,
+                            onPressed: () {
+                              setState(() {
+                                config["theme"] = theme_devolo;
+                                mainColor = theme_devolo["mainColor"];
+                                backgroundColor = theme_devolo["backgroundColor"];
+                                secondColor = theme_devolo["secondColor"];
+                                drawingColor = theme_devolo["drawingColor"];
+                                fontColorLight = theme_devolo["fontColorLight"];
+                                fontColorMedium = theme_devolo["fontColorMedium"];
+                                fontColorDark = theme_devolo["fontColorDark"];
+                                AppBuilder.of(context).rebuild();
+                              });
+                            },
                           ),
-                        ),
-                        new AnimatedContainer(
-                          duration: const Duration(milliseconds: 120),
-                          child: Column(
-                            children: [
-                              Expanded(child: con.value),
-                            ],
+                          new FlatButton(
+                            minWidth: 200,
+                            color: secondColor,
+                            child: Column(
+                              children: [
+                                SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_dark.PNG'))),
+                                new Text(
+                                  "Dark Theme",
+                                  style: TextStyle(color: fontColorDark),
+                                ),
+                              ],
+                            ),
+                            hoverColor: fontColorLight,
+                            onPressed: () {
+                              setState(() {
+                                config["theme"] = theme_dark;
+                                mainColor = theme_dark["mainColor"];
+                                backgroundColor = theme_dark["backgroundColor"];
+                                secondColor = theme_dark["secondColor"];
+                                drawingColor = theme_dark["drawingColor"];
+                                fontColorLight = theme_dark["fontColorLight"];
+                                fontColorMedium = theme_dark["fontColorMedium"];
+                                fontColorDark = theme_dark["fontColorDark"];
+                                AppBuilder.of(context).rebuild();
+                              });
+                            },
                           ),
-                          height: selected == con.key ? _animatedHeight : 0.0,
-                          color: secondColor.withOpacity(0.8),
-                          //Colors.grey[800].withOpacity(0.6),
-                          width: 900.0,
+                          new FlatButton(
+                            minWidth: 200,
+                            color: secondColor,
+                            child: Column(
+                              children: [
+                                SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_highContrast.PNG'))),
+                                new Text(
+                                  "High Contrast Theme",
+                                  style: TextStyle(color: fontColorDark),
+                                ),
+                              ],
+                            ),
+                            hoverColor: fontColorLight,
+                            onPressed: () {
+                              setState(() {
+                                config["theme"] = theme_highContrast;
+                                mainColor = theme_highContrast["mainColor"];
+                                backgroundColor = theme_highContrast["backgroundColor"];
+                                secondColor = theme_highContrast["secondColor"];
+                                drawingColor = theme_highContrast["drawingColor"];
+                                fontColorLight = theme_highContrast["fontColorLight"];
+                                fontColorMedium = theme_highContrast["fontColorMedium"];
+                                fontColorDark = theme_highContrast["fontColorDark"];
+                                AppBuilder.of(context).rebuild();
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                      Divider(),
+                      Text(
+                        S.of(context).fullyCustomizeColors,
+                        style: TextStyle(color: fontColorLight),
+                      ),
+                      Divider(),
+                      for (dynamic con in contents.entries)
+                        Column(
+                          children: [
+                            new GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  print(con);
+                                  selected = con.key;
+                                  _animatedHeight != 0.0 ? _animatedHeight = 0.0 : _animatedHeight = 180.0;
+                                });
+                                AppBuilder.of(context).rebuild();
+                              },
+                              child: new Container(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    new Text(
+                                      " " + con.key,
+                                      style: TextStyle(color: fontColorDark),
+                                    ),
+                                    Spacer(),
+                                    // ToDo CircleAvatar doesn't change
+                                    // new CircleAvatar(
+                                    //   backgroundColor: con.value.selectedColor, //_tempShadeColor,
+                                    //   radius: 15.0,
+                                    // ),
+                                    new Icon(
+                                      Icons.arrow_drop_down_rounded,
+                                      color: fontColorDark,
+                                    ),
+                                  ],
+                                ),
+                                color: secondColor, //Colors.grey[800].withOpacity(0.9),
+                                height: 50.0,
+                                width: 900.0,
+                              ),
+                            ),
+                            new AnimatedContainer(
+                              duration: const Duration(milliseconds: 120),
+                              child: Column(
+                                children: [
+                                  Expanded(child: con.value),
+                                ],
+                              ),
+                              height: selected == con.key ? _animatedHeight : 0.0,
+                              color: secondColor.withOpacity(0.8),
+                              //Colors.grey[800].withOpacity(0.6),
+                              width: 900.0,
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                ],
-              );
-            },
+                    ],
+                  );
+                },
+              ),
+            ],
           ),
-          actions: [
-            FlatButton(
-              child: Icon(
-                Icons.check_circle_outline,
-                size: 35 * fontSizeFactor,
-                color: fontColorLight,
-              ), //Text('Bestätigen'),
-              onPressed: () {
-                // action happening here
-                Navigator.of(context).pop();
-                setState(() {});
-              },
-            ),
-            FlatButton(
-                child: Icon(
-                  Icons.cancel_outlined,
-                  size: 35 * fontSizeFactor,
-                  color: fontColorLight,
-                ), //Text('Abbrechen'),
-                onPressed: () {
-                  // Cancel critical action
-                  Navigator.of(context).pop();
-                  setState(() {});
-                }),
-          ],
+
         );
       },
     );

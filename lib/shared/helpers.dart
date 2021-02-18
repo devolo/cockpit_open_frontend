@@ -28,6 +28,7 @@ Map<String,dynamic> config = {
   "show_speeds": false,
   "high_contrast": false,
   "theme": theme_dark,
+  "previous_theme": theme_dark,
   "language": ""
 };
 

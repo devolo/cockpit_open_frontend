@@ -85,10 +85,10 @@ class S {
     );
   }
 
-  /// `App Info`
+  /// `App info`
   String get appInfo {
     return Intl.message(
-      'App Info',
+      'App info',
       name: 'appInfo',
       desc: '',
       args: [],
@@ -325,10 +325,10 @@ class S {
     );
   }
 
-  /// `Contact info`
+  /// `Contact information`
   String get contactInfo {
     return Intl.message(
-      'Contact info',
+      'Contact information',
       name: 'contactInfo',
       desc: '',
       args: [],
@@ -395,10 +395,10 @@ class S {
     );
   }
 
-  /// `name`
+  /// `Name`
   String get name {
     return Intl.message(
-      'name',
+      'Name',
       name: 'name',
       desc: '',
       args: [],
@@ -485,10 +485,10 @@ class S {
     );
   }
 
-  /// `open optimization`
+  /// `open optimization help`
   String get openOptimization {
     return Intl.message(
-      'open optimization',
+      'open optimization help',
       name: 'openOptimization',
       desc: '',
       args: [],
@@ -545,50 +545,50 @@ class S {
     );
   }
 
-  /// `show manual`
+  /// `Show manual`
   String get showManual {
     return Intl.message(
-      'show manual',
+      'Show manual',
       name: 'showManual',
       desc: '',
       args: [],
     );
   }
 
-  /// `identify device`
+  /// `Identify device`
   String get identifyDevice {
     return Intl.message(
-      'identify device',
+      'Identify device',
       name: 'identifyDevice',
       desc: '',
       args: [],
     );
   }
 
-  /// `launch webinterface`
+  /// `Web interface`
   String get launchWebinterface {
     return Intl.message(
-      'launch webinterface',
+      'Web interface',
       name: 'launchWebinterface',
       desc: '',
       args: [],
     );
   }
 
-  /// `factory reset`
+  /// `Factory reset`
   String get factoryReset {
     return Intl.message(
-      'factory reset',
+      'Factory reset',
       name: 'factoryReset',
       desc: '',
       args: [],
     );
   }
 
-  /// `delete device`
+  /// `Delete device`
   String get deleteDevice {
     return Intl.message(
-      'delete device',
+      'Delete device',
       name: 'deleteDevice',
       desc: '',
       args: [],
@@ -645,11 +645,21 @@ class S {
     );
   }
 
-  /// `Change networkview`
-  String get changeNetworkview {
+  /// `Help`
+  String get help {
     return Intl.message(
-      'Change networkview',
-      name: 'changeNetworkview',
+      'Help',
+      name: 'help',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `High Contrast`
+  String get highContrast {
+    return Intl.message(
+      'High Contrast',
+      name: 'highContrast',
       desc: '',
       args: [],
     );
@@ -715,50 +725,50 @@ class S {
     );
   }
 
-  /// `MT-number:`
+  /// `devolo MT number:`
   String get mtnumber {
     return Intl.message(
-      'MT-number:',
+      'devolo MT number:',
       name: 'mtnumber',
       desc: '',
       args: [],
     );
   }
 
-  /// `Version:`
+  /// `Firmware version:`
   String get version {
     return Intl.message(
-      'Version:',
+      'Firmware version:',
       name: 'version',
       desc: '',
       args: [],
     );
   }
 
-  /// `IP-Address:`
+  /// `IP address:`
   String get ipaddress {
     return Intl.message(
-      'IP-Address:',
+      'IP address:',
       name: 'ipaddress',
       desc: '',
       args: [],
     );
   }
 
-  /// `MAC-Address:`
+  /// `MAC address:`
   String get macaddress {
     return Intl.message(
-      'MAC-Address:',
+      'MAC address:',
       name: 'macaddress',
       desc: '',
       args: [],
     );
   }
 
-  /// `Attached to Router:`
+  /// `Attached to router:`
   String get attachedToRouter {
     return Intl.message(
-      'Attached to Router:',
+      'Attached to router:',
       name: 'attachedToRouter',
       desc: '',
       args: [],
@@ -785,10 +795,10 @@ class S {
     );
   }
 
-  /// `Is Local Device:`
+  /// `Is local device:`
   String get isLocalDevice {
     return Intl.message(
-      'Is Local Device:',
+      'Is local device:',
       name: 'isLocalDevice',
       desc: '',
       args: [],
@@ -865,10 +875,10 @@ class S {
     );
   }
 
-  /// `Deviceinfo`
+  /// `Device Information`
   String get deviceinfo {
     return Intl.message(
-      'Deviceinfo',
+      'Device Information',
       name: 'deviceinfo',
       desc: '',
       args: [],
@@ -890,6 +900,76 @@ class S {
     return Intl.message(
       'Fully customize colors',
       name: 'fullyCustomizeColors',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter device name`
+  String get pleaseEnterDeviceName {
+    return Intl.message(
+      'Please enter device name',
+      name: 'pleaseEnterDeviceName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `yes`
+  String get yes {
+    return Intl.message(
+      'yes',
+      name: 'yes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `no`
+  String get no {
+    return Intl.message(
+      'no',
+      name: 'no',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This device is connected directly to the Internet router.`
+  String get thisDeviceIsConnectedDirectlyToTheInternetRouter {
+    return Intl.message(
+      'This device is connected directly to the Internet router.',
+      name: 'thisDeviceIsConnectedDirectlyToTheInternetRouter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your current terminal is connected to this devolo-device.`
+  String get yourCurrentTerminalIsConnectedToThisDevolodevice {
+    return Intl.message(
+      'Your current terminal is connected to this devolo-device.',
+      name: 'yourCurrentTerminalIsConnectedToThisDevolodevice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update all`
+  String get updateAll {
+    return Intl.message(
+      'Update all',
+      name: 'updateAll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm Action`
+  String get confirmAction {
+    return Intl.message(
+      'Confirm Action',
+      name: 'confirmAction',
       desc: '',
       args: [],
     );

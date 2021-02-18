@@ -6,6 +6,4 @@ class DataratePair {
     this.rx = rx;
     this.tx = tx;
   }
-
-
 }

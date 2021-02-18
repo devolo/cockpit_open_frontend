@@ -45,6 +45,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "dataRatesArePermanentlyDisplayedInTheOverview" : MessageLookupByLibrary.simpleMessage("Datenraten werden dauerhaft in der Übersicht angezeigt "),
     "deleteDevice" : MessageLookupByLibrary.simpleMessage("Gerät \nlöschen"),
     "deviceinfo" : MessageLookupByLibrary.simpleMessage("Geräteinformationen"),
+    "doYouReallyWantToRenameThisDevice" : MessageLookupByLibrary.simpleMessage("Wollen sie diese Gerät wirklich umbennenen?"),
     "enableShowingSpeeds" : MessageLookupByLibrary.simpleMessage("Anzeigen der Datenraten"),
     "factoryReset" : MessageLookupByLibrary.simpleMessage("Werkseinstellung \nsetzen"),
     "fontsize" : MessageLookupByLibrary.simpleMessage("Schriftgröße"),

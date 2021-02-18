@@ -690,7 +690,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(
-              "Confirm",
+              S.of(context).confirm,
               style: TextStyle(color: fontColorLight),
             ),
             backgroundColor: backgroundColor.withOpacity(0.9),
@@ -715,7 +715,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                     ),
                   ),
                 ),
-                    Text("Do you really want to rename this device?"),
+                    Text(S.of(context).doYouReallyWantToRenameThisDevice),
 
               ],
             ),

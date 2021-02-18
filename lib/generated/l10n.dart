@@ -974,6 +974,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Do you really want to rename this device?`
+  String get doYouReallyWantToRenameThisDevice {
+    return Intl.message(
+      'Do you really want to rename this device?',
+      name: 'doYouReallyWantToRenameThisDevice',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -97,5 +97,6 @@
   "thisDeviceIsConnectedDirectlyToTheInternetRouter": "This device is connected directly to the Internet router.",
   "yourCurrentTerminalIsConnectedToThisDevolodevice": "Your current terminal is connected to this devolo-device.",
   "updateAll": "Update all",
-  "confirmAction": "Confirm Action"
+  "confirmAction": "Confirm Action",
+  "doYouReallyWantToRenameThisDevice": "Do you really want to rename this device?"
 }

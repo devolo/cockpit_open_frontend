@@ -45,6 +45,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "dataRatesArePermanentlyDisplayedInTheOverview" : MessageLookupByLibrary.simpleMessage("Data rates are permanently displayed in the Overview"),
     "deleteDevice" : MessageLookupByLibrary.simpleMessage("Delete device"),
     "deviceinfo" : MessageLookupByLibrary.simpleMessage("Device Information"),
+    "doYouReallyWantToRenameThisDevice" : MessageLookupByLibrary.simpleMessage("Do you really want to rename this device?"),
     "enableShowingSpeeds" : MessageLookupByLibrary.simpleMessage("Enable Showing Speeds"),
     "factoryReset" : MessageLookupByLibrary.simpleMessage("Factory reset"),
     "fontsize" : MessageLookupByLibrary.simpleMessage("Fontsize"),

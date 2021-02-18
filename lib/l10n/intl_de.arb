@@ -98,5 +98,6 @@
   "thisDeviceIsConnectedDirectlyToTheInternetRouter": "Dieses Gerät ist direkt an den Internet-Router angeschlossen.",
   "yourCurrentTerminalIsConnectedToThisDevolodevice": "Ihr aktuelles Endgerät ist mit diesem devolo-Gerät verbunden.",
   "updateAll": "Aktualisiere Alle",
-  "confirmAction": "Aktion Bestätigen"
+  "confirmAction": "Aktion Bestätigen",
+  "doYouReallyWantToRenameThisDevice": "Wollen sie diese Gerät wirklich umbennenen?"
 }

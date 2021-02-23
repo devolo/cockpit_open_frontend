@@ -26,7 +26,7 @@
   "changePlcnetworkPassword": "PLC-Netzwerk Passwort ändern",
   "pleaseEnterPassword": "Bitte Passwort eingeben",
   "showPassword": "Passwort anzeigen ",
-  "set": "setzen",
+  "save": "speichern",
   "support": "Support",
   "generateSupportInformation": "Support Informationen generieren ",
   "openBrowser": "öffne browser",
@@ -98,5 +98,10 @@
   "thisDeviceIsConnectedDirectlyToTheInternetRouter": "Dieses Gerät ist direkt an den Internet-Router angeschlossen.",
   "yourCurrentTerminalIsConnectedToThisDevolodevice": "Ihr aktuelles Endgerät ist mit diesem devolo-Gerät verbunden.",
   "updateAll": "Aktualisiere Alle",
-  "confirmAction": "Aktion Bestätigen"
+  "confirmAction": "Aktion Bestätigen",
+  "upToDate": "aktuell",
+  "update2": "aktualisieren",
+  "updating": " aktualisieren...",
+  "searching": "suche...",
+  "general": "Allgemein"
 }

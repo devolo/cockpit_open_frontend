@@ -44,3 +44,14 @@ Map<String, dynamic> theme_highContrast = {
   "fontColorDark" : Colors.black,
 };
 
+Map<String, dynamic> theme_light = {
+  "name": "Light Theme",
+  "mainColor" : Colors.white,
+  "backgroundColor" : Colors.white,
+  "secondColor" : Colors.grey[300],
+  "drawingColor" : Colors.grey,
+  "fontColorLight" : Colors.black,
+  "fontColorMedium" : Colors.grey[800],
+  "fontColorDark" : Colors.black,
+};
+

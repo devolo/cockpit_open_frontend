@@ -89,7 +89,8 @@ class dataHand extends ChangeNotifier {
     for (var xmlDoc in xmlDataList) {
       document = XmlDocument.parse(xmlDoc);
 
-      if (document.findAllElements('MessageType').first.innerText == "NetworkUpdate") { // If received Message is general NetworkUpdate
+      if (document.findAllElements('MessageType').first.innerText == "NetworkUpdate") {
+        // If received Message is general NetworkUpdate
         //_deviceList.clearList();
         _deviceList.clearNetworkList();
         _deviceList.clearDeviceList();
@@ -101,54 +102,53 @@ class dataHand extends ChangeNotifier {
 
         int listCounter = 0;
         for (var dev in localDeviceList) {
-          Device device = Device.fromXML(dev,true);
+          Device device = Device.fromXML(dev, true);
           _deviceList.addDevice(device, listCounter);
-           //_deviceList.addDevice(device, listCounter+1);
-           //_deviceList.addDevice(device, listCounter+2);
-           //_deviceList.addDevice(device, listCounter+3);
-          //_deviceList.addDevice(device, listCounter+4);
+          // _deviceList.addDevice(device, listCounter + 1);
+          // _deviceList.addDevice(device, listCounter + 2);
+          // _deviceList.addDevice(device, listCounter + 3);
+          // _deviceList.addDevice(device, listCounter + 4);
           for (var remoteDev in device.remoteDevices) {
             _deviceList.addDevice(remoteDev, listCounter);
-             //_deviceList.addDevice(remoteDev, listCounter+1);
-             //_deviceList.addDevice(remoteDev, listCounter+2);
-             //_deviceList.addDevice(remoteDev, listCounter+3);
-            //_deviceList.addDevice(remoteDev, listCounter+2);
-            //_deviceList.addDevice(remoteDev, listCounter+2);
+            // _deviceList.addDevice(remoteDev, listCounter + 1);
+            // _deviceList.addDevice(remoteDev, listCounter + 2);
+            // _deviceList.addDevice(remoteDev, listCounter + 3);
+            // _deviceList.addDevice(remoteDev, listCounter + 2);
+            // _deviceList.addDevice(remoteDev, listCounter + 2);
+            // _deviceList.addDevice(remoteDev, listCounter + 2);
+            // _deviceList.addDevice(remoteDev, listCounter + 2);
+            // _deviceList.addDevice(remoteDev, listCounter + 2);
           }
           listCounter++;
         }
         // Check if new Devices have Updates to set updateAvailable
         //sendXML('UpdateCheck');
         break;
-      }
-      else if (document.findAllElements('MessageType').first.innerText == "Config") {
+      } else if (document.findAllElements('MessageType').first.innerText == "Config") {
         parseConfig(document);
         print('Config found ->');
         //print(document);
-      }
-      else if (document.findAllElements('MessageType').first.innerText == "FirmwareUpdateIndication") {
+      } else if (document.findAllElements('MessageType').first.innerText == "FirmwareUpdateIndication") {
         xmlResponse = document;
         parseFWUpdateIndication(document);
 
-        xmlResponseList.insert(0,document);
-        xmlResponseList.insert(0,DateTime.now());
+        xmlResponseList.insert(0, document);
+        xmlResponseList.insert(0, DateTime.now());
 
         print('FirmwareUpdateIndication found ->');
         print(document);
-      }
-      else if(document.findAllElements('MessageType').first.innerText == "FirmwareUpdateStatus") {
+      } else if (document.findAllElements('MessageType').first.innerText == "FirmwareUpdateStatus") {
         parseUpdateStatus(document);
-        xmlResponseList.insert(0,document);
-        xmlResponseList.insert(0,DateTime.now());
+        xmlResponseList.insert(0, document);
+        xmlResponseList.insert(0, DateTime.now());
 
         print('UpdateStatus found ->');
         print(document);
-      }
-      else {
+      } else {
         xmlResponse = document;
 
-        xmlResponseList.insert(0,document);
-        xmlResponseList.insert(0,DateTime.now());
+        xmlResponseList.insert(0, document);
+        xmlResponseList.insert(0, DateTime.now());
 
         //waitingResponse = false;
         print('Another Response found ->');
@@ -169,8 +169,8 @@ class dataHand extends ChangeNotifier {
     String valueType,
     String newValue2,
     String valueType2,
-    String mac,})
-  {
+    String mac,
+  }) {
     waitingResponse = true;
     print(newValue);
     String xmlString;
@@ -196,12 +196,13 @@ class dataHand extends ChangeNotifier {
           '</second></item><item><first>windows_network_throttling_disabled</first><second>' +
           windowsNetworkThrottlingDisabled.toString() +
           '</second></item></Config></Message></boost_serialization>';
-    }
-    else if (messageType == "FirmwareUpdateResponse"){ // ToDo Update more devices
-      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="2" version="0" tracking_level="0"><MessageType>FirmwareUpdateResponse</MessageType><DeviceList class_id="3" version="0" tracking_level="0"><count>1</count><item_version>0</item_version><item><first class_id="4" version="0" tracking_level="0"><macAddress>' + newValue + '</macAddress></first><second></second></item></DeviceList></Message></boost_serialization>';
-    }
-
-    else if (newValue == null && mac != null) {
+    } else if (messageType == "FirmwareUpdateResponse") {
+      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="2" version="0" tracking_level="0"><MessageType>FirmwareUpdateResponse</MessageType><DeviceList class_id="3" version="0" tracking_level="0"><count>1</count><item_version>0</item_version><item><first class_id="4" version="0" tracking_level="0"><macAddress>' +
+          newValue +
+          '</macAddress></first><second></second></item></DeviceList></Message></boost_serialization>';
+    } else if (messageType == "UpdateResponse") {
+      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType>' + '<' + valueType + '>' + newValue + '</' + valueType + '>' + '</Message></boost_serialization>';
+    } else if (newValue == null && mac != null) {
       xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType><macAddress>' + mac + '</macAddress></Message></boost_serialization>';
     } else if (newValue2 == null && mac != null) {
       xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType><macAddress>' + mac + '</macAddress>' + '<' + valueType + '>' + newValue + '</' + valueType + '></Message></boost_serialization>';
@@ -217,8 +218,6 @@ class dataHand extends ChangeNotifier {
     socket.write('MSGSOCK' + xmlLength + xmlString);
   }
 
-
-
   Future<Map<String, dynamic>> recieveXML([List<String> wantedMessageTypes]) async {
     // ToDo generic?
     Map response = new Map<String, dynamic>();
@@ -227,13 +226,11 @@ class dataHand extends ChangeNotifier {
     await new Future.delayed(const Duration(seconds: 2));
     Completer<Map<String, dynamic>> completer = new Completer();
 
-
     await Future.doWhile(() async {
       print("waitingforResponse");
       await new Future.delayed(const Duration(seconds: 1));
 
       if (waitingResponse) {
-
         String messageType = await findFirstElem(xmlResponse, 'MessageType');
         response['messageType'] = messageType;
         print(messageType);
@@ -249,13 +246,13 @@ class dataHand extends ChangeNotifier {
           if (messageType == "Config") {
             parseConfig(xmlResponse);
             print(config.toString());
-          }
-          else if (messageType == "UpdateIndication") { //"UpdateIndication" for Cockpit Software updates
+          } else if (messageType == "UpdateIndication") {
+            //"UpdateIndication" for Cockpit Software updates
             response = await parseUpdateIndication(xmlResponse);
 
             //waitingResponse = false;
-          }
-          else if(messageType == "FirmwareUpdateIndication"){ //"FirmwareUpdateIndication"
+          } else if (messageType == "FirmwareUpdateIndication") {
+            //"FirmwareUpdateIndication"
             responseElem = await findFirstElem(xmlResponse, 'macAddress'); //
             if (responseElem != null) {
               response['macAddress'] = responseElem;
@@ -263,8 +260,8 @@ class dataHand extends ChangeNotifier {
               _deviceList.getDeviceList()[devIndex].updateAvailable = true;
             }
             //waitingResponse = false;
-          }
-          else if (messageType == "SupportInfoGenerateStatus"){  //"SupportInfoGenerateStatus"
+          } else if (messageType == "SupportInfoGenerateStatus") {
+            //"SupportInfoGenerateStatus"
             responseElem = await findFirstElem(xmlResponse, 'status');
             if (responseElem != null) {
               response['status'] = responseElem;
@@ -282,9 +279,7 @@ class dataHand extends ChangeNotifier {
               response['result'] = responseElem;
             }
             //waitingResponse = false;
-          }
-          else {
-
+          } else {
             responseElem = await findFirstElem(xmlResponse, 'filename');
             if (responseElem != null) {
               response['filename'] = responseElem;
@@ -323,13 +318,12 @@ class dataHand extends ChangeNotifier {
   Future<String> findFirstElem(XmlDocument revXML, String word) async {
     //print("revXML: "+ revXML.toString());
     dynamic ret = revXML.findAllElements(word);
-    if(ret == null)
+    if (ret == null)
       return null;
     else if (ret.isEmpty == false)
       return ret.first.innerText;
     else
       return null;
-
   }
 
   void parseConfig(XmlDocument xmlResponse) {
@@ -343,36 +337,33 @@ class dataHand extends ChangeNotifier {
     }
   }
 
-  void parseUpdateStatus(XmlDocument xmlResponse){
+  void parseUpdateStatus(XmlDocument xmlResponse) {
     var items = xmlResponse.findAllElements("item");
-    for(var item in items){
+    for (var item in items) {
       Device dev = _deviceList.getDeviceList().where((element) => element.mac == item.getElement("first").getElement("macAddress").innerText).first;
       String status = item.getElement("second").innerText;
 
       dev.updateState = status;
-      if(status == "complete")
-        _deviceList.getUpdateList().removeWhere((element) => element == dev.mac);
-      if(status.endsWith("%"))
-        dev.updateStateInt = double.parse(status.substring(status.indexOf(" "), status.indexOf("%")));
-      if(status == "pending")
-        dev.updateState = "pending";
+      if (status == "complete") _deviceList.getUpdateList().removeWhere((element) => element == dev.mac);
+      if (status.endsWith("%")) dev.updateStateInt = double.parse(status.substring(status.indexOf(" "), status.indexOf("%")));
+      if (status == "pending") dev.updateState = "pending";
 
       print(dev.toRealString());
     }
     _deviceList.changedList();
   }
 
-  void parseFWUpdateIndication(XmlDocument xmlResponse){
+  void parseFWUpdateIndication(XmlDocument xmlResponse) {
     var items = xmlResponse.findAllElements("item");
     //var macs = item.findAllElements("macAddress"); //ToDo List !! Get Test Devices to get more devices with updates
     _deviceList.getUpdateList().clear();
 
-    for(var item in items){
-      try{
-      Device dev = _deviceList.getDeviceList().where((element) => element.mac == item.getElement("first").getElement("macAddress").innerText).first;
-      dev.updateAvailable = true;
-      _deviceList.getUpdateList().add(dev.mac);
-      }catch(e) {
+    for (var item in items) {
+      try {
+        Device dev = _deviceList.getDeviceList().where((element) => element.mac == item.getElement("first").getElement("macAddress").innerText).first;
+        dev.updateAvailable = true;
+        _deviceList.getUpdateList().add(dev.mac);
+      } catch (e) {
         print("ParseFWUpdateIndication failed! - Maybe not in selected deviceList");
         print(e);
         return null;
@@ -403,17 +394,14 @@ class dataHand extends ChangeNotifier {
       response['workdir'] = responseElem;
     }
 
-
-    if(response['status'] == "none") {
+    if (response['status'] == "none") {
       _deviceList.CockpitUpdate = false;
-    }else{
+    } else {
       _deviceList.CockpitUpdate = true;
     }
 
     //_deviceList.changedList();
     print("ResponseUpdateIndication: " + response.toString());
     return response;
-
-    }
-
+  }
 }

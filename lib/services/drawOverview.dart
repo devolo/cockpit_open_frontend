@@ -235,7 +235,7 @@ class DrawOverview extends CustomPainter {
   }
 
 
-  void drawDeviceConnection(Canvas canvas, Offset deviceOffset, Map thickness) {
+  void drawDeviceConnection(Canvas canvas, Offset deviceOffset, Map thickness, Map color) {
     double arrowRadian = 30 / 57.295779513082; //Convert degree into radian - angle of the arrow to the baseline
 
     Offset absoluteOffset = Offset(deviceOffset.dx + (screenWidth / 2), deviceOffset.dy + (screenHeight / 2));
@@ -244,7 +244,7 @@ class DrawOverview extends CustomPainter {
     double lineLength = sqrt(pow(absoluteOffset.dx - absolutePivotOffset.dx, 2) + pow(absoluteOffset.dy - absolutePivotOffset.dy, 2));
 
     double outerCircle = (complete_circle_radius+7) / lineLength; // factor where the arrow tip ends
-    double shiftFactor = (1 + (thickness["tx"] + thickness["tx"]) / 4 ) / lineLength; // how much space between lines (dependents on line thickness)
+    double shiftFactor = (1 + (thickness["rx"] + thickness["tx"]) / 4 ) / lineLength; // how much space between lines (dependents on line thickness)
     double arrowLength = 27 / lineLength; // how long is the arrow tip
 
     Offset lineDirection = Offset(absolutePivotOffset.dx - absoluteOffset.dx, absolutePivotOffset.dy - absoluteOffset.dy);
@@ -323,19 +323,19 @@ class DrawOverview extends CustomPainter {
       //canvas.drawLine(absoluteOffsetArrowStartRx, absoluteOffsetRx, _linePaint..strokeWidth = thickness['rx']); // Draw Connection Line
       //canvas.drawLine(absoluteOffsetArrowEndRx, arrowCrossLineRx, _linePaint..colorFilter= ColorFilter.mode(devoloBlue, BlendMode.color)..strokeWidth=thickness['rx']); // Draw Arrow cross Line
       //canvas.drawLine(absoluteOffsetArrowStartRx, absoluteOffsetArrowEndRx, _linePaint..colorFilter= ColorFilter.mode(mainColor, BlendMode.color)..strokeWidth=thickness['rx']); // Draw Arrow
-      paintPath(canvas, absoluteOffsetRx, absoluteOffsetArrowStartRx, absoluteOffsetArrowEndRx, thickness['rx']);
-
+      paintPath(canvas, absoluteOffsetRx, absoluteOffsetArrowStartRx, absoluteOffsetArrowEndRx, thickness['rx'], color['rx']);
+      //canvas..drawColor(color["rx"], BlendMode.color);
       //canvas.drawLine(absolutePivotOffsetTx, absoluteOffsetArrowStartTx, _linePaint..strokeWidth = thickness['tx']); // Draw Connection Line
       //canvas.drawLine(absoluteOffsetArrowEndTx, arrowCrossLineTx, _linePaint..colorFilter= ColorFilter.mode(devoloBlue, BlendMode.color)..strokeWidth=thickness['tx']); // Draw Arrow cross Line
       //canvas.drawLine(absoluteOffsetArrowStartTx, absoluteOffsetArrowEndTx, _linePaint..colorFilter= ColorFilter.mode(mainColor, BlendMode.color)..strokeWidth=thickness['tx']); // Draw Arrow
-      paintPath(canvas, absolutePivotOffsetTx, absoluteOffsetArrowStartTx, absoluteOffsetArrowEndTx, thickness['tx']);
+      paintPath(canvas, absolutePivotOffsetTx, absoluteOffsetArrowStartTx, absoluteOffsetArrowEndTx, thickness['tx'],color['tx']);
     }
 
     // if(showingSpeeds == true)
     //   canvas.drawLine(absolutePivotOffset, absoluteOffset, _linePaint..colorFilter= ColorFilter.mode(Colors.green, BlendMode.color)..strokeWidth= 2.0);
   }
 
-  void paintPath(Canvas canvas, start, middle, end, thickness) {
+  void paintPath(Canvas canvas, start, middle, end, thickness, color) {
     var path = Path();
 
     path.moveTo(start.dx, start.dy);
@@ -344,7 +344,7 @@ class DrawOverview extends CustomPainter {
     path.lineTo(middle.dx, middle.dy);
     path.close();
 
-    canvas.drawPath(path, _arrowPaint..strokeWidth = thickness);
+    canvas.drawPath(path, _arrowPaint..strokeWidth = thickness..color = color);
   }
 
   void drawDottedConnection(Canvas canvas, Size size) { // ToDo Not used yet!
@@ -565,7 +565,7 @@ class DrawOverview extends CustomPainter {
 
   void fillDeviceIconPositionList() {
     _deviceIconOffsetList.clear();
-    _deviceIconOffsetList.add(Offset(0.0, -2.5 * _screenGridHeight));
+    _deviceIconOffsetList.add(Offset(0.0, _screenGridHeight -_screenGridHeight * 3.0));
 
     switch (_deviceList.length) {
       case 2:
@@ -648,7 +648,7 @@ class DrawOverview extends CustomPainter {
 
       //do not draw pivot device line, since it would start and end at the same place
       if (numDev != pivotDeviceIndex) {
-        drawDeviceConnection(canvas, _deviceIconOffsetList.elementAt(numDev), getLineThickness(numDev));
+        drawDeviceConnection(canvas, _deviceIconOffsetList.elementAt(numDev), getLineThickness(numDev), getLineColor(numDev));
       }
 
       if(config["show_other_devices"]){
@@ -661,14 +661,28 @@ class DrawOverview extends CustomPainter {
     }
   }
 
-  Color getLineColor(int dev) {
+  Map<String, dynamic> getLineColor(int dev) {
     // ToDo
-    dynamic color = _deviceList[pivotDeviceIndex].speeds[_deviceList[dev].mac];
-    if (color != null) {
-      color = color.rx * 0.01;
-      print('COLOR' + color.toString());
+    Map colors = Map<String, dynamic>();
+    dynamic rates = _deviceList[pivotDeviceIndex].speeds[_deviceList[dev].mac];
+    if (rates != null) {
+      if(rates.rx > 400)
+        colors['rx'] = Colors.green;
+      else if(rates.rx > 100)
+        colors['rx'] = Colors.yellow;
+      else if(rates.rx < 100)
+        colors['rx'] = Colors.red;
+
+      if(rates.tx > 400)
+        colors['tx'] = Colors.green;
+      else if(rates.tx > 100)
+        colors['tx'] = Colors.yellow;
+      else if(rates.tx < 100)
+        colors['tx'] = Colors.red;
+
+      print('COLOR' + rates.toString());
     }
-    return color;
+    return colors;
   }
 
   Map<String, double> getLineThickness(int dev) {
@@ -719,7 +733,7 @@ class DrawOverview extends CustomPainter {
       //draw the pivot device icon last to cover all the line endings (yes, quick and dirty, but it does the job)
       drawDeviceIconEmpty(canvas, pivotDeviceIndex);
       drawDeviceIconContent(canvas, pivotDeviceIndex);
-      drawDeviceName(canvas, size, _deviceList.elementAt(pivotDeviceIndex).type, _deviceList.elementAt(pivotDeviceIndex).name, _deviceIconOffsetList.elementAt(pivotDeviceIndex));
+      drawDeviceName(canvas, size, _deviceList.elementAt(pivotDeviceIndex).type, _deviceList.elementAt(pivotDeviceIndex).name, _deviceIconOffsetList.elementAt(pivotDeviceIndex).translate(0, -complete_circle_radius*3));
     } else {
       drawNoDevices(canvas, _deviceIconOffsetList.elementAt(0));
     }

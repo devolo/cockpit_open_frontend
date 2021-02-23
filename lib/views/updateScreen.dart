@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
@@ -25,11 +27,41 @@ class _UpdateScreenState extends State<UpdateScreen> {
   final String title;
 
   bool _loading = false;
+  bool _loadingSoftware = false;
   bool _loadingFW = false;
   DateTime _lastPoll = DateTime.now();
 
   final _scrollController = ScrollController();
   FocusNode myFocusNode = new FocusNode();
+
+  Future<void> updateCockpit(socket, _deviceList) async {
+    setState(() {
+      socket.sendXML('UpdateCheck');
+      //_loading = socket.waitingResponse;
+    });
+    var response = await socket.recieveXML(["UpdateIndication", "FirmwareUpdateIndication"]);
+
+    Timer(Duration(seconds: 4), () {
+      setState(() {
+        socket.sendXML('UpdateResponse', valueType: 'action', newValue: 'execute');
+        //_loadingFW = socket.waitingResponse;
+        _loadingSoftware = false;
+      });
+    });
+
+    _deviceList.CockpitUpdate = false;
+  }
+
+  Future<void> updateDevices(socket, _deviceList) async {
+    setState(() {
+      for(var mac in _deviceList.getUpdateList()) {
+        socket.sendXML('FirmwareUpdateResponse', newValue: mac);
+      }
+      _loadingFW = socket.waitingResponse;
+    });
+    var response = await socket.recieveXML(List<String>());
+    print('Response: ' + response.toString());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,8 +118,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
                             : Icon(
                                 Icons.refresh,
                                 color: mainColor,
+                                size: 24 * fontSizeFactor,
                               ),
-                        Text(S.of(context).checkUpdates),
+                        Text(S.of(context).checkUpdates,),
                       ]),
                     ),
                   ),
@@ -102,26 +135,23 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       textColor: fontColorDark,
                       onPressed: () async {
                         //print("Updating ${device.mac}");
+                        await updateCockpit(socket, _deviceList);
+                        Timer(Duration(seconds: 4), () {});
                         setState(() {
-                          for(var mac in _deviceList.getUpdateList()) {
-                            socket.sendXML('FirmwareUpdateResponse', newValue: mac);
-                          }
-                          _loadingFW = socket.waitingResponse;
+                          socket.sendXML('UpdateCheck');
+                          //_loading = socket.waitingResponse;
                         });
-                        var response = await socket.recieveXML([]);
-                        print('Response: ' + response.toString());
+                        var response = await socket.recieveXML(["UpdateIndication", "FirmwareUpdateIndication"]);
+
+                        await updateDevices(socket, _deviceList);
                       },
                       child: Row(children: [
-                        // _loadingFW
-                        //     ? CircularProgressIndicator(
-                        //   valueColor: new AlwaysStoppedAnimation<Color>(mainColor),
-                        // )
-                        //     :
                         Icon(
                           Icons.download_rounded,
                           color: mainColor,
+                          size: 24 * fontSizeFactor,
                         ),
-                        Text(S.of(context).updateAll),
+                        Text(" ${S.of(context).updateAll}",),
                       ]),
                     ),
                   ),
@@ -174,6 +204,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 leading: Icon(
                   Icons.speed_rounded,
                   color: Colors.white,
+                  size: 24.0 * fontSizeFactor,
                 ),
                 title: Row(
                   children: [
@@ -192,7 +223,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                   valueColor: new AlwaysStoppedAnimation<Color>(mainColor),
                                 ),
                                 SelectableText(
-                                  ' Suche...',
+                                  " ${S.of(context).searching}",
                                   style: TextStyle(color: fontColorDark),
                                 ),
                               ],
@@ -206,10 +237,11 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                         color: Colors.green,
                                       ),
                                       iconSize: 24 * fontSizeFactor,
+                                      onPressed: () {},
                                       // tooltip: "already uptodate",
                                     ),
-                                    SelectableText(
-                                      ' Aktuell',
+                                    Text(
+                                      " ${S.of(context).upToDate}",
                                       style: TextStyle(color: fontColorDark),
                                     ),
                                   ],
@@ -223,28 +255,20 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                         ),
                                         iconSize: 24 * fontSizeFactor,
                                         onPressed: () async {
-                                          print("Updating Cockpit...");
-                                          setState(() {
-                                            socket.sendXML('UpdateResponse', valueType: 'action', newValue: 'execute');
-                                            //_loadingFW = socket.waitingResponse;
-                                          });
-                                          var response = await socket.recieveXML([]);
-                                          print('Response: ' + response.toString());
+                                          await updateCockpit(socket, _deviceList);
                                         }),
                                     FlatButton(
                                         child: Text(
-                                          'Aktualisieren',
-                                          style: TextStyle(color: fontColorDark, fontSize: 20),
+                                          S.of(context).update2,
+                                          style: TextStyle(color: fontColorDark, fontSize: 20 * fontSizeFactor),
                                         ),
                                         onPressed: () async {
-                                          print("Updating Cockpit...");
-                                          setState(() {
-                                            socket.sendXML('UpdateResponse', valueType: 'action', newValue: 'execute');
-                                            //_loadingFW = socket.waitingResponse;
-                                          });
-                                          var response = await socket.recieveXML([]);
-                                          print('Response: ' + response.toString());
+                                          await updateCockpit(socket, _deviceList);
                                         }),
+                                    if(_loadingSoftware)
+                                      CircularProgressIndicator(
+                                        valueColor: new AlwaysStoppedAnimation<Color>(mainColor),
+                                      ),
                                   ],
                                 ),
                     ),
@@ -271,7 +295,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                             tileColor: secondColor,
                             leading: RawImage(
                               image: getIconForDeviceType(device.typeEnum),
-                              height: 35,
+                              height: 35 * fontSizeFactor,
                             ),
                             //Icon(Icons.devices),
                             title: Row(
@@ -302,15 +326,15 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                               valueColor: new AlwaysStoppedAnimation<Color>(mainColor),
                                             ),
                                             Text(
-                                              ' Suche...',
+                                                " ${S.of(context).searching}",
                                               style: TextStyle(color: fontColorDark),
                                             ),
                                           ],
                                         )
                                       : device.updateStateInt != 0
                                           ? Text(
-                                              "aktualisieren... ${device.updateStateInt.toInt().toString()} % ",
-                                              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                                              "${S.of(context).updating} ${device.updateStateInt.toInt().toString()} % ",
+                                              style: TextStyle(fontSize: 17 * fontSizeFactor, fontWeight: FontWeight.bold),
                                             )
                                           : _deviceList.getUpdateList().contains(device.mac)
                                               ? Row(
@@ -321,6 +345,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                                           color: mainColor,
                                                         ),
                                                         iconSize: 24 * fontSizeFactor,
+                                                        onPressed: () {},
                                                         // onPressed: () async {
                                                         //   print("Updating ${device.mac}");
                                                         //   setState(() {
@@ -333,9 +358,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                                         ),
                                                     FlatButton(
                                                         child: Text(
-                                                          'Aktualisieren',
-                                                          style: TextStyle(color: fontColorDark, fontSize: 20),
+                                                          S.of(context).update2,
+                                                          style: TextStyle(color: fontColorDark, fontSize: 20 * fontSizeFactor),
                                                         ),
+                                                        onPressed: () {},
                                                         // onPressed: () async {
                                                         //   print("Updating ${device.mac}");
                                                         //   setState(() {
@@ -357,10 +383,11 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                                       ),
                                                       iconSize: 24 * fontSizeFactor,
                                                       // tooltip: "already Uptodate",
+                                                      onPressed: () {},
                                                     ),
                                                     Text(
-                                                      ' Aktuell',
-                                                      style: TextStyle(color: fontColorDark),
+                                                      " ${S.of(context).upToDate}",
+                                                      style: TextStyle(color: fontColorDark, fontSize: 20 * fontSizeFactor),
                                                     ),
                                                   ],
                                                 ),
@@ -406,7 +433,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                           device.updateStateInt != 0
                               ? LinearProgressIndicator(
                                   valueColor: new AlwaysStoppedAnimation<Color>(Colors.green),
-                                  minHeight: 5,
+                                  minHeight: 7,
                                   backgroundColor: secondColor,
                                   value: device.updateStateInt * 0.01,
                                 )
@@ -473,7 +500,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
           ),
           titleTextStyle: TextStyle(
             color: Colors.white,
-            fontSize: 23,
+            fontSize: 23 * fontSizeFactor,
           ),
           content: Stack(
             overflow: Overflow.visible,
@@ -518,15 +545,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
                           TextFormField(
                             initialValue: _newName,
                             focusNode: myFocusNode,
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: fontColorLight),
+                            cursorColor: fontColorLight,
                             decoration: InputDecoration(
                               //labelText: 'Testing',
                               focusColor: Colors.green,
                               hoverColor: secondColor.withOpacity(0.2),
-                              suffixIcon: IconButton(
-                                icon: Icon(Icons.edit_outlined, color: fontColorLight,),
-                                onPressed: (){socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');},
-                              ),
                               contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                               filled: true,
                               fillColor: secondColor.withOpacity(0.2),//myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
@@ -544,15 +568,20 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                   //width: 2.0,
                                 ),
                               ),
-                              //labelStyle: TextStyle(color: myFocusNode.hasFocus ? Colors.amberAccent : Colors.blue),
-
+                              suffixIcon: IconButton(
+                                icon: Icon(Icons.edit_outlined, color: fontColorLight,),
+                                onPressed: (){
+                                  //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
+                                  if(_newName != hitDeviceName)
+                                    _showEditAlert(context, socket, hitDeviceMac, _newName);
+                                },
+                              ),
                             ),
                             onChanged: (value) => (_newName = value),
-                            onFieldSubmitted: (value) {
-                              socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
-                            },
                             onEditingComplete: () {
-                              socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
+                              if(_newName != hitDeviceName)
+                                _showEditAlert(context, socket, hitDeviceMac, _newName);
+                              //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
                             },
                             onTap: (){
                               setState(() {
@@ -807,7 +836,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
               style: TextStyle(color: fontColorLight),
             ),
             backgroundColor: backgroundColor.withOpacity(0.9),
-            contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18),
+            contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18 * fontSizeFactor),
             content: hitDevice.attachedToRouter ? Text(S.of(context).pleaseConfirmActionAttentionYourRouterIsConnectedToThis) : Text(S.of(context).pleaseConfirmAction),
             actions: <Widget>[
               FlatButton(
@@ -828,6 +857,84 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 },
               ),
               Spacer(),
+              FlatButton(
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.cancel_outlined,
+                        color: fontColorLight,
+                        size: 35 * fontSizeFactor,
+                      ),
+                      Text(S.of(context).cancel, style: TextStyle(color: fontColorLight),),
+                    ],
+                  ), //Text('Abbrechen'),
+                  onPressed: () {
+                    // Cancel critical action
+                    Navigator.maybeOf(context).pop();
+                  }),
+            ],
+          );
+        });
+  }
+
+  void _showEditAlert(context, socket, hitDeviceMac, _newName) {
+    showDialog<void>(
+        context: context,
+        barrierDismissible: true, // user doesn't need to tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              "Confirm",
+              style: TextStyle(color: fontColorLight),
+            ),
+            backgroundColor: backgroundColor.withOpacity(0.9),
+            contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18 * fontSizeFactor),
+            content: Stack(
+              overflow: Overflow.visible,
+              children: [
+                Positioned(
+                  top: -90,
+                  right: -35,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: CircleAvatar(
+                        radius: 14.0,
+                        backgroundColor: secondColor,
+                        child: Icon(Icons.close, color: fontColorDark),
+                      ),
+                    ),
+                  ),
+                ),
+                Text("Do you really want to rename this device?"),
+
+              ],
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.check_circle_outline,
+                      color: fontColorLight,
+                      size: 35 * fontSizeFactor,
+                    ),
+                    Text(S.of(context).confirm, style: TextStyle(color: fontColorLight),),
+                  ],
+                ),
+                autofocus: true,
+                onPressed: () {
+                  // Critical things happening here
+                  socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
+                  Navigator.maybeOf(context).pop();
+                  setState(() {
+                    socket.sendXML('RefreshNetwork');
+                  });
+                },
+              ),
               FlatButton(
                   child: Row(
                     children: [

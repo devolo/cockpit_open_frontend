@@ -245,11 +245,11 @@ class S {
     );
   }
 
-  /// `set`
-  String get set {
+  /// `save`
+  String get save {
     return Intl.message(
-      'set',
-      name: 'set',
+      'save',
+      name: 'save',
       desc: '',
       args: [],
     );
@@ -970,6 +970,56 @@ class S {
     return Intl.message(
       'Confirm Action',
       name: 'confirmAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `up to date`
+  String get upToDate {
+    return Intl.message(
+      'up to date',
+      name: 'upToDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `update`
+  String get update2 {
+    return Intl.message(
+      'update',
+      name: 'update2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `updating...`
+  String get updating {
+    return Intl.message(
+      'updating...',
+      name: 'updating',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `searching...`
+  String get searching {
+    return Intl.message(
+      'searching...',
+      name: 'searching',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `General`
+  String get general {
+    return Intl.message(
+      'General',
+      name: 'general',
       desc: '',
       args: [],
     );

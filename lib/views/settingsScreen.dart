@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
+import 'package:cockpit_devolo/models/configModel.dart';
 import 'package:cockpit_devolo/services/drawOverview.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
@@ -28,6 +29,8 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  ConfigModel configModel = ConfigModel();
+
   String _newPw;
   bool _hiddenPw = true;
   bool _isButtonDisabled = true;
@@ -48,6 +51,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Color _shadeFontColorDark = fontColorDark;
 
   final _scrollController = ScrollController();
+  FocusNode myFocusNode = new FocusNode();
 
   void saveToSharedPrefs(Map<String, dynamic> inputMap) async {
     print('Config from Prog: ${inputMap}');
@@ -205,7 +209,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: <Widget>[
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                   Text(
-                    S.of(context).appearance,
+                    S.of(context).general,
                     style: TextStyle(color: fontColorLight),
                   )
                 ]),
@@ -274,9 +278,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     subtitle: Text(S.of(context).dataRatesArePermanentlyDisplayedInTheOverview, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)),
                     title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                       new Text(S.of(context).enableShowingSpeeds, style: TextStyle(color: fontColorDark), semanticsLabel: "Show Speeds"),
-                      new Checkbox(
+                      new Switch(
                         value: config["show_speeds_permanent"], //widget.painter.showSpeedsPermanently,
                         onChanged: toggleCheckbox,
+                        activeTrackColor: mainColor.withAlpha(120),
                         activeColor: mainColor,
                       ),
                     ]),
@@ -348,35 +353,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
                 Divider(),
-                ListTile(
-                  contentPadding: EdgeInsets.only(left: 10, right: 10),
-                  tileColor: secondColor,
-                  title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(
-                      S.of(context).fontsize,
-                      style: TextStyle(color: fontColorDark),
-                    ),
-                    Spacer(),
-                    Expanded(
-                      child: new SpinBox(
-                        min: 0.1,
-                        max: 5.0,
-                        step: 0.1,
-                        acceleration: 0.1,
-                        decimals: 1,
-                        value: fontSizeFactor.toDouble(),
-                        //fontSizeDelta,
-                        onChanged: (value) {
-                          setState(() {
-                            fontSizeFactor = value;
-                          });
-                          AppBuilder.of(context).rebuild();
-                        },
-                        //decoration: InputDecoration(labelText: 'Fontsize'),
-                      ),
-                    ),
-                  ]),
-                ),
+                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                  Text(
+                    S.of(context).appearance,
+                    style: TextStyle(color: fontColorLight),
+                  )
+                ]),
                 Divider(),
                 GestureDetector(
                   onTap: () {
@@ -393,33 +375,42 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       Spacer(),
                       Text(config['theme']['name']),
-                      // CircleAvatar(
-                      //   backgroundColor: mainColor, //_tempMainColor,
-                      //   radius: 18.0,
-                      //   child: FlatButton(
-                      //     height: 40,
-                      //     //hoverColor: devoloBlue.withOpacity(0.4),
-                      //     //color: devoloBlue.withOpacity(0.4),
-                      //     onPressed: () {
-                      //       _mainColorPicker("Main color", "Accent color", "Light font color", "Dark font color");
-                      //     },
-                      //     child: CircleAvatar(
-                      //       backgroundColor: secondColor, //_tempShadeColor,
-                      //       radius: 18.0,
-                      //       child: FlatButton(
-                      //         height: 40,
-                      //         //hoverColor: devoloBlue.withOpacity(0.4),
-                      //         //color: devoloBlue.withOpacity(0.4),
-                      //         onPressed: () {
-                      //           //_secondColorPicker("Choose secondary color");
-                      //           _mainColorPicker("Main color", "Accent color", "Light font color", "Dark font color");
-                      //         },
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
                     ]),
                   ),
+                ),
+                Divider(),
+                ListTile(
+                  contentPadding: EdgeInsets.only(left: 10, right: 10),
+                  tileColor: secondColor,
+                  title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                    Flexible(
+                      flex: 4,
+                      child: new Text(
+                        S.of(context).fontsize,
+                        style: TextStyle(color: fontColorDark),
+                      ),
+                    ),
+                    Spacer(),
+                    Expanded(
+                      child: new SpinBox(
+                        min: 0.1,
+                        max: 5.0,
+                        step: 0.1,
+                        acceleration: 0.1,
+                        decimals: 1,
+                        value: fontSizeFactor.toDouble(),
+                        incrementIcon: Icon(Icons.add_circle),
+                        decrementIcon: Icon(Icons.remove_circle),
+                        onChanged: (value) {
+                          setState(() {
+                            fontSizeFactor = value;
+                          });
+                          AppBuilder.of(context).rebuild();
+                        },
+                        //decoration: InputDecoration(labelText: 'Fontsize'),
+                      ),
+                    ),
+                  ]),
                 ),
                 Divider(),
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
@@ -444,15 +435,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         S.of(context).ignoreUpdates,
                         style: TextStyle(color: fontColorDark),
                       ),
-                      new Checkbox(
+                      new Switch(
                           value: config["ignore_updates"],
-                          activeColor: mainColor,
                           onChanged: (bool value) {
                             setState(() {
                               config["ignore_updates"] = !config["ignore_updates"];
                               socket.sendXML('Config');
                             });
-                          }),
+                          },
+                          activeTrackColor: mainColor.withAlpha(120),
+                          activeColor: mainColor,),
                     ]),
                   ),
                 ),
@@ -472,15 +464,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         S.of(context).recordTheTransmissionPowerOfTheDevicesAndTransmitIt,
                         style: TextStyle(color: fontColorDark),
                       ),
-                      new Checkbox(
+                      new Switch(
                           value: config["allow_data_collection"],
-                          activeColor: mainColor,
                           onChanged: (bool value) {
                             setState(() {
                               config["allow_data_collection"] = !config["allow_data_collection"];
                               socket.sendXML('Config');
                             });
-                          }),
+                          },
+                        activeTrackColor: mainColor.withAlpha(120),
+                        activeColor: mainColor,
+                      ),
                     ]),
                   ),
                 ),
@@ -520,16 +514,39 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
                   tileColor: secondColor,
                   title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
+                        flex:2,
                         child: TextFormField(
-                          // ToDo sendXml find out Device Mac connected to Internet + Password formfield (hidden)
+                          focusNode: myFocusNode,
                           initialValue: _newPw,
                           obscureText: _hiddenPw,
+                          style: TextStyle(color: fontColorDark),
+                          cursorColor: fontColorDark,
                           decoration: InputDecoration(
                             labelText: S.of(context).changePlcnetworkPassword,
-                            //helperText: 'Devicename',
-                          ),
+                            labelStyle: TextStyle(color: fontColorDark),
+                              hoverColor: mainColor.withOpacity(0.2),
+                              contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                              filled: true,
+                              fillColor: secondColor.withOpacity(0.2),//myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                                borderSide: BorderSide(
+                                  color: fontColorDark,
+                                  width: 2.0,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                                borderSide: BorderSide(
+                                  color: fontColorDark,//Colors.transparent,
+                                  //width: 2.0,
+                                ),
+                              ),
+
+                            ),
                           onChanged: (value) => (_newPw = value),
                           validator: (value) {
                             if (value.isEmpty) {
@@ -549,7 +566,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           }),
                       Text(
                         S.of(context).showPassword,
-                        style: TextStyle(color: fontColorDark),
+                        style: TextStyle(color: fontColorDark, ),
+                      ),
+                      Spacer(
                       ),
                       FlatButton(
                         height: 62,
@@ -559,103 +578,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           socket.sendXML('SetNetworkPassword', newValue: _newPw, valueType: "password", mac: _deviceList.getLocal().mac);
                         },
                         child: Text(
-                          S.of(context).set, /*style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),*/
+                          S.of(context).save, /*style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),*/
                         ),
                       )
                     ],
                   ),
                 ),
                 Divider(),
-                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                  Text(
-                    S.of(context).support,
-                    style: TextStyle(color: fontColorLight),
-                  )
-                ]),
-                Divider(),
-                ListTile(
-                  contentPadding: EdgeInsets.only(left: 10, right: 10),
-                  tileColor: secondColor,
-                  title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    FlatButton(
-                      height: 60,
-                      hoverColor: mainColor.withOpacity(0.4),
-                      color: mainColor.withOpacity(0.4),
-                      child: Row(children: [
-                        Text(
-                          S.of(context).generateSupportInformation,
-                          style: TextStyle(color: fontColorDark),
-                        ),
-                        Stack(children: <Widget>[
-                          Container(child: _loading ? CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(mainColor)) : Text("")),
-                          if (response != null && _loading == false)
-                            Container(
-                                child: (response["result"] == "ok" && response.isNotEmpty)
-                                    ? Icon(
-                                        Icons.check_circle_outline,
-                                        color: Colors.green,
-                                      )
-                                    : Icon(
-                                        Icons.cancel_outlined,
-                                        color: Colors.red,
-                                      )),
-                        ]),
-                      ]),
-                      //color: devoloBlue,
-                      //textColor: Colors.white,
-                      onPressed: () async {
-                        setState(() {
-                          _loading = true;
-                          socket.sendXML('SupportInfoGenerate');
-                        });
 
-                        response = await socket.recieveXML(["SupportInfoGenerateStatus"]);
-                        //print('Response: ' + response.toString());
 
-                        setState(() {
-                          if (response["result"] == "ok") {
-                            _htmlfilename = response["htmlfilename"];
-                            _zipfilename = response["zipfilename"];
-                            _loading = false;
-                            _isButtonDisabled = false;
-                          }
-                        });
-                      },
-                    ),
-                    //Flexible(child: socket.waitingResponse ? CircularProgressIndicator() : Text(" ")),
-                    Spacer(),
-                    AbsorbPointer(
-                        absorbing: _isButtonDisabled,
-                        child: Row(
-                          children: [
-                            IconButton(
-                              icon: Icon(Icons.open_in_browser_rounded),
-                              tooltip: S.of(context).openBrowser,
-                              color: _isButtonDisabled ? Colors.grey : mainColor,
-                              onPressed: () {
-                                openFile(_htmlfilename);
-                              },
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.archive_outlined),
-                              tooltip: S.of(context).openZip,
-                              color: _isButtonDisabled ? Colors.grey : mainColor,
-                              onPressed: () {
-                                openFile(_zipfilename);
-                              },
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.send_and_archive),
-                              tooltip: S.of(context).sendToDevolo,
-                              color: _isButtonDisabled ? Colors.grey : mainColor,
-                              onPressed: () {
-                                _contactInfoAlert(context);
-                              },
-                            ),
-                          ],
-                        )),
-                  ]),
-                ),
                 Row(mainAxisAlignment: MainAxisAlignment.end, crossAxisAlignment: CrossAxisAlignment.end, children: <Widget>[
                   // IconButton(
                   //   icon: Icon(Icons.text_fields_sharp),
@@ -687,88 +618,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       ),
     );
-  }
-
-  void _contactInfoAlert(context) {
-    showDialog<void>(
-        context: context,
-        barrierDismissible: true, // user doesn't need to tap button!
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(S.of(context).contactInfo),
-            backgroundColor: backgroundColor.withOpacity(0.9),
-            content: Column(
-              children: <Widget>[
-                Text(S.of(context).theCreatedSupportInformationCanNowBeSentToDevolo),
-                TextFormField(
-                  //initialValue: _newPw,
-                  decoration: InputDecoration(
-                    labelText: S.of(context).processNumber,
-                    //helperText: 'Devicename',
-                  ),
-                  onChanged: (value) => (_newPw = value),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return S.of(context).pleaseEnterProcessingNumber;
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  //initialValue: _newPw,
-                  decoration: InputDecoration(
-                    labelText: S.of(context).yourName,
-                    //helperText: 'Devicename',
-                  ),
-                  onChanged: (value) => (_newPw = value),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return S.of(context).pleaseFillInYourName;
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  //initialValue: _newPw,
-                  decoration: InputDecoration(
-                    labelText: S.of(context).yourEmailaddress,
-                    //helperText: 'Devicename',
-                  ),
-                  onChanged: (value) => (_newPw = value),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return S.of(context).pleaseEnterYourMailAddress;
-                    }
-                    return null;
-                  },
-                ),
-              ],
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Icon(
-                  Icons.check_circle_outline,
-                  size: 35 * fontSizeFactor,
-                  color: mainColor,
-                ), //Text('Bestätigen'),
-                onPressed: () {
-                  // action happening here
-                  Navigator.maybeOf(context).pop();
-                },
-              ),
-              FlatButton(
-                  child: Icon(
-                    Icons.cancel_outlined,
-                    size: 35 * fontSizeFactor,
-                    color: mainColor,
-                  ), //Text('Abbrechen'),
-                  onPressed: () {
-                    // Cancel critical action
-                    Navigator.maybeOf(context).pop();
-                  }),
-            ],
-          );
-        });
   }
 
   void _openDialog(String title1, Widget content1, [String title2, Widget content2, String title3, Widget content3, String title4, Widget content4]) {
@@ -878,6 +727,36 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 fontColorLight = theme_dark["fontColorLight"];
                                 fontColorMedium = theme_dark["fontColorMedium"];
                                 fontColorDark = theme_dark["fontColorDark"];
+                                AppBuilder.of(context).rebuild();
+                              });
+                            },
+                          ),
+                          new FlatButton(
+                            minWidth: 200,
+                            color: secondColor,
+                            child: Column(
+                              children: [
+                                SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_devolo.PNG'))),
+                                new Text(
+                                  "White Theme",
+                                  style: TextStyle(color: fontColorDark),
+                                ),
+                              ],
+                            ),
+                            hoverColor: fontColorLight,
+                            onPressed: () {
+                              setState(() {
+                                config["theme"] = configModel.theme_light;
+                                configModel.setTheme(configModel.theme_light);
+
+                                config["theme"] = theme_light;
+                                mainColor = theme_light["mainColor"];
+                                backgroundColor = theme_light["backgroundColor"];
+                                secondColor = theme_light["secondColor"];
+                                drawingColor = theme_light["drawingColor"];
+                                fontColorLight = theme_light["fontColorLight"];
+                                fontColorMedium = theme_light["fontColorMedium"];
+                                fontColorDark = theme_light["fontColorDark"];
                                 AppBuilder.of(context).rebuild();
                               });
                             },

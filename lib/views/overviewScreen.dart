@@ -263,18 +263,10 @@ class _OverviewScreenState extends State<OverviewScreen> {
                               TextFormField(
                                 initialValue: _newName,
                                 focusNode: myFocusNode,
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: fontColorLight),
+                                cursorColor: fontColorLight,
                                 decoration: InputDecoration(
-                                  //labelText: 'Testing',
-                                  focusColor: Colors.green,
                                   hoverColor: secondColor.withOpacity(0.2),
-                                  suffixIcon: IconButton(
-                                    icon: Icon(Icons.edit_outlined, color: fontColorLight,),
-                                    onPressed: (){
-                                      socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
-                                      //_showEditAlert(context, socket, hitDeviceMac, _newName);
-                                    },
-                                  ),
                                   contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                                   filled: true,
                                   fillColor: secondColor.withOpacity(0.2),//myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
@@ -292,15 +284,20 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                       //width: 2.0,
                                     ),
                                   ),
-                                  //labelStyle: TextStyle(color: myFocusNode.hasFocus ? Colors.amberAccent : Colors.blue),
-
+                                  suffixIcon: IconButton(
+                                    icon: Icon(Icons.edit_outlined, color: fontColorLight,),
+                                    onPressed: (){
+                                      //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
+                                      if(_newName != hitDeviceName)
+                                        _showEditAlert(context, socket, hitDeviceMac, _newName);
+                                    },
+                                  ),
                                 ),
                                 onChanged: (value) => (_newName = value),
-                                onFieldSubmitted: (value) {
-                                  socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
-                                },
                                 onEditingComplete: () {
-                                  socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
+                                  if(_newName != hitDeviceName)
+                                    _showEditAlert(context, socket, hitDeviceMac, _newName);
+                                  //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
                                 },
                                 onTap: (){
                                   setState(() {
@@ -496,6 +493,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                 )
                               ],
                             ),
+
                             Column(
                               children: [
                                 IconButton(
@@ -716,7 +714,6 @@ class _OverviewScreenState extends State<OverviewScreen> {
                   ),
                 ),
                     Text("Do you really want to rename this device?"),
-
               ],
             ),
             actions: <Widget>[
@@ -731,13 +728,16 @@ class _OverviewScreenState extends State<OverviewScreen> {
                     Text(S.of(context).confirm, style: TextStyle(color: fontColorLight),),
                   ],
                 ),
+                autofocus: true,
                 onPressed: () {
                   // Critical things happening here
                   socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
                   Navigator.maybeOf(context).pop();
+                  setState(() {
+                    socket.sendXML('RefreshNetwork');
+                  });
                 },
               ),
-              Spacer(),
               FlatButton(
                   child: Row(
                     children: [

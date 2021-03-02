@@ -58,6 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "identifyDevice" : MessageLookupByLibrary.simpleMessage("Gerät \nidentifizieren"),
     "ignoreUpdates" : MessageLookupByLibrary.simpleMessage("Ignoriere zukünftige Aktualisierungen (Updates)"),
     "install" : MessageLookupByLibrary.simpleMessage("Installieren"),
+    "internet" : MessageLookupByLibrary.simpleMessage("Internet"),
     "internetcentered" : MessageLookupByLibrary.simpleMessage("Internetzentrisch"),
     "ipaddress" : MessageLookupByLibrary.simpleMessage("IP-Adresse:"),
     "isLocalDevice" : MessageLookupByLibrary.simpleMessage("Ist lokales Gerät:"),
@@ -119,6 +120,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "yes" : MessageLookupByLibrary.simpleMessage("Ja"),
     "yourCurrentTerminalIsConnectedToThisDevolodevice" : MessageLookupByLibrary.simpleMessage("Ihr aktuelles Endgerät ist mit diesem devolo-Gerät verbunden."),
     "yourEmailaddress" : MessageLookupByLibrary.simpleMessage(" Ihre E-mail Adresse"),
-    "yourName" : MessageLookupByLibrary.simpleMessage("Ihr Name")
+    "yourName" : MessageLookupByLibrary.simpleMessage("Ihr Name"),
+    "yourPc" : MessageLookupByLibrary.simpleMessage("Dein PC")
   };
 }

@@ -58,6 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "identifyDevice" : MessageLookupByLibrary.simpleMessage("Identify device"),
     "ignoreUpdates" : MessageLookupByLibrary.simpleMessage("Ignore Updates"),
     "install" : MessageLookupByLibrary.simpleMessage("install"),
+    "internet" : MessageLookupByLibrary.simpleMessage("Internet"),
     "internetcentered" : MessageLookupByLibrary.simpleMessage("Internet-centered"),
     "ipaddress" : MessageLookupByLibrary.simpleMessage("IP address:"),
     "isLocalDevice" : MessageLookupByLibrary.simpleMessage("Is local device:"),
@@ -119,6 +120,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "yes" : MessageLookupByLibrary.simpleMessage("yes"),
     "yourCurrentTerminalIsConnectedToThisDevolodevice" : MessageLookupByLibrary.simpleMessage("Your current terminal is connected to this devolo-device."),
     "yourEmailaddress" : MessageLookupByLibrary.simpleMessage(" Your email-address"),
-    "yourName" : MessageLookupByLibrary.simpleMessage("Your name")
+    "yourName" : MessageLookupByLibrary.simpleMessage("Your name"),
+    "yourPc" : MessageLookupByLibrary.simpleMessage("Your PC")
   };
 }

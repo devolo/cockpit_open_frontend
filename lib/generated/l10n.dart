@@ -1024,6 +1024,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Your PC`
+  String get yourPc {
+    return Intl.message(
+      'Your PC',
+      name: 'yourPc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Internet`
+  String get internet {
+    return Intl.message(
+      'Internet',
+      name: 'internet',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -128,7 +128,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
 
     Map<String, dynamic> contents = Map();
     optimizeImages.asMap().forEach((i, value) {
-      contents["Title beschreibung $i"] = optimizeImages[i];
+      contents["Optimierungstitel $i"] = optimizeImages[i];
     });
 
 

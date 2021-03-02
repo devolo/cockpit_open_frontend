@@ -102,5 +102,7 @@
   "update2": "update",
   "updating": "updating...",
   "searching": "searching...",
-  "general": "General"
+  "general": "General",
+  "yourPc": "Your PC",
+  "internet": "Internet"
 }

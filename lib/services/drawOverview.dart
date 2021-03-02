@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
+import 'package:cockpit_devolo/generated/l10n.dart';
 import 'dart:io';
 import 'dart:ui';
 
@@ -162,19 +163,36 @@ class DrawOverview extends CustomPainter {
     _textPainter.paint(canvas, Offset(absoluteOffset.dx - (_textPainter.width / 2), absoluteOffset.dy + (hn_circle_radius + _textPainter.height) - 5));
   }
 
-  void drawOtherConnection(Canvas canvas, Offset deviceOffset){ //ToDo fix internet icon attached to Router
+  void drawOtherConnection(Canvas canvas, Offset deviceOffset, Size size){
     Offset absoluteOffset = Offset(deviceOffset.dx + (screenWidth / 2), deviceOffset.dy + (screenHeight / 2));
     Offset toOffset = Offset(deviceOffset.dx + (screenWidth / 2)+110, deviceOffset.dy + (screenHeight / 2));
+    var userNameTextSpan;
+
 
     canvas.drawLine(
         absoluteOffset,
         toOffset,
         _linePaint..strokeWidth= 2.0);
 
-    if(config["internet_centered"])
+    if(config["internet_centered"]){
       drawIcon(canvas, toOffset, Icons.computer_rounded);
-    else
+      userNameTextSpan = TextSpan(
+        text: S.current.yourPc,
+        style: _textNameStyle.apply(color: fontColorLight),
+      );
+    }
+    else {
       drawIcon(canvas, toOffset, Icons.public_outlined);
+      userNameTextSpan = TextSpan(
+        text: S.current.internet,
+        style: _textNameStyle.apply(color: fontColorLight),
+      );
+    }
+
+
+    _textPainter.text = userNameTextSpan;
+    _textPainter.layout(minWidth: 0, maxWidth: 300);
+    _textPainter.paint(canvas, toOffset.translate(-23, 15));
 
   }
 
@@ -474,7 +492,7 @@ class DrawOverview extends CustomPainter {
     _textPainter.paint(canvas, Offset(absoluteOffset.dx - (_textPainter.width / 2), absoluteOffset.dy - complete_circle_radius - 5));
   }
 
-  void drawDeviceName(Canvas canvas, Size size, String pName, String uName, Offset offset) {
+  void drawDeviceName(Canvas canvas, String pName, String uName, Offset offset , [Size size]) {
     Offset absoluteOffset = Offset(offset.dx + (screenWidth / 2), offset.dy + (screenHeight / 2));
 
     final userNameTextSpan = TextSpan(
@@ -653,9 +671,9 @@ class DrawOverview extends CustomPainter {
 
       if(config["show_other_devices"]){
         if(config["internet_centered"]){
-          drawOtherConnection(canvas, _deviceIconOffsetList.elementAt(localIndex)); //ToDo get Local
+          drawOtherConnection(canvas, _deviceIconOffsetList.elementAt(localIndex), size); //ToDo get Local
         }else{
-          drawOtherConnection(canvas, _deviceIconOffsetList.elementAt(attachedToRouterIndex));
+          drawOtherConnection(canvas, _deviceIconOffsetList.elementAt(attachedToRouterIndex), size);
         }
       }
     }
@@ -725,7 +743,7 @@ class DrawOverview extends CustomPainter {
       if (numDev > _deviceIconOffsetList.length) break;
 
       //do not draw pivot device name yet
-      if (numDev != pivotDeviceIndex) drawDeviceName(canvas, size, _deviceList.elementAt(numDev).type, _deviceList.elementAt(numDev).name, _deviceIconOffsetList.elementAt(numDev));
+      if (numDev != pivotDeviceIndex) drawDeviceName(canvas, _deviceList.elementAt(numDev).type, _deviceList.elementAt(numDev).name, _deviceIconOffsetList.elementAt(numDev), size);
     }
 
     //finally, draw the pivot device so it is above all line endings
@@ -733,7 +751,7 @@ class DrawOverview extends CustomPainter {
       //draw the pivot device icon last to cover all the line endings (yes, quick and dirty, but it does the job)
       drawDeviceIconEmpty(canvas, pivotDeviceIndex);
       drawDeviceIconContent(canvas, pivotDeviceIndex);
-      drawDeviceName(canvas, size, _deviceList.elementAt(pivotDeviceIndex).type, _deviceList.elementAt(pivotDeviceIndex).name, _deviceIconOffsetList.elementAt(pivotDeviceIndex).translate(0, -complete_circle_radius*3));
+      drawDeviceName(canvas, _deviceList.elementAt(pivotDeviceIndex).type, _deviceList.elementAt(pivotDeviceIndex).name, _deviceIconOffsetList.elementAt(pivotDeviceIndex).translate(0, -complete_circle_radius*3), size);
     } else {
       drawNoDevices(canvas, _deviceIconOffsetList.elementAt(0));
     }

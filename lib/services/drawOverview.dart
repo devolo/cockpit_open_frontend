@@ -743,8 +743,7 @@ class DrawOverview extends CustomPainter {
       if (numDev > _deviceIconOffsetList.length) break;
 
       //do not draw pivot device name yet
-      //if (numDev != pivotDeviceIndex) drawDeviceName(canvas, _deviceList.elementAt(numDev).type, _deviceList.elementAt(numDev).name, _deviceIconOffsetList.elementAt(numDev), size);
-      if (numDev != _deviceList.elementAt(1)) drawDeviceName(canvas, _deviceList.elementAt(numDev).type, _deviceList.elementAt(numDev).name, _deviceIconOffsetList.elementAt(numDev), size);
+      if (numDev != pivotDeviceIndex) drawDeviceName(canvas, _deviceList.elementAt(numDev).type, _deviceList.elementAt(numDev).name, _deviceIconOffsetList.elementAt(numDev), size);
     }
 
     //finally, draw the pivot device so it is above all line endings

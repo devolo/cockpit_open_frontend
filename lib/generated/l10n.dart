@@ -1035,6 +1035,16 @@ class S {
     );
   }
 
+  /// `This PC`
+  String get thisPc {
+    return Intl.message(
+      'This PC',
+      name: 'thisPc',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Internet`
   String get internet {
     return Intl.message(

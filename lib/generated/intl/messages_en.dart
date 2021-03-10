@@ -106,6 +106,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "theCreatedSupportInformationCanNowBeSentToDevolo" : MessageLookupByLibrary.simpleMessage("The created support information can now be sent to devolo support.\nPlease fill in the following fields."),
     "theOverviewWillBeCenteredAroundThePlcDeviceConnected" : MessageLookupByLibrary.simpleMessage("The overview will be centered around the PLC device connected to the Internet."),
     "thisDeviceIsConnectedDirectlyToTheInternetRouter" : MessageLookupByLibrary.simpleMessage("This device is connected directly to the Internet router."),
+    "thisPc" : MessageLookupByLibrary.simpleMessage("This PC"),
     "title" : MessageLookupByLibrary.simpleMessage("devolo Cockpit"),
     "type" : MessageLookupByLibrary.simpleMessage("Type:"),
     "upToDate" : MessageLookupByLibrary.simpleMessage("up to date"),

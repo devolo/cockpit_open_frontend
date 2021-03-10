@@ -281,8 +281,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       new Switch(
                         value: config["show_speeds_permanent"], //widget.painter.showSpeedsPermanently,
                         onChanged: toggleCheckbox,
-                        activeTrackColor: mainColor.withAlpha(120),
-                        activeColor: mainColor,
+                        activeTrackColor: mainColor.withAlpha(100),
+                        activeColor: Colors.white,
+                        inactiveThumbColor: Colors.black,
+                        inactiveTrackColor: Colors.grey[600],
                       ),
                     ]),
                   ),
@@ -315,8 +317,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             saveToSharedPrefs(config);
                           });
                         },
-                        activeTrackColor: mainColor.withAlpha(120),
-                        activeColor: mainColor,
+                        activeTrackColor: mainColor.withAlpha(100),
+                        activeColor: Colors.white,
+                        inactiveThumbColor: Colors.black,
+                        inactiveTrackColor: Colors.grey[600],
                       ),
                     ]),
                   ),
@@ -346,8 +350,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             socket.sendXML('RefreshNetwork');
                           });
                         },
-                        activeTrackColor: mainColor.withAlpha(120),
-                        activeColor: mainColor,
+                        activeTrackColor: mainColor.withAlpha(100),
+                        activeColor: Colors.white,
+                        inactiveThumbColor: Colors.black,
+                        inactiveTrackColor: Colors.grey[600],
                       ),
                     ]),
                   ),
@@ -443,8 +449,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               socket.sendXML('Config');
                             });
                           },
-                          activeTrackColor: mainColor.withAlpha(120),
-                          activeColor: mainColor,),
+                        activeTrackColor: mainColor.withAlpha(100),
+                        activeColor: Colors.white,
+                        inactiveThumbColor: Colors.black,
+                        inactiveTrackColor: Colors.grey[600],
+                      ),
                     ]),
                   ),
                 ),
@@ -472,8 +481,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               socket.sendXML('Config');
                             });
                           },
-                        activeTrackColor: mainColor.withAlpha(120),
-                        activeColor: mainColor,
+                        activeTrackColor: mainColor.withAlpha(100),
+                        activeColor: Colors.white,
+                        inactiveThumbColor: Colors.black,
+                        inactiveTrackColor: Colors.grey[600],
                       ),
                     ]),
                   ),
@@ -503,8 +514,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             socket.sendXML('Config');
                           });
                         },
-                        activeTrackColor: mainColor.withAlpha(120),
-                        activeColor: mainColor,
+                        activeTrackColor: mainColor.withAlpha(100),
+                        activeColor: Colors.white,
+                        inactiveThumbColor: Colors.black,
+                        inactiveTrackColor: Colors.grey[600],
                       ),
                     ]),
                   ),
@@ -545,7 +558,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   //width: 2.0,
                                 ),
                               ),
-
+                            suffixIcon: _hiddenPw?
+                            IconButton(
+                              icon: Icon(Icons.visibility_off, color: fontColorDark,),
+                              onPressed: (){
+                                //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
+                                setState(() {
+                                  _hiddenPw = !_hiddenPw;
+                                });
+                              },
+                            ):
+                            IconButton(
+                              icon: Icon(Icons.visibility, color: fontColorDark,),
+                              onPressed: (){
+                                //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
+                                setState(() {
+                                  _hiddenPw = !_hiddenPw;
+                                });
+                              },
+                            ),
                             ),
                           onChanged: (value) => (_newPw = value),
                           validator: (value) {
@@ -556,18 +587,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           },
                         ),
                       ),
-                      new Checkbox(
-                          value: !_hiddenPw,
-                          activeColor: mainColor,
-                          onChanged: (bool value) {
-                            setState(() {
-                              _hiddenPw = !_hiddenPw;
-                            });
-                          }),
-                      Text(
-                        S.of(context).showPassword,
-                        style: TextStyle(color: fontColorDark, ),
-                      ),
+
                       Spacer(
                       ),
                       FlatButton(

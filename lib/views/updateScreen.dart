@@ -502,307 +502,311 @@ class _UpdateScreenState extends State<UpdateScreen> {
             color: Colors.white,
             fontSize: 23 * fontSizeFactor,
           ),
-          content: Stack(
-            overflow: Overflow.visible,
-            children: [
-              Positioned.fill(
-                top: -90,
-                right: -35,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Align(
-                    alignment: Alignment.topRight,
-                    child: CircleAvatar(
-                      radius: 14.0,
-                      backgroundColor: secondColor,
-                      child: Icon(Icons.close, color: fontColorDark),
+          content: StatefulBuilder(// You need this, notice the parameters below:
+        builder: (BuildContext context, StateSetter setState) {
+        return Stack(
+              overflow: Overflow.visible,
+              children: [
+                Positioned.fill(
+                  top: -90,
+                  right: -35,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: CircleAvatar(
+                        radius: 14.0,
+                        backgroundColor: secondColor,
+                        child: Icon(Icons.close, color: fontColorDark),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SingleChildScrollView(
-                child: Column(
-                  //mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Table(
-                      defaultColumnWidth: FixedColumnWidth(300.0 * fontSizeFactor),
-                      children: [
-                        TableRow(children: [
-                          Align(
-                            alignment: Alignment.bottomRight,
-                            child: SelectableText(
-                              'Name:   ',
-                              style: TextStyle(height: 2),
-                            ),
-                          ),
-                          TextFormField(
-                            initialValue: _newName,
-                            focusNode: myFocusNode,
-                            style: TextStyle(color: fontColorLight),
-                            cursorColor: fontColorLight,
-                            decoration: InputDecoration(
-                              //labelText: 'Testing',
-                              focusColor: Colors.green,
-                              hoverColor: secondColor.withOpacity(0.2),
-                              contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-                              filled: true,
-                              fillColor: secondColor.withOpacity(0.2),//myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5.0),
-                                borderSide: BorderSide(
-                                  color: fontColorLight,
-                                  width: 2.0,
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5.0),
-                                borderSide: BorderSide(
-                                  color: fontColorLight,//Colors.transparent,
-                                  //width: 2.0,
-                                ),
-                              ),
-                              suffixIcon: IconButton(
-                                icon: Icon(Icons.edit_outlined, color: fontColorLight,),
-                                onPressed: (){
-                                  //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
-                                  if(_newName != hitDeviceName)
-                                    _showEditAlert(context, socket, hitDeviceMac, _newName);
-                                },
+                SingleChildScrollView(
+                  child: Column(
+                    //mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Table(
+                        defaultColumnWidth: FixedColumnWidth(300.0 * fontSizeFactor),
+                        children: [
+                          TableRow(children: [
+                            Align(
+                              alignment: Alignment.bottomRight,
+                              child: SelectableText(
+                                'Name:   ',
+                                style: TextStyle(height: 2),
                               ),
                             ),
-                            onChanged: (value) => (_newName = value),
-                            onEditingComplete: () {
-                              if(_newName != hitDeviceName)
-                                _showEditAlert(context, socket, hitDeviceMac, _newName);
-                              //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
-                            },
-                            onTap: (){
-                              setState(() {
-                                myFocusNode.hasFocus;
-                              });
-                            },
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return S.of(context).pleaseEnterDeviceName;
-                              }
-                              return null;
-                            },
-                          ),
-                        ]),
-                        TableRow(children: [
+                            TextFormField(
+                              initialValue: _newName,
+                              focusNode: myFocusNode,
+                              style: TextStyle(color: fontColorLight),
+                              cursorColor: fontColorLight,
+                              decoration: InputDecoration(
+                                //labelText: 'Testing',
+                                focusColor: Colors.green,
+                                hoverColor: secondColor.withOpacity(0.2),
+                                contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                                filled: true,
+                                fillColor: secondColor.withOpacity(0.2),//myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  borderSide: BorderSide(
+                                    color: fontColorLight,
+                                    width: 2.0,
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  borderSide: BorderSide(
+                                    color: fontColorLight,//Colors.transparent,
+                                    //width: 2.0,
+                                  ),
+                                ),
+                                suffixIcon: IconButton(
+                                  icon: Icon(Icons.edit_outlined, color: fontColorLight,),
+                                  onPressed: (){
+                                    //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
+                                    if(_newName != hitDeviceName)
+                                      _showEditAlert(context, socket, hitDeviceMac, _newName);
+                                  },
+                                ),
+                              ),
+                              onChanged: (value) => (_newName = value),
+                              onEditingComplete: () {
+                                if(_newName != hitDeviceName)
+                                  _showEditAlert(context, socket, hitDeviceMac, _newName);
+                                //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
+                              },
+                              onTap: (){
+                                setState(() {
+                                  myFocusNode.hasFocus;
+                                });
+                              },
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return S.of(context).pleaseEnterDeviceName;
+                                }
+                                return null;
+                              },
+                            ),
+                          ]),
+                          TableRow(children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                                child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: SelectableText(
+                                      "${S.of(context).type}   ",
+                                    )),
+                              ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: SelectableText(hitDeviceType),
+                            ),
+                          ]),
+                          TableRow(children: [
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 5.0),
                               child: Align(
                                   alignment: Alignment.centerRight,
                                   child: SelectableText(
-                                    "${S.of(context).type}   ",
+                                    "${S.of(context).serialNumber}   ",
                                   )),
                             ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: SelectableText(hitDeviceType),
-                          ),
-                        ]),
-                        TableRow(children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: Align(
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: SelectableText(hitDeviceSN),
+                            ),
+                          ]),
+                          TableRow(children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: Align(
                                 alignment: Alignment.centerRight,
                                 child: SelectableText(
-                                  "${S.of(context).serialNumber}   ",
-                                )),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: SelectableText(hitDeviceSN),
-                          ),
-                        ]),
-                        TableRow(children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: SelectableText(
-                                "${S.of(context).mtnumber}   ",
+                                  "${S.of(context).mtnumber}   ",
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: SelectableText(hitDeviceMT.substring(2)),
-                          ),
-                        ]),
-                        TableRow(children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: SelectableText(
-                                "${S.of(context).version}   ",
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: SelectableText(hitDeviceMT.substring(2)),
+                            ),
+                          ]),
+                          TableRow(children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: SelectableText(
+                                  "${S.of(context).version}   ",
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: SelectableText('$hitDeviceVersion ($hitDeviceVersionDate)'),
-                          ),
-                        ]),
-                        TableRow(children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: SelectableText(
-                                "${S.of(context).ipaddress}   ",
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: SelectableText('$hitDeviceVersion ($hitDeviceVersionDate)'),
+                            ),
+                          ]),
+                          TableRow(children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: SelectableText(
+                                  "${S.of(context).ipaddress}   ",
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: SelectableText(hitDeviceIp),
-                          ),
-                        ]),
-                        TableRow(children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: SelectableText(
-                                "${S.of(context).macaddress}   ",
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: SelectableText(hitDeviceIp),
+                            ),
+                          ]),
+                          TableRow(children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: SelectableText(
+                                  "${S.of(context).macaddress}   ",
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: SelectableText(hitDeviceMac),
-                          ),
-                        ]),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: SelectableText(hitDeviceMac),
+                            ),
+                          ]),
 
-                      ],
-                    ),
-                    //Text('Rates: ' +hitDeviceRx),
-                    Padding(padding: EdgeInsets.fromLTRB(0, 40, 0, 0)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          children: [
-                            IconButton(
-                              icon: Icon(
-                                Icons.public,
-                                color: fontColorLight,
-                              ),
-                              //tooltip: S.of(context).launchWebinterface,
-                              hoverColor: fontColorLight.withAlpha(50),
-                              iconSize: 24.0 * fontSizeFactor,
-                              onPressed: () => launchURL(hitDeviceIp),
-                            ),
-                            Text(
-                              S.of(context).launchWebinterface,
-                              style: TextStyle(fontSize: 14, color: fontColorLight),
-                              textScaleFactor: fontSizeFactor,
-                              textAlign: TextAlign.center,
-                            )
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            IconButton(
+                        ],
+                      ),
+                      //Text('Rates: ' +hitDeviceRx),
+                      Padding(padding: EdgeInsets.fromLTRB(0, 40, 0, 0)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            children: [
+                              IconButton(
                                 icon: Icon(
-                                  Icons.lightbulb,
+                                  Icons.public,
                                   color: fontColorLight,
                                 ),
-                                //tooltip: S.of(context).identifyDevice,
+                                //tooltip: S.of(context).launchWebinterface,
                                 hoverColor: fontColorLight.withAlpha(50),
                                 iconSize: 24.0 * fontSizeFactor,
-                                onPressed: () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac)),
-                            Text(
-                              S.of(context).identifyDevice,
-                              style: TextStyle(fontSize: 14, color: fontColorLight),
-                              textScaleFactor: fontSizeFactor,
-                              textAlign: TextAlign.center,
-                            )
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            IconButton(
+                                onPressed: () => launchURL(hitDeviceIp),
+                              ),
+                              Text(
+                                S.of(context).launchWebinterface,
+                                style: TextStyle(fontSize: 14, color: fontColorLight),
+                                textScaleFactor: fontSizeFactor,
+                                textAlign: TextAlign.center,
+                              )
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              IconButton(
+                                  icon: Icon(
+                                    Icons.lightbulb,
+                                    color: fontColorLight,
+                                  ),
+                                  //tooltip: S.of(context).identifyDevice,
+                                  hoverColor: fontColorLight.withAlpha(50),
+                                  iconSize: 24.0 * fontSizeFactor,
+                                  onPressed: () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac)),
+                              Text(
+                                S.of(context).identifyDevice,
+                                style: TextStyle(fontSize: 14, color: fontColorLight),
+                                textScaleFactor: fontSizeFactor,
+                                textAlign: TextAlign.center,
+                              )
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              IconButton(
+                                  icon: Icon(
+                                    Icons.find_in_page,
+                                    color: fontColorLight,
+                                  ),
+                                  //tooltip: S.of(context).showManual,
+                                  hoverColor: fontColorLight.withAlpha(50),
+                                  iconSize: 24.0 * fontSizeFactor,
+                                  onPressed: () async {
+                                    socket.sendXML('GetManual', newValue: hitDeviceMT, valueType: 'product', newValue2: 'de', valueType2: 'language');
+                                    var response = await socket.recieveXML(["GetManualResponse"]);
+                                    setState(() {
+                                      openFile(response['filename']);
+                                    });
+                                  }),
+                              Text(
+                                S.of(context).showManual,
+                                style: TextStyle(fontSize: 14, color: fontColorLight),
+                                textScaleFactor: fontSizeFactor,
+                                textAlign: TextAlign.center,
+                              )
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              IconButton(
                                 icon: Icon(
-                                  Icons.find_in_page,
+                                  Icons.upload_file,
+                                  color: fontColorLight,
+                                  semanticLabel: "update",
+                                ),
+                                //tooltip: S.of(context).factoryReset,
+                                hoverColor: fontColorLight.withAlpha(50),
+                                iconSize: 24.0 * fontSizeFactor,
+                                onPressed: () => _handleCriticalActions(context, socket, 'ResetAdapterToFactoryDefaults', hitDevice),
+                              ),
+                              Text(
+                                S.of(context).factoryReset,
+                                style: TextStyle(fontSize: 14, color: fontColorLight),
+                                textScaleFactor: fontSizeFactor,
+                                textAlign: TextAlign.center,
+                              )
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              IconButton(
+                                icon: Icon(
+                                  Icons.delete,
                                   color: fontColorLight,
                                 ),
-                                //tooltip: S.of(context).showManual,
+                                //tooltip: S.of(context).deleteDevice,
                                 hoverColor: fontColorLight.withAlpha(50),
                                 iconSize: 24.0 * fontSizeFactor,
-                                onPressed: () async {
-                                  socket.sendXML('GetManual', newValue: hitDeviceMT, valueType: 'product', newValue2: 'de', valueType2: 'language');
-                                  var response = await socket.recieveXML(["GetManualResponse"]);
-                                  setState(() {
-                                    openFile(response['filename']);
-                                  });
-                                }),
-                            Text(
-                              S.of(context).showManual,
-                              style: TextStyle(fontSize: 14, color: fontColorLight),
-                              textScaleFactor: fontSizeFactor,
-                              textAlign: TextAlign.center,
-                            )
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            IconButton(
-                              icon: Icon(
-                                Icons.upload_file,
-                                color: fontColorLight,
-                                semanticLabel: "update",
+                                onPressed: () => _handleCriticalActions(context, socket, 'RemoveAdapter', hitDevice),
                               ),
-                              //tooltip: S.of(context).factoryReset,
-                              hoverColor: fontColorLight.withAlpha(50),
-                              iconSize: 24.0 * fontSizeFactor,
-                              onPressed: () => _handleCriticalActions(context, socket, 'ResetAdapterToFactoryDefaults', hitDevice),
-                            ),
-                            Text(
-                              S.of(context).factoryReset,
-                              style: TextStyle(fontSize: 14, color: fontColorLight),
-                              textScaleFactor: fontSizeFactor,
-                              textAlign: TextAlign.center,
-                            )
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            IconButton(
-                              icon: Icon(
-                                Icons.delete,
-                                color: fontColorLight,
-                              ),
-                              //tooltip: S.of(context).deleteDevice,
-                              hoverColor: fontColorLight.withAlpha(50),
-                              iconSize: 24.0 * fontSizeFactor,
-                              onPressed: () => _handleCriticalActions(context, socket, 'RemoveAdapter', hitDevice),
-                            ),
-                            Text(
-                              S.of(context).deleteDevice,
-                              style: TextStyle(fontSize: 14, color: fontColorLight),
-                              textScaleFactor: fontSizeFactor,
-                              textAlign: TextAlign.center,
-                            )
-                          ],
-                        ), //ToDo Delete Device see wiki
-                      ],
-                    ),
-                  ],
+                              Text(
+                                S.of(context).deleteDevice,
+                                style: TextStyle(fontSize: 14, color: fontColorLight),
+                                textScaleFactor: fontSizeFactor,
+                                textAlign: TextAlign.center,
+                              )
+                            ],
+                          ), //ToDo Delete Device see wiki
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            );
+      },
           ),
           // actions: <Widget>[
           //   IconButton(

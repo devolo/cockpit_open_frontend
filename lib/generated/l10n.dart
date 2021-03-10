@@ -245,11 +245,11 @@ class S {
     );
   }
 
-  /// `set`
-  String get set {
+  /// `save`
+  String get save {
     return Intl.message(
-      'set',
-      name: 'set',
+      'save',
+      name: 'save',
       desc: '',
       args: [],
     );
@@ -975,11 +975,81 @@ class S {
     );
   }
 
-  /// `Do you really want to rename this device?`
-  String get doYouReallyWantToRenameThisDevice {
+  /// `up to date`
+  String get upToDate {
     return Intl.message(
-      'Do you really want to rename this device?',
-      name: 'doYouReallyWantToRenameThisDevice',
+      'up to date',
+      name: 'upToDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `update`
+  String get update2 {
+    return Intl.message(
+      'update',
+      name: 'update2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `updating...`
+  String get updating {
+    return Intl.message(
+      'updating...',
+      name: 'updating',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `searching...`
+  String get searching {
+    return Intl.message(
+      'searching...',
+      name: 'searching',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `General`
+  String get general {
+    return Intl.message(
+      'General',
+      name: 'general',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your PC`
+  String get yourPc {
+    return Intl.message(
+      'Your PC',
+      name: 'yourPc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This PC`
+  String get thisPc {
+    return Intl.message(
+      'This PC',
+      name: 'thisPc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Internet`
+  String get internet {
+    return Intl.message(
+      'Internet',
+      name: 'internet',
       desc: '',
       args: [],
     );

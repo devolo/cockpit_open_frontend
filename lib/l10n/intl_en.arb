@@ -25,7 +25,7 @@
   "changePlcnetworkPassword": "Change PLC-network password",
   "pleaseEnterPassword": "Please enter password",
   "showPassword": "show password ",
-  "set": "set",
+  "save": "save",
   "support": "Support",
   "generateSupportInformation": "Generate support information ",
   "openBrowser": "open browser",
@@ -98,5 +98,12 @@
   "yourCurrentTerminalIsConnectedToThisDevolodevice": "Your current terminal is connected to this devolo-device.",
   "updateAll": "Update all",
   "confirmAction": "Confirm Action",
-  "doYouReallyWantToRenameThisDevice": "Do you really want to rename this device?"
+  "upToDate": "up to date",
+  "update2": "update",
+  "updating": "updating...",
+  "searching": "searching...",
+  "general": "General",
+  "yourPc": "Your PC",
+  "thisPc": "This PC",
+  "internet": "Internet"
 }

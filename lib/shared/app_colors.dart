@@ -23,7 +23,7 @@ Map<String, dynamic> theme_dark = {
 };
 
 Map<String, dynamic> theme_devolo = {
-  "name": "Standart",
+  "name": "Standard",
   "mainColor" : Colors.blue[700],
   "backgroundColor" : Colors.blue[700],
   "secondColor" : Colors.blue[100],
@@ -35,12 +35,23 @@ Map<String, dynamic> theme_devolo = {
 
 Map<String, dynamic> theme_highContrast = {
   "name": "High Contrast",
-  "mainColor" : Colors.black, //Colors.blue[700]; // Colors.grey[850];
-  "backgroundColor" : Colors.black, //Colors.blue[700]; //
-  "secondColor" : Colors.white, //Colors.blue[100];
+  "mainColor" : Colors.black,
+  "backgroundColor" : Colors.black,
+  "secondColor" : Colors.white,
   "drawingColor" : Colors.white,
   "fontColorLight" : Colors.yellowAccent,
   "fontColorMedium" : Colors.black,
+  "fontColorDark" : Colors.black,
+};
+
+Map<String, dynamic> theme_light = {
+  "name": "Light Theme",
+  "mainColor" : Colors.white,
+  "backgroundColor" : Colors.white,
+  "secondColor" : Colors.grey[300],
+  "drawingColor" : Colors.grey,
+  "fontColorLight" : Colors.black,
+  "fontColorMedium" : Colors.grey[800],
   "fontColorDark" : Colors.black,
 };
 

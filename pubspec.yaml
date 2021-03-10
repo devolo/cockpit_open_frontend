@@ -36,6 +36,7 @@ dependencies:
   flutter_material_color_picker: ^1.0.5
   yaml: ^2.2.1
   package_info_plus: ^0.6.3
+  carousel_slider: ^3.0.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -78,6 +79,13 @@ flutter:
     - assets/theme_images/theme_dark.PNG
     - assets/theme_images/theme_devolo.PNG
     - assets/theme_images/theme_highContrast.PNG
+    - assets/addDevice/MagicWifi_step1.PNG
+    - assets/addDevice/MagicWifi_step2.PNG
+    - assets/addDevice/MagicWifi_step3.PNG
+    - assets/addDevice/MagicWifi_step4.PNG
+    - assets/addDevice/MagicWifi_step5.PNG
+    - assets/addDevice/MagicWifi_step6.PNG
+    - assets/addDevice/MagicWifi_step7.PNG
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

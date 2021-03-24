@@ -86,8 +86,8 @@ class NetworkList extends ChangeNotifier{
         print("Type: " + type);
         break;
       }
-      else if (net.type.contains('dLan')){
-        type = "dLan";
+      else if (net.type.contains('dLAN')){
+        type = "dLAN";
         print("Type: " + type);
         break;
       }

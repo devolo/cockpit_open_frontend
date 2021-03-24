@@ -57,7 +57,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void toggleCheckbox(bool value) {
     setState(() {
       config["show_speeds_permanent"] = value;
-      print(value);
 
       if (config["show_speeds_permanent"]) {
         config["show_speeds"] = true;
@@ -505,7 +504,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         onChanged: (value) {
                           setState(() {
                             config["windows_network_throttling_disabled"] = !value;
-                            print(config["windows_network_throttling_disabled"]);
                             socket.sendXML('Config');
                             saveToSharedPrefs(config);
                           });

@@ -138,9 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var config = prefs.get("config");
     //print('Config from Prefs: ${config}');
     var jsonconfig = json.decode(config);
-    print('Config JSON from Prefs: ${jsonconfig}');
-
-    print(jsonconfig["theme"].toString());
+    //print('Config JSON from Prefs: ${jsonconfig}');
     setTheme(jsonconfig["theme"]);
 
     AppBuilder.of(context).rebuild();

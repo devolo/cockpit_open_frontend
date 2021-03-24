@@ -245,9 +245,9 @@ class DrawOverview extends CustomPainter {
 
       if (networkOffsetList.length > 1) {
         if(_providerList.selectedNetworkIndex == index){
-          drawNetworkName(canvas, size, "Network ${index+1}", absoluteOffset, true);
+          drawNetworkName(canvas, size, "Netk ${index+1}", absoluteOffset, true);
         }else{
-          drawNetworkName(canvas, size, "Network ${index+1}", networkOffsetList[index], false);
+          drawNetworkName(canvas, size, "Netwk ${index+1}", networkOffsetList[index], false);
           //canvas.drawLine(absoluteOffset, networkOffsetList[index], _linePaint..strokeWidth = 2.0);
           drawIcon(canvas, networkOffsetList[index], Icons.workspaces_filled);
         }
@@ -746,7 +746,7 @@ class DrawOverview extends CustomPainter {
       if (numDev > _deviceIconOffsetList.length) break;
 
       //do not draw pivot device name yet
-      if (numDev != pivotDeviceIndex) drawDeviceName(canvas, _deviceList.elementAt(numDev).type, _deviceList.elementAt(numDev).name, _deviceIconOffsetList.elementAt(numDev), size);
+      if (numDev != 0) drawDeviceName(canvas, _deviceList.elementAt(numDev).type, _deviceList.elementAt(numDev).name, _deviceIconOffsetList.elementAt(numDev), size);
     }
 
     //finally, draw the pivot device so it is above all line endings
@@ -754,7 +754,7 @@ class DrawOverview extends CustomPainter {
       //draw the pivot device icon last to cover all the line endings
       drawDeviceIconEmpty(canvas, pivotDeviceIndex);
       drawDeviceIconContent(canvas, pivotDeviceIndex);
-      drawDeviceName(canvas, _deviceList.elementAt(pivotDeviceIndex).type, _deviceList.elementAt(pivotDeviceIndex).name, _deviceIconOffsetList.elementAt(pivotDeviceIndex).translate(0, -complete_circle_radius*3), size);
+      drawDeviceName(canvas, _deviceList.elementAt(0).type, _deviceList.elementAt(0).name, _deviceIconOffsetList.elementAt(0).translate(0, -complete_circle_radius*3), size);
     } else {
       drawNoDevices(canvas, _deviceIconOffsetList.elementAt(0));
     }

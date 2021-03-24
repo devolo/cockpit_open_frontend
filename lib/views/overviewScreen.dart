@@ -94,13 +94,12 @@ class _OverviewScreenState extends State<OverviewScreen> {
                       hoverColor: secondColor.withOpacity(0.3),
                       //color: networkIdx != _deviceList.selectedNetworkIndex? Colors.transparent: secondColor,
                       child: networkIdx != _deviceList.selectedNetworkIndex
-                          ? Text("${S.of(context).network} ${networkIdx}")
+                          ? Text("${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network} ${networkIdx}")
                           : Text(
-                              "${S.of(context).network} ${networkIdx}",
+                              "${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network} ${networkIdx}",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                       onPressed: () {
-                        //print(_deviceList.selectedNetworkIndex);
                         _deviceList.selectedNetworkIndex = networkIdx;
                         AppBuilder.of(context).rebuild();
                       },

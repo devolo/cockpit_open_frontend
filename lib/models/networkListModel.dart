@@ -78,6 +78,28 @@ class NetworkList extends ChangeNotifier{
     return null;
   }
 
+  String getNetworkType(networkIndex){
+    String type;
+    for(var net in _networkList[networkIndex]){
+      if(net.type.contains('Magic')){
+        type = "Magic";
+        print("Type: " + type);
+        break;
+      }
+      else if (net.type.contains('DLan')){
+        type = "DLan";
+        print("Type: " + type);
+        break;
+      }
+      else{
+        type = "PLC";
+        print("Type: " + type);
+        break;
+      }
+    }
+    return type;
+  }
+
   void setDeviceList(List<Device> devList) {
     _networkList[selectedNetworkIndex] = devList;
     notifyListeners();
@@ -125,6 +147,7 @@ class NetworkList extends ChangeNotifier{
     notifyListeners();
   }
 
+
   String toRealString(){
     String ret;
     for(var devlocal in _networkList[selectedNetworkIndex]) {
@@ -137,8 +160,6 @@ class NetworkList extends ChangeNotifier{
     return null;
   }
 }
-
-
 
 
 

@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/views/overviewNetworksScreen.dart';
 import 'package:cockpit_devolo/views/overviewScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cockpit_devolo/views/appBuilder.dart';
 import 'package:yaml/yaml.dart';
@@ -106,9 +107,13 @@ class _MyHomePageState extends State<MyHomePage> {
     _menuItemStyle = TextStyle(color: mainColor, fontFamily: 'Roboto', decorationColor: mainColor);
     loadAllDeviceIcons();
 
+
+
     print('CONTRAST:  ${highContrast}');
     if(highContrast == true)
       config["high_contrast"] = true;
+
+    readSharedPrefs();
     getVersion();
 
   }
@@ -125,6 +130,20 @@ class _MyHomePageState extends State<MyHomePage> {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     version = packageInfo.version;
     buildNr = packageInfo.buildNumber;
+
+  }
+
+  Future<void> readSharedPrefs () async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var config = prefs.get("config");
+    //print('Config from Prefs: ${config}');
+    var jsonconfig = json.decode(config);
+    print('Config JSON from Prefs: ${jsonconfig}');
+
+    print(jsonconfig["theme"].toString());
+    setTheme(jsonconfig["theme"]);
+
+    AppBuilder.of(context).rebuild();
   }
 
   List<BottomNavigationBarItem> buildBottomNavBarItems() {
@@ -196,25 +215,18 @@ class _MyHomePageState extends State<MyHomePage> {
             tooltip: S.of(context).highContrast,
             onPressed: () {
               setState(() {
-                if(config["theme"] != theme_highContrast) {
-                  config["previous_theme"] = config["theme"];
-                  config["theme"] = theme_highContrast;
-                  mainColor = theme_highContrast["mainColor"];
-                  backgroundColor = theme_highContrast["backgroundColor"];
-                  secondColor = theme_highContrast["secondColor"];
-                  drawingColor = theme_highContrast["drawingColor"];
-                  fontColorLight = theme_highContrast["fontColorLight"];
-                  fontColorMedium = theme_highContrast["fontColorMedium"];
-                  fontColorDark = theme_highContrast["fontColorDark"];
-                }else{
+                print("Theme: " + config["theme"]);
+                print("Prev Theme: " + config["previous_theme"]);
+
+                if(config["theme"] == "High Contrast") {
                   config["theme"] = config["previous_theme"];
-                  mainColor = config["previous_theme"]["mainColor"];
-                  backgroundColor = config["previous_theme"]["backgroundColor"];
-                  secondColor = config["previous_theme"]["secondColor"];
-                  drawingColor = config["previous_theme"]["drawingColor"];
-                  fontColorLight = config["previous_theme"]["fontColorLight"];
-                  fontColorMedium = config["previous_theme"]["fontColorMedium"];
-                  fontColorDark = config["previous_theme"]["fontColorDark"];
+                  setTheme(config["previous_theme"]);
+
+                }else{
+                  config["previous_theme"] = config["theme"];
+                  config["theme"] = theme_highContrast["name"];
+                  setTheme(theme_highContrast["name"]);
+
                 }
                 AppBuilder.of(context).rebuild();
                 //showNetwork = !showNetwork;
@@ -333,7 +345,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ), //Text('Bestätigen'),
                 onPressed: () {
                   // Critical things happening here
-                  Navigator.maybeOf(context).pop();
+                  Navigator.pop(context);
                 },
               ),
             ],

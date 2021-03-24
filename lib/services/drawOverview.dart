@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:cockpit_devolo/models/configModel.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,10 @@ class DrawOverview extends CustomPainter {
   bool showSpeedsPermanently = false;
   bool showingSpeeds = false; //true: draw the device circles with speeds as content. false: draw device circles with icons as content.
   double dashWidth = 9, dashSpace = 5, startX = 0;
+
+  //ConfigModel configModel = ConfigModel();
+
+
 
   final _textStyle = TextStyle(
     color: drawingColor,
@@ -396,7 +401,7 @@ class DrawOverview extends CustomPainter {
     Offset lineEnd = Offset(absoluteCenterOffset.dx + hn_circle_radius - 10, absoluteCenterOffset.dy-5);
     print('Index: ' + deviceIndex.toString());
     print('Pivot :' + pivotDeviceIndex.toString());
-    print('showingSpeeds: ' + showingSpeeds.toString());
+    //print('showingSpeeds: ' + showingSpeeds.toString());
 
     if (showingSpeeds /*&& deviceIndex != pivotDeviceIndex*/) {
       int rx = 0, tx = 0;
@@ -697,8 +702,6 @@ class DrawOverview extends CustomPainter {
         colors['tx'] = Colors.yellow;
       else if(rates.tx < 100)
         colors['tx'] = Colors.red;
-
-      print('COLOR' + rates.toString());
     }
     return colors;
   }
@@ -748,7 +751,7 @@ class DrawOverview extends CustomPainter {
 
     //finally, draw the pivot device so it is above all line endings
     if (_deviceList.length > 0) {
-      //draw the pivot device icon last to cover all the line endings (yes, quick and dirty, but it does the job)
+      //draw the pivot device icon last to cover all the line endings
       drawDeviceIconEmpty(canvas, pivotDeviceIndex);
       drawDeviceIconContent(canvas, pivotDeviceIndex);
       drawDeviceName(canvas, _deviceList.elementAt(pivotDeviceIndex).type, _deviceList.elementAt(pivotDeviceIndex).name, _deviceIconOffsetList.elementAt(pivotDeviceIndex).translate(0, -complete_circle_radius*3), size);

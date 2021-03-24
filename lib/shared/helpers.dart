@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:async';
 import 'dart:io';
@@ -6,6 +7,7 @@ import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:flutter/material.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:open_file/open_file.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
@@ -18,19 +20,17 @@ bool areDeviceIconsLoaded = false;
 bool showNetwork = true;
 String _openResult = 'Unknown';
 
-Map<String,dynamic> config = {
-  "ignore_updates": false,
-  "allow_data_collection": false,
-  "windows_network_throttling_disabled":true,
-  "internet_centered": true,
-  "show_other_devices": true,
-  "show_speeds_permanent": false,
-  "show_speeds": false,
-  "high_contrast": false,
-  "theme": theme_dark,
-  "previous_theme": theme_dark,
-  "language": ""
-};
+void saveToSharedPrefs(Map<String, dynamic> inputMap) async {
+  //print('Config from Prog: ${inputMap}');
+  String jsonString = json.encode(inputMap);
+  print('Config from Prog: ${jsonString}');
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var config = prefs.get("config");
+  print('Config from Prefs: ${config}');
+
+  await prefs.setString('config', jsonString);
+}
 
 String macToCanonical(String mac) {
   if (mac != null)

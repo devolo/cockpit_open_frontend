@@ -48,7 +48,7 @@ class DrawNetworksOverview extends CustomPainter {
     _networkList = Provider.of<NetworkList>(context).getNetworkList();
     print("DrawOverview: " + _networkList.toString());
     numberFoundDevices = _networkList.length;
-    
+
 
     screenWidth = MediaQuery.maybeOf(context).size.width;
     screenHeight = MediaQuery.maybeOf(context).size.height;
@@ -83,7 +83,7 @@ class DrawNetworksOverview extends CustomPainter {
     _textPainter = TextPainter()
       ..textDirection = TextDirection.ltr
       ..textAlign = TextAlign.center;
-    
+
 
     //createFakeGetOverview(_numberFoundDevicesLater);
   }
@@ -279,8 +279,6 @@ class DrawNetworksOverview extends CustomPainter {
 
         drawDeviceConnection(canvas, _deviceIconOffsetList.elementAt(numDev));
         drawDeviceName(canvas, size, "Geräte online: ${_networkList[numDev].length}", "Netzwerk ${numDev +1 }", _deviceIconOffsetList.elementAt(numDev));
-
-
     }
   }
 

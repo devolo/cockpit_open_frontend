@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:cockpit_devolo/services/drawOverview.dart';
@@ -11,6 +13,7 @@ import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/views/appBuilder.dart';
 
 import 'package:flutter/foundation.dart' show debugDefaultTargetPlatformOverride;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OverviewScreen extends StatefulWidget {
   OverviewScreen({Key key}) : super(key: key);
@@ -35,8 +38,23 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
   FocusNode myFocusNode = new FocusNode();
 
+  void getFromSharedPrefs() async {
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    dynamic configTmp = prefs.get("config");
+    print('Setting config from Prefs: ${configTmp}');
+    config = json.decode(configTmp) as Map<String, dynamic>;
+    print(config);
+    S.load(Locale(config["language"], ''));
+    fontSizeFactor = config["font_size_factor"];
+
+    //config["theme"] = theme_dark["name"];
+    AppBuilder.of(context).rebuild();
+  }
+
   @override
   void initState() {
+    getFromSharedPrefs();
     //dataHand();
   }
 
@@ -128,12 +146,13 @@ class _OverviewScreenState extends State<OverviewScreen> {
         onPressed: () {
           setState(() {
             socket.sendXML('RefreshNetwork');
+            AppBuilder.of(context).rebuild();
           });
         },
         tooltip: 'Neu laden',
         backgroundColor: secondColor,
         foregroundColor: fontColorDark,
-        hoverColor: Colors.blue,
+        hoverColor: fontColorLight,
         child: Icon(Icons.refresh),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );

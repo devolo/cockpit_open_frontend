@@ -66,6 +66,7 @@ flutter:
     - assets/eu_lan_icon.png
     - assets/mini_wifi_icon.png
     - assets/mini_lan_icon.png
+    - assets/dinrail_icon_small.png
     - assets/logo.svg
     - assets/optimisationImages/dLAN200AVmini2_A.png
     - assets/optimisationImages/dLAN200AVmini2_B.png

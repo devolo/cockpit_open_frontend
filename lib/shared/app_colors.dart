@@ -24,8 +24,8 @@ Map<String,dynamic> config = {
   "show_speeds_permanent": false,
   "show_speeds": false,
   "high_contrast": false,
-  "theme": theme_dark["name"],
-  "previous_theme": theme_dark["name"],
+  "theme": theme_devolo["name"],
+  "previous_theme": theme_devolo["name"],
   "language": "",
   "font_size_factor": fontSizeFactor,
 };

@@ -75,7 +75,7 @@ class dataHand extends ChangeNotifier {
       xmlLength = xmlDataNext.substring(7, 15); // cut the head in front of recieved xml
       //print("XmlLengthHEX: " + xmlLength.toString());
       xmlLength = int.parse(xmlLength, radix: 16);
-      print("XmlLength: " + xmlLength.toString());
+      //print("XmlLength: " + xmlLength.toString());
       var xmlSingleDoc = xmlDataNext.substring(rawData.indexOf('<?'), xmlLength + 13); //why 13? I dont know yet -_(o.O)_- //TODO
       xmlDataList.add(xmlSingleDoc);
       try {
@@ -159,7 +159,7 @@ class dataHand extends ChangeNotifier {
       }
     }
 
-    print('Parsed XML - DeviceList ready!');
+    print('parsed XML - DeviceList ready!');
 
     if (areDeviceIconsLoaded) notifyListeners();
     //return document;

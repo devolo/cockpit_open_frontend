@@ -2,7 +2,7 @@ import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
-import 'package:cockpit_devolo/views/addScreen.dart';
+import 'package:cockpit_devolo/views/helpScreen.dart';
 import 'package:cockpit_devolo/views/settingsScreen.dart';
 import 'package:cockpit_devolo/views/updateScreen.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
     return AppBuilder(builder: (context)
     {
       return MaterialApp(
-        title: 'Devolo Cockpit',
+        title: 'devolo Cockpit',
         theme: ThemeData(
           //primarySwatch: Colors.white,
           backgroundColor: backgroundColor,
@@ -108,14 +108,13 @@ class _MyHomePageState extends State<MyHomePage> {
     loadAllDeviceIcons();
 
 
-
     print('CONTRAST:  ${highContrast}');
     if(highContrast == true)
       config["high_contrast"] = true;
 
+    getConnection();
     readSharedPrefs();
     getVersion();
-
   }
 
   Future<void> getVersion() async {
@@ -252,14 +251,14 @@ class _MyHomePageState extends State<MyHomePage> {
             title: Text(S.of(context).overview, style: _menuItemStyle),
             //tileColor: devoloBlue,
             onTap: () {
-              bottomTapped(1);
+              bottomTapped(0);
               Navigator.pop(context); //close drawer
             }),
         ListTile(
             leading: Icon(Icons.download_rounded, color: mainColor),
             title: Text(S.of(context).updates, style: _menuItemStyle),
             onTap: () {
-              bottomTapped(2);
+              bottomTapped(1);
               Navigator.pop(context); //close drawer
               // Navigator.push(
               //   context,
@@ -271,14 +270,14 @@ class _MyHomePageState extends State<MyHomePage> {
             leading: Icon(Icons.help, color: mainColor),
             title: Text(S.of(context).help, style: _menuItemStyle),
             onTap: () {
-              bottomTapped(3);
+              bottomTapped(2);
               Navigator.pop(context); //close drawer
             }),
         ListTile(
             leading: Icon(Icons.miscellaneous_services, color: mainColor),
             title: Text(S.of(context).settings, style: _menuItemStyle),
             onTap: () {
-              bottomTapped(0);
+              bottomTapped(3);
               Navigator.pop(context); //close drawer
             }),
         ListTile(

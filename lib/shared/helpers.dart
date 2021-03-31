@@ -60,6 +60,41 @@ launchURL(String ip) async {
     }
 }
 
+bool connected = false;
+void getConnection() async { // get Internet Connection
+  try {
+    final result = await InternetAddress.lookup('google.com');
+    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+      print('connected');
+      connected = true;
+      //return true;
+      //return Future.value(true);
+    }
+  } on SocketException catch (_) {
+    print('not connected');
+    connected = false;
+    //return false;
+    //return Future.value(false);
+  }
+}
+
+
+// bool getConnection()  { // get Internet Connection
+//   try {
+//     InternetAddress.lookup('google.com').then((result) {
+//       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+//         print('connected');
+//         connected = true;
+//         //return true;
+//       }
+//     });
+//   } on SocketException {
+//     print('not connected');
+//     connected = false;
+//     //return false;
+//   }
+// }
+
 Future<void> openFile(var path) async {
   final filePath = path;
   //final filePath = "C:/Program Files (x86)\\devolo\\dlan\\updates\\manuals\\magic-2-lan\\manual-de.pdf";
@@ -84,6 +119,9 @@ DeviceType getDeviceType(String deviceType){
     if (deviceType.toLowerCase().contains("plus") ||
         deviceType.toLowerCase().contains("+")) {
       dt = DeviceType.dtLanPlus;
+    }
+    else if(deviceType.toLowerCase().contains("DINrail") ){
+      dt = DeviceType.dtDINrail;
     }
     else if(deviceType.toLowerCase().contains("magic") ){ // Different Icon? else move the condition up
       dt = DeviceType.dtLanPlus;
@@ -113,6 +151,10 @@ Future<void> loadAllDeviceIcons() async {
   deviceIconList.add(image);
 
   data = await rootBundle.load('assets/mini_lan_icon.png');
+  image = await loadImage(new Uint8List.view(data.buffer));
+  deviceIconList.add(image);
+
+  data = await rootBundle.load('assets/dinrail_icon_small.png');
   image = await loadImage(new Uint8List.view(data.buffer));
   deviceIconList.add(image);
 
@@ -175,6 +217,10 @@ ui.Image getIconForDeviceType(DeviceType dt) {
     case DeviceType.dtWiFiOnly:
       {
         return deviceIconList.elementAt(2);
+      }
+      case DeviceType.dtDINrail:
+      {
+        return deviceIconList.elementAt(4);
       }
     case DeviceType.dtUnknown:
       {

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 
-enum DeviceType { dtLanMini, dtLanPlus, dtWiFiMini, dtWiFiPlus, dtWiFiOnly, dtUnknown }
+enum DeviceType { dtLanMini, dtLanPlus, dtWiFiMini, dtWiFiPlus, dtWiFiOnly, dtDINrail, dtUnknown }
 
 //=========================================== Device =========================================
 class Device extends ChangeNotifier {

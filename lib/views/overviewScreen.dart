@@ -48,6 +48,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
     S.load(Locale(config["language"], ''));
     fontSizeFactor = config["font_size_factor"];
 
+
     //config["theme"] = theme_dark["name"];
     AppBuilder.of(context).rebuild();
   }
@@ -63,8 +64,9 @@ class _OverviewScreenState extends State<OverviewScreen> {
     final socket = Provider.of<dataHand>(context);
     final _deviceList = Provider.of<NetworkList>(context);
     socket.setDeviceList(_deviceList);
+    _deviceList.selectedNetworkIndex = config["selected_network"];
 
-    _Painter = DrawOverview(context, _deviceList, showingSpeeds, pivotDeviceIndex);
+        _Painter = DrawOverview(context, _deviceList, showingSpeeds, pivotDeviceIndex);
 
     print("drawing Overview...");
 
@@ -101,6 +103,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
                             ),
                       onPressed: () {
                         _deviceList.selectedNetworkIndex = networkIdx;
+                        config["selected_network"] = networkIdx;
+                        saveToSharedPrefs(config);
                         AppBuilder.of(context).rebuild();
                       },
                     ),
@@ -158,12 +162,12 @@ class _OverviewScreenState extends State<OverviewScreen> {
   }
 
   void _handleTapDown(TapDownDetails details) {
-    print('entering tabDown');
+    //print('entering tabDown');
     _lastTapDownPosition = details.localPosition;
   }
 
   void _handleTap(TapUpDetails details) {
-    print('entering dialog....');
+    //print('entering dialog....');
     int index = 0;
     Device hitDevice;
     String hitDeviceName;
@@ -185,8 +189,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
     networkOffsetList.asMap().forEach((i, networkIconOffset) {
       //for (Offset networkIconOffset in _Painter.networkOffsets) {
       //Offset absoluteOffset = Offset(networkIconOffset.dx + (_Painter.screenWidth / 2), networkIconOffset.dy + (_Painter.screenHeight / 2));
-      print("NetworkIcon: " + networkIconOffset.toString());
-      print("Local: " + details.localPosition.toString());
+      //print("NetworkIcon: " + networkIconOffset.toString());
+      //print("Local: " + details.localPosition.toString());
       //print("absolute: " + absoluteOffset.toString());
 
       //test if network got hit
@@ -564,7 +568,6 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
   //ToDo UI doesn't change
   void _handleLongPressStart(context) {
-    print("long press down");
     RenderBox renderBox = context.findRenderObject();
 
     int index = 0;
@@ -606,7 +609,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
   }
 
   void _handleLongPressEnd() {
-    print("long press up");
+    //print("long press up");
 
     setState(() {
       if (!config["show_speeds_permanent"]) {

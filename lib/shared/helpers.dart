@@ -65,7 +65,7 @@ void getConnection() async { // get Internet Connection
   try {
     final result = await InternetAddress.lookup('google.com');
     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-      print('connected');
+      //print('connected');
       connected = true;
       //return true;
       //return Future.value(true);

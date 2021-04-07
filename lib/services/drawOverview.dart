@@ -152,11 +152,20 @@ class DrawOverview extends CustomPainter {
 
   void drawNoDevices(Canvas canvas, Offset offset) {
     Offset absoluteOffset = Offset(offset.dx + (screenWidth / 2), offset.dy + (screenHeight / 2));
+    var textSpan;
 
-    final textSpan = TextSpan(
-      text: "No devices found \nScanning for devices ...",
-      style: _textStyle,
-    );
+    //if(connect) {
+     textSpan = TextSpan(
+        text: "No devices found \nScanning for devices ...",
+        style: _textStyle,
+      );
+    // }else {
+    //   textSpan = TextSpan(
+    //     text: "No devices found \n No internet connection ...",
+    //     style: _textStyle,
+    //   );
+    //}
+
     final loading = CircularProgressIndicator(
       valueColor: AlwaysStoppedAnimation<Color>(mainColor),
     ); // ToDo Progressbar maybe?
@@ -172,21 +181,28 @@ class DrawOverview extends CustomPainter {
     Offset toOffset = Offset(deviceOffset.dx + (screenWidth / 2) + 110, deviceOffset.dy + (screenHeight / 2));
     var userNameTextSpan;
 
-    canvas.drawLine(absoluteOffset, toOffset, _linePaint..strokeWidth = 2.0);
 
     if (config["internet_centered"]) {
+      canvas.drawLine(absoluteOffset, toOffset, _linePaint..strokeWidth = 2.0);
       drawIcon(canvas, toOffset, Icons.computer_rounded);
       userNameTextSpan = TextSpan(
         text: S.current.thisPc,
         style: _textNameStyle.apply(color: fontColorLight),
       );
+
     } else {
+      if(_providerList.getPivot() != null) { // if there is no device attached to router don't paint line to the internet internet
+        canvas.drawLine(absoluteOffset, toOffset, _linePaint..strokeWidth = 2.0);
+      }
       drawIcon(canvas, toOffset, Icons.public_outlined);
       userNameTextSpan = TextSpan(
         text: S.current.internet,
         style: _textNameStyle.apply(color: fontColorLight),
       );
     }
+
+
+
 
     _textPainter.text = userNameTextSpan;
     _textPainter.layout(minWidth: 0, maxWidth: 300);
@@ -258,7 +274,6 @@ class DrawOverview extends CustomPainter {
     double arrowLength = 27 / lineLength; // how long is the arrow tip
 
     Offset lineDirection = Offset(absolutePivotOffset.dx - absoluteOffset.dx, absolutePivotOffset.dy - absoluteOffset.dy);
-    print(lineDirection.toString());
 
     Offset lineDirectionOrtho = Offset(lineDirection.dy, -lineDirection.dx); // orthogonal to connection line
 
@@ -387,8 +402,6 @@ class DrawOverview extends CustomPainter {
     Offset absoluteCenterOffset = Offset(_deviceIconOffsetList.elementAt(deviceIndex).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(deviceIndex).dy + (screenHeight / 2));
     Offset lineStart = Offset(absoluteCenterOffset.dx - hn_circle_radius + 10, absoluteCenterOffset.dy - 5);
     Offset lineEnd = Offset(absoluteCenterOffset.dx + hn_circle_radius - 10, absoluteCenterOffset.dy - 5);
-    print('Index: ' + deviceIndex.toString());
-    print('Pivot :' + pivotDeviceIndex.toString());
     //print('showingSpeeds: ' + showingSpeeds.toString());
 
     if (showingSpeeds /*&& deviceIndex != pivotDeviceIndex*/) {
@@ -396,12 +409,11 @@ class DrawOverview extends CustomPainter {
       String speedUp = "";
       String speedDown = "";
 
-      print("speeds for " + _deviceList.elementAt(deviceIndex).mac + ": ");
       if (_deviceList.elementAt(pivotDeviceIndex).speeds[_deviceList.elementAt(deviceIndex).mac] != null) {
         rx = _deviceList.elementAt(pivotDeviceIndex).speeds[_deviceList.elementAt(deviceIndex).mac].rx;
         tx = _deviceList.elementAt(pivotDeviceIndex).speeds[_deviceList.elementAt(deviceIndex).mac].tx;
       }
-      print(rx.toString() + '  ' + tx.toString());
+      //print("speeds for ${_deviceList.elementAt(deviceIndex).mac}: ${rx.toString()} - ${tx.toString()}");
 
       if (rx > 0)
         speedUp = rx.toString();
@@ -413,8 +425,6 @@ class DrawOverview extends CustomPainter {
       else
         speedDown = "---";
 
-      print(speedUp);
-      print(speedDown);
 
       final downStreamTextSpan = TextSpan(
         text: speedUp + " " + String.fromCharCode(0x2191) + "\n" + speedDown + " " + String.fromCharCode(0x2193), //text: String.fromCharCode(0x2191) + " " + speedUp + "\n" + String.fromCharCode(0x2193) + " " + speedDown,
@@ -424,6 +434,7 @@ class DrawOverview extends CustomPainter {
         text: "Mbps",
         style: TextStyle(color: mainColor, fontSize: 12),
       );
+
       canvas.drawLine(lineStart, lineEnd, _speedLinePaint);
 
       _speedTextPainter.text = downStreamTextSpan;
@@ -552,7 +563,14 @@ class DrawOverview extends CustomPainter {
     Offset absoluteAreaOffset = Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2) + 30);
     Offset absoluteRouterDeviceOffset = Offset(_deviceIconOffsetList.elementAt(0).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(0).dy + (screenHeight / 2));
 
-    if (_deviceList.length > 0) canvas.drawLine(Offset(absoluteRouterOffset.dx, absoluteRouterOffset.dy + 50), absoluteRouterDeviceOffset, _linePaint..strokeWidth = 3.0);
+    if (_deviceList.length > 0 ) {
+      if(_providerList.getPivot() != null) { // if there is no device attached to router don't paint line to the internet internet
+        canvas.drawLine(Offset(absoluteRouterOffset.dx, absoluteRouterOffset.dy + 50), absoluteRouterDeviceOffset, _linePaint..strokeWidth = 3.0);
+      }
+      if (config["internet_centered"] != true) { // if view is not internet centered draw the connection line to the PC (local device)
+        canvas.drawLine(Offset(absoluteRouterOffset.dx, absoluteRouterOffset.dy + 50), absoluteRouterDeviceOffset, _linePaint..strokeWidth = 3.0);
+      }
+    }
 
     canvas.drawCircle(absoluteAreaOffset, hn_circle_radius, _circleAreaPaint); //"shadow" of the device circle. covers the connection lines.
 
@@ -651,6 +669,9 @@ class DrawOverview extends CustomPainter {
     //draw all device connection lines to the pivot device
     int localIndex = _deviceList.indexWhere((element) => element.isLocalDevice == true);
     int attachedToRouterIndex = _deviceList.indexWhere((element) => element.attachedToRouter == true);
+    if(attachedToRouterIndex == -1) { // -1 when element is not found
+      attachedToRouterIndex = 0;
+    }
     for (int numDev = 0; numDev < _deviceList.length; numDev++) {
       if (numDev > _deviceIconOffsetList.length) break;
 
@@ -661,7 +682,7 @@ class DrawOverview extends CustomPainter {
 
       if (config["show_other_devices"]) {
         if (config["internet_centered"]) {
-          drawOtherConnection(canvas, _deviceIconOffsetList.elementAt(localIndex), size); //ToDo get Local
+          drawOtherConnection(canvas, _deviceIconOffsetList.elementAt(localIndex), size);
         } else {
           drawOtherConnection(canvas, _deviceIconOffsetList.elementAt(attachedToRouterIndex), size);
         }
@@ -763,7 +784,6 @@ class DrawOverview extends CustomPainter {
     else if (config["internet_centered"]) {
       getConnection();
       connect = connected;
-      print(connected);
       if (connected) {
         drawMainIcon(canvas, Icons.public_outlined);
       } else {

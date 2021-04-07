@@ -83,17 +83,17 @@ class NetworkList extends ChangeNotifier{
     for(var net in _networkList[networkIndex]){
       if(net.type.contains('Magic')){
         type = "Magic";
-        print("Type: " + type);
+        //print("Type: " + type);
         break;
       }
       else if (net.type.contains('dLAN')){
         type = "dLAN";
-        print("Type: " + type);
+        //print("Type: " + type);
         break;
       }
       else{
         type = "PLC";
-        print("Type: " + type);
+        //print("Type: " + type);
         break;
       }
     }

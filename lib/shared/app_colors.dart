@@ -28,6 +28,7 @@ Map<String,dynamic> config = {
   "previous_theme": theme_devolo["name"],
   "language": "",
   "font_size_factor": fontSizeFactor,
+  "selected_network": 0,
 };
 
 //void setTheme(Map<String,dynamic> theme) {

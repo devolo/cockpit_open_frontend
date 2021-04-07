@@ -18,6 +18,7 @@ import 'package:cockpit_devolo/views/appBuilder.dart';
 import 'package:yaml/yaml.dart';
 import 'dart:io';
 
+
 import 'package:package_info_plus/package_info_plus.dart';
 import 'dart:convert';
 
@@ -115,6 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
     getConnection();
     readSharedPrefs();
     getVersion();
+    DesktopWindowUtils.useToolbar(isUsingToolbar: true);
   }
 
   Future<void> getVersion() async {
@@ -140,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
     //print('Config JSON from Prefs: ${jsonconfig}');
     setTheme(jsonconfig["theme"]);
 
-    AppBuilder.of(context).rebuild();
+        AppBuilder.of(context).rebuild();
   }
 
   List<BottomNavigationBarItem> buildBottomNavBarItems() {

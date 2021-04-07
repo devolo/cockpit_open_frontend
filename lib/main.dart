@@ -5,6 +5,7 @@ import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:cockpit_devolo/views/helpScreen.dart';
 import 'package:cockpit_devolo/views/settingsScreen.dart';
 import 'package:cockpit_devolo/views/updateScreen.dart';
+import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_svg/svg.dart';
@@ -18,6 +19,7 @@ import 'package:cockpit_devolo/views/appBuilder.dart';
 import 'package:yaml/yaml.dart';
 import 'dart:io';
 
+// import 'package:bitsdojo_window/bitsdojo_window.dart';
 
 import 'package:package_info_plus/package_info_plus.dart';
 import 'dart:convert';
@@ -37,46 +39,43 @@ class MyApp extends StatelessWidget {
       ],
       child: Consumer<dataHand>(
         builder: (context, counter, _) {
-    return AppBuilder(builder: (context)
-    {
-      return MaterialApp(
-        title: 'devolo Cockpit',
-        theme: ThemeData(
-          //primarySwatch: Colors.white,
-          backgroundColor: backgroundColor,
-          canvasColor: Colors.white,
-          //highlightColor: Colors.green,
+          return AppBuilder(
+            builder: (context) {
+              return MaterialApp(
+                title: 'devolo Cockpit',
+                theme: ThemeData(
+                  //primarySwatch: Colors.white,
+                  backgroundColor: backgroundColor,
+                  canvasColor: Colors.white,
+                  //highlightColor: Colors.green,
 
-          textTheme: Theme
-              .of(context)
-              .textTheme
-              .apply(
-            fontSizeFactor: fontSizeFactor,
-            fontSizeDelta: fontSizeDelta,
-            displayColor: fontColorDark,
-            bodyColor: fontColorDark,
-            decorationColor: fontColorDark,
-
-          ),
-        ),
-
-        localizationsDelegates: [
-          // ... app-specific localization delegate[s] here
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          S.delegate,
-        ],
-        supportedLocales: S.delegate.supportedLocales,
-        /*supportedLocales: [
+                  textTheme: Theme.of(context).textTheme.apply(
+                        fontSizeFactor: fontSizeFactor,
+                        fontSizeDelta: fontSizeDelta,
+                        displayColor: fontColorDark,
+                        bodyColor: fontColorDark,
+                        decorationColor: fontColorDark,
+                      ),
+                ),
+                localizationsDelegates: [
+                  // ... app-specific localization delegate[s] here
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                  S.delegate,
+                ],
+                supportedLocales: S.delegate.supportedLocales,
+                /*supportedLocales: [
               const Locale('en', ''), // English
               const Locale('de', ''), // Deutsch
               // ... other locales the app supports
             ],*/
-        home: MyHomePage(title: 'devolo Cockpit'),
-      );
-    },);
-        },),
+                home: MyHomePage(title: 'devolo Cockpit'),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
@@ -91,7 +90,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   TextStyle _menuItemStyle;
   int bottomSelectedIndex = 0;
   bool highContrast = false; // MediaQueryData().highContrast;  // Query current device if high Contrast theme is set
@@ -101,28 +99,29 @@ class _MyHomePageState extends State<MyHomePage> {
   String version;
   String buildNr;
 
+  final List<String> languageList = <String>[
+    "de",
+    "en",
+  ];
 
   @override
   void initState() {
     super.initState();
-    _menuItemStyle = TextStyle(color: mainColor, fontFamily: 'Roboto', decorationColor: mainColor);
+    _menuItemStyle = TextStyle(color: Colors.white, fontFamily: 'Roboto', decorationColor: fontColorLight);
     loadAllDeviceIcons();
 
-
     print('CONTRAST:  ${highContrast}');
-    if(highContrast == true)
-      config["high_contrast"] = true;
+    if (highContrast == true) config["high_contrast"] = true;
 
     getConnection();
     readSharedPrefs();
     getVersion();
-    DesktopWindowUtils.useToolbar(isUsingToolbar: true);
   }
 
   Future<void> getVersion() async {
     File f = new File("data/flutter_assets/version.json");
     f.readAsString().then((String text) {
-      Map <String, dynamic> versionJSON = jsonDecode(text);
+      Map<String, dynamic> versionJSON = jsonDecode(text);
       print(versionJSON['version']);
       versionName = versionJSON['version'];
       buildNum = versionJSON['build_number'];
@@ -131,26 +130,34 @@ class _MyHomePageState extends State<MyHomePage> {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     version = packageInfo.version;
     buildNr = packageInfo.buildNumber;
-
   }
 
-  Future<void> readSharedPrefs () async {
+  Future<void> readSharedPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var config = prefs.get("config");
     //print('Config from Prefs: ${config}');
     var jsonconfig = json.decode(config);
     //print('Config JSON from Prefs: ${jsonconfig}');
     setTheme(jsonconfig["theme"]);
+    //print("LANG: " + jsonconfig["language"].toString());
 
-        AppBuilder.of(context).rebuild();
+    config["language"] = jsonconfig["language"];
+
+    AppBuilder.of(context).rebuild();
   }
 
   List<BottomNavigationBarItem> buildBottomNavBarItems() {
     return [
       BottomNavigationBarItem(icon: Icon(Icons.workspaces_filled), label: S.of(context).overview),
-      BottomNavigationBarItem(icon: Icon(Icons.download_rounded), label: S.of(context).update,),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.download_rounded),
+        label: S.of(context).update,
+      ),
       BottomNavigationBarItem(icon: Icon(Icons.help), label: S.of(context).help),
-      BottomNavigationBarItem(icon: Icon(Icons.settings_rounded), label: S.of(context).settings,),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.settings_rounded),
+        label: S.of(context).settings,
+      ),
     ];
   }
 
@@ -166,7 +173,7 @@ class _MyHomePageState extends State<MyHomePage> {
         pageChanged(index);
       },
       children: <Widget>[
-        showNetwork?OverviewNetworksScreen(): OverviewScreen(),
+        showNetwork ? OverviewNetworksScreen() : OverviewScreen(),
         UpdateScreen(
           title: S.of(context).update,
         ),
@@ -174,7 +181,6 @@ class _MyHomePageState extends State<MyHomePage> {
         SettingsScreen(
           title: S.of(context).settings,
         ),
-
       ],
     );
   }
@@ -194,7 +200,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     // double mediaFontScaleFactor =  MediaQuery.textScaleFactorOf(context); // Query current device for the System FontSize
     // print('SIZE:  ${mediaFontScaleFactor}');
 
@@ -206,90 +211,180 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [Spacer(), InkWell(child: SvgPicture.asset('assets/logo.svg', height: 24, color: drawingColor)), Spacer(), SizedBox(width: 56)],
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.brightness_6_rounded),
-            tooltip: S.of(context).highContrast,
-            onPressed: () {
-              setState(() {
-                print("Theme: " + config["theme"]);
-                print("Prev Theme: " + config["previous_theme"]);
-
-                if(config["theme"] == "High Contrast") {
-                  config["theme"] = config["previous_theme"];
-                  setTheme(config["previous_theme"]);
-
-                }else{
-                  config["previous_theme"] = config["theme"];
-                  config["theme"] = theme_highContrast["name"];
-                  setTheme(theme_highContrast["name"]);
-
-                }
+          children: [
+            InkWell(child: SvgPicture.asset('assets/logo.svg', height: 24, color: drawingColor)),
+            Spacer(),
+            DropdownButton<String>(
+              //value: dropdownVal == null? "de": dropdownVal,
+              isDense: true,
+              icon: Row(
+                children: [
+                  Flag(
+                    config["language"] == 'en' ? 'gb' : config["language"], // ToDo which flag?
+                    height: 15,
+                    width: 25,
+                    fit: BoxFit.fill,
+                  ),
+                  Icon(
+                    Icons.arrow_drop_down_rounded,
+                    color: fontColorLight,
+                  ),
+                ],
+              ),
+              iconSize: 24,
+              elevation: 8,
+              style: TextStyle(color: fontColorLight),
+              underline: Container(
+                height: 2,
+                color: mainColor,
+              ),
+              onChanged: (String newValue2) {
+                setState(() {
+                  config["language"] = newValue2;
+                  print(newValue2);
+                  S.load(Locale(newValue2, ''));
+                });
                 AppBuilder.of(context).rebuild();
-                //showNetwork = !showNetwork;
-              });
+                saveToSharedPrefs(config);
               },
-          ),
-        ],
-      ),
-      drawer: Drawer(
-        semanticLabel: "menu",
-          child: ListView(
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-        DrawerHeader(
-          child: Text(
-            S.of(context).homeNetworkDesktop,
-            style: TextStyle(fontSize: 23, color: drawingColor),
-          ),
-          decoration: BoxDecoration(
-            color: mainColor,
-          ),
+              items: languageList.map<DropdownMenuItem<String>>((String _value2) {
+                return DropdownMenuItem<String>(
+                  value: _value2,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        _value2 + " ",
+                        style: TextStyle(color: fontColorDark),
+                      ),
+                      Flag(
+                        _value2 == 'en' ? 'gb' : _value2, // ToDo which flag?
+                        height: 15,
+                        width: 25,
+                        fit: BoxFit.fill,
+                      ),
+                    ],
+                  ),
+                );
+              }).toList(),
+            ),
+            IconButton(
+              icon: const Icon(Icons.brightness_6_rounded),
+              tooltip: S.of(context).highContrast,
+              onPressed: () {
+                setState(() {
+                  print("Theme: " + config["theme"]);
+                  print("Prev Theme: " + config["previous_theme"]);
+
+                  if (config["theme"] == "High Contrast") {
+                    config["theme"] = config["previous_theme"];
+                    setTheme(config["previous_theme"]);
+                  } else {
+                    config["previous_theme"] = config["theme"];
+                    config["theme"] = theme_highContrast["name"];
+                    setTheme(theme_highContrast["name"]);
+                  }
+                  AppBuilder.of(context).rebuild();
+                  //showNetwork = !showNetwork;
+                });
+              },
+            ),
+          ],
         ),
-        ListTile(
-            leading: Icon(Icons.workspaces_filled, color: mainColor), //miscellaneous_services
-            title: Text(S.of(context).overview, style: _menuItemStyle),
-            //tileColor: devoloBlue,
-            onTap: () {
-              bottomTapped(0);
-              Navigator.pop(context); //close drawer
-            }),
-        ListTile(
-            leading: Icon(Icons.download_rounded, color: mainColor),
-            title: Text(S.of(context).updates, style: _menuItemStyle),
-            onTap: () {
-              bottomTapped(1);
-              Navigator.pop(context); //close drawer
-              // Navigator.push(
-              //   context,
-              //   new MaterialPageRoute(
-              //       builder: (context) => UpdateScreen(title: "Updates", deviceList: deviceList)),
-              // );
-            }),
-        ListTile(
-            leading: Icon(Icons.help, color: mainColor),
-            title: Text(S.of(context).help, style: _menuItemStyle),
-            onTap: () {
-              bottomTapped(2);
-              Navigator.pop(context); //close drawer
-            }),
-        ListTile(
-            leading: Icon(Icons.miscellaneous_services, color: mainColor),
-            title: Text(S.of(context).settings, style: _menuItemStyle),
-            onTap: () {
-              bottomTapped(3);
-              Navigator.pop(context); //close drawer
-            }),
-        ListTile(
-            leading: Icon(Icons.info_outline_rounded, color: mainColor),
-            title: Text(S.of(context).appInfo, style: _menuItemStyle),
-            onTap: () {
-              Navigator.pop(context); //close drawer
-              _appInfoAlert(context);
-            }),
-      ])),
+        // actions: <Widget>[
+        //   IconButton(
+        //     icon: const Icon(Icons.brightness_6_rounded),
+        //     tooltip: S.of(context).highContrast,
+        //     onPressed: () {
+        //       setState(() {
+        //         print("Theme: " + config["theme"]);
+        //         print("Prev Theme: " + config["previous_theme"]);
+        //
+        //         if (config["theme"] == "High Contrast") {
+        //           config["theme"] = config["previous_theme"];
+        //           setTheme(config["previous_theme"]);
+        //         } else {
+        //           config["previous_theme"] = config["theme"];
+        //           config["theme"] = theme_highContrast["name"];
+        //           setTheme(theme_highContrast["name"]);
+        //         }
+        //         AppBuilder.of(context).rebuild();
+        //         //showNetwork = !showNetwork;
+        //       });
+        //     },
+        //   ),
+        //   //Padding(padding: EdgeInsets.only(left:50))
+        //   IconButton(icon: Icon(Icons.menu), onPressed: ()  {_scaffoldKey.currentState.openDrawer();}),
+        //],
+      ),
+      endDrawer: Theme(
+        data: Theme.of(context).copyWith(
+          canvasColor: mainColor, //This will change the drawer background to blue.
+          //other styles
+        ),
+        child: Drawer(
+            semanticLabel: "menu",
+            child: ListView(padding: EdgeInsets.zero, children: <Widget>[
+              DrawerHeader(
+                child: Text(
+                  S.of(context).homeNetworkDesktop,
+                  style: TextStyle(fontSize: 23, color: drawingColor),
+                ),
+                margin: EdgeInsets.only(bottom: 0),
+                decoration: BoxDecoration(
+                  color: mainColor,
+                ),
+              ),
+              Divider(color: fontColorLight, thickness: 2,),
+              ListTile(
+                  leading: Icon(Icons.workspaces_filled, color: fontColorLight), //miscellaneous_services
+                  title: Text(S.of(context).overview, style: _menuItemStyle),
+                  //tileColor: devoloBlue,
+                  onTap: () {
+                    bottomTapped(0);
+                    Navigator.pop(context); //close drawer
+                  }),
+              Divider(color: fontColorLight, thickness: 2,),
+              ListTile(
+                  leading: Icon(Icons.download_rounded, color: fontColorLight),
+                  title: Text(S.of(context).updates, style: _menuItemStyle),
+                  onTap: () {
+                    bottomTapped(1);
+                    Navigator.pop(context); //close drawer
+                    // Navigator.push(
+                    //   context,
+                    //   new MaterialPageRoute(
+                    //       builder: (context) => UpdateScreen(title: "Updates", deviceList: deviceList)),
+                    // );
+                  }),
+              Divider(color: fontColorLight, thickness: 2,),
+              ListTile(
+                  leading: Icon(Icons.help, color: fontColorLight),
+                  title: Text(S.of(context).help, style: _menuItemStyle),
+                  onTap: () {
+                    bottomTapped(2);
+                    Navigator.pop(context); //close drawer
+                  }),
+              Divider(color: fontColorLight, thickness: 2,),
+              ListTile(
+                  leading: Icon(Icons.miscellaneous_services, color: fontColorLight),
+                  title: Text(S.of(context).settings, style: _menuItemStyle),
+                  onTap: () {
+                    bottomTapped(3);
+                    Navigator.pop(context); //close drawer
+                  }),
+              Divider(color: fontColorLight,thickness: 2,),
+              ListTile(
+                  leading: Icon(Icons.info_outline_rounded, color: fontColorLight),
+                  title: Text(S.of(context).appInfo, style: _menuItemStyle),
+                  onTap: () {
+                    Navigator.pop(context); //close drawer
+                    _appInfoAlert(context);
+                  }),
+              Divider(color: fontColorLight,thickness: 2,),
+
+            ])),
+      ),
       body: buildPageView(),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -315,7 +410,11 @@ class _MyHomePageState extends State<MyHomePage> {
         barrierDismissible: true, // user doesn't need to tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(S.of(context).appInformation, textAlign: TextAlign.center, style: TextStyle(color: fontColorLight),),
+            title: Text(
+              S.of(context).appInformation,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: fontColorLight),
+            ),
             backgroundColor: mainColor,
             contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18),
             content: Container(
@@ -324,9 +423,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 //mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgPicture.asset('assets/logo.svg', height: 20, color: drawingColor),
-                  SizedBox(height: 30,),
+                  SizedBox(
+                    height: 30,
+                  ),
                   Text('Version ${versionName.toString()} + ${buildNum.toString()}'), // from version.json
-                  Text('Version_info ${version.toString()} + ${buildNr.toString()}' ), // from package_info_plus
+                  Text('Version_info ${version.toString()} + ${buildNr.toString()}'), // from package_info_plus
                   GestureDetector(
                       child: Text("\nwww.devolo.de", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue)),
                       onTap: () {

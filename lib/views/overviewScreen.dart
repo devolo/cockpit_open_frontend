@@ -95,7 +95,14 @@ class _OverviewScreenState extends State<OverviewScreen> {
                       textColor: networkIdx != _deviceList.selectedNetworkIndex ? secondColor : fontColorLight,
                       hoverColor: secondColor.withOpacity(0.3),
                       //color: networkIdx != _deviceList.selectedNetworkIndex? Colors.transparent: secondColor,
-                      child: networkIdx != _deviceList.selectedNetworkIndex
+                      child: networkIdx == 0?
+                      networkIdx != _deviceList.selectedNetworkIndex
+                          ? Text("${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network}")
+                          : Text(
+                        "${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network}",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ):
+                      networkIdx != _deviceList.selectedNetworkIndex
                           ? Text("${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network} ${networkIdx}")
                           : Text(
                               "${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network} ${networkIdx}",
@@ -156,7 +163,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
         backgroundColor: secondColor,
         foregroundColor: fontColorDark,
         hoverColor: fontColorLight,
-        child: Icon(Icons.refresh),
+        child: Icon(Icons.refresh, color: mainColor,),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

@@ -61,6 +61,11 @@ class NetworkList extends ChangeNotifier{
   }
 
   Device getPivot(){
+    try {
+      var trying = _networkList[selectedNetworkIndex];
+    }catch(error) {
+      selectedNetworkIndex = 0;
+    }
     for(var dev in _networkList[selectedNetworkIndex]){
       if(dev.attachedToRouter==true){
         return dev;

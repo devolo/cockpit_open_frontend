@@ -179,6 +179,7 @@ class DrawOverview extends CustomPainter {
   void drawOtherConnection(Canvas canvas, Offset deviceOffset, Size size) {
     Offset absoluteOffset = Offset(deviceOffset.dx + (screenWidth / 2), deviceOffset.dy + (screenHeight / 2));
     Offset toOffset = Offset(deviceOffset.dx + (screenWidth / 2) + 110, deviceOffset.dy + (screenHeight / 2));
+    Offset absoluteRouterOffset = Offset(screenWidth / 2 + 100, -4.5 * _screenGridHeight + (screenHeight / 2) +18);
     var userNameTextSpan;
 
 
@@ -190,23 +191,43 @@ class DrawOverview extends CustomPainter {
         style: _textNameStyle.apply(color: fontColorLight),
       );
 
+      _textPainter.text = userNameTextSpan;
+      _textPainter.layout(minWidth: 0, maxWidth: 300);
+      _textPainter.paint(canvas, toOffset.translate(-23, 15));
+
     } else {
       if(_providerList.getPivot() != null) { // if there is no device attached to router don't paint line to the internet internet
         canvas.drawLine(absoluteOffset, toOffset, _linePaint..strokeWidth = 2.0);
+        drawIcon(canvas, toOffset, Icons.public_outlined);
+        userNameTextSpan = TextSpan(
+          text: S.current.internet,
+          style: _textNameStyle.apply(color: fontColorLight),
+        );
+
+        _textPainter.text = userNameTextSpan;
+        _textPainter.layout(minWidth: 0, maxWidth: 300);
+        _textPainter.paint(canvas, toOffset.translate(-23, 15));
+
+      }else{
+        canvas.drawLine(absoluteRouterOffset, absoluteRouterOffset, _linePaint..strokeWidth = 2.0);
+        if(connect) {
+          drawIcon(canvas, absoluteRouterOffset, Icons.public_off_outlined, 50);
+        } else {
+          drawIcon(canvas, absoluteRouterOffset, Icons.public_outlined, 50);
+        }
+
+        userNameTextSpan = TextSpan(
+          text: "Internet",
+          style: _textNameStyle.apply(color: fontColorLight),
+        );
+        _textPainter.text = userNameTextSpan;
+        _textPainter.layout(minWidth: 0, maxWidth: 300);
+        _textPainter.paint(canvas, absoluteRouterOffset.translate(-25, 35));
       }
-      drawIcon(canvas, toOffset, Icons.public_outlined);
-      userNameTextSpan = TextSpan(
-        text: S.current.internet,
-        style: _textNameStyle.apply(color: fontColorLight),
-      );
+
     }
 
 
-
-
-    _textPainter.text = userNameTextSpan;
-    _textPainter.layout(minWidth: 0, maxWidth: 300);
-    _textPainter.paint(canvas, toOffset.translate(-23, 15));
   }
 
   void drawNetworksAndConnections(Canvas canvas, Size size) {
@@ -579,12 +600,13 @@ class DrawOverview extends CustomPainter {
     _iconPainter.paint(canvas, Offset(absoluteRouterOffset.dx - (_iconPainter.width / 2), absoluteRouterOffset.dy));
   }
 
-  void drawIcon(Canvas canvas, Offset offset, icon) {
+  void drawIcon(Canvas canvas, Offset offset, icon, [double size]) {
     Offset offsetCircle = Offset(offset.dx - hn_circle_radius.toDouble() / 2.0, offset.dy);
+    size??=30.0;
 
     canvas.drawCircle(offset, hn_circle_radius - 10, _circleAreaPaint);
 
-    _iconPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: 30.0, fontFamily: icon.fontFamily, color: drawingColor, backgroundColor: backgroundColor));
+    _iconPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: size, fontFamily: icon.fontFamily, color: drawingColor, backgroundColor: backgroundColor));
     _iconPainter.layout();
     _iconPainter.paint(canvas, Offset(offset.dx - (_iconPainter.width / 2), offset.dy - 15));
   }

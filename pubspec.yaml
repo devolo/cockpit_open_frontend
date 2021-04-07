@@ -24,19 +24,24 @@ dependencies:
   flutter:
     sdk: flutter
   xml: ^4.5.1
-  provider: ^4.3.3 # ^3.0.0
+  provider: ^5.0.0 # ^3.0.0
   url_launcher: ^5.7.10
-  flutter_svg: ^0.19.2+1 #^0.20.0-nullsafety.3
+  flutter_svg: ^0.19.2 #^0.20.0-nullsafety.3
   open_file: ^3.0.3
   flag: ^3.2.0
   flutter_localizations:
     sdk: flutter
   flutter_spinbox: ^0.3.1+2
-  shared_preferences: ^0.5.12+4
+  shared_preferences: ^2.0.5
   flutter_material_color_picker: ^1.0.5
   yaml: ^2.2.1
-  package_info_plus: ^0.6.3
+  package_info_plus: ^1.0.0 #^0.6.3
   carousel_slider: ^3.0.0
+  #win32: ^2.0.0
+  #bitsdojo_window: ^0.1.0
+#dependency_overrides:
+  #win32: ^2.0.0
+
 
 
   # The following adds the Cupertino Icons font to your application.

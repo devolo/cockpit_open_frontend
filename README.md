@@ -12,9 +12,9 @@ A devolo Cockpit alternative Flutter frontend. This Flutter Cockpit connects wit
 
 ### Install Flutter
 - flutter installation: https://flutter.dev/docs/get-started/install
-- run "*flutter doctor*" in Terminal to verify everything is set up correctly
+- run '*flutter doctor*' in Terminal to verify everything is set up correctly
 
-### Download cockpit_devolo repository
+### Import cockpit_devolo repository
 1. Download the repository, following the *Clone or download* button's instructions above and unpack it.
 2. Import the project into Android Studio:
    * In Android Studio *File -> New -> Import Project* dialogue.
@@ -22,9 +22,11 @@ A devolo Cockpit alternative Flutter frontend. This Flutter Cockpit connects wit
    * Continue clicking *next* (leave everything checked).
    * Leave all checkboxes marked and click *Finish*.
 3. Select *desktop* in *Flutter device selection* dropdown in Android Studio
-5. run "*flutter pub get*" to get all dependencies
+5. run '*flutter pub get*' to get all dependencies
 4. Click on Icon *Run 'main.dart'*
 
+
+<img src="images/overview.PNG"  width="700">
 
 
 

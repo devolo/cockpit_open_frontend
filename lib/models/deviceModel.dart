@@ -110,12 +110,12 @@ class Device extends ChangeNotifier {
           rxRate = int.parse(rxRateStr);
 
         if (retDevice.mac.compareTo(txMac) == 0) {
-          retDevice.speeds[rxMac] = new DataratePair(txRate, rxRate);
+          retDevice.speeds[rxMac] = new DataratePair(rxRate, txRate);
           //print(retDevice.name + " Rates added for " + txMac + " to " + rxMac + ": " + retDevice.speeds[rxMac].rx.toString() + ", " + retDevice.speeds[rxMac].tx.toString());
         }
         for (var remoteDevice in retDevice.remoteDevices) {
           if (remoteDevice.mac.compareTo(txMac) == 0) {
-            remoteDevice.speeds[rxMac] = new DataratePair(txRate, rxRate);
+            remoteDevice.speeds[rxMac] = new DataratePair(rxRate, txRate);
             //print(remoteDevice.name+ " Rates added for " + txMac + " to " + rxMac + ": " + remoteDevice.speeds[rxMac].rx.toString() + ", " + remoteDevice.speeds[rxMac].tx.toString());
           }
         }

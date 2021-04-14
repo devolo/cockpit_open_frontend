@@ -599,8 +599,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
                 Divider(),
-
-
                 Row(mainAxisAlignment: MainAxisAlignment.end, crossAxisAlignment: CrossAxisAlignment.end, children: <Widget>[
                   // IconButton(
                   //   icon: Icon(Icons.text_fields_sharp),

@@ -167,7 +167,6 @@ class NetworkList extends ChangeNotifier{
 }
 
 
-
 // Tests if XmlNode remotes contains Information about a Device
 List<XmlNode> testList(List<XmlNode> remotes, String searchString) {
   List<XmlNode> deviceItems = <XmlNode>[];

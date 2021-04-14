@@ -372,7 +372,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                               child: Theme(
                                 data: ThemeData(
                                     accentColor: Colors.white,
-                                    //primarySwatch: Colors.grey,
+                                    primarySwatch: Colors.grey,
                                     canvasColor: Colors.transparent,
                                     shadowColor: Colors.transparent,
                                     //textTheme: TextTheme(: fontColorDark),

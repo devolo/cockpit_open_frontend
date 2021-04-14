@@ -4,20 +4,24 @@
 //
 // import 'package:flutter/widgets.dart';
 //
-// import 'package:cockpit_devolo/button_style.dart';
-// import 'color_scheme.dart';
-// import 'colors.dart';
-// import 'debug.dart';
-// import 'icons.dart';
-// import 'ink_well.dart';
-// import 'material.dart';
-// import 'material_localizations.dart';
-// import 'material_state.dart';
-// import 'text_button.dart';
-// import 'text_theme.dart';
+//
+// import 'package:flutter/button_style.dart';
+// import 'package:cockpit_devolo/color_scheme.dart';
+// import 'package:cockpit_devolo/lib/src/material/colors.dart';
+// import 'package:flutter/debug.dart';
+// import 'package:flutter/icons.dart';
+// import 'package:flutter/ink_well.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter/material_localizations.dart';
+// import 'package:flutter/material_state.dart';
+// import 'package:flutter/text_button.dart';
+// import 'package:flutter/text_theme.dart';
 // import 'theme.dart';
 //
+//
 // // TODO(dragostis): Missing functionality:
+//
+//
 // //   * mobile horizontal mode with adding/removing steps
 // //   * alternative labeling
 // //   * stepper feedback in the case of high-latency interactions

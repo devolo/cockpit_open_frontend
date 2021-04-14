@@ -120,7 +120,7 @@ DeviceType getDeviceType(String deviceType){
         deviceType.toLowerCase().contains("+")) {
       dt = DeviceType.dtLanPlus;
     }
-    else if(deviceType.toLowerCase().contains("DINrail") ){
+    else if(deviceType.toLowerCase().contains("dinrail") ){
       dt = DeviceType.dtDINrail;
     }
     else if(deviceType.toLowerCase().contains("magic") ){ // Different Icon? else move the condition up

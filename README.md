@@ -1,6 +1,6 @@
 # devolo Cockpit
 
-A devolo Cockpit alternative Flutter frontend. This Flutter Cockpit connects with the existing devolo Cockpit backend. 
+A devolo Cockpit alternative Flutter front end. This Flutter Cockpit connects with the existing devolo Cockpit backend. 
 
 ## Getting Started
 

@@ -25,8 +25,7 @@ The program provides information about the connection speed of all adapters on t
       * Select *Create project from existing sources* and click next.
       * Continue clicking *next* (leave everything checked).
       * Leave all checkboxes marked and click *Finish*.
-   OR
-   - "Import Project from Version Control" into Android Studio:
+   - or "Import Project from Version Control" into Android Studio:
       * In Android Studio *File -> New -> Import Project from Version Control* dialogue.
       * Insert the git url and cklick *Clone*
 3. Make sure _Flutter SDK_ and _Dart SDK_ are enabled and the _path_ ist correct

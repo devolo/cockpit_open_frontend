@@ -30,7 +30,7 @@ The program provides information about the connection speed of all adapters on t
       * Insert the git url and cklick *Clone*
 3. Make sure _Flutter SDK_ and _Dart SDK_ are _enabled_ and the _path_ ist correct
    * In *File -> Settings -> Languages & Frameworks -> Dart* 
-      * verify if the path to Dart SDK is correct (Darte SDK located in "...\flutterSDK\flutter\bin\cache\dart-sdk")
+      * verify if the path to Dart SDK is correct (Dart SDK located in "...\flutterSDK\flutter\bin\cache\dart-sdk")
       * check "Enable Dart support for the projekt '...' "
       * check all "Enable Dart support for the following modules:"
    * In *File -> Settings -> Languages & Frameworks -> Flutter*

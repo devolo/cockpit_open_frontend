@@ -11,7 +11,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
-import 'package:cockpit_devolo/views/overviewNetworksScreen.dart';
 import 'package:cockpit_devolo/views/overviewScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -119,17 +118,20 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> getVersion() async {
-    File f = new File("data/flutter_assets/version.json");
-    f.readAsString().then((String text) {
-      Map<String, dynamic> versionJSON = jsonDecode(text);
-      print(versionJSON['version']);
-      versionName = versionJSON['version'];
-      buildNum = versionJSON['build_number'];
-    });
-
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    version = packageInfo.version;
-    buildNr = packageInfo.buildNumber;
+    if (Platform.isLinux) {
+      File f = new File("data/flutter_assets/version.json");
+      f.readAsString().then((String text) {
+        Map<String, dynamic> versionJSON = jsonDecode(text);
+        print(versionJSON['version']);
+        versionName = versionJSON['version'];
+        buildNum = versionJSON['build_number'];
+      });
+    }
+    else{
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      version = packageInfo.version;
+      buildNr = packageInfo.buildNumber;
+    }
   }
 
   Future<void> readSharedPrefs() async {
@@ -173,7 +175,7 @@ class _MyHomePageState extends State<MyHomePage> {
         pageChanged(index);
       },
       children: <Widget>[
-        showNetwork ? OverviewNetworksScreen() : OverviewScreen(),
+        OverviewScreen(),
         UpdateScreen(
           title: S.of(context).update,
         ),
@@ -423,16 +425,23 @@ class _MyHomePageState extends State<MyHomePage> {
                 //mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgPicture.asset('assets/logo.svg', height: 20, color: drawingColor),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Text('Version ${versionName.toString()} + ${buildNum.toString()}'), // from version.json
-                  Text('Version_info ${version.toString()} + ${buildNr.toString()}'), // from package_info_plus
                   GestureDetector(
                       child: Text("\nwww.devolo.de", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue)),
                       onTap: () {
                         launch("https://www.devolo.de/");
-                      })
+                      }),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text('Version ${version.toString()} + ${buildNr.toString()}'), // from package_info_plus
+                  SizedBox(height: 20,),
+                  RaisedButton(onPressed: () {
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(builder: (context) => new LicensePage()),
+                    );
+                  },
+                  child: Text("show Licences"))
                 ],
               ),
             ),

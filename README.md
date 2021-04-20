@@ -15,6 +15,7 @@ The program provides information about the connection speed of all adapters on t
 
 ### Install Flutter
 - flutter installation: https://flutter.dev/docs/get-started/install
+- add Flutter desktop support: https://flutter.dev/desktop
 - run '*flutter doctor*' in Terminal to verify everything is set up correctly
 
 ### Import cockpit_devolo repository

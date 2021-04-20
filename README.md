@@ -10,7 +10,8 @@ The program provides information about the connection speed of all adapters on t
 - devolo Cockpit https://www.devolo.de/support/downloads/download/devolo-cockpit
 - Flutter SDK
 - Android Studio or Visual Studio Code (with Flutter plugin and Dart plugin)
-- more platform specific requirements (see: https://flutter.dev/docs/get-started/install)
+- more **platform specific** requirements (see: https://flutter.dev/docs/get-started/install)
+- flutter **Desktop support** requirements (https://flutter.dev/desktop)
 
 ### Install Flutter
 - flutter installation: https://flutter.dev/docs/get-started/install

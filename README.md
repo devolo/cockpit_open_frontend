@@ -28,7 +28,7 @@ The program provides information about the connection speed of all adapters on t
    - or "Import Project from Version Control" into Android Studio:
       * In Android Studio *File -> New -> Import Project from Version Control* dialogue.
       * Insert the git url and cklick *Clone*
-3. Make sure _Flutter SDK_ and _Dart SDK_ are enabled and the _path_ ist correct
+3. Make sure _Flutter SDK_ and _Dart SDK_ are _enabled_ and the _path_ ist correct
    * In *File -> Settings -> Languages & Frameworks -> Dart* 
       * verify if the path to Dart SDK is correct (Darte SDK located in "...\flutterSDK\flutter\bin\cache\dart-sdk")
       * check "Enable Dart support for the projekt '...' "

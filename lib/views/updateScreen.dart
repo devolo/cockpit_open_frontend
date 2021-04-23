@@ -716,7 +716,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               ),
                               Text(
                                 S.of(context).launchWebinterface,
-                                style: TextStyle(fontSize: 14, color: fontColorLight),
+                                style: TextStyle(fontSize: 14, color: !hitDeviceWebinterface ? fontColorNotAvailable : fontColorLight),
                                 textScaleFactor: fontSizeFactor,
                                 textAlign: TextAlign.center,
                               )
@@ -738,7 +738,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                   ),
                               Text(
                                 S.of(context).identifyDevice,
-                                style: TextStyle(fontSize: 14, color: fontColorLight),
+                                style: TextStyle(fontSize: 14, color: !hitDeviceIdentify ? fontColorNotAvailable : fontColorLight),
                                 textScaleFactor: fontSizeFactor,
                                 textAlign: TextAlign.center,
                               )

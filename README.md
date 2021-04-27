@@ -9,7 +9,8 @@ The program provides information about the connection speed of all adapters on t
 ### Requirements
 - devolo Cockpit https://www.devolo.de/support/downloads/download/devolo-cockpit
 - Flutter SDK
-- Android Studio or Visual Studio Code (with _Flutter and Dart plugin_)
+- Android Studio or Visual Studio Code (with _Flutter and Dart plugin_) (see: https://flutter.dev/docs/get-started/editor?tab=androidstudio)
+- Enable developer mode in Windows 10 
 - more **platform specific** requirements (see: https://flutter.dev/docs/get-started/install)
 - flutter **Desktop support** requirements (see: https://flutter.dev/desktop)
 
@@ -28,7 +29,7 @@ The program provides information about the connection speed of all adapters on t
       * Leave all checkboxes marked and click *Finish*.
    - or "Import Project from Version Control" into Android Studio:
       * In Android Studio *File -> New -> Import Project from Version Control* dialogue.
-      * Insert the git url and cklick *Clone*
+      * Insert the git url and click *Clone*
 3. Make sure _Flutter SDK_ and _Dart SDK_ are _enabled_ and the _path_ ist correct
    * In *File -> Settings -> Languages & Frameworks -> Dart* 
       * verify if the path to Dart SDK is correct (Dart SDK located in "...\flutterSDK\flutter\bin\cache\dart-sdk")

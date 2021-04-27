@@ -8,6 +8,7 @@ import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/views/appBuilder.dart';
@@ -187,6 +188,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
     String hitDeviceMac;
     bool hitDeviceAtr;
     bool hitDeviceisLocal;
+    bool hitDeviceWebinterface;
+    bool hitDeviceIdentify;
 
     final socket = Provider.of<dataHand>(context, listen: false);
     final deviceList = Provider.of<NetworkList>(context, listen: false);
@@ -230,6 +233,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
         hitDeviceMac = deviceList.getDeviceList()[index].mac;
         hitDeviceAtr = deviceList.getDeviceList()[index].attachedToRouter;
         hitDeviceisLocal = deviceList.getDeviceList()[index].isLocalDevice;
+        hitDeviceWebinterface = deviceList.getDeviceList()[index].webinterfaceAvailable;
+        hitDeviceIdentify = deviceList.getDeviceList()[index].identifyDeviceAvailable;
 
         String _newName = hitDeviceName;
 
@@ -440,20 +445,27 @@ class _OverviewScreenState extends State<OverviewScreen> {
                             Column(
                               children: [
                                 IconButton(
+
                                   icon: Icon(
                                     Icons.public,
-                                    color: fontColorLight,
                                   ),
                                   //tooltip: S.of(context).launchWebinterface,
+                                  disabledColor: fontColorNotAvailable,
+                                  color: fontColorLight,
                                   hoverColor: fontColorLight.withAlpha(50),
                                   iconSize: 24.0 * fontSizeFactor,
-                                  onPressed: () => launchURL(hitDeviceIp),
+                                  onPressed: !hitDeviceWebinterface ? null : () => launchURL(hitDeviceIp),
+                                  mouseCursor: !hitDeviceWebinterface ? null : SystemMouseCursors.click,
+
+
+
                                 ),
                                 Text(
                                   S.of(context).launchWebinterface,
-                                  style: TextStyle(fontSize: 14, color: fontColorLight),
+                                  style: TextStyle(fontSize: 14, color: !hitDeviceWebinterface ? fontColorNotAvailable: fontColorLight),
                                   textScaleFactor: fontSizeFactor,
                                   textAlign: TextAlign.center,
+
                                 )
                               ],
                             ),
@@ -462,15 +474,19 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                 IconButton(
                                     icon: Icon(
                                       Icons.lightbulb,
-                                      color: fontColorLight,
                                     ),
                                     //tooltip: S.of(context).identifyDevice,
+                                    disabledColor: fontColorNotAvailable,
+                                    color: fontColorLight,
                                     hoverColor: fontColorLight.withAlpha(50),
                                     iconSize: 24.0 * fontSizeFactor,
-                                    onPressed: () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac)),
+                                    onPressed: !hitDeviceIdentify ? null : () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac),
+                                    mouseCursor: !hitDeviceIdentify ? null : SystemMouseCursors.click,
+
+                                ),
                                 Text(
                                   S.of(context).identifyDevice,
-                                  style: TextStyle(fontSize: 14, color: fontColorLight),
+                                  style: TextStyle(fontSize: 14, color: !hitDeviceIdentify ? fontColorNotAvailable : fontColorLight),
                                   textScaleFactor: fontSizeFactor,
                                   textAlign: TextAlign.center,
                                 )

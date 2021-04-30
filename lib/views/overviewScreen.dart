@@ -308,18 +308,30 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   ),
                                   suffixIcon: IconButton(
                                     icon: Icon(Icons.edit_outlined, color: fontColorLight,),
-                                    onPressed: (){
-                                      //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
-                                      if(_newName != hitDeviceName)
-                                        _showEditAlert(context, socket, hitDeviceMac, _newName);
+                                    onPressed: () async{
+                                      if(_newName != hitDeviceName){
+                                        bool response = await _confirmDialog(context, S.of(context).deviceNameDialogTitle,  S.of(context).deviceNameDialogBody);
+                                        if(response){
+                                          socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
+                                          setState(() {
+                                            socket.sendXML('RefreshNetwork');
+                                          });
+                                        }
+                                      }
                                     },
                                   ),
                                 ),
                                 onChanged: (value) => (_newName = value),
-                                onEditingComplete: () {
-                                  if(_newName != hitDeviceName)
-                                    _showEditAlert(context, socket, hitDeviceMac, _newName);
-                                  //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
+                                onEditingComplete: () async{
+                                  if(_newName != hitDeviceName) {
+                                    bool response = await _confirmDialog(context, S.of(context).deviceNameDialogTitle, S.of(context).deviceNameDialogBody);
+                                    if(response){
+                                      socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
+                                      setState(() {
+                                        socket.sendXML('RefreshNetwork');
+                                      });
+                                    }
+                                  }
                                 },
                                 onTap: (){
                                   setState(() {
@@ -716,14 +728,16 @@ class _OverviewScreenState extends State<OverviewScreen> {
         });
   }
 
-  void _showEditAlert(context, socket, hitDeviceMac, _newName) {
-    showDialog<void>(
+  // Confirmation Dialog with 2 Buttons
+  Future<bool> _confirmDialog(context, title, body) async {
+
+    bool returnVal = await showDialog(
         context: context,
         barrierDismissible: true, // user doesn't need to tap button!
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(
-              "Confirm",
+              title,
               style: TextStyle(color: fontColorLight),
             ),
             backgroundColor: backgroundColor.withOpacity(0.9),
@@ -736,7 +750,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                   right: -35,
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pop();
+                      Navigator.of(context).pop(false);
                     },
                     child: Align(
                       alignment: Alignment.topRight,
@@ -748,7 +762,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                     ),
                   ),
                 ),
-                    Text("Do you really want to rename this device?"),
+                    Text(body),
               ],
             ),
             actions: <Widget>[
@@ -766,11 +780,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                 autofocus: true,
                 onPressed: () {
                   // Critical things happening here
-                  socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
-                  Navigator.maybeOf(context).pop();
-                  setState(() {
-                    socket.sendXML('RefreshNetwork');
-                  });
+                  Navigator.maybeOf(context).pop(true);
                 },
               ),
               FlatButton(
@@ -786,10 +796,18 @@ class _OverviewScreenState extends State<OverviewScreen> {
                   ), //Text('Abbrechen'),
                   onPressed: () {
                     // Cancel critical action
-                    Navigator.maybeOf(context).pop();
+                    Navigator.maybeOf(context).pop(false);
+                    return false;
                   }),
             ],
           );
         });
+
+    if(returnVal == null)
+      returnVal = false;
+
+    return returnVal;
+
   }
+
 }

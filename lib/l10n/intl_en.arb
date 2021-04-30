@@ -105,5 +105,8 @@
   "general": "General",
   "yourPc": "Your PC",
   "thisPc": "This PC",
-  "internet": "Internet"
+  "internet": "Internet",
+
+  "deviceNameDialogTitle" : "Confirm",
+  "deviceNameDialogBody" : "Do you really want to rename this device?"
 }

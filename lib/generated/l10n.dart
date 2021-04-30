@@ -1054,6 +1054,26 @@ class S {
       args: [],
     );
   }
+
+  /// `deviceNameDialogTitle`
+  String get deviceNameDialogTitle {
+    return Intl.message(
+      'Confirm',
+      name: 'deviceNameDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `deviceNameDialogBody`
+  String get deviceNameDialogBody {
+    return Intl.message(
+      'Do you really want to rename this device?',
+      name: 'deviceNameDialogBody',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -106,5 +106,10 @@
   "general": "Allgemein",
   "yourPc": "Dein PC",
   "thisPc": "Dieser PC",
-  "internet": "Internet"
+  "internet": "Internet",
+
+  "deviceNameDialogTitle" : "Bestätigung",
+  "deviceNameDialogBody" : "Möchten Sie wirklich den Gerätenamen ändern?"
+
+
 }

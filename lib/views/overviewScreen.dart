@@ -492,10 +492,13 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                     iconSize: 24.0 * fontSizeFactor,
                                     onPressed: () async {
                                       socket.sendXML('GetManual', newValue: hitDeviceMT, valueType: 'product', newValue2: 'de', valueType2: 'language');
-                                      var response = await socket.recieveXML(["GetManualResponse"]);
-                                      setState(() {
-                                        openFile(response['filename']);
-                                      });
+                                      var response = await socket.myReceiveXML("GetManualResponse");
+                                      if(response['filename'] != ""){
+                                        setState(() {
+                                          openFile(response['filename']);
+                                        });
+                                      }
+
                                     }),
                                 Text(
                                   S.of(context).showManual,

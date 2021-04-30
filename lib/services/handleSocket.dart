@@ -24,6 +24,7 @@ class dataHand extends ChangeNotifier {
   XmlDocument xmlResponse = XmlDocument();
   List<dynamic> xmlResponseList = [];
   bool waitingResponse = false;
+  Map<String,XmlDocument> xmlResponseMap = new Map<String,XmlDocument>();
 
   dataHand() {
     print("Creating new NetworkOverviewModelDesktop");
@@ -181,6 +182,10 @@ class dataHand extends ChangeNotifier {
         //waitingResponse = false;
         print('Another Response found ->');
         print(document);
+
+        //---
+        var xmlResponseType = document.findAllElements('MessageType').first.innerText;
+        xmlResponseMap[xmlResponseType] = document;
       }
     }
 
@@ -338,6 +343,43 @@ class dataHand extends ChangeNotifier {
     });
 
     waitingResponse = false;
+    print("Response: " + response.toString());
+    return response;
+  }
+
+  Future<Map<String, dynamic>> myReceiveXML(String wantedMessageTypes) async {
+
+    Map response = new Map<String, dynamic>();
+    String responseElem;
+
+    bool wait = true;
+    await new Future.delayed(const Duration(seconds: 2));
+
+    await Future.doWhile(() async {
+
+      //print("waitingforResponse");
+      //print(wait);
+      await new Future.delayed(const Duration(seconds: 1));
+      //print(xmlResponseMap);
+      if(xmlResponseMap.containsKey(wantedMessageTypes)){
+
+        if(wantedMessageTypes == "GetManualResponse"){
+          wait = false;
+          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes], 'filename');
+          if (responseElem != null) {
+            response['filename'] = responseElem;
+          }
+          xmlResponseMap.remove(wantedMessageTypes);
+        }
+
+      }
+
+      return wait;
+    }).timeout(Duration(seconds: 30), onTimeout: () {
+      print('> Timed Out');
+      wait = false;
+    });
+
     print("Response: " + response.toString());
     return response;
   }

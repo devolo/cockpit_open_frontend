@@ -106,7 +106,8 @@
   "yourPc": "Your PC",
   "thisPc": "This PC",
   "internet": "Internet",
-
   "deviceNameDialogTitle" : "Confirm",
-  "deviceNameDialogBody" : "Do you really want to rename this device?"
+  "deviceNameDialogBody" : "Do you really want to rename this device?",
+  "manualErrorTitle" : "Manual not found",
+  "manualErrorBody" : "No suitable manual was found for your PLC device.\n\nYou can find the manual on the product CD or on the devolo website."
 }

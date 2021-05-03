@@ -1074,6 +1074,26 @@ class S {
       args: [],
     );
   }
+
+  /// `manualErrorTitle`
+  String get manualErrorTitle {
+    return Intl.message(
+      'Manual not found',
+      name: 'manualErrorTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `manualErrorBody`
+  String get manualErrorBody {
+    return Intl.message(
+      'No suitable manual was found for your PLC device.\n\nYou can find the manual on the product CD or on the devolo website.',
+      name: 'manualErrorBody',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

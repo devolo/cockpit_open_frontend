@@ -189,10 +189,7 @@ class dataHand extends ChangeNotifier {
         if(!xmlResponseMap.containsKey(xmlResponseType)) {
           xmlResponseMap[xmlResponseType] = [];
         }
-
         xmlResponseMap[xmlResponseType].add(document);
-
-        print("RESPONSE: " + xmlResponseMap[xmlResponseType].first);
 
       }
     }

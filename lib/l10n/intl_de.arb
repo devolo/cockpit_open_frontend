@@ -107,9 +107,9 @@
   "yourPc": "Dein PC",
   "thisPc": "Dieser PC",
   "internet": "Internet",
-
   "deviceNameDialogTitle" : "Bestätigung",
-  "deviceNameDialogBody" : "Möchten Sie wirklich den Gerätenamen ändern?"
-
+  "deviceNameDialogBody" : "Möchten Sie wirklich den Gerätenamen ändern?",
+  "manualErrorTitle" : "Handbuch nicht gefunden",
+  "manualErrorBody" : "Für Ihr PLC-Gerät wurde kein passendes Handbuch gefunden.\n\nSie können das Handbuch auf der Produkt-CD oder der devolo Internet-Seite finden."
 
 }

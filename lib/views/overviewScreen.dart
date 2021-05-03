@@ -510,6 +510,9 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                           openFile(response['filename']);
                                         });
                                       }
+                                      else{
+                                        _errorDialog(context, S.of(context).manualErrorTitle, S.of(context).manualErrorBody);
+                                      }
 
                                     }),
                                 Text(
@@ -808,6 +811,50 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
     return returnVal;
 
+  }
+
+  // Confirmation Dialog with 2 Buttons
+  void _errorDialog(context, title, body) {
+
+    showDialog<void>(
+        context: context,
+        barrierDismissible: true, // user doesn't need to tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              title,
+              style: TextStyle(color: fontColorLight),
+            ),
+            backgroundColor: backgroundColor.withOpacity(0.9),
+            contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18 * fontSizeFactor),
+            content: Stack(
+              overflow: Overflow.visible,
+              children: [
+                Positioned(
+                  top: -85,
+                  right: -35,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: CircleAvatar(
+                        radius: 14.0,
+                        backgroundColor: secondColor,
+                        child: Icon(Icons.close, color: fontColorDark),
+                      ),
+                    ),
+                  ),
+                ),
+                Text(body),
+              ],
+            ),
+            actions: <Widget>[
+
+            ],
+          );
+        });
   }
 
 }

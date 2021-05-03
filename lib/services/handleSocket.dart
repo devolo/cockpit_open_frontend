@@ -24,7 +24,7 @@ class dataHand extends ChangeNotifier {
   XmlDocument xmlResponse = XmlDocument();
   List<dynamic> xmlResponseList = [];
   bool waitingResponse = false;
-  Map<String,XmlDocument> xmlResponseMap = new Map<String,XmlDocument>();
+  Map<String,List<dynamic>> xmlResponseMap = new Map<String,List<dynamic>>();
 
   dataHand() {
     print("Creating new NetworkOverviewModelDesktop");
@@ -185,7 +185,15 @@ class dataHand extends ChangeNotifier {
 
         //---
         var xmlResponseType = document.findAllElements('MessageType').first.innerText;
-        xmlResponseMap[xmlResponseType] = document;
+
+        if(!xmlResponseMap.containsKey(xmlResponseType)) {
+          xmlResponseMap[xmlResponseType] = [];
+        }
+
+        xmlResponseMap[xmlResponseType].add(document);
+
+        print("RESPONSE: " + xmlResponseMap[xmlResponseType].first);
+
       }
     }
 
@@ -365,11 +373,16 @@ class dataHand extends ChangeNotifier {
 
         if(wantedMessageTypes == "GetManualResponse"){
           wait = false;
-          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes], 'filename');
+          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'filename');
           if (responseElem != null) {
             response['filename'] = responseElem;
           }
-          xmlResponseMap.remove(wantedMessageTypes);
+          xmlResponseMap[wantedMessageTypes].remove(xmlResponseMap[wantedMessageTypes].first);
+
+          if(xmlResponseMap[wantedMessageTypes].length == 0){
+            xmlResponseMap.remove(wantedMessageTypes);
+          }
+
         }
 
       }

@@ -382,6 +382,20 @@ class dataHand extends ChangeNotifier {
 
         }
 
+        else if(wantedMessageTypes == "SetAdapterNameStatus"){
+          wait = false;
+          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'result');
+          if (responseElem != null) {
+            response['result'] = responseElem;
+          }
+          xmlResponseMap[wantedMessageTypes].remove(xmlResponseMap[wantedMessageTypes].first);
+
+          if(xmlResponseMap[wantedMessageTypes].length == 0){
+            xmlResponseMap.remove(wantedMessageTypes);
+          }
+
+        }
+
       }
 
       return wait;

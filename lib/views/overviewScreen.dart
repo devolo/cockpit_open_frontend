@@ -45,6 +45,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
   bool showingSpeeds = false;
   int pivotDeviceIndex = 0;
 
+  bool _changeNameLoading = false;
+
   FocusNode myFocusNode = new FocusNode();
 
   @override
@@ -275,13 +277,23 @@ class _OverviewScreenState extends State<OverviewScreen> {
                           defaultColumnWidth: FixedColumnWidth(300.0 * fontSizeFactor),
                           children: [
                             TableRow(children: [
-                              Align(
-                                alignment: Alignment.bottomRight,
-                                child: SelectableText(
-                                  'Name:   ',
-                                  style: TextStyle(height: 2),
-                                ),
-                              ),
+
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  if(_changeNameLoading)
+                                    CircularProgressIndicator(
+                                      valueColor: new AlwaysStoppedAnimation<Color>(secondColor),
+                                      strokeWidth: 2.0,
+                                    ),
+                                  SizedBox(width: 25),
+                                  SelectableText(
+                                    'Name:   ',
+                                    style: TextStyle(height: 2),
+                                  ),
+
+                              ]),
+
                               TextFormField(
                                 initialValue: _newName,
                                 focusNode: myFocusNode,
@@ -310,12 +322,36 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                     icon: Icon(Icons.edit_outlined, color: fontColorLight,),
                                     onPressed: () async{
                                       if(_newName != hitDeviceName){
-                                        bool response = await _confirmDialog(context, S.of(context).deviceNameDialogTitle,  S.of(context).deviceNameDialogBody);
-                                        if(response){
-                                          socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
+                                        bool confResponse = await _confirmDialog(context, S.of(context).deviceNameDialogTitle,  S.of(context).deviceNameDialogBody);
+                                        if(confResponse){
                                           setState(() {
-                                            socket.sendXML('RefreshNetwork');
+                                            _changeNameLoading = true;
                                           });
+
+                                          socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
+                                          var response = await socket.myReceiveXML("SetAdapterNameStatus");
+                                          if(response['result'] == "ok"){
+
+                                            hitDeviceName = _newName;
+                                            await Future.delayed(const Duration(seconds: 1), (){});
+                                            socket.sendXML('RefreshNetwork');
+
+                                            //setState(() {
+                                            //   socket.sendXML('RefreshNetwork');
+                                            //});
+
+
+                                          }
+                                          else if(response['result'] == "timeout"){
+
+                                          }
+
+                                          else if(response['result'] == "device_not_found"){
+
+                                          }
+
+                                          _changeNameLoading = false;
+
                                         }
                                       }
                                     },
@@ -324,8 +360,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                 onChanged: (value) => (_newName = value),
                                 onEditingComplete: () async{
                                   if(_newName != hitDeviceName) {
-                                    bool response = await _confirmDialog(context, S.of(context).deviceNameDialogTitle, S.of(context).deviceNameDialogBody);
-                                    if(response){
+                                    bool confResponse = await _confirmDialog(context, S.of(context).deviceNameDialogTitle, S.of(context).deviceNameDialogBody);
+                                    if(confResponse){
                                       socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
                                       setState(() {
                                         socket.sendXML('RefreshNetwork');

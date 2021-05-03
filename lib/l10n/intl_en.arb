@@ -106,8 +106,15 @@
   "yourPc": "Your PC",
   "thisPc": "This PC",
   "internet": "Internet",
+
+  "deviceNotFoundHint" : " - Has the PLC device been disconnected from the power grid?\n - Is the PLC device in power-saving mode?",
+  "deviceNotFoundDeviceName" : "An error occurred while setting the device name!",
+
   "deviceNameDialogTitle" : "Confirm",
   "deviceNameDialogBody" : "Do you really want to rename this device?",
+  "deviceNameErrorTitle" : "Name change failed",
+  "deviceNameErrorBody" : "An error occurred while changing the name.\nPlease try it again.",
+
   "manualErrorTitle" : "Manual not found",
   "manualErrorBody" : "No suitable manual was found for your PLC device.\n\nYou can find the manual on the product CD or on the devolo website."
 }

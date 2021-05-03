@@ -1094,6 +1094,47 @@ class S {
       args: [],
     );
   }
+
+  /// `deviceNameErrorTitle`
+  String get deviceNameErrorTitle {
+    return Intl.message(
+      'Name change failed',
+      name: 'deviceNameErrorTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `deviceNameErrorBody`
+  String get deviceNameErrorBody {
+    return Intl.message(
+      'An error occurred while changing the name.\nPlease try it again.',
+      name: 'deviceNameErrorBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `deviceNotFoundHint`
+  String get deviceNotFoundHint {
+    return Intl.message(
+      ' - Has the PLC device been disconnected from the power grid?\n - Is the PLC device in power-saving mode?',
+      name: 'deviceNotFoundHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `deviceNotFoundDeviceName`
+  String get deviceNotFoundDeviceName {
+    return Intl.message(
+      'An error occurred while setting the device name!',
+      name: 'deviceNotFoundDeviceName',
+      desc: '',
+      args: [],
+    );
+  }
+
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

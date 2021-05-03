@@ -339,15 +339,15 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                             //setState(() {
                                             //   socket.sendXML('RefreshNetwork');
                                             //});
-
-
+                                            
                                           }
                                           else if(response['result'] == "timeout"){
 
+                                            _errorDialog(context, S.of(context).deviceNameErrorTitle, S.of(context).deviceNameErrorBody);
                                           }
 
                                           else if(response['result'] == "device_not_found"){
-
+                                            _errorDialog(context, S.of(context).deviceNameErrorTitle, S.of(context).deviceNotFoundDeviceName + "\n\n" + S.of(context).deviceNotFoundHint);
                                           }
 
                                           _changeNameLoading = false;

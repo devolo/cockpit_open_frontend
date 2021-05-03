@@ -107,9 +107,19 @@
   "yourPc": "Dein PC",
   "thisPc": "Dieser PC",
   "internet": "Internet",
+
+  "deviceNotFoundHint" : " - Wurde das PLC-Gerät vom Stromnetz getrennt?\n - Befindet sich das PLC-Gerät im Stromsparmodus?",
+  "deviceNotFoundDeviceName" : "Es ist ein Fehler beim Setzen des Gerätenamens aufgetreten!",
+
   "deviceNameDialogTitle" : "Bestätigung",
   "deviceNameDialogBody" : "Möchten Sie wirklich den Gerätenamen ändern?",
+  "deviceNameErrorTitle" : "Namensänderung fehlgeschlagen",
+  "deviceNameErrorBody" : "Es ist ein Fehler beim Setzen des Gerätenamens aufgetreten!\nBitte versuchen Sie es erneut.",
+
+
+
   "manualErrorTitle" : "Handbuch nicht gefunden",
   "manualErrorBody" : "Für Ihr PLC-Gerät wurde kein passendes Handbuch gefunden.\n\nSie können das Handbuch auf der Produkt-CD oder der devolo Internet-Seite finden."
+
 
 }

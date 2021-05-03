@@ -324,10 +324,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                       if(_newName != hitDeviceName){
                                         bool confResponse = await _confirmDialog(context, S.of(context).deviceNameDialogTitle,  S.of(context).deviceNameDialogBody);
                                         if(confResponse){
-                                          setState(() {
-                                            _changeNameLoading = true;
-                                          });
 
+                                          _changeNameLoading = true;
                                           socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
                                           var response = await socket.myReceiveXML("SetAdapterNameStatus");
                                           if(response['result'] == "ok"){
@@ -339,7 +337,6 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                             //setState(() {
                                             //   socket.sendXML('RefreshNetwork');
                                             //});
-                                            
                                           }
                                           else if(response['result'] == "timeout"){
 
@@ -362,10 +359,31 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   if(_newName != hitDeviceName) {
                                     bool confResponse = await _confirmDialog(context, S.of(context).deviceNameDialogTitle, S.of(context).deviceNameDialogBody);
                                     if(confResponse){
+
+                                      _changeNameLoading = true;
                                       socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
-                                      setState(() {
+                                      var response = await socket.myReceiveXML("SetAdapterNameStatus");
+                                      if(response['result'] == "ok"){
+
+                                        hitDeviceName = _newName;
+                                        await Future.delayed(const Duration(seconds: 1), (){});
                                         socket.sendXML('RefreshNetwork');
-                                      });
+
+                                        //setState(() {
+                                        //   socket.sendXML('RefreshNetwork');
+                                        //});
+                                      }
+                                      else if(response['result'] == "timeout"){
+
+                                        _errorDialog(context, S.of(context).deviceNameErrorTitle, S.of(context).deviceNameErrorBody);
+                                      }
+
+                                      else if(response['result'] == "device_not_found"){
+                                        _errorDialog(context, S.of(context).deviceNameErrorTitle, S.of(context).deviceNotFoundDeviceName + "\n\n" + S.of(context).deviceNotFoundHint);
+                                      }
+
+                                      _changeNameLoading = false;
+
                                     }
                                   }
                                 },
@@ -570,7 +588,17 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   //tooltip: S.of(context).factoryReset,
                                   hoverColor: fontColorLight.withAlpha(50),
                                   iconSize: 24.0 * fontSizeFactor,
-                                  onPressed: () => _handleCriticalActions(context, socket, 'ResetAdapterToFactoryDefaults', hitDevice),
+                                  onPressed: () async {
+                                    bool confResponse = false;
+                                    hitDevice.attachedToRouter
+                                        ? confResponse = await _confirmDialog(context, S.of(context).confirmAction,  S.of(context).pleaseConfirmActionAttentionYourRouterIsConnectedToThis)
+                                        : confResponse = await _confirmDialog(context, S.of(context).confirmAction,  S.of(context).pleaseConfirmAction);
+
+                                    if(confResponse){
+                                      socket.sendXML("ResetAdapterToFactoryDefaults", mac: hitDevice.mac);
+                                    }
+
+                                  },
                                 ),
                                 Text(
                                   S.of(context).factoryReset,
@@ -591,7 +619,16 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   //tooltip: S.of(context).deleteDevice,
                                   hoverColor: fontColorLight.withAlpha(50),
                                   iconSize: 24.0 * fontSizeFactor,
-                                  onPressed: () => _handleCriticalActions(context, socket, 'RemoveAdapter', hitDevice),
+                                  onPressed: () async {
+                                    bool confResponse = false;
+                                    hitDevice.attachedToRouter
+                                        ? confResponse = await _confirmDialog(context, S.of(context).confirmAction,  S.of(context).pleaseConfirmActionAttentionYourRouterIsConnectedToThis)
+                                        : confResponse = await _confirmDialog(context, S.of(context).confirmAction,  S.of(context).pleaseConfirmAction);
+
+                                    if(confResponse){
+                                      socket.sendXML("RemoveAdapter", mac: hitDevice.mac);
+                                    }
+                                  },
                                 ),
                                 Text(
                                   S.of(context).deleteDevice,
@@ -688,6 +725,9 @@ class _OverviewScreenState extends State<OverviewScreen> {
     });
   }
 
+  /*
+  method no more needed
+
   void _handleCriticalActions(context, socket, messageType, Device hitDevice) {
     showDialog<void>(
         context: context,
@@ -766,7 +806,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
           );
         });
   }
-
+*/
   // Confirmation Dialog with 2 Buttons
   Future<bool> _confirmDialog(context, title, body) async {
 
@@ -816,7 +856,6 @@ class _OverviewScreenState extends State<OverviewScreen> {
                     Text(S.of(context).confirm, style: TextStyle(color: fontColorLight),),
                   ],
                 ),
-                autofocus: true,
                 onPressed: () {
                   // Critical things happening here
                   Navigator.maybeOf(context).pop(true);

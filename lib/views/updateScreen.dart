@@ -1,5 +1,12 @@
-import 'dart:async';
+/*
+Copyright (c) 2021, devolo AG
+All rights reserved.
 
+This source code is licensed under the BSD-style license found in the
+LICENSE file in the root directory of this source tree.
+*/
+
+import 'dart:async';
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';

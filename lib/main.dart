@@ -32,6 +32,8 @@ import 'dart:io';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'dart:convert';
 
+//TestComment
+
 void main() {
   //debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
   WidgetsFlutterBinding.ensureInitialized();

@@ -22,7 +22,7 @@ class dataHand extends ChangeNotifier {
   NetworkList _deviceList;
   dynamic xmlLength;
   XmlDocument xmlResponse = XmlDocument();
-  List<dynamic> xmlResponseList = [];
+  List<dynamic> xmlResponseList = []; // used for debugging log
   bool waitingResponse = false;
   Map<String,List<dynamic>> xmlResponseMap = new Map<String,List<dynamic>>();
 
@@ -174,6 +174,7 @@ class dataHand extends ChangeNotifier {
         print('UpdateStatus found ->');
         print(document);
       } else {
+
         xmlResponse = document;
 
         xmlResponseList.insert(0, document);
@@ -394,6 +395,65 @@ class dataHand extends ChangeNotifier {
             xmlResponseMap.remove(wantedMessageTypes);
           }
 
+        }
+
+        else if (wantedMessageTypes == "SupportInfoGenerateStatus") {
+          wait = false;
+          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'status');
+          if (responseElem != null) {
+            response['status'] = responseElem;
+          }
+          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'htmlfilename');
+          if (responseElem != null) {
+            response['htmlfilename'] = responseElem;
+          }
+          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'zipfilename');
+          if (responseElem != null) {
+            response['zipfilename'] = responseElem;
+          }
+          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'result');
+          if (responseElem != null) {
+            response['result'] = responseElem;
+          }
+
+          xmlResponseMap[wantedMessageTypes].remove(xmlResponseMap[wantedMessageTypes].first);
+
+          if(xmlResponseMap[wantedMessageTypes].length == 0){
+            xmlResponseMap.remove(wantedMessageTypes);
+          }
+        }
+
+        // here we want to ignore the first response with <status>running</status>
+        else if (wantedMessageTypes == "ResetAdapterToFactoryDefaultsStatus") {
+
+          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'status');
+          if (responseElem != "running") {
+            wait = false;
+
+            responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'result');
+            if (responseElem != null) {
+              response['result'] = responseElem;
+            }
+          }
+
+          xmlResponseMap[wantedMessageTypes].remove(xmlResponseMap[wantedMessageTypes].first);
+
+          if(xmlResponseMap[wantedMessageTypes].length == 0){
+            xmlResponseMap.remove(wantedMessageTypes);
+          }
+        }
+
+        // responses where we need only the result tag
+        else {
+          wait = false;
+          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'result');
+          if (responseElem != null) {
+            response['result'] = responseElem;
+          }
+          xmlResponseMap[wantedMessageTypes].remove(xmlResponseMap[wantedMessageTypes].first);
+          if(xmlResponseMap[wantedMessageTypes].length == 0){
+            xmlResponseMap.remove(wantedMessageTypes);
+          }
         }
 
       }

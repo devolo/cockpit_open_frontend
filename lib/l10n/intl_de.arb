@@ -110,11 +110,17 @@
 
   "deviceNotFoundHint" : " - Wurde das PLC-Gerät vom Stromnetz getrennt?\n - Befindet sich das PLC-Gerät im Stromsparmodus?",
   "deviceNotFoundDeviceName" : "Es ist ein Fehler beim Setzen des Gerätenamens aufgetreten!",
+  "deviceNotFoundResetDevice" : "Es ist ein Fehler beim Zurücksetzen des Gerätes aufgetreten!",
+  "deviceNotFoundDeleteDevice" : "Es ist ein Fehler beim Löschen des Gerätes aufgetreten!",
 
   "deviceNameDialogTitle" : "Bestätigung",
   "deviceNameDialogBody" : "Möchten Sie wirklich den Gerätenamen ändern?",
   "deviceNameErrorTitle" : "Namensänderung fehlgeschlagen",
   "deviceNameErrorBody" : "Es ist ein Fehler beim Setzen des Gerätenamens aufgetreten!\nBitte versuchen Sie es erneut.",
+  "resetDeviceErrorTitle" : "Zurücksetzung fehlgeschlagen",
+  "resetDeviceErrorBody" : "Es ist ein Fehler beim Zurücksetzen des Gerätes aufgetreten!\nBitte versuchen Sie es erneut.",
+  "deleteDeviceErrorTitle" : "Löschvorgang fehlgeschlagen",
+  "deleteDeviceErrorBody" : "Es ist ein Fehler beim Löschen des Gerätes aufgetreten!\nBitte versuchen Sie es erneut.",
 
 
 

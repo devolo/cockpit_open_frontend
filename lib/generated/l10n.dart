@@ -1135,6 +1135,66 @@ class S {
     );
   }
 
+  /// `resetDeviceErrorTitle`
+  String get resetDeviceErrorTitle {
+    return Intl.message(
+      'Reset failed',
+      name: 'resetDeviceErrorTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `resetDeviceErrorBody`
+  String get resetDeviceErrorBody {
+    return Intl.message(
+      'An error occurred while resetting the device!\nPlease try it again.',
+      name: 'resetDeviceErrorBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `deleteDeviceErrorTitle`
+  String get deleteDeviceErrorTitle {
+    return Intl.message(
+      'Delete operation failed',
+      name: 'deleteDeviceErrorTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `deleteDeviceErrorBody`
+  String get deleteDeviceErrorBody {
+    return Intl.message(
+      'An error occurred while deleting the device!\nPlease try it again.',
+      name: 'deleteDeviceErrorBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `deviceNotFoundResetDevice`
+  String get deviceNotFoundResetDevice {
+    return Intl.message(
+      'An error occurred while resetting the device!',
+      name: 'deviceNotFoundResetDevice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `deviceNotFoundDeleteDevice`
+  String get deviceNotFoundDeleteDevice {
+    return Intl.message(
+      'An error occurred while deleting the device!',
+      name: 'deviceNotFoundDeleteDevice',
+      desc: '',
+      args: [],
+    );
+  }
+
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

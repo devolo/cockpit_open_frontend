@@ -33,6 +33,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'dart:convert';
 
 //TestComment
+//TestComment2
 
 void main() {
   //debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;

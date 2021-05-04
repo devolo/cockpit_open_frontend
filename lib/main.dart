@@ -15,6 +15,7 @@ import 'package:cockpit_devolo/views/overviewScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cockpit_devolo/views/appBuilder.dart';
+import 'package:window_size/window_size.dart';
 import 'package:yaml/yaml.dart';
 import 'dart:io';
 
@@ -25,7 +26,11 @@ import 'dart:convert';
 
 void main() {
   //debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+    setWindowTitle('devolo Cockpit');
+  }
+  runApp(new MyApp());
 }
 
 class MyApp extends StatelessWidget {

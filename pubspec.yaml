@@ -37,6 +37,11 @@ dependencies:
   yaml: ^2.2.1
   package_info_plus: ^0.6.3
   carousel_slider: ^3.0.0
+  window_size:
+    git:
+      url: git://github.com/google/flutter-desktop-embedding.git
+      path: plugins/window_size
+      ref: 7812516a5c1fc8ef379e244106953a2b534432b9
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -100,6 +100,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       color: secondColor,
                       textColor: fontColorDark,
                       onPressed: () async {
+                        // Warning! "UpdateCheck" and "RefreshNetwork" should only be triggered by a user interaction, not continously/automaticly
                         setState(() {
                           socket.sendXML('UpdateCheck');
                           _loading = socket.waitingResponse;

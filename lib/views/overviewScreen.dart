@@ -154,6 +154,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          // Warning! "UpdateCheck" and "RefreshNetwork" should only be triggered by a user interaction, not continously/automaticly
           setState(() {
             socket.sendXML('RefreshNetwork');
             AppBuilder.of(context).rebuild();

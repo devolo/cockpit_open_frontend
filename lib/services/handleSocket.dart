@@ -165,7 +165,7 @@ class dataHand extends ChangeNotifier {
     //return document;
   }
 
-  //ToDo create real xml not just string and parse
+  // Warning! "UpdateCheck" and "RefreshNetwork" should only be triggered by a user interaction, not continously/automaticly
   void sendXML(
     String messageType, {
     String newValue,

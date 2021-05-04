@@ -26,8 +26,10 @@ class Device extends ChangeNotifier {
   bool updateAvailable = false;
   String updateState = "";
   double updateStateInt = 0;
+  bool webinterfaceAvailable = false;
+  bool identifyDeviceAvailable = false;
 
-  Device(String type, String name, String mac, String ip, String MT, String serialno, String version, String versionDate, atRouter, isLocal,[ui.Image icon]) {
+  Device(String type, String name, String mac, String ip, String MT, String serialno, String version, String versionDate, atRouter, isLocal, bool webinterfaceAvailable, bool identifyDeviceAvailable, [ui.Image icon]) {
     this.typeEnum = getDeviceType(type);
     this.type = type;
     this.name = name;
@@ -37,6 +39,9 @@ class Device extends ChangeNotifier {
     this.serialno = serialno;
     this.attachedToRouter = atRouter;
     this.isLocalDevice = isLocal;
+    this.webinterfaceAvailable = webinterfaceAvailable;
+    this.identifyDeviceAvailable = identifyDeviceAvailable;
+
     if(version.contains("_")) {
       this.version = version.substring(0,version.indexOf("_"));
       this.version_date = version.substring(version.indexOf("_")+1);
@@ -63,6 +68,22 @@ class Device extends ChangeNotifier {
       }
     }
 
+    bool webinterfaceAvailable = false;
+    bool identifyDeviceAvailable = false;
+
+    if (element.getElement('actions') != null) {
+
+      var firstList = element.getElement('actions').findAllElements('first');
+      for(var first in firstList){
+        if(first.innerText == "identify_device"){
+          identifyDeviceAvailable = true;
+        }
+        else if(first.innerText == "web_interface"){
+          webinterfaceAvailable = true;
+        }
+      }
+    }
+
     Device retDevice = Device(
       element.getElement('type').text,
       element.getElement('name').text,
@@ -74,6 +95,8 @@ class Device extends ChangeNotifier {
       element.getElement('date').text,
       attachedToRouter,
       islocalDevice,
+      webinterfaceAvailable,
+      identifyDeviceAvailable
       //Device.fromXML(Element.getElement('remotes').getElement('item')),
       //genreElement.findElements('genre').map<Genre>((e) => Genre.fromElement(e)).toList(),
     );

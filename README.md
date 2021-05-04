@@ -1,7 +1,7 @@
 # devolo Cockpit
 
-A devolo Cockpit alternative Flutter front end. This Flutter Cockpit connects with the existing devolo Cockpit backend. 
-The program provides information about the connection speed of all adapters on the network. This makes it possible to immediately see how high the data transmission is, for example, between the study and the living room. If new firmware updates are available for our powerline adapters, the update can be applied directly via the network. In addition to status displays, "devolo Cockpit" also provides control over encryption and configuration. A software wizard also provides tips for optimizing the data transfer rate within the powerline home network.
+A devolo Cockpit alternative Flutter front end. This Flutter Cockpit connects with the existing devolo Cockpit backend and is a proof of concept for the Cockpit front end, build with Flutter desktop.
+The program provides information about the connection speed of all adapters on the network. This makes it possible to immediately see how high the data transmission is, for example, between the study and the living room. If new firmware updates are available for our powerline adapters, the update can be applied directly via the network. In addition to status displays, "devolo Cockpit" also provides control over encryption and configuration. 
 
 
 ## Getting Started
@@ -9,7 +9,8 @@ The program provides information about the connection speed of all adapters on t
 ### Requirements
 - devolo Cockpit https://www.devolo.de/support/downloads/download/devolo-cockpit
 - Flutter SDK
-- Android Studio or Visual Studio Code (with _Flutter and Dart plugin_)
+- Android Studio or Visual Studio Code (with _Flutter_, _Dart_ and _Flutter Intl_ plugin) (see: https://flutter.dev/docs/get-started/editor?tab=androidstudio)
+- Enable developer mode in Windows 10 
 - more **platform specific** requirements (see: https://flutter.dev/docs/get-started/install)
 - flutter **Desktop support** requirements (see: https://flutter.dev/desktop)
 
@@ -28,7 +29,7 @@ The program provides information about the connection speed of all adapters on t
       * Leave all checkboxes marked and click *Finish*.
    - or "Import Project from Version Control" into Android Studio:
       * In Android Studio *File -> New -> Import Project from Version Control* dialogue.
-      * Insert the git url and cklick *Clone*
+      * Insert the git url and click *Clone*
 3. Make sure _Flutter SDK_ and _Dart SDK_ are _enabled_ and the _path_ ist correct
    * In *File -> Settings -> Languages & Frameworks -> Dart* 
       * verify if the path to Dart SDK is correct (Dart SDK located in "...\flutterSDK\flutter\bin\cache\dart-sdk")

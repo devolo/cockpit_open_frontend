@@ -42,7 +42,7 @@ The program provides information about the connection speed of all adapters on t
 6. Click on Icon *Run 'main.dart'*
 7. Building the App:
    - build the app (see 6. or run "_flutter build windows_" in a terminal in the projects root directory)
-   - get the executable and the data folder (for example Windows in: "C:\Users\_name_\AndroidStudioProjects\Cockpit-open-frontend\build\windows")
+   - get the executable and the data folder (for example Windows in: "C:\Users\\_name_\AndroidStudioProjects\Cockpit-open-frontend\build\windows")
    - open terminal navigate to the containing path and run "./devoloCockpit" (!double tap on the executable will throw an Error)
 
 

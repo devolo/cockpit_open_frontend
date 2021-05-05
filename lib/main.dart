@@ -445,8 +445,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   SizedBox(
                     height: 20,
                   ),
-                  Text('Backend-version: ${version_backend.toString()}'), // from package_info_plus
-                  Text('Frontend-version: ${version_frontend.toString()}'), // from package_info_plus
+                  Text('Frontend Version: ${version_frontend.toString()}'), // from package_info_plus
+                  Text('Installed Backend Version: ${version_backend.toString()}'), // from package_info_plus
                   SizedBox(height: 20,),
                   RaisedButton(onPressed: () {
                     Navigator.push(

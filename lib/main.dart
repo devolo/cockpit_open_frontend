@@ -24,10 +24,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cockpit_devolo/views/appBuilder.dart';
 import 'package:window_size/window_size.dart';
-import 'package:yaml/yaml.dart';
 import 'dart:io';
-
-// import 'package:bitsdojo_window/bitsdojo_window.dart';
+import 'package:cockpit_devolo/shared/globals.dart';
 
 import 'package:package_info_plus/package_info_plus.dart';
 import 'dart:convert';
@@ -109,10 +107,8 @@ class _MyHomePageState extends State<MyHomePage> {
   int bottomSelectedIndex = 0;
   bool highContrast = false; // MediaQueryData().highContrast;  // Query current device if high Contrast theme is set
 
-  String versionName;
-  String buildNum;
-  String version;
-  String buildNr;
+  // String version;
+  // String buildNr;
 
   final List<String> languageList = <String>[
     "de",
@@ -130,31 +126,31 @@ class _MyHomePageState extends State<MyHomePage> {
 
     getConnection();
     readSharedPrefs();
-    getVersion();
+    //getVersion();
   }
 
-  Future<void> getVersion() async {
-    if (Platform.isLinux) {
-      File f = new File("data/flutter_assets/version.json");
-      f.readAsString().then((String text) {
-        Map<String, dynamic> versionJSON = jsonDecode(text);
-        print(versionJSON['version']);
-        versionName = versionJSON['version'];
-        buildNum = versionJSON['build_number'];
-      });
-    }
-    else{
-      PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      version = packageInfo.version;
-      buildNr = packageInfo.buildNumber;
-    }
-  }
+  // Future<void> getVersion() async {
+  //   if (Platform.isLinux) {
+  //     File f = new File("data/flutter_assets/version.json");
+  //     f.readAsString().then((String text) {
+  //       Map<String, dynamic> versionJSON = jsonDecode(text);
+  //       print(versionJSON['version']);
+  //       versionName = versionJSON['version'];
+  //       buildNum = versionJSON['build_number'];
+  //     });
+  //   }
+  //   else{
+  //     PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  //     version = packageInfo.version;
+  //     buildNr = packageInfo.buildNumber;
+  //   }
+  // }
 
   Future<void> readSharedPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var config = prefs.get("config");
+    var configuration = prefs.get("config");
     //print('Config from Prefs: ${config}');
-    var jsonconfig = json.decode(config);
+    var jsonconfig = json.decode(configuration);
     //print('Config JSON from Prefs: ${jsonconfig}');
     setTheme(jsonconfig["theme"]);
     //print("LANG: " + jsonconfig["language"].toString());
@@ -449,7 +445,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   SizedBox(
                     height: 20,
                   ),
-                  Text('Version ${version.toString()} + ${buildNr.toString()}'), // from package_info_plus
+                  Text('Backend-version: ${version_backend.toString()}'), // from package_info_plus
+                  Text('Frontend-version: ${version_frontend.toString()}'), // from package_info_plus
                   SizedBox(height: 20,),
                   RaisedButton(onPressed: () {
                     Navigator.push(

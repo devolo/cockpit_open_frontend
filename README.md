@@ -46,7 +46,7 @@ The program provides information about the connection speed of all adapters on t
    - open terminal navigate to the containing path and run "./devoloCockpit" (!double tap on the executable will throw an Error)
 
 
-<img src="images/overview.PNG"  width="700">
+<img src="images/overviewENG.png"  width="700">
 
 
 ## Links

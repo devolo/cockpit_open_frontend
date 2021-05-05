@@ -1055,67 +1055,7 @@ class S {
     );
   }
 
-  /// `deviceNameDialogTitle`
-  String get deviceNameDialogTitle {
-    return Intl.message(
-      'Confirm',
-      name: 'deviceNameDialogTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `deviceNameDialogBody`
-  String get deviceNameDialogBody {
-    return Intl.message(
-      'Do you really want to rename this device?',
-      name: 'deviceNameDialogBody',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `manualErrorTitle`
-  String get manualErrorTitle {
-    return Intl.message(
-      'Manual not found',
-      name: 'manualErrorTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `manualErrorBody`
-  String get manualErrorBody {
-    return Intl.message(
-      'No suitable manual was found for your PLC device.\n\nYou can find the manual on the product CD or on the devolo website.',
-      name: 'manualErrorBody',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `deviceNameErrorTitle`
-  String get deviceNameErrorTitle {
-    return Intl.message(
-      'Name change failed',
-      name: 'deviceNameErrorTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `deviceNameErrorBody`
-  String get deviceNameErrorBody {
-    return Intl.message(
-      'An error occurred while changing the name.\nPlease try it again.',
-      name: 'deviceNameErrorBody',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `deviceNotFoundHint`
+  /// ` - Has the PLC device been disconnected from the power grid?\n - Is the PLC device in power-saving mode?`
   String get deviceNotFoundHint {
     return Intl.message(
       ' - Has the PLC device been disconnected from the power grid?\n - Is the PLC device in power-saving mode?',
@@ -1125,7 +1065,7 @@ class S {
     );
   }
 
-  /// `deviceNotFoundDeviceName`
+  /// `An error occurred while setting the device name!`
   String get deviceNotFoundDeviceName {
     return Intl.message(
       'An error occurred while setting the device name!',
@@ -1135,47 +1075,7 @@ class S {
     );
   }
 
-  /// `resetDeviceErrorTitle`
-  String get resetDeviceErrorTitle {
-    return Intl.message(
-      'Reset failed',
-      name: 'resetDeviceErrorTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `resetDeviceErrorBody`
-  String get resetDeviceErrorBody {
-    return Intl.message(
-      'An error occurred while resetting the device!\nPlease try it again.',
-      name: 'resetDeviceErrorBody',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `deleteDeviceErrorTitle`
-  String get deleteDeviceErrorTitle {
-    return Intl.message(
-      'Delete operation failed',
-      name: 'deleteDeviceErrorTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `deleteDeviceErrorBody`
-  String get deleteDeviceErrorBody {
-    return Intl.message(
-      'An error occurred while deleting the device!\nPlease try it again.',
-      name: 'deleteDeviceErrorBody',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `deviceNotFoundResetDevice`
+  /// `An error occurred while resetting the device!`
   String get deviceNotFoundResetDevice {
     return Intl.message(
       'An error occurred while resetting the device!',
@@ -1185,16 +1085,115 @@ class S {
     );
   }
 
-  /// `deviceNotFoundDeleteDevice`
-  String get deviceNotFoundDeleteDevice {
+  /// `An error occurred while removing the device!`
+  String get deviceNotFoundRemoveDevice {
     return Intl.message(
-      'An error occurred while deleting the device!',
-      name: 'deviceNotFoundDeleteDevice',
+      'An error occurred while removing the device!',
+      name: 'deviceNotFoundRemoveDevice',
       desc: '',
       args: [],
     );
   }
 
+  /// `Confirm`
+  String get deviceNameDialogTitle {
+    return Intl.message(
+      'Confirm',
+      name: 'deviceNameDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do you really want to rename this device?`
+  String get deviceNameDialogBody {
+    return Intl.message(
+      'Do you really want to rename this device?',
+      name: 'deviceNameDialogBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name change failed`
+  String get deviceNameErrorTitle {
+    return Intl.message(
+      'Name change failed',
+      name: 'deviceNameErrorTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred while changing the name.\nPlease try it again.`
+  String get deviceNameErrorBody {
+    return Intl.message(
+      'An error occurred while changing the name.\nPlease try it again.',
+      name: 'deviceNameErrorBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset failed`
+  String get resetDeviceErrorTitle {
+    return Intl.message(
+      'Reset failed',
+      name: 'resetDeviceErrorTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred while resetting the device!\nPlease try it again.`
+  String get resetDeviceErrorBody {
+    return Intl.message(
+      'An error occurred while resetting the device!\nPlease try it again.',
+      name: 'resetDeviceErrorBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove failed`
+  String get removeDeviceErrorTitle {
+    return Intl.message(
+      'Remove failed',
+      name: 'removeDeviceErrorTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred while removing the device!\nPlease try it again.`
+  String get removeDeviceErrorBody {
+    return Intl.message(
+      'An error occurred while removing the device!\nPlease try it again.',
+      name: 'removeDeviceErrorBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Manual not found`
+  String get manualErrorTitle {
+    return Intl.message(
+      'Manual not found',
+      name: 'manualErrorTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No suitable manual was found for your PLC device.\n\nYou can find the manual on the product CD or on the devolo website.`
+  String get manualErrorBody {
+    return Intl.message(
+      'No suitable manual was found for your PLC device.\n\nYou can find the manual on the product CD or on the devolo website.',
+      name: 'manualErrorBody',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

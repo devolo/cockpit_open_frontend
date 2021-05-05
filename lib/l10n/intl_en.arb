@@ -110,7 +110,7 @@
   "deviceNotFoundHint" : " - Has the PLC device been disconnected from the power grid?\n - Is the PLC device in power-saving mode?",
   "deviceNotFoundDeviceName" : "An error occurred while setting the device name!",
   "deviceNotFoundResetDevice" : "An error occurred while resetting the device!",
-  "deviceNotFoundDeleteDevice" : "An error occurred while deleting the device!",
+  "deviceNotFoundRemoveDevice" : "An error occurred while removing the device!",
 
   "deviceNameDialogTitle" : "Confirm",
   "deviceNameDialogBody" : "Do you really want to rename this device?",
@@ -118,8 +118,8 @@
   "deviceNameErrorBody" : "An error occurred while changing the name.\nPlease try it again.",
   "resetDeviceErrorTitle" : "Reset failed",
   "resetDeviceErrorBody" : "An error occurred while resetting the device!\nPlease try it again.",
-  "deleteDeviceErrorTitle" : "Delete operation failed",
-  "deleteDeviceErrorBody" : "An error occurred while deleting the device!\nPlease try it again.",
+  "removeDeviceErrorTitle" : "Remove failed",
+  "removeDeviceErrorBody" : "An error occurred while removing the device!\nPlease try it again.",
 
   "manualErrorTitle" : "Manual not found",
   "manualErrorBody" : "No suitable manual was found for your PLC device.\n\nYou can find the manual on the product CD or on the devolo website."

@@ -111,7 +111,7 @@
   "deviceNotFoundHint" : " - Wurde das PLC-Gerät vom Stromnetz getrennt?\n - Befindet sich das PLC-Gerät im Stromsparmodus?",
   "deviceNotFoundDeviceName" : "Es ist ein Fehler beim Setzen des Gerätenamens aufgetreten!",
   "deviceNotFoundResetDevice" : "Es ist ein Fehler beim Zurücksetzen des Gerätes aufgetreten!",
-  "deviceNotFoundDeleteDevice" : "Es ist ein Fehler beim Löschen des Gerätes aufgetreten!",
+  "deviceNotFoundRemoveDevice" : "Es ist ein Fehler beim Entfernen des Gerätes aufgetreten!",
 
   "deviceNameDialogTitle" : "Bestätigung",
   "deviceNameDialogBody" : "Möchten Sie wirklich den Gerätenamen ändern?",
@@ -119,13 +119,9 @@
   "deviceNameErrorBody" : "Es ist ein Fehler beim Setzen des Gerätenamens aufgetreten!\nBitte versuchen Sie es erneut.",
   "resetDeviceErrorTitle" : "Zurücksetzung fehlgeschlagen",
   "resetDeviceErrorBody" : "Es ist ein Fehler beim Zurücksetzen des Gerätes aufgetreten!\nBitte versuchen Sie es erneut.",
-  "deleteDeviceErrorTitle" : "Löschvorgang fehlgeschlagen",
-  "deleteDeviceErrorBody" : "Es ist ein Fehler beim Löschen des Gerätes aufgetreten!\nBitte versuchen Sie es erneut.",
-
-
+  "removeDeviceErrorTitle" : "Löschvorgang fehlgeschlagen",
+  "removeDeviceErrorBody" : "Es ist ein Fehler beim Entfernen des Gerätes aufgetreten!\nBitte versuchen Sie es erneut.",
 
   "manualErrorTitle" : "Handbuch nicht gefunden",
   "manualErrorBody" : "Für Ihr PLC-Gerät wurde kein passendes Handbuch gefunden.\n\nSie können das Handbuch auf der Produkt-CD oder der devolo Internet-Seite finden."
-
-
 }

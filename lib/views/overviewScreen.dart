@@ -636,6 +636,14 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
                                     if(confResponse){
                                       socket.sendXML("RemoveAdapter", mac: hitDevice.mac);
+
+                                      var response = await socket.myReceiveXML("RemoveAdapterStatus");
+                                      if(response['result'] == "device_not_found"){
+                                        _errorDialog(context, S.of(context).removeDeviceErrorTitle, S.of(context).deviceNotFoundRemoveDevice + "\n\n" + S.of(context).deviceNotFoundHint);
+                                      }
+                                      else if (response['result'] != "ok"){
+                                        _errorDialog(context, S.of(context).removeDeviceErrorTitle, S.of(context).removeDeviceErrorBody);
+                                      }
                                     }
                                   },
                                 ),

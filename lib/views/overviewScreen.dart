@@ -592,8 +592,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   onPressed: () async {
                                     bool confResponse = false;
                                     hitDevice.attachedToRouter
-                                        ? confResponse = await _confirmDialog(context, S.of(context).confirmAction,  S.of(context).pleaseConfirmActionAttentionYourRouterIsConnectedToThis)
-                                        : confResponse = await _confirmDialog(context, S.of(context).confirmAction,  S.of(context).pleaseConfirmAction);
+                                        ? confResponse = await _confirmDialog(context, S.of(context).resetDeviceConfirmTitle,  S.of(context).resetDeviceConfirmBody + "\n" + S.of(context).confirmActionConnectedToRouterWarning)
+                                        : confResponse = await _confirmDialog(context, S.of(context).resetDeviceConfirmTitle,  S.of(context).resetDeviceConfirmBody);
 
                                     if(confResponse){
                                       socket.sendXML("ResetAdapterToFactoryDefaults", mac: hitDevice.mac);
@@ -631,8 +631,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   onPressed: () async {
                                     bool confResponse = false;
                                     hitDevice.attachedToRouter
-                                        ? confResponse = await _confirmDialog(context, S.of(context).confirmAction,  S.of(context).pleaseConfirmActionAttentionYourRouterIsConnectedToThis)
-                                        : confResponse = await _confirmDialog(context, S.of(context).confirmAction,  S.of(context).pleaseConfirmAction);
+                                        ? confResponse = await _confirmDialog(context, S.of(context).removeDeviceConfirmTitle,  S.of(context).removeDeviceConfirmBody + "\n" + S.of(context).confirmActionConnectedToRouterWarning)
+                                        : confResponse = await _confirmDialog(context, S.of(context).removeDeviceConfirmTitle,  S.of(context).removeDeviceConfirmBody);
 
                                     if(confResponse){
                                       socket.sendXML("RemoveAdapter", mac: hitDevice.mac);

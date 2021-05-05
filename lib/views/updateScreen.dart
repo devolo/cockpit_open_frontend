@@ -860,7 +860,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
             ),
             backgroundColor: backgroundColor.withOpacity(0.9),
             contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18 * fontSizeFactor),
-            content: hitDevice.attachedToRouter ? Text(S.of(context).pleaseConfirmActionAttentionYourRouterIsConnectedToThis) : Text(S.of(context).pleaseConfirmAction),
+            content: hitDevice.attachedToRouter ? Text(S.of(context).confirmActionConnectedToRouterWarning) : Text(S.of(context).pleaseConfirmAction),
             actions: <Widget>[
               FlatButton(
                 child: Row(

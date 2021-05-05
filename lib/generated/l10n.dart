@@ -505,11 +505,11 @@ class S {
     );
   }
 
-  /// `Please confirm action. \nAttention! Your router is connected to this PLC device you lose connection to the Internet`
-  String get pleaseConfirmActionAttentionYourRouterIsConnectedToThis {
+  /// `Attention! Your router is connected to this PLC device. You will lose connection to the Internet`
+  String get confirmActionConnectedToRouterWarning {
     return Intl.message(
-      'Please confirm action. \nAttention! Your router is connected to this PLC device you lose connection to the Internet',
-      name: 'pleaseConfirmActionAttentionYourRouterIsConnectedToThis',
+      'Attention! Your router is connected to this PLC device. You will lose connection to the Internet',
+      name: 'confirmActionConnectedToRouterWarning',
       desc: '',
       args: [],
     );
@@ -1190,6 +1190,46 @@ class S {
     return Intl.message(
       'No suitable manual was found for your PLC device.\n\nYou can find the manual on the product CD or on the devolo website.',
       name: 'manualErrorBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove the PLC-Device?`
+  String get removeDeviceConfirmTitle {
+    return Intl.message(
+      'Remove the PLC-Device?',
+      name: 'removeDeviceConfirmTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do you want to remove the selected PLC device from the network?`
+  String get removeDeviceConfirmBody {
+    return Intl.message(
+      'Do you want to remove the selected PLC device from the network?',
+      name: 'removeDeviceConfirmBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset device to delivery state`
+  String get resetDeviceConfirmTitle {
+    return Intl.message(
+      'Reset device to delivery state',
+      name: 'resetDeviceConfirmTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do you want to reset the selected PLC device to the delivery state?`
+  String get resetDeviceConfirmBody {
+    return Intl.message(
+      'Do you want to reset the selected PLC device to the delivery state?',
+      name: 'resetDeviceConfirmBody',
       desc: '',
       args: [],
     );

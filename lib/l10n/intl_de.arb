@@ -52,7 +52,7 @@
   "addDevice": "Gerät hinzufügen",
   "openOptimization": "Optimierungshilfe öffnen",
   "optimizationHelp": "Optimierungs Hilfe",
-  "pleaseConfirmActionAttentionYourRouterIsConnectedToThis": "Bitte Aktion bestätigen. \nAchtung! Ihr Router ist an dieses PLC-Gerät angeschlossen sie verlieren die Verbindung zum Internet ",
+  "confirmActionConnectedToRouterWarning": "Achtung! Ihr Router ist an dieses PLC-Gerät angeschlossen. Sie verlieren damit die Verbindung zum Internet ",
   "install": "Installieren",
   "confirm": "Bestätigen",
   "cancel": "Abbrechen",
@@ -123,5 +123,9 @@
   "removeDeviceErrorBody" : "Es ist ein Fehler beim Entfernen des Gerätes aufgetreten!\nBitte versuchen Sie es erneut.",
 
   "manualErrorTitle" : "Handbuch nicht gefunden",
-  "manualErrorBody" : "Für Ihr PLC-Gerät wurde kein passendes Handbuch gefunden.\n\nSie können das Handbuch auf der Produkt-CD oder der devolo Internet-Seite finden."
+  "manualErrorBody" : "Für Ihr PLC-Gerät wurde kein passendes Handbuch gefunden.\n\nSie können das Handbuch auf der Produkt-CD oder der devolo Internet-Seite finden.",
+  "removeDeviceConfirmTitle": "Das PLC-Gerät entfernen?",
+  "removeDeviceConfirmBody": "Wollen Sie das gewählte PLC-Gerät aus dem Netzwerk entfernen?",
+  "resetDeviceConfirmTitle": "Gerät in den Auslieferunszustand zurücksetzen",
+  "resetDeviceConfirmBody": "Wollen Sie das gewählte PLC-Gerät in den Auslieferungszustand zurücksetzen?"
 }

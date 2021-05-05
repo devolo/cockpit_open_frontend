@@ -9,10 +9,10 @@ LICENSE file in the root directory of this source tree.
 import 'package:cockpit_devolo/views/appBuilder.dart';
 import 'package:flutter/material.dart';
 
-Color mainColor;// = Colors.grey[850]; //Colors.blue[700]; // Colors.grey[850];
-Color backgroundColor;// = Colors.grey[850];//Colors.blue[700]; //
+Color mainColor= Colors.white;// = Colors.grey[850]; //Colors.blue[700]; // Colors.grey[850];
+Color backgroundColor= Colors.white;// = Colors.grey[850];//Colors.blue[700]; //
 Color secondColor;// = Colors.grey[400];//Colors.blue[100];
-Color drawingColor;// = Colors.white;
+Color drawingColor= Colors.white;// = Colors.white;
 Color fontColorLight= Colors.white;// = Colors.white;
 Color fontColorMedium;// = Colors.grey[800];
 Color fontColorDark ;// = Colors.black;

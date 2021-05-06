@@ -11,12 +11,12 @@ import 'package:flutter/material.dart';
 
 Color mainColor= Colors.white;// = Colors.grey[850]; //Colors.blue[700]; // Colors.grey[850];
 Color backgroundColor= Colors.white;// = Colors.grey[850];//Colors.blue[700]; //
-Color secondColor;// = Colors.grey[400];//Colors.blue[100];
+Color secondColor= Colors.white;// = Colors.grey[400];//Colors.blue[100];
 Color drawingColor= Colors.white;// = Colors.white;
 Color fontColorLight= Colors.white;// = Colors.white;
-Color fontColorMedium;// = Colors.grey[800];
-Color fontColorDark ;// = Colors.black;
-Color fontColorNotAvailable ; // if button can´t be klicked for example
+Color fontColorMedium= Colors.white;// = Colors.grey[800];
+Color fontColorDark= Colors.white ;// = Colors.black;
+Color fontColorNotAvailable= Colors.white ; // if button can´t be klicked for example
 
 double fontSizeFactor = 1.0;
 double fontSizeDelta = 3.0;

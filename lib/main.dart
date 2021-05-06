@@ -39,6 +39,7 @@ void main() {
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     setWindowTitle('devolo Cockpit');
   }
+
   runApp(new MyApp());
 }
 
@@ -147,17 +148,28 @@ class _MyHomePageState extends State<MyHomePage> {
   // }
 
   Future<void> readSharedPrefs() async {
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var configuration = prefs.get("config");
-    //print('Config from Prefs: ${config}');
-    var jsonconfig = json.decode(configuration);
-    //print('Config JSON from Prefs: ${jsonconfig}');
-    setTheme(jsonconfig["theme"]);
-    //print("LANG: " + jsonconfig["language"].toString());
 
-    config["language"] = jsonconfig["language"];
+    // check if sharedPreference already has been created
+    var checkSharedPreference = prefs.containsKey("config");
 
-    AppBuilder.of(context).rebuild();
+    if(checkSharedPreference){
+      var configuration = prefs.get("config");
+      //print('Config from Prefs: ${config}');
+      var jsonconfig = json.decode(configuration);
+      //print('Config JSON from Prefs: ${jsonconfig}');
+      setTheme(jsonconfig["theme"]);
+      //print("LANG: " + jsonconfig["language"].toString());
+
+      config["language"] = jsonconfig["language"];
+      AppBuilder.of(context).rebuild();
+    }
+
+    else{
+      setTheme(theme_devolo["name"]);
+      AppBuilder.of(context).rebuild();
+    }
   }
 
   List<BottomNavigationBarItem> buildBottomNavBarItems() {

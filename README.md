@@ -48,13 +48,38 @@ The program provides information about the connection speed of all adapters on t
 
 <img src="images/overviewENG.png"  width="700">
 
+## Building on Linux
+The following explains how to build and run the Flutter cockpit on Linux, not requiring any particular IDE (you may use any editor even if it doesn't come with explicit Flutter support).
+
+Note that the regular devolo Cockpit needs to be installed first (see https://www.devolo.de/support/downloads/download/devolo-cockpit).
+
+### Install Flutter
+Refer to https://flutter.dev/docs/get-started/install and https://flutter.dev/desktop for details. Installing Android support and Android Studio is optional (because this is a desktop application) so don't worry if `flutter doctor` reports a missing Android toolchain.
+
+For example:
+
+```sh
+$ sudo snap install flutter --classic
+$ flutter config --no-analytics
+$ flutter config --enable-linux-desktop
+
+$ flutter devices
+2 connected devices:
+
+Linux (desktop) • linux  • linux-x64      • Linux
+Chrome (web)    • chrome • web-javascript • Google Chrome 90.0.4430.93
+```
+
+### Build and Run
+Clone this repository, or download the source distribution. Then:
+
+```sh
+$ cd flutter_devolo_cockpit
+$ flutter run -d linux
+```
 
 ## Links
 - flutter Desktop Support: https://flutter.dev/desktop
 - For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
-
-
-
-

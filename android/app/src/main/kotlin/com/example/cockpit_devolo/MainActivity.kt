@@ -1,4 +1,4 @@
-package com.example.cockpit_devolo
+package de.devolo.cockpit_devolo
 
 import io.flutter.embedding.android.FlutterActivity
 

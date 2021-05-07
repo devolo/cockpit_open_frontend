@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
-project(runner LANGUAGES CXX)
+project(devoloCockpit LANGUAGES CXX)
 
-set(BINARY_NAME "build")
-set(APPLICATION_ID "de.devolo.build")
+set(BINARY_NAME "devoloCockpit")
+set(APPLICATION_ID "de.devolo.devoloCockpit")
 
 cmake_policy(SET CMP0063 NEW)
 

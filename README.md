@@ -74,10 +74,10 @@ Where <_platform_> is windows, macos, or linux.
 
 - the executable and the data folder are located in:
    * windows: .../Cockpit-open-frontend/build/windows/runner/Release
-   * linux: .../Cockpit-open-frontend/build/linux/release/bundle
+   * Linux: …/Cockpit-open-frontend/build/linux/release/bundle
    * macos:
 
-- navigate in terminal to the containing path and run "devoloCockpit" (!double tap on the executable will throw an Error)
+- navigate in terminal to the containing path and run "./devoloCockpit"
 
 <img src="images/overviewENG.png"  width="700">
 

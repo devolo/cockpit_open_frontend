@@ -1,31 +1,30 @@
 {
-    "name": "Cockpit open frontend",
+	"name": "Cockpit open frontend",
 
-    "context": "..",
-    "dockerFile": "../Dockerfile",
+	"context": "..",
+	"dockerFile": "../Dockerfile",
 
-    // Run the devolonetsvc on your host to see devices
-    "runArgs": [ "--net", "host" ],
+	"runArgs": [ "--net", "host" ],
 
-    // Run 'xhost +local:' on your host to enable showing the UI on the host system
-    "mounts": [ "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached" ],
+	"mounts": [ "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached" ],
+
     "containerEnv": {
         "DISPLAY": "unix:0"
     },
 
-    "settings": { 
-        "terminal.integrated.shell.linux": null,
-        "[dart]": {
-            "editor.selectionHighlight": false,
-            "editor.suggest.snippetsPreventQuickSuggestions": false,
-            "editor.wordBasedSuggestions": false,
-        },
-    },
+	"settings": { 
+		"terminal.integrated.shell.linux": null,
+		"[dart]": {
+			"editor.selectionHighlight": false,
+			"editor.suggest.snippetsPreventQuickSuggestions": false,
+			"editor.wordBasedSuggestions": false
+		}
+	},
 
-    "extensions": [
-        "dart-code.flutter",
-        "localizely.flutter-intl"
-    ],
+	"extensions": [
+		"dart-code.flutter",
+		"localizely.flutter-intl"
+	],
 
-    "postCreateCommand": "flutter pub get",
+	"postCreateCommand": "flutter pub get"
 }

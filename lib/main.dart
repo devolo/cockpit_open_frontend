@@ -169,7 +169,7 @@ class _MyHomePageState extends State<MyHomePage> {
       config["language"] = Localizations.localeOf(context).toString();
       saveToSharedPrefs(config);
 
-      setTheme(theme_devolo["name"]);
+      setTheme(config["theme"]);
       fontSizeFactor = config["font_size_factor"];
     }
 
@@ -315,6 +315,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     config["theme"] = theme_highContrast["name"];
                     setTheme(theme_highContrast["name"]);
                   }
+
+                  saveToSharedPrefs(config);
                   AppBuilder.of(context).rebuild();
                   //showNetwork = !showNetwork;
                 });

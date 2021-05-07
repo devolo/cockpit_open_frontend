@@ -29,14 +29,9 @@ bool showNetwork = true;
 String _openResult = 'Unknown';
 
 void saveToSharedPrefs(Map<String, dynamic> inputMap) async {
-  //print('Config from Prog: ${inputMap}');
+
   String jsonString = json.encode(inputMap);
-  //print('Config from Prog: ${jsonString}');
-
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  var config = prefs.get("config");
-  //print('Config from Prefs: ${config}');
-
   await prefs.setString('config', jsonString);
 }
 

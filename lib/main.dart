@@ -156,18 +156,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
     if(checkSharedPreference){
       var configuration = prefs.get("config");
-      //print('Config from Prefs: ${config}');
       var jsonconfig = json.decode(configuration);
-      //print('Config JSON from Prefs: ${jsonconfig}');
       setTheme(jsonconfig["theme"]);
-      //print("LANG: " + jsonconfig["language"].toString());
 
+      //????
       config["language"] = jsonconfig["language"];
       AppBuilder.of(context).rebuild();
     }
 
     else{
       setTheme(theme_devolo["name"]);
+      saveToSharedPrefs(config);
       AppBuilder.of(context).rebuild();
     }
   }

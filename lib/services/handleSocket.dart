@@ -338,21 +338,16 @@ class dataHand extends ChangeNotifier {
   }
 
   Future<void> parseConfig(XmlDocument xmlResponse) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    var config = prefs.get("config");
-    //print('Config from Prefs: ${config}');
-    var jsonconfig = json.decode(config);
-    print('Config JSON from Prefs: ${jsonconfig}');
     for (var element in xmlResponse.findAllElements('item')) {
-      //print(element.firstElementChild.innerText); //print(element.lastElementChild.innerText);
       if (element.lastElementChild.innerText == "1") {
-        jsonconfig[element.firstElementChild.innerText] = true;
+        config[element.firstElementChild.innerText] = true;
       } else {
-        jsonconfig[element.firstElementChild.innerText] = false;
+        config[element.firstElementChild.innerText] = false;
       }
     }
-    saveToSharedPrefs(jsonconfig);
+
+    saveToSharedPrefs(config);
   }
 
   void parseUpdateStatus(XmlDocument xmlResponse) {

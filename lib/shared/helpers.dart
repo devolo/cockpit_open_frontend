@@ -1,3 +1,12 @@
+/*
+Copyright (c) 2021, devolo AG
+All rights reserved.
+
+This source code is licensed under the BSD-style license found in the
+LICENSE file in the root directory of this source tree.
+*/
+
+import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:async';
 import 'dart:io';
@@ -6,6 +15,7 @@ import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:flutter/material.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:open_file/open_file.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
@@ -18,19 +28,17 @@ bool areDeviceIconsLoaded = false;
 bool showNetwork = true;
 String _openResult = 'Unknown';
 
-Map<String,dynamic> config = {
-  "ignore_updates": false,
-  "allow_data_collection": false,
-  "windows_network_throttling_disabled":true,
-  "internet_centered": true,
-  "show_other_devices": true,
-  "show_speeds_permanent": false,
-  "show_speeds": false,
-  "high_contrast": false,
-  "theme": theme_dark,
-  "previous_theme": theme_dark,
-  "language": ""
-};
+void saveToSharedPrefs(Map<String, dynamic> inputMap) async {
+  //print('Config from Prog: ${inputMap}');
+  String jsonString = json.encode(inputMap);
+  //print('Config from Prog: ${jsonString}');
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var config = prefs.get("config");
+  //print('Config from Prefs: ${config}');
+
+  await prefs.setString('config', jsonString);
+}
 
 String macToCanonical(String mac) {
   if (mac != null)
@@ -60,6 +68,41 @@ launchURL(String ip) async {
     }
 }
 
+bool connected = false;
+void getConnection() async { // get Internet Connection
+  try {
+    final result = await InternetAddress.lookup('google.com');
+    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+      //print('connected');
+      connected = true;
+      //return true;
+      //return Future.value(true);
+    }
+  } on SocketException catch (_) {
+    print('not connected');
+    connected = false;
+    //return false;
+    //return Future.value(false);
+  }
+}
+
+
+// bool getConnection()  { // get Internet Connection
+//   try {
+//     InternetAddress.lookup('google.com').then((result) {
+//       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+//         print('connected');
+//         connected = true;
+//         //return true;
+//       }
+//     });
+//   } on SocketException {
+//     print('not connected');
+//     connected = false;
+//     //return false;
+//   }
+// }
+
 Future<void> openFile(var path) async {
   final filePath = path;
   //final filePath = "C:/Program Files (x86)\\devolo\\dlan\\updates\\manuals\\magic-2-lan\\manual-de.pdf";
@@ -84,6 +127,9 @@ DeviceType getDeviceType(String deviceType){
     if (deviceType.toLowerCase().contains("plus") ||
         deviceType.toLowerCase().contains("+")) {
       dt = DeviceType.dtLanPlus;
+    }
+    else if(deviceType.toLowerCase().contains("dinrail") ){
+      dt = DeviceType.dtDINrail;
     }
     else if(deviceType.toLowerCase().contains("magic") ){ // Different Icon? else move the condition up
       dt = DeviceType.dtLanPlus;
@@ -113,6 +159,10 @@ Future<void> loadAllDeviceIcons() async {
   deviceIconList.add(image);
 
   data = await rootBundle.load('assets/mini_lan_icon.png');
+  image = await loadImage(new Uint8List.view(data.buffer));
+  deviceIconList.add(image);
+
+  data = await rootBundle.load('assets/dinrail_icon_small.png');
   image = await loadImage(new Uint8List.view(data.buffer));
   deviceIconList.add(image);
 
@@ -175,6 +225,10 @@ ui.Image getIconForDeviceType(DeviceType dt) {
     case DeviceType.dtWiFiOnly:
       {
         return deviceIconList.elementAt(2);
+      }
+      case DeviceType.dtDINrail:
+      {
+        return deviceIconList.elementAt(4);
       }
     case DeviceType.dtUnknown:
       {

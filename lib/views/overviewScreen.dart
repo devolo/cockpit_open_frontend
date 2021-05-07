@@ -1,3 +1,13 @@
+/*
+Copyright (c) 2021, devolo AG
+All rights reserved.
+
+This source code is licensed under the BSD-style license found in the
+LICENSE file in the root directory of this source tree.
+*/
+
+import 'dart:convert';
+
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:cockpit_devolo/services/drawOverview.dart';
@@ -6,11 +16,13 @@ import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/views/appBuilder.dart';
 
 import 'package:flutter/foundation.dart' show debugDefaultTargetPlatformOverride;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OverviewScreen extends StatefulWidget {
   OverviewScreen({Key key}) : super(key: key);
@@ -35,8 +47,24 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
   FocusNode myFocusNode = new FocusNode();
 
+  void getFromSharedPrefs() async {
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    dynamic configTmp = prefs.get("config");
+    print('Setting config from Prefs: ${configTmp}');
+    config = json.decode(configTmp) as Map<String, dynamic>;
+    print(config);
+    S.load(Locale(config["language"], ''));
+    fontSizeFactor = config["font_size_factor"];
+
+
+    //config["theme"] = theme_dark["name"];
+    AppBuilder.of(context).rebuild();
+  }
+
   @override
   void initState() {
+    getFromSharedPrefs();
     //dataHand();
   }
 
@@ -45,8 +73,9 @@ class _OverviewScreenState extends State<OverviewScreen> {
     final socket = Provider.of<dataHand>(context);
     final _deviceList = Provider.of<NetworkList>(context);
     socket.setDeviceList(_deviceList);
+    _deviceList.selectedNetworkIndex = config["selected_network"];
 
-    _Painter = DrawOverview(context, _deviceList, showingSpeeds, pivotDeviceIndex);
+        _Painter = DrawOverview(context, _deviceList, showingSpeeds, pivotDeviceIndex);
 
     print("drawing Overview...");
 
@@ -75,15 +104,23 @@ class _OverviewScreenState extends State<OverviewScreen> {
                       textColor: networkIdx != _deviceList.selectedNetworkIndex ? secondColor : fontColorLight,
                       hoverColor: secondColor.withOpacity(0.3),
                       //color: networkIdx != _deviceList.selectedNetworkIndex? Colors.transparent: secondColor,
-                      child: networkIdx != _deviceList.selectedNetworkIndex
-                          ? Text("${S.of(context).network} ${networkIdx}")
+                      child: networkIdx == 0?
+                      networkIdx != _deviceList.selectedNetworkIndex
+                          ? Text("${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network}")
                           : Text(
-                              "${S.of(context).network} ${networkIdx}",
+                        "${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network}",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ):
+                      networkIdx != _deviceList.selectedNetworkIndex
+                          ? Text("${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network} ${networkIdx}")
+                          : Text(
+                              "${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network} ${networkIdx}",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                       onPressed: () {
-                        //print(_deviceList.selectedNetworkIndex);
                         _deviceList.selectedNetworkIndex = networkIdx;
+                        config["selected_network"] = networkIdx;
+                        saveToSharedPrefs(config);
                         AppBuilder.of(context).rebuild();
                       },
                     ),
@@ -126,26 +163,28 @@ class _OverviewScreenState extends State<OverviewScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          // Warning! "UpdateCheck" and "RefreshNetwork" should only be triggered by a user interaction, not continously/automaticly
           setState(() {
             socket.sendXML('RefreshNetwork');
+            AppBuilder.of(context).rebuild();
           });
         },
         tooltip: 'Neu laden',
         backgroundColor: secondColor,
         foregroundColor: fontColorDark,
-        hoverColor: Colors.blue,
-        child: Icon(Icons.refresh),
+        hoverColor: fontColorLight,
+        child: Icon(Icons.refresh, color: mainColor,),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
   void _handleTapDown(TapDownDetails details) {
-    print('entering tabDown');
+    //print('entering tabDown');
     _lastTapDownPosition = details.localPosition;
   }
 
   void _handleTap(TapUpDetails details) {
-    print('entering dialog....');
+    //print('entering dialog....');
     int index = 0;
     Device hitDevice;
     String hitDeviceName;
@@ -158,6 +197,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
     String hitDeviceMac;
     bool hitDeviceAtr;
     bool hitDeviceisLocal;
+    bool hitDeviceWebinterface;
+    bool hitDeviceIdentify;
 
     final socket = Provider.of<dataHand>(context, listen: false);
     final deviceList = Provider.of<NetworkList>(context, listen: false);
@@ -167,8 +208,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
     networkOffsetList.asMap().forEach((i, networkIconOffset) {
       //for (Offset networkIconOffset in _Painter.networkOffsets) {
       //Offset absoluteOffset = Offset(networkIconOffset.dx + (_Painter.screenWidth / 2), networkIconOffset.dy + (_Painter.screenHeight / 2));
-      print("NetworkIcon: " + networkIconOffset.toString());
-      print("Local: " + details.localPosition.toString());
+      //print("NetworkIcon: " + networkIconOffset.toString());
+      //print("Local: " + details.localPosition.toString());
       //print("absolute: " + absoluteOffset.toString());
 
       //test if network got hit
@@ -201,6 +242,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
         hitDeviceMac = deviceList.getDeviceList()[index].mac;
         hitDeviceAtr = deviceList.getDeviceList()[index].attachedToRouter;
         hitDeviceisLocal = deviceList.getDeviceList()[index].isLocalDevice;
+        hitDeviceWebinterface = deviceList.getDeviceList()[index].webinterfaceAvailable;
+        hitDeviceIdentify = deviceList.getDeviceList()[index].identifyDeviceAvailable;
 
         String _newName = hitDeviceName;
 
@@ -411,20 +454,27 @@ class _OverviewScreenState extends State<OverviewScreen> {
                             Column(
                               children: [
                                 IconButton(
+
                                   icon: Icon(
                                     Icons.public,
-                                    color: fontColorLight,
                                   ),
                                   //tooltip: S.of(context).launchWebinterface,
+                                  disabledColor: fontColorNotAvailable,
+                                  color: fontColorLight,
                                   hoverColor: fontColorLight.withAlpha(50),
                                   iconSize: 24.0 * fontSizeFactor,
-                                  onPressed: () => launchURL(hitDeviceIp),
+                                  onPressed: !hitDeviceWebinterface ? null : () => launchURL(hitDeviceIp),
+                                  mouseCursor: !hitDeviceWebinterface ? null : SystemMouseCursors.click,
+
+
+
                                 ),
                                 Text(
                                   S.of(context).launchWebinterface,
-                                  style: TextStyle(fontSize: 14, color: fontColorLight),
+                                  style: TextStyle(fontSize: 14, color: !hitDeviceWebinterface ? fontColorNotAvailable: fontColorLight),
                                   textScaleFactor: fontSizeFactor,
                                   textAlign: TextAlign.center,
+
                                 )
                               ],
                             ),
@@ -433,15 +483,19 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                 IconButton(
                                     icon: Icon(
                                       Icons.lightbulb,
-                                      color: fontColorLight,
                                     ),
                                     //tooltip: S.of(context).identifyDevice,
+                                    disabledColor: fontColorNotAvailable,
+                                    color: fontColorLight,
                                     hoverColor: fontColorLight.withAlpha(50),
                                     iconSize: 24.0 * fontSizeFactor,
-                                    onPressed: () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac)),
+                                    onPressed: !hitDeviceIdentify ? null : () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac),
+                                    mouseCursor: !hitDeviceIdentify ? null : SystemMouseCursors.click,
+
+                                ),
                                 Text(
                                   S.of(context).identifyDevice,
-                                  style: TextStyle(fontSize: 14, color: fontColorLight),
+                                  style: TextStyle(fontSize: 14, color: !hitDeviceIdentify ? fontColorNotAvailable : fontColorLight),
                                   textScaleFactor: fontSizeFactor,
                                   textAlign: TextAlign.center,
                                 )
@@ -546,7 +600,6 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
   //ToDo UI doesn't change
   void _handleLongPressStart(context) {
-    print("long press down");
     RenderBox renderBox = context.findRenderObject();
 
     int index = 0;
@@ -588,7 +641,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
   }
 
   void _handleLongPressEnd() {
-    print("long press up");
+    //print("long press up");
 
     setState(() {
       if (!config["show_speeds_permanent"]) {

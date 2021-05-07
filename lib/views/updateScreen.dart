@@ -1,11 +1,19 @@
-import 'dart:async';
+/*
+Copyright (c) 2021, devolo AG
+All rights reserved.
 
+This source code is licensed under the BSD-style license found in the
+LICENSE file in the root directory of this source tree.
+*/
+
+import 'dart:async';
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'dart:ui' as ui;
@@ -100,6 +108,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       color: secondColor,
                       textColor: fontColorDark,
                       onPressed: () async {
+                        // Warning! "UpdateCheck" and "RefreshNetwork" should only be triggered by a user interaction, not continously/automaticly
                         setState(() {
                           socket.sendXML('UpdateCheck');
                           _loading = socket.waitingResponse;
@@ -469,6 +478,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
     String hitDeviceMac;
     bool hitDeviceAtr;
     bool hitDeviceisLocal;
+    bool hitDeviceWebinterface;
+    bool hitDeviceIdentify;
 
     hitDevice = dev;
     hitDeviceName = dev.name;
@@ -481,6 +492,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
     hitDeviceMac = dev.mac;
     hitDeviceAtr = dev.attachedToRouter;
     hitDeviceisLocal = dev.isLocalDevice;
+    hitDeviceWebinterface = dev.webinterfaceAvailable;
+    hitDeviceIdentify = dev.identifyDeviceAvailable;
 
     String _newName = hitDeviceName;
 
@@ -699,16 +712,19 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               IconButton(
                                 icon: Icon(
                                   Icons.public,
-                                  color: fontColorLight,
                                 ),
                                 //tooltip: S.of(context).launchWebinterface,
+                                disabledColor: fontColorNotAvailable,
+                                color: fontColorLight,
                                 hoverColor: fontColorLight.withAlpha(50),
                                 iconSize: 24.0 * fontSizeFactor,
-                                onPressed: () => launchURL(hitDeviceIp),
+                                onPressed: !hitDeviceWebinterface ? null : () => launchURL(hitDeviceIp),
+                                mouseCursor: !hitDeviceWebinterface ? null : SystemMouseCursors.click,
+
                               ),
                               Text(
                                 S.of(context).launchWebinterface,
-                                style: TextStyle(fontSize: 14, color: fontColorLight),
+                                style: TextStyle(fontSize: 14, color: !hitDeviceWebinterface ? fontColorNotAvailable : fontColorLight),
                                 textScaleFactor: fontSizeFactor,
                                 textAlign: TextAlign.center,
                               )
@@ -719,15 +735,18 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               IconButton(
                                   icon: Icon(
                                     Icons.lightbulb,
-                                    color: fontColorLight,
                                   ),
                                   //tooltip: S.of(context).identifyDevice,
+                                  disabledColor: fontColorNotAvailable,
+                                  color: fontColorLight,
                                   hoverColor: fontColorLight.withAlpha(50),
                                   iconSize: 24.0 * fontSizeFactor,
-                                  onPressed: () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac)),
+                                  onPressed: !hitDeviceIdentify ? null : () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac),
+                                  mouseCursor: !hitDeviceIdentify ? null : SystemMouseCursors.click,
+                                  ),
                               Text(
                                 S.of(context).identifyDevice,
-                                style: TextStyle(fontSize: 14, color: fontColorLight),
+                                style: TextStyle(fontSize: 14, color: !hitDeviceIdentify ? fontColorNotAvailable : fontColorLight),
                                 textScaleFactor: fontSizeFactor,
                                 textAlign: TextAlign.center,
                               )

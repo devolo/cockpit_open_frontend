@@ -1,3 +1,12 @@
+/*
+Copyright (c) 2021, devolo AG
+All rights reserved.
+
+This source code is licensed under the BSD-style license found in the
+LICENSE file in the root directory of this source tree.
+*/
+
+import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
@@ -60,6 +69,11 @@ class NetworkList extends ChangeNotifier{
   }
 
   Device getPivot(){
+    try {
+      var trying = _networkList[selectedNetworkIndex];
+    }catch(error) {
+      selectedNetworkIndex = 0;
+    }
     for(var dev in _networkList[selectedNetworkIndex]){
       if(dev.attachedToRouter==true){
         return dev;
@@ -75,6 +89,28 @@ class NetworkList extends ChangeNotifier{
       }
     }
     return null;
+  }
+
+  String getNetworkType(networkIndex){
+    String type;
+    for(var net in _networkList[networkIndex]){
+      if(net.type.contains('Magic')){
+        type = "Magic";
+        //print("Type: " + type);
+        break;
+      }
+      else if (net.type.contains('dLAN')){
+        type = "dLAN";
+        //print("Type: " + type);
+        break;
+      }
+      else{
+        type = "PLC";
+        //print("Type: " + type);
+        break;
+      }
+    }
+    return type;
   }
 
   void setDeviceList(List<Device> devList) {
@@ -124,6 +160,7 @@ class NetworkList extends ChangeNotifier{
     notifyListeners();
   }
 
+
   String toRealString(){
     String ret;
     for(var devlocal in _networkList[selectedNetworkIndex]) {
@@ -136,9 +173,6 @@ class NetworkList extends ChangeNotifier{
     return null;
   }
 }
-
-
-
 
 
 // Tests if XmlNode remotes contains Information about a Device

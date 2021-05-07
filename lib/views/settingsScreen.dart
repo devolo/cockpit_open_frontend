@@ -1,3 +1,11 @@
+/*
+Copyright (c) 2021, devolo AG
+All rights reserved.
+
+This source code is licensed under the BSD-style license found in the
+LICENSE file in the root directory of this source tree.
+*/
+
 import 'dart:async';
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
@@ -23,13 +31,13 @@ class SettingsScreen extends StatefulWidget {
 
   final String title;
   DrawOverview painter;
+  //ConfigModel configModel = ConfigModel();
 
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  ConfigModel configModel = ConfigModel();
 
   String _newPw;
   bool _hiddenPw = true;
@@ -41,36 +49,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   ColorSwatch _tempMainColor;
   ColorSwatch _mainColor;
-  Color _tempShadeMainColor = mainColor;
-  Color _shadeMainColor = mainColor;
-  Color _tempShadeSecondColor = secondColor;
-  Color _shadeSecondColor = secondColor;
-  Color _tempShadeFontColorLight = fontColorLight;
-  Color _shadeFontColorLight = fontColorLight;
-  Color _tempShadeFontColorDark = fontColorDark;
-  Color _shadeFontColorDark = fontColorDark;
+  Color _tempShadeMainColor; //=configModel.mainColor;
+  Color _shadeMainColor; // = mainColor;
+  Color _tempShadeSecondColor; // = secondColor;
+  Color _shadeSecondColor; // = secondColor;
+  Color _tempShadeFontColorLight; // = fontColorLight;
+  Color _shadeFontColorLight; // = fontColorLight;
+  Color _tempShadeFontColorDark; // = fontColorDark;
+  Color _shadeFontColorDark; // = fontColorDark;
 
   final _scrollController = ScrollController();
   FocusNode myFocusNode = new FocusNode();
 
-  void saveToSharedPrefs(Map<String, dynamic> inputMap) async {
-    print('Config from Prog: ${inputMap}');
-
-    String jsonString = json.encode(inputMap);
-    print('Config from Prog: ${jsonString}');
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var config = prefs.get("config");
-    print('Config from Prefs: ${config}');
-
-    await prefs.setString('config', jsonString);
-
-  }
 
   void toggleCheckbox(bool value) {
     setState(() {
       config["show_speeds_permanent"] = value;
-      print(value);
 
       if (config["show_speeds_permanent"]) {
         config["show_speeds"] = true;
@@ -216,7 +210,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Divider(),
                 ListTile(
                   contentPadding: EdgeInsets.only(left: 10, right: 10),
-                  tileColor: secondColor,
+                  tileColor:secondColor,
                   subtitle: Text(S.of(context).changeTheLanguageOfTheApp, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)),
                   title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                     new Text(
@@ -348,6 +342,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           setState(() {
                             config["show_other_devices"] = value;
                             socket.sendXML('RefreshNetwork');
+                            saveToSharedPrefs(config);
                           });
                         },
                         activeTrackColor: mainColor.withAlpha(100),
@@ -380,7 +375,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         style: TextStyle(color: fontColorDark),
                       ),
                       Spacer(),
-                      Text(config['theme']['name']),
+                      Text(config["theme"]),
                     ]),
                   ),
                 ),
@@ -410,7 +405,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         onChanged: (value) {
                           setState(() {
                             fontSizeFactor = value;
+                            config["font_size_factor"] = value;
                           });
+                          saveToSharedPrefs(config);
                           AppBuilder.of(context).rebuild();
                         },
                         //decoration: InputDecoration(labelText: 'Fontsize'),
@@ -431,6 +428,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     setState(() {
                       config["ignore_updates"] = !config["ignore_updates"];
                       socket.sendXML('Config');
+                      saveToSharedPrefs(config);
                     });
                   },
                   child: ListTile(
@@ -447,6 +445,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             setState(() {
                               config["ignore_updates"] = !config["ignore_updates"];
                               socket.sendXML('Config');
+                              saveToSharedPrefs(config);
                             });
                           },
                         activeTrackColor: mainColor.withAlpha(100),
@@ -463,6 +462,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     setState(() {
                       config["allow_data_collection"] = !config["allow_data_collection"];
                       socket.sendXML('Config');
+                      saveToSharedPrefs(config);
                     });
                   },
                   child: ListTile(
@@ -479,6 +479,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             setState(() {
                               config["allow_data_collection"] = !config["allow_data_collection"];
                               socket.sendXML('Config');
+                              saveToSharedPrefs(config);
                             });
                           },
                         activeTrackColor: mainColor.withAlpha(100),
@@ -495,6 +496,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     setState(() {
                       config["windows_network_throttling_disabled"] = !config["windows_network_throttling_disabled"];
                       socket.sendXML('Config');
+                      saveToSharedPrefs(config);
                     });
                   },
                   child: ListTile(
@@ -510,8 +512,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         onChanged: (value) {
                           setState(() {
                             config["windows_network_throttling_disabled"] = !value;
-                            print(config["windows_network_throttling_disabled"]);
                             socket.sendXML('Config');
+                            saveToSharedPrefs(config);
                           });
                         },
                         activeTrackColor: mainColor.withAlpha(100),
@@ -605,8 +607,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
                 Divider(),
-
-
                 Row(mainAxisAlignment: MainAxisAlignment.end, crossAxisAlignment: CrossAxisAlignment.end, children: <Widget>[
                   // IconButton(
                   //   icon: Icon(Icons.text_fields_sharp),
@@ -712,14 +712,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             hoverColor: fontColorLight,
                             onPressed: () {
                               setState(() {
-                                config["theme"] = theme_devolo;
-                                mainColor = theme_devolo["mainColor"];
-                                backgroundColor = theme_devolo["backgroundColor"];
-                                secondColor = theme_devolo["secondColor"];
-                                drawingColor = theme_devolo["drawingColor"];
-                                fontColorLight = theme_devolo["fontColorLight"];
-                                fontColorMedium = theme_devolo["fontColorMedium"];
-                                fontColorDark = theme_devolo["fontColorDark"];
+                                //config["theme"] = theme_devolo;
+                                setTheme(theme_devolo["name"]);
+                                config["theme"] = theme_devolo["name"];
+                                saveToSharedPrefs(config);
+
+                                // mainColor = theme_devolo["mainColor"];
+                                // backgroundColor = theme_devolo["backgroundColor"];
+                                // secondColor = theme_devolo["secondColor"];
+                                // drawingColor = theme_devolo["drawingColor"];
+                                // fontColorLight = theme_devolo["fontColorLight"];
+                                // fontColorMedium = theme_devolo["fontColorMedium"];
+                                // fontColorDark = theme_devolo["fontColorDark"];
                                 AppBuilder.of(context).rebuild();
                               });
                             },
@@ -739,14 +743,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             hoverColor: fontColorLight,
                             onPressed: () {
                               setState(() {
-                                config["theme"] = theme_dark;
-                                mainColor = theme_dark["mainColor"];
-                                backgroundColor = theme_dark["backgroundColor"];
-                                secondColor = theme_dark["secondColor"];
-                                drawingColor = theme_dark["drawingColor"];
-                                fontColorLight = theme_dark["fontColorLight"];
-                                fontColorMedium = theme_dark["fontColorMedium"];
-                                fontColorDark = theme_dark["fontColorDark"];
+                                setTheme(theme_dark["name"]);
+                                config["theme"] = theme_dark["name"];
+                                saveToSharedPrefs(config);
+
+                                // mainColor = theme_dark["mainColor"];
+                                // backgroundColor = theme_dark["backgroundColor"];
+                                // secondColor = theme_dark["secondColor"];
+                                // drawingColor = theme_dark["drawingColor"];
+                                // fontColorLight = theme_dark["fontColorLight"];
+                                // fontColorMedium = theme_dark["fontColorMedium"];
+                                // fontColorDark = theme_dark["fontColorDark"];
                                 AppBuilder.of(context).rebuild();
                               });
                             },
@@ -766,17 +773,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             hoverColor: fontColorLight,
                             onPressed: () {
                               setState(() {
-                                config["theme"] = configModel.theme_light;
-                                configModel.setTheme(configModel.theme_light);
+                                config["theme"] = theme_light["name"];
+                                setTheme(theme_light["name"]);
+                                saveToSharedPrefs(config);
 
-                                config["theme"] = theme_light;
-                                mainColor = theme_light["mainColor"];
-                                backgroundColor = theme_light["backgroundColor"];
-                                secondColor = theme_light["secondColor"];
-                                drawingColor = theme_light["drawingColor"];
-                                fontColorLight = theme_light["fontColorLight"];
-                                fontColorMedium = theme_light["fontColorMedium"];
-                                fontColorDark = theme_light["fontColorDark"];
+                                // mainColor = theme_light["mainColor"];
+                                // backgroundColor = theme_light["backgroundColor"];
+                                // secondColor = theme_light["secondColor"];
+                                // drawingColor = theme_light["drawingColor"];
+                                // fontColorLight = theme_light["fontColorLight"];
+                                // fontColorMedium = theme_light["fontColorMedium"];
+                                // fontColorDark = theme_light["fontColorDark"];
                                 AppBuilder.of(context).rebuild();
                               });
                             },
@@ -796,14 +803,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             hoverColor: fontColorLight,
                             onPressed: () {
                               setState(() {
-                                config["theme"] = theme_highContrast;
-                                mainColor = theme_highContrast["mainColor"];
-                                backgroundColor = theme_highContrast["backgroundColor"];
-                                secondColor = theme_highContrast["secondColor"];
-                                drawingColor = theme_highContrast["drawingColor"];
-                                fontColorLight = theme_highContrast["fontColorLight"];
-                                fontColorMedium = theme_highContrast["fontColorMedium"];
-                                fontColorDark = theme_highContrast["fontColorDark"];
+                                config["theme"] = theme_highContrast["name"];
+                                setTheme(theme_highContrast["name"]);
+                                saveToSharedPrefs(config);
+
+                                // mainColor = theme_highContrast["mainColor"];
+                                // backgroundColor = theme_highContrast["backgroundColor"];
+                                // secondColor = theme_highContrast["secondColor"];
+                                // drawingColor = theme_highContrast["drawingColor"];
+                                // fontColorLight = theme_highContrast["fontColorLight"];
+                                // fontColorMedium = theme_highContrast["fontColorMedium"];
+                                // fontColorDark = theme_highContrast["fontColorDark"];
                                 AppBuilder.of(context).rebuild();
                               });
                             },

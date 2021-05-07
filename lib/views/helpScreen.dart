@@ -1,3 +1,11 @@
+/*
+Copyright (c) 2021, devolo AG
+All rights reserved.
+
+This source code is licensed under the BSD-style license found in the
+LICENSE file in the root directory of this source tree.
+*/
+
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
@@ -372,7 +380,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                               child: Theme(
                                 data: ThemeData(
                                     accentColor: Colors.white,
-                                    //primarySwatch: Colors.grey,
+                                    primarySwatch: Colors.grey,
                                     canvasColor: Colors.transparent,
                                     shadowColor: Colors.transparent,
                                     //textTheme: TextTheme(: fontColorDark),

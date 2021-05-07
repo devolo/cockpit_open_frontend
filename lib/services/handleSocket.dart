@@ -1,7 +1,18 @@
+/*
+Copyright (c) 2021, devolo AG
+All rights reserved.
+
+This source code is licensed under the BSD-style license found in the
+LICENSE file in the root directory of this source tree.
+*/
+
+import 'dart:convert';
 import 'dart:io'; //only for non-web apps!!!
 import 'dart:async';
 import 'package:cockpit_devolo/models/deviceModel.dart';
+import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xml/xml.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
@@ -72,7 +83,7 @@ class dataHand extends ChangeNotifier {
       xmlLength = xmlDataNext.substring(7, 15); // cut the head in front of recieved xml
       //print("XmlLengthHEX: " + xmlLength.toString());
       xmlLength = int.parse(xmlLength, radix: 16);
-      print("XmlLength: " + xmlLength.toString());
+      //print("XmlLength: " + xmlLength.toString());
       var xmlSingleDoc = xmlDataNext.substring(rawData.indexOf('<?'), xmlLength + 13); //why 13? I dont know yet -_(o.O)_- //TODO
       xmlDataList.add(xmlSingleDoc);
       try {
@@ -104,17 +115,17 @@ class dataHand extends ChangeNotifier {
         for (var dev in localDeviceList) {
           Device device = Device.fromXML(dev, true);
           _deviceList.addDevice(device, listCounter);
-          // _deviceList.addDevice(device, listCounter + 1);
-          // _deviceList.addDevice(device, listCounter + 2);
-          // _deviceList.addDevice(device, listCounter + 3);
+          //_deviceList.addDevice(device, listCounter + 1);
+          //_deviceList.addDevice(device, listCounter + 2);
+           //_deviceList.addDevice(device, listCounter + 3);
           // _deviceList.addDevice(device, listCounter + 4);
           for (var remoteDev in device.remoteDevices) {
             _deviceList.addDevice(remoteDev, listCounter);
-            // _deviceList.addDevice(remoteDev, listCounter + 1);
-            // _deviceList.addDevice(remoteDev, listCounter + 2);
-            // _deviceList.addDevice(remoteDev, listCounter + 3);
-            // _deviceList.addDevice(remoteDev, listCounter + 2);
-            // _deviceList.addDevice(remoteDev, listCounter + 2);
+             //_deviceList.addDevice(remoteDev, listCounter + 1);
+             //_deviceList.addDevice(remoteDev, listCounter + 2);
+             //_deviceList.addDevice(remoteDev, listCounter + 3);
+             //_deviceList.addDevice(remoteDev, listCounter + 2);
+             //_deviceList.addDevice(remoteDev, listCounter + 2);
             // _deviceList.addDevice(remoteDev, listCounter + 2);
             // _deviceList.addDevice(remoteDev, listCounter + 2);
             // _deviceList.addDevice(remoteDev, listCounter + 2);
@@ -127,7 +138,7 @@ class dataHand extends ChangeNotifier {
       } else if (document.findAllElements('MessageType').first.innerText == "Config") {
         parseConfig(document);
         print('Config found ->');
-        //print(document);
+        print(document);
       } else if (document.findAllElements('MessageType').first.innerText == "FirmwareUpdateIndication") {
         xmlResponse = document;
         parseFWUpdateIndication(document);
@@ -156,13 +167,13 @@ class dataHand extends ChangeNotifier {
       }
     }
 
-    print('Parsed XML - DeviceList ready!');
+    print('parsed XML - DeviceList ready!');
 
     if (areDeviceIconsLoaded) notifyListeners();
     //return document;
   }
 
-  //ToDo create real xml not just string and parse
+  // Warning! "UpdateCheck" and "RefreshNetwork" should only be triggered by a user interaction, not continously/automaticly
   void sendXML(
     String messageType, {
     String newValue,
@@ -326,15 +337,22 @@ class dataHand extends ChangeNotifier {
       return null;
   }
 
-  void parseConfig(XmlDocument xmlResponse) {
+  Future<void> parseConfig(XmlDocument xmlResponse) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var config = prefs.get("config");
+    //print('Config from Prefs: ${config}');
+    var jsonconfig = json.decode(config);
+    print('Config JSON from Prefs: ${jsonconfig}');
     for (var element in xmlResponse.findAllElements('item')) {
       //print(element.firstElementChild.innerText); //print(element.lastElementChild.innerText);
       if (element.lastElementChild.innerText == "1") {
-        config[element.firstElementChild.innerText] = true;
+        jsonconfig[element.firstElementChild.innerText] = true;
       } else {
-        config[element.firstElementChild.innerText] = false;
+        jsonconfig[element.firstElementChild.innerText] = false;
       }
     }
+    saveToSharedPrefs(jsonconfig);
   }
 
   void parseUpdateStatus(XmlDocument xmlResponse) {

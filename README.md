@@ -12,17 +12,38 @@ The program provides information about the connection speed of all adapters on t
 - Android Studio or Visual Studio Code (with _Flutter_, _Dart_ and _Flutter Intl_ plugin) (see: https://flutter.dev/docs/get-started/editor?tab=androidstudio)
 - Enable developer mode in Windows 10 
 - more **platform specific** requirements (see: https://flutter.dev/docs/get-started/install)
-- flutter **Desktop support** requirements (see: https://flutter.dev/desktop)
-
-The regular devolo cockpit is required because it contains the necessary back-end components (which talk to your devolo devices; the Flutter cockpit only talks to the back-end).
+- flutter **Desktop support** requirements (see: https://flutter.dev/desktop#requirements)
 
 ### Install Flutter
-- flutter installation: https://flutter.dev/docs/get-started/install
-- add Flutter desktop support: https://flutter.dev/desktop
-- run '*flutter doctor*' in Terminal to verify everything is set up correctly
+- Flutter installation: https://flutter.dev/docs/get-started/install
+- add Flutter desktop support (for details: https://flutter.dev/desktop#set-up)
+  ```sh
+  $ flutter config --enable-<platform>-desktop
+  ```
+  Where <_platform_> is windows, macos, or linux.<br/>
+  
+  Check if desktop is enabled:
+  ```sh
+  $ flutter devices
+  ```
+  
+- Verify if everything is set up correctly
+  ```sh
+  $ flutter doctor
+  ```
+  
+### Build and Run
 
-### Import cockpit_devolo repository
-1. Download the repository, following the *Clone or download* button's instructions above and copy the url or unpack the zip.
+#### From the command line
+Clone this repository, or download the source distribution. Then:
+```sh
+$ cd Cockpit-open-frontend
+$ flutter run -d <platform>
+```
+Where <_platform_> is windows, macos, or linux.
+
+#### Using Android Studio IDE
+1. Clone this repository, or download the source distribution.
 2. 
    - "Import Project" into Android Studio:
       * In Android Studio *File -> New -> Import Project* dialogue.
@@ -31,54 +52,34 @@ The regular devolo cockpit is required because it contains the necessary back-en
       * Leave all checkboxes marked and click *Finish*.
    - or "Import Project from Version Control" into Android Studio:
       * In Android Studio *File -> New -> Import Project from Version Control* dialogue.
-      * Insert the git url and click *Clone*
+      * Insert the git url and click *Clone*.
 3. Make sure _Flutter SDK_ and _Dart SDK_ are _enabled_ and the _path_ ist correct
    * In *File -> Settings -> Languages & Frameworks -> Dart* 
-      * verify if the path to Dart SDK is correct (Dart SDK located in "...\flutterSDK\flutter\bin\cache\dart-sdk")
+      * verify if the path to Dart SDK is correct (Dart SDK located in ".../flutterSDK/flutter/bin/cache/dart-sdk")
       * check "Enable Dart support for the projekt '...' "
       * check all "Enable Dart support for the following modules:"
    * In *File -> Settings -> Languages & Frameworks -> Flutter*
       * verify if the path to Flutter SDK is correct
 4. Select *desktop* in *Flutter device selection* dropdown in Android Studio
 5. run '*flutter pub get*' to get all dependencies
-6. Click on Icon *Run 'main.dart'*
-7. Building the App:
-   - build the app (run "_flutter build windows_" in a terminal in the projects root directory)
-   - get the executable and the data folder (for example Windows in: "C:\Users\\_name_\AndroidStudioProjects\Cockpit-open-frontend\build\windows\runner\Release")
-   - open terminal navigate to the containing path and run "devoloCockpit.exe" (!double tap on the executable will throw an Error)
+6. Run the flutter app by clicking on the green Play Icon *Run 'main.dart'*
 
+#### Build a release app
+
+- To generate a release build, run the following command:
+  ```sh
+  $ flutter build <platform>
+  ```
+  Where <_platform_> is windows, macos, or linux.
+
+- the executable and the data folder are located in:
+   * windows: .../Cockpit-open-frontend/build/windows/runner/Release
+   * linux: 
+   * macos:
+
+- navigate in terminal to the containing path and run "devoloCockpit.exe" (!double tap on the executable will throw an Error)
 
 <img src="images/overviewENG.png"  width="700">
-
-## Building on Linux
-The following explains how to build and run the Flutter cockpit on Linux, not requiring any particular IDE (you may use any editor even if it doesn't come with explicit Flutter support).
-
-Note that the regular devolo Cockpit needs to be installed first (see above).
-
-### Install Flutter
-Refer to https://flutter.dev/docs/get-started/install and https://flutter.dev/desktop for details. Installing Android support and Android Studio is optional (because this is a desktop application) so don't worry if `flutter doctor` reports a missing Android toolchain.
-
-For example:
-
-```sh
-$ sudo snap install flutter --classic
-$ flutter config --no-analytics
-$ flutter config --enable-linux-desktop
-
-$ flutter devices
-2 connected devices:
-
-Linux (desktop) • linux  • linux-x64      • Linux
-Chrome (web)    • chrome • web-javascript • Google Chrome 90.0.4430.93
-```
-
-### Build and Run
-Clone this repository, or download the source distribution. Then:
-
-```sh
-$ cd flutter_devolo_cockpit
-$ flutter run -d linux
-```
 
 ## Links
 - flutter Desktop Support: https://flutter.dev/desktop

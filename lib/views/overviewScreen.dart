@@ -47,27 +47,6 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
   FocusNode myFocusNode = new FocusNode();
 
-  void getFromSharedPrefs() async {
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    dynamic configTmp = prefs.get("config");
-    print('Setting config from Prefs: ${configTmp}');
-    config = json.decode(configTmp) as Map<String, dynamic>;
-    print(config);
-    S.load(Locale(config["language"], ''));
-    fontSizeFactor = config["font_size_factor"];
-
-
-    //config["theme"] = theme_dark["name"];
-    AppBuilder.of(context).rebuild();
-  }
-
-  @override
-  void initState() {
-    getFromSharedPrefs();
-    //dataHand();
-  }
-
   @override
   Widget build(BuildContext context) {
     final socket = Provider.of<dataHand>(context);

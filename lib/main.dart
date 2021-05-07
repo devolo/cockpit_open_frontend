@@ -151,24 +151,30 @@ class _MyHomePageState extends State<MyHomePage> {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // check if sharedPreference already has been created
+    // check if sharedPreference are already created
     var checkSharedPreference = prefs.containsKey("config");
 
     if(checkSharedPreference){
+
       var configuration = prefs.get("config");
       var jsonconfig = json.decode(configuration);
-      setTheme(jsonconfig["theme"]);
 
-      //????
-      config["language"] = jsonconfig["language"];
-      AppBuilder.of(context).rebuild();
+      config = jsonconfig;
+
+      setTheme(jsonconfig["theme"]);
+      fontSizeFactor = config["font_size_factor"];
     }
 
     else{
-      setTheme(theme_devolo["name"]);
+      config["language"] = Localizations.localeOf(context).toString();
       saveToSharedPrefs(config);
-      AppBuilder.of(context).rebuild();
+
+      setTheme(theme_devolo["name"]);
+      fontSizeFactor = config["font_size_factor"];
     }
+
+    // TODO Needed?
+    //AppBuilder.of(context).rebuild();
   }
 
   List<BottomNavigationBarItem> buildBottomNavBarItems() {

@@ -175,10 +175,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     dataHand socket = Provider.of<dataHand>(context);
     var _deviceList = Provider.of<NetworkList>(context);
 
-    if (config["language"] == "") {
-      config["language"] = Localizations.localeOf(context).toString();
-    }
-
     return new Scaffold(
       backgroundColor: Colors.transparent,
       appBar: new AppBar(

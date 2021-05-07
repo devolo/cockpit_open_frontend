@@ -14,6 +14,8 @@ The program provides information about the connection speed of all adapters on t
 - more **platform specific** requirements (see: https://flutter.dev/docs/get-started/install)
 - flutter **Desktop support** requirements (see: https://flutter.dev/desktop)
 
+The regular devolo cockpit is required because it contains the necessary back-end components (which talk to your devolo devices; the Flutter cockpit only talks to the back-end).
+
 ### Install Flutter
 - flutter installation: https://flutter.dev/docs/get-started/install
 - add Flutter desktop support: https://flutter.dev/desktop
@@ -51,7 +53,7 @@ The program provides information about the connection speed of all adapters on t
 ## Building on Linux
 The following explains how to build and run the Flutter cockpit on Linux, not requiring any particular IDE (you may use any editor even if it doesn't come with explicit Flutter support).
 
-Note that the regular devolo Cockpit needs to be installed first (see https://www.devolo.de/support/downloads/download/devolo-cockpit).
+Note that the regular devolo Cockpit needs to be installed first (see above).
 
 ### Install Flutter
 Refer to https://flutter.dev/docs/get-started/install and https://flutter.dev/desktop for details. Installing Android support and Android Studio is optional (because this is a desktop application) so don't worry if `flutter doctor` reports a missing Android toolchain.

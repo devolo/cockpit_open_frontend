@@ -13,7 +13,7 @@ The following guidelines will help you to understand how you can help. They will
 
 ## Reporting an issue
 
-If you are having issues with our code, especially if you found a bug, we want to know. Please [create an issue](https://github.com/devolo/Cockpit-open-frontend/issues). However, you should keep in mind that it might take some time for us to respond to your issue. We will try to get in contact with you within two weeks. Please also respond within two weeks if you have further inquiries.
+If you are having issues with our code, especially if you found a bug, we want to know. Please [create an issue](https://github.com/devolo/Cockpit-open-frontend/issues). However, you should keep in mind that it might take some time for us to respond to your issue. We will try to get in contact with you within two weeks (please do the same when responding to our inquiries).
 
 ## Requesting a feature
 

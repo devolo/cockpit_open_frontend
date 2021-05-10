@@ -535,7 +535,15 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                     color: fontColorLight,
                                     hoverColor: fontColorLight.withAlpha(50),
                                     iconSize: 24.0 * fontSizeFactor,
-                                    onPressed: !hitDeviceIdentify ? null : () => socket.sendXML('IdentifyDevice', mac: hitDeviceMac),
+                                    onPressed: !hitDeviceIdentify
+                                        ? null
+                                        : () async{
+                                      socket.sendXML('IdentifyDevice', mac: hitDeviceMac);
+                                      var response = await socket.myReceiveXML("IdentifyDeviceStatus");
+                                      if(response['result'] == "device_not_found"){
+                                        _errorDialog(context, S.of(context).identifyDeviceErrorTitle, S.of(context).deviceNotFoundIdentifyDevice + "\n\n" + S.of(context).deviceNotFoundHint);
+                                      }
+                                    },
                                     mouseCursor: !hitDeviceIdentify ? null : SystemMouseCursors.click,
 
                                 ),

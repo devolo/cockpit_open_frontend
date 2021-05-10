@@ -443,6 +443,26 @@ class dataHand extends ChangeNotifier {
           }
         }
 
+        // ignore responses with <status>running</status> tag given by dLan devices
+        else if (wantedMessageTypes == "IdentifyDeviceStatus") {
+
+          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'status');
+          if (responseElem != "running") {
+            wait = false;
+
+            responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'result');
+            if (responseElem != null) {
+              response['result'] = responseElem;
+            }
+          }
+
+          xmlResponseMap[wantedMessageTypes].remove(xmlResponseMap[wantedMessageTypes].first);
+
+          if(xmlResponseMap[wantedMessageTypes].length == 0){
+            xmlResponseMap.remove(wantedMessageTypes);
+          }
+        }
+
         // responses where we need only the result tag
         else {
           wait = false;

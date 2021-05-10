@@ -111,6 +111,7 @@
   "deviceNotFoundDeviceName" : "An error occurred while setting the device name!",
   "deviceNotFoundResetDevice" : "An error occurred while resetting the device!",
   "deviceNotFoundRemoveDevice" : "An error occurred while removing the device!",
+  "deviceNotFoundIdentifyDevice" : "An error occurred while removing the device!",
 
   "deviceNameDialogTitle" : "Confirm",
   "deviceNameDialogBody" : "Do you really want to rename this device?",
@@ -120,6 +121,7 @@
   "resetDeviceErrorBody" : "An error occurred while resetting the device!\nPlease try it again.",
   "removeDeviceErrorTitle" : "Remove failed",
   "removeDeviceErrorBody" : "An error occurred while removing the device!\nPlease try it again.",
+  "identifyDeviceErrorTitle" : "Identifying failed",
 
   "manualErrorTitle" : "Manual not found",
   "manualErrorBody" : "No suitable manual was found for your PLC device.\n\nYou can find the manual on the product CD or on the devolo website.",

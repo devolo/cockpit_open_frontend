@@ -1095,6 +1095,16 @@ class S {
     );
   }
 
+  /// `An error occurred while removing the device!`
+  String get deviceNotFoundIdentifyDevice {
+    return Intl.message(
+      'An error occurred while removing the device!',
+      name: 'deviceNotFoundIdentifyDevice',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Confirm`
   String get deviceNameDialogTitle {
     return Intl.message(
@@ -1170,6 +1180,16 @@ class S {
     return Intl.message(
       'An error occurred while removing the device!\nPlease try it again.',
       name: 'removeDeviceErrorBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Identifying failed`
+  String get identifyDeviceErrorTitle {
+    return Intl.message(
+      'Identifying failed',
+      name: 'identifyDeviceErrorTitle',
       desc: '',
       args: [],
     );

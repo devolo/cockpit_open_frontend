@@ -134,6 +134,23 @@ class dataHand extends ChangeNotifier {
         }
         // Check if new Devices have Updates to set updateAvailable
         //sendXML('UpdateCheck');
+
+
+        // init deviceList again when images are loaded to display them
+        if(!areDeviceIconsLoaded){
+          notifyListeners();
+          await Future.doWhile(() async {
+
+            await new Future.delayed(const Duration(seconds: 1));
+            if(areDeviceIconsLoaded){
+              parseXML(rawData);
+            }
+            return !areDeviceIconsLoaded;
+          }).timeout(Duration(seconds: 30), onTimeout: () {
+            print('> Timed Out');
+          });
+        }
+
         break;
       } else if (document.findAllElements('MessageType').first.innerText == "Config") {
         parseConfig(document);
@@ -169,7 +186,6 @@ class dataHand extends ChangeNotifier {
 
     print('parsed XML - DeviceList ready!');
 
-    if (areDeviceIconsLoaded) notifyListeners();
     //return document;
   }
 

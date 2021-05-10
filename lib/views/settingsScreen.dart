@@ -46,6 +46,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   String _zipfilename;
   String _htmlfilename;
   var response;
+  var waitForNetworkPasswordResponse = false;
+  var networkPasswordResponseTrue = false;
+  var networkPasswordResponseFalse = false;
 
   ColorSwatch _tempMainColor;
   ColorSwatch _mainColor;
@@ -528,7 +531,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
-                        flex:2,
+                        flex: !waitForNetworkPasswordResponse
+                            ?2
+                            :3,
                         child: TextFormField(
                           focusNode: myFocusNode,
                           initialValue: _newPw,
@@ -586,14 +591,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                       ),
 
+                      if(waitForNetworkPasswordResponse || networkPasswordResponseTrue || networkPasswordResponseFalse)
+                        Spacer(),
+                      if(waitForNetworkPasswordResponse)
+                        CircularProgressIndicator(),
+                      if(networkPasswordResponseTrue)
+                        Icon(Icons.check_circle_outline, color: Colors.green),
+                      if(networkPasswordResponseFalse)
+                        Icon(Icons.close, color: fontColorDark),
+
                       Spacer(
                       ),
                       FlatButton(
                         height: 62,
                         hoverColor: mainColor.withOpacity(0.4),
                         color: mainColor.withOpacity(0.4),
-                        onPressed: () {
+                        onPressed: () async {
                           socket.sendXML('SetNetworkPassword', newValue: _newPw, valueType: "password", mac: _deviceList.getLocal().mac);
+                          setState(() {
+                            networkPasswordResponseTrue = false;
+                            networkPasswordResponseFalse = false;
+                            waitForNetworkPasswordResponse = true;
+                          });
+                          var response = await socket.myReceiveXML("SetNetworkPasswordStatus");
+                          print(response);
+                          if(response['status'] == "complete"){
+                            setState(() {
+                              waitForNetworkPasswordResponse = false;
+                              networkPasswordResponseTrue = true;
+                            });
+                          }
+                          else{
+                            waitForNetworkPasswordResponse = false;
+                            networkPasswordResponseFalse = true;
+                          }
                         },
                         child: Text(
                           S.of(context).save, /*style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),*/

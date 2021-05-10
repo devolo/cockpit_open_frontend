@@ -358,6 +358,11 @@ class dataHand extends ChangeNotifier {
     Map response = new Map<String, dynamic>();
     String responseElem;
 
+    // introduced as response of SetNetworkPassword needs longer time
+    var timoutTime = 30; //s
+    if(wantedMessageTypes == "SetNetworkPasswordStatus")
+      timoutTime = 120; //s
+
     bool wait = true;
     await new Future.delayed(const Duration(seconds: 2));
 
@@ -463,6 +468,21 @@ class dataHand extends ChangeNotifier {
           }
         }
 
+        else if (wantedMessageTypes == "SetNetworkPasswordStatus") {
+
+          wait = false;
+          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'status');
+          if (responseElem != null) {
+              response['status'] = responseElem;
+            }
+
+          xmlResponseMap[wantedMessageTypes].remove(xmlResponseMap[wantedMessageTypes].first);
+
+          if(xmlResponseMap[wantedMessageTypes].length == 0){
+            xmlResponseMap.remove(wantedMessageTypes);
+          }
+        }
+
         // responses where we need only the result tag
         else {
           wait = false;
@@ -479,8 +499,9 @@ class dataHand extends ChangeNotifier {
       }
 
       return wait;
-    }).timeout(Duration(seconds: 30), onTimeout: () {
+    }).timeout(Duration(seconds: timoutTime), onTimeout: () {
       print('> Timed Out');
+      response['status'] = "timeout";
       wait = false;
     });
 

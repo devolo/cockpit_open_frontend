@@ -606,7 +606,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         height: 62,
                         hoverColor: mainColor.withOpacity(0.4),
                         color: mainColor.withOpacity(0.4),
-                        onPressed: () async {
+                        onPressed: waitForNetworkPasswordResponse
+                            ? null
+                            : () async {
                           socket.sendXML('SetNetworkPassword', newValue: _newPw, valueType: "password", mac: _deviceList.getLocal().mac);
                           setState(() {
                             networkPasswordResponseTrue = false;

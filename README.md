@@ -37,7 +37,7 @@ The program provides information about the connection speed of all adapters on t
 #### From the command line
 Clone this repository, or download the source distribution. Then:
 ```sh
-$ cd Cockpit-open-frontend
+$ cd cockpit_open_frontend
 $ flutter run -d <platform>
 ```
 Where <_platform_> is windows, macos, or linux.
@@ -73,13 +73,14 @@ Where <_platform_> is windows, macos, or linux.
   Where <_platform_> is windows, macos, or linux.
 
 - the executable and the data folder are located in:
-   * windows: …/Cockpit-open-frontend/build/windows/runner/Release
-   * Linux: …/Cockpit-open-frontend/build/linux/release/bundle
-   * macos:
+   * windows: …/cockpit_open_frontend/build/windows/runner/Release
+   * Linux: …/cockpit_open_frontend/build/linux/release/bundle
+   * macos: …/cockpit_open_frontend/build/macos/Build/Products/Release
 
 - navigate in terminal to the containing path and run 
    * on windows ".\devoloCockpit" (!double tap on the executable will throw an Error)
-   * on linux/macos "./devoloCockpit"
+   * on linux "./devoloCockpit"
+   * on macos "./cockpit_open_frontend.app"
    
 <img src="images/overviewENG.png"  width="700">
 

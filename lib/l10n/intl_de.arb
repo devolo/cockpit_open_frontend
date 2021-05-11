@@ -114,6 +114,10 @@
   "deviceNotFoundRemoveDevice" : "Es ist ein Fehler beim Entfernen des Gerätes aufgetreten!",
   "deviceNotFoundIdentifyDevice" : "Es ist ein Fehler beim Identifizieren des Gerätes aufgetreten!",
 
+  "networkPasswordErrorTitle" : "Setzen des Netzwerk-Kennworts fehlgeschlagen ",
+  "networkPasswordErrorBody" : "Es ist ein Fehler beim Setzen des Netzwerk-Kennwortes aufgetreten!",
+  "networkPasswordErrorHint" : "- Prüfen Sie die Verbindung zum PLC-Gerät und wiederholen Sie die Aktion!",
+
   "deviceNameDialogTitle" : "Bestätigung",
   "deviceNameDialogBody" : "Möchten Sie wirklich den Gerätenamen ändern?",
   "deviceNameErrorTitle" : "Namensänderung fehlgeschlagen",

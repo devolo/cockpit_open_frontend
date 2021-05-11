@@ -609,23 +609,48 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         onPressed: waitForNetworkPasswordResponse
                             ? null
                             : () async {
-                          socket.sendXML('SetNetworkPassword', newValue: _newPw, valueType: "password", mac: _deviceList.getLocal().mac);
-                          setState(() {
-                            networkPasswordResponseTrue = false;
-                            networkPasswordResponseFalse = false;
-                            waitForNetworkPasswordResponse = true;
-                          });
-                          var response = await socket.myReceiveXML("SetNetworkPasswordStatus");
-                          print(response);
-                          if(response['status'] == "complete"){
-                            setState(() {
-                              waitForNetworkPasswordResponse = false;
-                              networkPasswordResponseTrue = true;
-                            });
-                          }
-                          else{
+
+                          if(_deviceList.getNetworkListLength() == 0){
                             waitForNetworkPasswordResponse = false;
                             networkPasswordResponseFalse = true;
+                            _errorDialog(context,S.of(context).networkPasswordErrorTitle,S.of(context).networkPasswordErrorBody + "\n\n" + S.of(context).networkPasswordErrorHint);
+
+                          }
+
+                          else {
+                            socket.sendXML(
+                                'SetNetworkPassword', newValue: _newPw,
+                                valueType: "password",
+                                mac: _deviceList
+                                    .getLocal()
+                                    .mac);
+                            setState(() {
+                              networkPasswordResponseTrue = false;
+                              networkPasswordResponseFalse = false;
+                              waitForNetworkPasswordResponse = true;
+                            });
+                            var response = await socket.myReceiveXML(
+                                "SetNetworkPasswordStatus");
+                            print(response);
+                            if (response['status'] == "complete" &&
+                                int.parse(response['total']) > 0 &&
+                                int.parse(response['failed']) == 0) {
+                              setState(() {
+                                waitForNetworkPasswordResponse = false;
+                                networkPasswordResponseTrue = true;
+                              });
+                            }
+                            else {
+                              _errorDialog(context, S
+                                  .of(context)
+                                  .networkPasswordErrorTitle, S
+                                  .of(context)
+                                  .networkPasswordErrorBody + "\n\n" + S
+                                  .of(context)
+                                  .networkPasswordErrorHint);
+                              waitForNetworkPasswordResponse = false;
+                              networkPasswordResponseFalse = true;
+                            }
                           }
                         },
                         child: Text(
@@ -916,5 +941,48 @@ class _SettingsScreenState extends State<SettingsScreen> {
         );
       },
     );
+  }
+
+  void _errorDialog(context, title, body) {
+
+    showDialog<void>(
+        context: context,
+        barrierDismissible: true, // user doesn't need to tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              title,
+              style: TextStyle(color: fontColorLight),
+            ),
+            backgroundColor: backgroundColor.withOpacity(0.9),
+            contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18 * fontSizeFactor),
+            content: Stack(
+              overflow: Overflow.visible,
+              children: [
+                Positioned(
+                  top: -85,
+                  right: -35,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: CircleAvatar(
+                        radius: 14.0,
+                        backgroundColor: secondColor,
+                        child: Icon(Icons.close, color: fontColorDark),
+                      ),
+                    ),
+                  ),
+                ),
+                Text(body),
+              ],
+            ),
+            actions: <Widget>[
+
+            ],
+          );
+        });
   }
 }

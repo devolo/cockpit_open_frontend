@@ -1105,6 +1105,36 @@ class S {
     );
   }
 
+  /// `Failed to set the network password`
+  String get networkPasswordErrorTitle {
+    return Intl.message(
+      'Failed to set the network password',
+      name: 'networkPasswordErrorTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred while setting the network password!`
+  String get networkPasswordErrorBody {
+    return Intl.message(
+      'An error occurred while setting the network password!',
+      name: 'networkPasswordErrorBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `- Check the connection to the PLC device and repeat the action!`
+  String get networkPasswordErrorHint {
+    return Intl.message(
+      '- Check the connection to the PLC device and repeat the action!',
+      name: 'networkPasswordErrorHint',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Confirm`
   String get deviceNameDialogTitle {
     return Intl.message(

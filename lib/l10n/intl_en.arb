@@ -113,6 +113,10 @@
   "deviceNotFoundRemoveDevice" : "An error occurred while removing the device!",
   "deviceNotFoundIdentifyDevice" : "An error occurred while removing the device!",
 
+  "networkPasswordErrorTitle" : "Failed to set the network password",
+  "networkPasswordErrorBody" : "An error occurred while setting the network password!",
+  "networkPasswordErrorHint" : "- Check the connection to the PLC device and repeat the action!",
+
   "deviceNameDialogTitle" : "Confirm",
   "deviceNameDialogBody" : "Do you really want to rename this device?",
   "deviceNameErrorTitle" : "Name change failed",

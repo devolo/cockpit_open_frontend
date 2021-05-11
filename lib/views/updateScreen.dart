@@ -1045,7 +1045,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
   }
 
-  // Confirmation Dialog with 2 Buttons
   void _errorDialog(context, title, body) {
 
     showDialog<void>(

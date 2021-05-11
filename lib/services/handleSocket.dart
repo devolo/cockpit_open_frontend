@@ -475,6 +475,14 @@ class dataHand extends ChangeNotifier {
           if (responseElem != null) {
               response['status'] = responseElem;
             }
+          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'total');
+          if (responseElem != null) {
+            response['total'] = responseElem;
+          }
+          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'failed');
+          if (responseElem != null) {
+            response['failed'] = responseElem;
+          }
 
           xmlResponseMap[wantedMessageTypes].remove(xmlResponseMap[wantedMessageTypes].first);
 

@@ -151,7 +151,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // check if sharedPreference are already created
+    // check if sharedPreferences are already created
     var checkSharedPreference = prefs.containsKey("config");
 
     if(checkSharedPreference){
@@ -160,6 +160,16 @@ class _MyHomePageState extends State<MyHomePage> {
       var jsonconfig = json.decode(configuration);
 
       config = jsonconfig;
+
+      if(config["language"] == ""){
+        config["language"] = Localizations.localeOf(context).toString();
+        saveToSharedPrefs(config);
+      }
+
+      // prevent flutter to take the local language when config is different
+      if(config["language"] != Localizations.localeOf(context).toString()){
+        S.load(Locale(config["language"], ''));
+      }
 
       setTheme(jsonconfig["theme"]);
       fontSizeFactor = config["font_size_factor"];

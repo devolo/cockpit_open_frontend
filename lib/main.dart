@@ -36,7 +36,7 @@ import 'dart:convert';
 void main() {
   //debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
   WidgetsFlutterBinding.ensureInitialized();
-  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+  if (Platform.isLinux) {
     setWindowTitle('devolo Cockpit');
   }
 

@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "de.devolo" "\0"
-            VALUE "FileDescription", "cockpit_devolo" "\0"
+            VALUE "FileDescription", "devoloCockpit" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "cockpit_devolo" "\0"
+            VALUE "InternalName", "devoloCockpit" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2021 de.devolo. All rights reserved." "\0"
             VALUE "OriginalFilename", "cockpit_devolo.exe" "\0"
-            VALUE "ProductName", "cockpit_devolo" "\0"
+            VALUE "ProductName", "devoloCockpit" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

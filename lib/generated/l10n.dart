@@ -125,10 +125,10 @@ class S {
     );
   }
 
-  /// `Enable Showing Speeds`
+  /// `Show Network Speeds`
   String get enableShowingSpeeds {
     return Intl.message(
-      'Enable Showing Speeds',
+      'Show Network Speeds',
       name: 'enableShowingSpeeds',
       desc: '',
       args: [],
@@ -145,10 +145,10 @@ class S {
     );
   }
 
-  /// `Show other devices`
+  /// `Show Other Devices`
   String get showOtherDevices {
     return Intl.message(
-      'Show other devices',
+      'Show Other Devices',
       name: 'showOtherDevices',
       desc: '',
       args: [],
@@ -805,10 +805,10 @@ class S {
     );
   }
 
-  /// `Fontsize`
+  /// `Font Size`
   String get fontsize {
     return Intl.message(
-      'Fontsize',
+      'Font Size',
       name: 'fontsize',
       desc: '',
       args: [],

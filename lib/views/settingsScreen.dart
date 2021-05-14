@@ -39,6 +39,22 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
 
+  /* =========== Styling =========== */
+
+  double listTilePaddingContentTop = 10;
+  double listTilePaddingContentBottom = 10;
+  double listTilePaddingContentRight = 10;
+  double listTilePaddingContentLeft = 10;
+
+  //space between title and subtitle
+  double listTileSubTitlePaddingTop = 10;
+
+  Color dividerColor = Colors.transparent;
+  double dividerTitleSpacing = 30;
+  /* ===========  =========== */
+
+
+
   String _newPw;
   bool _hiddenPw = true;
   bool _isButtonDisabled = true;
@@ -194,95 +210,50 @@ class _SettingsScreenState extends State<SettingsScreen> {
         controller: _scrollController, // <---- Here, the controller
         isAlwaysShown: true, // <---- Required
         child: Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
+          padding: const EdgeInsets.only(left: 50, right: 50),
           child: new SingleChildScrollView(
             controller: _scrollController,
             child: new Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
+                Divider(color: dividerColor, height: dividerTitleSpacing),
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                   Text(
                     S.of(context).general,
                     style: TextStyle(color: fontColorLight),
                   )
                 ]),
-                Divider(),
-                ListTile(
-                  contentPadding: EdgeInsets.only(left: 10, right: 10),
-                  tileColor:secondColor,
-                  subtitle: Text(S.of(context).changeTheLanguageOfTheApp, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)),
-                  title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    new Text(
-                      S.of(context).language,
-                      style: TextStyle(color: fontColorDark),
-                    ),
-                    DropdownButton<String>(
-                      value: config["language"],
-                      icon: Icon(
-                        Icons.arrow_drop_down_rounded,
-                        color: mainColor,
-                      ),
-                      iconSize: 24,
-                      elevation: 8,
-                      //style: TextStyle(color: Colors.deepPurple),
-                      underline: Container(
-                        height: 2,
-                        color: mainColor,
-                      ),
-                      onChanged: (String newValue) {
-                        setState(() {
-                          config["language"] = newValue;
-                          S.load(Locale(newValue, ''));
-                        });
-                        AppBuilder.of(context).rebuild();
-                        saveToSharedPrefs(config);
-                      },
-                      items: <String>['en', 'de'].map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                value + "  ",
-                                style: TextStyle(color: fontColorDark),
-                              ),
-                              Flag(
-                                value == "en" ? "gb" : value, // ToDo which flag?
-                                height: 15,
-                                width: 25,
-                                fit: BoxFit.fill,
-                              ),
-                            ],
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ]),
-                ),
-                Divider(),
+                Divider(color: dividerColor),
+
                 GestureDetector(
                   onTap: () {
-                    toggleCheckbox(!config["show_speeds_permanent"]);
-                    },
+                    setState(() {
+                      toggleCheckbox(!config["show_speeds_permanent"]);
+                      saveToSharedPrefs(config);
+                    });
+                  },
                   child: ListTile(
-                    contentPadding: EdgeInsets.only(left: 10, right: 10),
+                    contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
                     tileColor: secondColor,
-                    subtitle: Text(S.of(context).dataRatesArePermanentlyDisplayedInTheOverview, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)),
-                    title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                      new Text(S.of(context).enableShowingSpeeds, style: TextStyle(color: fontColorDark), semanticsLabel: "Show Speeds"),
-                      new Switch(
-                        value: config["show_speeds_permanent"], //widget.painter.showSpeedsPermanently,
-                        onChanged: toggleCheckbox,
-                        activeTrackColor: mainColor.withAlpha(100),
-                        activeColor: Colors.white,
-                        inactiveThumbColor: Colors.black,
-                        inactiveTrackColor: Colors.grey[600],
+                    subtitle: Padding(
+                      padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
+                      child: Text(S.of(context).dataRatesArePermanentlyDisplayedInTheOverview, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)
                       ),
-                    ]),
+                    ),
+                    title: Text(S.of(context).enableShowingSpeeds, style: TextStyle(color: fontColorDark), semanticsLabel: "Show Speeds"
+                    ),
+                    trailing: Switch(
+                      value: config["show_speeds_permanent"], //widget.painter.showSpeedsPermanently,
+                      onChanged: toggleCheckbox,
+                      activeTrackColor: mainColor.withAlpha(100),
+                      activeColor: Colors.white,
+                      inactiveThumbColor: Colors.black,
+                      inactiveTrackColor: Colors.grey[600],
+                    ),
                   ),
                 ),
-                Divider(),
+
+                Divider(color: dividerColor),
                 GestureDetector(
                   onTap: () {
                     setState(() {
@@ -292,15 +263,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     });
                   },
                   child: ListTile(
-                    contentPadding: EdgeInsets.only(left: 10, right: 10),
+                    contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
                     tileColor: secondColor,
-                    subtitle: Text(S.of(context).theOverviewWillBeCenteredAroundThePlcDeviceConnected, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)),
-                    title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                      new Text(
+                    subtitle: Padding(
+                      padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
+                      child: Text(S.of(context).theOverviewWillBeCenteredAroundThePlcDeviceConnected, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)
+                      ),
+                    ),
+                    title: Text(
                         S.of(context).internetcentered,
                         style: TextStyle(color: fontColorDark),
                       ),
-                      new Switch(
+
+                    trailing: Switch(
                         value: config["internet_centered"],
                         //materialTapTargetSize: MaterialTapTargetSize,
                         onChanged: (value) {
@@ -315,10 +290,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         inactiveThumbColor: Colors.black,
                         inactiveTrackColor: Colors.grey[600],
                       ),
-                    ]),
                   ),
                 ),
-                Divider(),
+
+                Divider(color: dividerColor),
                 GestureDetector(
                   onTap:() {
                     setState(() {
@@ -327,15 +302,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     });
                   },
                   child: ListTile(
-                    contentPadding: EdgeInsets.only(left: 10, right: 10),
+                    contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
                     tileColor: secondColor,
-                    subtitle: Text(S.of(context).otherDevicesEgPcAreDisplayedInTheOverview, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)),
-                    title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                      new Text(
+                    subtitle: Padding(
+                      padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
+                      child: Text(S.of(context).otherDevicesEgPcAreDisplayedInTheOverview, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)
+                      ),
+                    ),
+                    title: Text(
                         S.of(context).showOtherDevices,
                         style: TextStyle(color: fontColorDark),
                       ),
-                      new Switch(
+                    trailing: Switch(
                         value: config["show_other_devices"],
                         onChanged: (value) {
                           setState(() {
@@ -349,79 +327,78 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         inactiveThumbColor: Colors.black,
                         inactiveTrackColor: Colors.grey[600],
                       ),
-                    ]),
+
                   ),
                 ),
-                Divider(),
+                Divider(color: dividerColor, height: dividerTitleSpacing),
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                   Text(
                     S.of(context).appearance,
                     style: TextStyle(color: fontColorLight),
                   )
                 ]),
-                Divider(),
+                Divider(color: dividerColor),
                 GestureDetector(
                   onTap: () {
                     _mainColorPicker("Main color", "Accent color", "Light font color", "Dark font color");
                   },
                   child: ListTile(
-                    contentPadding: EdgeInsets.only(left: 10, right: 10),
+                    contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
                     tileColor: secondColor,
-                    subtitle: Text(S.of(context).chooseMainColorAccentColorAndFontColors, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)),
-                    title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                      new Text(
+                    subtitle: Padding(
+                      padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
+                      child: Text(S.of(context).chooseMainColorAccentColorAndFontColors, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)
+                      ),
+                    ),
+                    title: Text(
                         S.of(context).appColor,
                         style: TextStyle(color: fontColorDark),
                       ),
-                      Spacer(),
-                      Text(config["theme"]),
-                    ]),
+
+                    trailing: Text(config["theme"]),
                   ),
                 ),
-                Divider(),
+                Divider(color: dividerColor),
                 ListTile(
-                  contentPadding: EdgeInsets.only(left: 10, right: 10),
+                  contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
                   tileColor: secondColor,
-                  title: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                    Flexible(
-                      flex: 4,
-                      child: new Text(
-                        S.of(context).fontsize,
-                        style: TextStyle(color: fontColorDark),
-                      ),
+                  title: Text(S.of(context).fontsize, style: TextStyle(color: fontColorDark),
+                  ),
+                  trailing: SizedBox( width: 150, height: 300, child: SpinBox(
+                    cursorColor: mainColor,
+                    min: 0.1,
+                    max: 5.0,
+                    step: 0.1,
+                    acceleration: 0.1,
+                    decimals: 1,
+                    value: fontSizeFactor.toDouble(),
+                    incrementIcon: Icon(Icons.add_circle, color: mainColor),
+                    decrementIcon: Icon(Icons.remove_circle, color: mainColor),
+                    decoration: InputDecoration(
+                      focusedBorder: new UnderlineInputBorder(
+                          borderSide: new BorderSide(color: mainColor)),
+                      enabledBorder: new UnderlineInputBorder(
+                          borderSide: new BorderSide(color: mainColor)),
                     ),
-                    Spacer(),
-                    Expanded(
-                      child: new SpinBox(
-                        min: 0.1,
-                        max: 5.0,
-                        step: 0.1,
-                        acceleration: 0.1,
-                        decimals: 1,
-                        value: fontSizeFactor.toDouble(),
-                        incrementIcon: Icon(Icons.add_circle),
-                        decrementIcon: Icon(Icons.remove_circle),
-                        onChanged: (value) {
-                          setState(() {
-                            fontSizeFactor = value;
-                            config["font_size_factor"] = value;
-                          });
-                          saveToSharedPrefs(config);
-                          AppBuilder.of(context).rebuild();
-                        },
-                        //decoration: InputDecoration(labelText: 'Fontsize'),
-                      ),
-                    ),
-                  ]),
+                    onChanged: (value) {
+                      setState(() {
+                        fontSizeFactor = value;
+                        config["font_size_factor"] = value;
+                      });
+                      saveToSharedPrefs(config);
+                      AppBuilder.of(context).rebuild();
+                    },
+                  ),
+                  ),
                 ),
-                Divider(),
+                Divider(color: dividerColor, height: dividerTitleSpacing),
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                   Text(
                     S.of(context).network,
                     style: TextStyle(color: fontColorLight),
                   )
                 ]),
-                Divider(),
+                Divider(color: dividerColor),
                 GestureDetector(
                   onTap: () {
                     setState(() {
@@ -431,14 +408,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     });
                   },
                   child: ListTile(
-                    contentPadding: EdgeInsets.only(left: 10, right: 10),
+                    contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
                     tileColor: secondColor,
-                    title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                      new Text(
+                    title: Text(
                         S.of(context).ignoreUpdates,
                         style: TextStyle(color: fontColorDark),
                       ),
-                      new Switch(
+                    trailing: Switch(
                           value: config["ignore_updates"],
                           onChanged: (bool value) {
                             setState(() {
@@ -452,10 +428,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         inactiveThumbColor: Colors.black,
                         inactiveTrackColor: Colors.grey[600],
                       ),
-                    ]),
+
                   ),
                 ),
-                Divider(),
+                Divider(color: dividerColor),
                 GestureDetector(
                   onTap: () {
                     setState(() {
@@ -465,14 +441,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     });
                   },
                   child: ListTile(
-                    contentPadding: EdgeInsets.only(left: 10, right: 10),
+                    contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
                     tileColor: secondColor,
-                    title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                      new Text(
+                    title: Text(
                         S.of(context).recordTheTransmissionPowerOfTheDevicesAndTransmitIt,
                         style: TextStyle(color: fontColorDark),
-                      ),
-                      new Switch(
+                    ),
+                    trailing: Switch(
                           value: config["allow_data_collection"],
                           onChanged: (bool value) {
                             setState(() {
@@ -485,11 +460,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         activeColor: Colors.white,
                         inactiveThumbColor: Colors.black,
                         inactiveTrackColor: Colors.grey[600],
-                      ),
-                    ]),
+                    ),
                   ),
                 ),
-                Divider(),
+                Divider(color: dividerColor),
                 GestureDetector(
                   onTap: () {
                     setState(() {
@@ -499,14 +473,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     });
                   },
                   child: ListTile(
-                    contentPadding: EdgeInsets.only(left: 10, right: 10),
+                    contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
                     tileColor: secondColor,
-                    title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                      new Text(
+                    title: Text(
                         S.of(context).windowsNetworkThrottling,
                         style: TextStyle(color: fontColorDark),
-                      ),
-                      new Switch(
+                    ),
+                    trailing: Switch(
                         value: !config["windows_network_throttling_disabled"],
                         onChanged: (value) {
                           setState(() {
@@ -519,13 +492,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         activeColor: Colors.white,
                         inactiveThumbColor: Colors.black,
                         inactiveTrackColor: Colors.grey[600],
-                      ),
-                    ]),
+                    ),
                   ),
                 ),
-                Divider(),
+                Divider(color: dividerColor),
                 ListTile(
-                  contentPadding: EdgeInsets.only(left: 10, right: 10),
+                  contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
                   tileColor: secondColor,
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -660,7 +632,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ],
                   ),
                 ),
-                Divider(),
+                Divider(color: dividerColor),
                 Row(mainAxisAlignment: MainAxisAlignment.end, crossAxisAlignment: CrossAxisAlignment.end, children: <Widget>[
                   // IconButton(
                   //   icon: Icon(Icons.text_fields_sharp),

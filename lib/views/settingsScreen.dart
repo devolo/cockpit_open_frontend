@@ -51,6 +51,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Color dividerColor = Colors.transparent;
   double dividerTitleSpacing = 30;
+
+  // Switch colors
+  Color switchActiveTrackColor = mainColor.withAlpha(100);
+  Color switchActiveColor = Colors.white;
+  Color switchInactiveThumbColor = Colors.black;
+  Color switchInactiveTrackColor = Colors.grey[600];
+
   /* ===========  =========== */
 
 
@@ -245,10 +252,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     trailing: Switch(
                       value: config["show_speeds_permanent"], //widget.painter.showSpeedsPermanently,
                       onChanged: toggleCheckbox,
-                      activeTrackColor: mainColor.withAlpha(100),
-                      activeColor: Colors.white,
-                      inactiveThumbColor: Colors.black,
-                      inactiveTrackColor: Colors.grey[600],
+                      activeTrackColor: switchActiveTrackColor,
+                      activeColor: switchActiveColor,
+                      inactiveThumbColor: switchInactiveThumbColor,
+                      inactiveTrackColor: switchInactiveTrackColor,
                     ),
                   ),
                 ),
@@ -285,10 +292,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             saveToSharedPrefs(config);
                           });
                         },
-                        activeTrackColor: mainColor.withAlpha(100),
-                        activeColor: Colors.white,
-                        inactiveThumbColor: Colors.black,
-                        inactiveTrackColor: Colors.grey[600],
+                        activeTrackColor: switchActiveTrackColor,
+                        activeColor: switchActiveColor,
+                        inactiveThumbColor: switchInactiveThumbColor,
+                        inactiveTrackColor: switchInactiveTrackColor,
                       ),
                   ),
                 ),
@@ -322,10 +329,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             saveToSharedPrefs(config);
                           });
                         },
-                        activeTrackColor: mainColor.withAlpha(100),
-                        activeColor: Colors.white,
-                        inactiveThumbColor: Colors.black,
-                        inactiveTrackColor: Colors.grey[600],
+                        activeTrackColor: switchActiveTrackColor,
+                        activeColor: switchActiveColor,
+                        inactiveThumbColor: switchInactiveThumbColor,
+                        inactiveTrackColor: switchInactiveTrackColor,
                       ),
 
                   ),
@@ -423,10 +430,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               saveToSharedPrefs(config);
                             });
                           },
-                        activeTrackColor: mainColor.withAlpha(100),
-                        activeColor: Colors.white,
-                        inactiveThumbColor: Colors.black,
-                        inactiveTrackColor: Colors.grey[600],
+                          activeTrackColor: switchActiveTrackColor,
+                          activeColor: switchActiveColor,
+                          inactiveThumbColor: switchInactiveThumbColor,
+                          inactiveTrackColor: switchInactiveTrackColor,
                       ),
 
                   ),
@@ -456,10 +463,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               saveToSharedPrefs(config);
                             });
                           },
-                        activeTrackColor: mainColor.withAlpha(100),
-                        activeColor: Colors.white,
-                        inactiveThumbColor: Colors.black,
-                        inactiveTrackColor: Colors.grey[600],
+                          activeTrackColor: switchActiveTrackColor,
+                          activeColor: switchActiveColor,
+                          inactiveThumbColor: switchInactiveThumbColor,
+                          inactiveTrackColor: switchInactiveTrackColor,
                     ),
                   ),
                 ),
@@ -488,10 +495,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             saveToSharedPrefs(config);
                           });
                         },
-                        activeTrackColor: mainColor.withAlpha(100),
-                        activeColor: Colors.white,
-                        inactiveThumbColor: Colors.black,
-                        inactiveTrackColor: Colors.grey[600],
+                        activeTrackColor: switchActiveTrackColor,
+                        activeColor: switchActiveColor,
+                        inactiveThumbColor: switchInactiveThumbColor,
+                        inactiveTrackColor: switchInactiveTrackColor,
                     ),
                   ),
                 ),

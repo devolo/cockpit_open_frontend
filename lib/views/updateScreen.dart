@@ -11,6 +11,7 @@ import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
+import 'package:cockpit_devolo/shared/app_fontSize.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -83,8 +84,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
       appBar: new AppBar(
         title: new Text(
           S.of(context).updates,
-          style: TextStyle(color: fontColorLight),
-          textScaleFactor: fontSizeFactor,
+          style: TextStyle(fontSize: fontSizeAppBarTitle * fontSizeFactor, color: fontColorLight),
         ),
         centerTitle: true,
         backgroundColor: mainColor,

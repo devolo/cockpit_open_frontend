@@ -13,6 +13,7 @@ import 'package:cockpit_devolo/models/configModel.dart';
 import 'package:cockpit_devolo/services/drawOverview.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
+import 'package:cockpit_devolo/shared/app_fontSize.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
@@ -206,8 +207,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: new AppBar(
         title: new Text(
           S.of(context).settings,
-          textScaleFactor: fontSizeFactor,
-          style: TextStyle(color: fontColorLight),
+          style: TextStyle(fontSize: fontSizeAppBarTitle * fontSizeFactor, color: fontColorLight),
         ),
         centerTitle: true,
         backgroundColor: mainColor,
@@ -227,7 +227,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                   Text(
                     S.of(context).general,
-                    style: TextStyle(color: fontColorLight),
+                    style: TextStyle(fontSize: fontSizeSectionTitle * fontSizeFactor, color: fontColorLight),
                   )
                 ]),
                 Divider(color: dividerColor),
@@ -244,10 +244,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     tileColor: secondColor,
                     subtitle: Padding(
                       padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
-                      child: Text(S.of(context).dataRatesArePermanentlyDisplayedInTheOverview, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)
+                      child: Text(S.of(context).dataRatesArePermanentlyDisplayedInTheOverview, style: TextStyle(color: fontColorMedium, fontSize: fontSizeListTileSubtitle * fontSizeFactor)
                       ),
                     ),
-                    title: Text(S.of(context).enableShowingSpeeds, style: TextStyle(color: fontColorDark), semanticsLabel: "Show Speeds"
+                    title: Text(S.of(context).enableShowingSpeeds, style: TextStyle(fontSize: fontSizeListTileTitle*fontSizeFactor, color: fontColorDark), semanticsLabel: "Show Speeds"
                     ),
                     trailing: Switch(
                       value: config["show_speeds_permanent"], //widget.painter.showSpeedsPermanently,
@@ -274,12 +274,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     tileColor: secondColor,
                     subtitle: Padding(
                       padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
-                      child: Text(S.of(context).theOverviewWillBeCenteredAroundThePlcDeviceConnected, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)
+                      child: Text(S.of(context).theOverviewWillBeCenteredAroundThePlcDeviceConnected, style: TextStyle(color: fontColorMedium, fontSize: fontSizeListTileSubtitle * fontSizeFactor)
                       ),
                     ),
                     title: Text(
                         S.of(context).internetcentered,
-                        style: TextStyle(color: fontColorDark),
+                        style: TextStyle(fontSize: fontSizeListTileTitle* fontSizeFactor, color: fontColorDark),
                       ),
 
                     trailing: Switch(
@@ -313,12 +313,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     tileColor: secondColor,
                     subtitle: Padding(
                       padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
-                      child: Text(S.of(context).otherDevicesEgPcAreDisplayedInTheOverview, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)
+                      child: Text(S.of(context).otherDevicesEgPcAreDisplayedInTheOverview, style: TextStyle(color: fontColorMedium, fontSize: fontSizeListTileSubtitle * fontSizeFactor)
                       ),
                     ),
                     title: Text(
                         S.of(context).showOtherDevices,
-                        style: TextStyle(color: fontColorDark),
+                        style: TextStyle(fontSize: fontSizeListTileTitle*fontSizeFactor, color: fontColorDark),
                       ),
                     trailing: Switch(
                         value: config["show_other_devices"],
@@ -341,7 +341,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                   Text(
                     S.of(context).appearance,
-                    style: TextStyle(color: fontColorLight),
+                    style: TextStyle(fontSize: fontSizeSectionTitle * fontSizeFactor, color: fontColorLight),
                   )
                 ]),
                 Divider(color: dividerColor),
@@ -354,22 +354,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     tileColor: secondColor,
                     subtitle: Padding(
                       padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
-                      child: Text(S.of(context).chooseMainColorAccentColorAndFontColors, style: TextStyle(color: fontColorMedium, fontSize: 15 * fontSizeFactor)
+                      child: Text(S.of(context).chooseMainColorAccentColorAndFontColors, style: TextStyle(color: fontColorMedium, fontSize: fontSizeListTileSubtitle * fontSizeFactor)
                       ),
                     ),
                     title: Text(
                         S.of(context).appColor,
-                        style: TextStyle(color: fontColorDark),
+                        style: TextStyle(fontSize: fontSizeListTileTitle * fontSizeFactor, color: fontColorDark),
                       ),
 
-                    trailing: Text(config["theme"]),
+                    trailing: Text(config["theme"], style: TextStyle(fontSize: fontSizeListTileTitle * fontSizeFactor, color: fontColorDark)),
                   ),
                 ),
                 Divider(color: dividerColor),
                 ListTile(
                   contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
                   tileColor: secondColor,
-                  title: Text(S.of(context).fontsize, style: TextStyle(color: fontColorDark),
+                  title: Text(S.of(context).fontsize, style: TextStyle(fontSize: fontSizeListTileTitle * fontSizeFactor, color: fontColorDark),
                   ),
                   trailing: SizedBox( width: 150, height: 300, child: SpinBox(
                     cursorColor: mainColor,
@@ -402,7 +402,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                   Text(
                     S.of(context).network,
-                    style: TextStyle(color: fontColorLight),
+                    style: TextStyle(fontSize: fontSizeSectionTitle * fontSizeFactor, color: fontColorLight),
                   )
                 ]),
                 Divider(color: dividerColor),
@@ -419,7 +419,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     tileColor: secondColor,
                     title: Text(
                         S.of(context).ignoreUpdates,
-                        style: TextStyle(color: fontColorDark),
+                        style: TextStyle(fontSize: fontSizeListTileTitle * fontSizeFactor, color: fontColorDark),
                       ),
                     trailing: Switch(
                           value: config["ignore_updates"],
@@ -452,7 +452,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     tileColor: secondColor,
                     title: Text(
                         S.of(context).recordTheTransmissionPowerOfTheDevicesAndTransmitIt,
-                        style: TextStyle(color: fontColorDark),
+                        style: TextStyle(fontSize: fontSizeListTileTitle*fontSizeFactor, color: fontColorDark),
                     ),
                     trailing: Switch(
                           value: config["allow_data_collection"],
@@ -484,7 +484,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     tileColor: secondColor,
                     title: Text(
                         S.of(context).windowsNetworkThrottling,
-                        style: TextStyle(color: fontColorDark),
+                        style: TextStyle(fontSize: fontSizeListTileTitle* fontSizeFactor, color: fontColorDark),
                     ),
                     trailing: Switch(
                         value: !config["windows_network_throttling_disabled"],

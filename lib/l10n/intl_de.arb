@@ -42,7 +42,7 @@
   "pleaseFillInYourName": "Bitte tagen sie ihren Namen ein",
   "pleaseEnterYourMailAddress": "Bitte tragen sie ihre E-mail Adresse ein",
   "name": "Name",
-  "currentVersion": "aktuelle Version",
+  "currentVersion": "Aktuelle Version",
   "newVersion": "neue Version",
   "state": "Status",
   "update": "Aktualisierung",
@@ -133,5 +133,9 @@
   "removeDeviceConfirmTitle": "Das PLC-Gerät entfernen?",
   "removeDeviceConfirmBody": "Wollen Sie das gewählte PLC-Gerät aus dem Netzwerk entfernen?",
   "resetDeviceConfirmTitle": "Gerät in den Auslieferunszustand zurücksetzen",
-  "resetDeviceConfirmBody": "Wollen Sie das gewählte PLC-Gerät in den Auslieferungszustand zurücksetzen?"
+  "resetDeviceConfirmBody": "Wollen Sie das gewählte PLC-Gerät in den Auslieferungszustand zurücksetzen?",
+
+  "setUpDevice": "Gerät einrichten",
+  "optimizeReception": "Empfang optimieren",
+  "contactSupport": "Support kontaktieren"
 }

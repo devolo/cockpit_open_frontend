@@ -217,7 +217,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         controller: _scrollController, // <---- Here, the controller
         isAlwaysShown: true, // <---- Required
         child: Padding(
-          padding: const EdgeInsets.only(left: 50, right: 50),
+          padding: const EdgeInsets.only(left: 200, right: 200),
           child: new SingleChildScrollView(
             controller: _scrollController,
             child: new Column(

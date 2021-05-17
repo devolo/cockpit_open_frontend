@@ -41,13 +41,13 @@
   "pleaseFillInYourName": "Please fill in your name",
   "pleaseEnterYourMailAddress": "Please enter your mail address",
   "name": "Name",
-  "currentVersion": "current version",
+  "currentVersion": "Current Version",
   "newVersion": "new version",
-  "state": "state",
+  "state": "State",
   "update": "Update",
   "cockpitSoftwareIsUpToDate": "Cockpit software is up to date.",
   "updateReadyToInstall": "Update ready to install",
-  "checkUpdates": " Check Updates ",
+  "checkUpdates": " Check for Updates ",
   "addDevice": "Add Device",
   "openOptimization": "open optimization help",
   "optimizationHelp": "Optimization help",
@@ -132,5 +132,9 @@
   "removeDeviceConfirmTitle": "Remove the PLC-Device?",
   "removeDeviceConfirmBody": "Do you want to remove the selected PLC device from the network?",
   "resetDeviceConfirmTitle": "Reset device to delivery state",
-  "resetDeviceConfirmBody": "Do you want to reset the selected PLC device to the delivery state?"
+  "resetDeviceConfirmBody": "Do you want to reset the selected PLC device to the delivery state?",
+
+  "setUpDevice": "Set up a new device",
+  "optimizeReception": "Optimize reception",
+  "contactSupport": "Contact support"
 }

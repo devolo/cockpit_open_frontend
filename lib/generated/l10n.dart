@@ -405,10 +405,10 @@ class S {
     );
   }
 
-  /// `current version`
+  /// `Current Version`
   String get currentVersion {
     return Intl.message(
-      'current version',
+      'Current Version',
       name: 'currentVersion',
       desc: '',
       args: [],
@@ -425,10 +425,10 @@ class S {
     );
   }
 
-  /// `state`
+  /// `State`
   String get state {
     return Intl.message(
-      'state',
+      'State',
       name: 'state',
       desc: '',
       args: [],
@@ -465,10 +465,10 @@ class S {
     );
   }
 
-  /// ` Check Updates `
+  /// ` Check for Updates `
   String get checkUpdates {
     return Intl.message(
-      ' Check Updates ',
+      ' Check for Updates ',
       name: 'checkUpdates',
       desc: '',
       args: [],
@@ -1280,6 +1280,36 @@ class S {
     return Intl.message(
       'Do you want to reset the selected PLC device to the delivery state?',
       name: 'resetDeviceConfirmBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set up a new device`
+  String get setUpDevice {
+    return Intl.message(
+      'Set up a new device',
+      name: 'setUpDevice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Optimize reception`
+  String get optimizeReception {
+    return Intl.message(
+      'Optimize reception',
+      name: 'optimizeReception',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contact support`
+  String get contactSupport {
+    return Intl.message(
+      'Contact support',
+      name: 'contactSupport',
       desc: '',
       args: [],
     );

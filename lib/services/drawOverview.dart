@@ -591,14 +591,25 @@ class DrawOverview extends CustomPainter {
     Offset absoluteRouterOffset = Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2));
     Offset absoluteAreaOffset = Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2) + 30);
     Offset absoluteRouterDeviceOffset = Offset(_deviceIconOffsetList.elementAt(0).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(0).dy + (screenHeight / 2));
+    var internetTextSpan = TextSpan(
+      text: S.current.internet,
+      style: _textNameStyle.apply(color: fontColorLight),
+    );
 
     if (_deviceList.length > 0 ) {
       if(_providerList.getPivot() != null) { // if there is no device attached to router don't paint line to the internet internet
         canvas.drawLine(Offset(absoluteRouterOffset.dx, absoluteRouterOffset.dy + 50), absoluteRouterDeviceOffset, _linePaint..strokeWidth = 3.0);
       }
-      if (config["internet_centered"] != true) { // if view is not internet centered draw the connection line to the PC (local device)
+      if (!config["internet_centered"]) { // if view is not internet centered draw the connection line to the PC (local device)
         canvas.drawLine(Offset(absoluteRouterOffset.dx, absoluteRouterOffset.dy + 50), absoluteRouterDeviceOffset, _linePaint..strokeWidth = 3.0);
       }
+
+    }
+
+    if (config["internet_centered"]) {
+      _textPainter.text = internetTextSpan;
+      _textPainter.layout(minWidth: 0, maxWidth: 300);
+      _textPainter.paint(canvas, absoluteAreaOffset.translate(35, -7));
     }
 
     canvas.drawCircle(absoluteAreaOffset, hn_circle_radius, _circleAreaPaint); //"shadow" of the device circle. covers the connection lines.
@@ -606,6 +617,7 @@ class DrawOverview extends CustomPainter {
     _iconPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: 60.0, fontFamily: icon.fontFamily, color: drawingColor));
     _iconPainter.layout();
     _iconPainter.paint(canvas, Offset(absoluteRouterOffset.dx - (_iconPainter.width / 2), absoluteRouterOffset.dy));
+
   }
 
   void drawIcon(Canvas canvas, Offset offset, icon, [double size]) {

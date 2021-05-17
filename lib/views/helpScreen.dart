@@ -27,6 +27,13 @@ class AddDeviceScreen extends StatefulWidget {
 }
 
 class _AddDeviceScreenState extends State<AddDeviceScreen> {
+
+  /* =========== Styling =========== */
+
+  double paddingContentTop = 10;
+
+  /* ===========  =========== */
+
   var response;
   bool _loading = false;
 
@@ -56,7 +63,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
       ),
       body: new SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
+          padding: EdgeInsets.only(top: paddingContentTop, left: 20, right: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -86,7 +93,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                             height: 40,
                           ),
                           Text(
-                            "Gerät einrichten",
+                            S.of(context).setUpDevice,
                             textScaleFactor: fontSizeFactor,
                           ),
                         ],
@@ -119,7 +126,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                             height: 40,
                           ),
                           Text(
-                            "Empfang Optimieren",
+                            S.of(context).optimizeReception,
                             textScaleFactor: fontSizeFactor,
                           ),
                         ],
@@ -152,7 +159,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                             height: 40,
                           ),
                           Text(
-                            "Support kontaktieren",
+                            S.of(context).contactSupport,
                             textScaleFactor: fontSizeFactor,
                           ),
                         ],

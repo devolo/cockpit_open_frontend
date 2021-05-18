@@ -1344,6 +1344,36 @@ class S {
       args: [],
     );
   }
+
+  /// `VDSL Compatibility`
+  String get setVdslCompatibility {
+    return Intl.message(
+      'VDSL Compatibility',
+      name: 'setVdslCompatibility',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The new VDSL settings could not be saved on the device.`
+  String get vdslfailed {
+    return Intl.message(
+      'The new VDSL settings could not be saved on the device.',
+      name: 'vdslfailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Automatic compatibility mode (recommended)`
+  String get automaticCompatibilityMode {
+    return Intl.message(
+      'Automatic compatibility mode (recommended)',
+      name: 'automaticCompatibilityMode',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

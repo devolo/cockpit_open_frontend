@@ -56,7 +56,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
     socket.setDeviceList(_deviceList);
     _deviceList.selectedNetworkIndex = config["selected_network"];
 
-        _Painter = DrawOverview(context, _deviceList, showingSpeeds, pivotDeviceIndex);
+    _Painter = DrawOverview(context, _deviceList, showingSpeeds, pivotDeviceIndex);
 
     print("drawing Overview...");
 
@@ -85,19 +85,19 @@ class _OverviewScreenState extends State<OverviewScreen> {
                       textColor: networkIdx != _deviceList.selectedNetworkIndex ? secondColor : fontColorLight,
                       hoverColor: secondColor.withOpacity(0.3),
                       //color: networkIdx != _deviceList.selectedNetworkIndex? Colors.transparent: secondColor,
-                      child: networkIdx == 0?
-                      networkIdx != _deviceList.selectedNetworkIndex
-                          ? Text("${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network}")
-                          : Text(
-                        "${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network}",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ):
-                      networkIdx != _deviceList.selectedNetworkIndex
-                          ? Text("${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network} ${networkIdx}")
-                          : Text(
-                              "${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network} ${networkIdx}",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
+                      child: networkIdx == 0
+                          ? networkIdx != _deviceList.selectedNetworkIndex
+                              ? Text("${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network}")
+                              : Text(
+                                  "${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network}",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                )
+                          : networkIdx != _deviceList.selectedNetworkIndex
+                              ? Text("${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network} ${networkIdx}")
+                              : Text(
+                                  "${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network} ${networkIdx}",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
                       onPressed: () {
                         _deviceList.selectedNetworkIndex = networkIdx;
                         config["selected_network"] = networkIdx;
@@ -154,7 +154,10 @@ class _OverviewScreenState extends State<OverviewScreen> {
         backgroundColor: secondColor,
         foregroundColor: fontColorDark,
         hoverColor: fontColorLight,
-        child: Icon(Icons.refresh, color: mainColor,),
+        child: Icon(
+          Icons.refresh,
+          color: mainColor,
+        ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
@@ -187,8 +190,6 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
     String _vdslProfile;
     bool _vdslModeAutomatic = true;
-    int _vdslMode = 2;
-
 
     final socket = Provider.of<dataHand>(context, listen: false);
     final deviceList = Provider.of<NetworkList>(context, listen: false);
@@ -290,23 +291,18 @@ class _OverviewScreenState extends State<OverviewScreen> {
                           defaultColumnWidth: FixedColumnWidth(300.0 * fontSizeFactor),
                           children: [
                             TableRow(children: [
-
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  if(_changeNameLoading)
-                                    CircularProgressIndicator(
-                                      valueColor: new AlwaysStoppedAnimation<Color>(secondColor),
-                                      strokeWidth: 2.0,
-                                    ),
-                                  SizedBox(width: 25),
-                                  SelectableText(
-                                    'Name:   ',
-                                    style: TextStyle(height: 2),
+                              Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                                if (_changeNameLoading)
+                                  CircularProgressIndicator(
+                                    valueColor: new AlwaysStoppedAnimation<Color>(secondColor),
+                                    strokeWidth: 2.0,
                                   ),
-
+                                SizedBox(width: 25),
+                                SelectableText(
+                                  'Name:   ',
+                                  style: TextStyle(height: 2),
+                                ),
                               ]),
-
                               TextFormField(
                                 initialValue: _newName,
                                 focusNode: myFocusNode,
@@ -316,7 +312,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   hoverColor: secondColor.withOpacity(0.2),
                                   contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                                   filled: true,
-                                  fillColor: secondColor.withOpacity(0.2),//myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
+                                  fillColor: secondColor.withOpacity(0.2),
+                                  //myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5.0),
                                     borderSide: BorderSide(
@@ -327,81 +324,69 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5.0),
                                     borderSide: BorderSide(
-                                      color: fontColorLight,//Colors.transparent,
+                                      color: fontColorLight, //Colors.transparent,
                                       //width: 2.0,
                                     ),
                                   ),
                                   suffixIcon: IconButton(
-                                    icon: Icon(Icons.edit_outlined, color: fontColorLight,),
-                                    onPressed: () async{
-                                      if(_newName != hitDeviceName){
-                                        bool confResponse = await _confirmDialog(context, S.of(context).deviceNameDialogTitle,  S.of(context).deviceNameDialogBody);
-                                        if(confResponse){
-
+                                    icon: Icon(
+                                      Icons.edit_outlined,
+                                      color: fontColorLight,
+                                    ),
+                                    onPressed: () async {
+                                      if (_newName != hitDeviceName) {
+                                        bool confResponse = await _confirmDialog(context, S.of(context).deviceNameDialogTitle, S.of(context).deviceNameDialogBody);
+                                        if (confResponse) {
                                           _changeNameLoading = true;
                                           socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
                                           var response = await socket.myReceiveXML("SetAdapterNameStatus");
-                                          if(response['result'] == "ok"){
-
+                                          if (response['result'] == "ok") {
                                             hitDeviceName = _newName;
-                                            await Future.delayed(const Duration(seconds: 1), (){});
+                                            await Future.delayed(const Duration(seconds: 1), () {});
                                             socket.sendXML('RefreshNetwork');
 
                                             //setState(() {
                                             //   socket.sendXML('RefreshNetwork');
                                             //});
-                                          }
-
-                                          else if(response['result'] == "device_not_found"){
+                                          } else if (response['result'] == "device_not_found") {
                                             _errorDialog(context, S.of(context).deviceNameErrorTitle, S.of(context).deviceNotFoundDeviceName + "\n\n" + S.of(context).deviceNotFoundHint);
-                                          }
-
-                                          else if(response['result'] != "ok"){
-
+                                          } else if (response['result'] != "ok") {
                                             _errorDialog(context, S.of(context).deviceNameErrorTitle, S.of(context).deviceNameErrorBody);
                                           }
 
                                           _changeNameLoading = false;
-
                                         }
                                       }
                                     },
                                   ),
                                 ),
                                 onChanged: (value) => (_newName = value),
-                                onEditingComplete: () async{
-                                  if(_newName != hitDeviceName) {
+                                onEditingComplete: () async {
+                                  if (_newName != hitDeviceName) {
                                     bool confResponse = await _confirmDialog(context, S.of(context).deviceNameDialogTitle, S.of(context).deviceNameDialogBody);
-                                    if(confResponse){
-
+                                    if (confResponse) {
                                       _changeNameLoading = true;
                                       socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
                                       var response = await socket.myReceiveXML("SetAdapterNameStatus");
-                                      if(response['result'] == "ok"){
-
+                                      if (response['result'] == "ok") {
                                         hitDeviceName = _newName;
-                                        await Future.delayed(const Duration(seconds: 1), (){});
+                                        await Future.delayed(const Duration(seconds: 1), () {});
                                         socket.sendXML('RefreshNetwork');
 
                                         //setState(() {
                                         //   socket.sendXML('RefreshNetwork');
                                         //});
-                                      }
-                                      else if(response['result'] == "timeout"){
-
+                                      } else if (response['result'] == "timeout") {
                                         _errorDialog(context, S.of(context).deviceNameErrorTitle, S.of(context).deviceNameErrorBody);
-                                      }
-
-                                      else if(response['result'] == "device_not_found"){
+                                      } else if (response['result'] == "device_not_found") {
                                         _errorDialog(context, S.of(context).deviceNameErrorTitle, S.of(context).deviceNotFoundDeviceName + "\n\n" + S.of(context).deviceNotFoundHint);
                                       }
 
                                       _changeNameLoading = false;
-
                                     }
                                   }
                                 },
-                                onTap: (){
+                                onTap: () {
                                   setState(() {
                                     myFocusNode.hasFocus;
                                   });
@@ -502,7 +487,6 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                 child: SelectableText(hitDeviceMac),
                               ),
                             ]),
-
                           ],
                         ),
                         //Text('Rates: ' +hitDeviceRx),
@@ -513,7 +497,6 @@ class _OverviewScreenState extends State<OverviewScreen> {
                             Column(
                               children: [
                                 IconButton(
-
                                   icon: Icon(
                                     Icons.public,
                                   ),
@@ -524,41 +507,36 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   iconSize: 24.0 * fontSizeFactor,
                                   onPressed: !hitDeviceWebinterface ? null : () => launchURL(hitDeviceIp),
                                   mouseCursor: !hitDeviceWebinterface ? null : SystemMouseCursors.click,
-
-
-
                                 ),
                                 Text(
                                   S.of(context).launchWebinterface,
-                                  style: TextStyle(fontSize: 14, color: !hitDeviceWebinterface ? fontColorNotAvailable: fontColorLight),
+                                  style: TextStyle(fontSize: 14, color: !hitDeviceWebinterface ? fontColorNotAvailable : fontColorLight),
                                   textScaleFactor: fontSizeFactor,
                                   textAlign: TextAlign.center,
-
                                 )
                               ],
                             ),
                             Column(
                               children: [
                                 IconButton(
-                                    icon: Icon(
-                                      Icons.lightbulb,
-                                    ),
-                                    //tooltip: S.of(context).identifyDevice,
-                                    disabledColor: fontColorNotAvailable,
-                                    color: fontColorLight,
-                                    hoverColor: fontColorLight.withAlpha(50),
-                                    iconSize: 24.0 * fontSizeFactor,
-                                    onPressed: !hitDeviceIdentify
-                                        ? null
-                                        : () async{
-                                      socket.sendXML('IdentifyDevice', mac: hitDeviceMac);
-                                      var response = await socket.myReceiveXML("IdentifyDeviceStatus");
-                                      if(response['result'] == "device_not_found"){
-                                        _errorDialog(context, S.of(context).identifyDeviceErrorTitle, S.of(context).deviceNotFoundIdentifyDevice + "\n\n" + S.of(context).deviceNotFoundHint);
-                                      }
-                                    },
-                                    mouseCursor: !hitDeviceIdentify ? null : SystemMouseCursors.click,
-
+                                  icon: Icon(
+                                    Icons.lightbulb,
+                                  ),
+                                  //tooltip: S.of(context).identifyDevice,
+                                  disabledColor: fontColorNotAvailable,
+                                  color: fontColorLight,
+                                  hoverColor: fontColorLight.withAlpha(50),
+                                  iconSize: 24.0 * fontSizeFactor,
+                                  onPressed: !hitDeviceIdentify
+                                      ? null
+                                      : () async {
+                                          socket.sendXML('IdentifyDevice', mac: hitDeviceMac);
+                                          var response = await socket.myReceiveXML("IdentifyDeviceStatus");
+                                          if (response['result'] == "device_not_found") {
+                                            _errorDialog(context, S.of(context).identifyDeviceErrorTitle, S.of(context).deviceNotFoundIdentifyDevice + "\n\n" + S.of(context).deviceNotFoundHint);
+                                          }
+                                        },
+                                  mouseCursor: !hitDeviceIdentify ? null : SystemMouseCursors.click,
                                 ),
                                 Text(
                                   S.of(context).identifyDevice,
@@ -581,15 +559,13 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                     onPressed: () async {
                                       socket.sendXML('GetManual', newValue: hitDeviceMT, valueType: 'product', newValue2: 'de', valueType2: 'language');
                                       var response = await socket.myReceiveXML("GetManualResponse");
-                                      if(response['filename'] != ""){
+                                      if (response['filename'] != "") {
                                         setState(() {
                                           openFile(response['filename']);
                                         });
-                                      }
-                                      else{
+                                      } else {
                                         _errorDialog(context, S.of(context).manualErrorTitle, S.of(context).manualErrorBody);
                                       }
-
                                     }),
                                 Text(
                                   S.of(context).showManual,
@@ -611,88 +587,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                       hoverColor: fontColorLight.withAlpha(50),
                                       iconSize: 24.0 * fontSizeFactor,
                                       onPressed: () {
-                                        showDialog<void>(
-                                            context: context,
-                                            barrierDismissible: true, // user doesn't need to tap button!
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                backgroundColor: backgroundColor.withOpacity(0.9),
-                                                contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 17 * fontSizeFactor),
-                                                content: Column(
-                                                  //mainAxisSize: MainAxisSize.min,
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    SelectableText(S.of(context).vdslexplanation),
-                                                    Checkbox(
-                                                        value: _vdslModeAutomatic,
-                                                        onChanged: (bool newValue) async {
-                                                          _vdslModeAutomatic = newValue;
-                                                          if (_vdslModeAutomatic == true) {
-                                                            _vdslMode = 2;
-                                                            socket.sendXML('SetVDSLCompatibility', newValue: _vdslProfile, valueType: 'profile', newValue2: _vdslMode.toString(), valueType2: 'mode', mac: hitDeviceMac);
-                                                            var response = await socket.recieveXML(["SetVDSLCompatibilityStatus"]);
-                                                            if(response["result"] == "failed"){
-                                                              showDialog(
-                                                                context: context,
-                                                                builder: (BuildContext context){
-                                                                  return AlertDialog(
-                                                                    backgroundColor: mainColor,
-                                                                    title: Text("Failed!", style: TextStyle(color: Colors.white),),
-                                                                    content: Container(child: Text("Die neuen VDSL-Einstellungen konnten nicht auf dem Gerät gespeichert werden.", style: TextStyle(color: Colors.white),)),
-                                                                    actions: [ FlatButton(onPressed: () {
-                                                                      Navigator.maybeOf(context).pop();
-                                                                      //Navigator.maybeOf(context).pop();
-                                                                    }, child: Text("Ok"))
-                                                                    ],
-                                                                  );
-                                                                },
-                                                              );
-                                                            }else {
-                                                              Navigator.maybeOf(context).pop();
-                                                            }
-
-                                                          }
-                                                          else{
-                                                            _vdslMode = 1;
-                                                            socket.sendXML('SetVDSLCompatibility', newValue: _vdslProfile, valueType: 'profile', newValue2: _vdslMode.toString(), valueType2: 'mode', mac: hitDeviceMac);
-                                                          }
-
-                                                        }),
-                                                    SelectableText(S.of(context).vdslexplanation2),
-                                                    Container(
-                                                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.0), color: secondColor.withOpacity(0.2), border: Border.all(color: Colors.white)),
-                                                      child: DropdownButtonHideUnderline(
-                                                        child: DropdownButton(
-                                                            value: _vdslProfile,
-                                                            dropdownColor: mainColor,
-                                                            //style: TextStyle(color: fontColorLight),
-                                                            icon: Icon(
-                                                              Icons.arrow_drop_down,
-                                                              color: Colors.white,
-                                                            ),
-                                                            items: hitDeviceVDSLList.map<DropdownMenuItem<String>>((String value) {
-                                                              return DropdownMenuItem<String>(
-                                                                value: value,
-                                                                child: Text(value, style: TextStyle(color: fontColorLight),),
-                                                              );
-                                                            }).toList(),
-                                                            onChanged: (value) {
-                                                              setState(() {
-                                                                _vdslProfile = value;
-                                                                //_showEditAlert(context, socket, 'SetVDSLCompatibility', hitDeviceMac, 'profile', _vdslProfile, 'mode', _vdslMode.toString());
-                                                              });
-                                                            }),
-                                                      ),
-                                                    ),
-
-
-
-                                                  ],
-                                                ),
-
-                                              );
-                                            });
+                                        _showVDSLDialog(socket, hitDeviceVDSLmode, hitDeviceVDSLList, hitDeviceVDSLprofile, hitDeviceMac);
                                       }),
                                   Text(
                                     S.of(context).setVdslcompatibility,
@@ -715,22 +610,18 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   iconSize: 24.0 * fontSizeFactor,
                                   onPressed: () async {
                                     bool confResponse = false;
-                                    hitDevice.attachedToRouter
-                                        ? confResponse = await _confirmDialog(context, S.of(context).resetDeviceConfirmTitle,  S.of(context).resetDeviceConfirmBody + "\n" + S.of(context).confirmActionConnectedToRouterWarning)
-                                        : confResponse = await _confirmDialog(context, S.of(context).resetDeviceConfirmTitle,  S.of(context).resetDeviceConfirmBody);
+                                    hitDevice.attachedToRouter ? confResponse = await _confirmDialog(context, S.of(context).resetDeviceConfirmTitle, S.of(context).resetDeviceConfirmBody + "\n" + S.of(context).confirmActionConnectedToRouterWarning) : confResponse = await _confirmDialog(context, S.of(context).resetDeviceConfirmTitle, S.of(context).resetDeviceConfirmBody);
 
-                                    if(confResponse){
+                                    if (confResponse) {
                                       socket.sendXML("ResetAdapterToFactoryDefaults", mac: hitDevice.mac);
 
                                       var response = await socket.myReceiveXML("ResetAdapterToFactoryDefaultsStatus");
-                                      if(response['result'] == "device_not_found"){
+                                      if (response['result'] == "device_not_found") {
                                         _errorDialog(context, S.of(context).resetDeviceErrorTitle, S.of(context).deviceNotFoundResetDevice + "\n\n" + S.of(context).deviceNotFoundHint);
-                                      }
-                                      else if (response['result'] != "ok"){
+                                      } else if (response['result'] != "ok") {
                                         _errorDialog(context, S.of(context).resetDeviceErrorTitle, S.of(context).resetDeviceErrorBody);
                                       }
                                     }
-
                                   },
                                 ),
                                 Text(
@@ -754,18 +645,15 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   iconSize: 24.0 * fontSizeFactor,
                                   onPressed: () async {
                                     bool confResponse = false;
-                                    hitDevice.attachedToRouter
-                                        ? confResponse = await _confirmDialog(context, S.of(context).removeDeviceConfirmTitle,  S.of(context).removeDeviceConfirmBody + "\n" + S.of(context).confirmActionConnectedToRouterWarning)
-                                        : confResponse = await _confirmDialog(context, S.of(context).removeDeviceConfirmTitle,  S.of(context).removeDeviceConfirmBody);
+                                    hitDevice.attachedToRouter ? confResponse = await _confirmDialog(context, S.of(context).removeDeviceConfirmTitle, S.of(context).removeDeviceConfirmBody + "\n" + S.of(context).confirmActionConnectedToRouterWarning) : confResponse = await _confirmDialog(context, S.of(context).removeDeviceConfirmTitle, S.of(context).removeDeviceConfirmBody);
 
-                                    if(confResponse){
+                                    if (confResponse) {
                                       socket.sendXML("RemoveAdapter", mac: hitDevice.mac);
 
                                       var response = await socket.myReceiveXML("RemoveAdapterStatus");
-                                      if(response['result'] == "device_not_found"){
+                                      if (response['result'] == "device_not_found") {
                                         _errorDialog(context, S.of(context).removeDeviceErrorTitle, S.of(context).deviceNotFoundRemoveDevice + "\n\n" + S.of(context).deviceNotFoundHint);
-                                      }
-                                      else if (response['result'] != "ok"){
+                                      } else if (response['result'] != "ok") {
                                         _errorDialog(context, S.of(context).removeDeviceErrorTitle, S.of(context).removeDeviceErrorBody);
                                       }
                                     }
@@ -950,7 +838,6 @@ class _OverviewScreenState extends State<OverviewScreen> {
 */
   // Confirmation Dialog with 2 Buttons
   Future<bool> _confirmDialog(context, title, body) async {
-
     bool returnVal = await showDialog(
         context: context,
         barrierDismissible: true, // user doesn't need to tap button!
@@ -982,7 +869,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                     ),
                   ),
                 ),
-                    Text(body),
+                Text(body),
               ],
             ),
             actions: <Widget>[
@@ -994,7 +881,10 @@ class _OverviewScreenState extends State<OverviewScreen> {
                       color: fontColorLight,
                       size: 35 * fontSizeFactor,
                     ),
-                    Text(S.of(context).confirm, style: TextStyle(color: fontColorLight),),
+                    Text(
+                      S.of(context).confirm,
+                      style: TextStyle(color: fontColorLight),
+                    ),
                   ],
                 ),
                 onPressed: () {
@@ -1010,7 +900,10 @@ class _OverviewScreenState extends State<OverviewScreen> {
                         color: fontColorLight,
                         size: 35 * fontSizeFactor,
                       ),
-                      Text(S.of(context).cancel, style: TextStyle(color: fontColorLight),),
+                      Text(
+                        S.of(context).cancel,
+                        style: TextStyle(color: fontColorLight),
+                      ),
                     ],
                   ), //Text('Abbrechen'),
                   onPressed: () {
@@ -1022,15 +915,12 @@ class _OverviewScreenState extends State<OverviewScreen> {
           );
         });
 
-    if(returnVal == null)
-      returnVal = false;
+    if (returnVal == null) returnVal = false;
 
     return returnVal;
-
   }
 
   void _errorDialog(context, title, body) {
-
     showDialog<void>(
         context: context,
         barrierDismissible: true, // user doesn't need to tap button!
@@ -1065,11 +955,145 @@ class _OverviewScreenState extends State<OverviewScreen> {
                 Text(body),
               ],
             ),
-            actions: <Widget>[
-
-            ],
+            actions: <Widget>[],
           );
         });
   }
 
+  void _showVDSLDialog(socket, String hitDeviceVDSLmode, List<String> hitDeviceVDSLList, String _vdslProfile, hitDeviceMac) {
+    bool _vdslModeAutomatic = false;
+    if(hitDeviceVDSLmode == "2")
+      _vdslModeAutomatic = true;
+
+    showDialog<void>(
+        context: context,
+        barrierDismissible: true, // user doesn't need to tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            insetPadding: EdgeInsets.symmetric(horizontal: 300),
+            title: Text(S.of(context).setVdslCompatibility),
+            titleTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 17 * fontSizeFactor),
+            backgroundColor: backgroundColor.withOpacity(0.9),
+            contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 17 * fontSizeFactor),
+            content: StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
+                  return Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if(hitDeviceVDSLmode != "0")
+                  Column(children: [
+                    SelectableText(S.of(context).vdslexplanation),
+                    Row(
+                      children: [
+                        Checkbox(
+                            value: _vdslModeAutomatic,
+                            activeColor: secondColor,
+                            onChanged: (bool newValue) async {
+                              _vdslModeAutomatic = newValue;
+                              setState(() {
+                              if (_vdslModeAutomatic == true) {
+                                hitDeviceVDSLmode = "2";
+                              } else {
+                                hitDeviceVDSLmode = "1";
+                              }
+                              });
+                            }),
+                        SelectableText(S.of(context).automaticCompatibilityMode),
+                      ],
+                    ),
+                    SelectableText(S.of(context).vdslexplanation2),
+                  ],),
+                for (String vdsl_profile in hitDeviceVDSLList)
+                  ListTile(
+                    title: Text(
+                      vdsl_profile,
+                      style:  TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 17 * fontSizeFactor),
+                    ),
+                    leading: Radio(
+                      value: vdsl_profile,
+                      groupValue: _vdslProfile,
+                      activeColor: secondColor,
+                      onChanged: (String value) {
+                        setState(() {
+                          _vdslProfile = value;
+                        });
+                      },
+                    ),
+                  ),
+              ],
+            );
+        }),
+            actions: <Widget>[
+              FlatButton(
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.check_circle_outline,
+                      color: fontColorLight,
+                      size: 35 * fontSizeFactor,
+                    ),
+                    Text(
+                      S.of(context).confirm,
+                      style: TextStyle(color: fontColorLight),
+                    ),
+                  ],
+                ),
+                onPressed: () async {
+                  bool confResponse = false;
+                 confResponse = await _confirmDialog(context, "Set VDSL Compatibility", "Neue VDSL Einstellungen ${_vdslProfile} übernehmen? ${hitDeviceVDSLmode}");
+
+                  if (confResponse) {
+                    socket.sendXML('SetVDSLCompatibility', newValue: _vdslProfile, valueType: 'profile', newValue2: hitDeviceVDSLmode, valueType2: 'mode', mac: hitDeviceMac);
+
+                    showDialog<void>(
+                    context: context,
+                    barrierDismissible: true, // user doesn't need to tap button!
+                    builder: (BuildContext context) {
+                    return AlertDialog(
+                      backgroundColor: Colors.transparent,
+                      content: Column(mainAxisSize: MainAxisSize.min ,
+                          children: [
+                        CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(secondColor),)]
+                      ),
+                    );
+                    });
+
+                    var response = await socket.recieveXML(["SetVDSLCompatibilityStatus"]);
+                    if (response['result'] == "failed") {
+                      Navigator.maybeOf(context).pop(true);
+                    _errorDialog(context, " ", S.of(context).vdslfailed);
+                    } else if (response['result'] != "ok") {
+                      Navigator.maybeOf(context).pop(true);
+                      _errorDialog(context, "Done", S.of(context).resetDeviceErrorBody);
+                    }
+                    else {
+                      Navigator.maybeOf(context).pop();
+                    }
+                  }
+                },
+              ),
+              FlatButton(
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.cancel_outlined,
+                        color: fontColorLight,
+                        size: 35 * fontSizeFactor,
+                      ),
+                      Text(
+                        S.of(context).cancel,
+                        style: TextStyle(color: fontColorLight),
+                      ),
+                    ],
+                  ), //Text('Abbrechen'),
+                  onPressed: () {
+                    // Cancel critical action
+                    Navigator.maybeOf(context).pop(false);
+                  }),
+            ],
+
+          );
+        });
+  }
 }

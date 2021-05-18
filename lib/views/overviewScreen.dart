@@ -590,7 +590,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                         _showVDSLDialog(socket, hitDeviceVDSLmode, hitDeviceVDSLList, hitDeviceVDSLprofile, hitDeviceMac);
                                       }),
                                   Text(
-                                    S.of(context).setVdslcompatibility,
+                                    S.of(context).setVdslCompatibility,
                                     style: TextStyle(fontSize: 14, color: fontColorLight),
                                     textScaleFactor: fontSizeFactor,
                                     textAlign: TextAlign.center,

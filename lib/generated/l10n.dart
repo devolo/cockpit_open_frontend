@@ -145,10 +145,10 @@ class S {
     );
   }
 
-  /// `Show Other Devices`
+  /// `Show other devices`
   String get showOtherDevices {
     return Intl.message(
-      'Show Other Devices',
+      'Show other devices',
       name: 'showOtherDevices',
       desc: '',
       args: [],
@@ -1315,16 +1315,6 @@ class S {
     );
   }
 
-  /// `Set VDSL-compatibility`
-  String get setVdslcompatibility {
-    return Intl.message(
-      'Set VDSL-compatibility',
-      name: 'setVdslcompatibility',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `In rare cases, VDSL connection problems can be caused by crosstalk of the Powerline signal. When the automatic compatibility mode is active, the device tries to detect this situation and automatically adjusts its transmit level to achieve the best possible performance without interference.`
   String get vdslexplanation {
     return Intl.message(
@@ -1345,10 +1335,10 @@ class S {
     );
   }
 
-  /// `VDSL Compatibility`
+  /// `Set VDSL \nCompatibility`
   String get setVdslCompatibility {
     return Intl.message(
-      'VDSL Compatibility',
+      'Set VDSL \nCompatibility',
       name: 'setVdslCompatibility',
       desc: '',
       args: [],

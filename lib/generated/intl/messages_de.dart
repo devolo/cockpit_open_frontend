@@ -123,7 +123,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "sendToDevolo" : MessageLookupByLibrary.simpleMessage("sende an devolo"),
     "serialNumber" : MessageLookupByLibrary.simpleMessage("Seriennummer:"),
     "setUpDevice" : MessageLookupByLibrary.simpleMessage("Gerät einrichten"),
-    "setVdslCompatibility" : MessageLookupByLibrary.simpleMessage("VDSL Kompatibilität"),
+    "setVdslCompatibility" : MessageLookupByLibrary.simpleMessage("VDSL Kompatibilität \nsetzen"),
     "settings" : MessageLookupByLibrary.simpleMessage("Einstellungen"),
     "showLogs" : MessageLookupByLibrary.simpleMessage("Zeige Logs"),
     "showManual" : MessageLookupByLibrary.simpleMessage("Handbuch \nanzeigen"),

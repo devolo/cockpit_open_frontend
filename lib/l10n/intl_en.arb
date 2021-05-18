@@ -15,7 +15,7 @@
   "appearance": "Appearance",
   "enableShowingSpeeds": "Show Network Speeds",
   "internetcentered": "Internet-centered",
-  "showOtherDevices": "Show Other Devices",
+  "showOtherDevices": "Show other devices",
   "network": "Network",
   "ignoreUpdates": "Ignore Updates",
   "recordTheTransmissionPowerOfTheDevicesAndTransmitIt": "Record the transmission power of the devices and transmit it to devolo",
@@ -137,4 +137,8 @@
   "setUpDevice": "Set up a new device",
   "optimizeReception": "Optimize reception",
   "contactSupport": "Contact support"
+  "setVdslcompatibility": "Set VDSL-compatibility",
+  "vdslexplanation": "In rare cases, VDSL connection problems can be caused by crosstalk of the Powerline signal. When the automatic compatibility mode is active, the device tries to detect this situation and automatically adjusts its transmit level to achieve the best possible performance without interference.",
+  "vdslexplanation2": "If automatic mode is deactivated or the interference cannot be reliably detected, a fixed profile for adjusted transmission power can be used instead. Select the profile that matches the type of your VDSL connection, or select \"full power\" if interference avoidance is not required."
+
 }

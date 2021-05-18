@@ -179,7 +179,16 @@ class _OverviewScreenState extends State<OverviewScreen> {
     bool hitDeviceAtr;
     bool hitDeviceisLocal;
     bool hitDeviceWebinterface;
+
     bool hitDeviceIdentify;
+    String hitDeviceVDSLprofile;
+    List<String> hitDeviceVDSLList;
+    String hitDeviceVDSLmode;
+
+    String _vdslProfile;
+    bool _vdslModeAutomatic = true;
+    int _vdslMode = 2;
+
 
     final socket = Provider.of<dataHand>(context, listen: false);
     final deviceList = Provider.of<NetworkList>(context, listen: false);
@@ -225,8 +234,12 @@ class _OverviewScreenState extends State<OverviewScreen> {
         hitDeviceisLocal = deviceList.getDeviceList()[index].isLocalDevice;
         hitDeviceWebinterface = deviceList.getDeviceList()[index].webinterfaceAvailable;
         hitDeviceIdentify = deviceList.getDeviceList()[index].identifyDeviceAvailable;
+        hitDeviceVDSLmode = deviceList.getDeviceList()[index].mode_vdsl;
+        hitDeviceVDSLprofile = deviceList.getDeviceList()[index].selected_vdsl;
+        hitDeviceVDSLList = deviceList.getDeviceList()[index].supported_vdsl;
 
         String _newName = hitDeviceName;
+        _vdslProfile = hitDeviceVDSLprofile;
 
         showDialog<void>(
           context: context,
@@ -586,6 +599,109 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                 )
                               ],
                             ),
+                            if (hitDeviceVDSLList != null)
+                              Column(
+                                children: [
+                                  IconButton(
+                                      icon: Icon(
+                                        Icons.router_rounded,
+                                        color: fontColorLight,
+                                      ),
+                                      //tooltip: S.of(context).showManual,
+                                      hoverColor: fontColorLight.withAlpha(50),
+                                      iconSize: 24.0 * fontSizeFactor,
+                                      onPressed: () {
+                                        showDialog<void>(
+                                            context: context,
+                                            barrierDismissible: true, // user doesn't need to tap button!
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                backgroundColor: backgroundColor.withOpacity(0.9),
+                                                contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 17 * fontSizeFactor),
+                                                content: Column(
+                                                  //mainAxisSize: MainAxisSize.min,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    SelectableText(S.of(context).vdslexplanation),
+                                                    Checkbox(
+                                                        value: _vdslModeAutomatic,
+                                                        onChanged: (bool newValue) async {
+                                                          _vdslModeAutomatic = newValue;
+                                                          if (_vdslModeAutomatic == true) {
+                                                            _vdslMode = 2;
+                                                            socket.sendXML('SetVDSLCompatibility', newValue: _vdslProfile, valueType: 'profile', newValue2: _vdslMode.toString(), valueType2: 'mode', mac: hitDeviceMac);
+                                                            var response = await socket.recieveXML(["SetVDSLCompatibilityStatus"]);
+                                                            if(response["result"] == "failed"){
+                                                              showDialog(
+                                                                context: context,
+                                                                builder: (BuildContext context){
+                                                                  return AlertDialog(
+                                                                    backgroundColor: mainColor,
+                                                                    title: Text("Failed!", style: TextStyle(color: Colors.white),),
+                                                                    content: Container(child: Text("Die neuen VDSL-Einstellungen konnten nicht auf dem Gerät gespeichert werden.", style: TextStyle(color: Colors.white),)),
+                                                                    actions: [ FlatButton(onPressed: () {
+                                                                      Navigator.maybeOf(context).pop();
+                                                                      //Navigator.maybeOf(context).pop();
+                                                                    }, child: Text("Ok"))
+                                                                    ],
+                                                                  );
+                                                                },
+                                                              );
+                                                            }else {
+                                                              Navigator.maybeOf(context).pop();
+                                                            }
+
+                                                          }
+                                                          else{
+                                                            _vdslMode = 1;
+                                                            socket.sendXML('SetVDSLCompatibility', newValue: _vdslProfile, valueType: 'profile', newValue2: _vdslMode.toString(), valueType2: 'mode', mac: hitDeviceMac);
+                                                          }
+
+                                                        }),
+                                                    SelectableText(S.of(context).vdslexplanation2),
+                                                    Container(
+                                                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.0), color: secondColor.withOpacity(0.2), border: Border.all(color: Colors.white)),
+                                                      child: DropdownButtonHideUnderline(
+                                                        child: DropdownButton(
+                                                            value: _vdslProfile,
+                                                            dropdownColor: mainColor,
+                                                            //style: TextStyle(color: fontColorLight),
+                                                            icon: Icon(
+                                                              Icons.arrow_drop_down,
+                                                              color: Colors.white,
+                                                            ),
+                                                            items: hitDeviceVDSLList.map<DropdownMenuItem<String>>((String value) {
+                                                              return DropdownMenuItem<String>(
+                                                                value: value,
+                                                                child: Text(value, style: TextStyle(color: fontColorLight),),
+                                                              );
+                                                            }).toList(),
+                                                            onChanged: (value) {
+                                                              setState(() {
+                                                                _vdslProfile = value;
+                                                                //_showEditAlert(context, socket, 'SetVDSLCompatibility', hitDeviceMac, 'profile', _vdslProfile, 'mode', _vdslMode.toString());
+                                                              });
+                                                            }),
+                                                      ),
+                                                    ),
+
+
+
+                                                  ],
+                                                ),
+
+                                              );
+                                            });
+                                      }),
+                                  Text(
+                                    S.of(context).setVdslcompatibility,
+                                    style: TextStyle(fontSize: 14, color: fontColorLight),
+                                    textScaleFactor: fontSizeFactor,
+                                    textAlign: TextAlign.center,
+                                  )
+                                ],
+                              ),
                             Column(
                               children: [
                                 IconButton(

@@ -36,8 +36,12 @@ class Device extends ChangeNotifier {
   double updateStateInt = 0;
   bool webinterfaceAvailable = false;
   bool identifyDeviceAvailable = false;
+  String selected_vdsl = "";
+  List<String> supported_vdsl = [];
+  String mode_vdsl;
 
-  Device(String type, String name, String mac, String ip, String MT, String serialno, String version, String versionDate, atRouter, isLocal, bool webinterfaceAvailable, bool identifyDeviceAvailable, [ui.Image icon]) {
+
+  Device(String type, String name, String mac, String ip, String MT, String serialno, String version, String versionDate, atRouter, isLocal, bool webinterfaceAvailable, bool identifyDeviceAvailable, selectedVDSL, supportedVDSL, modeVDSL, [ui.Image icon]) {
     this.typeEnum = getDeviceType(type);
     this.type = type;
     this.name = name;
@@ -49,6 +53,10 @@ class Device extends ChangeNotifier {
     this.isLocalDevice = isLocal;
     this.webinterfaceAvailable = webinterfaceAvailable;
     this.identifyDeviceAvailable = identifyDeviceAvailable;
+    this.selected_vdsl = selectedVDSL;
+    this.supported_vdsl = supportedVDSL;
+    this.mode_vdsl = modeVDSL;
+
 
     if(version.contains("_")) {
       this.version = version.substring(0,version.indexOf("_"));
@@ -67,6 +75,8 @@ class Device extends ChangeNotifier {
   }
 
   factory Device.fromXML(XmlElement element, bool islocalDevice) {
+
+    // get attribute if device is attached to the router
     bool attachedToRouter = false;
     var gatewayStates=element.getElement('states');
     if(gatewayStates != null){
@@ -92,6 +102,27 @@ class Device extends ChangeNotifier {
       }
     }
 
+    // get Attribute for VDSL compatibility
+    // get attributes for selected and supported vdsl profiles
+    XmlElement vdsl_compat;
+    var selected_VDSL;
+    var supported_VDSL;
+    var mode_VDSL;
+
+    var actions=element.getElement('actions').findAllElements("item").toList();
+    if(actions.isNotEmpty) {
+      vdsl_compat = actions.firstWhere((element) => element.innerText.contains("supported_profiles"), orElse: () {return null;});
+    }
+    if(vdsl_compat != null) {
+      mode_VDSL = vdsl_compat.findAllElements("item").toList().firstWhere((element) => element.innerText.contains("mode"), orElse: () {return null;}).lastElementChild.innerText;
+      print(mode_VDSL);
+      supported_VDSL = vdsl_compat.findAllElements("item").toList().firstWhere((element) => element.innerText.contains("supported_profiles"), orElse: () {return null;}).lastElementChild.innerText.split(" "); // ToDo is always last element child or <second> ?
+      selected_VDSL = vdsl_compat.findAllElements("item").toList().firstWhere((element) => element.innerText.contains("selected_profile"), orElse: () {return null;}).lastElementChild.innerText;
+      //print("${element.getElement('name').text}: ${selected_VDSL} , ${supported_VDSL}");
+    }
+
+
+
     Device retDevice = Device(
       element.getElement('type').text,
       element.getElement('name').text,
@@ -104,7 +135,10 @@ class Device extends ChangeNotifier {
       attachedToRouter,
       islocalDevice,
       webinterfaceAvailable,
-      identifyDeviceAvailable
+      identifyDeviceAvailable,
+      selected_VDSL,
+      supported_VDSL,
+      mode_VDSL,
       //Device.fromXML(Element.getElement('remotes').getElement('item')),
       //genreElement.findElements('genre').map<Genre>((e) => Genre.fromElement(e)).toList(),
     );
@@ -156,7 +190,7 @@ class Device extends ChangeNotifier {
   }
 
   String toRealString(){
-    return "Name: ${this.name},\n type:${this.type},\n mac: ${this.mac},\n ip: ${this.ip},\n version: ${this.version},\n version_date:${this.version_date},\n MT: ${this.MT},\n serialno: ${this.serialno},\n remoteDevices: ${this.remoteDevices},\n icon:${this.icon},\n speeds: ${this.speeds},\n attachedToRouter: ${this.attachedToRouter},\n isLocalDevice: ${this.isLocalDevice},\n UpdateAvailable: ${this.updateAvailable},\n UpdateStatus: ${this.updateState},\n UpdateStatusInt: ${this.updateStateInt} \n";
+    return "Name: ${this.name},\n type:${this.type},\n mac: ${this.mac},\n ip: ${this.ip},\n version: ${this.version},\n version_date:${this.version_date},\n MT: ${this.MT},\n serialno: ${this.serialno},\n remoteDevices: ${this.remoteDevices},\n icon:${this.icon},\n speeds: ${this.speeds},\n attachedToRouter: ${this.attachedToRouter},\n isLocalDevice: ${this.isLocalDevice},\n UpdateAvailable: ${this.updateAvailable},\n UpdateStatus: ${this.updateState},\n UpdateStatusInt: ${this.updateStateInt}, \n SelectedVDSL: ${this.selected_vdsl}, \n SupportedVDSL: ${this.supported_vdsl} \n";
   }
 }
 //=========================================== END Device =========================================

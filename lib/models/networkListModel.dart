@@ -132,11 +132,6 @@ class NetworkList extends ChangeNotifier{
       this._devices.add(device);
       this._networkList[whichNetworkIndex].add(device);
     }
-
-    if(_networkList.length == 1){
-      //print("NetworkList length: ${_networkList.length}");
-      showNetwork = false;
-    }
     //notifyListeners();
   }
 

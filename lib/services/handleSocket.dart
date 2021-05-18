@@ -240,6 +240,8 @@ class dataHand extends ChangeNotifier {
           '</macAddress></first><second></second></item></DeviceList></Message></boost_serialization>';
     } else if (messageType == "UpdateResponse") {
       xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType>' + '<' + valueType + '>' + newValue + '</' + valueType + '>' + '</Message></boost_serialization>';
+    } else if (messageType == "SetVDSLCompatibility") {
+      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType><macAddress>' + mac + '</macAddress><' + valueType + '>' + newValue + '</' + valueType + '>' + newValue2 + '</' + valueType2 + '>' + '</Message></boost_serialization>';
     } else if (newValue == null && mac != null) {
       xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType><macAddress>' + mac + '</macAddress></Message></boost_serialization>';
     } else if (newValue2 == null && mac != null) {
@@ -252,6 +254,7 @@ class dataHand extends ChangeNotifier {
 
     String xmlLength = xmlString.runes.length.toRadixString(16).padLeft(8, '0'); // message length for backend !disconnects if header wrong or missing!
     //print('LEEENNNGGTHHH ' + xmlLength);
+    xmlResponse = XmlDocument(); // delete old xml response
     print(xmlString);
     socket.write('MSGSOCK' + xmlLength + xmlString);
   }
@@ -271,14 +274,9 @@ class dataHand extends ChangeNotifier {
       if (waitingResponse) {
         String messageType = await findFirstElem(xmlResponse, 'MessageType');
         response['messageType'] = messageType;
-        print(messageType);
-        print(wantedMessageTypes);
-        print(wantedMessageTypes.contains(messageType));
 
-        // for(var elem in xmlResponse.findAllElements('Message').first.children){
-        //   print("Element "+elem.toString());
-        //   print(elem.innerText);
-        // }
+        print("messageType: ${messageType}");
+        print("wantedMessageTypes: ${wantedMessageTypes}");
 
         if (wantedMessageTypes.contains(messageType)) {
           if (messageType == "Config") {
@@ -287,8 +285,7 @@ class dataHand extends ChangeNotifier {
           } else if (messageType == "UpdateIndication") {
             //"UpdateIndication" for Cockpit Software updates
             response = await parseUpdateIndication(xmlResponse);
-
-            //waitingResponse = false;
+            waitingResponse = false;
           } else if (messageType == "FirmwareUpdateIndication") {
             //"FirmwareUpdateIndication"
             responseElem = await findFirstElem(xmlResponse, 'macAddress'); //
@@ -297,7 +294,7 @@ class dataHand extends ChangeNotifier {
               int devIndex = _deviceList.getDeviceList().indexWhere((element) => element.mac == responseElem);
               _deviceList.getDeviceList()[devIndex].updateAvailable = true;
             }
-            //waitingResponse = false;
+            waitingResponse = false;
           } else if (messageType == "SupportInfoGenerateStatus") {
             //"SupportInfoGenerateStatus"
             responseElem = await findFirstElem(xmlResponse, 'status');
@@ -316,7 +313,15 @@ class dataHand extends ChangeNotifier {
             if (responseElem != null) {
               response['result'] = responseElem;
             }
-            //waitingResponse = false;
+            waitingResponse = false;
+          } else if (messageType == "SetVDSLCompatibilityStatus") {
+            responseElem = await findFirstElem(xmlResponse, 'result');
+            if (responseElem != null) {
+              response['result'] = responseElem;
+            }
+            if(responseElem != ""){
+              waitingResponse = false;
+            }
           } else {
             responseElem = await findFirstElem(xmlResponse, 'filename');
             if (responseElem != null) {
@@ -336,9 +341,9 @@ class dataHand extends ChangeNotifier {
               int devIndex = _deviceList.getDeviceList().indexWhere((element) => element.mac == responseElem);
               _deviceList.getDeviceList()[devIndex].updateAvailable = true;
             }
-            //waitingResponse = false;
+            waitingResponse = false;
           }
-          waitingResponse = false;
+          //waitingResponse = false;
         }
         //Future.value(response);//completer.complete();//return response;
       }
@@ -346,6 +351,10 @@ class dataHand extends ChangeNotifier {
     }).timeout(Duration(seconds: 30), onTimeout: () {
       print('> Timed Out');
       waitingResponse = false;
+      response["messageType"] = wantedMessageTypes;
+      response["result"] = "failed";
+      return response;
+
     });
 
     waitingResponse = false;

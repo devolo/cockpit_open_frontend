@@ -191,7 +191,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
               ],
             ),
             SizedBox(
-              height: 20,
+              height: 35,
             ),
             Table(
               defaultVerticalAlignment: TableCellVerticalAlignment.middle,

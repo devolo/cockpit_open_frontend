@@ -141,5 +141,6 @@
   "vdslexplanation2": "If automatic mode is deactivated or the interference cannot be reliably detected, a fixed profile for adjusted transmission power can be used instead. Select the profile that matches the type of your VDSL connection, or select \"full power\" if interference avoidance is not required.",
   "setVdslCompatibility": "Set VDSL \nCompatibility",
   "vdslfailed": "The new VDSL settings could not be saved on the device.",
-  "automaticCompatibilityMode": "Automatic compatibility mode (recommended)"
+  "automaticCompatibilityMode": "Automatic compatibility mode (recommended)",
+  "vdslCompatibility": "VDSL compatibility"
 }

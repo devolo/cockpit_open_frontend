@@ -1364,6 +1364,16 @@ class S {
       args: [],
     );
   }
+
+  /// `VDSL compatibility`
+  String get vdslCompatibility {
+    return Intl.message(
+      'VDSL compatibility',
+      name: 'vdslCompatibility',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -144,6 +144,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "updateReadyToInstall" : MessageLookupByLibrary.simpleMessage("Update ready to install"),
     "updates" : MessageLookupByLibrary.simpleMessage("Updates"),
     "updating" : MessageLookupByLibrary.simpleMessage("updating..."),
+    "vdslCompatibility" : MessageLookupByLibrary.simpleMessage("VDSL compatibility"),
     "vdslexplanation" : MessageLookupByLibrary.simpleMessage("In rare cases, VDSL connection problems can be caused by crosstalk of the Powerline signal. When the automatic compatibility mode is active, the device tries to detect this situation and automatically adjusts its transmit level to achieve the best possible performance without interference."),
     "vdslexplanation2" : MessageLookupByLibrary.simpleMessage("If automatic mode is deactivated or the interference cannot be reliably detected, a fixed profile for adjusted transmission power can be used instead. Select the profile that matches the type of your VDSL connection, or select \"full power\" if interference avoidance is not required."),
     "vdslfailed" : MessageLookupByLibrary.simpleMessage("The new VDSL settings could not be saved on the device."),

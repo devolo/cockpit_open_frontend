@@ -144,6 +144,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "updateReadyToInstall" : MessageLookupByLibrary.simpleMessage("Update bereit zur Installation."),
     "updates" : MessageLookupByLibrary.simpleMessage("Aktualisierungen"),
     "updating" : MessageLookupByLibrary.simpleMessage(" aktualisieren..."),
+    "vdslCompatibility" : MessageLookupByLibrary.simpleMessage("VDSL Kompatibilität"),
     "vdslexplanation" : MessageLookupByLibrary.simpleMessage("In seltenen Fällen können VDSL-Verbindungsprobleme durch Übersprechen des Powerline-Signals verursacht werden. Wenn der automatische Kompatibilitätsmodus aktiv ist, versucht das Gerät, diese Situation zu erkennen und automatisch seinen Sendepegel so anzupassen, dass die bestmögliche Leistung ohne Störung erzielt wird."),
     "vdslexplanation2" : MessageLookupByLibrary.simpleMessage("Wenn der automatische Modus deaktiviert ist oder die Störung nicht zuverlässig erkannt werden kann, kann stattdessen ein fest eingestelltes Profil für eine angepasste Sendeleistung verwendet werden. Wählen Sie das Profil aus, das dem Typ ihres VDSL-Anschlusses entspricht, oder wählen Sie \"volle Leistung\", wenn keine Störungsvermeidung benötigt wird."),
     "vdslfailed" : MessageLookupByLibrary.simpleMessage("Die neuen VDSL-Einstellungen konnten nicht auf dem Gerät gespeichert werden."),

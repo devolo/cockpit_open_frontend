@@ -971,7 +971,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
         builder: (BuildContext context) {
           return AlertDialog(
             insetPadding: EdgeInsets.symmetric(horizontal: 300),
-            title: Text(S.of(context).setVdslCompatibility),
+            title: Text(S.of(context).vdslCompatibility),
             titleTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 17 * fontSizeFactor),
             backgroundColor: backgroundColor.withOpacity(0.9),
             contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 17 * fontSizeFactor),
@@ -986,19 +986,25 @@ class _OverviewScreenState extends State<OverviewScreen> {
                     SelectableText(S.of(context).vdslexplanation),
                     Row(
                       children: [
-                        Checkbox(
-                            value: _vdslModeAutomatic,
-                            activeColor: secondColor,
-                            onChanged: (bool newValue) async {
-                              _vdslModeAutomatic = newValue;
-                              setState(() {
-                              if (_vdslModeAutomatic == true) {
-                                hitDeviceVDSLmode = "2";
-                              } else {
-                                hitDeviceVDSLmode = "1";
-                              }
-                              });
-                            }),
+                        Theme(
+                          data: ThemeData(
+                            //here change to your color
+                            unselectedWidgetColor: secondColor,
+                          ),
+                          child: Checkbox(
+                              value: _vdslModeAutomatic,
+                              activeColor: secondColor,
+                              onChanged: (bool newValue) async {
+                                _vdslModeAutomatic = newValue;
+                                setState(() {
+                                if (_vdslModeAutomatic == true) {
+                                  hitDeviceVDSLmode = "2";
+                                } else {
+                                  hitDeviceVDSLmode = "1";
+                                }
+                                });
+                              }),
+                        ),
                         SelectableText(S.of(context).automaticCompatibilityMode),
                       ],
                     ),
@@ -1010,15 +1016,21 @@ class _OverviewScreenState extends State<OverviewScreen> {
                       vdsl_profile,
                       style:  TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 17 * fontSizeFactor),
                     ),
-                    leading: Radio(
-                      value: vdsl_profile,
-                      groupValue: _vdslProfile,
-                      activeColor: secondColor,
-                      onChanged: (String value) {
-                        setState(() {
-                          _vdslProfile = value;
-                        });
-                      },
+                    leading: Theme(
+                      data: ThemeData(
+                        //here change to your color
+                        unselectedWidgetColor: secondColor,
+                      ),
+                      child: Radio(
+                        value: vdsl_profile,
+                        groupValue: _vdslProfile,
+                        activeColor: secondColor,
+                        onChanged: (String value) {
+                          setState(() {
+                            _vdslProfile = value;
+                          });
+                        },
+                      ),
                     ),
                   ),
               ],

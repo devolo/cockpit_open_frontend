@@ -312,8 +312,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         ),
                         title: Text(
                           "Cockpit Software",
-                          style: TextStyle(color: fontColorLight),
+                          style: TextStyle(color: fontColorLight, fontSize: 18),
                           textAlign: TextAlign.center,
+                          textScaleFactor: fontSizeFactor,
                         ),
                       ),
                     ),
@@ -413,13 +414,15 @@ class _UpdateScreenState extends State<UpdateScreen> {
                             //Icon(Icons.devices),
                             title: Text(
                               _deviceList.getAllDevices()[i].name,
-                              style: TextStyle(fontWeight: FontWeight.bold, color: fontColorLight),
+                              style: TextStyle(fontWeight: FontWeight.bold, color: fontColorLight, fontSize: 17,),
                               textAlign: TextAlign.center,
+                              textScaleFactor: fontSizeFactor,
                             ),
                             subtitle: Text(
                               '${_deviceList.getAllDevices()[i].type}',
-                              style: TextStyle(color: fontColorLight),
+                              style: TextStyle(color: fontColorLight, fontSize: 17,),
                               textAlign: TextAlign.center,
+                              textScaleFactor: fontSizeFactor,
                             ),
                           ),
                         ),

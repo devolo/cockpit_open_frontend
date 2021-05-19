@@ -31,7 +31,7 @@ dependencies:
   flag: ^3.2.0
   flutter_localizations:
     sdk: flutter
-  flutter_spinbox: ^0.5.2
+  flutter_spinbox: ^0.5.1
   shared_preferences: ^0.5.12+4
   flutter_material_color_picker: ^1.0.5
   yaml: ^2.2.1

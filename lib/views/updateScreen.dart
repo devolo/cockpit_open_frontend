@@ -218,13 +218,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     ],
                   ),
                   TableCell(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left:100),
-                      child: Text(
-                        S.of(context).name,
-                        style: TextStyle(color: fontColorLight),
-                        //textAlign: TextAlign.center,
-                      ),
+                    child: Text(
+                      S.of(context).name,
+                      style: TextStyle(color: fontColorLight),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                   TableCell(
@@ -307,6 +304,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     ),
                     TableCell(
                       child: ListTile(
+                        horizontalTitleGap: 1,
                         leading: Icon(
                           Icons.speed_rounded,
                           color: Colors.white,
@@ -315,7 +313,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         title: Text(
                           "Cockpit Software",
                           style: TextStyle(color: fontColorLight),
-                          //textAlign: TextAlign.center,
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),
@@ -402,8 +400,11 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       ),
                       TableCell(
                         child: Container(
-                          alignment: Alignment.center,
+                          //alignment: Alignment.centerLeft,
                           child: ListTile(
+                            //contentPadding: EdgeInsets.only(left:20),
+                            horizontalTitleGap: 1,
+                            minLeadingWidth: 1,
                             onTap: () => _handleTap(_deviceList.getAllDevices()[i]),
                             leading: RawImage(
                               image: getIconForDeviceType(_deviceList.getAllDevices()[i].typeEnum),
@@ -413,12 +414,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
                             title: Text(
                               _deviceList.getAllDevices()[i].name,
                               style: TextStyle(fontWeight: FontWeight.bold, color: fontColorLight),
-                              //textAlign: TextAlign.center,
+                              textAlign: TextAlign.center,
                             ),
                             subtitle: Text(
                               '${_deviceList.getAllDevices()[i].type}',
                               style: TextStyle(color: fontColorLight),
-                              //textAlign: TextAlign.center,
+                              textAlign: TextAlign.center,
                             ),
                           ),
                         ),

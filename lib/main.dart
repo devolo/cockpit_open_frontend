@@ -363,7 +363,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       endDrawer: Theme(
         data: Theme.of(context).copyWith(
-          canvasColor: mainColor, //This will change the drawer background to blue.
+          canvasColor: mainColor, //This will change the drawer background.
+          hoverColor: accentColor,
           //other styles
         ),
         child: Drawer(

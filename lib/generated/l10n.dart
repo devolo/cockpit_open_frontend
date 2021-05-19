@@ -405,10 +405,10 @@ class S {
     );
   }
 
-  /// `Current Version`
+  /// `current version`
   String get currentVersion {
     return Intl.message(
-      'Current Version',
+      'current version',
       name: 'currentVersion',
       desc: '',
       args: [],
@@ -425,10 +425,10 @@ class S {
     );
   }
 
-  /// `State`
+  /// `state`
   String get state {
     return Intl.message(
-      'State',
+      'state',
       name: 'state',
       desc: '',
       args: [],

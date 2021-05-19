@@ -71,7 +71,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
   Future<void> updateDevices(socket, _deviceList) async {
     setState(() {
-      for(var mac in _deviceList.getUpdateList()) {
+      for (var mac in _deviceList.getUpdateList()) {
         socket.sendXML('FirmwareUpdateResponse', newValue: mac);
       }
       _loadingFW = socket.waitingResponse;
@@ -88,182 +88,205 @@ class _UpdateScreenState extends State<UpdateScreen> {
     return new Scaffold(
       backgroundColor: Colors.transparent,
       appBar: new AppBar(
-        title: new Text(
-          S.of(context).updates,
-          style: TextStyle(fontSize: fontSizeAppBarTitle * fontSizeFactor, color: fontColorLight),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            new Text(
+              S.of(context).updates,
+              style: TextStyle(fontSize: fontSizeAppBarTitle - 5 * fontSizeFactor, color: fontColorLight),
+              textAlign: TextAlign.start,
+            ),
+            Divider(
+              color: fontColorLight,
+            ),
+          ],
         ),
-        centerTitle: true,
+        //centerTitle: true,
         backgroundColor: mainColor,
         shadowColor: Colors.transparent,
       ),
-      body: new Center(
-        child: Padding(
-          padding: EdgeInsets.only(top: paddingContentTop, left: 20, right: 20, bottom: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Text(
-                  //   'Letzte Suche: ${_lastPoll.toString().substring(0, _lastPoll.toString().indexOf("."))}   ',
-                  //   style: TextStyle(color: fontColorLight),
-                  // ),
-                  ButtonTheme(
-                    minWidth: 270.0,
-                    height: 50.0,
-                    child: RaisedButton(
-                      color: secondColor,
-                      textColor: fontColorDark,
-                      onPressed: () async {
-                        // Warning! "UpdateCheck" and "RefreshNetwork" should only be triggered by a user interaction, not continously/automaticly
-                        setState(() {
-                          socket.sendXML('UpdateCheck');
-                          _loading = socket.waitingResponse;
-                        });
-                        var response = await socket.recieveXML(["UpdateIndication", "FirmwareUpdateIndication"]);
-                        setState(() {
-                          _loading = socket.waitingResponse;
-                          if (response["messageType"] != null) _lastPoll = DateTime.now();
-                        });
-                      },
-                      child: Row(children: [
-                        _loading
-                            ? CircularProgressIndicator(
-                                valueColor: new AlwaysStoppedAnimation<Color>(mainColor),
-                              )
-                            : Icon(
-                                Icons.refresh,
-                                color: mainColor,
-                                size: 24 * fontSizeFactor,
-                              ),
-                        Text(S.of(context).checkUpdates,),
-                      ]),
+      body: Padding(
+        padding: EdgeInsets.only(top: paddingContentTop, left: 20, right: 20, bottom: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                // Text(
+                //   'Letzte Suche: ${_lastPoll.toString().substring(0, _lastPoll.toString().indexOf("."))}   ',
+                //   style: TextStyle(color: fontColorLight),
+                // ),
+                TextButton(
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(28.0), side: BorderSide(color: devoloGreen))),
+                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(horizontal: 35, vertical: 18)),
+                    backgroundColor: MaterialStateProperty.all<Color>(devoloGreen),
+                    foregroundColor: MaterialStateProperty.all<Color>(fontColorLight),
+                  ),
+                  onPressed: () async {
+                    // Warning! "UpdateCheck" and "RefreshNetwork" should only be triggered by a user interaction, not continously/automaticly
+                    setState(() {
+                      socket.sendXML('UpdateCheck');
+                      _loading = socket.waitingResponse;
+                    });
+                    var response = await socket.recieveXML(["UpdateIndication", "FirmwareUpdateIndication"]);
+                    setState(() {
+                      _loading = socket.waitingResponse;
+                      if (response["messageType"] != null) _lastPoll = DateTime.now();
+                    });
+                  },
+                  child: Row(children: [
+                    _loading
+                        ? CircularProgressIndicator(
+                            valueColor: new AlwaysStoppedAnimation<Color>(fontColorLight),
+                          )
+                        : Icon(
+                            Icons.refresh,
+                            color: fontColorLight,
+                            size: 24 * fontSizeFactor,
+                          ),
+                    Text(
+                      S.of(context).checkUpdates,
                     ),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  ButtonTheme(
-                    minWidth: 270.0,
-                    height: 50.0,
-                    child: RaisedButton(
-                      color: secondColor,
-                      textColor: fontColorDark,
-                      onPressed: () async {
-                        //print("Updating ${device.mac}");
-                        await updateCockpit(socket, _deviceList);
-                        Timer(Duration(seconds: 4), () {});
-                        setState(() {
-                          socket.sendXML('UpdateCheck');
-                          //_loading = socket.waitingResponse;
-                        });
-                        var response = await socket.recieveXML(["UpdateIndication", "FirmwareUpdateIndication"]);
+                  ]),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                ButtonTheme(
+                  minWidth: 270.0,
+                  height: 50.0,
+                  child: TextButton(
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(28.0), side: BorderSide(color: fontColorLight, width: 1.5))),
+                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(horizontal: 30, vertical: 18)),
+                      //backgroundColor: MaterialStateProperty.all<Color>(),
+                      foregroundColor: MaterialStateProperty.all<Color>(fontColorLight),
+                    ),
+                    onPressed: () async {
+                      //print("Updating ${device.mac}");
+                      await updateCockpit(socket, _deviceList);
+                      Timer(Duration(seconds: 4), () {});
+                      setState(() {
+                        socket.sendXML('UpdateCheck');
+                        //_loading = socket.waitingResponse;
+                      });
+                      var response = await socket.recieveXML(["UpdateIndication", "FirmwareUpdateIndication"]);
 
-                        await updateDevices(socket, _deviceList);
-                      },
-                      child: Row(children: [
-                        Icon(
-                          Icons.download_rounded,
-                          color: mainColor,
-                          size: 24 * fontSizeFactor,
-                        ),
-                        Text(" ${S.of(context).updateAll}",),
-                      ]),
-                    ),
+                      await updateDevices(socket, _deviceList);
+                    },
+                    child: Row(children: [
+                      Icon(
+                        Icons.download_rounded,
+                        color: fontColorLight,
+                        size: 24 * fontSizeFactor,
+                      ),
+                      Text(
+                        " ${S.of(context).updateAll}",
+                      ),
+                    ]),
                   ),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              ListTile(
-                leading: Text(""), //Placeholder
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        S.of(context).name,
-                        style: TextStyle(fontWeight: FontWeight.bold, color: fontColorLight),
-                        semanticsLabel: S.of(context).name,
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        S.of(context).currentVersion,
-                        style: TextStyle(color: fontColorLight),
-                        semanticsLabel: S.of(context).currentVersion,
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Text(
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Table(
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+              columnWidths: {
+                0: FlexColumnWidth(1),
+                1: FlexColumnWidth(4),
+                2: FlexColumnWidth(5),
+                3: FlexColumnWidth(6),
+              },
+              children: [
+                TableRow(children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
                         S.of(context).state,
                         style: TextStyle(color: fontColorLight),
-                        semanticsLabel: S.of(context).state,
+                        textAlign: TextAlign.center,
+                      ),
+                      Icon(
+                        Icons.keyboard_arrow_down,
+                        color: fontColorLight,
+                      )
+                    ],
+                  ),
+                  TableCell(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left:100),
+                      child: Text(
+                        S.of(context).name,
+                        style: TextStyle(color: fontColorLight),
+                        //textAlign: TextAlign.center,
                       ),
                     ),
-                  ],
-                ),
-                // trailing: Text(
-                //   S.of(context).state,
-                //   style: TextStyle(color: fontColorLight),
-                //   semanticsLabel: S.of(context).state,
-                // ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.speed_rounded,
-                  color: Colors.white,
-                  size: 24.0 * fontSizeFactor,
-                ),
-                title: Row(
-                  children: [
-                    Expanded(flex: 2, child: Text("Cockpit Software")),
-                    Expanded(
-                        flex: 2,
-                        child: Text(
-                          " ",
-                        )),
-                    Expanded(
-                      flex: 2,
+                  ),
+                  TableCell(
+                    child: Text(
+                      S.of(context).currentVersion,
+                      style: TextStyle(color: fontColorLight),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  TableCell(
+                    child: Text(
+                      S.of(context).state,
+                      style: TextStyle(color: fontColorLight),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ]),
+              ],
+            ),
+            Divider(
+              color: fontColorLight,
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: Table(
+                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                columnWidths: {
+                  0: FlexColumnWidth(1),
+                  1: FlexColumnWidth(4),
+                  2: FlexColumnWidth(5),
+                  3: FlexColumnWidth(6),
+                },
+                children: [
+                  TableRow(children: [
+                    TableCell(
                       child: _loading
                           ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 CircularProgressIndicator(
-                                  valueColor: new AlwaysStoppedAnimation<Color>(mainColor),
-                                ),
-                                SelectableText(
-                                  " ${S.of(context).searching}",
-                                  style: TextStyle(color: fontColorDark),
+                                  valueColor: new AlwaysStoppedAnimation<Color>(fontColorLight),
+                                  strokeWidth: 3,
                                 ),
                               ],
                             )
                           : _deviceList.CockpitUpdate == false
                               ? Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     IconButton(
                                       icon: Icon(
-                                        Icons.check_circle_outline,
-                                        color: Colors.green,
+                                        Icons.check_circle,
+                                        color: devoloGreen,
                                       ),
                                       iconSize: 24 * fontSizeFactor,
                                       onPressed: () {},
                                       // tooltip: "already uptodate",
                                     ),
-                                    Text(
-                                      " ${S.of(context).upToDate}",
-                                      style: TextStyle(color: fontColorDark),
-                                    ),
                                   ],
                                 )
                               : Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     IconButton(
                                         icon: Icon(
@@ -274,199 +297,174 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                         onPressed: () async {
                                           await updateCockpit(socket, _deviceList);
                                         }),
-                                    FlatButton(
-                                        child: Text(
-                                          S.of(context).update2,
-                                          style: TextStyle(color: fontColorDark, fontSize: 20 * fontSizeFactor),
-                                        ),
-                                        onPressed: () async {
-                                          await updateCockpit(socket, _deviceList);
-                                        }),
-                                    if(_loadingSoftware)
+                                    if (_loadingSoftware)
                                       CircularProgressIndicator(
-                                        valueColor: new AlwaysStoppedAnimation<Color>(mainColor),
+                                        valueColor: new AlwaysStoppedAnimation<Color>(fontColorLight),
+                                        strokeWidth: 3,
                                       ),
                                   ],
                                 ),
                     ),
-                  ],
-                ),
-                tileColor: secondColor,
-              ),
-              Divider(),
-              Expanded(
-                child: Scrollbar(
-                  isAlwaysShown: true,
-                  controller: _scrollController,
-                  //height: 350,
-                  child: ListView.separated(
-                    //padding: const EdgeInsets.all(8),
-                    controller: _scrollController,
-                    itemCount: _deviceList.getAllDevices().length, //_deviceList.getDeviceList().length,
-                    itemBuilder: (BuildContext context, int index) {
-                      var device = _deviceList.getAllDevices()[index];
-                      return new Column(
-                        children: [
-                          ListTile(
-                            onTap: () => _handleTap(device),
-                            tileColor: secondColor,
+                    TableCell(
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.speed_rounded,
+                          color: Colors.white,
+                          size: 24.0 * fontSizeFactor,
+                        ),
+                        title: Text(
+                          "Cockpit Software",
+                          style: TextStyle(color: fontColorLight),
+                          //textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                    TableCell(
+                      child: Text(
+                        "",
+                        style: TextStyle(color: fontColorLight),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    TableCell(
+                      child: _loading
+                          ? SelectableText(
+                              " ${S.of(context).searching}",
+                              style: TextStyle(color: fontColorLight),
+                              textAlign: TextAlign.center,
+                            )
+                          : _deviceList.CockpitUpdate == false
+                              ? Text(
+                                  " ${S.of(context).upToDate}",
+                                  style: TextStyle(color: fontColorLight),
+                                  textAlign: TextAlign.center,
+                                )
+                              : Row(
+                                  children: [
+                                    FlatButton(
+                                        child: Text(
+                                          S.of(context).update2,
+                                          style: TextStyle(color: fontColorLight, fontSize: 20 * fontSizeFactor),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        onPressed: () async {
+                                          await updateCockpit(socket, _deviceList);
+                                        }),
+                                  ],
+                                ),
+                    ),
+                  ]),
+                  for (int i = 0; i < _deviceList.getAllDevices().length; i++)
+                    TableRow(decoration: BoxDecoration(color: i % 2 == 0 ? accentColor : mainColor), children: [
+                      TableCell(
+                        child: _loading
+                            ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CircularProgressIndicator(
+                                    valueColor: new AlwaysStoppedAnimation<Color>(fontColorLight),
+                                    strokeWidth: 3,
+                                  ),
+                                ],
+                              )
+                            : _deviceList.CockpitUpdate == false
+                                ? Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.check_circle,
+                                          color: devoloGreen,
+                                        ),
+                                        iconSize: 24 * fontSizeFactor,
+                                        onPressed: () {},
+                                        // tooltip: "already uptodate",
+                                      ),
+                                    ],
+                                  )
+                                : Row(
+                                    children: [
+                                      IconButton(
+                                          icon: Icon(
+                                            Icons.download_rounded,
+                                            color: mainColor,
+                                          ),
+                                          iconSize: 24 * fontSizeFactor,
+                                          onPressed: () async {
+                                            await updateCockpit(socket, _deviceList);
+                                          }),
+                                      if (_loadingSoftware)
+                                        CircularProgressIndicator(
+                                          valueColor: new AlwaysStoppedAnimation<Color>(fontColorLight),
+                                        ),
+                                    ],
+                                  ),
+                      ),
+                      TableCell(
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: ListTile(
+                            onTap: () => _handleTap(_deviceList.getAllDevices()[i]),
                             leading: RawImage(
-                              image: getIconForDeviceType(device.typeEnum),
+                              image: getIconForDeviceType(_deviceList.getAllDevices()[i].typeEnum),
                               height: 35 * fontSizeFactor,
                             ),
                             //Icon(Icons.devices),
-                            title: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Expanded(
-                                    flex: 2,
-                                    child: Text(
-                                      device.name,
-                                      style: TextStyle(fontWeight: FontWeight.bold, color: fontColorDark),
-                                    )),
-                                //Spacer(flex: 1,),
-                                Expanded(
-                                  flex: 2,
-                                  child: SelectableText(
-                                    '${device.version}',
-                                    style: TextStyle(color: fontColorDark),
-                                  ),
-                                ),
-                                //Spacer(flex: 2,),
-                                Expanded(
-                                  flex: 2,
-                                  child: _loading
-                                      ? Row(
-                                          children: [
-                                            CircularProgressIndicator(
-                                              valueColor: new AlwaysStoppedAnimation<Color>(mainColor),
-                                            ),
-                                            Text(
-                                                " ${S.of(context).searching}",
-                                              style: TextStyle(color: fontColorDark),
-                                            ),
-                                          ],
-                                        )
-                                      : device.updateStateInt != 0
-                                          ? Text(
-                                              "${S.of(context).updating} ${device.updateStateInt.toInt().toString()} % ",
-                                              style: TextStyle(fontSize: 17 * fontSizeFactor, fontWeight: FontWeight.bold),
-                                            )
-                                          : _deviceList.getUpdateList().contains(device.mac)
-                                              ? Row(
-                                                  children: [
-                                                    IconButton(
-                                                        icon: Icon(
-                                                          Icons.download_rounded,
-                                                          color: mainColor,
-                                                        ),
-                                                        iconSize: 24 * fontSizeFactor,
-                                                        onPressed: () {},
-                                                        // onPressed: () async {
-                                                        //   print("Updating ${device.mac}");
-                                                        //   setState(() {
-                                                        //     socket.sendXML('FirmwareUpdateResponse', newValue: device.mac);
-                                                        //     _loadingFW = socket.waitingResponse;
-                                                        //   });
-                                                        //   var response = await socket.recieveXML([]);
-                                                        //   print('Response: ' + response.toString());
-                                                        // }
-                                                        ),
-                                                    FlatButton(
-                                                        child: Text(
-                                                          S.of(context).update2,
-                                                          style: TextStyle(color: fontColorDark, fontSize: 20 * fontSizeFactor),
-                                                        ),
-                                                        onPressed: () {},
-                                                        // onPressed: () async {
-                                                        //   print("Updating ${device.mac}");
-                                                        //   setState(() {
-                                                        //     socket.sendXML('FirmwareUpdateResponse', newValue: device.mac);
-                                                        //     _loadingFW = socket.waitingResponse;
-                                                        //   });
-                                                        //   var response = await socket.recieveXML([]);
-                                                        //   print('Response: ' + response.toString());
-                                                        // }
-                                                        ),
-                                                  ],
-                                                )
-                                              : Row(
-                                                  children: [
-                                                    IconButton(
-                                                      icon: Icon(
-                                                        Icons.check_circle_outline,
-                                                        color: Colors.green,
-                                                      ),
-                                                      iconSize: 24 * fontSizeFactor,
-                                                      // tooltip: "already Uptodate",
-                                                      onPressed: () {},
-                                                    ),
-                                                    Text(
-                                                      " ${S.of(context).upToDate}",
-                                                      style: TextStyle(color: fontColorDark, fontSize: 20 * fontSizeFactor),
-                                                    ),
-                                                  ],
-                                                ),
-                                ), //ToDo somehow get new FW version
-                                //Spacer(flex: 2,),
-                              ],
+                            title: Text(
+                              _deviceList.getAllDevices()[i].name,
+                              style: TextStyle(fontWeight: FontWeight.bold, color: fontColorLight),
+                              //textAlign: TextAlign.center,
                             ),
                             subtitle: Text(
-                              '${device.type}',
-                              style: TextStyle(color: fontColorDark),
+                              '${_deviceList.getAllDevices()[i].type}',
+                              style: TextStyle(color: fontColorLight),
+                              //textAlign: TextAlign.center,
                             ),
-                            // trailing: device.updateStateInt != 0
-                            //     ? Text(
-                            //         device.updateStateInt.toInt().toString() + " %",
-                            //         style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                            //       )
-                            //     : _deviceList.getUpdateList().contains(device.mac)
-                            //         ? IconButton(
-                            //             icon: Icon(
-                            //               Icons.download_rounded,
-                            //               color: mainColor,
-                            //             ),
-                            //             iconSize: 24 * fontSizeFactor,
-                            //             onPressed: () async {
-                            //               print("Updating ${device.mac}");
-                            //               setState(() {
-                            //                 socket.sendXML('FirmwareUpdateResponse', newValue: device.mac);
-                            //                 _loadingFW = socket.waitingResponse;
-                            //               });
-                            //
-                            //               var response = await socket.recieveXML([]);
-                            //               print('Response: ' + response.toString());
-                            //             })
-                            //         : IconButton(
-                            //             icon: Icon(
-                            //               Icons.check_circle_outline,
-                            //               color: Colors.green,
-                            //             ),
-                            //             iconSize: 24 * fontSizeFactor,
-                            //             // tooltip: "already Uptodate",
-                            //           ),
                           ),
-                          device.updateStateInt != 0
-                              ? LinearProgressIndicator(
-                                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.green),
-                                  minHeight: 7,
-                                  backgroundColor: secondColor,
-                                  value: device.updateStateInt * 0.01,
-                                )
-                              : LinearProgressIndicator(
-                                  backgroundColor: secondColor,
-                                  value: 0,
-                                ),
-                        ],
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) => const Divider(),
-                  ),
-                ),
+                        ),
+                      ),
+                      TableCell(
+                        child: Text(
+                          _deviceList.getAllDevices()[i].version,
+                          style: TextStyle(color: fontColorLight),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      TableCell(
+                        child: _loading
+                            ? SelectableText(
+                                " ${S.of(context).searching}",
+                                style: TextStyle(color: fontColorLight),
+                                textAlign: TextAlign.center,
+                              )
+                            : _deviceList.CockpitUpdate == false
+                                ? Text(
+                                    " ${S.of(context).upToDate}",
+                                    style: TextStyle(color: fontColorLight),
+                                    textAlign: TextAlign.center,
+                                  )
+                                : Row(
+                                    children: [
+                                      FlatButton(
+                                          child: Text(
+                                            S.of(context).update2,
+                                            style: TextStyle(color: fontColorLight, fontSize: 20 * fontSizeFactor),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          onPressed: () async {
+                                            await updateCockpit(socket, _deviceList);
+                                          }),
+                                    ],
+                                  ),
+                      ),
+                    ]),
+                ],
               ),
-            ],
-          ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+          ],
         ),
       ),
     );
@@ -556,23 +554,18 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       defaultColumnWidth: FixedColumnWidth(300.0 * fontSizeFactor),
                       children: [
                         TableRow(children: [
-
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                if(_changeNameLoading)
-                                  CircularProgressIndicator(
-                                    valueColor: new AlwaysStoppedAnimation<Color>(secondColor),
-                                    strokeWidth: 2.0,
-                                  ),
-                                SizedBox(width: 25),
-                                SelectableText(
-                                  'Name:   ',
-                                  style: TextStyle(height: 2),
-                                ),
-
-                              ]),
-
+                          Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                            if (_changeNameLoading)
+                              CircularProgressIndicator(
+                                valueColor: new AlwaysStoppedAnimation<Color>(secondColor),
+                                strokeWidth: 2.0,
+                              ),
+                            SizedBox(width: 25),
+                            SelectableText(
+                              'Name:   ',
+                              style: TextStyle(height: 2),
+                            ),
+                          ]),
                           TextFormField(
                             initialValue: _newName,
                             focusNode: myFocusNode,
@@ -582,7 +575,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               hoverColor: secondColor.withOpacity(0.2),
                               contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                               filled: true,
-                              fillColor: secondColor.withOpacity(0.2),//myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
+                              fillColor: secondColor.withOpacity(0.2),
+                              //myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5.0),
                                 borderSide: BorderSide(
@@ -593,81 +587,69 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5.0),
                                 borderSide: BorderSide(
-                                  color: fontColorLight,//Colors.transparent,
+                                  color: fontColorLight, //Colors.transparent,
                                   //width: 2.0,
                                 ),
                               ),
                               suffixIcon: IconButton(
-                                icon: Icon(Icons.edit_outlined, color: fontColorLight,),
-                                onPressed: () async{
-                                  if(_newName != hitDeviceName){
-                                    bool confResponse = await _confirmDialog(context, S.of(context).deviceNameDialogTitle,  S.of(context).deviceNameDialogBody);
-                                    if(confResponse){
-
+                                icon: Icon(
+                                  Icons.edit_outlined,
+                                  color: fontColorLight,
+                                ),
+                                onPressed: () async {
+                                  if (_newName != hitDeviceName) {
+                                    bool confResponse = await _confirmDialog(context, S.of(context).deviceNameDialogTitle, S.of(context).deviceNameDialogBody);
+                                    if (confResponse) {
                                       _changeNameLoading = true;
                                       socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
                                       var response = await socket.myReceiveXML("SetAdapterNameStatus");
-                                      if(response['result'] == "ok"){
-
+                                      if (response['result'] == "ok") {
                                         hitDeviceName = _newName;
-                                        await Future.delayed(const Duration(seconds: 1), (){});
+                                        await Future.delayed(const Duration(seconds: 1), () {});
                                         socket.sendXML('RefreshNetwork');
 
                                         //setState(() {
                                         //   socket.sendXML('RefreshNetwork');
                                         //});
-                                      }
-
-                                      else if(response['result'] == "device_not_found"){
+                                      } else if (response['result'] == "device_not_found") {
                                         _errorDialog(context, S.of(context).deviceNameErrorTitle, S.of(context).deviceNotFoundDeviceName + "\n\n" + S.of(context).deviceNotFoundHint);
-                                      }
-
-                                      else if(response['result'] != "ok"){
-
+                                      } else if (response['result'] != "ok") {
                                         _errorDialog(context, S.of(context).deviceNameErrorTitle, S.of(context).deviceNameErrorBody);
                                       }
 
                                       _changeNameLoading = false;
-
                                     }
                                   }
                                 },
                               ),
                             ),
                             onChanged: (value) => (_newName = value),
-                            onEditingComplete: () async{
-                              if(_newName != hitDeviceName) {
+                            onEditingComplete: () async {
+                              if (_newName != hitDeviceName) {
                                 bool confResponse = await _confirmDialog(context, S.of(context).deviceNameDialogTitle, S.of(context).deviceNameDialogBody);
-                                if(confResponse){
-
+                                if (confResponse) {
                                   _changeNameLoading = true;
                                   socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
                                   var response = await socket.myReceiveXML("SetAdapterNameStatus");
-                                  if(response['result'] == "ok"){
-
+                                  if (response['result'] == "ok") {
                                     hitDeviceName = _newName;
-                                    await Future.delayed(const Duration(seconds: 1), (){});
+                                    await Future.delayed(const Duration(seconds: 1), () {});
                                     socket.sendXML('RefreshNetwork');
 
                                     //setState(() {
                                     //   socket.sendXML('RefreshNetwork');
                                     //});
-                                  }
-                                  else if(response['result'] == "timeout"){
-
+                                  } else if (response['result'] == "timeout") {
                                     _errorDialog(context, S.of(context).deviceNameErrorTitle, S.of(context).deviceNameErrorBody);
-                                  }
-
-                                  else if(response['result'] == "device_not_found"){
+                                  } else if (response['result'] == "device_not_found") {
                                     _errorDialog(context, S.of(context).deviceNameErrorTitle, S.of(context).deviceNotFoundDeviceName + "\n\n" + S.of(context).deviceNotFoundHint);
                                   }
 
                                   _changeNameLoading = false;
-
                                 }
                               }
                             },
-                            onTap: (){
+                            onTap: () {
                               setState(() {
                                 myFocusNode.hasFocus;
                               });
@@ -768,7 +750,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
                             child: SelectableText(hitDeviceMac),
                           ),
                         ]),
-
                       ],
                     ),
                     //Text('Rates: ' +hitDeviceRx),
@@ -779,7 +760,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         Column(
                           children: [
                             IconButton(
-
                               icon: Icon(
                                 Icons.public,
                               ),
@@ -790,16 +770,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               iconSize: 24.0 * fontSizeFactor,
                               onPressed: !hitDeviceWebinterface ? null : () => launchURL(hitDeviceIp),
                               mouseCursor: !hitDeviceWebinterface ? null : SystemMouseCursors.click,
-
-
-
                             ),
                             Text(
                               S.of(context).launchWebinterface,
-                              style: TextStyle(fontSize: 14, color: !hitDeviceWebinterface ? fontColorNotAvailable: fontColorLight),
+                              style: TextStyle(fontSize: 14, color: !hitDeviceWebinterface ? fontColorNotAvailable : fontColorLight),
                               textScaleFactor: fontSizeFactor,
                               textAlign: TextAlign.center,
-
                             )
                           ],
                         ),
@@ -816,15 +792,14 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               iconSize: 24.0 * fontSizeFactor,
                               onPressed: !hitDeviceIdentify
                                   ? null
-                                  : () async{
-                                socket.sendXML('IdentifyDevice', mac: hitDeviceMac);
-                                var response = await socket.myReceiveXML("IdentifyDeviceStatus");
-                                if(response['result'] == "device_not_found"){
-                                  _errorDialog(context, S.of(context).identifyDeviceErrorTitle, S.of(context).deviceNotFoundIdentifyDevice + "\n\n" + S.of(context).deviceNotFoundHint);
-                                }
-                              },
+                                  : () async {
+                                      socket.sendXML('IdentifyDevice', mac: hitDeviceMac);
+                                      var response = await socket.myReceiveXML("IdentifyDeviceStatus");
+                                      if (response['result'] == "device_not_found") {
+                                        _errorDialog(context, S.of(context).identifyDeviceErrorTitle, S.of(context).deviceNotFoundIdentifyDevice + "\n\n" + S.of(context).deviceNotFoundHint);
+                                      }
+                                    },
                               mouseCursor: !hitDeviceIdentify ? null : SystemMouseCursors.click,
-
                             ),
                             Text(
                               S.of(context).identifyDevice,
@@ -847,15 +822,13 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                 onPressed: () async {
                                   socket.sendXML('GetManual', newValue: hitDeviceMT, valueType: 'product', newValue2: 'de', valueType2: 'language');
                                   var response = await socket.myReceiveXML("GetManualResponse");
-                                  if(response['filename'] != ""){
+                                  if (response['filename'] != "") {
                                     setState(() {
                                       openFile(response['filename']);
                                     });
-                                  }
-                                  else{
+                                  } else {
                                     _errorDialog(context, S.of(context).manualErrorTitle, S.of(context).manualErrorBody);
                                   }
-
                                 }),
                             Text(
                               S.of(context).showManual,
@@ -878,22 +851,18 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               iconSize: 24.0 * fontSizeFactor,
                               onPressed: () async {
                                 bool confResponse = false;
-                                hitDevice.attachedToRouter
-                                    ? confResponse = await _confirmDialog(context, S.of(context).resetDeviceConfirmTitle,  S.of(context).resetDeviceConfirmBody + "\n" + S.of(context).confirmActionConnectedToRouterWarning)
-                                    : confResponse = await _confirmDialog(context, S.of(context).resetDeviceConfirmTitle,  S.of(context).resetDeviceConfirmBody);
+                                hitDevice.attachedToRouter ? confResponse = await _confirmDialog(context, S.of(context).resetDeviceConfirmTitle, S.of(context).resetDeviceConfirmBody + "\n" + S.of(context).confirmActionConnectedToRouterWarning) : confResponse = await _confirmDialog(context, S.of(context).resetDeviceConfirmTitle, S.of(context).resetDeviceConfirmBody);
 
-                                if(confResponse){
+                                if (confResponse) {
                                   socket.sendXML("ResetAdapterToFactoryDefaults", mac: hitDevice.mac);
 
                                   var response = await socket.myReceiveXML("ResetAdapterToFactoryDefaultsStatus");
-                                  if(response['result'] == "device_not_found"){
+                                  if (response['result'] == "device_not_found") {
                                     _errorDialog(context, S.of(context).resetDeviceErrorTitle, S.of(context).deviceNotFoundResetDevice + "\n\n" + S.of(context).deviceNotFoundHint);
-                                  }
-                                  else if (response['result'] != "ok"){
+                                  } else if (response['result'] != "ok") {
                                     _errorDialog(context, S.of(context).resetDeviceErrorTitle, S.of(context).resetDeviceErrorBody);
                                   }
                                 }
-
                               },
                             ),
                             Text(
@@ -917,18 +886,15 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               iconSize: 24.0 * fontSizeFactor,
                               onPressed: () async {
                                 bool confResponse = false;
-                                hitDevice.attachedToRouter
-                                    ? confResponse = await _confirmDialog(context, S.of(context).removeDeviceConfirmTitle,  S.of(context).removeDeviceConfirmBody + "\n" + S.of(context).confirmActionConnectedToRouterWarning)
-                                    : confResponse = await _confirmDialog(context, S.of(context).removeDeviceConfirmTitle,  S.of(context).removeDeviceConfirmBody);
+                                hitDevice.attachedToRouter ? confResponse = await _confirmDialog(context, S.of(context).removeDeviceConfirmTitle, S.of(context).removeDeviceConfirmBody + "\n" + S.of(context).confirmActionConnectedToRouterWarning) : confResponse = await _confirmDialog(context, S.of(context).removeDeviceConfirmTitle, S.of(context).removeDeviceConfirmBody);
 
-                                if(confResponse){
+                                if (confResponse) {
                                   socket.sendXML("RemoveAdapter", mac: hitDevice.mac);
 
                                   var response = await socket.myReceiveXML("RemoveAdapterStatus");
-                                  if(response['result'] == "device_not_found"){
+                                  if (response['result'] == "device_not_found") {
                                     _errorDialog(context, S.of(context).removeDeviceErrorTitle, S.of(context).deviceNotFoundRemoveDevice + "\n\n" + S.of(context).deviceNotFoundHint);
-                                  }
-                                  else if (response['result'] != "ok"){
+                                  } else if (response['result'] != "ok") {
                                     _errorDialog(context, S.of(context).removeDeviceErrorTitle, S.of(context).removeDeviceErrorBody);
                                   }
                                 }
@@ -972,7 +938,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
   // Confirmation Dialog with 2 Buttons
   Future<bool> _confirmDialog(context, title, body) async {
-
     bool returnVal = await showDialog(
         context: context,
         barrierDismissible: true, // user doesn't need to tap button!
@@ -1016,7 +981,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       color: fontColorLight,
                       size: 35 * fontSizeFactor,
                     ),
-                    Text(S.of(context).confirm, style: TextStyle(color: fontColorLight),),
+                    Text(
+                      S.of(context).confirm,
+                      style: TextStyle(color: fontColorLight),
+                    ),
                   ],
                 ),
                 onPressed: () {
@@ -1032,7 +1000,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         color: fontColorLight,
                         size: 35 * fontSizeFactor,
                       ),
-                      Text(S.of(context).cancel, style: TextStyle(color: fontColorLight),),
+                      Text(
+                        S.of(context).cancel,
+                        style: TextStyle(color: fontColorLight),
+                      ),
                     ],
                   ), //Text('Abbrechen'),
                   onPressed: () {
@@ -1044,15 +1015,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
           );
         });
 
-    if(returnVal == null)
-      returnVal = false;
+    if (returnVal == null) returnVal = false;
 
     return returnVal;
-
   }
 
   void _errorDialog(context, title, body) {
-
     showDialog<void>(
         context: context,
         barrierDismissible: true, // user doesn't need to tap button!
@@ -1087,9 +1055,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 Text(body),
               ],
             ),
-            actions: <Widget>[
-
-            ],
+            actions: <Widget>[],
           );
         });
   }

@@ -24,18 +24,18 @@ dependencies:
   flutter:
     sdk: flutter
   xml: ^4.5.1
-  provider: ^4.3.3 # ^3.0.0
-  url_launcher: ^5.7.10
+  provider: ^4.3.3 # previous: ^3.0.0
+  url_launcher: ^6.0.4 # previous: ^5.7.10
   flutter_svg: ^0.19.2+1 #^0.20.0-nullsafety.3
   open_file: ^3.0.3
   flag: ^3.2.0
   flutter_localizations:
     sdk: flutter
   flutter_spinbox: ^0.5.1
-  shared_preferences: ^0.5.12+4
+  shared_preferences: ^2.0.5 # previous: 0.5.12+4
   flutter_material_color_picker: ^1.0.5
   yaml: ^2.2.1
-  package_info_plus: ^0.6.3
+  package_info_plus: ^1.0.1 # previous: ^0.6.3
   carousel_slider: ^3.0.0
   window_size:
     git:

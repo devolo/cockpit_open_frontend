@@ -601,9 +601,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                         //setState(() {
                                         //   socket.sendXML('RefreshNetwork');
                                         //});
-                                      } else if (response!['result'] == "device_not_found") {
+                                      } else if (response['result']! == "device_not_found") {
                                         _errorDialog(context, S.of(context).deviceNameErrorTitle, S.of(context).deviceNotFoundDeviceName + "\n\n" + S.of(context).deviceNotFoundHint);
-                                      } else if (response!['result'] != "ok") {
+                                      } else if (response['result'] != "ok") {
                                         _errorDialog(context, S.of(context).deviceNameErrorTitle, S.of(context).deviceNameErrorBody);
                                       }
 
@@ -851,7 +851,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                   var response = await socket.myReceiveXML("ResetAdapterToFactoryDefaultsStatus");
                                   if (response!['result'] == "device_not_found") {
                                     _errorDialog(context, S.of(context).resetDeviceErrorTitle, S.of(context).deviceNotFoundResetDevice + "\n\n" + S.of(context).deviceNotFoundHint);
-                                  } else if (response!['result'] != "ok") {
+                                  } else if (response['result'] != "ok") {
                                     _errorDialog(context, S.of(context).resetDeviceErrorTitle, S.of(context).resetDeviceErrorBody);
                                   }
                                 }

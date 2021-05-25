@@ -63,7 +63,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
 
 
-  late String _newPw;
+  String? _newPw;
   bool _hiddenPw = true;
   bool _isButtonDisabled = true;
   bool _loading = false;

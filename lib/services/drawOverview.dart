@@ -719,7 +719,7 @@ class DrawOverview extends CustomPainter {
 
       //do not draw pivot device line, since it would start and end at the same place
       if (numDev != pivotDeviceIndex) {
-        drawDeviceConnection(canvas, _deviceIconOffsetList.elementAt(numDev), getLineThickness(numDev)!, getLineColor(numDev)!);
+        drawDeviceConnection(canvas, _deviceIconOffsetList.elementAt(numDev), getLineThickness(numDev), getLineColor(numDev));
       }
 
       if (config["show_other_devices"]) {
@@ -732,46 +732,47 @@ class DrawOverview extends CustomPainter {
     }
   }
 
-  Map<String, dynamic>? getLineColor(int dev) {
+  Map<String, dynamic> getLineColor(int dev) {
     // ToDo
-    Map<String, dynamic>? colors;
+    Map<String, Color> colors = {"rx": Colors.grey, "tx":Colors.grey};
     dynamic rates = _deviceList[pivotDeviceIndex].speeds![_deviceList[dev].mac];
     if (rates != null) {
       if (rates.rx > 400)
-        colors!['rx'] = Colors.green;
+        colors['rx'] = Colors.green;
       else if (rates.rx > 100)
-        colors!['rx'] = Colors.yellow;
-      else if (rates.rx < 100) colors!['rx'] = Colors.red;
+        colors['rx'] = Colors.yellow;
+      else if (rates.rx < 100) colors['rx'] = Colors.red;
 
       if (rates.tx > 400)
-        colors!['tx'] = Colors.green;
+        colors['tx'] = Colors.green;
       else if (rates.tx > 100)
-        colors!['tx'] = Colors.yellow;
-      else if (rates.tx < 100) colors!['tx'] = Colors.red;
+        colors['tx'] = Colors.yellow;
+      else if (rates.tx < 100) colors['tx'] = Colors.red;
     }
     return colors;
   }
 
-  Map<String, double>? getLineThickness(int dev) {
-    Map<String, double>? thickness;
+  Map<String?, double?> getLineThickness(int dev) {
+    Map<String?, double?> thickness = {"rx": 0, "tx":0};
     dynamic rates = _deviceList[pivotDeviceIndex].speeds![_deviceList[dev].mac];
     if (rates != null) {
       if (rates.rx * 0.01 > 7.0) //
-        thickness!['rx'] = 7.0;
+        thickness['rx'] = 7.0;
       else
-        thickness!['rx'] = rates.rx * 0.01.toDouble();
+        thickness['rx'] = rates.rx * 0.01.toDouble();
 
       if (rates.tx * 0.01 > 7.0)
-        thickness!['tx'] = 7.0;
+        thickness['tx'] = 7.0;
       else
         thickness['tx'] = rates.tx * 0.01.toDouble();
       //print('THIIICKNESSS ' + dev.toString() + " " + thickness.toString());
-      return thickness;
+
     } else {
-      thickness!['rx'] = 0.3;
-      thickness!['tx'] = 0.3;
-      return thickness;
+      thickness['rx'] = 0.3;
+      thickness['tx'] = 0.3;
+
     }
+    return thickness;
   }
 
   void drawAllDeviceIcons(Canvas canvas, Size size) {

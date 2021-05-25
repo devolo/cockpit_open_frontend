@@ -239,7 +239,7 @@ class dataHand extends ChangeNotifier {
           newValue! +
           '</macAddress></first><second></second></item></DeviceList></Message></boost_serialization>';
     } else if (messageType == "UpdateResponse") {
-      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType>' + '<' + valueType! + '>' + newValue! + '</' + valueType! + '>' + '</Message></boost_serialization>';
+      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType>' + '<' + valueType! + '>' + newValue! + '</' + valueType + '>' + '</Message></boost_serialization>';
     } else if (messageType == "SetVDSLCompatibility") {
       xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType><macAddress>' + mac! + '</macAddress><' + valueType2! + '>' + newValue2! + '</' + valueType2 + '><' + valueType! + '>' + newValue! + '</' + valueType + '>' + '</Message></boost_serialization>';
     } else if (newValue == null && mac != null) {
@@ -247,7 +247,7 @@ class dataHand extends ChangeNotifier {
     } else if (newValue2 == null && mac != null) {
       xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType><macAddress>' + mac + '</macAddress>' + '<' + valueType! + '>' + newValue! + '</' + valueType + '></Message></boost_serialization>';
     } else if (newValue2 != null && mac == null) {
-      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType>' + '<' + valueType! + '>' + newValue! + '</' + valueType! + '>' + '<' + valueType2! + '>' + newValue2 + '</' + valueType2 + '>' + '</Message></boost_serialization>';
+      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType>' + '<' + valueType! + '>' + newValue! + '</' + valueType + '>' + '<' + valueType2! + '>' + newValue2 + '</' + valueType2 + '>' + '</Message></boost_serialization>';
     } else if (mac == null) {
       xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType></Message></boost_serialization>';
     }
@@ -596,18 +596,18 @@ class dataHand extends ChangeNotifier {
 
     responseElem = (await findFirstElem(xmlResponse, 'status'))!;
     if (responseElem != null) {
-      response!['status'] = responseElem;
+      response['status'] = responseElem;
     }
     responseElem = (await findFirstElem(xmlResponse, 'commandline'))!;
     if (responseElem != null) {
-      response!['commandline'] = responseElem;
+      response['commandline'] = responseElem;
     }
     responseElem = (await findFirstElem(xmlResponse, 'workdir'))!;
     if (responseElem != null) {
-      response!['workdir'] = responseElem;
+      response['workdir'] = responseElem;
     }
 
-    if (response!['status'] == "none") {
+    if (response['status'] == "none") {
       _deviceList!.CockpitUpdate = false;
     } else {
       _deviceList!.CockpitUpdate = true;

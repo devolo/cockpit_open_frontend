@@ -21,9 +21,9 @@ import 'dart:ui';
 class DrawOverview extends CustomPainter {
   double hn_circle_radius = 35.0;
   double complete_circle_radius = 50.0;
-  List<Device> _deviceList;
-  List<List<Device>> _networkList;
-  NetworkList _providerList;
+  late List<Device> _deviceList;
+  late List<List<Device>> _networkList;
+  late NetworkList _providerList;
   List<Offset> _deviceIconOffsetList = deviceIconOffsetList;
   int pivotDeviceIndex = 0;
   int selectedNetworkIndex = 0;
@@ -57,23 +57,23 @@ class DrawOverview extends CustomPainter {
     fontWeight: FontWeight.bold,
   );
 
-  Paint _deviceIconPaint;
-  Paint _circleBorderPaint;
-  Paint _circleAreaPaint;
-  Paint _speedCircleAreaPaint;
-  Paint _linePaint;
-  Paint _speedLinePaint;
-  Paint _pcPaint;
-  Paint _routerPaint;
-  Paint _arrowPaint;
-  TextPainter _textPainter;
-  TextPainter _speedTextPainter;
-  TextPainter _iconPainter;
-  double screenWidth;
-  double screenHeight;
-  int numberFoundDevices;
-  double _screenGridWidth;
-  double _screenGridHeight;
+  late Paint _deviceIconPaint;
+  late Paint _circleBorderPaint;
+  late Paint _circleAreaPaint;
+  late Paint _speedCircleAreaPaint;
+  late Paint _linePaint;
+  late Paint _speedLinePaint;
+  late Paint _pcPaint;
+  late Paint _routerPaint;
+  late Paint _arrowPaint;
+  late TextPainter _textPainter;
+  late TextPainter _speedTextPainter;
+  late TextPainter _iconPainter;
+  late double screenWidth;
+  late double screenHeight;
+  late int numberFoundDevices;
+  late double _screenGridWidth;
+  late double _screenGridHeight;
 
   DrawOverview(BuildContext context, NetworkList foundDevices, bool showSpeeds, int pivot) {
     _providerList = Provider.of<NetworkList>(context);
@@ -359,7 +359,7 @@ class DrawOverview extends CustomPainter {
           absolutePivotOffsetRx,
           absoluteOffsetRx,
           _linePaint
-            ..colorFilter = ColorFilter.mode(Colors.blueGrey[200], BlendMode.color)
+            ..colorFilter = ColorFilter.mode(Colors.blueGrey[200]!, BlendMode.color)
             ..strokeWidth = 1.0); //thickness['rx']
     }
     if (thickness['tx'] < 1.0) {
@@ -367,7 +367,7 @@ class DrawOverview extends CustomPainter {
           absolutePivotOffsetTx,
           absoluteOffsetTx,
           _linePaint
-            ..colorFilter = ColorFilter.mode(Colors.blueGrey[200], BlendMode.color)
+            ..colorFilter = ColorFilter.mode(Colors.blueGrey[200]!, BlendMode.color)
             ..strokeWidth = 1.0); //thickness['tx']
     } else {
       //canvas.drawLine(absoluteOffsetArrowStartRx, absoluteOffsetRx, _linePaint..strokeWidth = thickness['rx']); // Draw Connection Line
@@ -438,9 +438,9 @@ class DrawOverview extends CustomPainter {
       String speedUp = "";
       String speedDown = "";
 
-      if (_deviceList.elementAt(pivotDeviceIndex).speeds[_deviceList.elementAt(deviceIndex).mac] != null) {
-        rx = _deviceList.elementAt(pivotDeviceIndex).speeds[_deviceList.elementAt(deviceIndex).mac].rx;
-        tx = _deviceList.elementAt(pivotDeviceIndex).speeds[_deviceList.elementAt(deviceIndex).mac].tx;
+      if (_deviceList.elementAt(pivotDeviceIndex).speeds![_deviceList.elementAt(deviceIndex).mac] != null) {
+        rx = _deviceList.elementAt(pivotDeviceIndex).speeds![_deviceList.elementAt(deviceIndex).mac]!.rx;
+        tx = _deviceList.elementAt(pivotDeviceIndex).speeds![_deviceList.elementAt(deviceIndex).mac]!.tx;
       }
       //print("speeds for ${_deviceList.elementAt(deviceIndex).mac}: ${rx.toString()} - ${tx.toString()}");
 
@@ -481,7 +481,7 @@ class DrawOverview extends CustomPainter {
         if (areDeviceIconsLoaded && _deviceList.elementAt(pivotDeviceIndex).icon != null) {
           paintImage(
               canvas: canvas,
-              image: _deviceList.elementAt(pivotDeviceIndex).icon, //deviceIconList[0],
+              image: _deviceList.elementAt(pivotDeviceIndex).icon!, //deviceIconList[0],
               fit: BoxFit.scaleDown,
               rect: Rect.fromPoints(imageRectUpperLeft, imageRectLowerRight));
         }
@@ -494,7 +494,7 @@ class DrawOverview extends CustomPainter {
       if (areDeviceIconsLoaded && _deviceList.elementAt(deviceIndex).icon != null) {
         paintImage(
             canvas: canvas,
-            image: _deviceList.elementAt(deviceIndex).icon, //deviceIconList[0],
+            image: _deviceList.elementAt(deviceIndex).icon!, //deviceIconList[0],
             fit: BoxFit.scaleDown,
             rect: Rect.fromPoints(imageRectUpperLeft, imageRectLowerRight));
       }
@@ -523,7 +523,7 @@ class DrawOverview extends CustomPainter {
     _textPainter.paint(canvas, Offset(absoluteOffset.dx - (_textPainter.width / 2), absoluteOffset.dy - complete_circle_radius - 5));
   }
 
-  void drawDeviceName(Canvas canvas, String pName, String uName, Offset offset, [Size size]) {
+  void drawDeviceName(Canvas canvas, String pName, String uName, Offset offset, [Size? size]) {
     Offset absoluteOffset = Offset(offset.dx + (screenWidth / 2), offset.dy + (screenHeight / 2));
 
     final userNameTextSpan = TextSpan(
@@ -620,7 +620,7 @@ class DrawOverview extends CustomPainter {
 
   }
 
-  void drawIcon(Canvas canvas, Offset offset, icon, [double size]) {
+  void drawIcon(Canvas canvas, Offset offset, icon, [double? size]) {
     Offset offsetCircle = Offset(offset.dx - hn_circle_radius.toDouble() / 2.0, offset.dy);
     size??=30.0;
 
@@ -719,7 +719,7 @@ class DrawOverview extends CustomPainter {
 
       //do not draw pivot device line, since it would start and end at the same place
       if (numDev != pivotDeviceIndex) {
-        drawDeviceConnection(canvas, _deviceIconOffsetList.elementAt(numDev), getLineThickness(numDev), getLineColor(numDev));
+        drawDeviceConnection(canvas, _deviceIconOffsetList.elementAt(numDev), getLineThickness(numDev)!, getLineColor(numDev)!);
       }
 
       if (config["show_other_devices"]) {
@@ -732,44 +732,44 @@ class DrawOverview extends CustomPainter {
     }
   }
 
-  Map<String, dynamic> getLineColor(int dev) {
+  Map<String, dynamic>? getLineColor(int dev) {
     // ToDo
-    Map colors = Map<String, dynamic>();
-    dynamic rates = _deviceList[pivotDeviceIndex].speeds[_deviceList[dev].mac];
+    Map<String, dynamic>? colors;
+    dynamic rates = _deviceList[pivotDeviceIndex].speeds![_deviceList[dev].mac];
     if (rates != null) {
       if (rates.rx > 400)
-        colors['rx'] = Colors.green;
+        colors!['rx'] = Colors.green;
       else if (rates.rx > 100)
-        colors['rx'] = Colors.yellow;
-      else if (rates.rx < 100) colors['rx'] = Colors.red;
+        colors!['rx'] = Colors.yellow;
+      else if (rates.rx < 100) colors!['rx'] = Colors.red;
 
       if (rates.tx > 400)
-        colors['tx'] = Colors.green;
+        colors!['tx'] = Colors.green;
       else if (rates.tx > 100)
-        colors['tx'] = Colors.yellow;
-      else if (rates.tx < 100) colors['tx'] = Colors.red;
+        colors!['tx'] = Colors.yellow;
+      else if (rates.tx < 100) colors!['tx'] = Colors.red;
     }
     return colors;
   }
 
-  Map<String, double> getLineThickness(int dev) {
-    Map thickness = Map<String, double>();
-    dynamic rates = _deviceList[pivotDeviceIndex].speeds[_deviceList[dev].mac];
+  Map<String, double>? getLineThickness(int dev) {
+    Map<String, double>? thickness;
+    dynamic rates = _deviceList[pivotDeviceIndex].speeds![_deviceList[dev].mac];
     if (rates != null) {
       if (rates.rx * 0.01 > 7.0) //
-        thickness['rx'] = 7.0;
+        thickness!['rx'] = 7.0;
       else
-        thickness['rx'] = rates.rx * 0.01.toDouble();
+        thickness!['rx'] = rates.rx * 0.01.toDouble();
 
       if (rates.tx * 0.01 > 7.0)
-        thickness['tx'] = 7.0;
+        thickness!['tx'] = 7.0;
       else
         thickness['tx'] = rates.tx * 0.01.toDouble();
       //print('THIIICKNESSS ' + dev.toString() + " " + thickness.toString());
       return thickness;
     } else {
-      thickness['rx'] = 0.3;
-      thickness['tx'] = 0.3;
+      thickness!['rx'] = 0.3;
+      thickness!['tx'] = 0.3;
       return thickness;
     }
   }

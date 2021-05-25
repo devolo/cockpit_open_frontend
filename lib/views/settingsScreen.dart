@@ -20,7 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/views/logsScreen.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
-import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
+//import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:cockpit_devolo/views/appBuilder.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,10 +28,10 @@ import 'dart:convert';
 
 
 class SettingsScreen extends StatefulWidget {
-  SettingsScreen({Key key, this.title, this.painter}) : super(key: key);
+  SettingsScreen({Key? key, required this.title,}) : super(key: key);
 
   final String title;
-  DrawOverview painter;
+  DrawOverview? painter;
   //ConfigModel configModel = ConfigModel();
 
   @override
@@ -57,33 +57,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Color switchActiveTrackColor = mainColor.withAlpha(100);
   Color switchActiveColor = Colors.white;
   Color switchInactiveThumbColor = Colors.black;
-  Color switchInactiveTrackColor = Colors.grey[600];
+  Color switchInactiveTrackColor = Colors.grey[600]!;
 
   /* ===========  =========== */
 
 
 
-  String _newPw;
+  late String _newPw;
   bool _hiddenPw = true;
   bool _isButtonDisabled = true;
   bool _loading = false;
-  String _zipfilename;
-  String _htmlfilename;
+  String? _zipfilename;
+  String? _htmlfilename;
   var response;
   var waitForNetworkPasswordResponse = false;
   var networkPasswordResponseTrue = false;
   var networkPasswordResponseFalse = false;
 
-  ColorSwatch _tempMainColor;
-  ColorSwatch _mainColor;
-  Color _tempShadeMainColor; //=configModel.mainColor;
-  Color _shadeMainColor; // = mainColor;
-  Color _tempShadeSecondColor; // = secondColor;
-  Color _shadeSecondColor; // = secondColor;
-  Color _tempShadeFontColorLight; // = fontColorLight;
-  Color _shadeFontColorLight; // = fontColorLight;
-  Color _tempShadeFontColorDark; // = fontColorDark;
-  Color _shadeFontColorDark; // = fontColorDark;
+  // ColorSwatch _tempMainColor;
+  // ColorSwatch _mainColor;
+  // Color _tempShadeMainColor; //=configModel.mainColor;
+  // Color _shadeMainColor; // = mainColor;
+  // Color _tempShadeSecondColor; // = secondColor;
+  // Color _shadeSecondColor; // = secondColor;
+  // Color _tempShadeFontColorLight; // = fontColorLight;
+  // Color _shadeFontColorLight; // = fontColorLight;
+  // Color _tempShadeFontColorDark; // = fontColorDark;
+  // Color _shadeFontColorDark; // = fontColorDark;
 
   final _scrollController = ScrollController();
   FocusNode myFocusNode = new FocusNode();
@@ -104,88 +104,88 @@ class _SettingsScreenState extends State<SettingsScreen> {
     });
   }
 
-  void _mainColorPicker(title, title2, title3, title4) async {
-    _openDialog(
-      title,
-      MaterialColorPicker(
-        colors: fullMaterialColors,
-        selectedColor: mainColor,
-        onColorChange: (color) {
-          setState(() {
-            _tempShadeMainColor = color;
-            mainColor = color;
-            backgroundColor = color;
-            AppBuilder.of(context).rebuild();
-          });
-        },
-        onMainColorChange: (color) {
-          setState(() {
-            _tempMainColor = color;
-            mainColor = color;
-            backgroundColor = color;
-            AppBuilder.of(context).rebuild();
-          });
-        },
-        onBack: () => print("Back button pressed"),
-      ),
-      title2,
-      MaterialColorPicker(
-        colors: fullMaterialColors,
-        selectedColor: secondColor,
-        onColorChange: (color) {
-          setState(() {
-            _tempShadeSecondColor = color;
-            secondColor = color;
-            AppBuilder.of(context).rebuild();
-          });
-        },
-        onMainColorChange: (color) {
-          setState(() {
-            _shadeSecondColor = color;
-            secondColor = color;
-            AppBuilder.of(context).rebuild();
-          });
-        },
-        onBack: () => print("Back button pressed"),
-      ),
-      title3,
-      MaterialColorPicker(
-        colors: fullMaterialColors,
-        selectedColor: _shadeFontColorLight,
-        onColorChange: (color) {
-          setState(() {
-            _tempShadeFontColorLight = color;
-            fontColorLight = color;
-            //drawingColor = color;
-            AppBuilder.of(context).rebuild();
-          });
-        },
-        onMainColorChange: (color) => setState(() {
-          _tempShadeFontColorLight = color;
-          fontColorLight = color;
-          AppBuilder.of(context).rebuild();
-        }),
-        onBack: () => print("Back button pressed"),
-      ),
-      title4,
-      MaterialColorPicker(
-        colors: fullMaterialColors,
-        selectedColor: _shadeFontColorDark,
-        onColorChange: (color) {
-          setState(() {
-            _tempShadeFontColorDark = color;
-            fontColorDark = color;
-            //drawingColor = color;
-          });
-        },
-        onMainColorChange: (color) => setState(() {
-          _tempShadeFontColorDark = color;
-          fontColorDark = color;
-        }),
-        onBack: () => print("Back button pressed"),
-      ),
-    );
-  }
+  // void _mainColorPicker(title, title2, title3, title4) async {
+  //   _openDialog(
+  //     title,
+  //     MaterialColorPicker(
+  //       colors: fullMaterialColors,
+  //       selectedColor: mainColor,
+  //       onColorChange: (color) {
+  //         setState(() {
+  //           _tempShadeMainColor = color;
+  //           mainColor = color;
+  //           backgroundColor = color;
+  //           AppBuilder.of(context).rebuild();
+  //         });
+  //       },
+  //       onMainColorChange: (color) {
+  //         setState(() {
+  //           _tempMainColor = color;
+  //           mainColor = color;
+  //           backgroundColor = color;
+  //           AppBuilder.of(context).rebuild();
+  //         });
+  //       },
+  //       onBack: () => print("Back button pressed"),
+  //     ),
+  //     title2,
+  //     MaterialColorPicker(
+  //       colors: fullMaterialColors,
+  //       selectedColor: secondColor,
+  //       onColorChange: (color) {
+  //         setState(() {
+  //           _tempShadeSecondColor = color;
+  //           secondColor = color;
+  //           AppBuilder.of(context).rebuild();
+  //         });
+  //       },
+  //       onMainColorChange: (color) {
+  //         setState(() {
+  //           _shadeSecondColor = color;
+  //           secondColor = color;
+  //           AppBuilder.of(context).rebuild();
+  //         });
+  //       },
+  //       onBack: () => print("Back button pressed"),
+  //     ),
+  //     title3,
+  //     MaterialColorPicker(
+  //       colors: fullMaterialColors,
+  //       selectedColor: _shadeFontColorLight,
+  //       onColorChange: (color) {
+  //         setState(() {
+  //           _tempShadeFontColorLight = color;
+  //           fontColorLight = color;
+  //           //drawingColor = color;
+  //           AppBuilder.of(context).rebuild();
+  //         });
+  //       },
+  //       onMainColorChange: (color) => setState(() {
+  //         _tempShadeFontColorLight = color;
+  //         fontColorLight = color;
+  //         AppBuilder.of(context).rebuild();
+  //       }),
+  //       onBack: () => print("Back button pressed"),
+  //     ),
+  //     title4,
+  //     MaterialColorPicker(
+  //       colors: fullMaterialColors,
+  //       selectedColor: _shadeFontColorDark,
+  //       onColorChange: (color) {
+  //         setState(() {
+  //           _tempShadeFontColorDark = color;
+  //           fontColorDark = color;
+  //           //drawingColor = color;
+  //         });
+  //       },
+  //       onMainColorChange: (color) => setState(() {
+  //         _tempShadeFontColorDark = color;
+  //         fontColorDark = color;
+  //       }),
+  //       onBack: () => print("Back button pressed"),
+  //     ),
+  //   );
+  // }
 
   //creating the timer that stops the loading after 15 secs
   void startTimer() {
@@ -347,7 +347,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Divider(color: dividerColor),
                 GestureDetector(
                   onTap: () {
-                    _mainColorPicker("Main color", "Accent color", "Light font color", "Dark font color");
+                    //_mainColorPicker("Main color", "Accent color", "Light font color", "Dark font color");
                   },
                   child: ListTile(
                     contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
@@ -393,7 +393,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         config["font_size_factor"] = value;
                       });
                       saveToSharedPrefs(config);
-                      AppBuilder.of(context).rebuild();
+                      AppBuilder.of(context)!.rebuild();
                     },
                   ),
                   ),
@@ -562,7 +562,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ),
                           onChanged: (value) => (_newPw = value),
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return S.of(context).pleaseEnterPassword;
                             }
                             return null;
@@ -601,7 +601,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 'SetNetworkPassword', newValue: _newPw,
                                 valueType: "password",
                                 mac: _deviceList
-                                    .getLocal()
+                                    .getLocal()!
                                     .mac);
                             setState(() {
                               networkPasswordResponseTrue = false;
@@ -611,7 +611,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             var response = await socket.myReceiveXML(
                                 "SetNetworkPasswordStatus");
                             print(response);
-                            if (response['status'] == "complete" &&
+                            if (response!['status'] == "complete" &&
                                 int.parse(response['total']) > 0 &&
                                 int.parse(response['failed']) == 0) {
                               setState(() {
@@ -673,15 +673,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  void _openDialog(String title1, Widget content1, [String title2, Widget content2, String title3, Widget content3, String title4, Widget content4]) {
+  void _openDialog(String title1, Widget content1, [String? title2, Widget? content2, String? title3, Widget? content3, String? title4, Widget? content4]) {
     double _animatedHeight = 0.0;
-    String selected;
+    String? selected;
 
     Map<String, dynamic> contents = Map();
     contents[title1] = content1;
-    contents[title2] = content2;
-    contents[title3] = content3;
-    contents[title4] = content4;
+    contents[title2!] = content2;
+    contents[title3!] = content3;
+    contents[title4!] = content4;
 
     print(contents.entries);
 
@@ -743,7 +743,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 // fontColorLight = theme_devolo["fontColorLight"];
                                 // fontColorMedium = theme_devolo["fontColorMedium"];
                                 // fontColorDark = theme_devolo["fontColorDark"];
-                                AppBuilder.of(context).rebuild();
+                                AppBuilder.of(context)!.rebuild();
                               });
                             },
                           ),
@@ -773,7 +773,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 // fontColorLight = theme_dark["fontColorLight"];
                                 // fontColorMedium = theme_dark["fontColorMedium"];
                                 // fontColorDark = theme_dark["fontColorDark"];
-                                AppBuilder.of(context).rebuild();
+                                AppBuilder.of(context)!.rebuild();
                               });
                             },
                           ),
@@ -803,7 +803,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 // fontColorLight = theme_light["fontColorLight"];
                                 // fontColorMedium = theme_light["fontColorMedium"];
                                 // fontColorDark = theme_light["fontColorDark"];
-                                AppBuilder.of(context).rebuild();
+                                AppBuilder.of(context)!.rebuild();
                               });
                             },
                           ),
@@ -833,7 +833,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 // fontColorLight = theme_highContrast["fontColorLight"];
                                 // fontColorMedium = theme_highContrast["fontColorMedium"];
                                 // fontColorDark = theme_highContrast["fontColorDark"];
-                                AppBuilder.of(context).rebuild();
+                                AppBuilder.of(context)!.rebuild();
                               });
                             },
                           ),
@@ -855,7 +855,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   selected = con.key;
                                   _animatedHeight != 0.0 ? _animatedHeight = 0.0 : _animatedHeight = 180.0;
                                 });
-                                AppBuilder.of(context).rebuild();
+                                AppBuilder.of(context)!.rebuild();
                               },
                               child: new Container(
                                 child: Row(

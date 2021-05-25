@@ -95,7 +95,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -104,7 +104,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  TextStyle _menuItemStyle;
+  late TextStyle _menuItemStyle;
   int bottomSelectedIndex = 0;
   bool highContrast = false; // MediaQueryData().highContrast;  // Query current device if high Contrast theme is set
 
@@ -156,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     if(checkSharedPreference){
 
-      var configuration = prefs.get("config");
+      dynamic ? configuration = prefs.get("config");
       var jsonconfig = json.decode(configuration);
 
       config = jsonconfig;
@@ -218,7 +218,7 @@ class _MyHomePageState extends State<MyHomePage> {
         UpdateScreen(
           title: S.of(context).update,
         ),
-        AddDeviceScreen(),
+        AddDeviceScreen(title: "Help screen"),
         SettingsScreen(
           title: S.of(context).settings,
         ),
@@ -280,13 +280,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 height: 2,
                 color: mainColor,
               ),
-              onChanged: (String newValue2) {
+              onChanged: (String? newValue2) {
                 setState(() {
                   config["language"] = newValue2;
                   print(newValue2);
-                  S.load(Locale(newValue2, ''));
+                  S.load(Locale(newValue2!, ''));
                 });
-                AppBuilder.of(context).rebuild();
+                AppBuilder.of(context)!.rebuild();
                 saveToSharedPrefs(config);
               },
               items: languageList.map<DropdownMenuItem<String>>((String _value2) {
@@ -328,7 +328,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   }
 
                   saveToSharedPrefs(config);
-                  AppBuilder.of(context).rebuild();
+                  AppBuilder.of(context)!.rebuild();
                   //showNetwork = !showNetwork;
                 });
               },

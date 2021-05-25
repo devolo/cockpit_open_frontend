@@ -17,20 +17,20 @@ enum DeviceType { dtLanMini, dtLanPlus, dtWiFiMini, dtWiFiPlus, dtWiFiOnly, dtDI
 
 //=========================================== Device =========================================
 class Device extends ChangeNotifier {
-  DeviceType typeEnum;
-  String type;
+  DeviceType? typeEnum;
+  String type  = "";
   String name = "";
-  String mac;
-  String ip;
-  String version;
-  String version_date;
-  String MT;
-  String serialno;
+  String mac  = "";
+  String ip  = "";
+  String version  = "";
+  String version_date  = "";
+  String MT  = "";
+  String serialno  = "";
   List<Device> remoteDevices = <Device>[];
-  ui.Image icon;
-  Map<String, DataratePair> speeds; //Map<mac address of remote device, datarates to and from this remote device>
-  bool attachedToRouter;
-  bool isLocalDevice;
+  ui.Image? icon;
+  Map<String, DataratePair>? speeds; //Map<mac address of remote device, datarates to and from this remote device>
+  bool attachedToRouter = false;
+  bool isLocalDevice = false;
   bool updateAvailable = false;
   String updateState = "";
   double updateStateInt = 0;
@@ -38,10 +38,10 @@ class Device extends ChangeNotifier {
   bool identifyDeviceAvailable = false;
   String selected_vdsl = "";
   List<String> supported_vdsl = [];
-  String mode_vdsl;
+  String mode_vdsl  = "";
 
 
-  Device(String type, String name, String mac, String ip, String MT, String serialno, String version, String versionDate, atRouter, isLocal, bool webinterfaceAvailable, bool identifyDeviceAvailable, selectedVDSL, supportedVDSL, modeVDSL, [ui.Image icon]) {
+  Device(String type, String name, String mac, String ip, String MT, String serialno, String version, String versionDate, atRouter, isLocal, bool webinterfaceAvailable, bool identifyDeviceAvailable, selectedVDSL, supportedVDSL, modeVDSL, [ui.Image? icon]) {
     this.typeEnum = getDeviceType(type);
     this.type = type;
     this.name = name;
@@ -91,7 +91,7 @@ class Device extends ChangeNotifier {
 
     if (element.getElement('actions') != null) {
 
-      var firstList = element.getElement('actions').findAllElements('first');
+      var firstList = element.getElement('actions')!.findAllElements('first');
       for(var first in firstList){
         if(first.innerText == "identify_device"){
           identifyDeviceAvailable = true;
@@ -104,34 +104,34 @@ class Device extends ChangeNotifier {
 
     // get Attribute for VDSL compatibility
     // get attributes for selected and supported vdsl profiles
-    XmlElement vdsl_compat;
+    XmlElement? vdsl_compat;
     var selected_VDSL;
     var supported_VDSL;
     var mode_VDSL;
 
-    var actions=element.getElement('actions').findAllElements("item").toList();
+    var actions=element.getElement('actions')!.findAllElements("item").toList();
     if(actions.isNotEmpty) {
-      vdsl_compat = actions.firstWhere((element) => element.innerText.contains("supported_profiles"), orElse: () {return null;});
+      vdsl_compat = actions.firstWhere((element) => element.innerText.contains("supported_profiles"), ); //orElse: () {return null;}
     }
     if(vdsl_compat != null) {
-      mode_VDSL = vdsl_compat.findAllElements("item").toList().firstWhere((element) => element.innerText.contains("mode"), orElse: () {return null;}).lastElementChild.innerText;
+      mode_VDSL = vdsl_compat.findAllElements("item").toList().firstWhere((element) => element.innerText.contains("mode"),).lastElementChild!.innerText;
       print(mode_VDSL);
-      supported_VDSL = vdsl_compat.findAllElements("item").toList().firstWhere((element) => element.innerText.contains("supported_profiles"), orElse: () {return null;}).lastElementChild.innerText.split(" "); // ToDo is always last element child or <second> ?
-      selected_VDSL = vdsl_compat.findAllElements("item").toList().firstWhere((element) => element.innerText.contains("selected_profile"), orElse: () {return null;}).lastElementChild.innerText;
+      supported_VDSL = vdsl_compat.findAllElements("item").toList().firstWhere((element) => element.innerText.contains("supported_profiles"), ).lastElementChild!.innerText.split(" "); // ToDo is always last element child or <second> ?
+      selected_VDSL = vdsl_compat.findAllElements("item").toList().firstWhere((element) => element.innerText.contains("selected_profile"), ).lastElementChild!.innerText;
       //print("${element.getElement('name').text}: ${selected_VDSL} , ${supported_VDSL}");
     }
 
 
 
     Device retDevice = Device(
-      element.getElement('type').text,
-      element.getElement('name').text,
-      element.getElement('macAddress').text,
-      element.getElement('ipAddress').text,
-      element.getElement('product').text,
-      element.getElement('serialno').text,
-      element.getElement('version').text,
-      element.getElement('date').text,
+      element.getElement('type')!.text,
+      element.getElement('name')!.text,
+      element.getElement('macAddress')!.text,
+      element.getElement('ipAddress')!.text,
+      element.getElement('product')!.text,
+      element.getElement('serialno')!.text,
+      element.getElement('version')!.text,
+      element.getElement('date')!.text,
       attachedToRouter,
       islocalDevice,
       webinterfaceAvailable,
@@ -144,24 +144,24 @@ class Device extends ChangeNotifier {
     );
 
     if (element.getElement('remotes') != null) {
-      List<XmlNode> remotes = element.getElement('remotes').children;
+      List<XmlNode> remotes = element.getElement('remotes')!.children;
       remotes = testList(remotes, 'type'); // Checking where items are devices returning the trimmed list
-      for (var remote in remotes) {
+      for (dynamic remote in remotes) {
         //print('Remote Device found: ' + remote.getElement('type').text);
         retDevice.remoteDevices.add(Device.fromXML(remote, false));
       }
     }
 
     if (element.getElement('dataRates') != null) {
-      List<XmlNode> dataRates = element.getElement('dataRates').children;
+      List<XmlNode> dataRates = element.getElement('dataRates')!.children;
       dataRates = testList(dataRates, 'macAddress');
       //print(dataRates);
       for (var item in dataRates) {
-        var txMac = item.getElement('first').getElement('first').getElement('macAddress').text;
-        var rxMac = item.getElement('first').getElement('second').getElement('macAddress').text;
+        var txMac = item.getElement('first')!.getElement('first')!.getElement('macAddress')!.text;
+        var rxMac = item.getElement('first')!.getElement('second')!.getElement('macAddress')!.text;
         //print(txMac + " " + rxMac);
-        var txRateStr = item.getElement('second').getElement('txRate').text;
-        var rxRateStr = item.getElement('second').getElement('rxRate').text;
+        var txRateStr = item.getElement('second')!.getElement('txRate')!.text;
+        var rxRateStr = item.getElement('second')!.getElement('rxRate')!.text;
         //print(txRateStr + " " + rxRateStr);
 
         int txRate = 0, rxRate = 0;
@@ -175,12 +175,12 @@ class Device extends ChangeNotifier {
           rxRate = int.parse(rxRateStr);
 
         if (retDevice.mac.compareTo(txMac) == 0) {
-          retDevice.speeds[rxMac] = new DataratePair(rxRate, txRate);
+          retDevice.speeds![rxMac] = new DataratePair(rxRate, txRate);
           //print(retDevice.name + " Rates added for " + txMac + " to " + rxMac + ": " + retDevice.speeds[rxMac].rx.toString() + ", " + retDevice.speeds[rxMac].tx.toString());
         }
         for (var remoteDevice in retDevice.remoteDevices) {
           if (remoteDevice.mac.compareTo(txMac) == 0) {
-            remoteDevice.speeds[rxMac] = new DataratePair(rxRate, txRate);
+            remoteDevice.speeds![rxMac] = new DataratePair(rxRate, txRate);
             //print(remoteDevice.name+ " Rates added for " + txMac + " to " + rxMac + ": " + remoteDevice.speeds[rxMac].rx.toString() + ", " + remoteDevice.speeds[rxMac].tx.toString());
           }
         }

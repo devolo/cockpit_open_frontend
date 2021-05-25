@@ -10,7 +10,7 @@ import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class EmptyScreen extends StatefulWidget {
-  EmptyScreen({Key key, this.title}) : super(key: key);
+  EmptyScreen({required Key key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -19,7 +19,7 @@ class EmptyScreen extends StatefulWidget {
 }
 
 class _EmptyScreenState extends State<EmptyScreen> {
-  _EmptyScreenState({this.title});
+  _EmptyScreenState({required this.title});
 
   final String title;
 

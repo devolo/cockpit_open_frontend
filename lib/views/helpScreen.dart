@@ -17,13 +17,13 @@ import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class AddDeviceScreen extends StatefulWidget {
-  AddDeviceScreen({Key key, this.title, NetworkList deviceList}) : super(key: key);
+  AddDeviceScreen({Key? key, NetworkList? deviceList, required this.title}) : super(key: key);
 
   final String title;
-  dataHand model;
+  dataHand? model;
 
   @override
-  _AddDeviceScreenState createState() => _AddDeviceScreenState(title: title);
+  _AddDeviceScreenState createState() => _AddDeviceScreenState();
 }
 
 class _AddDeviceScreenState extends State<AddDeviceScreen> {
@@ -37,11 +37,11 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
   var response;
   bool _loading = false;
 
-  _AddDeviceScreenState({this.title});
+  //_AddDeviceScreenState({required this.title});
 
-  final String title;
+  late final String title;
   List<Image> optimizeImages = loadOptimizeImages();
-  Image _currImage;
+  late Image _currImage;
   int _index = 0;
 
   FocusNode myFocusNode = new FocusNode();
@@ -180,7 +180,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
 
   void _optimiseAlert(context) {
     double _animatedHeight = 0.0;
-    String selected;
+    String? selected;
 
     Map<String, dynamic> contents = Map();
     optimizeImages.asMap().forEach((i, value) {
@@ -377,7 +377,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                                   onStepCancel: () {
                                     _currentStep > 0 ? setState(() => _currentStep -= 1) : null;
                                   },
-                                  controlsBuilder: (BuildContext context, {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
+                                  controlsBuilder: (BuildContext context, {VoidCallback? onStepContinue, VoidCallback? onStepCancel}) {
                                     return Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
@@ -597,7 +597,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                   ),
                   onChanged: (value) => (_processNr = value),
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return S.of(context).pleaseEnterProcessingNumber;
                     }
                     return null;
@@ -634,7 +634,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                   ),
                   onChanged: (value) => (_name = value),
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return S.of(context).pleaseFillInYourName;
                     }
                     return null;
@@ -672,7 +672,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                   ),
                   onChanged: (value) => (_email = value),
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return S.of(context).pleaseEnterYourMailAddress;
                     }
                     return null;
@@ -699,7 +699,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                   // Critical things happening here
                   //ToDo send supportInfo
                   //socket.sendXML(messageType, mac: hitDevice.mac);
-                  Navigator.maybeOf(context).pop();
+                  Navigator.maybeOf(context)!.pop();
                 },
               ),
               FlatButton(
@@ -718,7 +718,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                   ), //Text('Abbrechen'),
                   onPressed: () {
                     // Cancel critical action
-                    Navigator.maybeOf(context).pop();
+                    Navigator.maybeOf(context)!.pop();
                   }),
             ],
           );
@@ -726,8 +726,8 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
   }
 
   void _contactSupportAlert(context, socket) {
-    String _htmlfilename;
-    String _zipfilename;
+    String? _htmlfilename;
+    String? _zipfilename;
     bool _isButtonDisabled = true;
 
     showDialog<void>(

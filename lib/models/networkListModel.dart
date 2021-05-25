@@ -68,7 +68,7 @@ class NetworkList extends ChangeNotifier{
     return 0;
   }
 
-  Device getPivot(){
+  Device? getPivot(){
     try {
       var trying = _networkList[selectedNetworkIndex];
     }catch(error) {
@@ -82,7 +82,7 @@ class NetworkList extends ChangeNotifier{
     return null;
   }
 
-  Device getLocal(){
+  Device? getLocal(){
     for(var dev in _networkList[selectedNetworkIndex]){
       if(dev.isLocalDevice==true){
         return dev;
@@ -92,7 +92,7 @@ class NetworkList extends ChangeNotifier{
   }
 
   String getNetworkType(networkIndex){
-    String type;
+    String type = "";
     for(var net in _networkList[networkIndex]){
       if(net.type.contains('Magic')){
         type = "Magic";
@@ -157,7 +157,7 @@ class NetworkList extends ChangeNotifier{
 
 
   String toRealString(){
-    String ret;
+    String ret = "";
     for(var devlocal in _networkList[selectedNetworkIndex]) {
       ret = "${devlocal.toRealString()} \n";
       for(var devremote in devlocal.remoteDevices){
@@ -165,7 +165,10 @@ class NetworkList extends ChangeNotifier{
       }
       return ret;
     }
-    return null;
+    throw (Exception e){
+      print(e);
+    };
+    //return null;
   }
 }
 

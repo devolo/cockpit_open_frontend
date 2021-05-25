@@ -15,7 +15,7 @@ import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:xml/xml.dart';
 
 class DebugScreen extends StatefulWidget {
-  DebugScreen({Key key, this.title}) : super(key: key);
+  DebugScreen({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -24,7 +24,7 @@ class DebugScreen extends StatefulWidget {
 }
 
 class _DebugScreenState extends State<DebugScreen> {
-  _DebugScreenState({this.title});
+  _DebugScreenState({required this.title});
 
   final String title;
 

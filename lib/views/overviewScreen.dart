@@ -25,7 +25,7 @@ import 'package:flutter/foundation.dart' show debugDefaultTargetPlatformOverride
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OverviewScreen extends StatefulWidget {
-  OverviewScreen({Key key}) : super(key: key);
+  OverviewScreen({Key? key}) : super(key: key);
 
   // This class is the configuration for the state. It holds the values (in this
   // case the title) provided by the parent (in this case the App widget) and
@@ -39,8 +39,8 @@ class OverviewScreen extends StatefulWidget {
 
 class _OverviewScreenState extends State<OverviewScreen> {
   int numDevices = 0;
-  Offset _lastTapDownPosition;
-  DrawOverview _Painter;
+  late Offset _lastTapDownPosition;
+  late DrawOverview _Painter;
 
   bool showingSpeeds = false;
   int pivotDeviceIndex = 0;
@@ -102,7 +102,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                         _deviceList.selectedNetworkIndex = networkIdx;
                         config["selected_network"] = networkIdx;
                         saveToSharedPrefs(config);
-                        AppBuilder.of(context).rebuild();
+                        AppBuilder.of(context)!.rebuild();
                       },
                     ),
                 ],
@@ -147,7 +147,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
           // Warning! "UpdateCheck" and "RefreshNetwork" should only be triggered by a user interaction, not continously/automaticly
           setState(() {
             socket.sendXML('RefreshNetwork');
-            AppBuilder.of(context).rebuild();
+            AppBuilder.of(context)!.rebuild();
           });
         },
         tooltip: 'Neu laden',
@@ -326,7 +326,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                           _changeNameLoading = true;
                                           socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
                                           var response = await socket.myReceiveXML("SetAdapterNameStatus");
-                                          if (response['result'] == "ok") {
+                                          if (response!['result'] == "ok") {
                                             hitDeviceName = _newName;
                                             await Future.delayed(const Duration(seconds: 1), () {});
                                             socket.sendXML('RefreshNetwork');
@@ -334,9 +334,9 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                             //setState(() {
                                             //   socket.sendXML('RefreshNetwork');
                                             //});
-                                          } else if (response['result'] == "device_not_found") {
+                                          } else if (response!['result'] == "device_not_found") {
                                             _errorDialog(context, S.of(context).deviceNameErrorTitle, S.of(context).deviceNotFoundDeviceName + "\n\n" + S.of(context).deviceNotFoundHint);
-                                          } else if (response['result'] != "ok") {
+                                          } else if (response!['result'] != "ok") {
                                             _errorDialog(context, S.of(context).deviceNameErrorTitle, S.of(context).deviceNameErrorBody);
                                           }
 
@@ -354,7 +354,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                       _changeNameLoading = true;
                                       socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
                                       var response = await socket.myReceiveXML("SetAdapterNameStatus");
-                                      if (response['result'] == "ok") {
+                                      if (response!['result'] == "ok") {
                                         hitDeviceName = _newName;
                                         await Future.delayed(const Duration(seconds: 1), () {});
                                         socket.sendXML('RefreshNetwork');
@@ -378,7 +378,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   });
                                 },
                                 validator: (value) {
-                                  if (value.isEmpty) {
+                                  if (value!.isEmpty) {
                                     return S.of(context).pleaseEnterDeviceName;
                                   }
                                   return null;
@@ -492,7 +492,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   hoverColor: fontColorLight.withAlpha(50),
                                   iconSize: 24.0 * fontSizeFactor,
                                   onPressed: !hitDeviceWebinterface ? null : () => launchURL(hitDeviceIp),
-                                  mouseCursor: !hitDeviceWebinterface ? null : SystemMouseCursors.click,
+                                  mouseCursor: SystemMouseCursors.click, // TODO Nullsafety not working
+                                  //mouseCursor: !hitDeviceWebinterface ? null : SystemMouseCursors.click,
                                 ),
                                 Text(
                                   S.of(context).launchWebinterface,
@@ -518,11 +519,12 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                       : () async {
                                           socket.sendXML('IdentifyDevice', mac: hitDeviceMac);
                                           var response = await socket.myReceiveXML("IdentifyDeviceStatus");
-                                          if (response['result'] == "device_not_found") {
+                                          if (response!['result'] == "device_not_found") {
                                             _errorDialog(context, S.of(context).identifyDeviceErrorTitle, S.of(context).deviceNotFoundIdentifyDevice + "\n\n" + S.of(context).deviceNotFoundHint);
                                           }
                                         },
-                                  mouseCursor: !hitDeviceIdentify ? null : SystemMouseCursors.click,
+                                  mouseCursor: SystemMouseCursors.click, // TODO Nullsafety not working
+                                  //mouseCursor: !hitDeviceIdentify ? null : SystemMouseCursors.click,
                                 ),
                                 Text(
                                   S.of(context).identifyDevice,
@@ -545,7 +547,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                     onPressed: () async {
                                       socket.sendXML('GetManual', newValue: hitDeviceMT, valueType: 'product', newValue2: 'de', valueType2: 'language');
                                       var response = await socket.myReceiveXML("GetManualResponse");
-                                      if (response['filename'] != "") {
+                                      if (response!['filename'] != "") {
                                         setState(() {
                                           openFile(response['filename']);
                                         });
@@ -602,7 +604,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                       socket.sendXML("ResetAdapterToFactoryDefaults", mac: hitDevice.mac);
 
                                       var response = await socket.myReceiveXML("ResetAdapterToFactoryDefaultsStatus");
-                                      if (response['result'] == "device_not_found") {
+                                      if (response!['result'] == "device_not_found") {
                                         _errorDialog(context, S.of(context).resetDeviceErrorTitle, S.of(context).deviceNotFoundResetDevice + "\n\n" + S.of(context).deviceNotFoundHint);
                                       } else if (response['result'] != "ok") {
                                         _errorDialog(context, S.of(context).resetDeviceErrorTitle, S.of(context).resetDeviceErrorBody);
@@ -637,7 +639,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                       socket.sendXML("RemoveAdapter", mac: hitDevice.mac);
 
                                       var response = await socket.myReceiveXML("RemoveAdapterStatus");
-                                      if (response['result'] == "device_not_found") {
+                                      if (response!['result'] == "device_not_found") {
                                         _errorDialog(context, S.of(context).removeDeviceErrorTitle, S.of(context).deviceNotFoundRemoveDevice + "\n\n" + S.of(context).deviceNotFoundHint);
                                       } else if (response['result'] != "ok") {
                                         _errorDialog(context, S.of(context).removeDeviceErrorTitle, S.of(context).removeDeviceErrorBody);
@@ -859,7 +861,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                 ),
                 onPressed: () {
                   // Critical things happening here
-                  Navigator.maybeOf(context).pop(true);
+                  Navigator.maybeOf(context)!.pop(true);
                 },
               ),
               FlatButton(
@@ -878,8 +880,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
                   ), //Text('Abbrechen'),
                   onPressed: () {
                     // Cancel critical action
-                    Navigator.maybeOf(context).pop(false);
-                    return false;
+                    Navigator.maybeOf(context)!.pop(false);
+                    //return false; TODO nullsafety
                   }),
             ],
           );
@@ -948,8 +950,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
                           child: Checkbox(
                               value: _vdslModeAutomatic,
                               activeColor: secondColor,
-                              onChanged: (bool newValue) async {
-                                _vdslModeAutomatic = newValue;
+                              onChanged: (bool? newValue) async {
+                                _vdslModeAutomatic = newValue!;
                                 setState(() {
                                 if (_vdslModeAutomatic == true) {
                                   hitDeviceVDSLmode = "2";
@@ -979,9 +981,9 @@ class _OverviewScreenState extends State<OverviewScreen> {
                         value: vdsl_profile,
                         groupValue: _vdslProfile,
                         activeColor: secondColor,
-                        onChanged: (String value) {
+                        onChanged: (String? value) {
                           setState(() {
-                            _vdslProfile = value;
+                            _vdslProfile = value!;
                           });
                         },
                       ),
@@ -1027,14 +1029,14 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
                     var response = await socket.recieveXML(["SetVDSLCompatibilityStatus"]);
                     if (response['result'] == "failed") {
-                      Navigator.maybeOf(context).pop(true);
+                      Navigator.maybeOf(context)!.pop(true);
                     _errorDialog(context, " ", S.of(context).vdslfailed);
                     } else if (response['result'] != "ok") {
-                      Navigator.maybeOf(context).pop(true);
+                      Navigator.maybeOf(context)!.pop(true);
                       _errorDialog(context, "Done", S.of(context).resetDeviceErrorBody);
                     }
                     else {
-                      Navigator.maybeOf(context).pop();
+                      Navigator.maybeOf(context)!.pop();
                     }
                   }
                 },
@@ -1055,7 +1057,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                   ), //Text('Abbrechen'),
                   onPressed: () {
                     // Cancel critical action
-                    Navigator.maybeOf(context).pop(false);
+                    Navigator.maybeOf(context)!.pop(false);
                   }),
             ],
 

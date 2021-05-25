@@ -186,7 +186,7 @@ List<Image> loadOptimizeImages() {
 
 }
 
-Future<ui.Image> loadImage(List<int> img) async {
+Future<ui.Image> loadImage(var img) async {
   final Completer<ui.Image> completer = new Completer();
   ui.decodeImageFromList(img, (ui.Image img) {
     return completer.complete(img);
@@ -194,7 +194,7 @@ Future<ui.Image> loadImage(List<int> img) async {
   return completer.future;
 }
 
-ui.Image getIconForDeviceType(DeviceType dt) {
+ui.Image? getIconForDeviceType(DeviceType? dt) {
   if(!areDeviceIconsLoaded) { //ToDo
     print("Device Icons are NOT loaded");
       return null;

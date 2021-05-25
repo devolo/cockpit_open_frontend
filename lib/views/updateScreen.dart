@@ -20,7 +20,7 @@ import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'dart:ui' as ui;
 
 class UpdateScreen extends StatefulWidget {
-  UpdateScreen({Key key, this.title, NetworkList deviceList}) : super(key: key);
+  UpdateScreen({Key? key, required this.title, NetworkList? deviceList}) : super(key: key);
 
   final String title;
 
@@ -31,7 +31,7 @@ class UpdateScreen extends StatefulWidget {
 }
 
 class _UpdateScreenState extends State<UpdateScreen> {
-  _UpdateScreenState({this.title});
+  _UpdateScreenState({required this.title});
 
   /* =========== Styling =========== */
 
@@ -76,7 +76,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
       }
       _loadingFW = socket.waitingResponse;
     });
-    var response = await socket.recieveXML(List<String>());
+    var response = await socket.recieveXML();
     print('Response: ' + response.toString());
   }
 
@@ -133,7 +133,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     var response = await socket.recieveXML(["UpdateIndication", "FirmwareUpdateIndication"]);
                     setState(() {
                       _loading = socket.waitingResponse;
-                      if (response["messageType"] != null) _lastPoll = DateTime.now();
+                      if (response!["messageType"] != null) _lastPoll = DateTime.now();
                     });
                   },
                   child: Row(children: [
@@ -593,7 +593,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                       _changeNameLoading = true;
                                       socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
                                       var response = await socket.myReceiveXML("SetAdapterNameStatus");
-                                      if (response['result'] == "ok") {
+                                      if (response!['result'] == "ok") {
                                         hitDeviceName = _newName;
                                         await Future.delayed(const Duration(seconds: 1), () {});
                                         socket.sendXML('RefreshNetwork');
@@ -601,9 +601,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                         //setState(() {
                                         //   socket.sendXML('RefreshNetwork');
                                         //});
-                                      } else if (response['result'] == "device_not_found") {
+                                      } else if (response!['result'] == "device_not_found") {
                                         _errorDialog(context, S.of(context).deviceNameErrorTitle, S.of(context).deviceNotFoundDeviceName + "\n\n" + S.of(context).deviceNotFoundHint);
-                                      } else if (response['result'] != "ok") {
+                                      } else if (response!['result'] != "ok") {
                                         _errorDialog(context, S.of(context).deviceNameErrorTitle, S.of(context).deviceNameErrorBody);
                                       }
 
@@ -621,7 +621,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                   _changeNameLoading = true;
                                   socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
                                   var response = await socket.myReceiveXML("SetAdapterNameStatus");
-                                  if (response['result'] == "ok") {
+                                  if (response!['result'] == "ok") {
                                     hitDeviceName = _newName;
                                     await Future.delayed(const Duration(seconds: 1), () {});
                                     socket.sendXML('RefreshNetwork');
@@ -645,7 +645,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               });
                             },
                             validator: (value) {
-                              if (value.isEmpty) {
+                              if (value!.isEmpty) {
                                 return S.of(context).pleaseEnterDeviceName;
                               }
                               return null;
@@ -759,7 +759,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               hoverColor: fontColorLight.withAlpha(50),
                               iconSize: 24.0 * fontSizeFactor,
                               onPressed: !hitDeviceWebinterface ? null : () => launchURL(hitDeviceIp),
-                              mouseCursor: !hitDeviceWebinterface ? null : SystemMouseCursors.click,
+                              mouseCursor: SystemMouseCursors.click, // TODO Nullsafety not working
+                              //mouseCursor: !hitDeviceWebinterface ? null : SystemMouseCursors.click,
                             ),
                             Text(
                               S.of(context).launchWebinterface,
@@ -785,11 +786,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                   : () async {
                                       socket.sendXML('IdentifyDevice', mac: hitDeviceMac);
                                       var response = await socket.myReceiveXML("IdentifyDeviceStatus");
-                                      if (response['result'] == "device_not_found") {
+                                      if (response!['result'] == "device_not_found") {
                                         _errorDialog(context, S.of(context).identifyDeviceErrorTitle, S.of(context).deviceNotFoundIdentifyDevice + "\n\n" + S.of(context).deviceNotFoundHint);
                                       }
                                     },
-                              mouseCursor: !hitDeviceIdentify ? null : SystemMouseCursors.click,
+                              mouseCursor: SystemMouseCursors.click, // TODO Nullsafety not working
+                              //mouseCursor: !hitDeviceIdentify ? null : SystemMouseCursors.click,
                             ),
                             Text(
                               S.of(context).identifyDevice,
@@ -812,7 +814,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                 onPressed: () async {
                                   socket.sendXML('GetManual', newValue: hitDeviceMT, valueType: 'product', newValue2: 'de', valueType2: 'language');
                                   var response = await socket.myReceiveXML("GetManualResponse");
-                                  if (response['filename'] != "") {
+                                  if (response!['filename'] != "") {
                                     setState(() {
                                       openFile(response['filename']);
                                     });
@@ -847,9 +849,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                   socket.sendXML("ResetAdapterToFactoryDefaults", mac: hitDevice.mac);
 
                                   var response = await socket.myReceiveXML("ResetAdapterToFactoryDefaultsStatus");
-                                  if (response['result'] == "device_not_found") {
+                                  if (response!['result'] == "device_not_found") {
                                     _errorDialog(context, S.of(context).resetDeviceErrorTitle, S.of(context).deviceNotFoundResetDevice + "\n\n" + S.of(context).deviceNotFoundHint);
-                                  } else if (response['result'] != "ok") {
+                                  } else if (response!['result'] != "ok") {
                                     _errorDialog(context, S.of(context).resetDeviceErrorTitle, S.of(context).resetDeviceErrorBody);
                                   }
                                 }
@@ -882,7 +884,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                   socket.sendXML("RemoveAdapter", mac: hitDevice.mac);
 
                                   var response = await socket.myReceiveXML("RemoveAdapterStatus");
-                                  if (response['result'] == "device_not_found") {
+                                  if (response!['result'] == "device_not_found") {
                                     _errorDialog(context, S.of(context).removeDeviceErrorTitle, S.of(context).deviceNotFoundRemoveDevice + "\n\n" + S.of(context).deviceNotFoundHint);
                                   } else if (response['result'] != "ok") {
                                     _errorDialog(context, S.of(context).removeDeviceErrorTitle, S.of(context).removeDeviceErrorBody);
@@ -961,7 +963,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 ),
                 onPressed: () {
                   // Critical things happening here
-                  Navigator.maybeOf(context).pop(true);
+                  Navigator.maybeOf(context)!.pop(true);
                 },
               ),
               FlatButton(
@@ -980,8 +982,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   ), //Text('Abbrechen'),
                   onPressed: () {
                     // Cancel critical action
-                    Navigator.maybeOf(context).pop(false);
-                    return false;
+                    Navigator.maybeOf(context)!.pop(false);
+                    //return false;
                   }),
             ],
           );

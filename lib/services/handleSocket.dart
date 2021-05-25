@@ -18,8 +18,8 @@ import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 
 class dataHand extends ChangeNotifier {
-  Socket socket;
-  NetworkList _deviceList;
+  late Socket socket;
+  NetworkList? _deviceList;
   dynamic xmlLength;
   XmlDocument xmlResponse = XmlDocument();
   List<dynamic> xmlResponseList = []; // used for debugging log
@@ -50,7 +50,7 @@ class dataHand extends ChangeNotifier {
 
   Future<void> dataHandler(data) async {
     print("Got Data!");
-    String xmlRawData = new String.fromCharCodes(data).trim();
+    String? xmlRawData = new String.fromCharCodes(data).trim();
     await parseXML(xmlRawData);
     notifyListeners();
   }
@@ -64,7 +64,7 @@ class dataHand extends ChangeNotifier {
     socket.destroy();
   }
 
-  Future<void> parseXML(String rawData) async {
+  Future<void> parseXML(String? rawData) async {
     print("parsing XML ...");
 
     if (rawData == null) {
@@ -78,7 +78,7 @@ class dataHand extends ChangeNotifier {
     // xmlDataList.add(xmlDataFirst);
 
     var xmlDataList = []; //List for all xmlDocuments if dataHandler passes more than one xml
-    var xmlDataNext = rawData; //
+    String ? xmlDataNext = rawData; //
 
     while (xmlDataNext != null) {
       xmlLength = xmlDataNext.substring(7, 15); // cut the head in front of recieved xml
@@ -104,8 +104,8 @@ class dataHand extends ChangeNotifier {
       if (document.findAllElements('MessageType').first.innerText == "NetworkUpdate") {
         // If received Message is general NetworkUpdate
         //_deviceList.clearList();
-        _deviceList.clearNetworkList();
-        _deviceList.clearDeviceList();
+        _deviceList!.clearNetworkList();
+        _deviceList!.clearDeviceList();
         print('DeviceList found ->');
         //print(document);
 
@@ -115,13 +115,13 @@ class dataHand extends ChangeNotifier {
         int listCounter = 0;
         for (var dev in localDeviceList) {
           Device device = Device.fromXML(dev, true);
-          _deviceList.addDevice(device, listCounter);
+          _deviceList!.addDevice(device, listCounter);
           //_deviceList.addDevice(device, listCounter + 1);
           //_deviceList.addDevice(device, listCounter + 2);
            //_deviceList.addDevice(device, listCounter + 3);
           // _deviceList.addDevice(device, listCounter + 4);
           for (var remoteDev in device.remoteDevices) {
-            _deviceList.addDevice(remoteDev, listCounter);
+            _deviceList!.addDevice(remoteDev, listCounter);
              //_deviceList.addDevice(remoteDev, listCounter + 1);
              //_deviceList.addDevice(remoteDev, listCounter + 2);
              //_deviceList.addDevice(remoteDev, listCounter + 3);
@@ -190,7 +190,7 @@ class dataHand extends ChangeNotifier {
         if(!xmlResponseMap.containsKey(xmlResponseType)) {
           xmlResponseMap[xmlResponseType] = [];
         }
-        xmlResponseMap[xmlResponseType].add(document);
+        xmlResponseMap[xmlResponseType]!.add(document);
 
       }
     }
@@ -203,15 +203,15 @@ class dataHand extends ChangeNotifier {
   // Warning! "UpdateCheck" and "RefreshNetwork" should only be triggered by a user interaction, not continously/automaticly
   void sendXML(
     String messageType, {
-    String newValue,
-    String valueType,
-    String newValue2,
-    String valueType2,
-    String mac,
+    String? newValue,
+    String? valueType,
+    String? newValue2,
+    String? valueType2,
+    String? mac,
   }) {
     waitingResponse = true;
     print(newValue);
-    String xmlString;
+    String? xmlString;
 
     int allowDataCollection = 0, ignoreUpdates = 0, windowsNetworkThrottlingDisabled = 0;
     if (config["allow_data_collection"] == true) {
@@ -236,32 +236,32 @@ class dataHand extends ChangeNotifier {
           '</second></item></Config></Message></boost_serialization>';
     } else if (messageType == "FirmwareUpdateResponse") {
       xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="2" version="0" tracking_level="0"><MessageType>FirmwareUpdateResponse</MessageType><DeviceList class_id="3" version="0" tracking_level="0"><count>1</count><item_version>0</item_version><item><first class_id="4" version="0" tracking_level="0"><macAddress>' +
-          newValue +
+          newValue! +
           '</macAddress></first><second></second></item></DeviceList></Message></boost_serialization>';
     } else if (messageType == "UpdateResponse") {
-      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType>' + '<' + valueType + '>' + newValue + '</' + valueType + '>' + '</Message></boost_serialization>';
+      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType>' + '<' + valueType! + '>' + newValue! + '</' + valueType! + '>' + '</Message></boost_serialization>';
     } else if (messageType == "SetVDSLCompatibility") {
-      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType><macAddress>' + mac + '</macAddress><' + valueType2 + '>' + newValue2 + '</' + valueType2 + '><' + valueType + '>' + newValue + '</' + valueType + '>' + '</Message></boost_serialization>';
+      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType><macAddress>' + mac! + '</macAddress><' + valueType2! + '>' + newValue2! + '</' + valueType2 + '><' + valueType! + '>' + newValue! + '</' + valueType + '>' + '</Message></boost_serialization>';
     } else if (newValue == null && mac != null) {
       xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType><macAddress>' + mac + '</macAddress></Message></boost_serialization>';
     } else if (newValue2 == null && mac != null) {
-      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType><macAddress>' + mac + '</macAddress>' + '<' + valueType + '>' + newValue + '</' + valueType + '></Message></boost_serialization>';
+      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType><macAddress>' + mac + '</macAddress>' + '<' + valueType! + '>' + newValue! + '</' + valueType + '></Message></boost_serialization>';
     } else if (newValue2 != null && mac == null) {
-      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType>' + '<' + valueType + '>' + newValue + '</' + valueType + '>' + '<' + valueType2 + '>' + newValue2 + '</' + valueType2 + '>' + '</Message></boost_serialization>';
+      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType>' + '<' + valueType! + '>' + newValue! + '</' + valueType! + '>' + '<' + valueType2! + '>' + newValue2 + '</' + valueType2 + '>' + '</Message></boost_serialization>';
     } else if (mac == null) {
       xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType></Message></boost_serialization>';
     }
 
-    String xmlLength = xmlString.runes.length.toRadixString(16).padLeft(8, '0'); // message length for backend !disconnects if header wrong or missing!
+    String xmlLength = xmlString!.runes.length.toRadixString(16).padLeft(8, '0'); // message length for backend !disconnects if header wrong or missing!
     //print('LEEENNNGGTHHH ' + xmlLength);
     xmlResponse = XmlDocument(); // delete old xml response
     print(xmlString);
     socket.write('MSGSOCK' + xmlLength + xmlString);
   }
 
-  Future<Map<String, dynamic>> recieveXML([List<String> wantedMessageTypes]) async {
+  Future<Map<String, dynamic>?> recieveXML([List<String>? wantedMessageTypes]) async {
     // ToDo generic?
-    Map response = new Map<String, dynamic>();
+    Map<String, dynamic>? response;
     String responseElem;
 
     await new Future.delayed(const Duration(seconds: 2));
@@ -272,13 +272,13 @@ class dataHand extends ChangeNotifier {
       await new Future.delayed(const Duration(seconds: 1));
 
       if (waitingResponse) {
-        String messageType = await findFirstElem(xmlResponse, 'MessageType');
-        response['messageType'] = messageType;
+        String? messageType = await findFirstElem(xmlResponse, 'MessageType');
+        response!['messageType'] = messageType;
 
         print("messageType: ${messageType}");
         print("wantedMessageTypes: ${wantedMessageTypes}");
 
-        if (wantedMessageTypes.contains(messageType)) {
+        if (wantedMessageTypes!.contains(messageType)) {
           if (messageType == "Config") {
             parseConfig(xmlResponse);
             print(config.toString());
@@ -288,58 +288,58 @@ class dataHand extends ChangeNotifier {
             waitingResponse = false;
           } else if (messageType == "FirmwareUpdateIndication") {
             //"FirmwareUpdateIndication"
-            responseElem = await findFirstElem(xmlResponse, 'macAddress'); //
+            responseElem = (await findFirstElem(xmlResponse, 'macAddress'))!; //
             if (responseElem != null) {
-              response['macAddress'] = responseElem;
-              int devIndex = _deviceList.getDeviceList().indexWhere((element) => element.mac == responseElem);
-              _deviceList.getDeviceList()[devIndex].updateAvailable = true;
+              response!['macAddress'] = responseElem;
+              int devIndex = _deviceList!.getDeviceList().indexWhere((element) => element.mac == responseElem);
+              _deviceList!.getDeviceList()[devIndex].updateAvailable = true;
             }
             waitingResponse = false;
           } else if (messageType == "SupportInfoGenerateStatus") {
             //"SupportInfoGenerateStatus"
-            responseElem = await findFirstElem(xmlResponse, 'status');
+            responseElem = (await findFirstElem(xmlResponse, 'status'))!;
             if (responseElem != null) {
-              response['status'] = responseElem;
+              response!['status'] = responseElem;
             }
-            responseElem = await findFirstElem(xmlResponse, 'htmlfilename');
+            responseElem = (await findFirstElem(xmlResponse, 'htmlfilename'))!;
             if (responseElem != null) {
-              response['htmlfilename'] = responseElem;
+              response!['htmlfilename'] = responseElem;
             }
-            responseElem = await findFirstElem(xmlResponse, 'zipfilename');
+            responseElem = (await findFirstElem(xmlResponse, 'zipfilename'))!;
             if (responseElem != null) {
-              response['zipfilename'] = responseElem;
+              response!['zipfilename'] = responseElem;
             }
-            responseElem = await findFirstElem(xmlResponse, 'result');
+            responseElem = (await findFirstElem(xmlResponse, 'result'))!;
             if (responseElem != null) {
-              response['result'] = responseElem;
+              response!['result'] = responseElem;
             }
             waitingResponse = false;
           } else if (messageType == "SetVDSLCompatibilityStatus") {
-            responseElem = await findFirstElem(xmlResponse, 'result');
+            responseElem = (await findFirstElem(xmlResponse, 'result'))!;
             if (responseElem != null) {
-              response['result'] = responseElem;
+              response!['result'] = responseElem;
             }
             if(responseElem != ""){
               waitingResponse = false;
             }
           } else {
-            responseElem = await findFirstElem(xmlResponse, 'filename');
+            responseElem = (await findFirstElem(xmlResponse, 'filename'))!;
             if (responseElem != null) {
-              response['filename'] = responseElem;
+              response!['filename'] = responseElem;
             }
-            responseElem = await findFirstElem(xmlResponse, 'commandline');
+            responseElem = (await findFirstElem(xmlResponse, 'commandline'))!;
             if (responseElem != null) {
-              response['commandline'] = responseElem;
+              response!['commandline'] = responseElem;
             }
-            responseElem = await findFirstElem(xmlResponse, 'workdir');
+            responseElem = (await findFirstElem(xmlResponse, 'workdir'))!;
             if (responseElem != null) {
-              response['workdir'] = responseElem;
+              response!['workdir'] = responseElem;
             }
-            responseElem = await findFirstElem(xmlResponse, 'macAddress'); //ToDo probably more Macs!
+            responseElem = (await findFirstElem(xmlResponse, 'macAddress'))!; //ToDo probably more Macs!
             if (responseElem != null) {
-              response['macAddress'] = responseElem;
-              int devIndex = _deviceList.getDeviceList().indexWhere((element) => element.mac == responseElem);
-              _deviceList.getDeviceList()[devIndex].updateAvailable = true;
+              response!['macAddress'] = responseElem;
+              int devIndex = _deviceList!.getDeviceList().indexWhere((element) => element.mac == responseElem);
+              _deviceList!.getDeviceList()[devIndex].updateAvailable = true;
             }
             waitingResponse = false;
           }
@@ -351,8 +351,8 @@ class dataHand extends ChangeNotifier {
     }).timeout(Duration(seconds: 30), onTimeout: () {
       print('> Timed Out');
       waitingResponse = false;
-      response["messageType"] = wantedMessageTypes;
-      response["result"] = "failed";
+      response!["messageType"] = wantedMessageTypes;
+      response!["result"] = "failed";
       return response;
 
     });
@@ -362,9 +362,9 @@ class dataHand extends ChangeNotifier {
     return response;
   }
 
-  Future<Map<String, dynamic>> myReceiveXML(String wantedMessageTypes) async {
+  Future<Map<String, dynamic>?> myReceiveXML(String wantedMessageTypes) async {
 
-    Map response = new Map<String, dynamic>();
+    Map<String, dynamic>? response;
     String responseElem;
 
     // introduced as response of SetNetworkPassword needs longer time
@@ -385,13 +385,13 @@ class dataHand extends ChangeNotifier {
 
         if(wantedMessageTypes == "GetManualResponse"){
           wait = false;
-          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'filename');
+          responseElem = (await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'filename'))!;
           if (responseElem != null) {
-            response['filename'] = responseElem;
+            response!['filename'] = responseElem;
           }
-          xmlResponseMap[wantedMessageTypes].remove(xmlResponseMap[wantedMessageTypes].first);
+          xmlResponseMap[wantedMessageTypes]!.remove(xmlResponseMap[wantedMessageTypes]!.first);
 
-          if(xmlResponseMap[wantedMessageTypes].length == 0){
+          if(xmlResponseMap[wantedMessageTypes]!.length == 0){
             xmlResponseMap.remove(wantedMessageTypes);
           }
 
@@ -399,13 +399,13 @@ class dataHand extends ChangeNotifier {
 
         else if(wantedMessageTypes == "SetAdapterNameStatus"){
           wait = false;
-          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'result');
+          responseElem = (await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'result'))!;
           if (responseElem != null) {
-            response['result'] = responseElem;
+            response!['result'] = responseElem;
           }
-          xmlResponseMap[wantedMessageTypes].remove(xmlResponseMap[wantedMessageTypes].first);
+          xmlResponseMap[wantedMessageTypes]!.remove(xmlResponseMap[wantedMessageTypes]!.first);
 
-          if(xmlResponseMap[wantedMessageTypes].length == 0){
+          if(xmlResponseMap[wantedMessageTypes]!.length == 0){
             xmlResponseMap.remove(wantedMessageTypes);
           }
 
@@ -413,26 +413,26 @@ class dataHand extends ChangeNotifier {
 
         else if (wantedMessageTypes == "SupportInfoGenerateStatus") {
           wait = false;
-          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'status');
+          responseElem = (await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'status'))!;
           if (responseElem != null) {
-            response['status'] = responseElem;
+            response!['status'] = responseElem;
           }
-          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'htmlfilename');
+          responseElem = (await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'htmlfilename'))!;
           if (responseElem != null) {
-            response['htmlfilename'] = responseElem;
+            response!['htmlfilename'] = responseElem;
           }
-          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'zipfilename');
+          responseElem = (await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'zipfilename'))!;
           if (responseElem != null) {
-            response['zipfilename'] = responseElem;
+            response!['zipfilename'] = responseElem;
           }
-          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'result');
+          responseElem = (await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'result'))!;
           if (responseElem != null) {
-            response['result'] = responseElem;
+            response!['result'] = responseElem;
           }
 
-          xmlResponseMap[wantedMessageTypes].remove(xmlResponseMap[wantedMessageTypes].first);
+          xmlResponseMap[wantedMessageTypes]!.remove(xmlResponseMap[wantedMessageTypes]!.first);
 
-          if(xmlResponseMap[wantedMessageTypes].length == 0){
+          if(xmlResponseMap[wantedMessageTypes]!.length == 0){
             xmlResponseMap.remove(wantedMessageTypes);
           }
         }
@@ -440,19 +440,19 @@ class dataHand extends ChangeNotifier {
         // here we want to ignore the first response with <status>running</status>
         else if (wantedMessageTypes == "ResetAdapterToFactoryDefaultsStatus") {
 
-          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'status');
+          responseElem = (await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'status'))!;
           if (responseElem != "running") {
             wait = false;
 
-            responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'result');
+            responseElem = (await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'result'))!;
             if (responseElem != null) {
-              response['result'] = responseElem;
+              response!['result'] = responseElem;
             }
           }
 
-          xmlResponseMap[wantedMessageTypes].remove(xmlResponseMap[wantedMessageTypes].first);
+          xmlResponseMap[wantedMessageTypes]!.remove(xmlResponseMap[wantedMessageTypes]!.first);
 
-          if(xmlResponseMap[wantedMessageTypes].length == 0){
+          if(xmlResponseMap[wantedMessageTypes]!.length == 0){
             xmlResponseMap.remove(wantedMessageTypes);
           }
         }
@@ -460,19 +460,19 @@ class dataHand extends ChangeNotifier {
         // ignore responses with <status>running</status> tag given by dLan devices
         else if (wantedMessageTypes == "IdentifyDeviceStatus") {
 
-          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'status');
+          responseElem = (await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'status'))!;
           if (responseElem != "running") {
             wait = false;
 
-            responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'result');
+            responseElem = (await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'result'))!;
             if (responseElem != null) {
-              response['result'] = responseElem;
+              response!['result'] = responseElem;
             }
           }
 
-          xmlResponseMap[wantedMessageTypes].remove(xmlResponseMap[wantedMessageTypes].first);
+          xmlResponseMap[wantedMessageTypes]!.remove(xmlResponseMap[wantedMessageTypes]!.first);
 
-          if(xmlResponseMap[wantedMessageTypes].length == 0){
+          if(xmlResponseMap[wantedMessageTypes]!.length == 0){
             xmlResponseMap.remove(wantedMessageTypes);
           }
         }
@@ -480,22 +480,22 @@ class dataHand extends ChangeNotifier {
         else if (wantedMessageTypes == "SetNetworkPasswordStatus") {
 
           wait = false;
-          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'status');
+          responseElem = (await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'status'))!;
           if (responseElem != null) {
-              response['status'] = responseElem;
+              response!['status'] = responseElem;
             }
-          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'total');
+          responseElem = (await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'total'))!;
           if (responseElem != null) {
-            response['total'] = responseElem;
+            response!['total'] = responseElem;
           }
-          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'failed');
+          responseElem = (await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'failed'))!;
           if (responseElem != null) {
-            response['failed'] = responseElem;
+            response!['failed'] = responseElem;
           }
 
-          xmlResponseMap[wantedMessageTypes].remove(xmlResponseMap[wantedMessageTypes].first);
+          xmlResponseMap[wantedMessageTypes]!.remove(xmlResponseMap[wantedMessageTypes]!.first);
 
-          if(xmlResponseMap[wantedMessageTypes].length == 0){
+          if(xmlResponseMap[wantedMessageTypes]!.length == 0){
             xmlResponseMap.remove(wantedMessageTypes);
           }
         }
@@ -503,12 +503,12 @@ class dataHand extends ChangeNotifier {
         // responses where we need only the result tag
         else {
           wait = false;
-          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes].first, 'result');
+          responseElem = (await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'result'))!;
           if (responseElem != null) {
-            response['result'] = responseElem;
+            response!['result'] = responseElem;
           }
-          xmlResponseMap[wantedMessageTypes].remove(xmlResponseMap[wantedMessageTypes].first);
-          if(xmlResponseMap[wantedMessageTypes].length == 0){
+          xmlResponseMap[wantedMessageTypes]!.remove(xmlResponseMap[wantedMessageTypes]!.first);
+          if(xmlResponseMap[wantedMessageTypes]!.length == 0){
             xmlResponseMap.remove(wantedMessageTypes);
           }
         }
@@ -518,7 +518,7 @@ class dataHand extends ChangeNotifier {
       return wait;
     }).timeout(Duration(seconds: timoutTime), onTimeout: () {
       print('> Timed Out');
-      response['status'] = "timeout";
+      response!['status'] = "timeout";
       wait = false;
     });
 
@@ -526,7 +526,7 @@ class dataHand extends ChangeNotifier {
     return response;
   }
 
-  Future<String> findFirstElem(XmlDocument revXML, String word) async {
+  Future<String?> findFirstElem(XmlDocument revXML, String word) async {
     //print("revXML: "+ revXML.toString());
     dynamic ret = revXML.findAllElements(word);
     if (ret == null)
@@ -540,10 +540,10 @@ class dataHand extends ChangeNotifier {
   Future<void> parseConfig(XmlDocument xmlResponse) async {
 
     for (var element in xmlResponse.findAllElements('item')) {
-      if (element.lastElementChild.innerText == "1") {
-        config[element.firstElementChild.innerText] = true;
+      if (element.lastElementChild!.innerText == "1") {
+        config[element.firstElementChild!.innerText] = true;
       } else {
-        config[element.firstElementChild.innerText] = false;
+        config[element.firstElementChild!.innerText] = false;
       }
     }
 
@@ -553,64 +553,64 @@ class dataHand extends ChangeNotifier {
   void parseUpdateStatus(XmlDocument xmlResponse) {
     var items = xmlResponse.findAllElements("item");
     for (var item in items) {
-      Device dev = _deviceList.getDeviceList().where((element) => element.mac == item.getElement("first").getElement("macAddress").innerText).first;
-      String status = item.getElement("second").innerText;
+      Device dev = _deviceList!.getDeviceList().where((element) => element.mac == item.getElement("first")!.getElement("macAddress")!.innerText).first;
+      String status = item.getElement("second")!.innerText;
 
       dev.updateState = status;
-      if (status == "complete") _deviceList.getUpdateList().removeWhere((element) => element == dev.mac);
+      if (status == "complete") _deviceList!.getUpdateList().removeWhere((element) => element == dev.mac);
       if (status.endsWith("%")) dev.updateStateInt = double.parse(status.substring(status.indexOf(" "), status.indexOf("%")));
       if (status == "pending") dev.updateState = "pending";
 
       print(dev.toRealString());
     }
-    _deviceList.changedList();
+    _deviceList!.changedList();
   }
 
   void parseFWUpdateIndication(XmlDocument xmlResponse) {
     var items = xmlResponse.findAllElements("item");
     //var macs = item.findAllElements("macAddress"); //ToDo List !! Get Test Devices to get more devices with updates
-    _deviceList.getUpdateList().clear();
+    _deviceList!.getUpdateList().clear();
 
     for (var item in items) {
       try {
-        Device dev = _deviceList.getDeviceList().where((element) => element.mac == item.getElement("first").getElement("macAddress").innerText).first;
+        Device dev = _deviceList!.getDeviceList().where((element) => element.mac == item.getElement("first")!.getElement("macAddress")!.innerText).first;
         dev.updateAvailable = true;
-        _deviceList.getUpdateList().add(dev.mac);
+        _deviceList!.getUpdateList().add(dev.mac);
       } catch (e) {
         print("ParseFWUpdateIndication failed! - Maybe not in selected deviceList");
         print(e);
         return null;
       }
       //print(dev.toRealString());
-      print(_deviceList.getUpdateList());
+      print(_deviceList!.getUpdateList());
     }
-    _deviceList.changedList();
+    _deviceList!.changedList();
   }
 
-  Future<Map<String, dynamic>> parseUpdateIndication(XmlDocument xmlResponse) async {
-    Map response = new Map<String, dynamic>();
+  Future<Map<String, dynamic>?> parseUpdateIndication(XmlDocument xmlResponse) async {
+    Map<String, dynamic>? response;
     String responseElem;
 
     String messageType = xmlResponse.findAllElements("MessageType").first.innerText;
-    response['messageType'] = messageType;
+    response!['messageType'] = messageType;
 
-    responseElem = await findFirstElem(xmlResponse, 'status');
+    responseElem = (await findFirstElem(xmlResponse, 'status'))!;
     if (responseElem != null) {
-      response['status'] = responseElem;
+      response!['status'] = responseElem;
     }
-    responseElem = await findFirstElem(xmlResponse, 'commandline');
+    responseElem = (await findFirstElem(xmlResponse, 'commandline'))!;
     if (responseElem != null) {
-      response['commandline'] = responseElem;
+      response!['commandline'] = responseElem;
     }
-    responseElem = await findFirstElem(xmlResponse, 'workdir');
+    responseElem = (await findFirstElem(xmlResponse, 'workdir'))!;
     if (responseElem != null) {
-      response['workdir'] = responseElem;
+      response!['workdir'] = responseElem;
     }
 
-    if (response['status'] == "none") {
-      _deviceList.CockpitUpdate = false;
+    if (response!['status'] == "none") {
+      _deviceList!.CockpitUpdate = false;
     } else {
-      _deviceList.CockpitUpdate = true;
+      _deviceList!.CockpitUpdate = true;
     }
 
     //_deviceList.changedList();

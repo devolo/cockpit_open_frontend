@@ -348,6 +348,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 GestureDetector(
                   onTap: () {
                     //_mainColorPicker("Main color", "Accent color", "Light font color", "Dark font color");
+                    _openDialog("title1");
                   },
                   child: ListTile(
                     contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
@@ -673,17 +674,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  void _openDialog(String title1, Widget content1, [String? title2, Widget? content2, String? title3, Widget? content3, String? title4, Widget? content4]) {
-    double _animatedHeight = 0.0;
-    String? selected;
-
-    Map<String, dynamic> contents = Map();
-    contents[title1] = content1;
-    contents[title2!] = content2;
-    contents[title3!] = content3;
-    contents[title4!] = content4;
-
-    print(contents.entries);
+  void _openDialog(String title1) {
 
     showDialog<void>(
       context: context,
@@ -707,6 +698,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 // You need this, notice the parameters below:
                 builder: (BuildContext context, StateSetter setState) {
                   return Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
                         S.of(context).chooseTheme,
@@ -735,14 +727,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 setTheme(theme_devolo["name"]);
                                 config["theme"] = theme_devolo["name"];
                                 saveToSharedPrefs(config);
-
-                                // mainColor = theme_devolo["mainColor"];
-                                // backgroundColor = theme_devolo["backgroundColor"];
-                                // secondColor = theme_devolo["secondColor"];
-                                // drawingColor = theme_devolo["drawingColor"];
-                                // fontColorLight = theme_devolo["fontColorLight"];
-                                // fontColorMedium = theme_devolo["fontColorMedium"];
-                                // fontColorDark = theme_devolo["fontColorDark"];
                                 AppBuilder.of(context)!.rebuild();
                               });
                             },
@@ -765,14 +749,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 setTheme(theme_dark["name"]);
                                 config["theme"] = theme_dark["name"];
                                 saveToSharedPrefs(config);
-
-                                // mainColor = theme_dark["mainColor"];
-                                // backgroundColor = theme_dark["backgroundColor"];
-                                // secondColor = theme_dark["secondColor"];
-                                // drawingColor = theme_dark["drawingColor"];
-                                // fontColorLight = theme_dark["fontColorLight"];
-                                // fontColorMedium = theme_dark["fontColorMedium"];
-                                // fontColorDark = theme_dark["fontColorDark"];
                                 AppBuilder.of(context)!.rebuild();
                               });
                             },
@@ -795,14 +771,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 config["theme"] = theme_light["name"];
                                 setTheme(theme_light["name"]);
                                 saveToSharedPrefs(config);
-
-                                // mainColor = theme_light["mainColor"];
-                                // backgroundColor = theme_light["backgroundColor"];
-                                // secondColor = theme_light["secondColor"];
-                                // drawingColor = theme_light["drawingColor"];
-                                // fontColorLight = theme_light["fontColorLight"];
-                                // fontColorMedium = theme_light["fontColorMedium"];
-                                // fontColorDark = theme_light["fontColorDark"];
                                 AppBuilder.of(context)!.rebuild();
                               });
                             },
@@ -825,14 +793,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 config["theme"] = theme_highContrast["name"];
                                 setTheme(theme_highContrast["name"]);
                                 saveToSharedPrefs(config);
-
-                                // mainColor = theme_highContrast["mainColor"];
-                                // backgroundColor = theme_highContrast["backgroundColor"];
-                                // secondColor = theme_highContrast["secondColor"];
-                                // drawingColor = theme_highContrast["drawingColor"];
-                                // fontColorLight = theme_highContrast["fontColorLight"];
-                                // fontColorMedium = theme_highContrast["fontColorMedium"];
-                                // fontColorDark = theme_highContrast["fontColorDark"];
                                 AppBuilder.of(context)!.rebuild();
                               });
                             },
@@ -840,62 +800,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ],
                       ),
                       Divider(),
-                      Text(
-                        S.of(context).fullyCustomizeColors,
-                        style: TextStyle(color: fontColorLight),
-                      ),
-                      Divider(),
-                      for (dynamic con in contents.entries)
-                        Column(
-                          children: [
-                            new GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  print(con);
-                                  selected = con.key;
-                                  _animatedHeight != 0.0 ? _animatedHeight = 0.0 : _animatedHeight = 180.0;
-                                });
-                                AppBuilder.of(context)!.rebuild();
-                              },
-                              child: new Container(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    new Text(
-                                      " " + con.key,
-                                      style: TextStyle(color: fontColorDark),
-                                    ),
-                                    Spacer(),
-                                    // ToDo CircleAvatar doesn't change
-                                    // new CircleAvatar(
-                                    //   backgroundColor: con.value.selectedColor, //_tempShadeColor,
-                                    //   radius: 15.0,
-                                    // ),
-                                    new Icon(
-                                      Icons.arrow_drop_down_rounded,
-                                      color: fontColorDark,
-                                    ),
-                                  ],
-                                ),
-                                color: secondColor, //Colors.grey[800].withOpacity(0.9),
-                                height: 50.0,
-                                width: 900.0,
-                              ),
-                            ),
-                            new AnimatedContainer(
-                              duration: const Duration(milliseconds: 120),
-                              child: Column(
-                                children: [
-                                  Expanded(child: con.value),
-                                ],
-                              ),
-                              height: selected == con.key ? _animatedHeight : 0.0,
-                              color: secondColor.withOpacity(0.8),
-                              //Colors.grey[800].withOpacity(0.6),
-                              width: 900.0,
-                            ),
-                          ],
-                        ),
                     ],
                   );
                 },

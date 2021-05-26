@@ -47,4 +47,4 @@ app.*.map.json
 /android/app/release
 
 
-/lib/generated
+/lib/generated/

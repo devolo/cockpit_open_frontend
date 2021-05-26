@@ -237,3 +237,21 @@ ui.Image getIconForDeviceType(DeviceType dt) {
 }
 
 
+getCloseButton(context) {
+  return Padding(
+    padding: const EdgeInsets.fromLTRB(0, 5, 5, 0),
+    child: GestureDetector(
+      onTap: () {
+
+      },
+      child: Container(
+        alignment: FractionalOffset.topRight,
+        child: GestureDetector(child: Icon(Icons.clear,color: secondColor,),
+
+          onTap: (){
+            Navigator.pop(context);
+          },),
+      ),
+    ),
+  );
+}

@@ -692,32 +692,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
         return AlertDialog(
           backgroundColor: backgroundColor.withOpacity(0.9),
           contentPadding: const EdgeInsets.all(20.0),
-          title: Text(
-            S.of(context).appColor,
-            style: TextStyle(color: fontColorLight),
-            textAlign: TextAlign.center,
-          ),
-          content: Stack(
-            overflow: Overflow.visible,
+          title: Column(
             children: [
-              Positioned.fill(
-                top: -90,
-                right: -35,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Align(
-                    alignment: Alignment.topRight,
-                    child: CircleAvatar(
-                      radius: 14.0,
-                      backgroundColor: secondColor,
-                      child: Icon(Icons.close, color: fontColorDark),
-                    ),
-                  ),
-                ),
+              getCloseButton(context),
+              Text(
+                S.of(context).appColor,
+                style: TextStyle(color: fontColorLight),
+                textAlign: TextAlign.center,
               ),
-              StatefulBuilder(
+            ],
+          ),
+          titlePadding: EdgeInsets.all(2),
+          content: StatefulBuilder(
                 // You need this, notice the parameters below:
                 builder: (BuildContext context, StateSetter setState) {
                   return Column(
@@ -914,10 +900,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   );
                 },
               ),
-            ],
-          ),
-
-        );
+          );
       },
     );
   }
@@ -929,35 +912,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
         barrierDismissible: true, // user doesn't need to tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(
-              title,
-              style: TextStyle(color: fontColorLight),
-            ),
-            backgroundColor: backgroundColor.withOpacity(0.9),
-            contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18 * fontSizeFactor),
-            content: Stack(
-              overflow: Overflow.visible,
+            title: Column(
               children: [
-                Positioned(
-                  top: -85,
-                  right: -35,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: CircleAvatar(
-                        radius: 14.0,
-                        backgroundColor: secondColor,
-                        child: Icon(Icons.close, color: fontColorDark),
-                      ),
-                    ),
-                  ),
+                getCloseButton(context),
+                Text(
+                  title,
+                  style: TextStyle(color: fontColorLight),
                 ),
-                Text(body),
               ],
             ),
+            titlePadding: EdgeInsets.all(2),
+            backgroundColor: backgroundColor.withOpacity(0.9),
+            contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18 * fontSizeFactor),
+            content: Text(body),
             actions: <Widget>[
 
             ],

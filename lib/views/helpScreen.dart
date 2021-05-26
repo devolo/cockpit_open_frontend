@@ -192,36 +192,22 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
         barrierDismissible: true, // user doesn't need to tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Center(
-                child: Text(
-              S.of(context).optimizationHelp,
-              style: TextStyle(color: fontColorLight),
-            )),
+            title: Column(
+              children: [
+                getCloseButton(context),
+                Center(
+                    child: Text(
+                  S.of(context).optimizationHelp,
+                  style: TextStyle(color: fontColorLight),
+                )),
+              ],
+            ),
+            titlePadding: EdgeInsets.all(2),
             backgroundColor: backgroundColor.withOpacity(0.9),
             insetPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
             content: StatefulBuilder(// You need this, notice the parameters below:
-                builder: (BuildContext context, StateSetter setState) {
-              return Stack(
-                overflow: Overflow.visible,
-                children: [
-                  Positioned.fill(
-                    top: -90,
-                    right: -35,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: CircleAvatar(
-                          radius: 14.0,
-                          backgroundColor: secondColor,
-                          child: Icon(Icons.close, color: fontColorDark),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Center(
+            builder: (BuildContext context, StateSetter setState) {
+              return Center(
                     child: Column(
                       children: [
                         for (dynamic con in contents.entries)
@@ -312,9 +298,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                         // ),
                       ],
                     ),
-                  ),
-                ],
-              );
+                  );
             }),
           );
         });
@@ -345,36 +329,22 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
         barrierDismissible: true, // user doesn't need to tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Center(
-                child: Text(
-              "Gerät einrichten",
-              style: TextStyle(color: fontColorLight),
-            )),
+            title: Column(
+              children: [
+                getCloseButton(context),
+                Center(
+                    child: Text(
+                  "Gerät einrichten",
+                  style: TextStyle(color: fontColorLight),
+                )),
+              ],
+            ),
+            titlePadding: EdgeInsets.all(2),
             backgroundColor: backgroundColor.withOpacity(0.9),
             insetPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 100),
             content: StatefulBuilder(// You need this, notice the parameters below:
                 builder: (BuildContext context, StateSetter setState) {
-              return Stack(
-                overflow: Overflow.visible,
-                children: [
-                  Positioned.fill(
-                    top: -90,
-                    right: -35,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: CircleAvatar(
-                          radius: 14.0,
-                          backgroundColor: secondColor,
-                          child: Icon(Icons.close, color: fontColorDark),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
+              return Container(
                     //color: Colors.grey[200],
                     height: 800,
                     width: 900,
@@ -571,9 +541,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                         ),
                       ],
                     ),
-                  ),
-                ],
-              );
+                  );
             }),
           );
         });
@@ -767,36 +735,22 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
         barrierDismissible: true, // user doesn't need to tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Center(
-                child: Text(
-              "Support kontaktieren",
-              style: TextStyle(color: fontColorLight),
-            )),
+            title: Column(
+              children: [
+                getCloseButton(context),
+                Center(
+                    child: Text(
+                  "Support kontaktieren",
+                  style: TextStyle(color: fontColorLight),
+                )),
+              ],
+            ),
+            titlePadding: EdgeInsets.all(2),
             backgroundColor: backgroundColor.withOpacity(0.9),
             insetPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 100),
             content: StatefulBuilder(// You need this, notice the parameters below:
                 builder: (BuildContext context, StateSetter setState) {
-              return Stack(
-                overflow: Overflow.visible,
-                children: [
-                  Positioned.fill(
-                    top: -90,
-                    right: -35,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: CircleAvatar(
-                          radius: 14.0,
-                          backgroundColor: secondColor,
-                          child: Icon(Icons.close, color: fontColorDark),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Center(
+              return Center(
                     child: Column(
                       children: [
                         ListTile(
@@ -884,9 +838,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                         ),
                       ],
                     ),
-                  ),
-                ],
-              );
+                  );
             }),
           );
         });

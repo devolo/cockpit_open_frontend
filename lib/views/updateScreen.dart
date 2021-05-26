@@ -516,36 +516,22 @@ class _UpdateScreenState extends State<UpdateScreen> {
         return AlertDialog(
           backgroundColor: backgroundColor.withOpacity(0.9),
           contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 17 * fontSizeFactor),
-          title: SelectableText(
-            S.of(context).deviceinfo,
-            style: TextStyle(color: Colors.white),
-            textScaleFactor: fontSizeFactor,
+          title: Column(
+            children: [
+              getCloseButton(context),
+              SelectableText(
+                S.of(context).deviceinfo,
+                style: TextStyle(color: Colors.white),
+                textScaleFactor: fontSizeFactor,
+              ),
+            ],
           ),
+          titlePadding: EdgeInsets.all(2),
           titleTextStyle: TextStyle(
             color: Colors.white,
             fontSize: 23,
           ),
-          content: Stack(
-            overflow: Overflow.visible,
-            children: [
-              Positioned.fill(
-                top: -90,
-                right: -35,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Align(
-                    alignment: Alignment.topRight,
-                    child: CircleAvatar(
-                      radius: 14.0,
-                      backgroundColor: secondColor,
-                      child: Icon(Icons.close, color: fontColorDark),
-                    ),
-                  ),
-                ),
-              ),
-              SingleChildScrollView(
+          content: SingleChildScrollView(
                 child: Column(
                   //mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -917,8 +903,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   ],
                 ),
               ),
-            ],
-          ),
           // actions: <Widget>[
           //   IconButton(
           //     icon: Icon(
@@ -947,35 +931,19 @@ class _UpdateScreenState extends State<UpdateScreen> {
         barrierDismissible: true, // user doesn't need to tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(
-              title,
-              style: TextStyle(color: fontColorLight),
-            ),
-            backgroundColor: backgroundColor.withOpacity(0.9),
-            contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18 * fontSizeFactor),
-            content: Stack(
-              overflow: Overflow.visible,
+            title: Column(
               children: [
-                Positioned(
-                  top: -85,
-                  right: -35,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pop(false);
-                    },
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: CircleAvatar(
-                        radius: 14.0,
-                        backgroundColor: secondColor,
-                        child: Icon(Icons.close, color: fontColorDark),
-                      ),
-                    ),
-                  ),
+                getCloseButton(context),
+                Text(
+                  title,
+                  style: TextStyle(color: fontColorLight),
                 ),
-                Text(body),
               ],
             ),
+            titlePadding: EdgeInsets.all(2),
+            backgroundColor: backgroundColor.withOpacity(0.9),
+            contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18 * fontSizeFactor),
+            content: Text(body),
             actions: <Widget>[
               FlatButton(
                 child: Row(
@@ -1030,35 +998,19 @@ class _UpdateScreenState extends State<UpdateScreen> {
         barrierDismissible: true, // user doesn't need to tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(
-              title,
-              style: TextStyle(color: fontColorLight),
-            ),
-            backgroundColor: backgroundColor.withOpacity(0.9),
-            contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18 * fontSizeFactor),
-            content: Stack(
-              overflow: Overflow.visible,
+            title: Column(
               children: [
-                Positioned(
-                  top: -85,
-                  right: -35,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: CircleAvatar(
-                        radius: 14.0,
-                        backgroundColor: secondColor,
-                        child: Icon(Icons.close, color: fontColorDark),
-                      ),
-                    ),
-                  ),
+                getCloseButton(context),
+                Text(
+                  title,
+                  style: TextStyle(color: fontColorLight),
                 ),
-                Text(body),
               ],
             ),
+            titlePadding: EdgeInsets.all(2),
+            backgroundColor: backgroundColor.withOpacity(0.9),
+            contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18 * fontSizeFactor),
+            content: Text(body),
             actions: <Widget>[],
           );
         });

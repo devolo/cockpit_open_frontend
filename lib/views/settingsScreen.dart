@@ -348,7 +348,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 GestureDetector(
                   onTap: () {
                     //_mainColorPicker("Main color", "Accent color", "Light font color", "Dark font color");
-                    _openDialog("title1");
+                    _themeDialog("title1");
                   },
                   child: ListTile(
                     contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
@@ -674,8 +674,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  void _openDialog(String title1) {
-
+  void _themeDialog(String title1) {
     showDialog<void>(
       context: context,
       barrierDismissible: true, // user doesn't need to tap button!

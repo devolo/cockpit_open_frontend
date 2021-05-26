@@ -57,6 +57,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
       //_loading = socket.waitingResponse;
     });
     var response = await socket.recieveXML(["UpdateIndication", "FirmwareUpdateIndication"]);
+    //var response = await socket.myReceiveXML("UpdateIndication");
+    print(response);
 
     Timer(Duration(seconds: 4), () {
       setState(() {
@@ -128,12 +130,14 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     // Warning! "UpdateCheck" and "RefreshNetwork" should only be triggered by a user interaction, not continously/automaticly
                     setState(() {
                       socket.sendXML('UpdateCheck');
-                      _loading = socket.waitingResponse;
+                      _loading = true;
                     });
-                    var response = await socket.recieveXML(["UpdateIndication", "FirmwareUpdateIndication"]);
+                    //var response = await socket.receiveXML(["UpdateIndication", "FirmwareUpdateIndication"]);// "UpdateIndication", "FirmwareUpdateIndication"
+                    var response1 = await socket.myReceiveXML("UpdateIndication");
+                    var response2 = await socket.myReceiveXML("FirmwareUpdateIndication");
                     setState(() {
-                      _loading = socket.waitingResponse;
-                      if (response!["messageType"] != null) _lastPoll = DateTime.now();
+                      _loading = false;
+                      //if (response!["messageType"] != null) _lastPoll = DateTime.now();
                     });
                   },
                   child: Row(children: [

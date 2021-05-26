@@ -105,13 +105,19 @@ class Device extends ChangeNotifier {
     // get Attribute for VDSL compatibility
     // get attributes for selected and supported vdsl profiles
     XmlElement? vdsl_compat;
-    var selected_VDSL;
-    var supported_VDSL;
-    var mode_VDSL;
+    var selected_VDSL = "";
+    List<String> supported_VDSL = [];
+    var mode_VDSL = "";
 
     var actions=element.getElement('actions')!.findAllElements("item").toList();
     if(actions.isNotEmpty) {
-      vdsl_compat = actions.firstWhere((element) => element.innerText.contains("supported_profiles"), ); //orElse: () {return null;}
+      try {
+        vdsl_compat = actions.firstWhere((element) => element.innerText.contains("supported_profiles"),); //orElse: () {return null;}
+      }
+      catch(error) {
+        print("Error: ${error}");
+        vdsl_compat = null;
+      }
     }
     if(vdsl_compat != null) {
       mode_VDSL = vdsl_compat.findAllElements("item").toList().firstWhere((element) => element.innerText.contains("mode"),).lastElementChild!.innerText;

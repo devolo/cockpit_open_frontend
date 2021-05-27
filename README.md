@@ -21,7 +21,14 @@ It is written in [Flutter](https://flutter.dev) and supports all desktops: Windo
 
 ## Building and Running the App
 
-To build and run the app, please follow the relevant instructions on [Flutter docs](https://flutter.dev/docs/get-started/install) according to your operating system and source code editor.
+To build and run the app on command-line, use the following commands:
+```sh
+   $ cd cockpit_open_frontend
+   $ flutter run -d <platform>
+```
+where platform is `windows`, `macos`, or `linux`.
+
+To build and run the app on programming IDEs, see instructions from Flutter for [Android Studio and IntelliJ,](https://flutter.dev/docs/development/tools/android-studio) and [Visual Studio Code.](https://flutter.dev/docs/development/tools/vs-code)
 
 ## Building Releases
 

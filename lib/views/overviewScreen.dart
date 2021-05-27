@@ -492,8 +492,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   hoverColor: fontColorLight.withAlpha(50),
                                   iconSize: 24.0 * fontSizeFactor,
                                   onPressed: !hitDeviceWebinterface ? null : () => launchURL(hitDeviceIp),
-                                  mouseCursor: SystemMouseCursors.click, // TODO Nullsafety not working
-                                  //mouseCursor: !hitDeviceWebinterface ? null : SystemMouseCursors.click,
+                                  mouseCursor: !hitDeviceWebinterface ? SystemMouseCursors.basic : SystemMouseCursors.click,
                                 ),
                                 Text(
                                   S.of(context).launchWebinterface,
@@ -523,8 +522,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                             _errorDialog(context, S.of(context).identifyDeviceErrorTitle, S.of(context).deviceNotFoundIdentifyDevice + "\n\n" + S.of(context).deviceNotFoundHint);
                                           }
                                         },
-                                  mouseCursor: SystemMouseCursors.click, // TODO Nullsafety not working
-                                  //mouseCursor: !hitDeviceIdentify ? null : SystemMouseCursors.click,
+
+                                  mouseCursor: !hitDeviceIdentify ? SystemMouseCursors.basic : SystemMouseCursors.click,
                                 ),
                                 Text(
                                   S.of(context).identifyDevice,

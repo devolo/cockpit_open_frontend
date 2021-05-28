@@ -24,8 +24,8 @@ It is written in [Flutter](https://flutter.dev) and supports all desktops: Windo
 
 To build and run the app on command-line, use the following commands:
 ```sh
-   $ cd cockpit_open_frontend
-   $ flutter run -d <platform>
+$ cd cockpit_open_frontend
+$ flutter run -d <platform>
 ```
 where platform is `windows`, `macos`, or `linux`.
 

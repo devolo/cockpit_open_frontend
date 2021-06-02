@@ -9,6 +9,7 @@ The following guidelines will help you to understand how you can help. They will
 1. [Reporting an issue](#reporting-an-issue)
 1. [Requesting a feature](#requesting-a-feature)
 1. [Code style guide](#code-style-guide)
+1. [Localizations](#localizations)
 1. [Testing](#testing)
 
 ## Reporting an issue
@@ -22,6 +23,13 @@ While we develop this frontend, we have our own use cases in mind. Those use cas
 ## Code style guide
 
 TBD 
+
+## Localizations
+If you are using a programming IDE with Flutter Intl, such as VS Code or Android Studio, changes to resource files (`/lib/l10n/*.arb`) will automatically generate localization files (`lib/generated/intl/*.dart`).
+If you are building this app using a command-line interface, new localization files will be generated only when new key-value pairs are added to the resource files. If you want to manually generate localization files, e.g., when updating an existing key-value pair, run the following command:
+```
+flutter pub run intl_utils:generate
+```
 
 ## Testing
 

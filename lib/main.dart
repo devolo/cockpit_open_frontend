@@ -184,7 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     // TODO Needed?
-    //AppBuilder.of(context).rebuild();
+    AppBuilder.of(context)!.rebuild();
   }
 
   List<BottomNavigationBarItem> buildBottomNavBarItems() {

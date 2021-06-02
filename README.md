@@ -42,7 +42,7 @@ To build and run the app on programming IDEs, see instructions from Flutter for 
    * Linux: `…/cockpit_open_frontend/build/linux/release/bundle`
 
 * Navigate in Terminal or Command Prompt to the above path and run:
-   * Windows `.\devoloCockpit` (Note: Opening the app by double-clicking will result in an error.)
+   * Windows `devoloCockpit` (Note: Opening the app by double-clicking will result in an error - this is a known limitation of the current implementation.)
    * macOS: `./cockpit_open_frontend.app`
    * Linux: `./devoloCockpit`
 

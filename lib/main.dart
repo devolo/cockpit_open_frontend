@@ -183,7 +183,7 @@ class _MyHomePageState extends State<MyHomePage> {
       fontSizeFactor = config["font_size_factor"];
     }
 
-    // TODO Needed?
+    // Rebuild the Widget to reflect changes to the app
     AppBuilder.of(context)!.rebuild();
   }
 

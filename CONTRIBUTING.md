@@ -22,7 +22,8 @@ While we develop this frontend, we have our own use cases in mind. Those use cas
 
 ## Code style guide
 
-TBD 
+- Use the [material styleguide for writing](https://material.io/design/communication/writing.html#principles) for all text shown in the app, e.g., labels and help content. The styleguide includes guidelines for the use of cases, punctuations, tenses, and so on.
+- TBD    
 
 ## Localizations
 If you are using a programming IDE with Flutter Intl, such as VS Code or Android Studio, changes to resource files (`/lib/l10n/*.arb`) will automatically generate localization files (`lib/generated/intl/*.dart`).

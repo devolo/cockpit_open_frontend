@@ -26,6 +26,7 @@ import 'package:cockpit_devolo/views/appBuilder.dart';
 import 'package:window_size/window_size.dart';
 import 'dart:io';
 import 'package:cockpit_devolo/shared/globals.dart';
+import 'package:intl_utils/intl_utils.dart';
 
 import 'package:package_info_plus/package_info_plus.dart';
 import 'dart:convert';

@@ -20,7 +20,7 @@ class AddDeviceScreen extends StatefulWidget {
   AddDeviceScreen({Key? key, NetworkList? deviceList, required this.title}) : super(key: key);
 
   final String title;
-  dataHand? model;
+  DataHand? model;
 
   @override
   _AddDeviceScreenState createState() => _AddDeviceScreenState();
@@ -49,7 +49,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
   @override
   Widget build(BuildContext context) {
     _currImage = optimizeImages.first;
-    var socket = Provider.of<dataHand>(context);
+    var socket = Provider.of<DataHand>(context);
     return new Scaffold(
       backgroundColor: Colors.transparent,
       appBar: new AppBar(

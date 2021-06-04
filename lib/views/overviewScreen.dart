@@ -51,7 +51,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final socket = Provider.of<dataHand>(context);
+    final socket = Provider.of<DataHand>(context);
     final _deviceList = Provider.of<NetworkList>(context);
     socket.setDeviceList(_deviceList);
     _deviceList.selectedNetworkIndex = config["selected_network"];
@@ -191,7 +191,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
     String _vdslProfile;
     bool _vdslModeAutomatic = true;
 
-    final socket = Provider.of<dataHand>(context, listen: false);
+    final socket = Provider.of<DataHand>(context, listen: false);
     final deviceList = Provider.of<NetworkList>(context, listen: false);
 
     print(networkOffsetList);

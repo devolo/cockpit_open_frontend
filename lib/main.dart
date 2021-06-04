@@ -49,10 +49,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<dataHand>(create: (_) => dataHand()),
+        ChangeNotifierProvider<DataHand>(create: (_) => DataHand()),
         ChangeNotifierProvider<NetworkList>(create: (_) => NetworkList()),
       ],
-      child: Consumer<dataHand>(
+      child: Consumer<DataHand>(
         builder: (context, counter, _) {
           return AppBuilder(
             builder: (context) {
@@ -183,6 +183,7 @@ class _MyHomePageState extends State<MyHomePage> {
       setTheme(config["theme"]);
       fontSizeFactor = config["font_size_factor"];
     }
+
 
     // Rebuild the Widget to reflect changes to the app
     AppBuilder.of(context)!.rebuild();

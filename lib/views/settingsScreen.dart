@@ -199,7 +199,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    dataHand socket = Provider.of<dataHand>(context);
+    DataHand socket = Provider.of<DataHand>(context);
     var _deviceList = Provider.of<NetworkList>(context);
 
     return new Scaffold(

@@ -9,6 +9,7 @@ LICENSE file in the root directory of this source tree.
 import 'dart:ui' as ui;
 import 'package:cockpit_devolo/models/dataRateModel.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
@@ -197,6 +198,90 @@ class Device extends ChangeNotifier {
 
   String toRealString(){
     return "Name: ${this.name},\n type:${this.type},\n mac: ${this.mac},\n ip: ${this.ip},\n version: ${this.version},\n version_date:${this.version_date},\n MT: ${this.MT},\n serialno: ${this.serialno},\n remoteDevices: ${this.remoteDevices},\n icon:${this.icon},\n speeds: ${this.speeds},\n attachedToRouter: ${this.attachedToRouter},\n isLocalDevice: ${this.isLocalDevice},\n UpdateAvailable: ${this.updateAvailable},\n UpdateStatus: ${this.updateState},\n UpdateStatusInt: ${this.updateStateInt}, \n SelectedVDSL: ${this.selected_vdsl}, \n SupportedVDSL: ${this.supported_vdsl} \n";
+  }
+
+  // --------- Methods for testing purpose -----------------
+
+  bool compareSpeedRates(Map<String, DataratePair>? rates1, Map<String, DataratePair>? rates2){
+
+    if(rates1 == null && rates2 == null){
+      return true;
+    }
+
+    else if(rates1 != null && rates2 == null){
+      return false;
+    }
+
+    else if(rates1 == null && rates2 != null){
+      return false;
+    }
+
+    if(rates1!.length == rates2!.length){
+      var rates1Keys = rates1.keys;
+
+      bool checkKeys = true;
+      rates1Keys.forEach((element) {
+
+        if(rates2.containsKey(element)){
+          if(!rates1[element]!.compareDataratePair(rates2[element]!))
+            checkKeys = false;
+        }
+
+        if(!rates2.containsKey(element))
+          checkKeys = false;
+
+      });
+
+      return checkKeys;
+
+    }
+    else
+      return false;
+  }
+
+  bool compareDevice(Device other){
+
+    if(this.remoteDevices.length == other.remoteDevices.length){
+         for(int i = 0; i < this.remoteDevices.length; i++){
+           if(!this.remoteDevices[i].compareDevice(other.remoteDevices[i]))
+             return false;
+         }
+    }
+    else
+      return false;
+
+    if(
+
+      this.typeEnum == other.typeEnum &&
+      this.type == other.type &&
+      this.name == other.name &&
+      this.mac == other.mac &&
+      this.ip == other.ip &&
+      this.version == other.version &&
+      this.version_date == other.version_date &&
+      this.MT == other.MT &&
+      this.serialno == other.serialno &&
+      //List<Device> remoteDevices = <Device>[];
+      this.icon == other.icon &&
+      compareSpeedRates(this.speeds,other.speeds) &&
+      //Map<String, DataratePair>? speeds; //Map<mac address of remote device, datarates to and from this remote device>
+      this.attachedToRouter == other.attachedToRouter &&
+      this.isLocalDevice == other.isLocalDevice &&
+      this.updateAvailable == other.updateAvailable &&
+      this.updateState == other.updateState &&
+      this.updateStateInt == other.updateStateInt &&
+      this.webinterfaceAvailable == other.webinterfaceAvailable &&
+      this.identifyDeviceAvailable == other.identifyDeviceAvailable &&
+      this.selected_vdsl == other.selected_vdsl &&
+      listEquals(this.supported_vdsl,other.supported_vdsl) &&
+      this.mode_vdsl == other.mode_vdsl
+
+    ){
+      return true;
+    }
+    else
+      return false;
+
   }
 }
 //=========================================== END Device =========================================

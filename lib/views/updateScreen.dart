@@ -68,7 +68,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
       });
     });
 
-    _deviceList.CockpitUpdate = false;
+    _deviceList.cockpitUpdate = false;
   }
 
   Future<void> updateDevices(socket, _deviceList) async {
@@ -84,7 +84,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final socket = Provider.of<dataHand>(context);
+    final socket = Provider.of<DataHand>(context);
     var _deviceList = Provider.of<NetworkList>(context);
 
     return new Scaffold(
@@ -271,7 +271,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                 ),
                               ],
                             )
-                          : _deviceList.CockpitUpdate == false
+                          : _deviceList.cockpitUpdate == false
                               ? Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -336,7 +336,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               style: TextStyle(color: fontColorLight),
                               textAlign: TextAlign.center,
                             )
-                          : _deviceList.CockpitUpdate == false
+                          : _deviceList.cockpitUpdate == false
                               ? Text(
                                   " ${S.of(context).upToDate}",
                                   style: TextStyle(color: fontColorLight),
@@ -370,7 +370,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                   ),
                                 ],
                               )
-                            : _deviceList.CockpitUpdate == false
+                            : _deviceList.cockpitUpdate == false
                                 ? Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
@@ -445,7 +445,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                 style: TextStyle(color: fontColorLight),
                                 textAlign: TextAlign.center,
                               )
-                            : _deviceList.CockpitUpdate == false
+                            : _deviceList.cockpitUpdate == false
                                 ? Text(
                                     " ${S.of(context).upToDate}",
                                     style: TextStyle(color: fontColorLight),
@@ -511,7 +511,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
     String _newName = hitDeviceName;
 
-    final socket = Provider.of<dataHand>(context, listen: false);
+    final socket = Provider.of<DataHand>(context, listen: false);
 
     showDialog<void>(
       context: context,

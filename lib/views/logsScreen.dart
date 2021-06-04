@@ -33,7 +33,7 @@ class _DebugScreenState extends State<DebugScreen> {
 
   String printResponseList(socket) {
     String ret = "";
-    for (var elem in socket.xmlResponseList) {
+    for (var elem in socket.xmlDebugResponseList) {
       if (elem.runtimeType == XmlDocument) {
         ret += elem.toXmlString(pretty: true);
         ret += "\n";
@@ -47,7 +47,7 @@ class _DebugScreenState extends State<DebugScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final socket = Provider.of<dataHand>(context);
+    final socket = Provider.of<DataHand>(context);
     final deviceList = Provider.of<NetworkList>(context);
     return new Scaffold(
       backgroundColor: Colors.white,
@@ -106,7 +106,7 @@ class _DebugScreenState extends State<DebugScreen> {
                       fontSize: 20,
                     ),
                   ),
-                  SelectableText(socket.xmlResponseList != null ? printResponseList(socket) : "nothing send yet"),
+                  SelectableText(socket.xmlDebugResponseList != [] ? printResponseList(socket) : "nothing send yet"),
                   SizedBox(
                     height: 20,
                   ),

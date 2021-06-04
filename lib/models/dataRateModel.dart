@@ -14,4 +14,16 @@ class DataratePair {
     this.rx = rx;
     this.tx = tx;
   }
+
+  // --------- Methods for testing purpose -----------------
+  bool compareDataratePair(DataratePair other){
+    if(
+      this.rx == other.rx &&
+      this.tx == other.tx
+    ){
+      return true;
+    }
+    else
+      return false;
+  }
 }

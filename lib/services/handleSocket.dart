@@ -28,9 +28,13 @@ class DataHand extends ChangeNotifier {
   bool waitingResponse = false;
   Map<String,List<dynamic>> xmlResponseMap = new Map<String,List<dynamic>>();
 
-  DataHand() {
+  // optional parameter to avoid on testing the socket connection with the backend
+  DataHand([bool? testing]) {
     print("Creating new NetworkOverviewModelDesktop");
-    handleSocket();
+    if(testing == null){
+      handleSocket();
+    }
+
   }
 
   void setDeviceList(NetworkList devList) {
@@ -54,6 +58,7 @@ class DataHand extends ChangeNotifier {
   }
 
   Future<void> dataHandler(data) async {
+    print(data);
     print("Got Data!");
     String? xmlRawData = new String.fromCharCodes(data).trim();
     await parseXML(xmlRawData);
@@ -71,8 +76,9 @@ class DataHand extends ChangeNotifier {
 
   Future<void> parseXML(String? rawData) async {
     print("parsing XML ...");
+    print(rawData);
 
-    if (rawData == null) {
+    if (rawData == null || rawData == "") {
       print('XML empty');
       return;
     }
@@ -116,27 +122,15 @@ class DataHand extends ChangeNotifier {
         int listCounter = 0;
         for (var dev in localDeviceList) {
           Device device = Device.fromXML(dev, true);
+          //print(device.toRealString());
           _deviceList.addDevice(device, listCounter);
-          //_deviceList.addDevice(device, listCounter + 1);
-          //_deviceList.addDevice(device, listCounter + 2);
-           //_deviceList.addDevice(device, listCounter + 3);
-          // _deviceList.addDevice(device, listCounter + 4);
+
           for (var remoteDev in device.remoteDevices) {
+            //print(remoteDev.toRealString());
             _deviceList.addDevice(remoteDev, listCounter);
-             //_deviceList.addDevice(remoteDev, listCounter + 1);
-             //_deviceList.addDevice(remoteDev, listCounter + 2);
-             //_deviceList.addDevice(remoteDev, listCounter + 3);
-             //_deviceList.addDevice(remoteDev, listCounter + 2);
-             //_deviceList.addDevice(remoteDev, listCounter + 2);
-            // _deviceList.addDevice(remoteDev, listCounter + 2);
-            // _deviceList.addDevice(remoteDev, listCounter + 2);
-            // _deviceList.addDevice(remoteDev, listCounter + 2);
           }
           listCounter++;
         }
-        // Check if new Devices have Updates to set updateAvailable
-        //sendXML('UpdateCheck');
-
 
         // init deviceList again when images are loaded to display them
         if(!areDeviceIconsLoaded){
@@ -303,7 +297,6 @@ class DataHand extends ChangeNotifier {
             if (responseElem != null) {
               response['macAddress'] = responseElem;
               int devIndex = _deviceList.getDeviceList().indexWhere((element) => element.mac == responseElem);
-              _deviceList.getDeviceList()[devIndex].updateAvailable = true;
             }
             waitingResponse = false;
           } else if (messageType == "SupportInfoGenerateStatus") {
@@ -350,7 +343,6 @@ class DataHand extends ChangeNotifier {
             if (responseElem != null) {
               response['macAddress'] = responseElem;
               int devIndex = _deviceList.getDeviceList().indexWhere((element) => element.mac == responseElem);
-              _deviceList.getDeviceList()[devIndex].updateAvailable = true;
             }
             waitingResponse = false;
           }
@@ -573,6 +565,7 @@ class DataHand extends ChangeNotifier {
 
   Future<void> parseConfig(XmlDocument xmlResponse) async {
 
+    print("parseConfig!!!!!!!!!!");
     for (var element in xmlResponse.findAllElements('item')) {
       if (element.lastElementChild!.innerText == "1") {
         config[element.firstElementChild!.innerText] = true;
@@ -608,7 +601,6 @@ class DataHand extends ChangeNotifier {
     for (var item in items) {
       try {
         Device dev = _deviceList.getDeviceList().where((element) => element.mac == item.getElement("first")!.getElement("macAddress")!.innerText).first;
-        dev.updateAvailable = true;
         _deviceList.getUpdateList().add(dev.mac);
       } catch (e) {
         print("ParseFWUpdateIndication failed! - Maybe not in selected deviceList");

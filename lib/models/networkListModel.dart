@@ -171,52 +171,6 @@ class NetworkList extends ChangeNotifier{
     };
     //return null;
   }
-
-  // --------- Methods for testing purpose -----------------
-
-  bool compareNetworkList(NetworkList other){
-    print(this._networkList);
-    print(other._networkList);
-
-    if(this._networkList.length == other._networkList.length){
-      for(int i = 0; i < this._networkList.length; i++){
-        if(this._networkList[i].length == other._networkList[i].length){
-          for(int j = 0; j < this._networkList[i].length; j++){
-            if(!this._networkList[i][j].compareDevice(other._networkList[i][j])){
-              return false;
-            }
-          }
-        }
-        else{
-          return false;
-        }
-      }
-    }
-    else{
-      return false;
-    }
-
-    if(this._devices.length == other._devices.length) {
-      for (int i = 0; i < this._devices.length; i++) {
-        if(!this._devices[i].compareDevice(other._devices[i])){
-          return false;
-        }
-      }
-    }
-    else
-      return false;
-
-    if(
-    this.selectedNetworkIndex == other.selectedNetworkIndex &&
-        listEquals(this._updateMacs, other._updateMacs) &&
-        this.cockpitUpdate == other.cockpitUpdate
-    ){
-      return true;
-    }
-    else{
-      return false;
-    }
-  }
 }
 
 

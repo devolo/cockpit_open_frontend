@@ -128,6 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     getConnection();
     readSharedPrefs();
+    print("111111111111111111111111111111111111111111");
     //getVersion();
   }
 

@@ -7,12 +7,22 @@ bool compareDevice(Device first, Device other){
 
   if(first.remoteDevices.length == other.remoteDevices.length){
     for(int i = 0; i < first.remoteDevices.length; i++){
-      if(!compareDevice(first.remoteDevices[i],other.remoteDevices[i]))
+      if(!compareDevice(first.remoteDevices[i],other.remoteDevices[i])){
+        print("failed compareDevice 2");
         return false;
+      }
+
     }
   }
-  else
+  else{
+    print("failed: remote Devices length are different");
     return false;
+  }
+
+  if(!compareSpeedRates(first.speeds,other.speeds)){
+    print("failed compareSpeedRates");
+    return false;
+  }
 
   if(
 
@@ -27,7 +37,6 @@ bool compareDevice(Device first, Device other){
       first.serialno == other.serialno &&
       //List<Device> remoteDevices = <Device>[];
       first.icon == other.icon &&
-      compareSpeedRates(first.speeds,other.speeds) &&
       //Map<String, DataratePair>? speeds; //Map<mac address of remote device, datarates to and from this remote device>
       first.attachedToRouter == other.attachedToRouter &&
       first.isLocalDevice == other.isLocalDevice &&
@@ -42,8 +51,11 @@ bool compareDevice(Device first, Device other){
   ){
     return true;
   }
-  else
+  else{
+    print("failed compare attributes");
     return false;
+  }
+
 
 }
 
@@ -54,11 +66,13 @@ bool compareNetworkList(NetworkList first, NetworkList other){
       if(first.getNetworkList()[i].length == other.getNetworkList()[i].length){
         for(int j = 0; j < first.getNetworkList()[i].length; j++){
           if(!compareDevice(first.getNetworkList()[i][j], other.getNetworkList()[i][j])){
+            print("failed compareDevice 1");
             return false;
           }
         }
       }
       else{
+        print("failed: Networklist length are different");
         return false;
       }
     }
@@ -114,21 +128,26 @@ bool compareSpeedRates(Map<String, DataratePair>? rates1, Map<String, DataratePa
           checkKeys = false;
       }
 
-      if(!rates2.containsKey(element))
+      if(!rates2.containsKey(element)){
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!");
         checkKeys = false;
+      }
+
 
     });
 
     return checkKeys;
 
   }
-  else
+  else{
     return false;
+  }
+
 }
 
 bool compareDataratePair(DataratePair first, DataratePair other){
   if(
-  first.rx == other.rx &&
+      first.rx == other.rx &&
       first.tx == other.tx
   ){
     return true;

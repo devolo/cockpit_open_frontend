@@ -340,3 +340,25 @@ var networkUpdate1 = '''MSGSOCK000020f0<?xml version="1.0" encoding="UTF-8" stan
 	</LocalDeviceList>
 </Message>
 </boost_serialization>''';
+
+var changeNameResponse1 = '''MSGSOCK00000184<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE boost_serialization>
+<boost_serialization signature="serialization::archive" version="13">
+<Message class_id="0" tracking_level="0" version="0">
+	<MessageType>SetAdapterNameStatus</MessageType>
+	<macAddress>B8:BE:F4:31:96:8B</macAddress>
+	<status>complete</status>
+	<result>ok</result>
+</Message>
+</boost_serialization>''';
+
+var identifyDeviceReponse1 = '''MSGSOCK00000188<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE boost_serialization>
+<boost_serialization signature="serialization::archive" version="13">
+<Message class_id="0" tracking_level="0" version="0">
+	<MessageType>IdentifyDeviceStatus</MessageType>
+	<macAddress>B8:BE:F4:31:96:AF</macAddress>
+	<status>complete</status>
+	<result>failed</result>
+</Message>
+</boost_serialization>''';

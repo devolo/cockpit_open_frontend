@@ -58,7 +58,6 @@ class DataHand extends ChangeNotifier {
   }
 
   Future<void> dataHandler(data) async {
-    print(data);
     print("Got Data!");
     String? xmlRawData = new String.fromCharCodes(data).trim();
     await parseXML(xmlRawData);

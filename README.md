@@ -29,7 +29,8 @@ $ flutter run -d <platform>
 ```
 where platform is `windows`, `macos`, or `linux`.
 
-To build and run the app on programming IDEs, see instructions from Flutter for [Android Studio and IntelliJ,](https://flutter.dev/docs/development/tools/android-studio) and [Visual Studio Code.](https://flutter.dev/docs/development/tools/vs-code)
+To build and run the app on programming IDEs, see instructions from Flutter for [Android Studio and IntelliJ,](https://flutter.dev/docs/development/tools/android-studio) and [Visual Studio Code.](https://flutter.dev/docs/development/tools/vs-code)  
+For Visual Studio Code and Linux users we provide a devcontainer which allows you to start developing inside a container. You need the [devolo Cockpit application](https://www.devolo.de/support/downloads/download/devolo-cockpit) on your host system and you need to run `xhost +local:` if you want to see the UI while debugging.
 
 ## Building Releases
 

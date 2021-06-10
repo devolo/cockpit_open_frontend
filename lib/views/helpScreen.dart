@@ -789,7 +789,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                                   socket.sendXML('SupportInfoGenerate');
                                 });
 
-                                response = await socket.myReceiveXML("SupportInfoGenerateStatus");
+                                response = await socket.receiveXML("SupportInfoGenerateStatus");
                                 //print('Response: ' + response.toString());
 
                                 if (response["result"] == "ok") {

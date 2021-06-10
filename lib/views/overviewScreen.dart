@@ -325,7 +325,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                         if (confResponse) {
                                           _changeNameLoading = true;
                                           socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
-                                          var response = await socket.myReceiveXML("SetAdapterNameStatus");
+                                          var response = await socket.receiveXML("SetAdapterNameStatus");
                                           if (response!['result'] == "ok") {
                                             hitDeviceName = _newName;
                                             await Future.delayed(const Duration(seconds: 1), () {});
@@ -353,7 +353,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                     if (confResponse) {
                                       _changeNameLoading = true;
                                       socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
-                                      var response = await socket.myReceiveXML("SetAdapterNameStatus");
+                                      var response = await socket.receiveXML("SetAdapterNameStatus");
                                       if (response!['result'] == "ok") {
                                         hitDeviceName = _newName;
                                         await Future.delayed(const Duration(seconds: 1), () {});
@@ -517,7 +517,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                       ? null
                                       : () async {
                                           socket.sendXML('IdentifyDevice', mac: hitDeviceMac);
-                                          var response = await socket.myReceiveXML("IdentifyDeviceStatus");
+                                          var response = await socket.receiveXML("IdentifyDeviceStatus");
                                           if (response!['result'] == "device_not_found") {
                                             _errorDialog(context, S.of(context).identifyDeviceErrorTitle, S.of(context).deviceNotFoundIdentifyDevice + "\n\n" + S.of(context).deviceNotFoundHint);
                                           }
@@ -545,7 +545,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                     iconSize: 24.0 * fontSizeFactor,
                                     onPressed: () async {
                                       socket.sendXML('GetManual', newValue: hitDeviceMT, valueType: 'product', newValue2: 'de', valueType2: 'language');
-                                      var response = await socket.myReceiveXML("GetManualResponse");
+                                      var response = await socket.receiveXML("GetManualResponse");
                                       if (response!['filename'] != "") {
                                         setState(() {
                                           openFile(response['filename']);
@@ -602,7 +602,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                     if (confResponse) {
                                       socket.sendXML("ResetAdapterToFactoryDefaults", mac: hitDevice.mac);
 
-                                      var response = await socket.myReceiveXML("ResetAdapterToFactoryDefaultsStatus");
+                                      var response = await socket.receiveXML("ResetAdapterToFactoryDefaultsStatus");
                                       if (response!['result'] == "device_not_found") {
                                         _errorDialog(context, S.of(context).resetDeviceErrorTitle, S.of(context).deviceNotFoundResetDevice + "\n\n" + S.of(context).deviceNotFoundHint);
                                       } else if (response['result'] != "ok") {
@@ -637,7 +637,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                     if (confResponse) {
                                       socket.sendXML("RemoveAdapter", mac: hitDevice.mac);
 
-                                      var response = await socket.myReceiveXML("RemoveAdapterStatus");
+                                      var response = await socket.receiveXML("RemoveAdapterStatus");
                                       if (response!['result'] == "device_not_found") {
                                         _errorDialog(context, S.of(context).removeDeviceErrorTitle, S.of(context).deviceNotFoundRemoveDevice + "\n\n" + S.of(context).deviceNotFoundHint);
                                       } else if (response['result'] != "ok") {
@@ -1026,7 +1026,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                     );
                     });
 
-                    var response = await socket.myReceiveXML("SetVDSLCompatibilityStatus");
+                    var response = await socket.receiveXML("SetVDSLCompatibilityStatus");
                     if (response['result'] == "failed") {
                       Navigator.maybeOf(context)!.pop(true);
                     _errorDialog(context, " ", S.of(context).vdslfailed);

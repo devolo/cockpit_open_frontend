@@ -55,8 +55,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
       socket.sendXML('UpdateCheck');
       //_loading = socket.waitingResponse;
     });
-    var responseUpdateIndication = await socket.myReceiveXML("UpdateIndication");
-    var responseFirmwareUpdateIndication = await socket.myReceiveXML("FirmwareUpdateIndication");
+    var responseUpdateIndication = await socket.receiveXML("UpdateIndication");
+    var responseFirmwareUpdateIndication = await socket.receiveXML("FirmwareUpdateIndication");
 
     print(responseUpdateIndication);
     print(responseFirmwareUpdateIndication);
@@ -131,8 +131,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       _loading = true;
                     });
                     //var response = await socket.receiveXML(["UpdateIndication", "FirmwareUpdateIndication"]);// "UpdateIndication", "FirmwareUpdateIndication"
-                    var response1 = await socket.myReceiveXML("UpdateIndication");
-                    var response2 = await socket.myReceiveXML("FirmwareUpdateIndication");
+                    var response1 = await socket.receiveXML("UpdateIndication");
+                    var response2 = await socket.receiveXML("FirmwareUpdateIndication");
                     setState(() {
                       _loading = false;
                       //if (response!["messageType"] != null) _lastPoll = DateTime.now();
@@ -174,8 +174,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         socket.sendXML('UpdateCheck');
                         //_loading = socket.waitingResponse;
                       });
-                      var responseUpdateIndication = await socket.myReceiveXML("UpdateIndication");
-                      var responseFirmwareUpdateIndication = await socket.myReceiveXML("FirmwareUpdateIndication");
+                      var responseUpdateIndication = await socket.receiveXML("UpdateIndication");
+                      var responseFirmwareUpdateIndication = await socket.receiveXML("FirmwareUpdateIndication");
 
                       await updateDevices(socket, _deviceList);
                     },
@@ -595,7 +595,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                     if (confResponse) {
                                       _changeNameLoading = true;
                                       socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
-                                      var response = await socket.myReceiveXML("SetAdapterNameStatus");
+                                      var response = await socket.receiveXML("SetAdapterNameStatus");
                                       if (response!['result'] == "ok") {
                                         hitDeviceName = _newName;
                                         await Future.delayed(const Duration(seconds: 1), () {});
@@ -623,7 +623,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                 if (confResponse) {
                                   _changeNameLoading = true;
                                   socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
-                                  var response = await socket.myReceiveXML("SetAdapterNameStatus");
+                                  var response = await socket.receiveXML("SetAdapterNameStatus");
                                   if (response!['result'] == "ok") {
                                     hitDeviceName = _newName;
                                     await Future.delayed(const Duration(seconds: 1), () {});
@@ -787,7 +787,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                   ? null
                                   : () async {
                                       socket.sendXML('IdentifyDevice', mac: hitDeviceMac);
-                                      var response = await socket.myReceiveXML("IdentifyDeviceStatus");
+                                      var response = await socket.receiveXML("IdentifyDeviceStatus");
                                       if (response!['result'] == "device_not_found") {
                                         _errorDialog(context, S.of(context).identifyDeviceErrorTitle, S.of(context).deviceNotFoundIdentifyDevice + "\n\n" + S.of(context).deviceNotFoundHint);
                                       }
@@ -814,7 +814,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                 iconSize: 24.0 * fontSizeFactor,
                                 onPressed: () async {
                                   socket.sendXML('GetManual', newValue: hitDeviceMT, valueType: 'product', newValue2: 'de', valueType2: 'language');
-                                  var response = await socket.myReceiveXML("GetManualResponse");
+                                  var response = await socket.receiveXML("GetManualResponse");
                                   if (response!['filename'] != "") {
                                     setState(() {
                                       openFile(response['filename']);
@@ -849,7 +849,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                 if (confResponse) {
                                   socket.sendXML("ResetAdapterToFactoryDefaults", mac: hitDevice.mac);
 
-                                  var response = await socket.myReceiveXML("ResetAdapterToFactoryDefaultsStatus");
+                                  var response = await socket.receiveXML("ResetAdapterToFactoryDefaultsStatus");
                                   if (response!['result'] == "device_not_found") {
                                     _errorDialog(context, S.of(context).resetDeviceErrorTitle, S.of(context).deviceNotFoundResetDevice + "\n\n" + S.of(context).deviceNotFoundHint);
                                   } else if (response['result'] != "ok") {
@@ -884,7 +884,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                 if (confResponse) {
                                   socket.sendXML("RemoveAdapter", mac: hitDevice.mac);
 
-                                  var response = await socket.myReceiveXML("RemoveAdapterStatus");
+                                  var response = await socket.receiveXML("RemoveAdapterStatus");
                                   if (response!['result'] == "device_not_found") {
                                     _errorDialog(context, S.of(context).removeDeviceErrorTitle, S.of(context).deviceNotFoundRemoveDevice + "\n\n" + S.of(context).deviceNotFoundHint);
                                   } else if (response['result'] != "ok") {

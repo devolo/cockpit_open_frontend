@@ -609,7 +609,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               networkPasswordResponseFalse = false;
                               waitForNetworkPasswordResponse = true;
                             });
-                            var response = await socket.myReceiveXML(
+                            var response = await socket.receiveXML(
                                 "SetNetworkPasswordStatus");
                             print(response);
                             if (response!['status'] == "complete" &&

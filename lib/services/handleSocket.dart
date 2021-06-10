@@ -18,12 +18,10 @@ import 'package:cockpit_devolo/shared/helpers.dart';
 class DataHand extends ChangeNotifier {
   late Socket socket;
   NetworkList _networkList = NetworkList();
-  XmlDocument xmlResponse = XmlDocument();
 
   List<dynamic> xmlDebugResponseList = []; // used for debugging log
   int maxResponseListSize = 50; // determines the max number of displayed responses in debugging log
 
-  bool waitingResponse = false;
   Map<String,List<dynamic>> xmlResponseMap = new Map<String,List<dynamic>>();
 
   // optional parameter to avoid the socket connection with the backend for testing
@@ -268,7 +266,7 @@ class DataHand extends ChangeNotifier {
     socket.write('MSGSOCK' + xmlLength + xmlString);
   }
 
-  Future<Map<String, dynamic>?> myReceiveXML(String wantedMessageTypes) async { //TODO List instead of string for exp.: ["UpdateIndication", "FirmwareUpdateIndication"]
+  Future<Map<String, dynamic>?> receiveXML(String wantedMessageTypes) async { //TODO List instead of string for exp.: ["UpdateIndication", "FirmwareUpdateIndication"]
 
     Map<String, dynamic> response = Map<String, dynamic>();
     String? responseElem;

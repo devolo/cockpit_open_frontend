@@ -53,7 +53,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
   Widget build(BuildContext context) {
     final socket = Provider.of<DataHand>(context);
     final _deviceList = Provider.of<NetworkList>(context);
-    socket.setDeviceList(_deviceList);
+    socket.setNetworkList(_deviceList);
     _deviceList.selectedNetworkIndex = config["selected_network"];
 
     _Painter = DrawOverview(context, _deviceList, showingSpeeds, pivotDeviceIndex);

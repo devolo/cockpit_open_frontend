@@ -6,55 +6,53 @@ This source code is licensed under the BSD-style license found in the
 LICENSE file in the root directory of this source tree.
 */
 
-import 'dart:convert';
 import 'dart:io'; //only for non-web apps!!!
 import 'dart:async';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xml/xml.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 
 class DataHand extends ChangeNotifier {
   late Socket socket;
-  NetworkList _deviceList = NetworkList();
+  NetworkList _networkList = NetworkList();
   XmlDocument xmlResponse = XmlDocument();
 
   List<dynamic> xmlDebugResponseList = []; // used for debugging log
-  int maxResponseListSize = 50;
+  int maxResponseListSize = 50; // determines the max number of displayed responses in debugging log
 
   bool waitingResponse = false;
   Map<String,List<dynamic>> xmlResponseMap = new Map<String,List<dynamic>>();
 
-  // optional parameter to avoid on testing the socket connection with the backend
+  // optional parameter to avoid the socket connection with the backend for testing
   DataHand([bool? testing]) {
     print("Creating new NetworkOverviewModelDesktop");
     if(testing == null){
       handleSocket();
     }
-
   }
 
-  void setDeviceList(NetworkList devList) {
-    _deviceList = devList;
+  void setNetworkList(NetworkList networkList) {
+    _networkList = networkList;
   }
 
-  NetworkList getDeviceList() {
-    return _deviceList;
+  NetworkList getNetworkList() {
+    return _networkList;
   }
 
-  void handleSocket() {
-    Socket.connect("localhost", 24271).then((Socket sock) {
-      socket = sock;
-      socket.listen(dataHandler, onError: errorHandler, onDone: doneHandler, cancelOnError: false);
-    }).catchError((Object e) {
-      // was AsyncError before ???
-      print("Unable to connect: $e");
-    });
-    //Connect standard in to the socket
-    stdin.listen((data) => socket.write(new String.fromCharCodes(data).trim() + '\n'));
+  void handleSocket() async {
+    socket = await Socket.connect("localhost", 24271);
+    socket.listen(
+        (data) => dataHandler(data),
+        onError: errorHandler,
+        onDone: doneHandler,
+        cancelOnError: false
+    );
+
+    //commenting out this part of code resolves the starting issue when double clicking the application - seems not to be needed
+    //stdin.listen((data) => socket.write(new String.fromCharCodes(data).trim() + '\n'));
   }
 
   Future<void> dataHandler(data) async {
@@ -64,12 +62,18 @@ class DataHand extends ChangeNotifier {
     notifyListeners();
   }
 
+  //TODO - notify user about it?
   void errorHandler(error, StackTrace trace) {
+    //FlutterError.dumpErrorToConsole(error);
     print(error);
+    // socket.destroy();
+    // return usefull?
     return (error);
   }
 
+  //TODO - notify user about it?
   void doneHandler() {
+    print("Server left");
     socket.destroy();
   }
 
@@ -82,13 +86,8 @@ class DataHand extends ChangeNotifier {
       return;
     }
 
-    // xmlLength = xmlRawData.substring(7, 15); // cut the head in front of recieved xml (example: MSGSOCK00001f63) first 7 bytes-> Magicword; next 8 bytes -> message length
-    // xmlLength = int.parse(xmlLength, radix: 16); // parse HexSting to int  //print("XmlLength: " + xmlLength.toString());
-    // var xmlDataFirst = xmlRawData.substring(xmlRawData.indexOf('<?'), xmlLength + 13); //why 13? I dont know yet -_(o.O)_- //TODO
-    // xmlDataList.add(xmlDataFirst);
-
     var xmlDataList = []; //List for all xmlDocuments if dataHandler passes more than one xml
-    String ? xmlDataNext = rawData;
+    String? xmlDataNext = rawData;
 
     while (xmlDataNext != null) {
       var xmlLength = int.parse(xmlDataNext.substring(7, 15), radix: 16); // cut the head in front of recieved xml
@@ -98,22 +97,18 @@ class DataHand extends ChangeNotifier {
       try {
         xmlDataNext = xmlDataNext.substring(xmlLength + 15);
       } catch (error) {
-        //print(error);
         xmlDataNext = null;
       }
     }
-
-    //print(xmlDataList);
 
     XmlDocument document;
     for (var xmlDoc in xmlDataList) {
       document = XmlDocument.parse(xmlDoc);
 
       if (document.findAllElements('MessageType').first.innerText == "NetworkUpdate") {
-        // If received Message is general NetworkUpdate
-        //_deviceList.clearList();
-        _deviceList.clearNetworkList();
-        _deviceList.clearDeviceList();
+
+        _networkList.clearNetworkList();
+        _networkList.clearDeviceList();
         print('DeviceList found ->');
 
         var localDeviceList = document.findAllElements('LocalDeviceList').first.findElements('item'); //TODO: TEST call for every
@@ -122,11 +117,11 @@ class DataHand extends ChangeNotifier {
         for (var dev in localDeviceList) {
           Device device = Device.fromXML(dev, true);
           //print(device.toRealString());
-          _deviceList.addDevice(device, listCounter);
+          _networkList.addDevice(device, listCounter);
 
           for (var remoteDev in device.remoteDevices) {
             //print(remoteDev.toRealString());
-            _deviceList.addDevice(remoteDev, listCounter);
+            _networkList.addDevice(remoteDev, listCounter);
           }
           listCounter++;
         }
@@ -214,6 +209,7 @@ class DataHand extends ChangeNotifier {
     String? valueType2,
     String? mac,
   }) {
+
     waitingResponse = true;
     print(newValue);
     String? xmlString;
@@ -295,7 +291,7 @@ class DataHand extends ChangeNotifier {
             responseElem = (await findFirstElem(xmlResponse, 'macAddress'))!; //
             if (responseElem != null) {
               response['macAddress'] = responseElem;
-              int devIndex = _deviceList.getDeviceList().indexWhere((element) => element.mac == responseElem);
+              int devIndex = _networkList.getDeviceList().indexWhere((element) => element.mac == responseElem);
             }
             waitingResponse = false;
           } else if (messageType == "SupportInfoGenerateStatus") {
@@ -341,7 +337,7 @@ class DataHand extends ChangeNotifier {
             responseElem = await findFirstElem(xmlResponse, 'macAddress'); //ToDo probably more Macs!
             if (responseElem != null) {
               response['macAddress'] = responseElem;
-              int devIndex = _deviceList.getDeviceList().indexWhere((element) => element.mac == responseElem);
+              int devIndex = _networkList.getDeviceList().indexWhere((element) => element.mac == responseElem);
             }
             waitingResponse = false;
           }
@@ -579,37 +575,37 @@ class DataHand extends ChangeNotifier {
   void parseUpdateStatus(XmlDocument xmlResponse) {
     var items = xmlResponse.findAllElements("item");
     for (var item in items) {
-      Device dev = _deviceList.getDeviceList().where((element) => element.mac == item.getElement("first")!.getElement("macAddress")!.innerText).first;
+      Device dev = _networkList.getDeviceList().where((element) => element.mac == item.getElement("first")!.getElement("macAddress")!.innerText).first;
       String status = item.getElement("second")!.innerText;
 
       dev.updateState = status;
-      if (status == "complete") _deviceList.getUpdateList().removeWhere((element) => element == dev.mac);
+      if (status == "complete") _networkList.getUpdateList().removeWhere((element) => element == dev.mac);
       if (status.endsWith("%")) dev.updateStateInt = double.parse(status.substring(status.indexOf(" "), status.indexOf("%")));
       if (status == "pending") dev.updateState = "pending";
 
       print(dev.toRealString());
     }
-    _deviceList.changedList();
+    _networkList.changedList();
   }
 
   void parseFWUpdateIndication(XmlDocument xmlResponse) {
     var items = xmlResponse.findAllElements("item");
     //var macs = item.findAllElements("macAddress"); //ToDo List !! Get Test Devices to get more devices with updates
-    _deviceList.getUpdateList().clear();
+    _networkList.getUpdateList().clear();
 
     for (var item in items) {
       try {
-        Device dev = _deviceList.getDeviceList().where((element) => element.mac == item.getElement("first")!.getElement("macAddress")!.innerText).first;
-        _deviceList.getUpdateList().add(dev.mac);
+        Device dev = _networkList.getDeviceList().where((element) => element.mac == item.getElement("first")!.getElement("macAddress")!.innerText).first;
+        _networkList.getUpdateList().add(dev.mac);
       } catch (e) {
         print("ParseFWUpdateIndication failed! - Maybe not in selected deviceList");
         print(e);
         return null;
       }
       //print(dev.toRealString());
-      print(_deviceList.getUpdateList());
+      print(_networkList.getUpdateList());
     }
-    _deviceList.changedList();
+    _networkList.changedList();
   }
 
   Future<Map<String, dynamic>?> parseUpdateIndication(XmlDocument xmlResponse) async {
@@ -633,9 +629,9 @@ class DataHand extends ChangeNotifier {
     }
 
     if (response['status'] == "none") {
-      _deviceList.cockpitUpdate = false;
+      _networkList.cockpitUpdate = false;
     } else {
-      _deviceList.cockpitUpdate = true;
+      _networkList.cockpitUpdate = true;
     }
 
     //_deviceList.changedList();

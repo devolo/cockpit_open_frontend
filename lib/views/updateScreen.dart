@@ -43,7 +43,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
   bool _loading = false;
   bool _loadingSoftware = false;
-  bool _loadingFW = false;
   DateTime _lastPoll = DateTime.now();
 
   bool _changeNameLoading = false;
@@ -56,9 +55,11 @@ class _UpdateScreenState extends State<UpdateScreen> {
       socket.sendXML('UpdateCheck');
       //_loading = socket.waitingResponse;
     });
-    var response = await socket.recieveXML(["UpdateIndication", "FirmwareUpdateIndication"]);
-    //var response = await socket.myReceiveXML("UpdateIndication");
-    print(response);
+    var responseUpdateIndication = await socket.myReceiveXML("UpdateIndication");
+    var responseFirmwareUpdateIndication = await socket.myReceiveXML("FirmwareUpdateIndication");
+
+    print(responseUpdateIndication);
+    print(responseFirmwareUpdateIndication);
 
     Timer(Duration(seconds: 4), () {
       setState(() {
@@ -76,10 +77,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
       for (var mac in _deviceList.getUpdateList()) {
         socket.sendXML('FirmwareUpdateResponse', newValue: mac);
       }
-      _loadingFW = socket.waitingResponse;
     });
-    var response = await socket.recieveXML();
-    print('Response: ' + response.toString());
   }
 
   @override
@@ -176,7 +174,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         socket.sendXML('UpdateCheck');
                         //_loading = socket.waitingResponse;
                       });
-                      var response = await socket.recieveXML(["UpdateIndication", "FirmwareUpdateIndication"]);
+                      var responseUpdateIndication = await socket.myReceiveXML("UpdateIndication");
+                      var responseFirmwareUpdateIndication = await socket.myReceiveXML("FirmwareUpdateIndication");
 
                       await updateDevices(socket, _deviceList);
                     },

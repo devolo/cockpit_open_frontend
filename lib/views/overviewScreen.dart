@@ -1026,7 +1026,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                     );
                     });
 
-                    var response = await socket.recieveXML(["SetVDSLCompatibilityStatus"]);
+                    var response = await socket.myReceiveXML("SetVDSLCompatibilityStatus");
                     if (response['result'] == "failed") {
                       Navigator.maybeOf(context)!.pop(true);
                     _errorDialog(context, " ", S.of(context).vdslfailed);

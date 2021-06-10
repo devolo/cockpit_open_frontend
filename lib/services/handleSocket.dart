@@ -146,7 +146,12 @@ class DataHand extends ChangeNotifier {
         print('Config found ->');
         print(document);
       } else if (document.findAllElements('MessageType').first.innerText == "FirmwareUpdateIndication") {
-        xmlResponse = document;
+
+        if(!xmlResponseMap.containsKey("FirmwareUpdateIndication")) {
+          xmlResponseMap["FirmwareUpdateIndication"] = [];
+        }
+        xmlResponseMap["FirmwareUpdateIndication"]!.add(document);
+
         parseFWUpdateIndication(document);
 
         if (xmlDebugResponseList.length >= maxResponseListSize){
@@ -158,7 +163,14 @@ class DataHand extends ChangeNotifier {
 
         print('FirmwareUpdateIndication found ->');
         print(document);
+
       } else if (document.findAllElements('MessageType').first.innerText == "FirmwareUpdateStatus") {
+
+        if(!xmlResponseMap.containsKey("FirmwareUpdateStatus")) {
+          xmlResponseMap["FirmwareUpdateStatus"] = [];
+        }
+        xmlResponseMap["FirmwareUpdateStatus"]!.add(document);
+
         parseUpdateStatus(document);
 
         if (xmlDebugResponseList.length >= maxResponseListSize){
@@ -172,8 +184,6 @@ class DataHand extends ChangeNotifier {
         print('UpdateStatus found ->');
         print(document);
       } else {
-
-        xmlResponse = document;
 
         if (xmlDebugResponseList.length >= maxResponseListSize){
           xmlDebugResponseList.removeLast();
@@ -200,7 +210,7 @@ class DataHand extends ChangeNotifier {
     //return document;
   }
 
-  // Warning! "UpdateCheck" and "RefreshNetwork" should only be triggered by a user interaction, not continously/automaticly
+  // Warning! "UpdateCheck" and "RefreshNetwork" should only be triggered by a user interaction, not continuously/automatically
   void sendXML(
     String messageType, {
     String? newValue,
@@ -210,7 +220,6 @@ class DataHand extends ChangeNotifier {
     String? mac,
   }) {
 
-    waitingResponse = true;
     print(newValue);
     String? xmlString;
 
@@ -255,109 +264,8 @@ class DataHand extends ChangeNotifier {
 
     String xmlLength = xmlString!.runes.length.toRadixString(16).padLeft(8, '0'); // message length for backend !disconnects if header wrong or missing!
     //print('LEEENNNGGTHHH ' + xmlLength);
-    xmlResponse = XmlDocument(); // delete old xml response
     print(xmlString);
     socket.write('MSGSOCK' + xmlLength + xmlString);
-  }
-
-  Future<Map<String, dynamic>?> recieveXML([List<String>? wantedMessageTypes]) async {
-    // ToDo generic?
-    Map<String, dynamic> response = Map<String, dynamic>();
-    String? responseElem;
-
-    await new Future.delayed(const Duration(seconds: 2));
-
-    await Future.doWhile(() async {
-      print("waitingforResponse");
-      await new Future.delayed(const Duration(seconds: 1));
-
-      if (waitingResponse) {
-        String? messageType = await findFirstElem(xmlResponse, 'MessageType');
-        response['messageType'] = messageType;
-
-        print("messageType: ${messageType}");
-        print("wantedMessageTypes: ${wantedMessageTypes}");
-
-        if (wantedMessageTypes!.contains(messageType)) {
-          if (messageType == "Config") {
-            parseConfig(xmlResponse);
-            print(config.toString());
-          } else if (messageType == "UpdateIndication") {
-            //"UpdateIndication" for Cockpit Software updates
-            response = (await parseUpdateIndication(xmlResponse))!;
-            waitingResponse = false;
-          } else if (messageType == "FirmwareUpdateIndication") {
-            //"FirmwareUpdateIndication"
-            responseElem = (await findFirstElem(xmlResponse, 'macAddress'))!; //
-            if (responseElem != null) {
-              response['macAddress'] = responseElem;
-              int devIndex = _networkList.getDeviceList().indexWhere((element) => element.mac == responseElem);
-            }
-            waitingResponse = false;
-          } else if (messageType == "SupportInfoGenerateStatus") {
-            //"SupportInfoGenerateStatus"
-            responseElem = await findFirstElem(xmlResponse, 'status');
-            if (responseElem != null) {
-              response['status'] = responseElem;
-            }
-            responseElem = await findFirstElem(xmlResponse, 'htmlfilename');
-            if (responseElem != null) {
-              response['htmlfilename'] = responseElem;
-            }
-            responseElem = await findFirstElem(xmlResponse, 'zipfilename');
-            if (responseElem != null) {
-              response['zipfilename'] = responseElem;
-            }
-            responseElem = await findFirstElem(xmlResponse, 'result');
-            if (responseElem != null) {
-              response['result'] = responseElem;
-            }
-            waitingResponse = false;
-          } else if (messageType == "SetVDSLCompatibilityStatus") {
-            responseElem = await findFirstElem(xmlResponse, 'result');
-            if (responseElem != null) {
-              response['result'] = responseElem;
-            }
-            if(responseElem != ""){
-              waitingResponse = false;
-            }
-          } else {
-            responseElem = await findFirstElem(xmlResponse, 'filename');
-            if (responseElem != null) {
-              response['filename'] = responseElem;
-            }
-            responseElem = await findFirstElem(xmlResponse, 'commandline');
-            if (responseElem != null) {
-              response['commandline'] = responseElem;
-            }
-            responseElem = await findFirstElem(xmlResponse, 'workdir');
-            if (responseElem != null) {
-              response['workdir'] = responseElem;
-            }
-            responseElem = await findFirstElem(xmlResponse, 'macAddress'); //ToDo probably more Macs!
-            if (responseElem != null) {
-              response['macAddress'] = responseElem;
-              int devIndex = _networkList.getDeviceList().indexWhere((element) => element.mac == responseElem);
-            }
-            waitingResponse = false;
-          }
-          //waitingResponse = false;
-        }
-        //Future.value(response);//completer.complete();//return response;
-      }
-      return waitingResponse;
-    }).timeout(Duration(seconds: 30), onTimeout: () {
-      print('> Timed Out');
-      waitingResponse = false;
-      response["messageType"] = wantedMessageTypes;
-      response["result"] = "failed";
-      return response;
-
-    });
-
-    waitingResponse = false;
-    print("Response: " + response.toString());
-    return response;
   }
 
   Future<Map<String, dynamic>?> myReceiveXML(String wantedMessageTypes) async { //TODO List instead of string for exp.: ["UpdateIndication", "FirmwareUpdateIndication"]
@@ -407,6 +315,35 @@ class DataHand extends ChangeNotifier {
             xmlResponseMap.remove(wantedMessageTypes);
           }
 
+        }
+
+        else if (wantedMessageTypes == "UpdateIndication") {
+          //"UpdateIndication" for Cockpit Software updates
+          wait = false;
+          Map<String,dynamic>? responseMapElem = await parseUpdateIndication(xmlResponseMap[wantedMessageTypes]!.first);
+          if (responseMapElem != null) {
+            response = responseMapElem;
+          }
+
+          xmlResponseMap[wantedMessageTypes]!.remove(xmlResponseMap[wantedMessageTypes]!.first);
+
+          if(xmlResponseMap[wantedMessageTypes]!.length == 0){
+            xmlResponseMap.remove(wantedMessageTypes);
+          }
+        }
+
+        else if (wantedMessageTypes == "FirmwareUpdateIndication") {
+          wait = false;
+          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'macAddress');
+          if (responseElem != null) {
+            response['macAddress'] = responseElem;
+          }
+
+          xmlResponseMap[wantedMessageTypes]!.remove(xmlResponseMap[wantedMessageTypes]!.first);
+
+          if(xmlResponseMap[wantedMessageTypes]!.length == 0){
+            xmlResponseMap.remove(wantedMessageTypes);
+          }
         }
 
         else if (wantedMessageTypes == "SupportInfoGenerateStatus") {
@@ -498,21 +435,14 @@ class DataHand extends ChangeNotifier {
           }
         }
 
-        else if (wantedMessageTypes == "UpdateIndication") {
-          wait = false;
-          response = (await parseUpdateIndication(xmlResponse))!;
-
-
-          xmlResponseMap[wantedMessageTypes]!.remove(xmlResponseMap[wantedMessageTypes]!.first);
-
-          if(xmlResponseMap[wantedMessageTypes]!.length == 0){
-            xmlResponseMap.remove(wantedMessageTypes);
+        else if (wantedMessageTypes == "SetVDSLCompatibilityStatus") {
+          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'result');
+          if (responseElem != null) {
+            response['result'] = responseElem;
           }
-        }
-        else if (wantedMessageTypes == "FirmwareUpdateIndication") {
-          wait = false;
-          parseFWUpdateIndication(xmlResponse);
-
+          if(responseElem != ""){
+            wait = false;
+          }
 
           xmlResponseMap[wantedMessageTypes]!.remove(xmlResponseMap[wantedMessageTypes]!.first);
 

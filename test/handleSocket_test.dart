@@ -322,7 +322,6 @@ void main() {
       dataHandler.parseXML(identifyDeviceReponse1);
 
       //convert XMLDocuments to String for comparing
-      expect(dataHandler.xmlResponse.toString(), XmlDocument.parse(xmlSingleDocIdentifyDevice).toString());
       expect(dataHandler.xmlDebugResponseList.length, 4);
       expect(dataHandler.xmlDebugResponseList[1].toString(), XmlDocument.parse(xmlSingleDocIdentifyDevice).toString());
       expect(dataHandler.xmlDebugResponseList[3].toString(), XmlDocument.parse(xmlSingleDocChangeName).toString());

@@ -22,160 +22,161 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "add": MessageLookupByLibrary.simpleMessage("Add"),
-        "addDevice": MessageLookupByLibrary.simpleMessage("Add Device"),
+        "addDevice": MessageLookupByLibrary.simpleMessage("Add device"),
         "addDeviceInstructionText": MessageLookupByLibrary.simpleMessage(
-            "1.) Plug both PLC devices into the desired wall sockets and wait for about 45 seconds.\n2.) Briefly press the encryption button of the first (possibly already existing) PLC device.\n    (Alternatively, pairing can also be started via the web interface of the existing device.)\n 3.) Within two minutes, press the encryption button of the second (new) PLC device also briefly.\n4.) As soon as the LEDs light up permanently, the PLC devices are ready for operation."),
-        "appColor": MessageLookupByLibrary.simpleMessage("App Color"),
+            "1) Plug both PLC devices into wall sockets and wait for 45 seconds.\n2) Briefly press the encryption button of the existing PLC device.\n(Alternatively start pairing via the web interface of the existing device.)\n3) Within 2 minutes, press the encryption button of the new PLC device also briefly.\n4) As soon as the LEDs light up and do not blink, the PLC devices are ready for operation."),
+        "appColor": MessageLookupByLibrary.simpleMessage("Set app theme"),
         "appInfo": MessageLookupByLibrary.simpleMessage("App info"),
         "appInformation":
             MessageLookupByLibrary.simpleMessage("App information"),
         "appearance": MessageLookupByLibrary.simpleMessage("Appearance"),
         "attachedToRouter":
-            MessageLookupByLibrary.simpleMessage("Attached to router:"),
+            MessageLookupByLibrary.simpleMessage("Attached to router"),
         "automaticCompatibilityMode": MessageLookupByLibrary.simpleMessage(
             "Automatic compatibility mode (recommended)"),
-        "back": MessageLookupByLibrary.simpleMessage("back"),
-        "cancel": MessageLookupByLibrary.simpleMessage("cancel"),
-        "change": MessageLookupByLibrary.simpleMessage("change"),
+        "back": MessageLookupByLibrary.simpleMessage("Back"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "change": MessageLookupByLibrary.simpleMessage("Change"),
         "changePlcnetworkPassword":
-            MessageLookupByLibrary.simpleMessage("Change PLC-network password"),
-        "changeTheLanguageOfTheApp": MessageLookupByLibrary.simpleMessage(
-            "Change the language of the app"),
+            MessageLookupByLibrary.simpleMessage("Change PLC network password"),
+        "changeTheLanguageOfTheApp":
+            MessageLookupByLibrary.simpleMessage("Change language"),
         "checkUpdates":
-            MessageLookupByLibrary.simpleMessage(" Check for Updates "),
+            MessageLookupByLibrary.simpleMessage("Check for updates"),
         "chooseMainColorAccentColorAndFontColors":
             MessageLookupByLibrary.simpleMessage(
-                "Choose main color, accent color and font colors"),
-        "chooseTheme": MessageLookupByLibrary.simpleMessage("Choose Theme"),
+                "Select from classic devolo, light, dark, and high-contrast themes"),
+        "chooseTheme": MessageLookupByLibrary.simpleMessage("Change theme"),
         "cockpitSoftwareIsUpToDate": MessageLookupByLibrary.simpleMessage(
-            "Cockpit software is up to date."),
-        "confirm": MessageLookupByLibrary.simpleMessage("confirm"),
-        "confirmAction": MessageLookupByLibrary.simpleMessage("Confirm Action"),
+            "Cockpit software is up to date"),
+        "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
+        "confirmAction": MessageLookupByLibrary.simpleMessage("Confirm action"),
         "confirmActionConnectedToRouterWarning":
             MessageLookupByLibrary.simpleMessage(
-                "Attention! Your router is connected to this PLC device. You will lose connection to the Internet"),
+                "Attention! Your router is connected to this PLC device. You will lose connection to the internet"),
         "contactInfo":
             MessageLookupByLibrary.simpleMessage("Contact information"),
         "contactSupport":
             MessageLookupByLibrary.simpleMessage("Contact support"),
         "currentVersion":
-            MessageLookupByLibrary.simpleMessage("current version"),
+            MessageLookupByLibrary.simpleMessage("Current version"),
         "dataRatesArePermanentlyDisplayedInTheOverview":
             MessageLookupByLibrary.simpleMessage(
-                "Data rates are permanently displayed in the Overview"),
+                "Data transfer rates are always shown in overview"),
         "deleteDevice": MessageLookupByLibrary.simpleMessage("Delete device"),
         "deviceNameDialogBody": MessageLookupByLibrary.simpleMessage(
             "Do you really want to rename this device?"),
         "deviceNameDialogTitle":
             MessageLookupByLibrary.simpleMessage("Confirm"),
         "deviceNameErrorBody": MessageLookupByLibrary.simpleMessage(
-            "An error occurred while changing the name.\nPlease try it again."),
+            "An error occurred while changing the name.\nTry again later"),
         "deviceNameErrorTitle":
             MessageLookupByLibrary.simpleMessage("Name change failed"),
         "deviceNotFoundDeviceName": MessageLookupByLibrary.simpleMessage(
-            "An error occurred while setting the device name!"),
+            "An error occurred while setting the device name"),
         "deviceNotFoundHint": MessageLookupByLibrary.simpleMessage(
             " - Has the PLC device been disconnected from the power grid?\n - Is the PLC device in power-saving mode?"),
         "deviceNotFoundIdentifyDevice": MessageLookupByLibrary.simpleMessage(
-            "An error occurred while removing the device!"),
+            "An error occurred while removing the device"),
         "deviceNotFoundRemoveDevice": MessageLookupByLibrary.simpleMessage(
-            "An error occurred while removing the device!"),
+            "An error occurred while removing the device"),
         "deviceNotFoundResetDevice": MessageLookupByLibrary.simpleMessage(
-            "An error occurred while resetting the device!"),
+            "An error occurred while resetting the device"),
         "deviceinfo":
-            MessageLookupByLibrary.simpleMessage("Device Information"),
+            MessageLookupByLibrary.simpleMessage("Device information"),
         "enableShowingSpeeds":
-            MessageLookupByLibrary.simpleMessage("Show Network Speeds"),
+            MessageLookupByLibrary.simpleMessage("Show network speeds"),
         "factoryReset": MessageLookupByLibrary.simpleMessage("Factory reset"),
-        "fontsize": MessageLookupByLibrary.simpleMessage("Font Size"),
-        "forward": MessageLookupByLibrary.simpleMessage("forward"),
+        "fontsize": MessageLookupByLibrary.simpleMessage("Set font size"),
+        "forward": MessageLookupByLibrary.simpleMessage("Next"),
         "fullyCustomizeColors":
-            MessageLookupByLibrary.simpleMessage("Fully customize colors"),
+            MessageLookupByLibrary.simpleMessage("Customize colors"),
         "general": MessageLookupByLibrary.simpleMessage("General"),
         "generateSupportInformation": MessageLookupByLibrary.simpleMessage(
-            "Generate support information "),
+            "Generate support information"),
         "help": MessageLookupByLibrary.simpleMessage("Help"),
-        "highContrast": MessageLookupByLibrary.simpleMessage("High Contrast"),
+        "highContrast": MessageLookupByLibrary.simpleMessage("High contrast"),
         "homeNetworkDesktop":
-            MessageLookupByLibrary.simpleMessage("Home Network Desktop"),
+            MessageLookupByLibrary.simpleMessage("Home network desktop"),
         "identifyDevice":
             MessageLookupByLibrary.simpleMessage("Identify device"),
         "identifyDeviceErrorTitle":
             MessageLookupByLibrary.simpleMessage("Identifying failed"),
-        "ignoreUpdates": MessageLookupByLibrary.simpleMessage("Ignore Updates"),
-        "install": MessageLookupByLibrary.simpleMessage("install"),
+        "ignoreUpdates":
+            MessageLookupByLibrary.simpleMessage("Ignore device updates"),
+        "install": MessageLookupByLibrary.simpleMessage("Install"),
         "internet": MessageLookupByLibrary.simpleMessage("Internet"),
-        "internetcentered":
-            MessageLookupByLibrary.simpleMessage("Internet-centered"),
-        "ipaddress": MessageLookupByLibrary.simpleMessage("IP address:"),
+        "internetcentered": MessageLookupByLibrary.simpleMessage(
+            "Use internet-centered overview"),
+        "ipaddress": MessageLookupByLibrary.simpleMessage("IP address"),
         "isLocalDevice":
-            MessageLookupByLibrary.simpleMessage("Is local device:"),
+            MessageLookupByLibrary.simpleMessage("Is local device"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
         "launchWebinterface":
             MessageLookupByLibrary.simpleMessage("Web interface"),
-        "macaddress": MessageLookupByLibrary.simpleMessage("MAC address:"),
+        "macaddress": MessageLookupByLibrary.simpleMessage("MAC address"),
         "manualErrorBody": MessageLookupByLibrary.simpleMessage(
-            "No suitable manual was found for your PLC device.\n\nYou can find the manual on the product CD or on the devolo website."),
+            "No suitable manual was found for your PLC device.\n\nYou can find the manual on the product CD or on the devolo website"),
         "manualErrorTitle":
             MessageLookupByLibrary.simpleMessage("Manual not found"),
-        "mtnumber": MessageLookupByLibrary.simpleMessage("devolo MT number:"),
+        "mtnumber": MessageLookupByLibrary.simpleMessage("devolo MT number"),
         "name": MessageLookupByLibrary.simpleMessage("Name"),
         "network": MessageLookupByLibrary.simpleMessage("Network"),
         "networkPasswordErrorBody": MessageLookupByLibrary.simpleMessage(
-            "An error occurred while setting the network password!"),
+            "An error occurred while setting the network password"),
         "networkPasswordErrorHint": MessageLookupByLibrary.simpleMessage(
-            "- Check the connection to the PLC device and repeat the action!"),
+            "- Check the connection to the PLC device and repeat the action"),
         "networkPasswordErrorTitle": MessageLookupByLibrary.simpleMessage(
             "Failed to set the network password"),
         "networkSettings":
-            MessageLookupByLibrary.simpleMessage("Network Settings"),
+            MessageLookupByLibrary.simpleMessage("Network settings"),
         "networkoverview":
-            MessageLookupByLibrary.simpleMessage("Networkoverview"),
-        "newVersion": MessageLookupByLibrary.simpleMessage("new version"),
-        "nextNetwork": MessageLookupByLibrary.simpleMessage("next network"),
+            MessageLookupByLibrary.simpleMessage("Network overview"),
+        "newVersion": MessageLookupByLibrary.simpleMessage("New version"),
+        "nextNetwork": MessageLookupByLibrary.simpleMessage("Next network"),
         "no": MessageLookupByLibrary.simpleMessage("no"),
         "noDevicesFoundNscanningForDevices":
             MessageLookupByLibrary.simpleMessage(
-                "No devices found \nScanning for devices ..."),
-        "openBrowser": MessageLookupByLibrary.simpleMessage("open browser"),
+                "No devices found. \n\nScanning for devices ..."),
+        "openBrowser": MessageLookupByLibrary.simpleMessage("Open browser"),
         "openOptimization":
-            MessageLookupByLibrary.simpleMessage("open optimization help"),
-        "openZip": MessageLookupByLibrary.simpleMessage("open zip"),
+            MessageLookupByLibrary.simpleMessage("Open optimization help"),
+        "openZip": MessageLookupByLibrary.simpleMessage("Open ZIP"),
         "optimizationHelp":
             MessageLookupByLibrary.simpleMessage("Optimization help"),
         "optimizeReception":
             MessageLookupByLibrary.simpleMessage("Optimize reception"),
         "otherDevicesEgPcAreDisplayedInTheOverview":
             MessageLookupByLibrary.simpleMessage(
-                "Other devices, e.g. PC are displayed in the overview"),
+                "Overview shows other devices, e.g., laptops and mobiles"),
         "overview": MessageLookupByLibrary.simpleMessage("Overview"),
         "pleaseConfirmAction":
-            MessageLookupByLibrary.simpleMessage("Please confirm action."),
+            MessageLookupByLibrary.simpleMessage("Confirm action"),
         "pleaseEnterDeviceName":
-            MessageLookupByLibrary.simpleMessage("Please enter device name"),
+            MessageLookupByLibrary.simpleMessage("Enter device name"),
         "pleaseEnterDevicename":
-            MessageLookupByLibrary.simpleMessage("Please enter devicename"),
+            MessageLookupByLibrary.simpleMessage("Enter a device name"),
         "pleaseEnterPassword":
-            MessageLookupByLibrary.simpleMessage("Please enter password"),
-        "pleaseEnterProcessingNumber": MessageLookupByLibrary.simpleMessage(
-            "Please enter processing number"),
-        "pleaseEnterYourMailAddress": MessageLookupByLibrary.simpleMessage(
-            "Please enter your mail address"),
+            MessageLookupByLibrary.simpleMessage("Enter password"),
+        "pleaseEnterProcessingNumber":
+            MessageLookupByLibrary.simpleMessage("Enter processing number"),
+        "pleaseEnterYourMailAddress":
+            MessageLookupByLibrary.simpleMessage("Enter your email address"),
         "pleaseFillInYourName":
-            MessageLookupByLibrary.simpleMessage("Please fill in your name"),
+            MessageLookupByLibrary.simpleMessage("Enter your name"),
         "previousNetwork":
-            MessageLookupByLibrary.simpleMessage("previous network"),
+            MessageLookupByLibrary.simpleMessage("Previous network"),
         "processNumber": MessageLookupByLibrary.simpleMessage("Process number"),
         "recordTheTransmissionPowerOfTheDevicesAndTransmitIt":
             MessageLookupByLibrary.simpleMessage(
-                "Record the transmission power of the devices and transmit it to devolo"),
-        "refresh": MessageLookupByLibrary.simpleMessage("refresh"),
+                "Record the transmission power of PLC devices and send it to devolo"),
+        "refresh": MessageLookupByLibrary.simpleMessage("Refresh"),
         "removeDeviceConfirmBody": MessageLookupByLibrary.simpleMessage(
             "Do you want to remove the selected PLC device from the network?"),
         "removeDeviceConfirmTitle":
-            MessageLookupByLibrary.simpleMessage("Remove the PLC-Device?"),
+            MessageLookupByLibrary.simpleMessage("Remove the PLC device?"),
         "removeDeviceErrorBody": MessageLookupByLibrary.simpleMessage(
-            "An error occurred while removing the device!\nPlease try it again."),
+            "An error occurred while removing the device!\nTry again later"),
         "removeDeviceErrorTitle":
             MessageLookupByLibrary.simpleMessage("Remove failed"),
         "resetDeviceConfirmBody": MessageLookupByLibrary.simpleMessage(
@@ -183,62 +184,61 @@ class MessageLookup extends MessageLookupByLibrary {
         "resetDeviceConfirmTitle": MessageLookupByLibrary.simpleMessage(
             "Reset device to delivery state"),
         "resetDeviceErrorBody": MessageLookupByLibrary.simpleMessage(
-            "An error occurred while resetting the device!\nPlease try it again."),
+            "An error occurred while resetting the device!\nTry again later"),
         "resetDeviceErrorTitle":
             MessageLookupByLibrary.simpleMessage("Reset failed"),
-        "save": MessageLookupByLibrary.simpleMessage("save"),
-        "searching": MessageLookupByLibrary.simpleMessage("searching..."),
-        "sendToDevolo": MessageLookupByLibrary.simpleMessage("send to devolo"),
-        "serialNumber": MessageLookupByLibrary.simpleMessage("Serial number:"),
-        "setUpDevice":
-            MessageLookupByLibrary.simpleMessage("Set up a new device"),
+        "save": MessageLookupByLibrary.simpleMessage("Save"),
+        "searching": MessageLookupByLibrary.simpleMessage("Searching..."),
+        "sendToDevolo": MessageLookupByLibrary.simpleMessage("Send to devolo"),
+        "serialNumber": MessageLookupByLibrary.simpleMessage("Serial number"),
+        "setUpDevice": MessageLookupByLibrary.simpleMessage("Setup new device"),
         "setVdslCompatibility":
-            MessageLookupByLibrary.simpleMessage("Set VDSL \nCompatibility"),
+            MessageLookupByLibrary.simpleMessage("Set VDSL \ncompatibility"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
-        "showLogs": MessageLookupByLibrary.simpleMessage("Show Logs"),
+        "showLogs": MessageLookupByLibrary.simpleMessage("Show logs"),
         "showManual": MessageLookupByLibrary.simpleMessage("Show manual"),
         "showOtherDevices":
             MessageLookupByLibrary.simpleMessage("Show other devices"),
-        "showPassword": MessageLookupByLibrary.simpleMessage("show password "),
-        "state": MessageLookupByLibrary.simpleMessage("state"),
+        "showPassword": MessageLookupByLibrary.simpleMessage("Show password"),
+        "state": MessageLookupByLibrary.simpleMessage("State"),
         "support": MessageLookupByLibrary.simpleMessage("Support"),
         "theCreatedSupportInformationCanNowBeSentToDevolo":
             MessageLookupByLibrary.simpleMessage(
-                "The created support information can now be sent to devolo support.\nPlease fill in the following fields."),
+                "The created support information can now be sent to devolo support.\nFill the following fields"),
         "theOverviewWillBeCenteredAroundThePlcDeviceConnected":
             MessageLookupByLibrary.simpleMessage(
-                "The overview will be centered around the PLC device connected to the Internet."),
+                "The overview is centered around the PLC device connected to the internet"),
         "thisDeviceIsConnectedDirectlyToTheInternetRouter":
             MessageLookupByLibrary.simpleMessage(
-                "This device is connected directly to the Internet router."),
+                "This device is connected directly to the internet router."),
         "thisPc": MessageLookupByLibrary.simpleMessage("This PC"),
         "title": MessageLookupByLibrary.simpleMessage("devolo Cockpit"),
-        "type": MessageLookupByLibrary.simpleMessage("Type:"),
-        "upToDate": MessageLookupByLibrary.simpleMessage("up to date"),
+        "type": MessageLookupByLibrary.simpleMessage("Type"),
+        "upToDate": MessageLookupByLibrary.simpleMessage("Up-to-date"),
         "update": MessageLookupByLibrary.simpleMessage("Update"),
-        "update2": MessageLookupByLibrary.simpleMessage("update"),
+        "update2": MessageLookupByLibrary.simpleMessage("Update"),
         "updateAll": MessageLookupByLibrary.simpleMessage("Update all"),
         "updateReadyToInstall":
-            MessageLookupByLibrary.simpleMessage("Update ready to install"),
+            MessageLookupByLibrary.simpleMessage("Ready to install updates"),
         "updates": MessageLookupByLibrary.simpleMessage("Updates"),
-        "updating": MessageLookupByLibrary.simpleMessage("updating..."),
+        "updating": MessageLookupByLibrary.simpleMessage("Updating..."),
         "vdslCompatibility":
             MessageLookupByLibrary.simpleMessage("VDSL compatibility"),
         "vdslexplanation": MessageLookupByLibrary.simpleMessage(
-            "In rare cases, VDSL connection problems can be caused by crosstalk of the Powerline signal. When the automatic compatibility mode is active, the device tries to detect this situation and automatically adjusts its transmit level to achieve the best possible performance without interference."),
+            "In rare cases, noise from Powerline signal can interfere with VDSL connection. Devices in automatic compatibility mode can automatically adjust transmission to limit interference"),
         "vdslexplanation2": MessageLookupByLibrary.simpleMessage(
-            "If automatic mode is deactivated or the interference cannot be reliably detected, a fixed profile for adjusted transmission power can be used instead. Select the profile that matches the type of your VDSL connection, or select \"full power\" if interference avoidance is not required."),
+            "Select a transmission profile from the given options as a fallback when automatic mode is OFF or reliable detection of interference is not possible"),
         "vdslfailed": MessageLookupByLibrary.simpleMessage(
-            "The new VDSL settings could not be saved on the device."),
-        "version": MessageLookupByLibrary.simpleMessage("Firmware version:"),
-        "windowsNetworkThrottling":
-            MessageLookupByLibrary.simpleMessage("Windows network throttling"),
+            "The new VDSL settings could not be saved on the device"),
+        "version": MessageLookupByLibrary.simpleMessage("Firmware version"),
+        "windowsNetworkThrottling": MessageLookupByLibrary.simpleMessage(
+            "Use Windows network throttling"),
         "yes": MessageLookupByLibrary.simpleMessage("yes"),
         "yourCurrentTerminalIsConnectedToThisDevolodevice":
             MessageLookupByLibrary.simpleMessage(
-                "Your current terminal is connected to this devolo-device."),
+                "Your current terminal is connected to this devolo device."),
         "yourEmailaddress":
-            MessageLookupByLibrary.simpleMessage(" Your email-address"),
+            MessageLookupByLibrary.simpleMessage("Your email address"),
         "yourName": MessageLookupByLibrary.simpleMessage("Your name"),
         "yourPc": MessageLookupByLibrary.simpleMessage("Your PC")
       };

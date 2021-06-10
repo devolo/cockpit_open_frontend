@@ -60,20 +60,20 @@ class S {
     );
   }
 
-  /// `Home Network Desktop`
+  /// `Home network desktop`
   String get homeNetworkDesktop {
     return Intl.message(
-      'Home Network Desktop',
+      'Home network desktop',
       name: 'homeNetworkDesktop',
       desc: '',
       args: [],
     );
   }
 
-  /// `Networkoverview`
+  /// `Network overview`
   String get networkoverview {
     return Intl.message(
-      'Networkoverview',
+      'Network overview',
       name: 'networkoverview',
       desc: '',
       args: [],
@@ -90,10 +90,10 @@ class S {
     );
   }
 
-  /// `Network Settings`
+  /// `Network settings`
   String get networkSettings {
     return Intl.message(
-      'Network Settings',
+      'Network settings',
       name: 'networkSettings',
       desc: '',
       args: [],
@@ -140,20 +140,20 @@ class S {
     );
   }
 
-  /// `Show Network Speeds`
+  /// `Show network speeds`
   String get enableShowingSpeeds {
     return Intl.message(
-      'Show Network Speeds',
+      'Show network speeds',
       name: 'enableShowingSpeeds',
       desc: '',
       args: [],
     );
   }
 
-  /// `Internet-centered`
+  /// `Use internet-centered overview`
   String get internetcentered {
     return Intl.message(
-      'Internet-centered',
+      'Use internet-centered overview',
       name: 'internetcentered',
       desc: '',
       args: [],
@@ -180,30 +180,30 @@ class S {
     );
   }
 
-  /// `Ignore Updates`
+  /// `Ignore device updates`
   String get ignoreUpdates {
     return Intl.message(
-      'Ignore Updates',
+      'Ignore device updates',
       name: 'ignoreUpdates',
       desc: '',
       args: [],
     );
   }
 
-  /// `Record the transmission power of the devices and transmit it to devolo`
+  /// `Record the transmission power of PLC devices and send it to devolo`
   String get recordTheTransmissionPowerOfTheDevicesAndTransmitIt {
     return Intl.message(
-      'Record the transmission power of the devices and transmit it to devolo',
+      'Record the transmission power of PLC devices and send it to devolo',
       name: 'recordTheTransmissionPowerOfTheDevicesAndTransmitIt',
       desc: '',
       args: [],
     );
   }
 
-  /// `Windows network throttling`
+  /// `Use Windows network throttling`
   String get windowsNetworkThrottling {
     return Intl.message(
-      'Windows network throttling',
+      'Use Windows network throttling',
       name: 'windowsNetworkThrottling',
       desc: '',
       args: [],
@@ -220,50 +220,50 @@ class S {
     );
   }
 
-  /// `change`
+  /// `Change`
   String get change {
     return Intl.message(
-      'change',
+      'Change',
       name: 'change',
       desc: '',
       args: [],
     );
   }
 
-  /// `Change PLC-network password`
+  /// `Change PLC network password`
   String get changePlcnetworkPassword {
     return Intl.message(
-      'Change PLC-network password',
+      'Change PLC network password',
       name: 'changePlcnetworkPassword',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please enter password`
+  /// `Enter password`
   String get pleaseEnterPassword {
     return Intl.message(
-      'Please enter password',
+      'Enter password',
       name: 'pleaseEnterPassword',
       desc: '',
       args: [],
     );
   }
 
-  /// `show password `
+  /// `Show password`
   String get showPassword {
     return Intl.message(
-      'show password ',
+      'Show password',
       name: 'showPassword',
       desc: '',
       args: [],
     );
   }
 
-  /// `save`
+  /// `Save`
   String get save {
     return Intl.message(
-      'save',
+      'Save',
       name: 'save',
       desc: '',
       args: [],
@@ -280,60 +280,60 @@ class S {
     );
   }
 
-  /// `Generate support information `
+  /// `Generate support information`
   String get generateSupportInformation {
     return Intl.message(
-      'Generate support information ',
+      'Generate support information',
       name: 'generateSupportInformation',
       desc: '',
       args: [],
     );
   }
 
-  /// `open browser`
+  /// `Open browser`
   String get openBrowser {
     return Intl.message(
-      'open browser',
+      'Open browser',
       name: 'openBrowser',
       desc: '',
       args: [],
     );
   }
 
-  /// `open zip`
+  /// `Open ZIP`
   String get openZip {
     return Intl.message(
-      'open zip',
+      'Open ZIP',
       name: 'openZip',
       desc: '',
       args: [],
     );
   }
 
-  /// `send to devolo`
+  /// `Send to devolo`
   String get sendToDevolo {
     return Intl.message(
-      'send to devolo',
+      'Send to devolo',
       name: 'sendToDevolo',
       desc: '',
       args: [],
     );
   }
 
-  /// `Show Logs`
+  /// `Show logs`
   String get showLogs {
     return Intl.message(
-      'Show Logs',
+      'Show logs',
       name: 'showLogs',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please confirm action.`
+  /// `Confirm action`
   String get pleaseConfirmAction {
     return Intl.message(
-      'Please confirm action.',
+      'Confirm action',
       name: 'pleaseConfirmAction',
       desc: '',
       args: [],
@@ -350,10 +350,10 @@ class S {
     );
   }
 
-  /// `The created support information can now be sent to devolo support.\nPlease fill in the following fields.`
+  /// `The created support information can now be sent to devolo support.\nFill the following fields`
   String get theCreatedSupportInformationCanNowBeSentToDevolo {
     return Intl.message(
-      'The created support information can now be sent to devolo support.\nPlease fill in the following fields.',
+      'The created support information can now be sent to devolo support.\nFill the following fields',
       name: 'theCreatedSupportInformationCanNowBeSentToDevolo',
       desc: '',
       args: [],
@@ -370,10 +370,10 @@ class S {
     );
   }
 
-  /// `Please enter processing number`
+  /// `Enter processing number`
   String get pleaseEnterProcessingNumber {
     return Intl.message(
-      'Please enter processing number',
+      'Enter processing number',
       name: 'pleaseEnterProcessingNumber',
       desc: '',
       args: [],
@@ -390,20 +390,20 @@ class S {
     );
   }
 
-  /// `Please fill in your name`
+  /// `Enter your name`
   String get pleaseFillInYourName {
     return Intl.message(
-      'Please fill in your name',
+      'Enter your name',
       name: 'pleaseFillInYourName',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please enter your mail address`
+  /// `Enter your email address`
   String get pleaseEnterYourMailAddress {
     return Intl.message(
-      'Please enter your mail address',
+      'Enter your email address',
       name: 'pleaseEnterYourMailAddress',
       desc: '',
       args: [],
@@ -420,30 +420,30 @@ class S {
     );
   }
 
-  /// `current version`
+  /// `Current version`
   String get currentVersion {
     return Intl.message(
-      'current version',
+      'Current version',
       name: 'currentVersion',
       desc: '',
       args: [],
     );
   }
 
-  /// `new version`
+  /// `New version`
   String get newVersion {
     return Intl.message(
-      'new version',
+      'New version',
       name: 'newVersion',
       desc: '',
       args: [],
     );
   }
 
-  /// `state`
+  /// `State`
   String get state {
     return Intl.message(
-      'state',
+      'State',
       name: 'state',
       desc: '',
       args: [],
@@ -460,50 +460,50 @@ class S {
     );
   }
 
-  /// `Cockpit software is up to date.`
+  /// `Cockpit software is up to date`
   String get cockpitSoftwareIsUpToDate {
     return Intl.message(
-      'Cockpit software is up to date.',
+      'Cockpit software is up to date',
       name: 'cockpitSoftwareIsUpToDate',
       desc: '',
       args: [],
     );
   }
 
-  /// `Update ready to install`
+  /// `Ready to install updates`
   String get updateReadyToInstall {
     return Intl.message(
-      'Update ready to install',
+      'Ready to install updates',
       name: 'updateReadyToInstall',
       desc: '',
       args: [],
     );
   }
 
-  /// ` Check for Updates `
+  /// `Check for updates`
   String get checkUpdates {
     return Intl.message(
-      ' Check for Updates ',
+      'Check for updates',
       name: 'checkUpdates',
       desc: '',
       args: [],
     );
   }
 
-  /// `Add Device`
+  /// `Add device`
   String get addDevice {
     return Intl.message(
-      'Add Device',
+      'Add device',
       name: 'addDevice',
       desc: '',
       args: [],
     );
   }
 
-  /// `open optimization help`
+  /// `Open optimization help`
   String get openOptimization {
     return Intl.message(
-      'open optimization help',
+      'Open optimization help',
       name: 'openOptimization',
       desc: '',
       args: [],
@@ -520,40 +520,40 @@ class S {
     );
   }
 
-  /// `Attention! Your router is connected to this PLC device. You will lose connection to the Internet`
+  /// `Attention! Your router is connected to this PLC device. You will lose connection to the internet`
   String get confirmActionConnectedToRouterWarning {
     return Intl.message(
-      'Attention! Your router is connected to this PLC device. You will lose connection to the Internet',
+      'Attention! Your router is connected to this PLC device. You will lose connection to the internet',
       name: 'confirmActionConnectedToRouterWarning',
       desc: '',
       args: [],
     );
   }
 
-  /// `install`
+  /// `Install`
   String get install {
     return Intl.message(
-      'install',
+      'Install',
       name: 'install',
       desc: '',
       args: [],
     );
   }
 
-  /// `confirm`
+  /// `Confirm`
   String get confirm {
     return Intl.message(
-      'confirm',
+      'Confirm',
       name: 'confirm',
       desc: '',
       args: [],
     );
   }
 
-  /// `cancel`
+  /// `Cancel`
   String get cancel {
     return Intl.message(
-      'cancel',
+      'Cancel',
       name: 'cancel',
       desc: '',
       args: [],
@@ -610,30 +610,30 @@ class S {
     );
   }
 
-  /// `1.) Plug both PLC devices into the desired wall sockets and wait for about 45 seconds.\n2.) Briefly press the encryption button of the first (possibly already existing) PLC device.\n    (Alternatively, pairing can also be started via the web interface of the existing device.)\n 3.) Within two minutes, press the encryption button of the second (new) PLC device also briefly.\n4.) As soon as the LEDs light up permanently, the PLC devices are ready for operation.`
+  /// `1) Plug both PLC devices into wall sockets and wait for 45 seconds.\n2) Briefly press the encryption button of the existing PLC device.\n(Alternatively start pairing via the web interface of the existing device.)\n3) Within 2 minutes, press the encryption button of the new PLC device also briefly.\n4) As soon as the LEDs light up and do not blink, the PLC devices are ready for operation.`
   String get addDeviceInstructionText {
     return Intl.message(
-      '1.) Plug both PLC devices into the desired wall sockets and wait for about 45 seconds.\n2.) Briefly press the encryption button of the first (possibly already existing) PLC device.\n    (Alternatively, pairing can also be started via the web interface of the existing device.)\n 3.) Within two minutes, press the encryption button of the second (new) PLC device also briefly.\n4.) As soon as the LEDs light up permanently, the PLC devices are ready for operation.',
+      '1) Plug both PLC devices into wall sockets and wait for 45 seconds.\n2) Briefly press the encryption button of the existing PLC device.\n(Alternatively start pairing via the web interface of the existing device.)\n3) Within 2 minutes, press the encryption button of the new PLC device also briefly.\n4) As soon as the LEDs light up and do not blink, the PLC devices are ready for operation.',
       name: 'addDeviceInstructionText',
       desc: '',
       args: [],
     );
   }
 
-  /// `back`
+  /// `Back`
   String get back {
     return Intl.message(
-      'back',
+      'Back',
       name: 'back',
       desc: '',
       args: [],
     );
   }
 
-  /// `forward`
+  /// `Next`
   String get forward {
     return Intl.message(
-      'forward',
+      'Next',
       name: 'forward',
       desc: '',
       args: [],
@@ -670,260 +670,260 @@ class S {
     );
   }
 
-  /// `High Contrast`
+  /// `High contrast`
   String get highContrast {
     return Intl.message(
-      'High Contrast',
+      'High contrast',
       name: 'highContrast',
       desc: '',
       args: [],
     );
   }
 
-  /// `No devices found \nScanning for devices ...`
+  /// `No devices found. \n\nScanning for devices ...`
   String get noDevicesFoundNscanningForDevices {
     return Intl.message(
-      'No devices found \nScanning for devices ...',
+      'No devices found. \n\nScanning for devices ...',
       name: 'noDevicesFoundNscanningForDevices',
       desc: '',
       args: [],
     );
   }
 
-  /// `previous network`
+  /// `Previous network`
   String get previousNetwork {
     return Intl.message(
-      'previous network',
+      'Previous network',
       name: 'previousNetwork',
       desc: '',
       args: [],
     );
   }
 
-  /// `next network`
+  /// `Next network`
   String get nextNetwork {
     return Intl.message(
-      'next network',
+      'Next network',
       name: 'nextNetwork',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please enter devicename`
+  /// `Enter a device name`
   String get pleaseEnterDevicename {
     return Intl.message(
-      'Please enter devicename',
+      'Enter a device name',
       name: 'pleaseEnterDevicename',
       desc: '',
       args: [],
     );
   }
 
-  /// `Type:`
+  /// `Type`
   String get type {
     return Intl.message(
-      'Type:',
+      'Type',
       name: 'type',
       desc: '',
       args: [],
     );
   }
 
-  /// `Serial number:`
+  /// `Serial number`
   String get serialNumber {
     return Intl.message(
-      'Serial number:',
+      'Serial number',
       name: 'serialNumber',
       desc: '',
       args: [],
     );
   }
 
-  /// `devolo MT number:`
+  /// `devolo MT number`
   String get mtnumber {
     return Intl.message(
-      'devolo MT number:',
+      'devolo MT number',
       name: 'mtnumber',
       desc: '',
       args: [],
     );
   }
 
-  /// `Firmware version:`
+  /// `Firmware version`
   String get version {
     return Intl.message(
-      'Firmware version:',
+      'Firmware version',
       name: 'version',
       desc: '',
       args: [],
     );
   }
 
-  /// `IP address:`
+  /// `IP address`
   String get ipaddress {
     return Intl.message(
-      'IP address:',
+      'IP address',
       name: 'ipaddress',
       desc: '',
       args: [],
     );
   }
 
-  /// `MAC address:`
+  /// `MAC address`
   String get macaddress {
     return Intl.message(
-      'MAC address:',
+      'MAC address',
       name: 'macaddress',
       desc: '',
       args: [],
     );
   }
 
-  /// `Attached to router:`
+  /// `Attached to router`
   String get attachedToRouter {
     return Intl.message(
-      'Attached to router:',
+      'Attached to router',
       name: 'attachedToRouter',
       desc: '',
       args: [],
     );
   }
 
-  /// ` Your email-address`
+  /// `Your email address`
   String get yourEmailaddress {
     return Intl.message(
-      ' Your email-address',
+      'Your email address',
       name: 'yourEmailaddress',
       desc: '',
       args: [],
     );
   }
 
-  /// `refresh`
+  /// `Refresh`
   String get refresh {
     return Intl.message(
-      'refresh',
+      'Refresh',
       name: 'refresh',
       desc: '',
       args: [],
     );
   }
 
-  /// `Is local device:`
+  /// `Is local device`
   String get isLocalDevice {
     return Intl.message(
-      'Is local device:',
+      'Is local device',
       name: 'isLocalDevice',
       desc: '',
       args: [],
     );
   }
 
-  /// `Font Size`
+  /// `Set font size`
   String get fontsize {
     return Intl.message(
-      'Font Size',
+      'Set font size',
       name: 'fontsize',
       desc: '',
       args: [],
     );
   }
 
-  /// `App Color`
+  /// `Set app theme`
   String get appColor {
     return Intl.message(
-      'App Color',
+      'Set app theme',
       name: 'appColor',
       desc: '',
       args: [],
     );
   }
 
-  /// `Choose main color, accent color and font colors`
+  /// `Select from classic devolo, light, dark, and high-contrast themes`
   String get chooseMainColorAccentColorAndFontColors {
     return Intl.message(
-      'Choose main color, accent color and font colors',
+      'Select from classic devolo, light, dark, and high-contrast themes',
       name: 'chooseMainColorAccentColorAndFontColors',
       desc: '',
       args: [],
     );
   }
 
-  /// `Other devices, e.g. PC are displayed in the overview`
+  /// `Overview shows other devices, e.g., laptops and mobiles`
   String get otherDevicesEgPcAreDisplayedInTheOverview {
     return Intl.message(
-      'Other devices, e.g. PC are displayed in the overview',
+      'Overview shows other devices, e.g., laptops and mobiles',
       name: 'otherDevicesEgPcAreDisplayedInTheOverview',
       desc: '',
       args: [],
     );
   }
 
-  /// `The overview will be centered around the PLC device connected to the Internet.`
+  /// `The overview is centered around the PLC device connected to the internet`
   String get theOverviewWillBeCenteredAroundThePlcDeviceConnected {
     return Intl.message(
-      'The overview will be centered around the PLC device connected to the Internet.',
+      'The overview is centered around the PLC device connected to the internet',
       name: 'theOverviewWillBeCenteredAroundThePlcDeviceConnected',
       desc: '',
       args: [],
     );
   }
 
-  /// `Data rates are permanently displayed in the Overview`
+  /// `Data transfer rates are always shown in overview`
   String get dataRatesArePermanentlyDisplayedInTheOverview {
     return Intl.message(
-      'Data rates are permanently displayed in the Overview',
+      'Data transfer rates are always shown in overview',
       name: 'dataRatesArePermanentlyDisplayedInTheOverview',
       desc: '',
       args: [],
     );
   }
 
-  /// `Change the language of the app`
+  /// `Change language`
   String get changeTheLanguageOfTheApp {
     return Intl.message(
-      'Change the language of the app',
+      'Change language',
       name: 'changeTheLanguageOfTheApp',
       desc: '',
       args: [],
     );
   }
 
-  /// `Device Information`
+  /// `Device information`
   String get deviceinfo {
     return Intl.message(
-      'Device Information',
+      'Device information',
       name: 'deviceinfo',
       desc: '',
       args: [],
     );
   }
 
-  /// `Choose Theme`
+  /// `Change theme`
   String get chooseTheme {
     return Intl.message(
-      'Choose Theme',
+      'Change theme',
       name: 'chooseTheme',
       desc: '',
       args: [],
     );
   }
 
-  /// `Fully customize colors`
+  /// `Customize colors`
   String get fullyCustomizeColors {
     return Intl.message(
-      'Fully customize colors',
+      'Customize colors',
       name: 'fullyCustomizeColors',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please enter device name`
+  /// `Enter device name`
   String get pleaseEnterDeviceName {
     return Intl.message(
-      'Please enter device name',
+      'Enter device name',
       name: 'pleaseEnterDeviceName',
       desc: '',
       args: [],
@@ -950,20 +950,20 @@ class S {
     );
   }
 
-  /// `This device is connected directly to the Internet router.`
+  /// `This device is connected directly to the internet router.`
   String get thisDeviceIsConnectedDirectlyToTheInternetRouter {
     return Intl.message(
-      'This device is connected directly to the Internet router.',
+      'This device is connected directly to the internet router.',
       name: 'thisDeviceIsConnectedDirectlyToTheInternetRouter',
       desc: '',
       args: [],
     );
   }
 
-  /// `Your current terminal is connected to this devolo-device.`
+  /// `Your current terminal is connected to this devolo device.`
   String get yourCurrentTerminalIsConnectedToThisDevolodevice {
     return Intl.message(
-      'Your current terminal is connected to this devolo-device.',
+      'Your current terminal is connected to this devolo device.',
       name: 'yourCurrentTerminalIsConnectedToThisDevolodevice',
       desc: '',
       args: [],
@@ -980,50 +980,50 @@ class S {
     );
   }
 
-  /// `Confirm Action`
+  /// `Confirm action`
   String get confirmAction {
     return Intl.message(
-      'Confirm Action',
+      'Confirm action',
       name: 'confirmAction',
       desc: '',
       args: [],
     );
   }
 
-  /// `up to date`
+  /// `Up-to-date`
   String get upToDate {
     return Intl.message(
-      'up to date',
+      'Up-to-date',
       name: 'upToDate',
       desc: '',
       args: [],
     );
   }
 
-  /// `update`
+  /// `Update`
   String get update2 {
     return Intl.message(
-      'update',
+      'Update',
       name: 'update2',
       desc: '',
       args: [],
     );
   }
 
-  /// `updating...`
+  /// `Updating...`
   String get updating {
     return Intl.message(
-      'updating...',
+      'Updating...',
       name: 'updating',
       desc: '',
       args: [],
     );
   }
 
-  /// `searching...`
+  /// `Searching...`
   String get searching {
     return Intl.message(
-      'searching...',
+      'Searching...',
       name: 'searching',
       desc: '',
       args: [],
@@ -1080,40 +1080,40 @@ class S {
     );
   }
 
-  /// `An error occurred while setting the device name!`
+  /// `An error occurred while setting the device name`
   String get deviceNotFoundDeviceName {
     return Intl.message(
-      'An error occurred while setting the device name!',
+      'An error occurred while setting the device name',
       name: 'deviceNotFoundDeviceName',
       desc: '',
       args: [],
     );
   }
 
-  /// `An error occurred while resetting the device!`
+  /// `An error occurred while resetting the device`
   String get deviceNotFoundResetDevice {
     return Intl.message(
-      'An error occurred while resetting the device!',
+      'An error occurred while resetting the device',
       name: 'deviceNotFoundResetDevice',
       desc: '',
       args: [],
     );
   }
 
-  /// `An error occurred while removing the device!`
+  /// `An error occurred while removing the device`
   String get deviceNotFoundRemoveDevice {
     return Intl.message(
-      'An error occurred while removing the device!',
+      'An error occurred while removing the device',
       name: 'deviceNotFoundRemoveDevice',
       desc: '',
       args: [],
     );
   }
 
-  /// `An error occurred while removing the device!`
+  /// `An error occurred while removing the device`
   String get deviceNotFoundIdentifyDevice {
     return Intl.message(
-      'An error occurred while removing the device!',
+      'An error occurred while removing the device',
       name: 'deviceNotFoundIdentifyDevice',
       desc: '',
       args: [],
@@ -1130,20 +1130,20 @@ class S {
     );
   }
 
-  /// `An error occurred while setting the network password!`
+  /// `An error occurred while setting the network password`
   String get networkPasswordErrorBody {
     return Intl.message(
-      'An error occurred while setting the network password!',
+      'An error occurred while setting the network password',
       name: 'networkPasswordErrorBody',
       desc: '',
       args: [],
     );
   }
 
-  /// `- Check the connection to the PLC device and repeat the action!`
+  /// `- Check the connection to the PLC device and repeat the action`
   String get networkPasswordErrorHint {
     return Intl.message(
-      '- Check the connection to the PLC device and repeat the action!',
+      '- Check the connection to the PLC device and repeat the action',
       name: 'networkPasswordErrorHint',
       desc: '',
       args: [],
@@ -1180,10 +1180,10 @@ class S {
     );
   }
 
-  /// `An error occurred while changing the name.\nPlease try it again.`
+  /// `An error occurred while changing the name.\nTry again later`
   String get deviceNameErrorBody {
     return Intl.message(
-      'An error occurred while changing the name.\nPlease try it again.',
+      'An error occurred while changing the name.\nTry again later',
       name: 'deviceNameErrorBody',
       desc: '',
       args: [],
@@ -1200,10 +1200,10 @@ class S {
     );
   }
 
-  /// `An error occurred while resetting the device!\nPlease try it again.`
+  /// `An error occurred while resetting the device!\nTry again later`
   String get resetDeviceErrorBody {
     return Intl.message(
-      'An error occurred while resetting the device!\nPlease try it again.',
+      'An error occurred while resetting the device!\nTry again later',
       name: 'resetDeviceErrorBody',
       desc: '',
       args: [],
@@ -1220,10 +1220,10 @@ class S {
     );
   }
 
-  /// `An error occurred while removing the device!\nPlease try it again.`
+  /// `An error occurred while removing the device!\nTry again later`
   String get removeDeviceErrorBody {
     return Intl.message(
-      'An error occurred while removing the device!\nPlease try it again.',
+      'An error occurred while removing the device!\nTry again later',
       name: 'removeDeviceErrorBody',
       desc: '',
       args: [],
@@ -1250,20 +1250,20 @@ class S {
     );
   }
 
-  /// `No suitable manual was found for your PLC device.\n\nYou can find the manual on the product CD or on the devolo website.`
+  /// `No suitable manual was found for your PLC device.\n\nYou can find the manual on the product CD or on the devolo website`
   String get manualErrorBody {
     return Intl.message(
-      'No suitable manual was found for your PLC device.\n\nYou can find the manual on the product CD or on the devolo website.',
+      'No suitable manual was found for your PLC device.\n\nYou can find the manual on the product CD or on the devolo website',
       name: 'manualErrorBody',
       desc: '',
       args: [],
     );
   }
 
-  /// `Remove the PLC-Device?`
+  /// `Remove the PLC device?`
   String get removeDeviceConfirmTitle {
     return Intl.message(
-      'Remove the PLC-Device?',
+      'Remove the PLC device?',
       name: 'removeDeviceConfirmTitle',
       desc: '',
       args: [],
@@ -1300,10 +1300,10 @@ class S {
     );
   }
 
-  /// `Set up a new device`
+  /// `Setup new device`
   String get setUpDevice {
     return Intl.message(
-      'Set up a new device',
+      'Setup new device',
       name: 'setUpDevice',
       desc: '',
       args: [],
@@ -1330,40 +1330,40 @@ class S {
     );
   }
 
-  /// `In rare cases, VDSL connection problems can be caused by crosstalk of the Powerline signal. When the automatic compatibility mode is active, the device tries to detect this situation and automatically adjusts its transmit level to achieve the best possible performance without interference.`
+  /// `In rare cases, noise from Powerline signal can interfere with VDSL connection. Devices in automatic compatibility mode can automatically adjust transmission to limit interference`
   String get vdslexplanation {
     return Intl.message(
-      'In rare cases, VDSL connection problems can be caused by crosstalk of the Powerline signal. When the automatic compatibility mode is active, the device tries to detect this situation and automatically adjusts its transmit level to achieve the best possible performance without interference.',
+      'In rare cases, noise from Powerline signal can interfere with VDSL connection. Devices in automatic compatibility mode can automatically adjust transmission to limit interference',
       name: 'vdslexplanation',
       desc: '',
       args: [],
     );
   }
 
-  /// `If automatic mode is deactivated or the interference cannot be reliably detected, a fixed profile for adjusted transmission power can be used instead. Select the profile that matches the type of your VDSL connection, or select "full power" if interference avoidance is not required.`
+  /// `Select a transmission profile from the given options as a fallback when automatic mode is OFF or reliable detection of interference is not possible`
   String get vdslexplanation2 {
     return Intl.message(
-      'If automatic mode is deactivated or the interference cannot be reliably detected, a fixed profile for adjusted transmission power can be used instead. Select the profile that matches the type of your VDSL connection, or select "full power" if interference avoidance is not required.',
+      'Select a transmission profile from the given options as a fallback when automatic mode is OFF or reliable detection of interference is not possible',
       name: 'vdslexplanation2',
       desc: '',
       args: [],
     );
   }
 
-  /// `Set VDSL \nCompatibility`
+  /// `Set VDSL \ncompatibility`
   String get setVdslCompatibility {
     return Intl.message(
-      'Set VDSL \nCompatibility',
+      'Set VDSL \ncompatibility',
       name: 'setVdslCompatibility',
       desc: '',
       args: [],
     );
   }
 
-  /// `The new VDSL settings could not be saved on the device.`
+  /// `The new VDSL settings could not be saved on the device`
   String get vdslfailed {
     return Intl.message(
-      'The new VDSL settings could not be saved on the device.',
+      'The new VDSL settings could not be saved on the device',
       name: 'vdslfailed',
       desc: '',
       args: [],

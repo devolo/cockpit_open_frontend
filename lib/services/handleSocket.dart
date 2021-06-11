@@ -221,18 +221,19 @@ class DataHand extends ChangeNotifier {
     print(newValue);
     String? xmlString;
 
-    int allowDataCollection = 0, ignoreUpdates = 0, windowsNetworkThrottlingDisabled = 0;
-    if (config["allow_data_collection"] == true) {
-      allowDataCollection = 1;
-    }
-    if (config["ignore_updates"] == true) {
-      ignoreUpdates = 1;
-    }
-    if (config["windows_network_throttling_disabled"] == true) {
-      windowsNetworkThrottlingDisabled = 1;
-    }
-
     if (messageType == "Config") {
+
+      int allowDataCollection = 0, ignoreUpdates = 0, windowsNetworkThrottlingDisabled = 0;
+      if (config["allow_data_collection"] == true) {
+        allowDataCollection = 1;
+      }
+      if (config["ignore_updates"] == true) {
+        ignoreUpdates = 1;
+      }
+      if (config["windows_network_throttling_disabled"] == true) {
+        windowsNetworkThrottlingDisabled = 1;
+      }
+
       xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?> <!DOCTYPE boost_serialization><boost_serialization signature="serialization::archive" version="13"><Message class_id="0" tracking_level="0" version="0"><MessageType>' +
           messageType +
           '</MessageType><Config class_id="1" tracking_level="0" version="0"><count>3</count><item_version>0</item_version><item class_id="2" tracking_level="0" version="0"><first>allow_data_collection</first><second>' +
@@ -281,10 +282,8 @@ class DataHand extends ChangeNotifier {
 
     await Future.doWhile(() async {
 
-      //print("waitingforResponse");
-      //print(wait);
       await new Future.delayed(const Duration(seconds: 1));
-      //print(xmlResponseMap);
+
       if(xmlResponseMap.containsKey(wantedMessageTypes)){
 
         if(wantedMessageTypes == "GetManualResponse"){
@@ -293,12 +292,6 @@ class DataHand extends ChangeNotifier {
           if (responseElem != null) {
             response['filename'] = responseElem;
           }
-          xmlResponseMap[wantedMessageTypes]!.remove(xmlResponseMap[wantedMessageTypes]!.first);
-
-          if(xmlResponseMap[wantedMessageTypes]!.length == 0){
-            xmlResponseMap.remove(wantedMessageTypes);
-          }
-
         }
 
         else if(wantedMessageTypes == "SetAdapterNameStatus"){
@@ -307,27 +300,34 @@ class DataHand extends ChangeNotifier {
           if (responseElem != null) {
             response['result'] = responseElem;
           }
-          xmlResponseMap[wantedMessageTypes]!.remove(xmlResponseMap[wantedMessageTypes]!.first);
-
-          if(xmlResponseMap[wantedMessageTypes]!.length == 0){
-            xmlResponseMap.remove(wantedMessageTypes);
-          }
-
         }
 
+        //TODO should the cockpitUpdate not be set in parseXML()?
         else if (wantedMessageTypes == "UpdateIndication") {
           //"UpdateIndication" for Cockpit Software updates
           wait = false;
-          Map<String,dynamic>? responseMapElem = await parseUpdateIndication(xmlResponseMap[wantedMessageTypes]!.first);
-          if (responseMapElem != null) {
-            response = responseMapElem;
+
+          response['messageType'] = wantedMessageTypes;
+
+          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'status');
+          if (responseElem != null) {
+            response['status'] = responseElem;
+
+            if (response['status'] == "none") {
+              _networkList.cockpitUpdate = false;
+            } else {
+              _networkList.cockpitUpdate = true;
+            }
+          }
+          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'commandline');
+          if (responseElem != null) {
+            response['commandline'] = responseElem;
+          }
+          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'workdir');
+          if (responseElem != null) {
+            response['workdir'] = responseElem;
           }
 
-          xmlResponseMap[wantedMessageTypes]!.remove(xmlResponseMap[wantedMessageTypes]!.first);
-
-          if(xmlResponseMap[wantedMessageTypes]!.length == 0){
-            xmlResponseMap.remove(wantedMessageTypes);
-          }
         }
 
         else if (wantedMessageTypes == "FirmwareUpdateIndication") {
@@ -335,12 +335,6 @@ class DataHand extends ChangeNotifier {
           responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'macAddress');
           if (responseElem != null) {
             response['macAddress'] = responseElem;
-          }
-
-          xmlResponseMap[wantedMessageTypes]!.remove(xmlResponseMap[wantedMessageTypes]!.first);
-
-          if(xmlResponseMap[wantedMessageTypes]!.length == 0){
-            xmlResponseMap.remove(wantedMessageTypes);
           }
         }
 
@@ -362,12 +356,6 @@ class DataHand extends ChangeNotifier {
           if (responseElem != null) {
             response['result'] = responseElem;
           }
-
-          xmlResponseMap[wantedMessageTypes]!.remove(xmlResponseMap[wantedMessageTypes]!.first);
-
-          if(xmlResponseMap[wantedMessageTypes]!.length == 0){
-            xmlResponseMap.remove(wantedMessageTypes);
-          }
         }
 
         // here we want to ignore the first response with <status>running</status>
@@ -382,12 +370,6 @@ class DataHand extends ChangeNotifier {
               response['result'] = responseElem;
             }
           }
-
-          xmlResponseMap[wantedMessageTypes]!.remove(xmlResponseMap[wantedMessageTypes]!.first);
-
-          if(xmlResponseMap[wantedMessageTypes]!.length == 0){
-            xmlResponseMap.remove(wantedMessageTypes);
-          }
         }
 
         // ignore responses with <status>running</status> tag given by dLan devices
@@ -401,12 +383,6 @@ class DataHand extends ChangeNotifier {
             if (responseElem != null) {
               response['result'] = responseElem;
             }
-          }
-
-          xmlResponseMap[wantedMessageTypes]!.remove(xmlResponseMap[wantedMessageTypes]!.first);
-
-          if(xmlResponseMap[wantedMessageTypes]!.length == 0){
-            xmlResponseMap.remove(wantedMessageTypes);
           }
         }
 
@@ -425,12 +401,6 @@ class DataHand extends ChangeNotifier {
           if (responseElem != null) {
             response['failed'] = responseElem;
           }
-
-          xmlResponseMap[wantedMessageTypes]!.remove(xmlResponseMap[wantedMessageTypes]!.first);
-
-          if(xmlResponseMap[wantedMessageTypes]!.length == 0){
-            xmlResponseMap.remove(wantedMessageTypes);
-          }
         }
 
         else if (wantedMessageTypes == "SetVDSLCompatibilityStatus") {
@@ -441,12 +411,6 @@ class DataHand extends ChangeNotifier {
           if(responseElem != ""){
             wait = false;
           }
-
-          xmlResponseMap[wantedMessageTypes]!.remove(xmlResponseMap[wantedMessageTypes]!.first);
-
-          if(xmlResponseMap[wantedMessageTypes]!.length == 0){
-            xmlResponseMap.remove(wantedMessageTypes);
-          }
         }
 
         // responses where we need only the result tag
@@ -456,10 +420,12 @@ class DataHand extends ChangeNotifier {
           if (responseElem != null) {
             response['result'] = responseElem;
           }
-          xmlResponseMap[wantedMessageTypes]!.remove(xmlResponseMap[wantedMessageTypes]!.first);
-          if(xmlResponseMap[wantedMessageTypes]!.length == 0){
-            xmlResponseMap.remove(wantedMessageTypes);
-          }
+        }
+
+        xmlResponseMap[wantedMessageTypes]!.remove(xmlResponseMap[wantedMessageTypes]!.first);
+
+        if(xmlResponseMap[wantedMessageTypes]!.length == 0){
+          xmlResponseMap.remove(wantedMessageTypes);
         }
 
       }
@@ -503,15 +469,23 @@ class DataHand extends ChangeNotifier {
   void parseUpdateStatus(XmlDocument xmlResponse) {
     var items = xmlResponse.findAllElements("item");
     for (var item in items) {
-      Device dev = _networkList.getDeviceList().where((element) => element.mac == item.getElement("first")!.getElement("macAddress")!.innerText).first;
-      String status = item.getElement("second")!.innerText;
 
-      dev.updateState = status;
-      if (status == "complete") _networkList.getUpdateList().removeWhere((element) => element == dev.mac);
-      if (status.endsWith("%")) dev.updateStateInt = double.parse(status.substring(status.indexOf(" "), status.indexOf("%")));
-      if (status == "pending") dev.updateState = "pending";
+      try{
+        Device dev = _networkList.getDeviceList().where((element) => element.mac == item.getElement("first")!.getElement("macAddress")!.innerText).first;
+        String status = item.getElement("second")!.innerText;
 
-      print(dev.toRealString());
+        dev.updateState = status;
+        if (status == "complete") _networkList.getUpdateList().removeWhere((element) => element == dev.mac);
+        if (status.endsWith("%")) dev.updateStateInt = double.parse(status.substring(status.indexOf(" "), status.indexOf("%")));
+
+        print(_networkList.getDeviceList().where((element) => element.mac == item.getElement("first")!.getElement("macAddress")!.innerText).first);
+
+      } catch (e) {
+        print("parseUpdateStatus failed! - Maybe not in selected deviceList");
+        print(e);
+        continue;
+      }
+
     }
     _networkList.changedList();
   }
@@ -528,42 +502,9 @@ class DataHand extends ChangeNotifier {
       } catch (e) {
         print("ParseFWUpdateIndication failed! - Maybe not in selected deviceList");
         print(e);
-        return null;
+        continue;
       }
-      //print(dev.toRealString());
-      print(_networkList.getUpdateList());
     }
     _networkList.changedList();
-  }
-
-  Future<Map<String, dynamic>?> parseUpdateIndication(XmlDocument xmlResponse) async {
-    Map<String, dynamic>? response = Map<String, dynamic>();
-    String? responseElem;
-
-    String messageType = xmlResponse.findAllElements("MessageType").first.innerText;
-    response['messageType'] = messageType;
-
-    responseElem = await findFirstElem(xmlResponse, 'status');
-    if (responseElem != null) {
-      response['status'] = responseElem;
-    }
-    responseElem = await findFirstElem(xmlResponse, 'commandline');
-    if (responseElem != null) {
-      response['commandline'] = responseElem;
-    }
-    responseElem = await findFirstElem(xmlResponse, 'workdir');
-    if (responseElem != null) {
-      response['workdir'] = responseElem;
-    }
-
-    if (response['status'] == "none") {
-      _networkList.cockpitUpdate = false;
-    } else {
-      _networkList.cockpitUpdate = true;
-    }
-
-    //_deviceList.changedList();
-    print("ResponseUpdateIndication: " + response.toString());
-    return response;
   }
 }

@@ -26,19 +26,23 @@ class NetworkList extends ChangeNotifier{
   List<Device> getDeviceList(){
     if(_networkList.isEmpty){
       return [];
-    }else {
+    }
+    else {
       try {
         return _networkList[selectedNetworkIndex];
       }
       catch(e) {
         print("Error Networks not ready");
-      return _networkList[0];}
+        return _networkList[0];}
     }
-    //return _devices;
   }
 
   List<String> getUpdateList(){
     return _updateMacs;
+  }
+
+  void setUpdateList(List<String> updateList){
+    _updateMacs = updateList;
   }
 
   List<List<Device>> getNetworkList(){

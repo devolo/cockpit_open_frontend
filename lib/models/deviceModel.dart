@@ -33,7 +33,7 @@ class Device extends ChangeNotifier {
   bool attachedToRouter = false;
   bool isLocalDevice = false;
   String updateState = "";
-  double updateStateInt = 0;
+  double updateStateInt = 0.0;
   bool webinterfaceAvailable = false;
   bool identifyDeviceAvailable = false;
   String selected_vdsl = "";

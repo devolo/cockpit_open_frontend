@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cockpit_devolo/models/dataRateModel.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
@@ -315,11 +317,11 @@ void main() {
       //create expected XMLDocuments
       var xmlLengthChangeName = int.parse(changeNameResponse1.substring(7, 15), radix: 16);
       var xmlSingleDocChangeName = changeNameResponse1.substring(changeNameResponse1.indexOf('<?'), xmlLengthChangeName + 13);
-      var xmlLengthIdentifyDevice = int.parse(identifyDeviceReponse1.substring(7, 15), radix: 16);
-      var xmlSingleDocIdentifyDevice = identifyDeviceReponse1.substring(identifyDeviceReponse1.indexOf('<?'), xmlLengthIdentifyDevice + 13);
+      var xmlLengthIdentifyDevice = int.parse(identifyDeviceResponse1.substring(7, 15), radix: 16);
+      var xmlSingleDocIdentifyDevice = identifyDeviceResponse1.substring(identifyDeviceResponse1.indexOf('<?'), xmlLengthIdentifyDevice + 13);
 
       dataHandler.parseXML(changeNameResponse1);
-      dataHandler.parseXML(identifyDeviceReponse1);
+      dataHandler.parseXML(identifyDeviceResponse1);
 
       //convert XMLDocuments to String for comparing
       expect(dataHandler.xmlDebugResponseList.length, 4);
@@ -330,4 +332,408 @@ void main() {
 
     });
   });
+
+  //TODO Possible to test?
+  group('void sendXML',() {
+
+    test('test',() async {
+
+    });
+  });
+
+  group('Future<Map<String, dynamic>?> receiveXML(String wantedMessageTypes)',() {
+
+    //simple check for all possible if else cases --------------------------------------------------
+
+    test('Given__When_callReceiveXMLWithGetManualResponse_Then_returnResponse',() async {
+
+      var dataHandler = DataHand(true);
+
+      Map<String, dynamic>? expectedResponse = Map<String, dynamic>();
+      expectedResponse['filename'] = 'manual-de.pdf';
+
+      dataHandler.xmlResponseMap['GetManualResponse'] = [XmlDocument.parse(getManualResponse1)];
+
+      var response = await dataHandler.receiveXML('GetManualResponse');
+
+      expect(response,expectedResponse);
+      expect(dataHandler.xmlResponseMap.isEmpty,true);
+
+    });
+
+    test('Given__When_callReceiveXMLWithSetAdapterNameStatus_Then_returnResponse',() async {
+
+      var dataHandler = DataHand(true);
+
+      Map<String, dynamic>? expectedResponse = Map<String, dynamic>();
+      expectedResponse['result'] = 'ok';
+
+      dataHandler.xmlResponseMap['SetAdapterNameStatus'] = [XmlDocument.parse(setAdapterNameStatus1)];
+
+      var response = await dataHandler.receiveXML('SetAdapterNameStatus');
+
+      expect(response,expectedResponse);
+      expect(dataHandler.xmlResponseMap.isEmpty,true);
+
+    });
+
+    test('Given__When_callReceiveXMLWithUpdateIndication_Then_returnResponseAndSetCockpitUpdate',() async {
+
+      var dataHandler = DataHand(true);
+      var network = new NetworkList();
+      dataHandler.setNetworkList(network);
+
+      Map<String, dynamic>? expectedResponse = Map<String, dynamic>();
+      expectedResponse['messageType'] = 'UpdateIndication';
+      expectedResponse['status'] = 'downloaded_setup';
+      expectedResponse['commandline'] = 'setuplauncher.exe';
+      expectedResponse['workdir'] = 'testWorkDir';
+
+      dataHandler.xmlResponseMap['UpdateIndication'] = [XmlDocument.parse(updateIndication1)];
+
+      var response = await dataHandler.receiveXML('UpdateIndication');
+
+      expect(response,expectedResponse);
+      expect(dataHandler.xmlResponseMap.isEmpty,true);
+
+      expect(dataHandler.getNetworkList().cockpitUpdate,true);
+
+    });
+
+    test('Given__When_callReceiveXMLWithFirmwareUpdateIndication_Then_returnResponse',() async {
+
+      var dataHandler = DataHand(true);
+
+      Map<String, dynamic>? expectedResponse = Map<String, dynamic>();
+      expectedResponse['macAddress'] = 'B8:BE:F4:31:96:AF';
+
+      dataHandler.xmlResponseMap['FirmwareUpdateIndication'] = [XmlDocument.parse(firmwareUpdateIndication1)];
+
+      var response = await dataHandler.receiveXML('FirmwareUpdateIndication');
+
+      expect(response,expectedResponse);
+      expect(dataHandler.xmlResponseMap.isEmpty,true);
+
+    });
+
+    test('Given__When_callReceiveXMLWithSupportInfoGenerateStatus_Then_returnResponse',() async {
+
+      var dataHandler = DataHand(true);
+
+      Map<String, dynamic>? expectedResponse = Map<String, dynamic>();
+      expectedResponse['zipfilename'] = 'support.zip';
+      expectedResponse['status'] = 'complete';
+      expectedResponse['htmlfilename'] = 'support.html';
+      expectedResponse['result'] = 'ok';
+
+      dataHandler.xmlResponseMap['SupportInfoGenerateStatus'] = [XmlDocument.parse(supportInfoGenerateStatus1)];
+
+      var response = await dataHandler.receiveXML('SupportInfoGenerateStatus');
+
+      expect(response,expectedResponse);
+      expect(dataHandler.xmlResponseMap.isEmpty,true);
+
+    });
+
+    test('Given__When_callReceiveXMLWithResetAdapterToFactoryDefaultsStatus_Then_returnResponse',() async {
+
+      var dataHandler = DataHand(true);
+
+      Map<String, dynamic>? expectedResponse = Map<String, dynamic>();
+      expectedResponse['result'] = 'testResultEntry';
+
+      dataHandler.xmlResponseMap['ResetAdapterToFactoryDefaultsStatus'] = [XmlDocument.parse(resetAdapterToFactoryDefaultsStatus1)];
+
+      var response = await dataHandler.receiveXML('ResetAdapterToFactoryDefaultsStatus');
+
+      expect(response,expectedResponse);
+      expect(dataHandler.xmlResponseMap.isEmpty,true);
+
+    });
+
+    test('Given__When_callReceiveXMLWithIdentifyDeviceStatus_Then_returnResponse',() async {
+
+      var dataHandler = DataHand(true);
+
+      Map<String, dynamic>? expectedResponse = Map<String, dynamic>();
+      expectedResponse['result'] = 'failed';
+
+      dataHandler.xmlResponseMap['IdentifyDeviceStatus'] = [XmlDocument.parse(identifyDeviceStatus1)];
+
+      var response = await dataHandler.receiveXML('IdentifyDeviceStatus');
+
+      expect(response,expectedResponse);
+      expect(dataHandler.xmlResponseMap.isEmpty,true);
+
+    });
+
+    test('Given__When_callReceiveXMLWithSetNetworkPasswordStatus_Then_returnResponse',() async {
+
+      var dataHandler = DataHand(true);
+
+      Map<String, dynamic>? expectedResponse = Map<String, dynamic>();
+      expectedResponse['status'] = 'complete';
+      expectedResponse['total'] = '2';
+      expectedResponse['failed'] = '0';
+
+      dataHandler.xmlResponseMap['SetNetworkPasswordStatus'] = [XmlDocument.parse(setNetworkPasswordStatus1)];
+
+      var response = await dataHandler.receiveXML('SetNetworkPasswordStatus');
+
+      expect(response,expectedResponse);
+      expect(dataHandler.xmlResponseMap.isEmpty,true);
+
+    });
+
+    // disableStandbyStatus is not requested in the if cases => triggers the else
+    test('Given__When_callReceiveXMLWithDisableStandbyStatus1_Then_returnResponse',() async {
+
+      var dataHandler = DataHand(true);
+
+      Map<String, dynamic>? expectedResponse = Map<String, dynamic>();
+      expectedResponse['result'] = 'ok';
+
+      dataHandler.xmlResponseMap['DisableStandbyStatus'] = [XmlDocument.parse(disableStandbyStatus1)];
+
+      var response = await dataHandler.receiveXML('DisableStandbyStatus');
+
+      expect(response,expectedResponse);
+      expect(dataHandler.xmlResponseMap.isEmpty,true);
+
+    });
+
+  // test timout case
+  test('Given__When_callReceiveXMLAndTheResponseIsNotExisting_Then_returnResponse',() async {
+
+    var dataHandler = DataHand(true);
+
+    Map<String, dynamic>? expectedResponse = Map<String, dynamic>();
+    expectedResponse['status'] = 'timeout';
+
+    var response = await dataHandler.receiveXML('DisableStandbyStatus');
+
+    expect(response,expectedResponse);
+
+  }, timeout: Timeout(Duration(minutes: 1)));
+
+  // case when xmlResponseMap gets the needed response later
+  test('Given__When_callReceiveXMLAndTheResponseIsSetLater_Then_returnResponse',() async {
+
+    var dataHandler = DataHand(true);
+
+    Map<String, dynamic>? expectedResponse = Map<String, dynamic>();
+    expectedResponse['result'] = 'failed';
+
+    //response where status tag = running
+    dataHandler.xmlResponseMap['IdentifyDeviceStatus'] = [XmlDocument.parse(identifyDeviceStatus2)];
+
+    Timer(Duration(seconds: 5), () {
+      dataHandler.xmlResponseMap['IdentifyDeviceStatus'] = [XmlDocument.parse(identifyDeviceStatus1)];
+    });
+
+    var response = await dataHandler.receiveXML('IdentifyDeviceStatus');
+
+    expect(response,expectedResponse);
+    expect(dataHandler.xmlResponseMap.isEmpty,true);
+
+  });
+});
+
+  group('Future<String?> findFirstElem(XmlDocument revXML, String word)',() {
+
+    test('Given_emptyDataHandObject_When_callFindFirstElemWithExistingTag_Then_returnResponse',() async {
+
+      var dataHandler = DataHand(true);
+      
+      var expectedResponse = "failed";
+      
+      var response = await dataHandler.findFirstElem(XmlDocument.parse(identifyDeviceStatus1), "result");
+
+      expect(response,expectedResponse);
+    });
+
+    test('Given_emptyDataHandObject_When_callFindFirstElemWithNonExistingTag_Then_returnNull',() async {
+
+      var dataHandler = DataHand(true);
+
+      var response = await dataHandler.findFirstElem(XmlDocument.parse(identifyDeviceStatus1), "notExistingTag");
+
+      expect(response,null);
+    });
+
+  });
+
+  group('Future<String?> findFirstElem(XmlDocument revXML, String word)',() {
+
+    test('Given_emptyDataHandObject_When_callParseConfig_Then_setConfig', () {
+
+      //set config with different values before
+      config["allow_data_collection"] = true;
+      config["ignore_updates"] = true;
+      config["windows_network_throttling_disabled"] = false;
+      var dataHandler = DataHand(true);
+
+      dataHandler.parseConfig(XmlDocument.parse(config3WithoutMGSOCK));
+
+      expect(config["allow_data_collection"], false);
+      expect(config["ignore_updates"], false);
+      expect(config["windows_network_throttling_disabled"], true);
+    });
+
+  });
+
+  group('void parseUpdateStatus(XmlDocument xmlResponse)',() {
+
+    test('Given_DataHandObjectWithNetworkListAndUpdateList_When_parseUpdateStatus_Then_setUpdateListAndUpdateState', () {
+
+      var dataHandler = DataHand(true);
+      var oldUpdateList = ["B8:BE:F4:31:96:AF","B8:BE:F4:31:96:8B"];
+      dataHandler.parseXML(networkUpdate1);
+      dataHandler.getNetworkList().setUpdateList(oldUpdateList);
+
+      var expectedUpdateList = ["B8:BE:F4:31:96:AF","B8:BE:F4:31:96:8B"];
+
+      dataHandler.parseUpdateStatus(XmlDocument.parse(firmwareUpdateStatus1));
+
+      expect(dataHandler.getNetworkList().getUpdateList(), expectedUpdateList);
+
+      Device device1 = dataHandler.getNetworkList().getDeviceList().where((element) => element.mac == "B8:BE:F4:31:96:AF").first;
+      expect(device1.updateStateInt, 80.0);
+      expect(device1.updateState, "running 80%");
+
+    });
+
+    test('Given_DataHandObjectWithNetworkListAndUpdateList_When_parseUpdateStatus_Then_setUpdateListAndUpdateState', () {
+
+      var dataHandler = DataHand(true);
+      var oldUpdateList = ["B8:BE:F4:31:96:AF","B8:BE:F4:31:96:8B"];
+      dataHandler.parseXML(networkUpdate1);
+      dataHandler.getNetworkList().setUpdateList(oldUpdateList);
+
+      var expectedUpdateList = ["B8:BE:F4:31:96:AF"];
+
+      //B8:BE:F4:31:96:AF(40%) and B8:F2:F4:51:96:8B(not in Network) and B8:BE:F4:31:96:8B(complete)
+      dataHandler.parseUpdateStatus(XmlDocument.parse(firmwareUpdateStatus2));
+
+      expect(dataHandler.getNetworkList().getUpdateList(), expectedUpdateList);
+
+      Device device1 = dataHandler.getNetworkList().getDeviceList().where((element) => element.mac == "B8:BE:F4:31:96:AF").first;
+      expect(device1.updateStateInt, 40.0);
+      expect(device1.updateState, "running 40%");
+      
+      Device device2 = dataHandler.getNetworkList().getDeviceList().where((element) => element.mac == "B8:BE:F4:31:96:8B").first;
+      expect(device2.updateState, "complete");
+      expect(device2.updateStateInt, 0.0);
+
+    });
+
+  });
+
+  group('void parseFWUpdateIndication(XmlDocument xmlResponse)',() {
+
+    // devices in network1
+    //<macAddress>B8:BE:F4:31:96:AF</macAddress>
+    //<macAddress>B8:BE:F4:31:96:8B</macAddress>
+    //<macAddress>B8:BE:F4:0A:AE:B7</macAddress>
+
+    test('Given_DataHandObjectWithNetworkListAndUpdateList_When_parseFWUpdateIndication_Then_setUpdateList', () {
+
+      var dataHandler = DataHand(true);
+      var oldUpdateList = ["B8:BE:F4:31:96:AF","B8:BE:F4:31:96:8B"];
+      dataHandler.parseXML(networkUpdate1);
+      dataHandler.getNetworkList().setUpdateList(oldUpdateList);
+
+      var expectedUpdateList = ["B8:BE:F4:31:96:AF"];
+
+      dataHandler.parseFWUpdateIndication(XmlDocument.parse(firmwareUpdateIndication1));
+
+      expect(dataHandler.getNetworkList().getUpdateList(), expectedUpdateList);
+
+    });
+
+    test('Given_DataHandObjectWithNetworkListAndUpdateList_When_parseFWUpdateIndicationWith2MacAdresses_Then_setUpdateList', () {
+
+      var dataHandler = DataHand(true);
+      var oldUpdateList = ["B8:BE:F4:31:96:AF"];
+      dataHandler.parseXML(networkUpdate1);
+      dataHandler.getNetworkList().setUpdateList(oldUpdateList);
+
+      var expectedUpdateList = ["B8:BE:F4:31:96:AF","B8:BE:F4:31:96:8B"];
+
+      dataHandler.parseFWUpdateIndication(XmlDocument.parse(firmwareUpdateIndication2));
+
+      expect(dataHandler.getNetworkList().getUpdateList(), expectedUpdateList);
+
+    });
+
+    test('Given_DataHandObjectWithNetworkListAndUpdateList_When_parseFWUpdateIndicationWithNotExistingMacAddress_Then_setUpdateList', () {
+
+      var dataHandler = DataHand(true);
+      var oldUpdateList = ["B8:BE:F4:31:96:AF"];
+      dataHandler.parseXML(networkUpdate1);
+      dataHandler.getNetworkList().setUpdateList(oldUpdateList);
+
+      var expectedUpdateList = ["B8:BE:F4:31:96:AF","B8:BE:F4:31:96:8B"];
+
+      dataHandler.parseFWUpdateIndication(XmlDocument.parse(firmwareUpdateIndication3));
+
+      expect(dataHandler.getNetworkList().getUpdateList(), expectedUpdateList);
+
+    });
+
+  });
+  group('Future<Map<String, dynamic>?> parseUpdateIndication(XmlDocument xmlResponse)',() {
+
+    // devices in network1
+    //<macAddress>B8:BE:F4:31:96:AF</macAddress>
+    //<macAddress>B8:BE:F4:31:96:8B</macAddress>
+    //<macAddress>B8:BE:F4:0A:AE:B7</macAddress>
+
+    test('Given_DataHandObjectWithNetworkListAndUpdateList_When_parseFWUpdateIndication_Then_setUpdateList', () {
+
+      var dataHandler = DataHand(true);
+      var oldUpdateList = ["B8:BE:F4:31:96:AF","B8:BE:F4:31:96:8B"];
+      dataHandler.parseXML(networkUpdate1);
+      dataHandler.getNetworkList().setUpdateList(oldUpdateList);
+
+      var expectedUpdateList = ["B8:BE:F4:31:96:AF"];
+
+      dataHandler.parseFWUpdateIndication(XmlDocument.parse(firmwareUpdateIndication1));
+
+      expect(dataHandler.getNetworkList().getUpdateList(), expectedUpdateList);
+
+    });
+
+    test('Given_DataHandObjectWithNetworkListAndUpdateList_When_parseFWUpdateIndicationWith2MacAdresses_Then_setUpdateList', () {
+
+      var dataHandler = DataHand(true);
+      var oldUpdateList = ["B8:BE:F4:31:96:AF"];
+      dataHandler.parseXML(networkUpdate1);
+      dataHandler.getNetworkList().setUpdateList(oldUpdateList);
+
+      var expectedUpdateList = ["B8:BE:F4:31:96:AF","B8:BE:F4:31:96:8B"];
+
+      dataHandler.parseFWUpdateIndication(XmlDocument.parse(firmwareUpdateIndication2));
+
+      expect(dataHandler.getNetworkList().getUpdateList(), expectedUpdateList);
+
+    });
+
+    test('Given_DataHandObjectWithNetworkListAndUpdateList_When_parseFWUpdateIndicationWithNotExistingMacAddress_Then_setUpdateList', () {
+
+      var dataHandler = DataHand(true);
+      var oldUpdateList = ["B8:BE:F4:31:96:AF"];
+      dataHandler.parseXML(networkUpdate1);
+      dataHandler.getNetworkList().setUpdateList(oldUpdateList);
+
+      var expectedUpdateList = ["B8:BE:F4:31:96:AF","B8:BE:F4:31:96:8B"];
+
+      dataHandler.parseFWUpdateIndication(XmlDocument.parse(firmwareUpdateIndication3));
+
+      expect(dataHandler.getNetworkList().getUpdateList(), expectedUpdateList);
+
+    });
+
+  });
+
 }

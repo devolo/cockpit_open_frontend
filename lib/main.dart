@@ -123,9 +123,6 @@ class _MyHomePageState extends State<MyHomePage> {
     _menuItemStyle = TextStyle(color: Colors.white, fontFamily: 'Roboto', decorationColor: fontColorLight);
     loadAllDeviceIcons();
 
-    print('CONTRAST:  ${highContrast}');
-    if (highContrast == true) config["high_contrast"] = true;
-
     getConnection();
     readSharedPrefs();
     print("111111111111111111111111111111111111111111");

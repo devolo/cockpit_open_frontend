@@ -48,7 +48,6 @@
 //   bool show_other_devices = true;
 //   bool show_speeds_permanent = false;
 //   bool show_speeds = false;
-//   bool high_contrast = false;
 //   Map<String, dynamic> theme;
 //   Map<String, dynamic> previous_theme;
 //   String language =  "";
@@ -125,7 +124,6 @@
 //     "show_other_devices": true,
 //     "show_speeds_permanent": false,
 //     "show_speeds": false,
-//     "high_contrast": false,
 //     "language": ""
 //   };
 //

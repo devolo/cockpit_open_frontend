@@ -39,7 +39,6 @@ Map<String,dynamic> config = {
   "show_other_devices": true,
   "show_speeds_permanent": false,
   "show_speeds": false,
-  "high_contrast": false,
   "theme": theme_devolo["name"],
   "previous_theme": theme_devolo["name"],
   "language": "",

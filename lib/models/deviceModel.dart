@@ -40,7 +40,7 @@ class Device extends ChangeNotifier {
   String mode_vdsl  = "";
 
 
-  Device(String type, String name, String mac, String ip, String MT, String serialno, String version, String versionDate, atRouter, isLocal, bool webinterfaceAvailable, bool identifyDeviceAvailable, selectedVDSL, supportedVDSL, modeVDSL, [ui.Image? icon]) {
+  Device(String type, String name, String mac, String ip, String MT, String serialno, String version, String versionDate, atRouter, isLocal, bool webinterfaceAvailable, bool identifyDeviceAvailable, selectedVDSL, supportedVDSL, modeVDSL) {
     this.typeEnum = getDeviceType(type);
     this.type = type;
     this.name = name;

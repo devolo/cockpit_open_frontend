@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
+import 'package:cockpit_devolo/shared/imageLoader.dart';
 import 'dart:ui' as ui;
 
 class UpdateScreen extends StatefulWidget {

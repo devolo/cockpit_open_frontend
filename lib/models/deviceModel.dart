@@ -149,7 +149,7 @@ class Device extends ChangeNotifier {
 
     if (element.getElement('remotes') != null) {
       List<XmlNode> remotes = element.getElement('remotes')!.children;
-      remotes = testList(remotes, 'type'); // Checking where items are devices returning the trimmed list
+      remotes = findElements(remotes, 'type'); // Checking where items are devices returning the trimmed list
       for (dynamic remote in remotes) {
         //print('Remote Device found: ' + remote.getElement('type').text);
         retDevice.remoteDevices.add(Device.fromXML(remote, false));
@@ -158,7 +158,7 @@ class Device extends ChangeNotifier {
 
     if (element.getElement('dataRates') != null) {
       List<XmlNode> dataRates = element.getElement('dataRates')!.children;
-      dataRates = testList(dataRates, 'macAddress');
+      dataRates = findElements(dataRates, 'macAddress');
       //print(dataRates);
       for (var item in dataRates) {
         var txMac = item.getElement('first')!.getElement('first')!.getElement('macAddress')!.text;

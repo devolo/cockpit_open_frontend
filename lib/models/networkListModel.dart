@@ -9,8 +9,6 @@ LICENSE file in the root directory of this source tree.
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:xml/xml.dart';
-import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 
 
@@ -139,8 +137,7 @@ class NetworkList extends ChangeNotifier{
     }
   }
 
-
-  void clearList() {
+  void clearDeviceList() {
     _networkList[selectedNetworkIndex].clear();
     notifyListeners();
   }
@@ -153,7 +150,6 @@ class NetworkList extends ChangeNotifier{
   void changedList() {
     notifyListeners();
   }
-
 
   String toRealString(){
     String ret = "";
@@ -171,16 +167,5 @@ class NetworkList extends ChangeNotifier{
   }
 }
 
-
-// Tests if XmlNode remotes contains Information about a Device
-List<XmlNode> testList(List<XmlNode> remotes, String searchString) {
-  List<XmlNode> deviceItems = <XmlNode>[];
-  for (XmlNode remote in remotes) {
-    if (remote.findAllElements(searchString).isNotEmpty) {
-      deviceItems.add(remote);
-    }
-  }
-  return deviceItems;
-}
 
 

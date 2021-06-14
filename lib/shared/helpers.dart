@@ -19,6 +19,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:open_file/open_file.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
+import 'package:xml/xml.dart';
 
 
 final List<ui.Image> deviceIconList = <ui.Image>[]; //ToDo put somewhere else
@@ -27,6 +28,16 @@ List<Offset> networkOffsetList = [];
 bool areDeviceIconsLoaded = false;
 bool showNetwork = true;
 String _openResult = 'Unknown';
+
+List<XmlNode> findElements(List<XmlNode> remotes, String searchString) {
+  List<XmlNode> deviceItems = <XmlNode>[];
+  for (XmlNode remote in remotes) {
+    if (remote.findAllElements(searchString).isNotEmpty) {
+      deviceItems.add(remote);
+    }
+  }
+  return deviceItems;
+}
 
 void saveToSharedPrefs(Map<String, dynamic> inputMap) async {
 

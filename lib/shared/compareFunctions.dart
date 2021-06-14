@@ -109,16 +109,6 @@ bool compareNetworkList(NetworkList first, NetworkList other){
     return false;
   }
 
-  if(first.getAllDevices().length == other.getAllDevices().length) {
-    for (int i = 0; i < first.getAllDevices().length; i++) {
-      if(!compareDevice(first.getAllDevices()[i], other.getAllDevices()[i])){
-        return false;
-      }
-    }
-  }
-  else
-    return false;
-
   if(
   first.selectedNetworkIndex == other.selectedNetworkIndex &&
       listEquals(first.getUpdateList(), other.getUpdateList()) &&

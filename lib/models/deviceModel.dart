@@ -63,7 +63,6 @@ class Device extends ChangeNotifier {
       this.version = version;
       this.version_date = versionDate;
     }
-    //this.remoteDevices = remoteDevices;
 
     this.speeds = new Map();
 
@@ -138,8 +137,6 @@ class Device extends ChangeNotifier {
       selected_VDSL,
       supported_VDSL,
       mode_VDSL,
-      //Device.fromXML(Element.getElement('remotes').getElement('item')),
-      //genreElement.findElements('genre').map<Genre>((e) => Genre.fromElement(e)).toList(),
     );
 
     if (element.getElement('remotes') != null) {
@@ -163,15 +160,8 @@ class Device extends ChangeNotifier {
         var rxRateStr = item.getElement('second')!.getElement('rxRate')!.text;
         //print(txRateStr + " " + rxRateStr);
 
-        int txRate = 0, rxRate = 0;
-        if (txRateStr.contains("."))
-          txRate = double.parse(txRateStr).round();
-        else
-          txRate = int.parse(txRateStr);
-        if (rxRateStr.contains("."))
-          rxRate = double.parse(rxRateStr).round();
-        else
-          rxRate = int.parse(rxRateStr);
+        int txRate = double.parse(txRateStr).round();
+        int rxRate = double.parse(rxRateStr).round();
 
         if (retDevice.mac.compareTo(txMac) == 0) {
           retDevice.speeds![rxMac] = new DataratePair(rxRate, txRate);

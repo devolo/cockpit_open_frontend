@@ -17,6 +17,8 @@ import 'package:open_file/open_file.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:xml/xml.dart';
 
+bool connected = false;
+
 Map<String,dynamic> config = {
   "ignore_updates": false,
   "allow_data_collection": false,
@@ -31,11 +33,11 @@ Map<String,dynamic> config = {
   "selected_network": 0,
 };
 
-List<XmlNode> findElements(List<XmlNode> remotes, String searchString) {
+List<XmlNode> findElements(List<XmlNode> xmlNodes, String searchString) {
   List<XmlNode> deviceItems = <XmlNode>[];
-  for (XmlNode remote in remotes) {
-    if (remote.findAllElements(searchString).isNotEmpty) {
-      deviceItems.add(remote);
+  for (XmlNode xmlNodeElement in xmlNodes) {
+    if (xmlNodeElement.findAllElements(searchString).isNotEmpty) {
+      deviceItems.add(xmlNodeElement);
     }
   }
   return deviceItems;
@@ -48,22 +50,11 @@ void saveToSharedPrefs(Map<String, dynamic> inputMap) async {
   await prefs.setString('config', jsonString);
 }
 
-String macToCanonical(String mac) {
-  if (mac != null)
-    return mac
-        .replaceAll(":", "")
-        .replaceAll(":", "")
-        .replaceAll(".", "")
-        .replaceAll("-", "")
-        .toLowerCase();
-  else
-    return "";
-}
-
-launchURL(String ip) async {
+void launchURL(String ip) async {
   String url = "http://"+ ip;
   print("Opening web UI at " + url);
 
+  //TODO is it still not working on linux? To be tested
   if (Platform.isFuchsia || Platform.isLinux)
     print("Would now have opened the Web-Interface at " +
         url +
@@ -76,45 +67,21 @@ launchURL(String ip) async {
     }
 }
 
-bool connected = false;
 void getConnection() async { // get Internet Connection
   try {
     final result = await InternetAddress.lookup('google.com');
     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-      //print('connected');
       connected = true;
-      //return true;
-      //return Future.value(true);
     }
   } on SocketException catch (_) {
     print('not connected');
     connected = false;
-    //return false;
-    //return Future.value(false);
   }
 }
 
-
-// bool getConnection()  { // get Internet Connection
-//   try {
-//     InternetAddress.lookup('google.com').then((result) {
-//       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-//         print('connected');
-//         connected = true;
-//         //return true;
-//       }
-//     });
-//   } on SocketException {
-//     print('not connected');
-//     connected = false;
-//     //return false;
-//   }
-// }
-
 Future<void> openFile(var path) async {
   final filePath = path;
-  //final filePath = "C:/Program Files (x86)\\devolo\\dlan\\updates\\manuals\\magic-2-lan\\manual-de.pdf";
-  final result = await OpenFile.open(filePath);
+  await OpenFile.open(filePath);
 }
 
 DeviceType getDeviceType(String deviceType){

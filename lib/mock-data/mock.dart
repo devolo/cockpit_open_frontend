@@ -677,6 +677,88 @@ var deviceXML = '''<item class_id="2" tracking_level="0" version="0">
 			</dataRates>
 		</item>''';
 
+// deleted at one item the macAdresses to test the findElements method
+var modifiedDataRates = '''<dataRates class_id="10" tracking_level="0" version="0">
+				<count>6</count>
+				<item_version>0</item_version>
+				<item class_id="11" tracking_level="0" version="0">
+					<first class_id="12" tracking_level="0" version="0">
+						<first class_id="13" tracking_level="0" version="0">
+							<macAddress>B8:BE:F4:0A:AE:B7</macAddress>
+						</first>
+						<second>
+							<macAddress>B8:BE:F4:31:96:8B</macAddress>
+						</second>
+					</first>
+					<second class_id="14" tracking_level="0" version="0">
+						<txRate>8.28853333333333353e+02</txRate>
+						<rxRate>2.98080000000000041e+02</rxRate>
+					</second>
+				</item>
+				<item>
+					<second>
+						<txRate>3.70133333333333326e+02</txRate>
+						<rxRate>2.94719999999999970e+02</rxRate>
+					</second>
+				</item>
+				<item>
+					<first>
+						<first>
+							<macAddress>B8:BE:F4:31:96:8B</macAddress>
+						</first>
+						<second>
+							<macAddress>B8:BE:F4:0A:AE:B7</macAddress>
+						</second>
+					</first>
+					<second>
+						<txRate>2.98080000000000041e+02</txRate>
+						<rxRate>8.28853333333333353e+02</rxRate>
+					</second>
+				</item>
+				<item>
+					<first>
+						<first>
+							<macAddress>B8:BE:F4:31:96:8B</macAddress>
+						</first>
+						<second>
+							<macAddress>B8:BE:F4:31:96:AF</macAddress>
+						</second>
+					</first>
+					<second>
+						<txRate>3.18240000000000009e+02</txRate>
+						<rxRate>5.65706666666666592e+02</rxRate>
+					</second>
+				</item>
+				<item>
+					<first>
+						<first>
+							<macAddress>B8:BE:F4:31:96:AF</macAddress>
+						</first>
+						<second>
+							<macAddress>B8:BE:F4:0A:AE:B7</macAddress>
+						</second>
+					</first>
+					<second>
+						<txRate>7.20000000000000018e+00</txRate>
+						<rxRate>4.46453333333333319e+02</rxRate>
+					</second>
+				</item>
+				<item>
+					<first>
+						<first>
+							<macAddress>B8:BE:F4:31:96:AF</macAddress>
+						</first>
+						<second>
+							<macAddress>B8:BE:F4:31:96:8B</macAddress>
+						</second>
+					</first>
+					<second>
+						<txRate>5.65706666666666592e+02</txRate>
+						<rxRate>3.18240000000000009e+02</rxRate>
+					</second>
+				</item>
+			</dataRates>''';
+
 var changeNameResponse1 = '''MSGSOCK00000184<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <!DOCTYPE boost_serialization>
 <boost_serialization signature="serialization::archive" version="13">

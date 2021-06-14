@@ -6,7 +6,7 @@ This source code is licensed under the BSD-style license found in the
 LICENSE file in the root directory of this source tree.
 */
 
-import 'package:cockpit_devolo/shared/app_colors.dart';
+import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';

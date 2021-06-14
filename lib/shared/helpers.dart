@@ -29,6 +29,20 @@ bool areDeviceIconsLoaded = false;
 bool showNetwork = true;
 String _openResult = 'Unknown';
 
+Map<String,dynamic> config = {
+  "ignore_updates": false,
+  "allow_data_collection": false,
+  "windows_network_throttling_disabled":true,
+  "internet_centered": true,
+  "show_other_devices": true,
+  "show_speeds_permanent": false,
+  "theme": theme_devolo["name"],
+  "previous_theme": theme_devolo["name"],
+  "language": "",
+  "font_size_factor": fontSizeFactor,
+  "selected_network": 0,
+};
+
 List<XmlNode> findElements(List<XmlNode> remotes, String searchString) {
   List<XmlNode> deviceItems = <XmlNode>[];
   for (XmlNode remote in remotes) {

@@ -9,7 +9,6 @@ LICENSE file in the root directory of this source tree.
 import 'dart:io'; //only for non-web apps!!!
 import 'dart:async';
 import 'package:cockpit_devolo/models/deviceModel.dart';
-import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:xml/xml.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';

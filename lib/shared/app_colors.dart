@@ -18,6 +18,7 @@ Color fontColorLight= Colors.white;// = Colors.white;
 Color fontColorMedium= Colors.white;// = Colors.grey[800];
 Color fontColorDark= Colors.white ;// = Colors.black;
 Color fontColorNotAvailable= Colors.white ; // if button can´t be klicked for example
+
 Color devoloBlue = Color.fromARGB(255, 0, 114, 180);
 Color devoloBlueMedium = Color.fromARGB(255, 81, 154, 207);
 Color devoloBlueLight = Color.fromARGB(255, 177, 203, 232);
@@ -33,22 +34,26 @@ var theme_list = [theme_dark, theme_devolo, theme_light, theme_highContrast];
 //void setTheme(Map<String,dynamic> theme) {
 void setTheme(String theme_name) {
   dynamic theme;
+  bool themeExists = false;
   print("Set Theme Name: " + theme_name);
   for(var elem in theme_list) {
     if(elem["name"] == theme_name) {
       theme = elem;
+      themeExists = true;
     }
   }
-  mainColor = theme["mainColor"];
-  backgroundColor = theme["backgroundColor"];
-  secondColor = theme["secondColor"];
-  accentColor = theme["accentColor"];
-  drawingColor = theme["drawingColor"];
-  fontColorLight = theme["fontColorLight"];
-  fontColorMedium = theme["fontColorMedium"];
-  fontColorDark = theme["fontColorDark"];
-  fontColorNotAvailable = theme["fontColorNotAvailable"];
 
+  if(themeExists){
+    mainColor = theme["mainColor"];
+    backgroundColor = theme["backgroundColor"];
+    secondColor = theme["secondColor"];
+    accentColor = theme["accentColor"];
+    drawingColor = theme["drawingColor"];
+    fontColorLight = theme["fontColorLight"];
+    fontColorMedium = theme["fontColorMedium"];
+    fontColorDark = theme["fontColorDark"];
+    fontColorNotAvailable = theme["fontColorNotAvailable"];
+  }
 }
 
 Map<String, dynamic> theme_dark = {

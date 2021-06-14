@@ -3,6 +3,34 @@ import 'package:cockpit_devolo/models/dataRateModel.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:flutter/foundation.dart';
 
+bool compareListOfDeviceList(List<List<Device>> first, List<List<Device>> other){
+  if(first.length != other.length){
+    return false;
+  }
+
+  for(int i = 0; i < first.length; i++){
+    if(!compareDeviceList(first[i], other[i])){
+      return false;
+    }
+  }
+
+  return true;
+}
+
+bool compareDeviceList(List<Device> first, List<Device> other){
+  if(first.length != other.length){
+    return false;
+  }
+
+  for(int i = 0; i < first.length; i++){
+    if(!compareDevice(first[i], other[i])){
+      return false;
+    }
+  }
+
+  return true;
+}
+
 bool compareDevice(Device first, Device other){
 
   if(first.remoteDevices.length == other.remoteDevices.length){

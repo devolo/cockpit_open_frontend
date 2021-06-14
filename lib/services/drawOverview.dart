@@ -204,7 +204,7 @@ class DrawOverview extends CustomPainter {
       _textPainter.paint(canvas, toOffset.translate(-23, 15));
 
     } else {
-      if(_providerList.getPivot() != null) { // if there is no device attached to router don't paint line to the internet internet
+      if(_providerList.getPivotDevice() != null) { // if there is no device attached to router don't paint line to the internet internet
         canvas.drawLine(absoluteOffset, toOffset, _linePaint..strokeWidth = 2.0);
         drawIcon(canvas, toOffset, Icons.public_outlined);
         userNameTextSpan = TextSpan(
@@ -597,7 +597,7 @@ class DrawOverview extends CustomPainter {
     );
 
     if (_deviceList.length > 0 ) {
-      if(_providerList.getPivot() != null) { // if there is no device attached to router don't paint line to the internet internet
+      if(_providerList.getPivotDevice() != null) { // if there is no device attached to router don't paint line to the internet internet
         canvas.drawLine(Offset(absoluteRouterOffset.dx, absoluteRouterOffset.dy + 50), absoluteRouterDeviceOffset, _linePaint..strokeWidth = 3.0);
       }
       if (!config["internet_centered"]) { // if view is not internet centered draw the connection line to the PC (local device)

@@ -19,7 +19,6 @@ class NetworkList extends ChangeNotifier{
   int selectedNetworkIndex = 0;
   List<String> _updateMacs = [];
   bool cockpitUpdate = false;
-  List<Device> _devices = [];  //contains all devices
 
   NetworkList();
 
@@ -33,7 +32,8 @@ class NetworkList extends ChangeNotifier{
       }
       catch(e) {
         print("Error Networks not ready");
-        return _networkList[0];}
+        return _networkList[0];
+      }
     }
   }
 
@@ -50,7 +50,15 @@ class NetworkList extends ChangeNotifier{
   }
 
   List<Device> getAllDevices(){
-    return _devices;
+
+    List<Device> allDevices = [];
+    for(int i = 0; i < _networkList.length; i++){
+      for(int j = 0; j < _networkList[i].length; j++){
+        allDevices.add(_networkList[i][j]);
+      }
+    }
+
+    return allDevices;
   }
 
   int getNetworkListLength(){
@@ -61,19 +69,9 @@ class NetworkList extends ChangeNotifier{
       }
     }
     return length;
-    //return _networkList[selectedNetworkIndex].length;
   }
 
-  int getPivotIndex(){
-    for(var elem in _networkList[selectedNetworkIndex]){
-      if(elem.attachedToRouter==true){
-        return _networkList[selectedNetworkIndex].indexOf(elem);
-      }
-    }
-    return 0;
-  }
-
-  Device? getPivot(){
+  Device? getPivotDevice(){
     try {
       var trying = _networkList[selectedNetworkIndex];
     }catch(error) {
@@ -87,7 +85,7 @@ class NetworkList extends ChangeNotifier{
     return null;
   }
 
-  Device? getLocal(){
+  Device? getLocalDevice(){
     for(var dev in _networkList[selectedNetworkIndex]){
       if(dev.isLocalDevice==true){
         return dev;
@@ -98,13 +96,13 @@ class NetworkList extends ChangeNotifier{
 
   String getNetworkType(networkIndex){
     String type = "";
-    for(var net in _networkList[networkIndex]){
-      if(net.type.contains('Magic')){
+    for(var device in _networkList[networkIndex]){
+      if(device.type.contains('Magic')){
         type = "Magic";
         //print("Type: " + type);
         break;
       }
-      else if (net.type.contains('dLAN')){
+      else if (device.type.contains('dLAN')){
         type = "dLAN";
         //print("Type: " + type);
         break;
@@ -119,6 +117,10 @@ class NetworkList extends ChangeNotifier{
   }
 
   void setDeviceList(List<Device> devList) {
+
+    if(!_networkList.asMap().containsKey(selectedNetworkIndex)){
+      this._networkList.insert(selectedNetworkIndex, []);
+    }
     _networkList[selectedNetworkIndex] = devList;
     notifyListeners();
   }
@@ -130,14 +132,11 @@ class NetworkList extends ChangeNotifier{
     }
 
     if(device.attachedToRouter & config["internet_centered"]){
-      this._devices.insert(0, device);
       this._networkList[whichNetworkIndex].insert(0, device);
     }
     else{
-      this._devices.add(device);
       this._networkList[whichNetworkIndex].add(device);
     }
-    //notifyListeners();
   }
 
 
@@ -148,11 +147,6 @@ class NetworkList extends ChangeNotifier{
 
   void clearNetworkList() {
     _networkList.clear();
-    notifyListeners();
-  }
-
-  void clearDeviceList() {
-    _devices.clear();
     notifyListeners();
   }
 

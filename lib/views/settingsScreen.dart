@@ -602,7 +602,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 'SetNetworkPassword', newValue: _newPw,
                                 valueType: "password",
                                 mac: _deviceList
-                                    .getLocal()!
+                                    .getLocalDevice()!
                                     .mac);
                             setState(() {
                               networkPasswordResponseTrue = false;

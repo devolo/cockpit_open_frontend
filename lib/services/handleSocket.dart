@@ -106,7 +106,6 @@ class DataHand extends ChangeNotifier {
       if (document.findAllElements('MessageType').first.innerText == "NetworkUpdate") {
 
         _networkList.clearNetworkList();
-        _networkList.clearDeviceList();
         print('DeviceList found ->');
 
         var localDeviceList = document.findAllElements('LocalDeviceList').first.findElements('item'); //TODO: TEST call for every

@@ -92,14 +92,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void toggleCheckbox(bool value) {
     setState(() {
       config["show_speeds_permanent"] = value;
-
-      if (config["show_speeds_permanent"]) {
-        config["show_speeds"] = true;
-        //widget.painter.pivotDeviceIndex = 0;
-      } else {
-        config["show_speeds"] = false;
-        //widget.painter.pivotDeviceIndex = 0;
-      }
       saveToSharedPrefs(config);
     });
   }

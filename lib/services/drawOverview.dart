@@ -84,7 +84,7 @@ class DrawOverview extends CustomPainter {
     selectedNetworkIndex = _providerList.selectedNetworkIndex;
     //networkOffsetList.insertAll(0,[Offset(740.0, 74.3), Offset(840.0, 74.3), Offset(640.0, 74.3), Offset(940.0, 74.3)]); // is growable -100 +100 on the opposite site
 
-    showingSpeeds = config["show_speeds"]; //ToDo fix Hack
+    showingSpeeds = showSpeeds;
     pivotDeviceIndex = pivot; // ToDo same
 
     //hn_circle_radius = hn_circle_radius*fontSizeFactor;

@@ -704,15 +704,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
         setState(() {
           //if (_Painter.showSpeedsPermanently && index == _Painter.pivotDeviceIndex) {
-          if (config["show_speeds_permanent"]) {
-            //_Painter.showingSpeeds = !_Painter.showingSpeeds;
-            showingSpeeds = true;
-            config["show_speeds"] = true;
-          } else {
-            //_Painter.showingSpeeds = true;
-            showingSpeeds = true;
-            config["show_speeds"] = true;
-          }
+          showingSpeeds = true;
+
           //_Painter.pivotDeviceIndex = index;
           pivotDeviceIndex = index;
 
@@ -732,7 +725,6 @@ class _OverviewScreenState extends State<OverviewScreen> {
     setState(() {
       if (!config["show_speeds_permanent"]) {
         showingSpeeds = false;
-        config["show_speeds"] = false;
         _Painter.pivotDeviceIndex = 0;
         pivotDeviceIndex = 0;
       } else {

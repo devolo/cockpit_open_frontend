@@ -8,7 +8,6 @@ LICENSE file in the root directory of this source tree.
 
 import 'dart:ui' as ui;
 import 'package:cockpit_devolo/models/dataRateModel.dart';
-import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
@@ -55,7 +54,6 @@ class Device extends ChangeNotifier {
     this.selected_vdsl = selectedVDSL;
     this.supported_vdsl = supportedVDSL;
     this.mode_vdsl = modeVDSL;
-
 
     if(version.contains("_")) {
       this.version = version.substring(0,version.indexOf("_"));

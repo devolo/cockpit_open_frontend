@@ -28,7 +28,6 @@ class Device extends ChangeNotifier {
   String MT  = "";
   String serialno  = "";
   List<Device> remoteDevices = <Device>[];
-  ui.Image? icon;
   Map<String, DataratePair>? speeds; //Map<mac address of remote device, datarates to and from this remote device>
   bool attachedToRouter = false;
   bool isLocalDevice = false;
@@ -67,9 +66,7 @@ class Device extends ChangeNotifier {
       this.version_date = versionDate;
     }
     //this.remoteDevices = remoteDevices;
-    if (areDeviceIconsLoaded)
-      this.icon = getIconForDeviceType(getDeviceType(type)); // areDeviceIconsLoaded ??
-    //if (icon != null) this.icon = icon;
+
     this.speeds = new Map();
 
   }
@@ -194,7 +191,7 @@ class Device extends ChangeNotifier {
   }
 
   String toRealString(){
-    return "Name: ${this.name},\n type:${this.type},\n mac: ${this.mac},\n ip: ${this.ip},\n version: ${this.version},\n version_date:${this.version_date},\n MT: ${this.MT},\n serialno: ${this.serialno},\n remoteDevices: ${this.remoteDevices},\n icon:${this.icon},\n speeds: ${this.speeds},\n attachedToRouter: ${this.attachedToRouter},\n isLocalDevice: ${this.isLocalDevice},\n webinterfaceAvailable: ${this.webinterfaceAvailable},\n identifyDeviceAvailable: ${this.identifyDeviceAvailable},\n UpdateStatus: ${this.updateState},\n UpdateStatusInt: ${this.updateStateInt}, \n SelectedVDSL: ${this.selected_vdsl}, \n SupportedVDSL: ${this.supported_vdsl}, \n ModeVDSL: ${this.mode_vdsl} \n";
+    return "Name: ${this.name},\n type:${this.type},\n mac: ${this.mac},\n ip: ${this.ip},\n version: ${this.version},\n version_date:${this.version_date},\n MT: ${this.MT},\n serialno: ${this.serialno},\n remoteDevices: ${this.remoteDevices},\n speeds: ${this.speeds},\n attachedToRouter: ${this.attachedToRouter},\n isLocalDevice: ${this.isLocalDevice},\n webinterfaceAvailable: ${this.webinterfaceAvailable},\n identifyDeviceAvailable: ${this.identifyDeviceAvailable},\n UpdateStatus: ${this.updateState},\n UpdateStatusInt: ${this.updateStateInt}, \n SelectedVDSL: ${this.selected_vdsl}, \n SupportedVDSL: ${this.supported_vdsl}, \n ModeVDSL: ${this.mode_vdsl} \n";
   }
 }
 //=========================================== END Device =========================================

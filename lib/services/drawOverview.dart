@@ -478,10 +478,12 @@ class DrawOverview extends CustomPainter {
         Offset imageRectUpperLeft = Offset(absoluteCenterOffset.dx - (hn_circle_radius / 1.6), absoluteCenterOffset.dy - (hn_circle_radius / 1.6));
         Offset imageRectLowerRight = Offset(absoluteCenterOffset.dx + (hn_circle_radius / 1.6), absoluteCenterOffset.dy + (hn_circle_radius / 1.6));
 
-        if (areDeviceIconsLoaded && _deviceList.elementAt(pivotDeviceIndex).icon != null) {
+        if (areDeviceIconsLoaded) {
+          var deviceIcon = getIconForDeviceType(_deviceList.elementAt(pivotDeviceIndex).typeEnum);
+
           paintImage(
               canvas: canvas,
-              image: _deviceList.elementAt(pivotDeviceIndex).icon!, //deviceIconList[0],
+              image: deviceIcon!,
               fit: BoxFit.scaleDown,
               rect: Rect.fromPoints(imageRectUpperLeft, imageRectLowerRight));
         }
@@ -491,10 +493,12 @@ class DrawOverview extends CustomPainter {
       Offset imageRectLowerRight = Offset(absoluteCenterOffset.dx + (hn_circle_radius / 1.6), absoluteCenterOffset.dy + (hn_circle_radius / 1.6));
 
       //canvas.drawImage(deviceIconList.elementAt(0), imageOffset, _deviceIconPaint);
-      if (areDeviceIconsLoaded && _deviceList.elementAt(deviceIndex).icon != null) {
+      if (areDeviceIconsLoaded) {
+        var deviceIcon = getIconForDeviceType(_deviceList.elementAt(deviceIndex).typeEnum);
+
         paintImage(
             canvas: canvas,
-            image: _deviceList.elementAt(deviceIndex).icon!, //deviceIconList[0],
+            image: deviceIcon!, //deviceIconList[0],
             fit: BoxFit.scaleDown,
             rect: Rect.fromPoints(imageRectUpperLeft, imageRectLowerRight));
       }

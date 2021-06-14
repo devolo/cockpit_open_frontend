@@ -64,7 +64,6 @@ bool compareDevice(Device first, Device other){
       first.MT == other.MT &&
       first.serialno == other.serialno &&
       //List<Device> remoteDevices = <Device>[];
-      first.icon == other.icon &&
       //Map<String, DataratePair>? speeds; //Map<mac address of remote device, datarates to and from this remote device>
       first.attachedToRouter == other.attachedToRouter &&
       first.isLocalDevice == other.isLocalDevice &&

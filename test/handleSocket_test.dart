@@ -11,11 +11,10 @@ import 'dart:async';
 import 'package:cockpit_devolo/models/dataRateModel.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
-import 'package:cockpit_devolo/models/dataRateModel.dart';
 import 'package:test/test.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/mock-data/mock.dart';
-import 'package:cockpit_devolo/shared/app_colors.dart';
+import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:cockpit_devolo/shared/compareFunctions.dart';
 import 'package:xml/xml.dart';
 

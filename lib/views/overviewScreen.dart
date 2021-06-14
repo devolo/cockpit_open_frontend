@@ -54,7 +54,13 @@ class _OverviewScreenState extends State<OverviewScreen> {
     final socket = Provider.of<DataHand>(context);
     final _deviceList = Provider.of<NetworkList>(context);
     socket.setNetworkList(_deviceList);
-    _deviceList.selectedNetworkIndex = config["selected_network"];
+    if(_deviceList.getNetworkListLength() - 1 >= config["selected_network"]){
+      _deviceList.selectedNetworkIndex = config["selected_network"];
+    }
+    else{
+      config["selected_network"] = 0;
+      _deviceList.selectedNetworkIndex = 0;
+    }
 
     _Painter = DrawOverview(context, _deviceList, showingSpeeds, pivotDeviceIndex);
 

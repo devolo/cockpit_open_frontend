@@ -236,8 +236,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void bottomTapped(int index) {
     setState(() {
       bottomSelectedIndex = index;
-      //pageController.jumpToPage(index);
-      pageController.animateToPage(index, duration: Duration(milliseconds: 500), curve: Curves.ease);
+      pageController.jumpToPage(index);
     });
   }
 

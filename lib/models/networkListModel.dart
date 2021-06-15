@@ -154,12 +154,13 @@ class NetworkList extends ChangeNotifier{
   String toRealString(){
     String ret = "";
     for(var devlocal in _networkList[selectedNetworkIndex]) {
-      ret = "${devlocal.toRealString()} \n";
+      ret += "${devlocal.toRealString()} \n";
+      //ToDo are remote devices used?
       for(var devremote in devlocal.remoteDevices){
         ret += "${devremote.toRealString()} \n";
       }
-      return ret;
     }
+    return ret;
     throw (Exception e){
       print(e);
     };

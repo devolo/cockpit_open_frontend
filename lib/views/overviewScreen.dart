@@ -201,7 +201,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
     final socket = Provider.of<DataHand>(context, listen: false);
     final deviceList = Provider.of<NetworkList>(context, listen: false);
 
-    print(networkOffsetList);
+    print(deviceList.toRealString());
 
     networkOffsetList.asMap().forEach((i, networkIconOffset) {
       //for (Offset networkIconOffset in _Painter.networkOffsets) {
@@ -691,7 +691,6 @@ class _OverviewScreenState extends State<OverviewScreen> {
     }
   }
 
-  //ToDo UI doesn't change
   void _handleLongPressStart(context) {
     RenderBox renderBox = context.findRenderObject();
 

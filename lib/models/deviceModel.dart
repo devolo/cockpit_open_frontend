@@ -8,10 +8,11 @@ LICENSE file in the root directory of this source tree.
 
 import 'dart:ui' as ui;
 import 'package:cockpit_devolo/models/dataRateModel.dart';
+import 'package:cockpit_devolo/shared/helpers.dart';
+import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
-import 'package:cockpit_devolo/shared/helpers.dart';
 
 enum DeviceType { dtLanMini, dtLanPlus, dtWiFiMini, dtWiFiPlus, dtWiFiOnly, dtDINrail, dtUnknown }
 
@@ -178,8 +179,12 @@ class Device extends ChangeNotifier {
     return retDevice;
   }
 
+  // String toRealString(){
+  //   return "Name: ${this.name},\n type:${this.type},\n mac: ${this.mac},\n ip: ${this.ip},\n version: ${this.version},\n version_date:${this.version_date},\n MT: ${this.MT},\n serialno: ${this.serialno},\n remoteDevices: ${this.remoteDevices},\n speeds: ${this.speeds},\n attachedToRouter: ${this.attachedToRouter},\n isLocalDevice: ${this.isLocalDevice},\n webinterfaceAvailable: ${this.webinterfaceAvailable},\n identifyDeviceAvailable: ${this.identifyDeviceAvailable},\n UpdateStatus: ${this.updateState},\n UpdateStatusInt: ${this.updateStateInt}, \n SelectedVDSL: ${this.selected_vdsl}, \n SupportedVDSL: ${this.supported_vdsl}, \n ModeVDSL: ${this.mode_vdsl} \n";
+  // }
+
   String toRealString(){
-    return "Name: ${this.name},\n type:${this.type},\n mac: ${this.mac},\n ip: ${this.ip},\n version: ${this.version},\n version_date:${this.version_date},\n MT: ${this.MT},\n serialno: ${this.serialno},\n remoteDevices: ${this.remoteDevices},\n speeds: ${this.speeds},\n attachedToRouter: ${this.attachedToRouter},\n isLocalDevice: ${this.isLocalDevice},\n webinterfaceAvailable: ${this.webinterfaceAvailable},\n identifyDeviceAvailable: ${this.identifyDeviceAvailable},\n UpdateStatus: ${this.updateState},\n UpdateStatusInt: ${this.updateStateInt}, \n SelectedVDSL: ${this.selected_vdsl}, \n SupportedVDSL: ${this.supported_vdsl}, \n ModeVDSL: ${this.mode_vdsl} \n";
+    return "Name: ${this.name},\n type: ${this.type},\n typeEnum: ${this.typeEnum},\n mac: ${this.mac},\n ip: ${this.ip},\n version: ${this.version},\n version_date: ${this.version_date},\n MT: ${this.MT},\n serialno: ${this.serialno},\n remoteDevices: ${this.remoteDevices},\n speeds: ${this.speeds},\n attachedToRouter: ${this.attachedToRouter},\n isLocalDevice: ${this.isLocalDevice},\n webinterfaceAvailable: ${this.webinterfaceAvailable},\n identifyDeviceAvailable: ${this.identifyDeviceAvailable},\n UpdateStatus: ${this.updateState},\n UpdateStatusInt: ${this.updateStateInt},\n SelectedVDSL: ${this.selected_vdsl},\n SupportedVDSL: ${this.supported_vdsl},\n ModeVDSL: ${this.mode_vdsl}\n";
   }
 }
 //=========================================== END Device =========================================

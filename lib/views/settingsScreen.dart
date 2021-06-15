@@ -464,38 +464,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
                 Divider(color: dividerColor),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      config["windows_network_throttling_disabled"] = !config["windows_network_throttling_disabled"];
-                      socket.sendXML('Config');
-                      saveToSharedPrefs(config);
-                    });
-                  },
-                  child: ListTile(
-                    contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
-                    tileColor: secondColor,
-                    title: Text(
-                        S.of(context).windowsNetworkThrottling,
-                        style: TextStyle(fontSize: fontSizeListTileTitle* fontSizeFactor, color: fontColorDark),
-                    ),
-                    trailing: Switch(
-                        value: !config["windows_network_throttling_disabled"],
-                        onChanged: (value) {
-                          setState(() {
-                            config["windows_network_throttling_disabled"] = !value;
-                            socket.sendXML('Config');
-                            saveToSharedPrefs(config);
-                          });
-                        },
-                        activeTrackColor: switchActiveTrackColor,
-                        activeColor: switchActiveColor,
-                        inactiveThumbColor: switchInactiveThumbColor,
-                        inactiveTrackColor: switchInactiveTrackColor,
-                    ),
-                  ),
-                ),
-                Divider(color: dividerColor),
                 ListTile(
                   contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
                   tileColor: secondColor,

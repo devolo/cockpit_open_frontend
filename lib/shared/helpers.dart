@@ -54,17 +54,11 @@ void launchURL(String ip) async {
   String url = "http://"+ ip;
   print("Opening web UI at " + url);
 
-  //TODO is it still not working on linux? To be tested
-  if (Platform.isFuchsia || Platform.isLinux)
-    print("Would now have opened the Web-Interface at " +
-        url +
-        ", but we are experimental on the current platform. :-/");
-  else
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
 }
 
 void getConnection() async { // get Internet Connection

@@ -9,6 +9,7 @@ LICENSE file in the root directory of this source tree.
 import 'dart:convert';
 import 'dart:async';
 import 'dart:io';
+import 'package:cockpit_devolo/logging/log_printer.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +17,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:open_file/open_file.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:xml/xml.dart';
+import 'package:logger/logger.dart';
 
 bool connected = false;
 
@@ -32,6 +34,10 @@ Map<String,dynamic> config = {
   "font_size_factor": fontSizeFactor,
   "selected_network": 0,
 };
+
+var logger = Logger(
+  printer: SimpleLogPrinter()
+);
 
 List<XmlNode> findElements(List<XmlNode> xmlNodes, String searchString) {
   List<XmlNode> deviceItems = <XmlNode>[];
@@ -52,7 +58,7 @@ void saveToSharedPrefs(Map<String, dynamic> inputMap) async {
 
 void launchURL(String ip) async {
   String url = "http://"+ ip;
-  print("Opening web UI at " + url);
+  logger.d("Opening web UI at " + url);
 
   if (await canLaunch(url)) {
     await launch(url);
@@ -68,7 +74,7 @@ void getConnection() async { // get Internet Connection
       connected = true;
     }
   } on SocketException catch (_) {
-    print('not connected');
+    logger.d('not connected');
     connected = false;
   }
 }

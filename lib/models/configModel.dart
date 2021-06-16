@@ -129,7 +129,7 @@
 //
 //
 //   void setTheme(Map<String,dynamic> theme) {
-//     print(theme);
+//     logger.i(theme);
 //     this.mainColor = theme["mainColor"];
 //     this.backgroundColor = theme["backgroundColor"];
 //     this.secondColor = theme["secondColor"];

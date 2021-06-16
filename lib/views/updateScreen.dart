@@ -59,8 +59,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
     var responseUpdateIndication = await socket.receiveXML("UpdateIndication");
     var responseFirmwareUpdateIndication = await socket.receiveXML("FirmwareUpdateIndication");
 
-    print(responseUpdateIndication);
-    print(responseFirmwareUpdateIndication);
+    //logger.i(responseUpdateIndication);
+    //logger.i(responseFirmwareUpdateIndication);
 
     Timer(Duration(seconds: 4), () {
       setState(() {
@@ -168,7 +168,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       foregroundColor: MaterialStateProperty.all<Color>(fontColorLight),
                     ),
                     onPressed: () async {
-                      //print("Updating ${device.mac}");
+                      //logger.i("Updating ${device.mac}");
                       await updateCockpit(socket, _deviceList);
                       Timer(Duration(seconds: 4), () {});
                       setState(() {
@@ -479,7 +479,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
   }
 
   void _handleTap(Device dev) {
-    print('entering dialog....');
+    //logger.i('entering dialog....');
     int index = 0;
     Device hitDevice;
     String hitDeviceName;

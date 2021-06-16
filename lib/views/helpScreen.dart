@@ -218,7 +218,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                               new GestureDetector(
                                 onTap: () {
                                   setState(() {
-                                    print(con);
+                                    logger.w(con);
                                     selected = con.key;
                                     _animatedHeight != 0.0 ? _animatedHeight = 0.0 : _animatedHeight = 250.0;
                                   });
@@ -271,7 +271,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                         //     IconButton(
                         //       icon: Icon(Icons.arrow_back_ios, color: fontColorLight,),
                         //       onPressed: () {
-                        //         print("back");
+                        //         logger.i("back");
                         //         setState(() {
                         //           if(_index > 0){
                         //           _index--;
@@ -286,7 +286,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                         //     IconButton(
                         //       icon: Icon(Icons.arrow_forward_ios, color: fontColorLight,),
                         //       onPressed: () {
-                        //         print("forward");
+                        //         logger.i("forward");
                         //         setState(() {
                         //           if(_index < optimizeImages.length-1){
                         //           _index++;
@@ -791,7 +791,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                                 });
 
                                 response = await socket.receiveXML("SupportInfoGenerateStatus");
-                                //print('Response: ' + response.toString());
+                                //logger.i('Response: ' + response.toString());
 
                                 if (response["result"] == "ok") {
                                   setState(() {

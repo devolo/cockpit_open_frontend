@@ -29,7 +29,7 @@ class NetworkList extends ChangeNotifier{
         return _networkList[selectedNetworkIndex];
       }
       catch(e) {
-        print("Error Networks not ready");
+        logger.w("[getDeviceList] - _networkList[selectedNetworkIndex] not existing");
         return _networkList[0];
       }
     }
@@ -97,17 +97,17 @@ class NetworkList extends ChangeNotifier{
     for(var device in _networkList[networkIndex]){
       if(device.type.contains('Magic')){
         type = "Magic";
-        //print("Type: " + type);
+        //logger.i("Type: " + type);
         break;
       }
       else if (device.type.contains('dLAN')){
         type = "dLAN";
-        //print("Type: " + type);
+        //logger.i("Type: " + type);
         break;
       }
       else{
         type = "PLC";
-        //print("Type: " + type);
+        //logger.i("Type: " + type);
         break;
       }
     }
@@ -162,7 +162,7 @@ class NetworkList extends ChangeNotifier{
     }
     return ret;
     throw (Exception e){
-      print(e);
+      logger.e(e);
     };
     //return null;
   }

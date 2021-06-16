@@ -65,7 +65,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
     _Painter = DrawOverview(context, _deviceList, showingSpeeds, pivotDeviceIndex);
 
-    print("drawing Overview...");
+    logger.d("[overviewScreen] - widget build...");
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -122,7 +122,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
               //       icon: Icon(Icons.arrow_back_ios,color: Colors.white,),
               //       tooltip: S.of(context).previousNetwork,
               //       onPressed: () {
-              //         print("back");
+              //         logger.i("back");
               //         setState(() {
               //           if(_deviceList.selectedNetworkIndex  > 0){
               //             _deviceList.selectedNetworkIndex --;
@@ -135,7 +135,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
               //       icon: Icon(Icons.arrow_forward_ios, color: Colors.white,),
               //       tooltip: S.of(context).nextNetwork,
               //       onPressed: () {
-              //         print("forward");
+              //         logger.i("forward");
               //         setState(() {
               //           if(_deviceList.selectedNetworkIndex < _deviceList.getNetworkListLength()-1){ // -1 to not switch
               //             _deviceList.selectedNetworkIndex++;
@@ -170,12 +170,12 @@ class _OverviewScreenState extends State<OverviewScreen> {
   }
 
   void _handleTapDown(TapDownDetails details) {
-    //print('entering tabDown');
+    //logger.i('entering tabDown');
     _lastTapDownPosition = details.localPosition;
   }
 
   void _handleTap(TapUpDetails details) {
-    //print('entering dialog....');
+    //logger.i('entering dialog....');
     int index = 0;
     Device hitDevice;
     String hitDeviceName;
@@ -201,18 +201,16 @@ class _OverviewScreenState extends State<OverviewScreen> {
     final socket = Provider.of<DataHand>(context, listen: false);
     final deviceList = Provider.of<NetworkList>(context, listen: false);
 
-    print(deviceList.toRealString());
-
     networkOffsetList.asMap().forEach((i, networkIconOffset) {
       //for (Offset networkIconOffset in _Painter.networkOffsets) {
       //Offset absoluteOffset = Offset(networkIconOffset.dx + (_Painter.screenWidth / 2), networkIconOffset.dy + (_Painter.screenHeight / 2));
-      //print("NetworkIcon: " + networkIconOffset.toString());
-      //print("Local: " + details.localPosition.toString());
-      //print("absolute: " + absoluteOffset.toString());
+      //logger.i("NetworkIcon: " + networkIconOffset.toString());
+      //logger.i("Local: " + details.localPosition.toString());
+      //logger.i("absolute: " + absoluteOffset.toString());
 
       //test if network got hit
       if (_Painter.isPointInsideNetworkIcon(details.localPosition, networkIconOffset, _Painter.hn_circle_radius)) {
-        print("Hit Network #" + i.toString());
+        logger.i("Hit Network #" + i.toString());
         setState(() {
           deviceList.selectedNetworkIndex = i;
         });
@@ -227,7 +225,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
       //test if device got hit
       if (_Painter.isPointInsideCircle(details.localPosition, absoluteOffset, _Painter.hn_circle_radius)) {
-        print("Hit icon #" + index.toString());
+        logger.i("Hit icon #" + index.toString());
 
         hitDevice = deviceList.getDeviceList()[index];
         hitDeviceName = deviceList.getDeviceList()[index].name;
@@ -703,7 +701,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
       Offset absoluteOffset = Offset(deviceIconOffset.dx + (_Painter.screenWidth / 2), deviceIconOffset.dy + (_Painter.screenHeight / 2));
 
       if (_Painter.isPointInsideCircle(_lastTapDownPosition, absoluteOffset, _Painter.hn_circle_radius)) {
-        print("Long press on icon #" + index.toString());
+        logger.i("Long press on icon #" + index.toString());
 
         final deviceList = Provider.of<NetworkList>(context, listen: false);
         hitDeviceName = deviceList.getDeviceList()[index].name;
@@ -716,8 +714,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
           pivotDeviceIndex = index;
 
           //do not update pivot device when the "router device" is long pressed
-          print('Pivot on longPress:' + _Painter.pivotDeviceIndex.toString());
-          print('sowingSpeed on longPress:' + showingSpeeds.toString());
+          logger.i('Pivot on longPress:' + _Painter.pivotDeviceIndex.toString());
+          logger.i('sowingSpeed on longPress:' + showingSpeeds.toString());
         });
         return;
       }
@@ -726,7 +724,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
   }
 
   void _handleLongPressEnd() {
-    //print("long press up");
+    //logger.i("long press up");
 
     setState(() {
       if (!config["show_speeds_permanent"]) {

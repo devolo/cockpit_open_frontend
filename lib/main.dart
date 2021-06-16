@@ -17,6 +17,7 @@ import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/views/overviewScreen.dart';
@@ -37,6 +38,7 @@ import 'dart:convert';
 
 void main() {
   //debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
+  Logger.level = Level.debug;
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isLinux) {
     setWindowTitle('devolo Cockpit');
@@ -126,7 +128,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
     getConnection();
     readSharedPrefs();
-    print("111111111111111111111111111111111111111111");
     //getVersion();
   }
 
@@ -135,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
   //     File f = new File("data/flutter_assets/version.json");
   //     f.readAsString().then((String text) {
   //       Map<String, dynamic> versionJSON = jsonDecode(text);
-  //       print(versionJSON['version']);
+  //       logger.i(versionJSON['version']);
   //       versionName = versionJSON['version'];
   //       buildNum = versionJSON['build_number'];
   //     });
@@ -243,7 +244,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     // double mediaFontScaleFactor =  MediaQuery.textScaleFactorOf(context); // Query current device for the System FontSize
-    // print('SIZE:  ${mediaFontScaleFactor}');
+    // logger.i('SIZE:  ${mediaFontScaleFactor}');
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -283,7 +284,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onChanged: (String? newValue2) {
                 setState(() {
                   config["language"] = newValue2;
-                  print(newValue2);
+                  //logger.i(newValue2);
                   S.load(Locale(newValue2!, ''));
                 });
                 AppBuilder.of(context)!.rebuild();
@@ -315,8 +316,8 @@ class _MyHomePageState extends State<MyHomePage> {
               tooltip: S.of(context).highContrast,
               onPressed: () {
                 setState(() {
-                  print("Theme: " + config["theme"]);
-                  print("Prev Theme: " + config["previous_theme"]);
+                  //logger.i("Theme: " + config["theme"]);
+                  //logger.i("Prev Theme: " + config["previous_theme"]);
 
                   if (config["theme"] == "High Contrast") {
                     config["theme"] = config["previous_theme"];
@@ -341,8 +342,8 @@ class _MyHomePageState extends State<MyHomePage> {
         //     tooltip: S.of(context).highContrast,
         //     onPressed: () {
         //       setState(() {
-        //         print("Theme: " + config["theme"]);
-        //         print("Prev Theme: " + config["previous_theme"]);
+        //         logger.i("Theme: " + config["theme"]);
+        //         logger.i("Prev Theme: " + config["previous_theme"]);
         //
         //         if (config["theme"] == "High Contrast") {
         //           config["theme"] = config["previous_theme"];

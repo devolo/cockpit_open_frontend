@@ -11,6 +11,8 @@ import 'package:cockpit_devolo/models/dataRateModel.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:flutter/foundation.dart';
 
+import 'helpers.dart';
+
 bool compareListOfDeviceList(List<List<Device>> first, List<List<Device>> other){
   if(first.length != other.length){
     return false;
@@ -44,19 +46,18 @@ bool compareDevice(Device first, Device other){
   if(first.remoteDevices.length == other.remoteDevices.length){
     for(int i = 0; i < first.remoteDevices.length; i++){
       if(!compareDevice(first.remoteDevices[i],other.remoteDevices[i])){
-        print("failed compareDevice 2");
         return false;
       }
 
     }
   }
   else{
-    print("failed: remote Devices length are different");
+    logger.w("failed: remote Devices length are different");
     return false;
   }
 
   if(!compareSpeedRates(first.speeds,other.speeds)){
-    print("failed compareSpeedRates");
+    logger.w("failed compareSpeedRates");
     return false;
   }
 
@@ -87,7 +88,7 @@ bool compareDevice(Device first, Device other){
     return true;
   }
   else{
-    print("failed compare attributes");
+    logger.w("failed compare attributes");
     return false;
   }
 
@@ -101,13 +102,13 @@ bool compareNetworkList(NetworkList first, NetworkList other){
       if(first.getNetworkList()[i].length == other.getNetworkList()[i].length){
         for(int j = 0; j < first.getNetworkList()[i].length; j++){
           if(!compareDevice(first.getNetworkList()[i][j], other.getNetworkList()[i][j])){
-            print("failed compareDevice 1");
+            logger.w("failed compareDevice 1");
             return false;
           }
         }
       }
       else{
-        print("failed: Networklist length are different");
+        logger.w("failed: Networklist length are different");
         return false;
       }
     }
@@ -154,7 +155,6 @@ bool compareSpeedRates(Map<String, DataratePair>? rates1, Map<String, DataratePa
       }
 
       if(!rates2.containsKey(element)){
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!");
         checkKeys = false;
       }
 

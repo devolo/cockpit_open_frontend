@@ -15,6 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:flutter/services.dart';
 
+import 'helpers.dart';
+
 final List<ui.Image> deviceIconList = <ui.Image>[]; //ToDo put somewhere else
 final List<String> deviceIconPathList = ["assets/eu_wifi_icon.png","assets/eu_lan_icon_small.png","assets/mini_wifi_icon.png","assets/mini_lan_icon.png",
   "assets/dinrail_icon_small.png","assets/network.png"];
@@ -33,7 +35,7 @@ Future<void> loadAllDeviceIcons() async {
   }
 
   areDeviceIconsLoaded = true;
-  print("All device icons are loaded.");
+  logger.i("All device icons are loaded");
 
 }
 
@@ -48,7 +50,7 @@ List<Image> loadOptimizeImages() {
   image = Image.asset('assets/optimisationImages/dLAN200AVplus_A.png');
   retList.add(image);
 
-  print("All Images are loaded.");
+  logger.i("All optimize icons are loaded");
   return retList;
 
 }
@@ -63,7 +65,7 @@ Future<ui.Image> loadImage(var img) async {
 
 ui.Image? getIconForDeviceType(DeviceType? dt) {
   if(!areDeviceIconsLoaded) { //ToDo
-    print("Device Icons are NOT loaded");
+    logger.w("[getIconForDeviceType] - Device Icons are NOT loaded");
     return null;
   }
 

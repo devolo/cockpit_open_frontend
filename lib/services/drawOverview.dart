@@ -80,7 +80,9 @@ class DrawOverview extends CustomPainter {
     _providerList = Provider.of<NetworkList>(context);
     _deviceList = _providerList.getDeviceList();
     _networkList = _providerList.getNetworkList();
-    print("DrawNetworkOverview: " + _deviceList.toString());
+    logger.d("[draw Overview] DrawNetworkOverview -> ");
+    //_deviceList.forEach((device) {logger.v(device.toRealString());});
+
     numberFoundDevices = _deviceList.length;
     selectedNetworkIndex = _providerList.selectedNetworkIndex;
     //networkOffsetList.insertAll(0,[Offset(740.0, 74.3), Offset(840.0, 74.3), Offset(640.0, 74.3), Offset(940.0, 74.3)]); // is growable -100 +100 on the opposite site
@@ -247,7 +249,7 @@ class DrawOverview extends CustomPainter {
     networkOffsetList.clear();
 
     for (var item in _networkList) {
-      //print(toOffset);
+      //logger.i(toOffset);
 
       if (index % 2 == 0) {
         toOffset = absoluteOffset.translate(-50.0 * index, 0);
@@ -432,7 +434,7 @@ class DrawOverview extends CustomPainter {
     Offset absoluteCenterOffset = Offset(_deviceIconOffsetList.elementAt(deviceIndex).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(deviceIndex).dy + (screenHeight / 2));
     Offset lineStart = Offset(absoluteCenterOffset.dx - hn_circle_radius + 10, absoluteCenterOffset.dy - 5);
     Offset lineEnd = Offset(absoluteCenterOffset.dx + hn_circle_radius - 10, absoluteCenterOffset.dy - 5);
-    //print('showingSpeeds: ' + showingSpeeds.toString());
+    //logger.i('showingSpeeds: ' + showingSpeeds.toString());
 
     if (showingSpeeds /*&& deviceIndex != pivotDeviceIndex*/) {
       int rx = 0, tx = 0;
@@ -443,7 +445,7 @@ class DrawOverview extends CustomPainter {
         rx = _deviceList.elementAt(pivotDeviceIndex).speeds![_deviceList.elementAt(deviceIndex).mac]!.rx;
         tx = _deviceList.elementAt(pivotDeviceIndex).speeds![_deviceList.elementAt(deviceIndex).mac]!.tx;
       }
-      //print("speeds for ${_deviceList.elementAt(deviceIndex).mac}: ${rx.toString()} - ${tx.toString()}");
+      //logger.i("speeds for ${_deviceList.elementAt(deviceIndex).mac}: ${rx.toString()} - ${tx.toString()}");
 
       if (rx > 0)
         speedUp = rx.toString();
@@ -770,7 +772,7 @@ class DrawOverview extends CustomPainter {
         thickness['tx'] = 7.0;
       else
         thickness['tx'] = rates.tx * 0.01.toDouble();
-      //print('THIIICKNESSS ' + dev.toString() + " " + thickness.toString());
+      //logger.i('THIIICKNESSS ' + dev.toString() + " " + thickness.toString());
 
     } else {
       thickness['rx'] = 0.3;

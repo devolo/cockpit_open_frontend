@@ -118,7 +118,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   //           AppBuilder.of(context).rebuild();
   //         });
   //       },
-  //       onBack: () => print("Back button pressed"),
+  //       onBack: () => logger.i("Back button pressed"),
   //     ),
   //     title2,
   //     MaterialColorPicker(
@@ -138,7 +138,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   //           AppBuilder.of(context).rebuild();
   //         });
   //       },
-  //       onBack: () => print("Back button pressed"),
+  //       onBack: () => logger.i("Back button pressed"),
   //     ),
   //     title3,
   //     MaterialColorPicker(
@@ -157,7 +157,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   //         fontColorLight = color;
   //         AppBuilder.of(context).rebuild();
   //       }),
-  //       onBack: () => print("Back button pressed"),
+  //       onBack: () => logger.i("Back button pressed"),
   //     ),
   //     title4,
   //     MaterialColorPicker(
@@ -174,7 +174,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   //         _tempShadeFontColorDark = color;
   //         fontColorDark = color;
   //       }),
-  //       onBack: () => print("Back button pressed"),
+  //       onBack: () => logger.i("Back button pressed"),
   //     ),
   //   );
   // }
@@ -571,7 +571,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             });
                             var response = await socket.receiveXML(
                                 "SetNetworkPasswordStatus");
-                            print(response);
                             if (response!['status'] == "complete" &&
                                 int.parse(response['total']) > 0 &&
                                 int.parse(response['failed']) == 0) {

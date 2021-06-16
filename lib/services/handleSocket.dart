@@ -25,7 +25,6 @@ class DataHand extends ChangeNotifier {
 
   // optional parameter to avoid the socket connection with the backend for testing
   DataHand([bool? testing]) {
-    print("Creating new NetworkOverviewModelDesktop");
     if(testing == null){
       handleSocket();
     }
@@ -53,7 +52,7 @@ class DataHand extends ChangeNotifier {
   }
 
   Future<void> dataHandler(data) async {
-    print("Got Data!");
+    logger.d("[dataHandler] - Got Data!");
     String? xmlRawData = new String.fromCharCodes(data).trim();
     await parseXML(xmlRawData);
     notifyListeners();
@@ -62,24 +61,22 @@ class DataHand extends ChangeNotifier {
   //TODO - notify user about it?
   void errorHandler(error, StackTrace trace) {
     //FlutterError.dumpErrorToConsole(error);
-    print(error);
     // socket.destroy();
+    logger.e(error);
     // return usefull?
     return (error);
   }
 
   //TODO - notify user about it?
   void doneHandler() {
-    print("Server left");
+    logger.w("Server left");
     socket.destroy();
   }
 
   Future<void> parseXML(String? rawData) async {
-    print("parsing XML ...");
-    print(rawData);
-
+    logger.d("parsing XML ...");
     if (rawData == null || rawData == "") {
-      print('XML empty');
+      logger.w('XML empty');
       return;
     }
 
@@ -88,7 +85,7 @@ class DataHand extends ChangeNotifier {
 
     while (xmlDataNext != null) {
       var xmlLength = int.parse(xmlDataNext.substring(7, 15), radix: 16); // cut the head in front of recieved xml
-      //print("XmlLength: " + xmlLength.toString());
+      //logger.i("XmlLength: " + xmlLength.toString());
       var xmlSingleDoc = xmlDataNext.substring(rawData.indexOf('<?'), xmlLength + 13); //why 13? I dont know yet -_(o.O)_- //TODO
       xmlDataList.add(xmlSingleDoc);
       try {
@@ -105,18 +102,18 @@ class DataHand extends ChangeNotifier {
       if (document.findAllElements('MessageType').first.innerText == "NetworkUpdate") {
 
         _networkList.clearNetworkList();
-        print('DeviceList found ->');
-
+        logger.d('DeviceList found ->');
+        logger.v(document);
         var localDeviceList = document.findAllElements('LocalDeviceList').first.findElements('item'); //TODO: TEST call for every
 
         int listCounter = 0;
         for (var dev in localDeviceList) {
           Device device = Device.fromXML(dev, true);
-          //print(device.toRealString());
+          //logger.i(device.toRealString());
           _networkList.addDevice(device, listCounter);
 
           for (var remoteDev in device.remoteDevices) {
-            //print(remoteDev.toRealString());
+            //logger.i(remoteDev.toRealString());
             _networkList.addDevice(remoteDev, listCounter);
           }
           listCounter++;
@@ -124,8 +121,8 @@ class DataHand extends ChangeNotifier {
 
       } else if (document.findAllElements('MessageType').first.innerText == "Config") {
         parseConfig(document);
-        print('Config found ->');
-        print(document);
+        logger.d('Config found ->');
+        logger.v(document);
       } else if (document.findAllElements('MessageType').first.innerText == "FirmwareUpdateIndication") {
 
         if(!xmlResponseMap.containsKey("FirmwareUpdateIndication")) {
@@ -142,8 +139,8 @@ class DataHand extends ChangeNotifier {
         xmlDebugResponseList.insert(0, document);
         xmlDebugResponseList.insert(0, DateTime.now());
 
-        print('FirmwareUpdateIndication found ->');
-        print(document);
+        logger.d('FirmwareUpdateIndication found ->');
+        logger.v(document);
 
       } else if (document.findAllElements('MessageType').first.innerText == "FirmwareUpdateStatus") {
 
@@ -162,8 +159,8 @@ class DataHand extends ChangeNotifier {
         xmlDebugResponseList.insert(0, DateTime.now());
 
 
-        print('UpdateStatus found ->');
-        print(document);
+        logger.d('UpdateStatus found ->');
+        logger.v(document);
       } else {
 
         if (xmlDebugResponseList.length >= maxResponseListSize){
@@ -173,8 +170,8 @@ class DataHand extends ChangeNotifier {
         xmlDebugResponseList.insert(0, document);
         xmlDebugResponseList.insert(0, DateTime.now());
 
-        print('Another Response found ->');
-        print(document);
+        logger.d('Another Response found ->');
+        logger.v(document);
 
         var xmlResponseType = document.findAllElements('MessageType').first.innerText;
 
@@ -186,7 +183,7 @@ class DataHand extends ChangeNotifier {
       }
     }
 
-    print('parsed XML - DeviceList ready!');
+    logger.d('parsed XML - DeviceList ready!');
 
     //return document;
   }
@@ -201,7 +198,6 @@ class DataHand extends ChangeNotifier {
     String? mac,
   }) {
 
-    print(newValue);
     String? xmlString;
 
     if (messageType == "Config") {
@@ -245,8 +241,9 @@ class DataHand extends ChangeNotifier {
     }
 
     String xmlLength = xmlString!.runes.length.toRadixString(16).padLeft(8, '0'); // message length for backend !disconnects if header wrong or missing!
-    //print('LEEENNNGGTHHH ' + xmlLength);
-    print(xmlString);
+    //logger.i('LEEENNNGGTHHH ' + xmlLength);
+    logger.d("SendXML ->");
+    logger.v(xmlString);
     socket.write('MSGSOCK' + xmlLength + xmlString);
   }
 
@@ -415,17 +412,18 @@ class DataHand extends ChangeNotifier {
 
       return wait;
     }).timeout(Duration(seconds: timoutTime), onTimeout: () {
-      print('> Timed Out');
+      logger.w('Receive Response Timed Out');
       response['status'] = "timeout";
       wait = false;
     });
 
-    print("Response: " + response.toString());
+    logger.d("return Response -> ");
+    logger.v(response.toString());
     return response;
   }
 
   Future<String?> findFirstElem(XmlDocument revXML, String word) async {
-    //print("revXML: "+ revXML.toString());
+    //logger.i("revXML: "+ revXML.toString());
     dynamic ret = revXML.findAllElements(word);
     if (ret == null)
       return null;
@@ -437,7 +435,6 @@ class DataHand extends ChangeNotifier {
 
   Future<void> parseConfig(XmlDocument xmlResponse) async {
 
-    print("parseConfig!!!!!!!!!!");
     for (var element in xmlResponse.findAllElements('item')) {
       if (element.lastElementChild!.innerText == "1") {
         config[element.firstElementChild!.innerText] = true;
@@ -461,11 +458,9 @@ class DataHand extends ChangeNotifier {
         if (status == "complete") _networkList.getUpdateList().removeWhere((element) => element == dev.mac);
         if (status.endsWith("%")) dev.updateStateInt = double.parse(status.substring(status.indexOf(" "), status.indexOf("%")));
 
-        print(_networkList.getDeviceList().where((element) => element.mac == item.getElement("first")!.getElement("macAddress")!.innerText).first);
-
       } catch (e) {
-        print("parseUpdateStatus failed! - Maybe not in selected deviceList");
-        print(e);
+        logger.w("parseUpdateStatus failed! - Maybe not in selected deviceList");
+        logger.e(e);
         continue;
       }
 
@@ -483,8 +478,8 @@ class DataHand extends ChangeNotifier {
         Device dev = _networkList.getDeviceList().where((element) => element.mac == item.getElement("first")!.getElement("macAddress")!.innerText).first;
         _networkList.getUpdateList().add(dev.mac);
       } catch (e) {
-        print("ParseFWUpdateIndication failed! - Maybe not in selected deviceList");
-        print(e);
+        logger.w("ParseFWUpdateIndication failed! - Maybe not in selected deviceList");
+        logger.e(e);
         continue;
       }
     }

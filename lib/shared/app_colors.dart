@@ -9,6 +9,8 @@ LICENSE file in the root directory of this source tree.
 import 'package:cockpit_devolo/views/appBuilder.dart';
 import 'package:flutter/material.dart';
 
+import 'helpers.dart';
+
 Color mainColor= Colors.white;// = Colors.grey[850]; //Colors.blue[700]; // Colors.grey[850];
 Color backgroundColor= Colors.white;// = Colors.grey[850];//Colors.blue[700]; //
 Color secondColor= Colors.white;// = Colors.grey[400];//Colors.blue[100];
@@ -35,7 +37,7 @@ var theme_list = [theme_dark, theme_devolo, theme_light, theme_highContrast];
 void setTheme(String theme_name) {
   dynamic theme;
   bool themeExists = false;
-  print("Set Theme Name: " + theme_name);
+  logger.d("Set Theme Name: " + theme_name);
   for(var elem in theme_list) {
     if(elem["name"] == theme_name) {
       theme = elem;

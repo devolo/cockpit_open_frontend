@@ -179,12 +179,28 @@ class Device extends ChangeNotifier {
     return retDevice;
   }
 
-  // String toRealString(){
-  //   return "Name: ${this.name},\n type:${this.type},\n mac: ${this.mac},\n ip: ${this.ip},\n version: ${this.version},\n version_date:${this.version_date},\n MT: ${this.MT},\n serialno: ${this.serialno},\n remoteDevices: ${this.remoteDevices},\n speeds: ${this.speeds},\n attachedToRouter: ${this.attachedToRouter},\n isLocalDevice: ${this.isLocalDevice},\n webinterfaceAvailable: ${this.webinterfaceAvailable},\n identifyDeviceAvailable: ${this.identifyDeviceAvailable},\n UpdateStatus: ${this.updateState},\n UpdateStatusInt: ${this.updateStateInt}, \n SelectedVDSL: ${this.selected_vdsl}, \n SupportedVDSL: ${this.supported_vdsl}, \n ModeVDSL: ${this.mode_vdsl} \n";
-  // }
-
   String toRealString(){
-    return "Name: ${this.name},\n type: ${this.type},\n typeEnum: ${this.typeEnum},\n mac: ${this.mac},\n ip: ${this.ip},\n version: ${this.version},\n version_date: ${this.version_date},\n MT: ${this.MT},\n serialno: ${this.serialno},\n remoteDevices: ${this.remoteDevices},\n speeds: ${this.speeds},\n attachedToRouter: ${this.attachedToRouter},\n isLocalDevice: ${this.isLocalDevice},\n webinterfaceAvailable: ${this.webinterfaceAvailable},\n identifyDeviceAvailable: ${this.identifyDeviceAvailable},\n UpdateStatus: ${this.updateState},\n UpdateStatusInt: ${this.updateStateInt},\n SelectedVDSL: ${this.selected_vdsl},\n SupportedVDSL: ${this.supported_vdsl},\n ModeVDSL: ${this.mode_vdsl}\n";
+    return '''Name: ${this.name},
+ type: ${this.type},
+ typeEnum: ${this.typeEnum},
+ mac: ${this.mac},
+ ip: ${this.ip},
+ version: ${this.version},
+ version_date: ${this.version_date},
+ MT: ${this.MT},
+ serialno: ${this.serialno},
+ remoteDevices: ${this.remoteDevices},
+ speeds: ${this.speeds},
+ attachedToRouter: ${this.attachedToRouter},
+ isLocalDevice: ${this.isLocalDevice},
+ webinterfaceAvailable: ${this.webinterfaceAvailable},
+ identifyDeviceAvailable: ${this.identifyDeviceAvailable},
+ UpdateStatus: ${this.updateState},
+ UpdateStatusInt: ${this.updateStateInt},
+ SelectedVDSL: ${this.selected_vdsl},
+ SupportedVDSL: ${this.supported_vdsl},
+ ModeVDSL: ${this.mode_vdsl}
+''';
   }
 }
 //=========================================== END Device =========================================

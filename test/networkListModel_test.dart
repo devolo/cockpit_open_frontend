@@ -579,8 +579,6 @@ void main() {
       var dataratePair4 = new DataratePair(double.parse("2.94719999999999970e+02").round(), double.parse("3.70133333333333326e+02").round());
       dev2.speeds = {"30:D3:2D:EE:8D:A1": dataratePair3, "B8:BE:F4:00:08:B5": dataratePair4};
 
-      //final dev2 = Device("Magic 1 WiFi 2-1", "devolo-045", "B8:BE:F4:00:08:B5", "192.168.178.137", "MT3064", "1807255601000045", "5.3.2", "2020-06-05", false, false, true, true, "siso_vdsl17a", ["siso_vdsl17a", "siso_full", "siso_vdsl35b"], "0");
-
 
       networkList.addDevice(dev1,0);
       networkList.addDevice(dev2,0);

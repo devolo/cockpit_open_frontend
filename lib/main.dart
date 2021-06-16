@@ -38,7 +38,14 @@ import 'dart:convert';
 
 void main() {
   //debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
+
+  //verbose(grey): Use to display objects or XMLData
+  //debug(white): Use for normal debug outputs
+  //info(blue): Use to highlight interesting parts
+  //warn(orange): Use to mark critical parts
+  //error(red): Use to output error
   Logger.level = Level.debug;
+
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isLinux) {
     setWindowTitle('devolo Cockpit');

@@ -26,11 +26,11 @@ bool areDeviceIconsLoaded = false;
 Future<void> loadAllDeviceIcons() async {
   ByteData data;
 
-  deviceIconPathList.forEach((deviceIcon) async {
-    data = await rootBundle.load(deviceIcon);
-    ui.Image image = await loadImage(new Uint8List.view(data.buffer));
-    deviceIconList.add(image);
-  });
+  for(var deviceIcon in deviceIconPathList){
+   data = await rootBundle.load(deviceIcon);
+   ui.Image image = await loadImage(new Uint8List.view(data.buffer));
+   deviceIconList.add(image);
+  }
 
   areDeviceIconsLoaded = true;
   print("All device icons are loaded.");

@@ -307,13 +307,53 @@ void main() {
       expect(compareNetworkList(dataHandler.getNetworkList(), expectedNetwork),true);
     });
 
-    //TODO
     test('FirmwareUpdateIndicationMessage as parameter',(){
+
+      var dataHandler = DataHand(true);
+      dataHandler.parseXML(networkUpdate1);
+
+      //create expected XMLDocuments
+      var xmlLength = int.parse(firmwareUpdateIndication1WithMGSOCK.substring(7, 15), radix: 16);
+      var xmlSingleDoc = firmwareUpdateIndication1WithMGSOCK.substring(firmwareUpdateIndication1WithMGSOCK.indexOf('<?'), xmlLength + 13);
+
+      var expectedUpdateList = ["B8:BE:F4:31:96:AF"];
+
+      dataHandler.parseXML(firmwareUpdateIndication1WithMGSOCK);
+
+      expect(dataHandler.getNetworkList().getUpdateList(), expectedUpdateList);
+      //convert XMLDocuments to String for comparing
+      expect(dataHandler.xmlDebugResponseList.length, 2);
+      expect(dataHandler.xmlDebugResponseList[1].toString(), XmlDocument.parse(xmlSingleDoc).toString());
+      expect(dataHandler.xmlResponseMap["FirmwareUpdateIndication"].toString(), [XmlDocument.parse(xmlSingleDoc)].toString());
 
     });
 
-    //TODO
     test('FirmwareUpdateStatus as parameter',(){
+
+      var dataHandler = DataHand(true);
+
+      var oldUpdateList = ["B8:BE:F4:31:96:AF","B8:BE:F4:31:96:8B"];
+      dataHandler.getNetworkList().setUpdateList(oldUpdateList);
+      dataHandler.parseXML(networkUpdate1);
+
+      //create expected XMLDocuments
+      var xmlLength = int.parse(firmwareUpdateStatus1WithMGSOCK.substring(7, 15), radix: 16);
+      var xmlSingleDoc = firmwareUpdateStatus1WithMGSOCK.substring(firmwareUpdateStatus1WithMGSOCK.indexOf('<?'), xmlLength + 13);
+      var expectedUpdateList = ["B8:BE:F4:31:96:AF","B8:BE:F4:31:96:8B"];
+
+
+      dataHandler.parseXML(firmwareUpdateStatus1WithMGSOCK);
+
+      Device device1 = dataHandler.getNetworkList().getDeviceList().where((element) => element.mac == "B8:BE:F4:31:96:AF").first;
+      expect(device1.updateStateInt, 80.0);
+      expect(device1.updateState, "running 80%");
+
+      expect(dataHandler.getNetworkList().getUpdateList(), expectedUpdateList);
+
+      //convert XMLDocuments to String for comparing
+      expect(dataHandler.xmlDebugResponseList.length, 2);
+      expect(dataHandler.xmlDebugResponseList[1].toString(), XmlDocument.parse(xmlSingleDoc).toString());
+      expect(dataHandler.xmlResponseMap["FirmwareUpdateStatus"].toString(), [XmlDocument.parse(xmlSingleDoc)].toString());
 
     });
 

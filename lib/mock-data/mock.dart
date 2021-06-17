@@ -374,6 +374,45 @@ var networkUpdate1 = '''MSGSOCK000020f0<?xml version="1.0" encoding="UTF-8" stan
 </Message>
 </boost_serialization>''';
 
+// with one macAddress
+var firmwareUpdateIndication1WithMGSOCK = '''MSGSOCK0000027d<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE boost_serialization>
+<boost_serialization signature="serialization::archive" version="13">
+	<Message class_id="0" tracking_level="0" version="0">
+		<MessageType>FirmwareUpdateIndication</MessageType>
+		<DeviceList class_id="1" tracking_level="0" version="0">
+			<count>1</count>
+			<item_version>0</item_version>
+			<item class_id="2" tracking_level="0" version="0">
+				<first class_id="3" tracking_level="0" version="0">
+					<macAddress>B8:BE:F4:31:96:AF</macAddress>
+				</first>
+				<second>0</second>
+			</item>
+		</DeviceList>
+	</Message>
+</boost_serialization>''';
+
+//B8:BE:F4:31:96:AF and running 80%
+var firmwareUpdateStatus1WithMGSOCK = '''MSGSOCK0000029d<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE boost_serialization>
+<boost_serialization signature="serialization::archive" version="13">
+	<Message class_id="0" tracking_level="0" version="0">
+		<MessageType>FirmwareUpdateStatus</MessageType>
+		<status>running</status>
+		<DeviceList class_id="1" tracking_level="0" version="0">
+			<count>1</count>
+			<item_version>0</item_version>
+			<item class_id="2" tracking_level="0" version="0">
+				<first class_id="3" tracking_level="0" version="0">
+					<macAddress>B8:BE:F4:31:96:AF</macAddress>
+				</first>
+				<second>running 80%</second>
+			</item>
+		</DeviceList>
+	</Message>
+</boost_serialization>''';
+
 var deviceXML = '''<item class_id="2" tracking_level="0" version="0">
 			<type>Magic 2 WiFi 2-1</type>
 			<name>Study Room</name>

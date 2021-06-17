@@ -171,6 +171,24 @@ void main() {
 
   group('bool compareNetworkList(NetworkList first, NetworkList other)', () {
 
+    test('Given_NetworkListsWithDifferentLength_compareNetworkList_Then_returnFalse', () {
+
+      var device1 = new Device("Magic 2 WiFi 2-1","Study Room","B8:BE:F4:31:96:AF","192.168.1.56","MT3082","1811269791000709","5.7.2","2021-03-05",false,true,true,true,"mimo_vdsl17a",["mimo_vdsl17a", "siso_full", "siso_vdsl17a", "siso_vdsl35b", "mimo_full", "mimo_vdsl35b"],"1");
+      var device2 = new Device("Magic 2 WiFi 2-1","Study Room","B8:BE:F4:31:96:AF","192.168.1.56","MT3082","1811269791000709","5.7.2","2021-03-05",false,true,true,true,"mimo_vdsl17a",["mimo_vdsl17a", "siso_full", "siso_vdsl17a", "siso_vdsl35b", "mimo_full", "mimo_vdsl35b"],"1");
+      var device3 = new Device("Magic 2 LAN 1-1","Gateway2","B8:BE:F4:0A:AE:B7","192.168.1.41","MT3005","1807044980025550","7.10.2.77","2021-04-01",true,false,true,true,"mimo_vdsl17a",["mimo_vdsl17a", "siso_full", "siso_vdsl17a", "siso_vdsl35b", "mimo_full", "mimo_vdsl35b"],"1");
+
+      var network1 = new NetworkList();
+      network1.addDevice(device1,0);
+      network1.addDevice(device2,0);
+      network1.addDevice(device3,1);
+
+      var network2 = new NetworkList();
+      network2.addDevice(device1,0);
+      network2.addDevice(device2,0);
+
+      expect(compareNetworkList(network1, network2), false);
+    });
+
     test('Given_NetworkListsWithDifferentSpeedRatesInRemoteDevice_compareNetworkList_Then_returnFalse', () {
 
       var device1 = new Device("Magic 2 WiFi 2-1","Study Room","B8:BE:F4:31:96:AF","192.168.1.56","MT3082","1811269791000709","5.7.2","2021-03-05",false,true,true,true,"mimo_vdsl17a",["mimo_vdsl17a", "siso_full", "siso_vdsl17a", "siso_vdsl35b", "mimo_full", "mimo_vdsl35b"],"1");

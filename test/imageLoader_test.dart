@@ -74,6 +74,7 @@ void main (){
       var imageLanMini = getIconForDeviceType(DeviceType.dtLanMini);
       var imageDINrail = getIconForDeviceType(DeviceType.dtDINrail);
       var imageUnknown = getIconForDeviceType(DeviceType.dtUnknown);
+      var imageUnknown2 = getIconForDeviceType(null);
 
       expect(areDeviceIconsLoaded,true);
       expect(imageWiFiPlus.toString(),"[35×79]");
@@ -83,6 +84,15 @@ void main (){
       expect(imageLanMini.toString(),"[36×37]");
       expect(imageUnknown.toString(),"[36×37]");
       expect(imageDINrail.toString(),"[76×69]");
+      expect(imageUnknown2.toString(),"[36×37]");
+    });
+
+    test('Given__When_callGetIconForDeviceTypeANDdeviceInconsAreNotLoaded_Then_returnNull', () async{
+
+      areDeviceIconsLoaded = false;
+      var imageWiFiPlus = getIconForDeviceType(DeviceType.dtWiFiPlus);
+
+      expect(imageWiFiPlus,null);
     });
   });
 

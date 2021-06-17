@@ -307,7 +307,7 @@ void main() {
       expect(compareNetworkList(dataHandler.getNetworkList(), expectedNetwork),true);
     });
 
-    test('FirmwareUpdateIndicationMessage as parameter',(){
+    test('Given_DataHandObjectWithNetworklist_When_callParseXMLWithFirmwareUpdateIndicationMessage_Then_setXmlResponseANDXmlDebugResponseListANDXmlResponseMapANDUpdateList',(){
 
       var dataHandler = DataHand(true);
       dataHandler.parseXML(networkUpdate1);
@@ -328,7 +328,7 @@ void main() {
 
     });
 
-    test('FirmwareUpdateStatus as parameter',(){
+    test('Given_DataHandObjectWithNetworklist_When_callParseXMLWithFirmwareUpdateStatusMessage_Then_setXmlResponseANDXmlDebugResponseListANDXmlResponseMapANDUpdateList',(){
 
       var dataHandler = DataHand(true);
 
@@ -526,6 +526,22 @@ void main() {
       dataHandler.xmlResponseMap['SetNetworkPasswordStatus'] = [XmlDocument.parse(setNetworkPasswordStatus1)];
 
       var response = await dataHandler.receiveXML('SetNetworkPasswordStatus');
+
+      expect(response,expectedResponse);
+      expect(dataHandler.xmlResponseMap.isEmpty,true);
+
+    });
+
+    test('Given__When_callReceiveXMLWithSetVDSLCompatibilityStatus_Then_returnResponse',() async {
+
+      var dataHandler = DataHand(true);
+
+      Map<String, dynamic>? expectedResponse = Map<String, dynamic>();
+      expectedResponse['result'] = 'ok';
+
+      dataHandler.xmlResponseMap['SetVDSLCompatibilityStatus'] = [XmlDocument.parse(setVDSLCompatibilityStatus1)];
+
+      var response = await dataHandler.receiveXML('SetVDSLCompatibilityStatus');
 
       expect(response,expectedResponse);
       expect(dataHandler.xmlResponseMap.isEmpty,true);

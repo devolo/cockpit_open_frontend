@@ -24,9 +24,14 @@ Color fontColorNotAvailable= Colors.white ; // if button can´t be klicked for e
 Color devoloBlue = Color.fromARGB(255, 0, 114, 180);
 Color devoloBlueMedium = Color.fromARGB(255, 81, 154, 207);
 Color devoloBlueLight = Color.fromARGB(255, 177, 203, 232);
+Color devoloGray = Color.fromARGB(255, 67, 74, 79);
+Color devoloLightGray = Color.fromARGB(255, 108, 116, 121);
 Color devoloGreen = Color.fromARGB(255, 149, 193, 31);
 Color devoloOrange = Color.fromARGB(255, 243, 146, 0);
 Color devoloRed = Color.fromARGB(255, 199, 20, 61);
+
+double hoverOpacity = 0.7;
+double activeOpacity = 0.33;
 
 double fontSizeFactor = 1.0;
 double fontSizeDelta = 3.0;

@@ -12,6 +12,7 @@ import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/app_fontSize.dart';
+import 'package:cockpit_devolo/shared/buttons.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -949,44 +950,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
             contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18 * fontSizeFactor),
             content: Text(body),
             actions: <Widget>[
-              FlatButton(
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.check_circle_outline,
-                      color: fontColorLight,
-                      size: 35 * fontSizeFactor,
-                    ),
-                    Text(
-                      S.of(context).confirm,
-                      style: TextStyle(color: fontColorLight),
-                    ),
-                  ],
-                ),
-                onPressed: () {
-                  // Critical things happening here
-                  Navigator.maybeOf(context)!.pop(true);
-                },
-              ),
-              FlatButton(
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.cancel_outlined,
-                        color: fontColorLight,
-                        size: 35 * fontSizeFactor,
-                      ),
-                      Text(
-                        S.of(context).cancel,
-                        style: TextStyle(color: fontColorLight),
-                      ),
-                    ],
-                  ), //Text('Abbrechen'),
-                  onPressed: () {
-                    // Cancel critical action
-                    Navigator.maybeOf(context)!.pop(false);
-                    //return false;
-                  }),
+              getConfirmButton(context),
+              getCancelButton(context),
             ],
           );
         });

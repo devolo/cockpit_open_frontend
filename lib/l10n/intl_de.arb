@@ -148,5 +148,6 @@
   "cockpitSupportInformationsTitle": "devolo Cockpit Support-Informationen",
   "LoadCockpitSupportInformationsBody": "Support-Informationen werden erstellt.",
   "cockpitSupportInformationsBody": "Die Support-Informationen wurden erstellt und stehen Ihnen jetzt zur Verfügung. Bitte wählen Sie eine Aktion aus.",
-  "emailIsInvalid": "Ungültige E-mail Adresse"
+  "emailIsInvalid": "Ungültige E-mail Adresse",
+  "supportInfoGenerateError": "Bei der Erstellung der Support Informationen ist ein Fehler aufgetreten.\nBitte versuchen Sie es erneut!"
 }

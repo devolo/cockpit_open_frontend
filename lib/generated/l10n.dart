@@ -1429,6 +1429,16 @@ class S {
       args: [],
     );
   }
+
+  /// `An error occurred while creating the support informations.\nPlease try again!`
+  String get supportInfoGenerateError {
+    return Intl.message(
+      'An error occurred while creating the support informations.\nPlease try again!',
+      name: 'supportInfoGenerateError',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

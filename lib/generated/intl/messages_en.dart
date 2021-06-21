@@ -214,6 +214,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "showPassword": MessageLookupByLibrary.simpleMessage("Show password"),
         "state": MessageLookupByLibrary.simpleMessage("State"),
         "support": MessageLookupByLibrary.simpleMessage("Support"),
+        "supportInfoGenerateError": MessageLookupByLibrary.simpleMessage(
+            "An error occurred while creating the support informations.\nPlease try again!"),
         "theCreatedSupportInformationCanNowBeSentToDevolo":
             MessageLookupByLibrary.simpleMessage(
                 "The created support information can now be sent to devolo support.\nFill the following fields"),

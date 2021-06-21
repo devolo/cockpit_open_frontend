@@ -828,6 +828,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
   // !!! closeButton is added manually
   void _loadingDialog (context, socket) async {
     bool dialogIsOpen = true;
+    bool actionSucessfull = true;
 
     showDialog<void>(
         context: context,
@@ -857,16 +858,24 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children:[
-                Container(
+                if(actionSucessfull)
+                  Container(
                   child: CircularProgressIndicator(color: devoloGreen),
                   height: 50.0,
                   width: 50.0,
-                ),
-                SizedBox(height: 20,),
-                Text(
-                  S.of(context).LoadCockpitSupportInformationsBody,
-                  style: TextStyle(color: fontColorLight),
-                ),
+                  ),
+                if(actionSucessfull)
+                  SizedBox(height: 20,),
+                if(actionSucessfull)
+                  Text(
+                    S.of(context).LoadCockpitSupportInformationsBody,
+                    style: TextStyle(color: fontColorLight),
+                  ),
+                if(!actionSucessfull)
+                  Text(
+                    S.of(context).supportInfoGenerateError,
+                    style: TextStyle(color: fontColorLight),
+                  ),
               ],
             ),
             actions: <Widget>[],
@@ -884,6 +893,10 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
 
       _contactSupportAlert(context, socket, response["htmlfilename"], response["zipfilename"]);
 
+    }
+
+    else if(response["result"] == "failed" || response["status"] == "timeout"){
+        actionSucessfull = false;
     }
   }
 

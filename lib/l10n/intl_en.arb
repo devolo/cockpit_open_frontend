@@ -146,5 +146,6 @@
   "cockpitSupportInformationsTitle": "devolo Cockpit support informations",
   "LoadCockpitSupportInformationsBody": "Support informations are getting generated.",
   "cockpitSupportInformationsBody": "The support informations have been created and are now available to you. Please select an action.",
-  "emailIsInvalid": "E-mail is invalid"
+  "emailIsInvalid": "E-mail is invalid",
+  "supportInfoGenerateError": "An error occurred while creating the support informations.\nPlease try again!"
 }

@@ -21,6 +21,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "LoadCockpitSupportInformationsBody":
+            MessageLookupByLibrary.simpleMessage(
+                "Support-Informationen werden erstellt."),
         "add": MessageLookupByLibrary.simpleMessage("Hinzufügen"),
         "addDevice": MessageLookupByLibrary.simpleMessage("Gerät hinzufügen"),
         "addDeviceInstructionText": MessageLookupByLibrary.simpleMessage(
@@ -49,6 +52,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "chooseTheme": MessageLookupByLibrary.simpleMessage("Wähle Thema"),
         "cockpitSoftwareIsUpToDate": MessageLookupByLibrary.simpleMessage(
             "Cockpit Software auf dem neusten Stand."),
+        "cockpitSupportInformationsBody": MessageLookupByLibrary.simpleMessage(
+            "Die Support-Informationen wurden erstellt und stehen Ihnen jetzt zur Verfügung. Bitte wählen Sie eine Aktion aus."),
+        "cockpitSupportInformationsTitle": MessageLookupByLibrary.simpleMessage(
+            "devolo Cockpit Support-Informationen"),
         "confirm": MessageLookupByLibrary.simpleMessage("Bestätigen"),
         "confirmAction":
             MessageLookupByLibrary.simpleMessage("Aktion Bestätigen"),
@@ -140,10 +147,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "noDevicesFoundNscanningForDevices":
             MessageLookupByLibrary.simpleMessage(
                 "No devices found \nScanning for devices ..."),
-        "openBrowser": MessageLookupByLibrary.simpleMessage("öffne browser"),
         "openOptimization":
             MessageLookupByLibrary.simpleMessage("Optimierungshilfe öffnen"),
-        "openZip": MessageLookupByLibrary.simpleMessage("öffne zip"),
+        "openSupportInformations": MessageLookupByLibrary.simpleMessage(
+            "Support-Informationen öffnen"),
         "optimizationHelp":
             MessageLookupByLibrary.simpleMessage("Optimierungs Hilfe"),
         "optimizeReception":
@@ -191,8 +198,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "resetDeviceErrorTitle": MessageLookupByLibrary.simpleMessage(
             "Zurücksetzung fehlgeschlagen"),
         "save": MessageLookupByLibrary.simpleMessage("speichern"),
+        "saveSupportInformations": MessageLookupByLibrary.simpleMessage(
+            "Support-Informationen speichern"),
         "searching": MessageLookupByLibrary.simpleMessage("suche..."),
-        "sendToDevolo": MessageLookupByLibrary.simpleMessage("sende an devolo"),
+        "sendToDevolo": MessageLookupByLibrary.simpleMessage(
+            "Support-Informationen zum devolo Support senden"),
         "serialNumber": MessageLookupByLibrary.simpleMessage("Seriennummer:"),
         "setUpDevice": MessageLookupByLibrary.simpleMessage("Gerät einrichten"),
         "setVdslCompatibility": MessageLookupByLibrary.simpleMessage(
@@ -209,7 +219,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "support": MessageLookupByLibrary.simpleMessage("Support"),
         "theCreatedSupportInformationCanNowBeSentToDevolo":
             MessageLookupByLibrary.simpleMessage(
-                "Die erstellten Support-Informationen können jetzt zum devolo Support gesendet werden.\\nBitte füllen sie folgende Felder aus."),
+                "Die erstellten Support-Informationen können jetzt zum devolo Support gesendet werden.\nBitte füllen sie folgende Felder aus."),
         "theOverviewWillBeCenteredAroundThePlcDeviceConnected":
             MessageLookupByLibrary.simpleMessage(
                 "Die Übersicht wird um das PLC-Gerät zentriert, welches am Internet angeschlossen ist"),

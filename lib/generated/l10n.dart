@@ -290,30 +290,30 @@ class S {
     );
   }
 
-  /// `Open browser`
-  String get openBrowser {
+  /// `Open support informations`
+  String get openSupportInformations {
     return Intl.message(
-      'Open browser',
-      name: 'openBrowser',
+      'Open support informations',
+      name: 'openSupportInformations',
       desc: '',
       args: [],
     );
   }
 
-  /// `Open ZIP`
-  String get openZip {
+  /// `Save support informations`
+  String get saveSupportInformations {
     return Intl.message(
-      'Open ZIP',
-      name: 'openZip',
+      'Save support informations',
+      name: 'saveSupportInformations',
       desc: '',
       args: [],
     );
   }
 
-  /// `Send to devolo`
+  /// `send support informations to devolo Support`
   String get sendToDevolo {
     return Intl.message(
-      'Send to devolo',
+      'send support informations to devolo Support',
       name: 'sendToDevolo',
       desc: '',
       args: [],
@@ -1385,6 +1385,36 @@ class S {
     return Intl.message(
       'VDSL compatibility',
       name: 'vdslCompatibility',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `devolo Cockpit support informations`
+  String get cockpitSupportInformationsTitle {
+    return Intl.message(
+      'devolo Cockpit support informations',
+      name: 'cockpitSupportInformationsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Support informations are getting generated.`
+  String get LoadCockpitSupportInformationsBody {
+    return Intl.message(
+      'Support informations are getting generated.',
+      name: 'LoadCockpitSupportInformationsBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The support informations have been created and are now available to you. Please select an action.`
+  String get cockpitSupportInformationsBody {
+    return Intl.message(
+      'The support informations have been created and are now available to you. Please select an action.',
+      name: 'cockpitSupportInformationsBody',
       desc: '',
       args: [],
     );

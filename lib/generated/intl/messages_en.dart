@@ -21,6 +21,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "LoadCockpitSupportInformationsBody":
+            MessageLookupByLibrary.simpleMessage(
+                "Support informations are getting generated."),
         "add": MessageLookupByLibrary.simpleMessage("Add"),
         "addDevice": MessageLookupByLibrary.simpleMessage("Add device"),
         "addDeviceInstructionText": MessageLookupByLibrary.simpleMessage(
@@ -49,6 +52,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "chooseTheme": MessageLookupByLibrary.simpleMessage("Change theme"),
         "cockpitSoftwareIsUpToDate": MessageLookupByLibrary.simpleMessage(
             "Cockpit software is up to date"),
+        "cockpitSupportInformationsBody": MessageLookupByLibrary.simpleMessage(
+            "The support informations have been created and are now available to you. Please select an action."),
+        "cockpitSupportInformationsTitle": MessageLookupByLibrary.simpleMessage(
+            "devolo Cockpit support informations"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "confirmAction": MessageLookupByLibrary.simpleMessage("Confirm action"),
         "confirmActionConnectedToRouterWarning":
@@ -138,10 +145,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "noDevicesFoundNscanningForDevices":
             MessageLookupByLibrary.simpleMessage(
                 "No devices found. \n\nScanning for devices ..."),
-        "openBrowser": MessageLookupByLibrary.simpleMessage("Open browser"),
         "openOptimization":
             MessageLookupByLibrary.simpleMessage("Open optimization help"),
-        "openZip": MessageLookupByLibrary.simpleMessage("Open ZIP"),
+        "openSupportInformations":
+            MessageLookupByLibrary.simpleMessage("Open support informations"),
         "optimizationHelp":
             MessageLookupByLibrary.simpleMessage("Optimization help"),
         "optimizeReception":
@@ -188,8 +195,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "resetDeviceErrorTitle":
             MessageLookupByLibrary.simpleMessage("Reset failed"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
+        "saveSupportInformations":
+            MessageLookupByLibrary.simpleMessage("Save support informations"),
         "searching": MessageLookupByLibrary.simpleMessage("Searching..."),
-        "sendToDevolo": MessageLookupByLibrary.simpleMessage("Send to devolo"),
+        "sendToDevolo": MessageLookupByLibrary.simpleMessage(
+            "send support informations to devolo Support"),
         "serialNumber": MessageLookupByLibrary.simpleMessage("Serial number"),
         "setUpDevice": MessageLookupByLibrary.simpleMessage("Setup new device"),
         "setVdslCompatibility":

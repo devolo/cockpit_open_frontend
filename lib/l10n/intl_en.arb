@@ -28,9 +28,9 @@
   "save": "Save",
   "support": "Support",
   "generateSupportInformation": "Generate support information",
-  "openBrowser": "Open browser",
-  "openZip": "Open ZIP",
-  "sendToDevolo": "Send to devolo",
+  "openSupportInformations": "Open support informations",
+  "saveSupportInformations": "Save support informations",
+  "sendToDevolo": "send support informations to devolo Support",
   "showLogs": "Show logs",
   "pleaseConfirmAction": "Confirm action",
   "contactInfo": "Contact information",
@@ -142,5 +142,8 @@
   "setVdslCompatibility": "Set VDSL \ncompatibility",
   "vdslfailed": "The new VDSL settings could not be saved on the device",
   "automaticCompatibilityMode": "Automatic compatibility mode (recommended)",
-  "vdslCompatibility": "VDSL compatibility"
+  "vdslCompatibility": "VDSL compatibility",
+  "cockpitSupportInformationsTitle": "devolo Cockpit support informations",
+  "LoadCockpitSupportInformationsBody": "Support informations are getting generated.",
+  "cockpitSupportInformationsBody": "The support informations have been created and are now available to you. Please select an action."
 }

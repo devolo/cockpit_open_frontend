@@ -167,7 +167,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                         ],
                       ),
                       onPressed: () {
-                        _contactSupportAlert(context, socket);
+                        _loadingDialog(context,socket);
                       },
                     ),
                   ),
@@ -566,6 +566,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
             backgroundColor: backgroundColor.withOpacity(0.9),
             contentTextStyle: TextStyle(color: fontColorLight),
             content: Column(
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text(S.of(context).theCreatedSupportInformationCanNowBeSentToDevolo),
                 SizedBox(
@@ -727,10 +728,93 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
         });
   }
 
-  void _contactSupportAlert(context, socket) {
-    String? _htmlfilename;
-    String? _zipfilename;
-    bool _isButtonDisabled = true;
+  void _supportSettingsDialog(context, title, body) {
+    showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Column(
+              children: [
+                getCloseButton(context),
+                Text(
+                  title,
+                  style: TextStyle(color: fontColorLight),
+                ),
+              ],
+            ),
+            titlePadding: EdgeInsets.all(2),
+            backgroundColor: backgroundColor.withOpacity(0.9),
+            //contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18 * fontSizeFactor),
+            content: Text(body),
+            actions: <Widget>[],
+          );
+        });
+  }
+
+  // !!! closeButton is added manually
+  void _loadingDialog (context, socket) async {
+    bool dialogIsOpen = true;
+
+    showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 5, 5, 0),
+                  child: Container(
+                    alignment: FractionalOffset.topRight,
+                    child: GestureDetector(
+                      child: Icon(Icons.clear,color: secondColor),
+                      onTap: (){
+                        dialogIsOpen = false;
+                        Navigator.pop(context);
+                        },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            titlePadding: EdgeInsets.all(2),
+            backgroundColor: backgroundColor.withOpacity(0.9),
+            contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18 * fontSizeFactor),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children:[
+                Container(
+                  child: CircularProgressIndicator(color: devoloGreen),
+                  height: 50.0,
+                  width: 50.0,
+                ),
+                SizedBox(height: 20,),
+                Text(
+                  S.of(context).LoadCockpitSupportInformationsBody,
+                  style: TextStyle(color: fontColorLight),
+                ),
+              ],
+            ),
+            actions: <Widget>[],
+          );
+        });
+
+    socket.sendXML('SupportInfoGenerate');
+    response = await socket.receiveXML("SupportInfoGenerateStatus");
+    //logger.i('Response: ' + response.toString());
+
+    if (response["result"] == "ok") {
+      if(dialogIsOpen){
+        Navigator.pop(context, true);
+      }
+
+      _contactSupportAlert(context, socket, response["htmlfilename"], response["zipfilename"]);
+
+    }
+  }
+
+  void _contactSupportAlert(context, socket, htmlFileName, zipFileName) {
 
     showDialog<void>(
         context: context,
@@ -742,108 +826,141 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                 getCloseButton(context),
                 Center(
                     child: Text(
-                  "Support kontaktieren",
-                  style: TextStyle(color: fontColorLight),
-                )),
+                      S.of(context).cockpitSupportInformationsTitle,
+                      style: TextStyle(color: fontColorLight),
+                    )
+                ),
               ],
             ),
             titlePadding: EdgeInsets.all(2),
             backgroundColor: backgroundColor.withOpacity(0.9),
-            insetPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 100),
-            content: StatefulBuilder(// You need this, notice the parameters below:
-                builder: (BuildContext context, StateSetter setState) {
-              return Center(
-                    child: Column(
-                      children: [
-                        ListTile(
-                          contentPadding: EdgeInsets.only(left: 10, right: 10),
-                          tileColor: secondColor,
-                          title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                            FlatButton(
-                              height: 60,
-                              hoverColor: mainColor.withOpacity(0.4),
-                              color: mainColor.withOpacity(0.4),
-                              child: Row(children: [
-                                Text(
-                                  S.of(context).generateSupportInformation,
-                                  style: TextStyle(color: fontColorDark),
-                                ),
-                                Stack(children: <Widget>[
-                                  Container(child: _loading ? CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(mainColor)) : Text("")),
-                                  if (response != null && _loading == false)
-                                    Container(
-                                        child: (response["result"] == "ok" && response.isNotEmpty)
-                                            ? Icon(
-                                                Icons.check_circle_outline,
-                                                color: Colors.green,
-                                              )
-                                            : Icon(
-                                                Icons.cancel_outlined,
-                                                color: Colors.red,
-                                              )),
-                                ]),
-                              ]),
-                              //color: devoloBlue,
-                              //textColor: Colors.white,
-                              onPressed: () async {
-                                setState(() {
-                                  _loading = true;
-                                  socket.sendXML('SupportInfoGenerate');
-                                });
-
-                                response = await socket.receiveXML("SupportInfoGenerateStatus");
-                                //logger.i('Response: ' + response.toString());
-
-                                if (response["result"] == "ok") {
-                                  setState(() {
-                                    _htmlfilename = response["htmlfilename"];
-                                    _zipfilename = response["zipfilename"];
-                                    _loading = false;
-                                    _isButtonDisabled = false;
-                                  });
-                                }
-                              },
-                            ),
-                            //Flexible(child: socket.waitingResponse ? CircularProgressIndicator() : Text(" ")),
-                            Spacer(),
-                            AbsorbPointer(
-                                absorbing: _isButtonDisabled,
-                                child: Row(
-                                  children: [
-                                    IconButton(
-                                      icon: Icon(Icons.open_in_browser_rounded),
-                                      tooltip: S.of(context).openBrowser,
-                                      color: _isButtonDisabled ? Colors.grey : mainColor,
-                                      onPressed: () {
-                                        openFile(_htmlfilename);
-                                      },
-                                    ),
-                                    IconButton(
-                                      icon: Icon(Icons.archive_outlined),
-                                      tooltip: S.of(context).openZip,
-                                      color: _isButtonDisabled ? Colors.grey : mainColor,
-                                      onPressed: () {
-                                        openFile(_zipfilename);
-                                      },
-                                    ),
-                                    IconButton(
-                                      icon: Icon(Icons.send_and_archive),
-                                      tooltip: S.of(context).sendToDevolo,
-                                      color: _isButtonDisabled ? Colors.grey : mainColor,
-                                      onPressed: () {
-                                        _contactInfoAlert(context);
-                                      },
-                                    ),
-                                  ],
-                                )),
-                          ]),
-                        ),
-                      ],
+            //insetPadding: EdgeInsets.symmetric(horizontal: 300, vertical: 100),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  constraints: BoxConstraints(maxWidth: 600),
+                  child: Text(
+                    S.of(context).cockpitSupportInformationsBody,
+                    style: TextStyle(color: fontColorLight),
+                  ),
+                ),
+                SizedBox(height: 20,),
+                TextButton(
+                  child: Row(mainAxisAlignment: MainAxisAlignment.center,children: [
+                    Icon(
+                      Icons.open_in_browser_rounded,
+                      color: fontColorLight,
+                      size: 24 * fontSizeFactor,
                     ),
-                  );
-            }),
+                    SizedBox(width: 4,),
+                    Text(
+                      S.of(context).openSupportInformations,
+                      style: TextStyle(fontSize: 14, color: fontColorLight),
+                      textScaleFactor: fontSizeFactor,
+                    ),
+                  ]),
+                  onPressed: () {
+                    openFile(htmlFileName);
+                    },
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                            (states) {
+                              if (states.contains(MaterialState.hovered)) {
+                                return devoloGreen.withOpacity(0.7);
+                              } else if (states.contains(MaterialState.pressed)) {
+                                return devoloGreen.withOpacity(0.33);
+                              }
+                              return devoloGreen;
+                              },
+                      ),
+                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 13.0, horizontal: 32.0)),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          )
+                      )
+                  ),
+                ),
+                SizedBox(height: 20,),
+                TextButton(
+                  child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Icon(
+                      Icons.archive_outlined,
+                      color: fontColorLight,
+                      size: 24 * fontSizeFactor,
+                    ),
+                    SizedBox(width: 4,),
+                    Text(
+                      S.of(context).saveSupportInformations,
+                      style: TextStyle(fontSize: 14, color: fontColorLight),
+                      textScaleFactor: fontSizeFactor,
+                    ),
+                  ]),
+                  onPressed: () {
+                    openFile(zipFileName);
+                    },
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                            (states) {
+                              if (states.contains(MaterialState.hovered)) {
+                                return devoloGreen.withOpacity(0.7);
+                              } else if (states.contains(MaterialState.pressed)) {
+                                return devoloGreen.withOpacity(0.33);
+                              }
+                              return devoloGreen;
+                              },
+                      ),
+                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 13.0, horizontal: 32.0)),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          )
+                      )
+                  ),
+                ),
+                SizedBox(height: 20,),
+                TextButton(
+                  child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Icon(
+                      Icons.send_and_archive,
+                      color: fontColorLight,
+                      size: 24 * fontSizeFactor,
+                    ),
+                    SizedBox(width: 4,),
+                    Text(
+                      S.of(context).sendToDevolo,
+                      style: TextStyle(fontSize: 14, color: fontColorLight),
+                      textScaleFactor: fontSizeFactor,
+                    ),
+                  ]),
+                  onPressed: () {
+                    _contactInfoAlert(context);
+                    },
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                            (states) {
+                              if (states.contains(MaterialState.hovered)) {
+                                return devoloGreen.withOpacity(0.7);
+                              } else if (states.contains(MaterialState.pressed)) {
+                                return devoloGreen.withOpacity(0.33);
+                              }
+                              return devoloGreen;
+                              },
+                      ),
+                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 13.0, horizontal: 32.0)),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          )
+                      )
+                  ),
+                ),
+              ],
+            ),
           );
         });
   }
-
 }
+
+

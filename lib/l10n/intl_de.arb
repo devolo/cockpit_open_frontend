@@ -29,13 +29,13 @@
   "save": "speichern",
   "support": "Support",
   "generateSupportInformation": "Support Informationen generieren ",
-  "openBrowser": "öffne browser",
-  "openZip": "öffne zip",
-  "sendToDevolo": "sende an devolo",
+  "openSupportInformations": "Support-Informationen öffnen",
+  "saveSupportInformations": "Support-Informationen speichern",
+  "sendToDevolo": "Support-Informationen zum devolo Support senden",
   "showLogs": "Zeige Logs",
   "pleaseConfirmAction": "Bitte Aktion bestätigen.",
   "contactInfo": "Kontakt info",
-  "theCreatedSupportInformationCanNowBeSentToDevolo": "Die erstellten Support-Informationen können jetzt zum devolo Support gesendet werden.\\nBitte füllen sie folgende Felder aus.",
+  "theCreatedSupportInformationCanNowBeSentToDevolo": "Die erstellten Support-Informationen können jetzt zum devolo Support gesendet werden.\nBitte füllen sie folgende Felder aus.",
   "processNumber": "Bearbeitungsnummer",
   "pleaseEnterProcessingNumber": "Bitte Bearbeitungsnummer eintragen",
   "yourName": "Ihr Name",
@@ -144,5 +144,8 @@
   "setVdslCompatibility": "VDSL Kompatibilität \nsetzen",
   "vdslfailed": "Die neuen VDSL-Einstellungen konnten nicht auf dem Gerät gespeichert werden.",
   "automaticCompatibilityMode": "Automatischer Kompatibilitäsmodus (empfohlen)",
-  "vdslCompatibility": "VDSL Kompatibilität"
+  "vdslCompatibility": "VDSL Kompatibilität",
+  "cockpitSupportInformationsTitle": "devolo Cockpit Support-Informationen",
+  "LoadCockpitSupportInformationsBody": "Support-Informationen werden erstellt.",
+  "cockpitSupportInformationsBody": "Die Support-Informationen wurden erstellt und stehen Ihnen jetzt zur Verfügung. Bitte wählen Sie eine Aktion aus."
 }

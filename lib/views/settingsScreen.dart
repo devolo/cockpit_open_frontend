@@ -55,10 +55,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
   double dividerTitleSpacing = 30;
 
   // Switch colors
-  Color switchActiveTrackColor = mainColor.withAlpha(100);
-  Color switchActiveColor = Colors.white;
-  Color switchInactiveThumbColor = Colors.black;
-  Color switchInactiveTrackColor = Colors.grey[600]!;
+  Color switchActiveTrackColor = devoloGreen.withOpacity(0.4);
+  Color switchActiveThumbColor = devoloGreen;
+  Color switchInactiveThumbColor = Colors.white;
+  Color switchInactiveTrackColor = Color(0x61000000);
 
   /* ===========  =========== */
 
@@ -246,7 +246,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       value: config["show_speeds_permanent"], //widget.painter.showSpeedsPermanently,
                       onChanged: toggleCheckbox,
                       activeTrackColor: switchActiveTrackColor,
-                      activeColor: switchActiveColor,
+                      activeColor: switchActiveThumbColor,
                       inactiveThumbColor: switchInactiveThumbColor,
                       inactiveTrackColor: switchInactiveTrackColor,
                     ),
@@ -286,7 +286,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           });
                         },
                         activeTrackColor: switchActiveTrackColor,
-                        activeColor: switchActiveColor,
+                        activeColor: switchActiveThumbColor,
                         inactiveThumbColor: switchInactiveThumbColor,
                         inactiveTrackColor: switchInactiveTrackColor,
                       ),
@@ -323,7 +323,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           });
                         },
                         activeTrackColor: switchActiveTrackColor,
-                        activeColor: switchActiveColor,
+                        activeColor: switchActiveThumbColor,
                         inactiveThumbColor: switchInactiveThumbColor,
                         inactiveTrackColor: switchInactiveTrackColor,
                       ),
@@ -425,7 +425,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             });
                           },
                           activeTrackColor: switchActiveTrackColor,
-                          activeColor: switchActiveColor,
+                          activeColor: switchActiveThumbColor,
                           inactiveThumbColor: switchInactiveThumbColor,
                           inactiveTrackColor: switchInactiveTrackColor,
                       ),
@@ -458,7 +458,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             });
                           },
                           activeTrackColor: switchActiveTrackColor,
-                          activeColor: switchActiveColor,
+                          activeColor: switchActiveThumbColor,
                           inactiveThumbColor: switchInactiveThumbColor,
                           inactiveTrackColor: switchInactiveTrackColor,
                     ),

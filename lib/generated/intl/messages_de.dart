@@ -91,6 +91,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Es ist ein Fehler beim Zurücksetzen des Gerätes aufgetreten!"),
         "deviceinfo":
             MessageLookupByLibrary.simpleMessage("Geräteinformationen"),
+        "emailIsInvalid":
+            MessageLookupByLibrary.simpleMessage("Ungültige E-mail Adresse"),
         "enableShowingSpeeds":
             MessageLookupByLibrary.simpleMessage("Anzeigen der Datenraten"),
         "factoryReset":
@@ -170,9 +172,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "pleaseEnterProcessingNumber": MessageLookupByLibrary.simpleMessage(
             "Bitte Bearbeitungsnummer eintragen"),
         "pleaseEnterYourMailAddress": MessageLookupByLibrary.simpleMessage(
-            "Bitte tragen sie ihre E-mail Adresse ein"),
+            "Bitte tragen Sie ihre E-mail Adresse ein"),
         "pleaseFillInYourName": MessageLookupByLibrary.simpleMessage(
-            "Bitte tagen sie ihren Namen ein"),
+            "Bitte tragen Sie ihren Namen ein"),
         "previousNetwork":
             MessageLookupByLibrary.simpleMessage("vorheriges Netzwerk"),
         "processNumber":
@@ -219,7 +221,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "support": MessageLookupByLibrary.simpleMessage("Support"),
         "theCreatedSupportInformationCanNowBeSentToDevolo":
             MessageLookupByLibrary.simpleMessage(
-                "Die erstellten Support-Informationen können jetzt zum devolo Support gesendet werden.\nBitte füllen sie folgende Felder aus."),
+                "Die erstellten Support-Informationen können jetzt zum devolo Support gesendet werden.\nBitte füllen Sie folgende Felder aus."),
         "theOverviewWillBeCenteredAroundThePlcDeviceConnected":
             MessageLookupByLibrary.simpleMessage(
                 "Die Übersicht wird um das PLC-Gerät zentriert, welches am Internet angeschlossen ist"),

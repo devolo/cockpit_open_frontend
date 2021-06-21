@@ -35,12 +35,12 @@
   "showLogs": "Zeige Logs",
   "pleaseConfirmAction": "Bitte Aktion bestätigen.",
   "contactInfo": "Kontakt info",
-  "theCreatedSupportInformationCanNowBeSentToDevolo": "Die erstellten Support-Informationen können jetzt zum devolo Support gesendet werden.\nBitte füllen sie folgende Felder aus.",
+  "theCreatedSupportInformationCanNowBeSentToDevolo": "Die erstellten Support-Informationen können jetzt zum devolo Support gesendet werden.\nBitte füllen Sie folgende Felder aus.",
   "processNumber": "Bearbeitungsnummer",
   "pleaseEnterProcessingNumber": "Bitte Bearbeitungsnummer eintragen",
   "yourName": "Ihr Name",
-  "pleaseFillInYourName": "Bitte tagen sie ihren Namen ein",
-  "pleaseEnterYourMailAddress": "Bitte tragen sie ihre E-mail Adresse ein",
+  "pleaseFillInYourName": "Bitte tragen Sie ihren Namen ein",
+  "pleaseEnterYourMailAddress": "Bitte tragen Sie ihre E-mail Adresse ein",
   "name": "Name",
   "currentVersion": "Aktuelle Version",
   "newVersion": "neue Version",
@@ -147,5 +147,6 @@
   "vdslCompatibility": "VDSL Kompatibilität",
   "cockpitSupportInformationsTitle": "devolo Cockpit Support-Informationen",
   "LoadCockpitSupportInformationsBody": "Support-Informationen werden erstellt.",
-  "cockpitSupportInformationsBody": "Die Support-Informationen wurden erstellt und stehen Ihnen jetzt zur Verfügung. Bitte wählen Sie eine Aktion aus."
+  "cockpitSupportInformationsBody": "Die Support-Informationen wurden erstellt und stehen Ihnen jetzt zur Verfügung. Bitte wählen Sie eine Aktion aus.",
+  "emailIsInvalid": "Ungültige E-mail Adresse"
 }

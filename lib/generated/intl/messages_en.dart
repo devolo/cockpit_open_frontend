@@ -91,6 +91,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "An error occurred while resetting the device"),
         "deviceinfo":
             MessageLookupByLibrary.simpleMessage("Device information"),
+        "emailIsInvalid":
+            MessageLookupByLibrary.simpleMessage("E-mail is invalid"),
         "enableShowingSpeeds":
             MessageLookupByLibrary.simpleMessage("Show network speeds"),
         "factoryReset": MessageLookupByLibrary.simpleMessage("Factory reset"),

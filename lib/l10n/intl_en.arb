@@ -145,5 +145,6 @@
   "vdslCompatibility": "VDSL compatibility",
   "cockpitSupportInformationsTitle": "devolo Cockpit support informations",
   "LoadCockpitSupportInformationsBody": "Support informations are getting generated.",
-  "cockpitSupportInformationsBody": "The support informations have been created and are now available to you. Please select an action."
+  "cockpitSupportInformationsBody": "The support informations have been created and are now available to you. Please select an action.",
+  "emailIsInvalid": "E-mail is invalid"
 }

@@ -75,7 +75,8 @@ class MyApp extends StatelessWidget {
                   //highlightColor: Colors.green,
 
                   textTheme: Theme.of(context).textTheme.apply(
-                        fontSizeFactor: fontSizeFactor,
+                        fontFamily: 'OpenSans',
+                        fontSizeFactor: fontSizeFactor, // only applies if fontSize is not manually set
                         fontSizeDelta: fontSizeDelta,
                         displayColor: fontColorDark,
                         bodyColor: fontColorDark,
@@ -130,7 +131,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    _menuItemStyle = TextStyle(color: Colors.white, fontFamily: 'Roboto', decorationColor: fontColorLight);
     loadAllDeviceIcons();
 
     getConnection();
@@ -343,99 +343,100 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
-        // actions: <Widget>[
-        //   IconButton(
-        //     icon: const Icon(Icons.brightness_6_rounded),
-        //     tooltip: S.of(context).highContrast,
-        //     onPressed: () {
-        //       setState(() {
-        //         logger.i("Theme: " + config["theme"]);
-        //         logger.i("Prev Theme: " + config["previous_theme"]);
-        //
-        //         if (config["theme"] == "High Contrast") {
-        //           config["theme"] = config["previous_theme"];
-        //           setTheme(config["previous_theme"]);
-        //         } else {
-        //           config["previous_theme"] = config["theme"];
-        //           config["theme"] = theme_highContrast["name"];
-        //           setTheme(theme_highContrast["name"]);
-        //         }
-        //         AppBuilder.of(context).rebuild();
-        //         //showNetwork = !showNetwork;
-        //       });
-        //     },
-        //   ),
-        //   //Padding(padding: EdgeInsets.only(left:50))
-        //   IconButton(icon: Icon(Icons.menu), onPressed: ()  {_scaffoldKey.currentState.openDrawer();}),
-        //],
       ),
       endDrawer: Theme(
+
         data: Theme.of(context).copyWith(
           canvasColor: mainColor, //This will change the drawer background.
-          hoverColor: accentColor,
-          //other styles
+          hoverColor: Colors.white.withOpacity(0.2),
+          //hoverColor: mainColor.withOpacity(0.7), doesn´t work !!!
         ),
+
+
         child: Drawer(
             semanticLabel: "menu",
             child: ListView(padding: EdgeInsets.zero, children: <Widget>[
               DrawerHeader(
                 child: Text(
-                  S.of(context).homeNetworkDesktop,
-                  style: TextStyle(fontSize: 23, color: drawingColor),
+                  "devolo Cockpit",
+                  style: TextStyle(fontSize: 23 * fontSizeFactor, color: fontColorLight),
                 ),
                 margin: EdgeInsets.only(bottom: 0),
-                decoration: BoxDecoration(
-                  color: mainColor,
-                ),
+                padding: EdgeInsets.symmetric(vertical: 50.0, horizontal:16.0),
               ),
-              Divider(color: fontColorLight, thickness: 2,),
-              ListTile(
-                  leading: Icon(Icons.workspaces_filled, color: fontColorLight), //miscellaneous_services
-                  title: Text(S.of(context).overview, style: _menuItemStyle),
-                  //tileColor: devoloBlue,
-                  onTap: () {
-                    bottomTapped(0);
-                    Navigator.pop(context); //close drawer
-                  }),
-              Divider(color: fontColorLight, thickness: 2,),
-              ListTile(
-                  leading: Icon(Icons.download_rounded, color: fontColorLight),
-                  title: Text(S.of(context).updates, style: _menuItemStyle),
-                  onTap: () {
-                    bottomTapped(1);
-                    Navigator.pop(context); //close drawer
-                    // Navigator.push(
-                    //   context,
-                    //   new MaterialPageRoute(
-                    //       builder: (context) => UpdateScreen(title: "Updates", deviceList: deviceList)),
-                    // );
-                  }),
-              Divider(color: fontColorLight, thickness: 2,),
-              ListTile(
-                  leading: Icon(Icons.help, color: fontColorLight),
-                  title: Text(S.of(context).help, style: _menuItemStyle),
-                  onTap: () {
-                    bottomTapped(2);
-                    Navigator.pop(context); //close drawer
-                  }),
-              Divider(color: fontColorLight, thickness: 2,),
-              ListTile(
-                  leading: Icon(Icons.miscellaneous_services, color: fontColorLight),
-                  title: Text(S.of(context).settings, style: _menuItemStyle),
-                  onTap: () {
-                    bottomTapped(3);
-                    Navigator.pop(context); //close drawer
-                  }),
-              Divider(color: fontColorLight,thickness: 2,),
-              ListTile(
-                  leading: Icon(Icons.info_outline_rounded, color: fontColorLight),
-                  title: Text(S.of(context).appInfo, style: _menuItemStyle),
-                  onTap: () {
-                    Navigator.pop(context); //close drawer
-                    _appInfoAlert(context);
-                  }),
-              Divider(color: fontColorLight,thickness: 2,),
+              Container(
 
+                decoration: BoxDecoration(
+                  border: Border(bottom: BorderSide(color: fontColorLight, width: 2), top: BorderSide(color: fontColorLight, width: 2)),
+                ),
+                child: ListTile(
+                    leading: Icon(Icons.workspaces_filled, color: fontColorLight), //miscellaneous_services
+                    title: Text(S.of(context).overview,
+                        style: TextStyle(color: fontColorLight)),
+                    contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
+                    onTap: () {
+                      bottomTapped(0);
+                      Navigator.pop(context); //close drawer
+                    },
+                ),
+
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border(bottom: BorderSide(color: fontColorLight, width: 2)),
+                ),
+                child: ListTile(
+                    leading: Icon(Icons.download_rounded, color: fontColorLight),
+                    title: Text(S.of(context).updates,
+                        style: TextStyle(color: fontColorLight)),
+                    contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
+                    onTap: () {
+                      bottomTapped(1);
+                      Navigator.pop(context); //close drawer
+                    }),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border(bottom: BorderSide(color: fontColorLight, width: 2)),
+                ),
+                child: ListTile(
+                    leading: Icon(Icons.help, color: fontColorLight),
+                    title: Text(S.of(context).help,
+                        style: TextStyle(color: fontColorLight)),
+                    contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
+                    onTap: () {
+                      bottomTapped(2);
+                      Navigator.pop(context); //close drawer
+                    }),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border(bottom: BorderSide(color: fontColorLight, width: 2)),
+                ),
+                child: ListTile(
+                    leading: Icon(Icons.miscellaneous_services, color: fontColorLight),
+                    title: Text(S.of(context).settings,
+                        style: TextStyle(color: fontColorLight)),
+                    contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
+                    onTap: () {
+                      bottomTapped(3);
+                      Navigator.pop(context); //close drawer
+                    }),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border(bottom: BorderSide(color: fontColorLight, width: 2)),
+                ),
+                child: ListTile(
+                    leading: Icon(Icons.info_outline_rounded, color: fontColorLight),
+                    title: Text(S.of(context).appInfo,
+                        style: TextStyle(color: fontColorLight)),
+                    contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
+                    onTap: () {
+                      Navigator.pop(context); //close drawer
+                      _appInfoAlert(context);
+                    }),
+              ),
             ])),
       ),
       body: buildPageView(),

@@ -237,7 +237,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     tileColor: secondColor,
                     subtitle: Padding(
                       padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
-                      child: Text(S.of(context).dataRatesArePermanentlyDisplayedInTheOverview, style: TextStyle(color: fontColorMedium, fontSize: fontSizeListTileSubtitle * fontSizeFactor)
+                      child: Text(S.of(context).dataRatesArePermanentlyDisplayedInTheOverview, style: TextStyle(color: fontColorMedium, fontSize: fontSizeListTileSubtitle * fontSizeFactor,fontFamily: 'OpenSans')
                       ),
                     ),
                     title: Text(S.of(context).enableShowingSpeeds, style: TextStyle(fontSize: fontSizeListTileTitle*fontSizeFactor, color: fontColorDark), semanticsLabel: "Show Speeds"

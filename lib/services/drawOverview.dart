@@ -37,7 +37,7 @@ class DrawOverview extends CustomPainter {
 
   final _textStyle = TextStyle(
     color: drawingColor,
-    fontFamily: 'Roboto',
+    fontFamily: 'OpenSans',
     fontSize: 14,
     backgroundColor: backgroundColor,
     fontWeight: FontWeight.bold,
@@ -45,14 +45,14 @@ class DrawOverview extends CustomPainter {
 
   final _textNameStyle = TextStyle(
     color: drawingColor,
-    fontFamily: 'Roboto',
+    fontFamily: 'OpenSans',
     fontSize: 14,
     backgroundColor: backgroundColor,
   );
 
   final _speedTextStyle = TextStyle(
     color: mainColor,
-    fontFamily: 'Roboto',
+    fontFamily: 'OpenSans',
     fontSize: 15,
     //backgroundColor: Colors.white,
     fontWeight: FontWeight.bold,

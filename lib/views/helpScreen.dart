@@ -801,30 +801,6 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
         });
   }
 
-  void _supportSettingsDialog(context, title, body) {
-    showDialog<void>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Column(
-              children: [
-                getCloseButton(context),
-                Text(
-                  title,
-                  style: TextStyle(color: fontColorLight),
-                ),
-              ],
-            ),
-            titlePadding: EdgeInsets.all(2),
-            backgroundColor: backgroundColor.withOpacity(0.9),
-            //contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18 * fontSizeFactor),
-            content: Text(body),
-            actions: <Widget>[],
-          );
-        });
-  }
-
   // !!! closeButton is added manually
   void _loadingDialog (context, socket) async {
     bool dialogIsOpen = true;

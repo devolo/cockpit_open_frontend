@@ -595,66 +595,68 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
           contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 17 * fontSize.factor),
           content: StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if(hitDeviceVDSLmode != "0")
-                      Column(children: [
-                        SelectableText(S.of(context).vdslexplanation),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Row(
-                            children: [
-                              Theme(
-                                data: ThemeData(
-                                  //here change to your color
-                                  unselectedWidgetColor: secondColor,
+                return SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if(hitDeviceVDSLmode != "0")
+                        Column(children: [
+                          SelectableText(S.of(context).vdslexplanation),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Row(
+                              children: [
+                                Theme(
+                                  data: ThemeData(
+                                    //here change to your color
+                                    unselectedWidgetColor: secondColor,
+                                  ),
+                                  child: Checkbox(
+                                      value: vdslModeAutomatic,
+                                      activeColor: secondColor,
+                                      onChanged: (bool? newValue) async {
+                                        vdslModeAutomatic = newValue!;
+                                        setState(() {
+                                          if (vdslModeAutomatic == true) {
+                                            hitDeviceVDSLmode = "2";
+                                          } else {
+                                            hitDeviceVDSLmode = "1";
+                                          }
+                                        });
+                                      }),
                                 ),
-                                child: Checkbox(
-                                    value: vdslModeAutomatic,
-                                    activeColor: secondColor,
-                                    onChanged: (bool? newValue) async {
-                                      vdslModeAutomatic = newValue!;
-                                      setState(() {
-                                        if (vdslModeAutomatic == true) {
-                                          hitDeviceVDSLmode = "2";
-                                        } else {
-                                          hitDeviceVDSLmode = "1";
-                                        }
-                                      });
-                                    }),
-                              ),
-                              SelectableText(S.of(context).automaticCompatibilityMode),
-                            ],
+                                SelectableText(S.of(context).automaticCompatibilityMode),
+                              ],
+                            ),
+                          ),
+                          SelectableText(S.of(context).vdslexplanation2),
+                        ],),
+                      for (String vdsl_profile in hitDeviceVDSLList)
+                        ListTile(
+                          title: Text(
+                            vdsl_profile,
+                            style:  TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 17 * fontSize.factor),
+                          ),
+                          leading: Theme(
+                            data: ThemeData(
+                              //here change to your color
+                              unselectedWidgetColor: secondColor,
+                            ),
+                            child: Radio(
+                              value: vdsl_profile,
+                              groupValue: vdslProfile,
+                              activeColor: secondColor,
+                              onChanged: (String? value) {
+                                setState(() {
+                                  vdslProfile = value!;
+                                });
+                              },
+                            ),
                           ),
                         ),
-                        SelectableText(S.of(context).vdslexplanation2),
-                      ],),
-                    for (String vdsl_profile in hitDeviceVDSLList)
-                      ListTile(
-                        title: Text(
-                          vdsl_profile,
-                          style:  TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 17 * fontSize.factor),
-                        ),
-                        leading: Theme(
-                          data: ThemeData(
-                            //here change to your color
-                            unselectedWidgetColor: secondColor,
-                          ),
-                          child: Radio(
-                            value: vdsl_profile,
-                            groupValue: vdslProfile,
-                            activeColor: secondColor,
-                            onChanged: (String? value) {
-                              setState(() {
-                                vdslProfile = value!;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                  ],
+                    ],
+                  ),
                 );
               }),
           actions: <Widget>[

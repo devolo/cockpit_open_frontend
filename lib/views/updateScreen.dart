@@ -253,8 +253,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
             Divider(
               color: fontColorLight,
             ),
-            Container(
-              alignment: Alignment.center,
+            Expanded(
+              child: SingleChildScrollView (
               child: Table(
                 defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                 columnWidths: {
@@ -473,6 +473,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     ]),
                 ],
               ),
+            ),
             ),
             SizedBox(
               height: 20,

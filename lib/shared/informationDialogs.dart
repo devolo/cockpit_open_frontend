@@ -577,13 +577,13 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
   );
 }
 
-void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitDeviceVDSLList, String vdslProfile, hitDeviceMac, FontSize fontSize) {
+void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitDeviceVDSLList, String vdslProfile, hitDeviceMac, FontSize fontSize) async {
 
   bool vdslModeAutomatic = false;
   if(hitDeviceVDSLmode == "2")
     vdslModeAutomatic = true;
 
-  showDialog<void>(
+  bool? returnVal = await showDialog(
       context: context,
       barrierDismissible: true, // user doesn't need to tap button!
       builder: (BuildContext context) {
@@ -602,29 +602,32 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                     if(hitDeviceVDSLmode != "0")
                       Column(children: [
                         SelectableText(S.of(context).vdslexplanation),
-                        Row(
-                          children: [
-                            Theme(
-                              data: ThemeData(
-                                //here change to your color
-                                unselectedWidgetColor: secondColor,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Row(
+                            children: [
+                              Theme(
+                                data: ThemeData(
+                                  //here change to your color
+                                  unselectedWidgetColor: secondColor,
+                                ),
+                                child: Checkbox(
+                                    value: vdslModeAutomatic,
+                                    activeColor: secondColor,
+                                    onChanged: (bool? newValue) async {
+                                      vdslModeAutomatic = newValue!;
+                                      setState(() {
+                                        if (vdslModeAutomatic == true) {
+                                          hitDeviceVDSLmode = "2";
+                                        } else {
+                                          hitDeviceVDSLmode = "1";
+                                        }
+                                      });
+                                    }),
                               ),
-                              child: Checkbox(
-                                  value: vdslModeAutomatic,
-                                  activeColor: secondColor,
-                                  onChanged: (bool? newValue) async {
-                                    vdslModeAutomatic = newValue!;
-                                    setState(() {
-                                      if (vdslModeAutomatic == true) {
-                                        hitDeviceVDSLmode = "2";
-                                      } else {
-                                        hitDeviceVDSLmode = "1";
-                                      }
-                                    });
-                                  }),
-                            ),
-                            SelectableText(S.of(context).automaticCompatibilityMode),
-                          ],
+                              SelectableText(S.of(context).automaticCompatibilityMode),
+                            ],
+                          ),
                         ),
                         SelectableText(S.of(context).vdslexplanation2),
                       ],),
@@ -655,74 +658,50 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                 );
               }),
           actions: <Widget>[
-            FlatButton(
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.check_circle_outline,
-                    color: fontColorLight,
-                    size: 35 * fontSize.factor,
-                  ),
-                  Text(
-                    S.of(context).confirm,
-                    style: TextStyle(color: fontColorLight),
-                  ),
-                ],
-              ),
-              onPressed: () async {
-                bool confResponse = false;
-                confResponse = await confirmDialog(context, "Set VDSL Compatibility", "Neue VDSL Einstellungen ${vdslProfile} übernehmen? ${hitDeviceVDSLmode}", fontSize);
+            getConfirmButton(context, fontSize),
+            getCancelButton(context, fontSize),
 
-                if (confResponse) {
-                  socket.sendXML('SetVDSLCompatibility', newValue: vdslProfile, valueType: 'profile', newValue2: hitDeviceVDSLmode, valueType2: 'mode', mac: hitDeviceMac);
-
-                  showDialog<void>(
-                      context: context,
-                      barrierDismissible: true, // user doesn't need to tap button!
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          backgroundColor: Colors.transparent,
-                          content: Column(mainAxisSize: MainAxisSize.min ,
-                              children: [
-                                CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(secondColor),)]
-                          ),
-                        );
-                      });
-
-                  var response = await socket.receiveXML("SetVDSLCompatibilityStatus");
-                  if (response['result'] == "failed") {
-                    Navigator.maybeOf(context)!.pop(true);
-                    errorDialog(context, " ", S.of(context).vdslfailed, fontSize);
-                  } else if (response['result'] != "ok") {
-                    Navigator.maybeOf(context)!.pop(true);
-                    errorDialog(context, "Done", S.of(context).resetDeviceErrorBody, fontSize);
-                  }
-                  else {
-                    Navigator.maybeOf(context)!.pop();
-                  }
-                }
-              },
-            ),
-            FlatButton(
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.cancel_outlined,
-                      color: fontColorLight,
-                      size: 35 * fontSize.factor,
-                    ),
-                    Text(
-                      S.of(context).cancel,
-                      style: TextStyle(color: fontColorLight),
-                    ),
-                  ],
-                ), //Text('Abbrechen'),
-                onPressed: () {
-                  // Cancel critical action
-                  Navigator.maybeOf(context)!.pop(false);
-                }),
           ],
 
         );
       });
+
+  if (returnVal == null) returnVal = false;
+
+  if (returnVal == true) {
+    bool confResponse = false;
+    confResponse = await confirmDialog(context, "Set VDSL Compatibility", "Neue VDSL Einstellungen ${vdslProfile} übernehmen?", fontSize);
+
+    if (confResponse) {
+      socket.sendXML('SetVDSLCompatibility', newValue: vdslProfile, valueType: 'profile', newValue2: hitDeviceVDSLmode, valueType2: 'mode', mac: hitDeviceMac);
+
+      showDialog<void>(
+          context: context,
+          barrierDismissible: true, // user doesn't need to tap button!
+          builder: (BuildContext context) {
+            return AlertDialog(
+              backgroundColor: Colors.transparent,
+              content: Column(mainAxisSize: MainAxisSize.min ,
+                  children: [
+                    CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(secondColor),)]
+              ),
+            );
+          });
+
+      var response = await socket.receiveXML("SetVDSLCompatibilityStatus");
+      if (response['result'] == "failed") {
+        Navigator.maybeOf(context)!.pop(true);
+        errorDialog(context, "Error", S.of(context).vdslfailed, fontSize);
+      } else if (response['result'] != "ok") {
+        Navigator.maybeOf(context)!.pop(true);
+        errorDialog(context, "Done", S.of(context).resetDeviceErrorBody, fontSize);
+      }
+      else {
+        Navigator.maybeOf(context)!.pop();
+      }
+    }
+  }
+  else {
+    Navigator.maybeOf(context)!.pop(false);
+  }
 }

@@ -48,7 +48,7 @@ void main() {
   //info(blue): Use to highlight interesting parts
   //warn(orange): Use to mark critical parts
   //error(red): Use to output error
-  Logger.level = Level.debug;
+  Logger.level = Level.verbose;
 
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isLinux) {

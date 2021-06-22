@@ -31,7 +31,7 @@ Map<String,dynamic> config = {
   "theme": theme_devolo["name"],
   "previous_theme": theme_devolo["name"],
   "language": "",
-  "font_size_factor": fontSizeFactor,
+  "font_size_factor": 1.0,
   "selected_network": 0,
 };
 

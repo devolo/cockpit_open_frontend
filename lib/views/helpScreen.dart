@@ -7,6 +7,7 @@ LICENSE file in the root directory of this source tree.
 */
 
 import 'package:cockpit_devolo/generated/l10n.dart';
+import 'package:cockpit_devolo/models/fontSizeModel.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/app_fontSize.dart';
@@ -47,18 +48,23 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
 
   FocusNode myFocusNode = new FocusNode();
 
+  late FontSize fontSize;
+
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     _currImage = optimizeImages.first;
     var socket = Provider.of<DataHand>(context);
+
+    fontSize = context.watch<FontSize>();
+
     return new Scaffold(
       backgroundColor: Colors.transparent,
       appBar: new AppBar(
         title: new Text(
           S.of(context).help,
-          style: TextStyle(fontSize: fontSizeAppBarTitle * fontSizeFactor, color: fontColorLight),
+          style: TextStyle(fontSize: fontSizeAppBarTitle * fontSize.factor, color: fontColorLight),
         ),
         centerTitle: true,
         backgroundColor: mainColor,
@@ -97,7 +103,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                           ),
                           Text(
                             S.of(context).setUpDevice,
-                            textScaleFactor: fontSizeFactor,
+                            textScaleFactor: fontSize.factor,
                           ),
                         ],
                       ),
@@ -130,7 +136,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                           ),
                           Text(
                             S.of(context).optimizeReception,
-                            textScaleFactor: fontSizeFactor,
+                            textScaleFactor: fontSize.factor,
                           ),
                         ],
                       ),
@@ -163,7 +169,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                           ),
                           Text(
                             S.of(context).contactSupport,
-                            textScaleFactor: fontSizeFactor,
+                            textScaleFactor: fontSize.factor,
                           ),
                         ],
                       ),
@@ -571,7 +577,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text(S.of(context).theCreatedSupportInformationCanNowBeSentToDevolo,
-                    textScaleFactor: fontSizeFactor,),
+                    textScaleFactor: fontSize.factor,),
                 SizedBox(
                   height: 20,
                 ),
@@ -704,7 +710,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                 child: Text(
                   S.of(context).confirm,
                   style: TextStyle(fontSize: 14, color: fontColorLight),
-                  textScaleFactor: fontSizeFactor,
+                  textScaleFactor: fontSize.factor,
                 ),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
@@ -744,7 +750,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                 child: Text(
                   S.of(context).cancel,
                   style: TextStyle(fontSize: 14),
-                  textScaleFactor: fontSizeFactor,
+                  textScaleFactor: fontSize.factor,
                 ),
                 onPressed: () {
                   Navigator.maybeOf(context)!.pop(false);
@@ -825,7 +831,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
             ),
             titlePadding: EdgeInsets.all(2),
             backgroundColor: backgroundColor.withOpacity(0.9),
-            contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18 * fontSizeFactor),
+            contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18 * fontSize.factor),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children:[
@@ -908,13 +914,13 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                     Icon(
                       Icons.open_in_browser_rounded,
                       color: fontColorLight,
-                      size: 24 * fontSizeFactor,
+                      size: 24 * fontSize.factor,
                     ),
                     SizedBox(width: 4,),
                     Text(
                       S.of(context).openSupportInformations,
                       style: TextStyle(fontSize: 14, color: fontColorLight),
-                      textScaleFactor: fontSizeFactor,
+                      textScaleFactor: fontSize.factor,
                     ),
                   ]),
                   onPressed: () {
@@ -945,13 +951,13 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                     Icon(
                       Icons.archive_outlined,
                       color: fontColorLight,
-                      size: 24 * fontSizeFactor,
+                      size: 24 * fontSize.factor,
                     ),
                     SizedBox(width: 4,),
                     Text(
                       S.of(context).saveSupportInformations,
                       style: TextStyle(fontSize: 14, color: fontColorLight),
-                      textScaleFactor: fontSizeFactor,
+                      textScaleFactor: fontSize.factor,
                     ),
                   ]),
                   onPressed: () {
@@ -982,13 +988,13 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                     Icon(
                       Icons.send_and_archive,
                       color: fontColorLight,
-                      size: 24 * fontSizeFactor,
+                      size: 24 * fontSize.factor,
                     ),
                     SizedBox(width: 4,),
                     Text(
                       S.of(context).sendToDevolo,
                       style: TextStyle(fontSize: 14, color: fontColorLight),
-                      textScaleFactor: fontSizeFactor,
+                      textScaleFactor: fontSize.factor,
                     ),
                   ]),
                   onPressed: () {

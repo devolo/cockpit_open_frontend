@@ -10,6 +10,7 @@ import 'dart:convert';
 
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
+import 'package:cockpit_devolo/models/fontSizeModel.dart';
 import 'package:cockpit_devolo/services/drawOverview.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
@@ -49,6 +50,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
   FocusNode myFocusNode = new FocusNode();
 
+  late FontSize fontSize;
+
   @override
   Widget build(BuildContext context) {
     final socket = Provider.of<DataHand>(context);
@@ -65,6 +68,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
     _Painter = DrawOverview(context, _deviceList, showingSpeeds, pivotDeviceIndex);
 
     logger.d("[overviewScreen] - widget build...");
+
+    fontSize = context.watch<FontSize>();
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -209,7 +214,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
         Device hitDevice = deviceList.getDeviceList()[index];
 
         //openDialog
-        deviceInformationDialog(context, hitDevice, myFocusNode, socket);
+        deviceInformationDialog(context, hitDevice, myFocusNode, socket, fontSize);
 
       }
       index++;

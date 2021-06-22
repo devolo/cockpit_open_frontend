@@ -33,9 +33,6 @@ Color devoloRed = Color.fromARGB(255, 199, 20, 61);
 double hoverOpacity = 0.7;
 double activeOpacity = 0.33;
 
-double fontSizeFactor = 1.0;
-double fontSizeDelta = 3.0;
-
 var theme_list = [theme_dark, theme_devolo, theme_light, theme_highContrast];
 
 //void setTheme(Map<String,dynamic> theme) {

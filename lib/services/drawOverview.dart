@@ -9,6 +9,7 @@ LICENSE file in the root directory of this source tree.
 import 'dart:math';
 import 'package:cockpit_devolo/models/configModel.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
+import 'package:cockpit_devolo/models/fontSizeModel.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -75,6 +76,7 @@ class DrawOverview extends CustomPainter {
   late int numberFoundDevices;
   late double _screenGridWidth;
   late double _screenGridHeight;
+  late FontSize fontSize;
 
   DrawOverview(BuildContext context, NetworkList foundDevices, bool showSpeeds, int pivot) {
     _providerList = Provider.of<NetworkList>(context);
@@ -90,8 +92,9 @@ class DrawOverview extends CustomPainter {
     showingSpeeds = showSpeeds;
     pivotDeviceIndex = pivot; // ToDo same
 
-    //hn_circle_radius = hn_circle_radius*fontSizeFactor;
-    //complete_circle_radius = complete_circle_radius*fontSizeFactor;
+    fontSize = context.watch<FontSize>();
+    //hn_circle_radius = hn_circle_radius*fontSize.factor;
+    //complete_circle_radius = complete_circle_radius*fontSize.factor;
 
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
@@ -141,7 +144,7 @@ class DrawOverview extends CustomPainter {
     _textPainter = TextPainter()
       ..textDirection = TextDirection.ltr
       ..textAlign = TextAlign.center
-      ..textScaleFactor = fontSizeFactor;
+      ..textScaleFactor = fontSize.factor;
 
     _speedTextPainter = TextPainter()
       ..textDirection = TextDirection.rtl
@@ -150,7 +153,7 @@ class DrawOverview extends CustomPainter {
     _iconPainter = TextPainter()
       ..textDirection = TextDirection.ltr
       ..textAlign = TextAlign.center;
-    //..textScaleFactor = fontSizeFactor;
+    //..textScaleFactor = fontSize.factor;
 
     _arrowPaint = Paint()
       ..color = drawingColor

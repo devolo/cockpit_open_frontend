@@ -28,10 +28,14 @@ import 'package:window_size/window_size.dart';
 import 'dart:io';
 import 'package:cockpit_devolo/shared/globals.dart';
 import 'package:cockpit_devolo/shared/imageLoader.dart';
+import 'dart:developer';
+import 'package:flutter/services.dart';
 import 'package:intl_utils/intl_utils.dart';
 
 import 'package:package_info_plus/package_info_plus.dart';
 import 'dart:convert';
+
+import 'models/fontSizeModel.dart';
 
 //TestComment
 //TestComment2
@@ -61,6 +65,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<DataHand>(create: (_) => DataHand()),
         ChangeNotifierProvider<NetworkList>(create: (_) => NetworkList()),
+        ChangeNotifierProvider<FontSize>(create: (_) => FontSize(1.0)),
       ],
       child: Consumer<DataHand>(
         builder: (context, counter, _) {
@@ -76,8 +81,6 @@ class MyApp extends StatelessWidget {
 
                   textTheme: Theme.of(context).textTheme.apply(
                         fontFamily: 'OpenSans',
-                        fontSizeFactor: fontSizeFactor, // only applies if fontSize is not manually set
-                        fontSizeDelta: fontSizeDelta,
                         displayColor: fontColorDark,
                         bodyColor: fontColorDark,
                         decorationColor: fontColorDark,
@@ -120,6 +123,10 @@ class _MyHomePageState extends State<MyHomePage> {
   int bottomSelectedIndex = 0;
   bool highContrast = false; // MediaQueryData().highContrast;  // Query current device if high Contrast theme is set
 
+  late Map<LogicalKeySet, Intent> _shortcutMap;
+  late Map<Type, Action<Intent>> _actionMap;
+  late FontSize fontSize;
+
   // String version;
   // String buildNr;
 
@@ -136,6 +143,49 @@ class _MyHomePageState extends State<MyHomePage> {
     getConnection();
     readSharedPrefs();
     //getVersion();
+
+    _actionMap = <Type, Action<Intent>>{
+      _FontSizeIntent: CallbackAction<_FontSizeIntent>(
+        onInvoke: _actionHandler,
+      ),
+    };
+
+    switch (Platform.operatingSystem) {
+      case "macos":
+        _shortcutMap = <LogicalKeySet, Intent>{
+          LogicalKeySet(LogicalKeyboardKey.meta,
+              LogicalKeyboardKey.equal): const _FontSizeIntent.increase(),
+          LogicalKeySet(LogicalKeyboardKey.meta,
+              LogicalKeyboardKey.minus): const _FontSizeIntent.decrease(),
+        };
+        break;
+      default:
+        _shortcutMap = <LogicalKeySet, Intent>{
+          LogicalKeySet(LogicalKeyboardKey.control,
+              LogicalKeyboardKey.equal): const _FontSizeIntent.increase(),
+          LogicalKeySet(LogicalKeyboardKey.control,
+              LogicalKeyboardKey.minus): const _FontSizeIntent.decrease(),
+        };
+    }
+
+    fontSize = context.read<FontSize>();
+  }
+
+  void _actionHandler(_FontSizeIntent intent) {
+    switch (intent.type) {
+      case _FontSizeActionType.increase:
+        {
+          fontSize.increase();
+          print("Font size: ${fontSize.factor}");
+          break;
+        }
+      case _FontSizeActionType.decrease:
+        {
+          fontSize.decrease();
+          print("Font size: ${fontSize.factor}");
+          break;
+        }
+    }
   }
 
   // Future<void> getVersion() async {
@@ -180,7 +230,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
 
       setTheme(jsonconfig["theme"]);
-      fontSizeFactor = config["font_size_factor"];
+      fontSize.factor = config["font_size_factor"];
     }
 
     else{
@@ -188,7 +238,7 @@ class _MyHomePageState extends State<MyHomePage> {
       saveToSharedPrefs(config);
 
       setTheme(config["theme"]);
-      fontSizeFactor = config["font_size_factor"];
+      fontSize.factor = config["font_size_factor"];
     }
 
 
@@ -359,7 +409,7 @@ class _MyHomePageState extends State<MyHomePage> {
               DrawerHeader(
                 child: Text(
                   "devolo Cockpit",
-                  style: TextStyle(fontSize: 23 * fontSizeFactor, color: fontColorLight),
+                  style: TextStyle(fontSize: 23 * fontSize.factor, color: fontColorLight),
                 ),
                 margin: EdgeInsets.only(bottom: 0),
                 padding: EdgeInsets.symmetric(vertical: 50.0, horizontal:16.0),
@@ -439,15 +489,20 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ])),
       ),
-      body: buildPageView(),
+      body: FocusableActionDetector(
+        autofocus: true,
+        actions: _actionMap,
+        shortcuts: _shortcutMap,
+        child: buildPageView(),
+    ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: mainColor,
         unselectedItemColor: secondColor,
         selectedItemColor: fontColorLight,
         selectedIconTheme: IconThemeData(size: 35),
-        selectedFontSize: 16 * fontSizeFactor,
-        unselectedFontSize: 14 * fontSizeFactor,
+        selectedFontSize: 16 * fontSize.factor,
+        unselectedFontSize: 14 * fontSize.factor,
         currentIndex: bottomSelectedIndex,
         onTap: (index) {
           bottomTapped(index);
@@ -514,4 +569,18 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         });
   }
+}
+
+class _FontSizeIntent extends Intent {
+  const _FontSizeIntent({required this.type});
+
+  const _FontSizeIntent.increase() : type = _FontSizeActionType.increase;
+  const _FontSizeIntent.decrease() : type = _FontSizeActionType.decrease;
+
+  final _FontSizeActionType type;
+}
+
+enum _FontSizeActionType {
+  increase,
+  decrease
 }

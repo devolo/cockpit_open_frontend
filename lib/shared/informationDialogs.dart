@@ -1,5 +1,6 @@
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
+import 'package:cockpit_devolo/models/fontSizeModel.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,7 @@ import 'app_colors.dart';
 import 'buttons.dart';
 import 'helpers.dart';
 
-void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, DataHand socket) {
+void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, DataHand socket, FontSize fontSize) {
 
   String newName = hitDevice.name;
   bool changeNameLoading = false;
@@ -21,7 +22,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
         backgroundColor: backgroundColor.withOpacity(0.9),
         contentTextStyle: TextStyle(color: Colors.white,
             decorationColor: Colors.white,
-            fontSize: 17 * fontSizeFactor),
+            fontSize: 17 * fontSize.factor),
         title: Column(
           children: [
             getCloseButton(context),
@@ -30,7 +31,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                   .of(context)
                   .deviceinfo,
               style: TextStyle(color: Colors.white),
-              textScaleFactor: fontSizeFactor,
+              textScaleFactor: fontSize.factor,
             ),
           ],
         ),
@@ -49,7 +50,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                 height: 15,
               ),
               Table(
-                defaultColumnWidth: FixedColumnWidth(300.0 * fontSizeFactor),
+                defaultColumnWidth: FixedColumnWidth(300.0 * fontSize.factor),
                 children: [
                   TableRow(children: [
                     Row(mainAxisAlignment: MainAxisAlignment.end, children: [
@@ -319,7 +320,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                         disabledColor: fontColorNotAvailable,
                         color: fontColorLight,
                         hoverColor: fontColorLight.withAlpha(50),
-                        iconSize: 24.0 * fontSizeFactor,
+                        iconSize: 24.0 * fontSize.factor,
                         onPressed: !hitDevice.webinterfaceAvailable ? null : () =>
                             launchURL(hitDevice.ip),
                         mouseCursor: !hitDevice.webinterfaceAvailable ? SystemMouseCursors
@@ -333,7 +334,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                             color: !hitDevice.webinterfaceAvailable
                                 ? fontColorNotAvailable
                                 : fontColorLight),
-                        textScaleFactor: fontSizeFactor,
+                        textScaleFactor: fontSize.factor,
                         textAlign: TextAlign.center,
                       )
                     ],
@@ -348,7 +349,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                         disabledColor: fontColorNotAvailable,
                         color: fontColorLight,
                         hoverColor: fontColorLight.withAlpha(50),
-                        iconSize: 24.0 * fontSizeFactor,
+                        iconSize: 24.0 * fontSize.factor,
                         onPressed: !hitDevice.identifyDeviceAvailable
                             ? null
                             : () async {
@@ -377,7 +378,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                             color: !hitDevice.identifyDeviceAvailable
                                 ? fontColorNotAvailable
                                 : fontColorLight),
-                        textScaleFactor: fontSizeFactor,
+                        textScaleFactor: fontSize.factor,
                         textAlign: TextAlign.center,
                       )
                     ],
@@ -391,7 +392,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                           ),
 //tooltip: S.of(context).showManual,
                           hoverColor: fontColorLight.withAlpha(50),
-                          iconSize: 24.0 * fontSizeFactor,
+                          iconSize: 24.0 * fontSize.factor,
                           onPressed: () async {
                             socket.sendXML('GetManual', newValue: hitDevice.MT,
                                 valueType: 'product',
@@ -414,7 +415,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                             .of(context)
                             .showManual,
                         style: TextStyle(fontSize: 14, color: fontColorLight),
-                        textScaleFactor: fontSizeFactor,
+                        textScaleFactor: fontSize.factor,
                         textAlign: TextAlign.center,
                       )
                     ],
@@ -429,7 +430,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                             ),
 //tooltip: S.of(context).showManual,
                             hoverColor: fontColorLight.withAlpha(50),
-                            iconSize: 24.0 * fontSizeFactor,
+                            iconSize: 24.0 * fontSize.factor,
                             onPressed: () {
                               showVDSLDialog(
                                   context,socket, hitDevice.mode_vdsl, hitDevice.supported_vdsl,
@@ -440,7 +441,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                               .of(context)
                               .setVdslCompatibility,
                           style: TextStyle(fontSize: 14, color: fontColorLight),
-                          textScaleFactor: fontSizeFactor,
+                          textScaleFactor: fontSize.factor,
                           textAlign: TextAlign.center,
                         )
                       ],
@@ -455,7 +456,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                         ),
 //tooltip: S.of(context).factoryReset,
                         hoverColor: fontColorLight.withAlpha(50),
-                        iconSize: 24.0 * fontSizeFactor,
+                        iconSize: 24.0 * fontSize.factor,
                         onPressed: () async {
                           bool confResponse = false;
                           hitDevice.attachedToRouter
@@ -501,7 +502,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                             .of(context)
                             .factoryReset,
                         style: TextStyle(fontSize: 14, color: fontColorLight),
-                        textScaleFactor: fontSizeFactor,
+                        textScaleFactor: fontSize.factor,
                         textAlign: TextAlign.center,
                       )
                     ],
@@ -516,7 +517,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                         ),
 //tooltip: S.of(context).deleteDevice,
                         hoverColor: fontColorLight.withAlpha(50),
-                        iconSize: 24.0 * fontSizeFactor,
+                        iconSize: 24.0 * fontSize.factor,
                         onPressed: () async {
                           bool confResponse = false;
                           hitDevice.attachedToRouter
@@ -561,7 +562,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                             .of(context)
                             .deleteDevice,
                         style: TextStyle(fontSize: 14, color: fontColorLight),
-                        textScaleFactor: fontSizeFactor,
+                        textScaleFactor: fontSize.factor,
                         textAlign: TextAlign.center,
                       )
                     ],
@@ -577,6 +578,9 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
 }
 
 void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitDeviceVDSLList, String vdslProfile, hitDeviceMac) {
+
+  FontSize fontSize = context.watch<FontSize>();
+
   bool vdslModeAutomatic = false;
   if(hitDeviceVDSLmode == "2")
     vdslModeAutomatic = true;
@@ -588,9 +592,9 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
         return AlertDialog(
           insetPadding: EdgeInsets.symmetric(horizontal: 300),
           title: Text(S.of(context).vdslCompatibility),
-          titleTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 17 * fontSizeFactor),
+          titleTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 17 * fontSize.factor),
           backgroundColor: backgroundColor.withOpacity(0.9),
-          contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 17 * fontSizeFactor),
+          contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 17 * fontSize.factor),
           content: StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
                 return Column(
@@ -630,7 +634,7 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                       ListTile(
                         title: Text(
                           vdsl_profile,
-                          style:  TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 17 * fontSizeFactor),
+                          style:  TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 17 * fontSize.factor),
                         ),
                         leading: Theme(
                           data: ThemeData(
@@ -659,7 +663,7 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                   Icon(
                     Icons.check_circle_outline,
                     color: fontColorLight,
-                    size: 35 * fontSizeFactor,
+                    size: 35 * fontSize.factor,
                   ),
                   Text(
                     S.of(context).confirm,
@@ -707,7 +711,7 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                     Icon(
                       Icons.cancel_outlined,
                       color: fontColorLight,
-                      size: 35 * fontSizeFactor,
+                      size: 35 * fontSize.factor,
                     ),
                     Text(
                       S.of(context).cancel,

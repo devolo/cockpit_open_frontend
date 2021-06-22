@@ -38,9 +38,6 @@
 //   // Color fontColorMedium = Colors.grey[800];
 //   // Color fontColorDark = Colors.black;
 //
-//   double fontSizeFactor = 1.0;
-//   double fontSizeDelta = 3.0;
-//
 //   bool ignore_updates = false;
 //   bool allow_data_collection = false;
 //   bool windows_network_throttling_disabled = true;

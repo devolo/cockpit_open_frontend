@@ -9,6 +9,7 @@ LICENSE file in the root directory of this source tree.
 import 'dart:async';
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
+import 'package:cockpit_devolo/models/fontSizeModel.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/app_fontSize.dart';
@@ -51,6 +52,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
   final _scrollController = ScrollController();
   FocusNode myFocusNode = new FocusNode();
 
+  late FontSize fontSize;
+
   Future<void> updateCockpit(socket, _deviceList) async {
     setState(() {
       socket.sendXML('UpdateCheck');
@@ -86,6 +89,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
     final socket = Provider.of<DataHand>(context);
     var _deviceList = Provider.of<NetworkList>(context);
 
+    fontSize = context.watch<FontSize>();
+
     return new Scaffold(
       backgroundColor: Colors.transparent,
       appBar: new AppBar(
@@ -94,7 +99,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
           children: [
             new Text(
               S.of(context).updates,
-              style: TextStyle(fontSize: fontSizeAppBarTitle - 5 * fontSizeFactor, color: fontColorLight),
+              style: TextStyle(fontSize: fontSizeAppBarTitle - 5 * fontSize.factor, color: fontColorLight),
               textAlign: TextAlign.start,
             ),
             Divider(
@@ -147,7 +152,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         : Icon(
                             Icons.refresh,
                             color: fontColorLight,
-                            size: 24 * fontSizeFactor,
+                            size: 24 * fontSize.factor,
                           ),
                     Text(
                       S.of(context).checkUpdates,
@@ -184,7 +189,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       Icon(
                         Icons.download_rounded,
                         color: fontColorLight,
-                        size: 24 * fontSizeFactor,
+                        size: 24 * fontSize.factor,
                       ),
                       Text(
                         " ${S.of(context).updateAll}",
@@ -280,7 +285,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                         Icons.check_circle,
                                         color: devoloGreen,
                                       ),
-                                      iconSize: 24 * fontSizeFactor,
+                                      iconSize: 24 * fontSize.factor,
                                       onPressed: () {},
                                       // tooltip: "already uptodate",
                                     ),
@@ -294,7 +299,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                           Icons.download_rounded,
                                           color: mainColor,
                                         ),
-                                        iconSize: 24 * fontSizeFactor,
+                                        iconSize: 24 * fontSize.factor,
                                         onPressed: () async {
                                           await updateCockpit(socket, _deviceList);
                                         }),
@@ -312,13 +317,13 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         leading: Icon(
                           Icons.speed_rounded,
                           color: Colors.white,
-                          size: 24.0 * fontSizeFactor,
+                          size: 24.0 * fontSize.factor,
                         ),
                         title: Text(
                           "Cockpit Software",
                           style: TextStyle(color: fontColorLight, fontSize: 18),
                           textAlign: TextAlign.center,
-                          textScaleFactor: fontSizeFactor,
+                          textScaleFactor: fontSize.factor,
                         ),
                       ),
                     ),
@@ -347,7 +352,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                     FlatButton(
                                         child: Text(
                                           S.of(context).update2,
-                                          style: TextStyle(color: fontColorLight, fontSize: 20 * fontSizeFactor),
+                                          style: TextStyle(color: fontColorLight, fontSize: 20 * fontSize.factor),
                                           textAlign: TextAlign.center,
                                         ),
                                         onPressed: () async {
@@ -379,7 +384,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                           Icons.check_circle,
                                           color: devoloGreen,
                                         ),
-                                        iconSize: 24 * fontSizeFactor,
+                                        iconSize: 24 * fontSize.factor,
                                         onPressed: () {},
                                         // tooltip: "already uptodate",
                                       ),
@@ -392,7 +397,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                             Icons.download_rounded,
                                             color: mainColor,
                                           ),
-                                          iconSize: 24 * fontSizeFactor,
+                                          iconSize: 24 * fontSize.factor,
                                           onPressed: () async {
                                             await updateCockpit(socket, _deviceList);
                                           }),
@@ -413,20 +418,20 @@ class _UpdateScreenState extends State<UpdateScreen> {
                             onTap: () => _handleTap(_deviceList.getAllDevices()[i]),
                             leading: RawImage(
                               image: getIconForDeviceType(_deviceList.getAllDevices()[i].typeEnum),
-                              height: 35 * fontSizeFactor,
+                              height: 35 * fontSize.factor,
                             ),
                             //Icon(Icons.devices),
                             title: Text(
                               _deviceList.getAllDevices()[i].name,
                               style: TextStyle(fontWeight: FontWeight.bold, color: fontColorLight, fontSize: 17,),
                               textAlign: TextAlign.center,
-                              textScaleFactor: fontSizeFactor,
+                              textScaleFactor: fontSize.factor,
                             ),
                             subtitle: Text(
                               '${_deviceList.getAllDevices()[i].type}',
                               style: TextStyle(color: fontColorLight, fontSize: 17,),
                               textAlign: TextAlign.center,
-                              textScaleFactor: fontSizeFactor,
+                              textScaleFactor: fontSize.factor,
                             ),
                           ),
                         ),
@@ -456,7 +461,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                       FlatButton(
                                           child: Text(
                                             S.of(context).update2,
-                                            style: TextStyle(color: fontColorLight, fontSize: 20 * fontSizeFactor),
+                                            style: TextStyle(color: fontColorLight, fontSize: 20 * fontSize.factor),
                                             textAlign: TextAlign.center,
                                           ),
                                           onPressed: () async {
@@ -484,7 +489,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
     final socket = Provider.of<DataHand>(context, listen: false);
 
     //openDialog
-    deviceInformationDialog(context, dev, myFocusNode, socket);
+    deviceInformationDialog(context, dev, myFocusNode, socket, fontSize);
 
   }
 }

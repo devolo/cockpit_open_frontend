@@ -1,14 +1,18 @@
 import 'package:cockpit_devolo/generated/l10n.dart';
+import 'package:cockpit_devolo/models/fontSizeModel.dart';
 import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
 
 getConfirmButton(context) {
+
+  FontSize fontSize = context.watch<FontSize>();
+
   return TextButton(
     child: Text(
       S.of(context).confirm,
       style: TextStyle(fontSize: 14, color: fontColorLight),
-      textScaleFactor: fontSizeFactor,
+      textScaleFactor: fontSize.factor,
     ),
     onPressed: () {
       Navigator.maybeOf(context)!.pop(true);
@@ -35,11 +39,14 @@ getConfirmButton(context) {
 }
 
 getCancelButton(context) {
+
+  FontSize fontSize = context.watch<FontSize>();
+
   return TextButton(
     child: Text(
       S.of(context).cancel,
       style: TextStyle(fontSize: 14),
-      textScaleFactor: fontSizeFactor,
+      textScaleFactor: fontSize.factor,
     ),
     onPressed: () {
       Navigator.maybeOf(context)!.pop(false);
@@ -86,6 +93,7 @@ getCancelButton(context) {
 }
 
 getCloseButton(context) {
+
   return Padding(
     padding: const EdgeInsets.fromLTRB(0, 5, 5, 0),
     child: GestureDetector(

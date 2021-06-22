@@ -103,7 +103,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                   .of(context)
                                   .deviceNameDialogTitle, S
                                   .of(context)
-                                  .deviceNameDialogBody);
+                                  .deviceNameDialogBody, fontSize);
                               if (confResponse) {
                                 changeNameLoading = true;
                                 socket.sendXML(
@@ -129,13 +129,13 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                       .of(context)
                                       .deviceNotFoundDeviceName + "\n\n" + S
                                       .of(context)
-                                      .deviceNotFoundHint);
+                                      .deviceNotFoundHint, fontSize);
                                 } else if (response['result'] != "ok") {
                                   errorDialog(context, S
                                       .of(context)
                                       .deviceNameErrorTitle, S
                                       .of(context)
-                                      .deviceNameErrorBody);
+                                      .deviceNameErrorBody, fontSize);
                                 }
 
                                 changeNameLoading = false;
@@ -151,7 +151,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                               .of(context)
                               .deviceNameDialogTitle, S
                               .of(context)
-                              .deviceNameDialogBody);
+                              .deviceNameDialogBody, fontSize);
                           if (confResponse) {
                             changeNameLoading = true;
                             socket.sendXML('SetAdapterName', mac: hitDevice.mac,
@@ -173,7 +173,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                   .of(context)
                                   .deviceNameErrorTitle, S
                                   .of(context)
-                                  .deviceNameErrorBody);
+                                  .deviceNameErrorBody, fontSize);
                             } else
                             if (response['result'] == "device_not_found") {
                               errorDialog(context, S
@@ -182,7 +182,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                   .of(context)
                                   .deviceNotFoundDeviceName + "\n\n" + S
                                   .of(context)
-                                  .deviceNotFoundHint);
+                                  .deviceNotFoundHint, fontSize);
                             }
 
                             changeNameLoading = false;
@@ -363,7 +363,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                 .of(context)
                                 .deviceNotFoundIdentifyDevice + "\n\n" + S
                                 .of(context)
-                                .deviceNotFoundHint);
+                                .deviceNotFoundHint, fontSize);
                           }
                         },
 
@@ -407,7 +407,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                   .of(context)
                                   .manualErrorTitle, S
                                   .of(context)
-                                  .manualErrorBody);
+                                  .manualErrorBody, fontSize);
                             }
                           }),
                       Text(
@@ -434,7 +434,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                             onPressed: () {
                               showVDSLDialog(
                                   context,socket, hitDevice.mode_vdsl, hitDevice.supported_vdsl,
-                                  hitDevice.selected_vdsl, hitDevice.mac);
+                                  hitDevice.selected_vdsl, hitDevice.mac, fontSize);
                             }),
                         Text(
                           S
@@ -466,12 +466,12 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                               .of(context)
                               .resetDeviceConfirmBody + "\n" + S
                               .of(context)
-                              .confirmActionConnectedToRouterWarning)
+                              .confirmActionConnectedToRouterWarning, fontSize)
                               : confResponse = await confirmDialog(context, S
                               .of(context)
                               .resetDeviceConfirmTitle, S
                               .of(context)
-                              .resetDeviceConfirmBody);
+                              .resetDeviceConfirmBody, fontSize);
 
                           if (confResponse) {
                             socket.sendXML("ResetAdapterToFactoryDefaults",
@@ -486,13 +486,13 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                   .of(context)
                                   .deviceNotFoundResetDevice + "\n\n" + S
                                   .of(context)
-                                  .deviceNotFoundHint);
+                                  .deviceNotFoundHint, fontSize);
                             } else if (response['result'] != "ok") {
                               errorDialog(context, S
                                   .of(context)
                                   .resetDeviceErrorTitle, S
                                   .of(context)
-                                  .resetDeviceErrorBody);
+                                  .resetDeviceErrorBody, fontSize);
                             }
                           }
                         },
@@ -527,12 +527,12 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                               .of(context)
                               .removeDeviceConfirmBody + "\n" + S
                               .of(context)
-                              .confirmActionConnectedToRouterWarning)
+                              .confirmActionConnectedToRouterWarning, fontSize)
                               : confResponse = await confirmDialog(context, S
                               .of(context)
                               .removeDeviceConfirmTitle, S
                               .of(context)
-                              .removeDeviceConfirmBody);
+                              .removeDeviceConfirmBody, fontSize);
 
                           if (confResponse) {
                             socket.sendXML("RemoveAdapter", mac: hitDevice.mac);
@@ -546,13 +546,13 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                   .of(context)
                                   .deviceNotFoundRemoveDevice + "\n\n" + S
                                   .of(context)
-                                  .deviceNotFoundHint);
+                                  .deviceNotFoundHint, fontSize);
                             } else if (response['result'] != "ok") {
                               errorDialog(context, S
                                   .of(context)
                                   .removeDeviceErrorTitle, S
                                   .of(context)
-                                  .removeDeviceErrorBody);
+                                  .removeDeviceErrorBody, fontSize);
                             }
                           }
                         },
@@ -577,9 +577,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
   );
 }
 
-void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitDeviceVDSLList, String vdslProfile, hitDeviceMac) {
-
-  FontSize fontSize = context.watch<FontSize>();
+void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitDeviceVDSLList, String vdslProfile, hitDeviceMac, FontSize fontSize) {
 
   bool vdslModeAutomatic = false;
   if(hitDeviceVDSLmode == "2")
@@ -673,7 +671,7 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
               ),
               onPressed: () async {
                 bool confResponse = false;
-                confResponse = await confirmDialog(context, "Set VDSL Compatibility", "Neue VDSL Einstellungen ${vdslProfile} übernehmen? ${hitDeviceVDSLmode}");
+                confResponse = await confirmDialog(context, "Set VDSL Compatibility", "Neue VDSL Einstellungen ${vdslProfile} übernehmen? ${hitDeviceVDSLmode}", fontSize);
 
                 if (confResponse) {
                   socket.sendXML('SetVDSLCompatibility', newValue: vdslProfile, valueType: 'profile', newValue2: hitDeviceVDSLmode, valueType2: 'mode', mac: hitDeviceMac);
@@ -694,10 +692,10 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                   var response = await socket.receiveXML("SetVDSLCompatibilityStatus");
                   if (response['result'] == "failed") {
                     Navigator.maybeOf(context)!.pop(true);
-                    errorDialog(context, " ", S.of(context).vdslfailed);
+                    errorDialog(context, " ", S.of(context).vdslfailed, fontSize);
                   } else if (response['result'] != "ok") {
                     Navigator.maybeOf(context)!.pop(true);
-                    errorDialog(context, "Done", S.of(context).resetDeviceErrorBody);
+                    errorDialog(context, "Done", S.of(context).resetDeviceErrorBody, fontSize);
                   }
                   else {
                     Navigator.maybeOf(context)!.pop();

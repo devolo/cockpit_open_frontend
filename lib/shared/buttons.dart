@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
 
-getConfirmButton(context) {
-
-  FontSize fontSize = context.watch<FontSize>();
+getConfirmButton(context, FontSize fontSize) {
 
   return TextButton(
     child: Text(
@@ -38,9 +36,7 @@ getConfirmButton(context) {
   );
 }
 
-getCancelButton(context) {
-
-  FontSize fontSize = context.watch<FontSize>();
+getCancelButton(context, FontSize fontSize) {
 
   return TextButton(
     child: Text(

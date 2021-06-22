@@ -5,9 +5,7 @@ import 'app_colors.dart';
 import 'buttons.dart';
 
 // Confirmation Dialog with 2 Buttons
-Future<bool> confirmDialog(context, title, body) async {
-
-  FontSize fontSize = context.watch<FontSize>();
+Future<bool> confirmDialog(context, title, body, FontSize fontSize) async {
 
   bool? returnVal = await showDialog(
       context: context,
@@ -28,8 +26,8 @@ Future<bool> confirmDialog(context, title, body) async {
           contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18 * fontSize.factor),
           content: Text(body),
           actions: <Widget>[
-            getConfirmButton(context),
-            getCancelButton(context)
+            getConfirmButton(context, fontSize),
+            getCancelButton(context, fontSize)
           ],
         );
       });
@@ -39,9 +37,7 @@ Future<bool> confirmDialog(context, title, body) async {
   return returnVal;
 }
 
-void errorDialog(context, title, body) {
-
-  FontSize fontSize = context.watch<FontSize>();
+void errorDialog(context, title, body, FontSize fontSize) {
 
   showDialog<void>(
       context: context,

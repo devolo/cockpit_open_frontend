@@ -123,8 +123,6 @@ class _MyHomePageState extends State<MyHomePage> {
   int bottomSelectedIndex = 0;
   bool highContrast = false; // MediaQueryData().highContrast;  // Query current device if high Contrast theme is set
 
-  late Map<LogicalKeySet, Intent> _shortcutMap;
-  late Map<Type, Action<Intent>> _actionMap;
   late FontSize fontSize;
 
   // String version;
@@ -144,49 +142,9 @@ class _MyHomePageState extends State<MyHomePage> {
     readSharedPrefs();
     //getVersion();
 
-    _actionMap = <Type, Action<Intent>>{
-      _FontSizeIntent: CallbackAction<_FontSizeIntent>(
-        onInvoke: _actionHandler,
-      ),
-    };
-
-    switch (Platform.operatingSystem) {
-      case "macos":
-        _shortcutMap = <LogicalKeySet, Intent>{
-          LogicalKeySet(LogicalKeyboardKey.meta,
-              LogicalKeyboardKey.equal): const _FontSizeIntent.increase(),
-          LogicalKeySet(LogicalKeyboardKey.meta,
-              LogicalKeyboardKey.minus): const _FontSizeIntent.decrease(),
-        };
-        break;
-      default:
-        _shortcutMap = <LogicalKeySet, Intent>{
-          LogicalKeySet(LogicalKeyboardKey.control,
-              LogicalKeyboardKey.equal): const _FontSizeIntent.increase(),
-          LogicalKeySet(LogicalKeyboardKey.control,
-              LogicalKeyboardKey.minus): const _FontSizeIntent.decrease(),
-        };
-    }
-
     fontSize = context.read<FontSize>();
   }
 
-  void _actionHandler(_FontSizeIntent intent) {
-    switch (intent.type) {
-      case _FontSizeActionType.increase:
-        {
-          fontSize.increase();
-          print("Font size: ${fontSize.factor}");
-          break;
-        }
-      case _FontSizeActionType.decrease:
-        {
-          fontSize.decrease();
-          print("Font size: ${fontSize.factor}");
-          break;
-        }
-    }
-  }
 
   // Future<void> getVersion() async {
   //   if (Platform.isLinux) {
@@ -489,12 +447,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ])),
       ),
-      body: FocusableActionDetector(
-        autofocus: true,
-        actions: _actionMap,
-        shortcuts: _shortcutMap,
-        child: buildPageView(),
-    ),
+      body: buildPageView(),
+
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: mainColor,
@@ -569,18 +523,4 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         });
   }
-}
-
-class _FontSizeIntent extends Intent {
-  const _FontSizeIntent({required this.type});
-
-  const _FontSizeIntent.increase() : type = _FontSizeActionType.increase;
-  const _FontSizeIntent.decrease() : type = _FontSizeActionType.decrease;
-
-  final _FontSizeActionType type;
-}
-
-enum _FontSizeActionType {
-  increase,
-  decrease
 }

@@ -37,7 +37,6 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
   /* ===========  =========== */
 
   var response;
-  bool _loading = false;
 
   //_AddDeviceScreenState({required this.title});
 
@@ -571,7 +570,8 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text(S.of(context).theCreatedSupportInformationCanNowBeSentToDevolo),
+                Text(S.of(context).theCreatedSupportInformationCanNowBeSentToDevolo,
+                    textScaleFactor: fontSizeFactor,),
                 SizedBox(
                   height: 20,
                 ),
@@ -588,6 +588,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                           contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                           filled: true,
                           fillColor: secondColor.withOpacity(0.2),
+                          errorStyle: TextStyle(color: devoloRed),
                           //myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.0),
@@ -625,6 +626,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                           contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                           filled: true,
                           fillColor: secondColor.withOpacity(0.2),
+                          errorStyle: TextStyle(color: devoloRed),
                           //myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.0),
@@ -663,6 +665,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                           contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                           filled: true,
                           fillColor: secondColor.withOpacity(0.2),
+                          errorStyle: TextStyle(color: devoloRed),
                           //myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.0),
@@ -691,14 +694,6 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                           return null;
                         },
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-
-                        ],
-
-
-                      )
                     ],
                   )
                 )

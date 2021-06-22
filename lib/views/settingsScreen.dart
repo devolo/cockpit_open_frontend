@@ -264,7 +264,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   },
                   child: ListTile(
                     contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
-                    tileColor: secondColor,
+                    tileColor: Colors.white,
                     subtitle: Padding(
                       padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
                       child: Text(S.of(context).theOverviewWillBeCenteredAroundThePlcDeviceConnected, style: TextStyle(color: fontColorMedium, fontSize: fontSizeListTileSubtitle * fontSizeFactor)

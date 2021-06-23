@@ -46,7 +46,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
   late DrawOverview _Painter;
 
   bool showingSpeeds = false;
-  int pivotDeviceIndex = 0;
+  List<int> pivotDeviceIndexList = [];
 
   FocusNode myFocusNode = new FocusNode();
 
@@ -64,6 +64,22 @@ class _OverviewScreenState extends State<OverviewScreen> {
       config["selected_network"] = 0;
       _deviceList.selectedNetworkIndex = 0;
     }
+
+
+    // reset pivotDeviceIndex when a new Network is added or a Network is removed
+    int pivotDeviceIndex;
+    if(_deviceList.getNetworkListLength() == 0){
+      pivotDeviceIndex = 0;
+    }
+    else if(_deviceList.getNetworkListLength() != pivotDeviceIndexList.length){
+      pivotDeviceIndexList.clear();
+      for(int i = 0; i < _deviceList.getNetworkListLength(); i++)
+        pivotDeviceIndexList.add(0);
+      pivotDeviceIndex = pivotDeviceIndexList[_deviceList.selectedNetworkIndex];
+    }
+    else
+      pivotDeviceIndex = pivotDeviceIndexList[_deviceList.selectedNetworkIndex];
+
 
     _Painter = DrawOverview(context, _deviceList, showingSpeeds, pivotDeviceIndex);
 
@@ -243,7 +259,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
           showingSpeeds = true;
 
           //_Painter.pivotDeviceIndex = index;
-          pivotDeviceIndex = index;
+          pivotDeviceIndexList[deviceList.selectedNetworkIndex] = index;
 
           //do not update pivot device when the "router device" is long pressed
           logger.i('Pivot on longPress:' + _Painter.pivotDeviceIndex.toString());
@@ -261,8 +277,6 @@ class _OverviewScreenState extends State<OverviewScreen> {
     setState(() {
       if (!config["show_speeds_permanent"]) {
         showingSpeeds = false;
-        _Painter.pivotDeviceIndex = 0;
-        pivotDeviceIndex = 0;
       } else {
         if (!showingSpeeds) _Painter.pivotDeviceIndex = 0;
       }

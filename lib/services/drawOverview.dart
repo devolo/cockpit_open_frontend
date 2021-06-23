@@ -16,6 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/shared/imageLoader.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
+import 'package:cockpit_devolo/shared/devolo_icons_icons.dart';
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'dart:io';
 import 'dart:ui';
@@ -212,7 +213,7 @@ class DrawOverview extends CustomPainter {
     } else {
       if(_providerList.getPivotDevice() != null) { // if there is no device attached to router don't paint line to the internet internet
         canvas.drawLine(absoluteOffset, toOffset, _linePaint..strokeWidth = 2.0);
-        drawIcon(canvas, toOffset, Icons.public_outlined);
+        drawIcon(canvas, toOffset, DevoloIcons.devolo_UI_internet);
         userNameTextSpan = TextSpan(
           text: S.current.internet,
           style: _textNameStyle.apply(color: fontColorLight),
@@ -225,9 +226,9 @@ class DrawOverview extends CustomPainter {
       }else{
         canvas.drawLine(absoluteRouterOffset, absoluteRouterOffset, _linePaint..strokeWidth = 2.0);
         if(connect) {
-          drawIcon(canvas, absoluteRouterOffset, Icons.public_off_outlined, 50);
+          drawIcon(canvas, absoluteRouterOffset, DevoloIcons.devolo_UI_internet_off, 50);
         } else {
-          drawIcon(canvas, absoluteRouterOffset, Icons.public_outlined, 50);
+          drawIcon(canvas, absoluteRouterOffset, DevoloIcons.devolo_UI_internet, 50);
         }
 
         userNameTextSpan = TextSpan(
@@ -838,9 +839,9 @@ class DrawOverview extends CustomPainter {
       getConnection();
       connect = connected;
       if (connected) {
-        drawMainIcon(canvas, Icons.public_outlined);
+        drawMainIcon(canvas, DevoloIcons.devolo_UI_internet);
       } else {
-        drawMainIcon(canvas, Icons.public_off_rounded);
+        drawMainIcon(canvas, DevoloIcons.devolo_UI_internet_off);
       }
     } else
       drawMainIcon(canvas, Icons.computer);

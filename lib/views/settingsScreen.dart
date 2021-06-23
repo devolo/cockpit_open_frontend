@@ -16,6 +16,7 @@ import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/app_fontSize.dart';
 import 'package:cockpit_devolo/shared/buttons.dart';
+import 'package:cockpit_devolo/shared/devolo_icons_icons.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
@@ -506,7 +507,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ),
                           suffixIcon: _hiddenPw?
                           IconButton(
-                            icon: Icon(Icons.visibility_off, color: fontColorDark,),
+                            //icon: Icon(Icons.visibility_off, color: fontColorDark,),
+                            icon: Icon(DevoloIcons.devolo_UI_visibility_off, color: fontColorDark,),
                             onPressed: (){
                               //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
                               setState(() {
@@ -515,7 +517,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             },
                           ):
                           IconButton(
-                            icon: Icon(Icons.visibility, color: fontColorDark,),
+                            icon: Icon(DevoloIcons.devolo_UI_visibility, color: fontColorDark,),
                             onPressed: (){
                               //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
                               setState(() {

@@ -73,7 +73,7 @@ class _DebugScreenState extends State<DebugScreen> {
                       fontSize: 20,
                     ),
                   ),
-                  SelectableText(deviceList.getNetworkList().toString()),
+                  SelectableText(deviceList.networkListToRealString()),
                   SizedBox(
                     height: 20,
                   ),
@@ -92,7 +92,7 @@ class _DebugScreenState extends State<DebugScreen> {
                             padding: const EdgeInsets.all(8.0),
                             child: new SingleChildScrollView(
                               controller: _scrollControllerInside,
-                              child: SelectableText(deviceList.toRealString()),
+                              child: SelectableText(deviceList.selectedNetworkListToRealString()),
                             ),
                           )),
                     ],

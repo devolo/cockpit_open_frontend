@@ -151,20 +151,34 @@ class NetworkList extends ChangeNotifier{
     notifyListeners();
   }
 
-  String toRealString(){
+  String networkListToRealString(){
+
     String ret = "";
-    for(var devlocal in _networkList[selectedNetworkIndex]) {
-      ret += "${devlocal.toRealString()} \n";
-      //ToDo are remote devices used?
-      for(var devremote in devlocal.remoteDevices){
-        ret += "${devremote.toRealString()} \n";
+
+    if(_networkList.isEmpty){
+      return ret;
+    }
+
+    for(int i = 0; i < _networkList.length; i++){
+      for(int j = 0; j < _networkList[i].length; j++){
+        ret += "${_networkList[i][j].toRealString()} \n";
       }
     }
     return ret;
-    throw (Exception e){
-      logger.e(e);
-    };
-    //return null;
+  }
+
+  String selectedNetworkListToRealString(){
+
+    String ret = "";
+
+    if(!_networkList.asMap().containsKey(selectedNetworkIndex)){
+      return ret;
+    }
+
+    for(var devlocal in _networkList[selectedNetworkIndex]) {
+      ret += "${devlocal.toRealString()} \n";
+    }
+    return ret;
   }
 }
 

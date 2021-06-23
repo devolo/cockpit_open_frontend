@@ -50,7 +50,7 @@ class _DebugScreenState extends State<DebugScreen> {
     final socket = Provider.of<DataHand>(context);
     final deviceList = Provider.of<NetworkList>(context);
     return new Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: backgroundColor,
       appBar: new AppBar(
         title: new Text(title),
         backgroundColor: backgroundColor,
@@ -68,7 +68,7 @@ class _DebugScreenState extends State<DebugScreen> {
                 controller: _scrollController,
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
                   SelectableText(
-                    'DeviceListList',
+                    'All devices',
                     style: TextStyle(
                       fontSize: 20,
                     ),
@@ -78,7 +78,7 @@ class _DebugScreenState extends State<DebugScreen> {
                     height: 20,
                   ),
                   SelectableText(
-                    'Active DeviceList',
+                    'Devices of selected Network',
                     style: TextStyle(
                       fontSize: 20,
                     ),
@@ -101,7 +101,7 @@ class _DebugScreenState extends State<DebugScreen> {
                     height: 20,
                   ),
                   SelectableText(
-                    'XML-Response',
+                    'XML-Responses',
                     style: TextStyle(
                       fontSize: 20,
                     ),

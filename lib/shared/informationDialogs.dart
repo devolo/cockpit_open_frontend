@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'alertDialogs.dart';
 import 'app_colors.dart';
 import 'buttons.dart';
+import 'devolo_icons_icons.dart';
 import 'helpers.dart';
 
 void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, DataHand socket, FontSize fontSize) {
@@ -94,7 +95,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                         ),
                         suffixIcon: IconButton(
                           icon: Icon(
-                            Icons.edit_outlined,
+                            DevoloIcons.ic_edit_24px,
                             color: fontColorLight,
                           ),
                           onPressed: () async {
@@ -314,7 +315,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                     children: [
                       IconButton(
                         icon: Icon(
-                          Icons.public,
+                          DevoloIcons.devolo_UI_internet,
                         ),
 //tooltip: S.of(context).launchWebinterface,
                         disabledColor: fontColorNotAvailable,
@@ -343,7 +344,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                     children: [
                       IconButton(
                         icon: Icon(
-                          Icons.lightbulb,
+                          DevoloIcons.ic_lightbulb_outline_24px,
                         ),
 //tooltip: S.of(context).identifyDevice,
                         disabledColor: fontColorNotAvailable,
@@ -387,7 +388,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                     children: [
                       IconButton(
                           icon: Icon(
-                            Icons.find_in_page,
+                            DevoloIcons.ic_find_in_page_24px,
                             color: fontColorLight,
                           ),
 //tooltip: S.of(context).showManual,
@@ -425,7 +426,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                       children: [
                         IconButton(
                             icon: Icon(
-                              Icons.router_rounded,
+                              DevoloIcons.ic_router_24px,
                               color: fontColorLight,
                             ),
 //tooltip: S.of(context).showManual,
@@ -450,7 +451,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                     children: [
                       IconButton(
                         icon: Icon(
-                          Icons.upload_file,
+                          DevoloIcons.ic_file_upload_24px,
                           color: fontColorLight,
                           semanticLabel: "update",
                         ),
@@ -512,7 +513,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                     children: [
                       IconButton(
                         icon: Icon(
-                          Icons.delete,
+                          DevoloIcons.devolo_UI_delete,
                           color: fontColorLight,
                         ),
 //tooltip: S.of(context).deleteDevice,

@@ -1,5 +1,6 @@
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/fontSizeModel.dart';
+import 'package:cockpit_devolo/shared/devolo_icons_icons.dart';
 import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
@@ -98,7 +99,7 @@ getCloseButton(context) {
       },
       child: Container(
         alignment: FractionalOffset.topRight,
-        child: GestureDetector(child: Icon(Icons.clear,color: secondColor,),
+        child: GestureDetector(child: Icon(DevoloIcons.devolo_UI_cancel,color: secondColor,),
 
           onTap: (){
             Navigator.pop(context);

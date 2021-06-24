@@ -14,6 +14,7 @@ import 'package:cockpit_devolo/models/fontSizeModel.dart';
 import 'package:cockpit_devolo/services/drawOverview.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
+import 'package:cockpit_devolo/shared/devolo_icons_icons.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:cockpit_devolo/shared/informationDialogs.dart';
 import 'package:flutter/cupertino.dart';
@@ -134,37 +135,6 @@ class _OverviewScreenState extends State<OverviewScreen> {
                     ),
                 ],
               )
-              //if(_deviceList.getNetworkListLength() > 1)
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     IconButton(
-              //       icon: Icon(Icons.arrow_back_ios,color: Colors.white,),
-              //       tooltip: S.of(context).previousNetwork,
-              //       onPressed: () {
-              //         logger.i("back");
-              //         setState(() {
-              //           if(_deviceList.selectedNetworkIndex  > 0){
-              //             _deviceList.selectedNetworkIndex --;
-              //             //_currImage = optimizeImages[_index];
-              //           }
-              //         });
-              //       },
-              //     ),
-              //     IconButton(
-              //       icon: Icon(Icons.arrow_forward_ios, color: Colors.white,),
-              //       tooltip: S.of(context).nextNetwork,
-              //       onPressed: () {
-              //         logger.i("forward");
-              //         setState(() {
-              //           if(_deviceList.selectedNetworkIndex < _deviceList.getNetworkListLength()-1){ // -1 to not switch
-              //             _deviceList.selectedNetworkIndex++;
-              //             //_currImage = optimizeImages[_index];
-              //           }
-              //         });
-              //       },
-              //     ),
-              //   ],),
             ],
           ),
         ),
@@ -182,7 +152,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
         foregroundColor: fontColorDark,
         hoverColor: fontColorLight,
         child: Icon(
-          Icons.refresh,
+          DevoloIcons.ic_refresh_24px,
           color: mainColor,
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.

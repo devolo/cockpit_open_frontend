@@ -13,6 +13,7 @@ import 'package:cockpit_devolo/models/fontSizeModel.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/app_fontSize.dart';
+import 'package:cockpit_devolo/shared/devolo_icons_icons.dart';
 import 'package:cockpit_devolo/shared/informationDialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -150,7 +151,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                             valueColor: new AlwaysStoppedAnimation<Color>(fontColorLight),
                           )
                         : Icon(
-                            Icons.refresh,
+                            DevoloIcons.ic_refresh_24px,
                             color: fontColorLight,
                             size: 24 * fontSize.factor,
                           ),
@@ -187,7 +188,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     },
                     child: Row(children: [
                       Icon(
-                        Icons.download_rounded,
+                        DevoloIcons.ic_file_download_24px,
                         color: fontColorLight,
                         size: 24 * fontSize.factor,
                       ),
@@ -221,7 +222,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         textAlign: TextAlign.center,
                       ),
                       Icon(
-                        Icons.keyboard_arrow_down,
+                        DevoloIcons.devolo_UI_chevron_down,
                         color: fontColorLight,
                       )
                     ],
@@ -282,7 +283,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                   children: [
                                     IconButton(
                                       icon: Icon(
-                                        Icons.check_circle,
+                                        DevoloIcons.devolo_UI_check_fill,
                                         color: devoloGreen,
                                       ),
                                       iconSize: 24 * fontSize.factor,
@@ -296,7 +297,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                   children: [
                                     IconButton(
                                         icon: Icon(
-                                          Icons.download_rounded,
+                                          DevoloIcons.ic_file_download_24px,
                                           color: mainColor,
                                         ),
                                         iconSize: 24 * fontSize.factor,
@@ -381,7 +382,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                     children: [
                                       IconButton(
                                         icon: Icon(
-                                          Icons.check_circle,
+                                          DevoloIcons.devolo_UI_check_fill,
                                           color: devoloGreen,
                                         ),
                                         iconSize: 24 * fontSize.factor,
@@ -394,7 +395,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                     children: [
                                       IconButton(
                                           icon: Icon(
-                                            Icons.download_rounded,
+                                            DevoloIcons.ic_file_download_24px,
                                             color: mainColor,
                                           ),
                                           iconSize: 24 * fontSize.factor,
@@ -420,7 +421,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               image: getIconForDeviceType(_deviceList.getAllDevices()[i].typeEnum),
                               height: 35 * fontSize.factor,
                             ),
-                            //Icon(Icons.devices),
                             title: Text(
                               _deviceList.getAllDevices()[i].name,
                               style: TextStyle(fontWeight: FontWeight.bold, color: fontColorLight, fontSize: 17,),

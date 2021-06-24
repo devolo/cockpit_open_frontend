@@ -12,6 +12,7 @@ import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/app_fontSize.dart';
 import 'package:cockpit_devolo/shared/buttons.dart';
+import 'package:cockpit_devolo/shared/devolo_icons_icons.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:cockpit_devolo/shared/imageLoader.dart';
 import 'package:flutter/material.dart';
@@ -94,7 +95,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                       child: Column(
                         children: [
                           Icon(
-                            Icons.post_add_rounded,
+                            DevoloIcons.ic_add_24px,
                             size: 100,
                             color: mainColor,
                           ),
@@ -127,7 +128,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                       child: Column(
                         children: [
                           Icon(
-                            Icons.settings_remote_rounded,
+                            DevoloIcons.devolo_UI_wifi,
                             size: 100,
                             color: mainColor,
                           ),
@@ -160,7 +161,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                       child: Column(
                         children: [
                           Icon(
-                            Icons.contact_support,
+                            DevoloIcons.ic_question_answer_24px,
                             size: 100,
                             color: mainColor,
                           ),
@@ -247,7 +248,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                                       //   radius: 15.0,
                                       // ),
                                       new Icon(
-                                        Icons.arrow_drop_down_rounded,
+                                        DevoloIcons.ic_arrow_drop_down_24px,
                                         color: fontColorDark,
                                       ),
                                     ],
@@ -271,40 +272,6 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                               ),
                             ],
                           ),
-                        // Row(
-                        //   crossAxisAlignment: CrossAxisAlignment.center,
-                        //   mainAxisAlignment: MainAxisAlignment.center,
-                        //   mainAxisSize: MainAxisSize.min,
-                        //   children: [
-                        //     IconButton(
-                        //       icon: Icon(Icons.arrow_back_ios, color: fontColorLight,),
-                        //       onPressed: () {
-                        //         logger.i("back");
-                        //         setState(() {
-                        //           if(_index > 0){
-                        //           _index--;
-                        //           _currImage = optimizeImages[_index];}
-                        //           else{return null;}
-                        //         });
-                        //       },
-                        //     ),
-                        //     Container(
-                        //       child: _currImage,
-                        //     ),
-                        //     IconButton(
-                        //       icon: Icon(Icons.arrow_forward_ios, color: fontColorLight,),
-                        //       onPressed: () {
-                        //         logger.i("forward");
-                        //         setState(() {
-                        //           if(_index < optimizeImages.length-1){
-                        //           _index++;
-                        //           _currImage = optimizeImages[_index];}
-                        //           else{return null;}
-                        //         });
-                        //       },
-                        //     ),
-                        //   ],
-                        // ),
                       ],
                     ),
                   );
@@ -394,7 +361,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                                           onPressed: onStepCancel,
                                           child: Row(
                                             children: [
-                                              Icon(Icons.arrow_back_ios_rounded, color: fontColorLight),
+                                              Icon(DevoloIcons.devolo_UI_chevron_left, color: fontColorLight),
                                               Text(
                                                 'Zurück',
                                                 style: TextStyle(color: fontColorLight),
@@ -409,7 +376,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                                           child: Row(
                                             children: [
                                               Text('Weiter', style: TextStyle(color: fontColorLight)),
-                                              Icon(Icons.arrow_forward_ios_rounded, color: fontColorLight,),
+                                              Icon(DevoloIcons.devolo_UI_chevron_right, color: fontColorLight,),
                                             ],
                                           ),
                                           //color: Colors.white,
@@ -819,7 +786,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                   child: Container(
                     alignment: FractionalOffset.topRight,
                     child: GestureDetector(
-                      child: Icon(Icons.clear,color: secondColor),
+                      child: Icon(DevoloIcons.devolo_UI_cancel,color: secondColor),
                       onTap: (){
                         dialogIsOpen = false;
                         Navigator.pop(context);
@@ -912,7 +879,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                 TextButton(
                   child: Row(mainAxisAlignment: MainAxisAlignment.center,children: [
                     Icon(
-                      Icons.open_in_browser_rounded,
+                      Icons.open_in_browser,
                       color: fontColorLight,
                       size: 24 * fontSize.factor,
                     ),
@@ -949,7 +916,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                 TextButton(
                   child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     Icon(
-                      Icons.archive_outlined,
+                      DevoloIcons.ic_archive_24px,
                       color: fontColorLight,
                       size: 24 * fontSize.factor,
                     ),
@@ -986,7 +953,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                 TextButton(
                   child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     Icon(
-                      Icons.send_and_archive,
+                      DevoloIcons.ic_send_24px,
                       color: fontColorLight,
                       size: 24 * fontSize.factor,
                     ),

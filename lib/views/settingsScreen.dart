@@ -376,8 +376,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   acceleration: 0.1,
                   decimals: 1,
                   value: fontSize.factor.toDouble(),
-                  incrementIcon: Icon(Icons.add_circle, color: mainColor),
-                  decrementIcon: Icon(Icons.remove_circle, color: mainColor),
+                  incrementIcon: Icon(DevoloIcons.ic_add_circle_24px, color: mainColor),
+                  decrementIcon: Icon(DevoloIcons.ic_remove_24px, color: mainColor),
                   decoration: InputDecoration(
                     focusedBorder: new UnderlineInputBorder(
                         borderSide: new BorderSide(color: mainColor)),
@@ -507,7 +507,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ),
                           suffixIcon: _hiddenPw?
                           IconButton(
-                            //icon: Icon(Icons.visibility_off, color: fontColorDark,),
                             icon: Icon(DevoloIcons.devolo_UI_visibility_off, color: fontColorDark,),
                             onPressed: (){
                               //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
@@ -541,9 +540,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     if(waitForNetworkPasswordResponse)
                       CircularProgressIndicator(),
                     if(networkPasswordResponseTrue)
-                      Icon(Icons.check_circle_outline, color: Colors.green),
+                      Icon(DevoloIcons.devolo_UI_check_fill, color: Colors.green),
                     if(networkPasswordResponseFalse)
-                      Icon(Icons.close, color: fontColorDark),
+                      Icon(DevoloIcons.devolo_UI_cancel_fill, color: fontColorDark),
 
                     Spacer(
                     ),
@@ -606,20 +605,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               Divider(color: dividerColor),
               Row(mainAxisAlignment: MainAxisAlignment.end, crossAxisAlignment: CrossAxisAlignment.end, children: <Widget>[
-                // IconButton(
-                //   icon: Icon(Icons.text_fields_sharp),
-                //   tooltip: "Test",
-                //   color: drawingColor,
-                //   onPressed: () {
-                //     if (_deviceList.selectedNetworkIndex == 0) {
-                //       _deviceList.selectedNetworkIndex = 1;
-                //     } else {
-                //       _deviceList.selectedNetworkIndex = 0;
-                //     }
-                //   },
-                // ),
                 IconButton(
-                  icon: Icon(Icons.list_alt),
+                  icon: Icon(DevoloIcons.ic_view_list_24px, size: 30),
                   tooltip: S.of(context).showLogs,
                   color: drawingColor,
                   onPressed: () {

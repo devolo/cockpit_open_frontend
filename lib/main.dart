@@ -9,6 +9,7 @@ LICENSE file in the root directory of this source tree.
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
+import 'package:cockpit_devolo/shared/devolo_icons_icons.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:cockpit_devolo/views/helpScreen.dart';
 import 'package:cockpit_devolo/views/settingsScreen.dart';
@@ -37,9 +38,6 @@ import 'dart:convert';
 
 import 'models/fontSizeModel.dart';
 
-//TestComment
-//TestComment2
-
 void main() {
   //debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
 
@@ -48,7 +46,7 @@ void main() {
   //info(blue): Use to highlight interesting parts
   //warn(orange): Use to mark critical parts
   //error(red): Use to output error
-  Logger.level = Level.verbose;
+  Logger.level = Level.debug;
 
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isLinux) {
@@ -208,12 +206,12 @@ class _MyHomePageState extends State<MyHomePage> {
     return [
       BottomNavigationBarItem(icon: Icon(Icons.workspaces_filled), label: S.of(context).overview),
       BottomNavigationBarItem(
-        icon: Icon(Icons.download_rounded),
+        icon: Icon(DevoloIcons.ic_file_download_24px),
         label: S.of(context).update,
       ),
-      BottomNavigationBarItem(icon: Icon(Icons.help), label: S.of(context).help),
+      BottomNavigationBarItem(icon: Icon(DevoloIcons.ic_help_24px), label: S.of(context).help),
       BottomNavigationBarItem(
-        icon: Icon(Icons.settings_rounded),
+        icon: Icon(DevoloIcons.devolo_UI_settings),
         label: S.of(context).settings,
       ),
     ];
@@ -270,7 +268,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            InkWell(child: SvgPicture.asset('assets/logo.svg', height: 24, color: drawingColor)),
+            InkWell(child: Icon(DevoloIcons.logo, color: drawingColor,)),
             Spacer(),
             DropdownButton<String>(
               //value: dropdownVal == null? "de": dropdownVal,
@@ -284,7 +282,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     fit: BoxFit.fill,
                   ),
                   Icon(
-                    Icons.arrow_drop_down_rounded,
+                    DevoloIcons.ic_arrow_drop_down_24px,
                     color: fontColorLight,
                   ),
                 ],
@@ -327,7 +325,7 @@ class _MyHomePageState extends State<MyHomePage> {
               }).toList(),
             ),
             IconButton(
-              icon: const Icon(Icons.brightness_6_rounded),
+              icon: const Icon(DevoloIcons.ic_brightness_medium_24px),
               tooltip: S.of(context).highContrast,
               onPressed: () {
                 setState(() {
@@ -394,7 +392,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   border: Border(bottom: BorderSide(color: fontColorLight, width: 2)),
                 ),
                 child: ListTile(
-                    leading: Icon(Icons.download_rounded, color: fontColorLight),
+                    leading: Icon(DevoloIcons.ic_file_download_24px, color: fontColorLight),
                     title: Text(S.of(context).updates,
                         style: TextStyle(color: fontColorLight)),
                     contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
@@ -408,7 +406,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   border: Border(bottom: BorderSide(color: fontColorLight, width: 2)),
                 ),
                 child: ListTile(
-                    leading: Icon(Icons.help, color: fontColorLight),
+                    leading: Icon(DevoloIcons.ic_help_24px, color: fontColorLight),
                     title: Text(S.of(context).help,
                         style: TextStyle(color: fontColorLight)),
                     contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
@@ -422,7 +420,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   border: Border(bottom: BorderSide(color: fontColorLight, width: 2)),
                 ),
                 child: ListTile(
-                    leading: Icon(Icons.miscellaneous_services, color: fontColorLight),
+                    leading: Icon(DevoloIcons.devolo_UI_settings, color: fontColorLight),
                     title: Text(S.of(context).settings,
                         style: TextStyle(color: fontColorLight)),
                     contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
@@ -436,7 +434,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   border: Border(bottom: BorderSide(color: fontColorLight, width: 2)),
                 ),
                 child: ListTile(
-                    leading: Icon(Icons.info_outline_rounded, color: fontColorLight),
+                    leading: Icon(DevoloIcons.ic_info_24px, color: fontColorLight),
                     title: Text(S.of(context).appInfo,
                         style: TextStyle(color: fontColorLight)),
                     contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
@@ -485,7 +483,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 //crossAxisAlignment: CrossAxisAlignment.center,
                 //mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SvgPicture.asset('assets/logo.svg', height: 20, color: drawingColor),
+                  Icon(DevoloIcons.logo, color: drawingColor, ),
                   GestureDetector(
                       child: Text("\nwww.devolo.de", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue)),
                       onTap: () {
@@ -510,7 +508,7 @@ class _MyHomePageState extends State<MyHomePage> {
             actions: <Widget>[
               FlatButton(
                 child: Icon(
-                  Icons.check_circle_outline,
+                  DevoloIcons.devolo_UI_check_fill,
                   size: 35,
                   color: mainColor,
                 ), //Text('Bestätigen'),

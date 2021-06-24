@@ -200,7 +200,7 @@ class DrawOverview extends CustomPainter {
 
     if (config["internet_centered"]) {
       canvas.drawLine(absoluteOffset, toOffset, _linePaint..strokeWidth = 2.0);
-      drawIcon(canvas, toOffset, Icons.computer_rounded);
+      drawIcon(canvas, toOffset, DevoloIcons.ic_laptop_24px);
       userNameTextSpan = TextSpan(
         text: S.current.thisPc,
         style: _textNameStyle.apply(color: fontColorLight),
@@ -833,9 +833,7 @@ class DrawOverview extends CustomPainter {
 
     //drawNetworksAndConnections(canvas, size);
 
-    if (Platform.isAndroid || Platform.isIOS)
-      drawMainIcon(canvas, Icons.router_outlined);
-    else if (config["internet_centered"]) {
+   if (config["internet_centered"]) {
       getConnection();
       connect = connected;
       if (connected) {
@@ -844,7 +842,7 @@ class DrawOverview extends CustomPainter {
         drawMainIcon(canvas, DevoloIcons.devolo_UI_internet_off);
       }
     } else
-      drawMainIcon(canvas, Icons.computer);
+      drawMainIcon(canvas, DevoloIcons.ic_laptop_24px);
     //drawPCIcon(canvas, size);
     //drawRouterIcon(canvas, size);
 

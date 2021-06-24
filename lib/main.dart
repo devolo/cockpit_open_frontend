@@ -323,6 +323,7 @@ class _MyHomePageState extends State<MyHomePage> {
             IconButton(
               icon: const Icon(DevoloIcons.ic_brightness_medium_24px),
               color: fontColorOnMain,
+              color: fontColorOnMain,
               tooltip: S.of(context).highContrast,
               onPressed: () {
                 setState(() {
@@ -382,6 +383,30 @@ class _MyHomePageState extends State<MyHomePage> {
                     config["previous_theme"] = config["theme"];
                     config["theme"] = theme_dark["name"];
                     setTheme(theme_dark["name"]);
+                  }
+
+                  saveToSharedPrefs(config);
+                  AppBuilder.of(context)!.rebuild();
+                  //showNetwork = !showNetwork;
+                });
+              },
+            ),
+
+            IconButton(
+              icon: const Icon(Icons.brightness_6_rounded),
+              tooltip: "Standard",
+              onPressed: () {
+                setState(() {
+                  //logger.i("Theme: " + config["theme"]);
+                  //logger.i("Prev Theme: " + config["previous_theme"]);
+
+                  if (config["theme"] == "Standard") {
+                    config["theme"] = config["previous_theme"];
+                    setTheme(config["previous_theme"]);
+                  } else {
+                    config["previous_theme"] = config["theme"];
+                    config["theme"] = theme_devolo["name"];
+                    setTheme(theme_devolo["name"]);
                   }
 
                   saveToSharedPrefs(config);

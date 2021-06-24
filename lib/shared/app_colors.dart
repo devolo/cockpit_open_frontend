@@ -58,6 +58,7 @@ void setTheme(String theme_name) {
     mainColor = theme["mainColor"];
     backgroundColor = theme["backgroundColor"];
     secondColor = theme["secondColor"];
+    surfaceColor = theme["surfaceColor"];
     accentColor = theme["accentColor"];
     drawingColor = theme["drawingColor"];
     fontColorOnMain = theme["fontColorOnMain"];

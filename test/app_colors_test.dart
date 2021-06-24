@@ -25,7 +25,6 @@ void main() {
       expect(fontColorLight, theme_highContrast["fontColorLight"]);
       expect(fontColorMedium, theme_highContrast["fontColorMedium"]);
       expect(fontColorDark, theme_highContrast["fontColorDark"]);
-      expect(fontColorNotAvailable, theme_highContrast["fontColorNotAvailable"]);
     });
 
     test('Given_When_callSetThemeWithNoExistingTheme_Then_keepCurrentTheme', () {
@@ -42,7 +41,6 @@ void main() {
       expect(fontColorLight, theme_light["fontColorLight"]);
       expect(fontColorMedium, theme_light["fontColorMedium"]);
       expect(fontColorDark, theme_light["fontColorDark"]);
-      expect(fontColorNotAvailable, theme_light["fontColorNotAvailable"]);
     });
 
   });

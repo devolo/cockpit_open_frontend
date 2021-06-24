@@ -72,10 +72,6 @@ class MyApp extends StatelessWidget {
               return MaterialApp(
                 title: 'devolo Cockpit',
                 theme: ThemeData(
-                  //primarySwatch: Colors.white,
-                  backgroundColor: backgroundColor,
-                  canvasColor: Colors.white,
-                  //highlightColor: Colors.green,
 
                   textTheme: Theme.of(context).textTheme.apply(
                         fontFamily: 'OpenSans',
@@ -347,6 +343,53 @@ class _MyHomePageState extends State<MyHomePage> {
                 });
               },
             ),
+            IconButton(
+              icon: const Icon(Icons.brightness_6_rounded),
+              tooltip: "light theme",
+              onPressed: () {
+                setState(() {
+                  //logger.i("Theme: " + config["theme"]);
+                  //logger.i("Prev Theme: " + config["previous_theme"]);
+
+                  if (config["theme"] == "Light Theme") {
+                    config["theme"] = config["previous_theme"];
+                    setTheme(config["previous_theme"]);
+                  } else {
+                    config["previous_theme"] = config["theme"];
+                    config["theme"] = theme_light["name"];
+                    setTheme(theme_light["name"]);
+                  }
+
+                  saveToSharedPrefs(config);
+                  AppBuilder.of(context)!.rebuild();
+                  //showNetwork = !showNetwork;
+                });
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.brightness_6_rounded),
+              tooltip: "dark theme",
+              onPressed: () {
+                setState(() {
+                  //logger.i("Theme: " + config["theme"]);
+                  //logger.i("Prev Theme: " + config["previous_theme"]);
+
+                  if (config["theme"] == "Dark Theme") {
+                    config["theme"] = config["previous_theme"];
+                    setTheme(config["previous_theme"]);
+                  } else {
+                    config["previous_theme"] = config["theme"];
+                    config["theme"] = theme_dark["name"];
+                    setTheme(theme_dark["name"]);
+                  }
+
+                  saveToSharedPrefs(config);
+                  AppBuilder.of(context)!.rebuild();
+                  //showNetwork = !showNetwork;
+                });
+              },
+            ),
+
           ],
         ),
       ),

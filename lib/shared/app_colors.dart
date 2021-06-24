@@ -19,7 +19,6 @@ Color drawingColor= Colors.white;// = Colors.white;
 Color fontColorLight= Colors.white;// = Colors.white;
 Color fontColorMedium= Colors.white;// = Colors.grey[800];
 Color fontColorDark= Colors.white ;// = Colors.black;
-Color fontColorNotAvailable= Colors.white ; // if button can´t be klicked for example
 
 Color devoloBlue = Color.fromARGB(255, 0, 114, 180);
 Color devoloBlueMedium = Color.fromARGB(255, 81, 154, 207);
@@ -56,7 +55,6 @@ void setTheme(String theme_name) {
     fontColorLight = theme["fontColorLight"];
     fontColorMedium = theme["fontColorMedium"];
     fontColorDark = theme["fontColorDark"];
-    fontColorNotAvailable = theme["fontColorNotAvailable"];
   }
 }
 
@@ -70,7 +68,6 @@ Map<String, dynamic> theme_dark = {
   "fontColorLight" : Colors.white,
   "fontColorMedium" : Colors.grey[800],
   "fontColorDark" : Colors.black,
-  "fontColorNotAvailable" : Colors.grey,
 };
 
 
@@ -84,7 +81,6 @@ Map<String, dynamic> theme_devolo = {
   "fontColorLight" : Colors.white,
   "fontColorMedium" : Colors.grey[800],
   "fontColorDark" : Colors.black,
-  "fontColorNotAvailable" : Colors.grey[800],
 };
 
 Map<String, dynamic> theme_highContrast = {
@@ -97,7 +93,6 @@ Map<String, dynamic> theme_highContrast = {
   "fontColorLight" : Colors.yellowAccent,
   "fontColorMedium" : Colors.black,
   "fontColorDark" : Colors.black,
-  "fontColorNotAvailable" : Colors.orange[900],
 };
 
 Map<String, dynamic> theme_light = {
@@ -110,6 +105,5 @@ Map<String, dynamic> theme_light = {
   "fontColorLight" : Colors.black,
   "fontColorMedium" : Colors.grey[800],
   "fontColorDark" : Colors.black,
-  "fontColorNotAvailable" : Colors.grey[800],
 };
 

@@ -318,7 +318,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                           DevoloIcons.devolo_UI_internet,
                         ),
 //tooltip: S.of(context).launchWebinterface,
-                        disabledColor: fontColorNotAvailable,
+                        disabledColor: fontColorLight.withOpacity(0.33),
                         color: fontColorLight,
                         hoverColor: fontColorLight.withAlpha(50),
                         iconSize: 24.0 * fontSize.factor,
@@ -333,7 +333,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                             .launchWebinterface,
                         style: TextStyle(fontSize: 14,
                             color: !hitDevice.webinterfaceAvailable
-                                ? fontColorNotAvailable
+                                ? fontColorLight.withOpacity(0.33)
                                 : fontColorLight),
                         textScaleFactor: fontSize.factor,
                         textAlign: TextAlign.center,
@@ -347,7 +347,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                           DevoloIcons.ic_lightbulb_outline_24px,
                         ),
 //tooltip: S.of(context).identifyDevice,
-                        disabledColor: fontColorNotAvailable,
+                        disabledColor: fontColorLight.withOpacity(0.33),
                         color: fontColorLight,
                         hoverColor: fontColorLight.withAlpha(50),
                         iconSize: 24.0 * fontSize.factor,
@@ -377,7 +377,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                             .identifyDevice,
                         style: TextStyle(fontSize: 14,
                             color: !hitDevice.identifyDeviceAvailable
-                                ? fontColorNotAvailable
+                                ? fontColorLight.withOpacity(0.33)
                                 : fontColorLight),
                         textScaleFactor: fontSize.factor,
                         textAlign: TextAlign.center,

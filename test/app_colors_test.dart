@@ -22,9 +22,8 @@ void main() {
       expect(secondColor, theme_highContrast["secondColor"]);
       expect(accentColor, theme_highContrast["accentColor"]);
       expect(drawingColor, theme_highContrast["drawingColor"]);
-      expect(fontColorLight, theme_highContrast["fontColorLight"]);
-      expect(fontColorMedium, theme_highContrast["fontColorMedium"]);
-      expect(fontColorDark, theme_highContrast["fontColorDark"]);
+      expect(fontColorOnMain, theme_highContrast["fontColorLight"]);
+      expect(fontColorOnSecond, theme_highContrast["fontColorDark"]);
     });
 
     test('Given_When_callSetThemeWithNoExistingTheme_Then_keepCurrentTheme', () {
@@ -38,9 +37,8 @@ void main() {
       expect(secondColor, theme_light["secondColor"]);
       expect(accentColor, theme_light["accentColor"]);
       expect(drawingColor, theme_light["drawingColor"]);
-      expect(fontColorLight, theme_light["fontColorLight"]);
-      expect(fontColorMedium, theme_light["fontColorMedium"]);
-      expect(fontColorDark, theme_light["fontColorDark"]);
+      expect(fontColorOnMain, theme_light["fontColorLight"]);
+      expect(fontColorOnSecond, theme_light["fontColorDark"]);
     });
 
   });

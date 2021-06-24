@@ -75,9 +75,9 @@ class MyApp extends StatelessWidget {
 
                   textTheme: Theme.of(context).textTheme.apply(
                         fontFamily: 'OpenSans',
-                        displayColor: fontColorDark,
-                        bodyColor: fontColorDark,
-                        decorationColor: fontColorDark,
+                        displayColor: fontColorOnSecond,
+                        bodyColor: fontColorOnSecond,
+                        decorationColor: fontColorOnSecond,
                       ),
                 ),
                 localizationsDelegates: [
@@ -264,10 +264,10 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            InkWell(child: Icon(DevoloIcons.logo, color: drawingColor,)),
+            InkWell(child: Icon(DevoloIcons.logo, color: fontColorOnMain,)),
             Spacer(),
             DropdownButton<String>(
-              //value: dropdownVal == null? "de": dropdownVal,
+              dropdownColor: secondColor,
               isDense: true,
               icon: Row(
                 children: [
@@ -279,16 +279,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Icon(
                     DevoloIcons.ic_arrow_drop_down_24px,
-                    color: fontColorLight,
+                    color: fontColorOnMain,
                   ),
                 ],
               ),
               iconSize: 24,
               elevation: 8,
-              style: TextStyle(color: fontColorLight),
+              style: TextStyle(color: fontColorOnMain),
               underline: Container(
-                height: 2,
-                color: mainColor,
+                height: 0,
+                color: secondColor,
               ),
               onChanged: (String? newValue2) {
                 setState(() {
@@ -303,11 +303,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 return DropdownMenuItem<String>(
                   value: _value2,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
                         _value2 + " ",
-                        style: TextStyle(color: fontColorDark),
+                        style: TextStyle(color: fontColorOnSecond),
                       ),
                       Flag(
                         _value2 == 'en' ? 'gb' : _value2, // ToDo which flag?
@@ -322,6 +322,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             IconButton(
               icon: const Icon(DevoloIcons.ic_brightness_medium_24px),
+              color: fontColorOnMain,
               tooltip: S.of(context).highContrast,
               onPressed: () {
                 setState(() {
@@ -390,6 +391,30 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
 
+            IconButton(
+              icon: const Icon(Icons.brightness_6_rounded),
+              tooltip: "Standard",
+              onPressed: () {
+                setState(() {
+                  //logger.i("Theme: " + config["theme"]);
+                  //logger.i("Prev Theme: " + config["previous_theme"]);
+
+                  if (config["theme"] == "Standard") {
+                    config["theme"] = config["previous_theme"];
+                    setTheme(config["previous_theme"]);
+                  } else {
+                    config["previous_theme"] = config["theme"];
+                    config["theme"] = theme_devolo["name"];
+                    setTheme(theme_devolo["name"]);
+                  }
+
+                  saveToSharedPrefs(config);
+                  AppBuilder.of(context)!.rebuild();
+                  //showNetwork = !showNetwork;
+                });
+              },
+            ),
+
           ],
         ),
       ),
@@ -408,7 +433,7 @@ class _MyHomePageState extends State<MyHomePage> {
               DrawerHeader(
                 child: Text(
                   "devolo Cockpit",
-                  style: TextStyle(fontSize: 23 * fontSize.factor, color: fontColorLight),
+                  style: TextStyle(fontSize: 23 * fontSize.factor, color: fontColorOnMain),
                 ),
                 margin: EdgeInsets.only(bottom: 0),
                 padding: EdgeInsets.symmetric(vertical: 50.0, horizontal:16.0),
@@ -416,12 +441,12 @@ class _MyHomePageState extends State<MyHomePage> {
               Container(
 
                 decoration: BoxDecoration(
-                  border: Border(bottom: BorderSide(color: fontColorLight, width: 2), top: BorderSide(color: fontColorLight, width: 2)),
+                  border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2), top: BorderSide(color: fontColorOnMain, width: 2)),
                 ),
                 child: ListTile(
-                    leading: Icon(Icons.workspaces_filled, color: fontColorLight), //miscellaneous_services
+                    leading: Icon(Icons.workspaces_filled, color: fontColorOnMain), //miscellaneous_services
                     title: Text(S.of(context).overview,
-                        style: TextStyle(color: fontColorLight)),
+                        style: TextStyle(color: fontColorOnMain)),
                     contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
                     onTap: () {
                       bottomTapped(0);
@@ -432,12 +457,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Container(
                 decoration: BoxDecoration(
-                  border: Border(bottom: BorderSide(color: fontColorLight, width: 2)),
+                  border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
                 ),
                 child: ListTile(
-                    leading: Icon(DevoloIcons.ic_file_download_24px, color: fontColorLight),
+                    leading: Icon(DevoloIcons.ic_file_download_24px, color: fontColorOnMain),
                     title: Text(S.of(context).updates,
-                        style: TextStyle(color: fontColorLight)),
+                        style: TextStyle(color: fontColorOnMain)),
                     contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
                     onTap: () {
                       bottomTapped(1);
@@ -446,12 +471,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Container(
                 decoration: BoxDecoration(
-                  border: Border(bottom: BorderSide(color: fontColorLight, width: 2)),
+                  border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
                 ),
                 child: ListTile(
-                    leading: Icon(DevoloIcons.ic_help_24px, color: fontColorLight),
+                    leading: Icon(DevoloIcons.ic_help_24px, color: fontColorOnMain),
                     title: Text(S.of(context).help,
-                        style: TextStyle(color: fontColorLight)),
+                        style: TextStyle(color: fontColorOnMain)),
                     contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
                     onTap: () {
                       bottomTapped(2);
@@ -460,12 +485,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Container(
                 decoration: BoxDecoration(
-                  border: Border(bottom: BorderSide(color: fontColorLight, width: 2)),
+                  border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
                 ),
                 child: ListTile(
-                    leading: Icon(DevoloIcons.devolo_UI_settings, color: fontColorLight),
+                    leading: Icon(DevoloIcons.devolo_UI_settings, color: fontColorOnMain),
                     title: Text(S.of(context).settings,
-                        style: TextStyle(color: fontColorLight)),
+                        style: TextStyle(color: fontColorOnMain)),
                     contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
                     onTap: () {
                       bottomTapped(3);
@@ -474,12 +499,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Container(
                 decoration: BoxDecoration(
-                  border: Border(bottom: BorderSide(color: fontColorLight, width: 2)),
+                  border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
                 ),
                 child: ListTile(
-                    leading: Icon(DevoloIcons.ic_info_24px, color: fontColorLight),
+                    leading: Icon(DevoloIcons.ic_info_24px, color: fontColorOnMain),
                     title: Text(S.of(context).appInfo,
-                        style: TextStyle(color: fontColorLight)),
+                        style: TextStyle(color: fontColorOnMain)),
                     contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
                     onTap: () {
                       Navigator.pop(context); //close drawer
@@ -493,8 +518,8 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: mainColor,
-        unselectedItemColor: secondColor,
-        selectedItemColor: fontColorLight,
+        unselectedItemColor: fontColorOnMain,
+        selectedItemColor: fontColorOnMain,
         selectedIconTheme: IconThemeData(size: 35),
         selectedFontSize: 16 * fontSize.factor,
         unselectedFontSize: 14 * fontSize.factor,
@@ -517,7 +542,7 @@ class _MyHomePageState extends State<MyHomePage> {
             title: Text(
               S.of(context).appInformation,
               textAlign: TextAlign.center,
-              style: TextStyle(color: fontColorLight),
+              style: TextStyle(color: fontColorOnMain),
             ),
             backgroundColor: mainColor,
             contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18),

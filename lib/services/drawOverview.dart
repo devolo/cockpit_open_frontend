@@ -53,10 +53,9 @@ class DrawOverview extends CustomPainter {
   );
 
   final _speedTextStyle = TextStyle(
-    color: mainColor,
+    color: backgroundColor,
     fontFamily: 'OpenSans',
     fontSize: 15,
-    //backgroundColor: Colors.white,
     fontWeight: FontWeight.bold,
   );
 
@@ -128,7 +127,7 @@ class DrawOverview extends CustomPainter {
       ..style = PaintingStyle.stroke;
 
     _speedLinePaint = Paint()
-      ..color = mainColor
+      ..color = backgroundColor
       ..strokeWidth = 2.0
       ..style = PaintingStyle.stroke;
 
@@ -203,7 +202,7 @@ class DrawOverview extends CustomPainter {
       drawIcon(canvas, toOffset, DevoloIcons.ic_laptop_24px);
       userNameTextSpan = TextSpan(
         text: S.current.thisPc,
-        style: _textNameStyle.apply(color: fontColorLight),
+        style: _textNameStyle.apply(),
       );
 
       _textPainter.text = userNameTextSpan;
@@ -216,7 +215,7 @@ class DrawOverview extends CustomPainter {
         drawIcon(canvas, toOffset, DevoloIcons.devolo_UI_internet);
         userNameTextSpan = TextSpan(
           text: S.current.internet,
-          style: _textNameStyle.apply(color: fontColorLight),
+          style: _textNameStyle.apply(),
         );
 
         _textPainter.text = userNameTextSpan;
@@ -233,7 +232,7 @@ class DrawOverview extends CustomPainter {
 
         userNameTextSpan = TextSpan(
           text: "Internet",
-          style: _textNameStyle.apply(color: fontColorLight),
+          style: _textNameStyle.apply(),
         );
         _textPainter.text = userNameTextSpan;
         _textPainter.layout(minWidth: 0, maxWidth: 300);
@@ -243,58 +242,6 @@ class DrawOverview extends CustomPainter {
     }
 
 
-  }
-
-  void drawNetworksAndConnections(Canvas canvas, Size size) {
-    Offset absoluteOffset = Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2) + 25);
-    double offsetAdd = 0;
-    Offset toOffset = absoluteOffset; //Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2)+25);
-    int index = 0;
-    networkOffsetList.clear();
-
-    for (var item in _networkList) {
-      //logger.i(toOffset);
-
-      if (index % 2 == 0) {
-        toOffset = absoluteOffset.translate(-50.0 * index, 0);
-      } else {
-        toOffset = absoluteOffset.translate(50.0 * index, 0);
-        toOffset = toOffset.translate(50.0, 0);
-      }
-
-      if (selectedNetworkIndex % 2 == 0) {
-        toOffset = toOffset.translate(50.0 * selectedNetworkIndex, 0);
-      } else {
-        toOffset = toOffset.translate(-50.0 * selectedNetworkIndex, 0);
-        toOffset = toOffset.translate(-50.0, 0);
-      }
-
-      networkOffsetList.add(toOffset);
-      index++;
-    }
-
-    index = _networkList.length - 1;
-    if (index > 0) {
-      canvas.drawLine(networkOffsetList[index - 1], networkOffsetList[index], _linePaint..strokeWidth = 2.0);
-    }
-
-    // draw networkOffsetList from back to front to avoid overdrawing
-    for (var item in _networkList) {
-      if (offsetAdd.sign > 0) offsetAdd = -offsetAdd;
-      networkOffsetList[index] = networkOffsetList[index].translate(_providerList.selectedNetworkIndex.toDouble() * offsetAdd, 0);
-
-      if (networkOffsetList.length > 1) {
-        if (_providerList.selectedNetworkIndex == index) {
-          drawNetworkName(canvas, size, "Netk ${index + 1}", absoluteOffset, true);
-        } else {
-          drawNetworkName(canvas, size, "Netwk ${index + 1}", networkOffsetList[index], false);
-          //canvas.drawLine(absoluteOffset, networkOffsetList[index], _linePaint..strokeWidth = 2.0);
-          drawIcon(canvas, networkOffsetList[index], Icons.workspaces_filled);
-        }
-      }
-
-      index--;
-    }
   }
 
   void drawDeviceConnection(Canvas canvas, Offset deviceOffset, Map thickness, Map color) {
@@ -468,7 +415,7 @@ class DrawOverview extends CustomPainter {
       );
       final mbpsTextSpan = TextSpan(
         text: "Mbps",
-        style: TextStyle(color: mainColor, fontSize: 12),
+        style: TextStyle(color: backgroundColor, fontSize: 12),
       );
 
       canvas.drawLine(lineStart, lineEnd, _speedLinePaint);
@@ -512,34 +459,12 @@ class DrawOverview extends CustomPainter {
     }
   }
 
-  void drawNetworkName(Canvas canvas, Size size, String Name, Offset offset, isSelectedIndex) {
-    Offset absoluteOffset = Offset(offset.dx, offset.dy);
-    var NameTextSpan;
-
-    if (isSelectedIndex) {
-      NameTextSpan = TextSpan(
-        text: (Name.length > 0 ? Name : ""),
-        style: _textStyle.apply(color: fontColorLight),
-      );
-    } else {
-      NameTextSpan = TextSpan(
-        text: (Name.length > 0 ? Name : ""),
-        style: _textNameStyle,
-      );
-    }
-
-    _textPainter.text = NameTextSpan;
-    _textPainter.layout(minWidth: 0, maxWidth: 150);
-    double NameHeight = _textPainter.height;
-    _textPainter.paint(canvas, Offset(absoluteOffset.dx - (_textPainter.width / 2), absoluteOffset.dy - complete_circle_radius - 5));
-  }
-
   void drawDeviceName(Canvas canvas, String pName, String uName, Offset offset, [Size? size]) {
     Offset absoluteOffset = Offset(offset.dx + (screenWidth / 2), offset.dy + (screenHeight / 2));
 
     final userNameTextSpan = TextSpan(
       text: (uName.length > 0 ? uName : ""),
-      style: _textStyle.apply(color: fontColorLight),
+      style: _textStyle.apply(),
     );
     _textPainter.text = userNameTextSpan;
     _textPainter.layout(minWidth: 0, maxWidth: 300);
@@ -548,7 +473,7 @@ class DrawOverview extends CustomPainter {
 
     final productNameTextSpan = TextSpan(
       text: pName,
-      style: _textNameStyle.apply(color: fontColorLight),
+      style: _textNameStyle.apply(),
     );
     _textPainter.text = productNameTextSpan;
     _textPainter.layout(minWidth: 0, maxWidth: 300);
@@ -604,7 +529,7 @@ class DrawOverview extends CustomPainter {
     Offset absoluteRouterDeviceOffset = Offset(_deviceIconOffsetList.elementAt(0).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(0).dy + (screenHeight / 2));
     var internetTextSpan = TextSpan(
       text: S.current.internet,
-      style: _textNameStyle.apply(color: fontColorLight),
+      style: _textNameStyle.apply(),
     );
 
     if (_deviceList.length > 0 ) {

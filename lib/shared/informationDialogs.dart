@@ -70,8 +70,8 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                     TextFormField(
                       initialValue: newName,
                       focusNode: myFocusNode,
-                      style: TextStyle(color: fontColorLight),
-                      cursorColor: fontColorLight,
+                      style: TextStyle(color: fontColorOnMain),
+                      cursorColor: fontColorOnMain,
                       decoration: InputDecoration(
                         hoverColor: secondColor.withOpacity(0.2),
                         contentPadding: new EdgeInsets.symmetric(
@@ -82,21 +82,21 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
                           borderSide: BorderSide(
-                            color: fontColorLight,
+                            color: fontColorOnMain,
                             width: 2.0,
                           ),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
                           borderSide: BorderSide(
-                            color: fontColorLight, //Colors.transparent,
+                            color: fontColorOnMain, //Colors.transparent,
 //width: 2.0,
                           ),
                         ),
                         suffixIcon: IconButton(
                           icon: Icon(
                             DevoloIcons.ic_edit_24px,
-                            color: fontColorLight,
+                            color: fontColorOnMain,
                           ),
                           onPressed: () async {
                             if (newName != hitDevice.name) {
@@ -318,9 +318,9 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                           DevoloIcons.devolo_UI_internet,
                         ),
 //tooltip: S.of(context).launchWebinterface,
-                        disabledColor: fontColorLight.withOpacity(0.33),
-                        color: fontColorLight,
-                        hoverColor: fontColorLight.withAlpha(50),
+                        disabledColor: fontColorOnMain.withOpacity(0.33),
+                        color: fontColorOnMain,
+                        hoverColor: fontColorOnMain.withAlpha(50),
                         iconSize: 24.0 * fontSize.factor,
                         onPressed: !hitDevice.webinterfaceAvailable ? null : () =>
                             launchURL(hitDevice.ip),
@@ -333,8 +333,8 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                             .launchWebinterface,
                         style: TextStyle(fontSize: 14,
                             color: !hitDevice.webinterfaceAvailable
-                                ? fontColorLight.withOpacity(0.33)
-                                : fontColorLight),
+                                ? fontColorOnMain.withOpacity(0.33)
+                                : fontColorOnMain),
                         textScaleFactor: fontSize.factor,
                         textAlign: TextAlign.center,
                       )
@@ -347,9 +347,9 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                           DevoloIcons.ic_lightbulb_outline_24px,
                         ),
 //tooltip: S.of(context).identifyDevice,
-                        disabledColor: fontColorLight.withOpacity(0.33),
-                        color: fontColorLight,
-                        hoverColor: fontColorLight.withAlpha(50),
+                        disabledColor: fontColorOnMain.withOpacity(0.33),
+                        color: fontColorOnMain,
+                        hoverColor: fontColorOnMain.withAlpha(50),
                         iconSize: 24.0 * fontSize.factor,
                         onPressed: !hitDevice.identifyDeviceAvailable
                             ? null
@@ -377,8 +377,8 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                             .identifyDevice,
                         style: TextStyle(fontSize: 14,
                             color: !hitDevice.identifyDeviceAvailable
-                                ? fontColorLight.withOpacity(0.33)
-                                : fontColorLight),
+                                ? fontColorOnMain.withOpacity(0.33)
+                                : fontColorOnMain),
                         textScaleFactor: fontSize.factor,
                         textAlign: TextAlign.center,
                       )
@@ -389,10 +389,10 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                       IconButton(
                           icon: Icon(
                             DevoloIcons.ic_find_in_page_24px,
-                            color: fontColorLight,
+                            color: fontColorOnMain,
                           ),
 //tooltip: S.of(context).showManual,
-                          hoverColor: fontColorLight.withAlpha(50),
+                          hoverColor: fontColorOnMain.withAlpha(50),
                           iconSize: 24.0 * fontSize.factor,
                           onPressed: () async {
                             socket.sendXML('GetManual', newValue: hitDevice.MT,
@@ -415,7 +415,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                         S
                             .of(context)
                             .showManual,
-                        style: TextStyle(fontSize: 14, color: fontColorLight),
+                        style: TextStyle(fontSize: 14, color: fontColorOnMain),
                         textScaleFactor: fontSize.factor,
                         textAlign: TextAlign.center,
                       )
@@ -427,10 +427,10 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                         IconButton(
                             icon: Icon(
                               DevoloIcons.ic_router_24px,
-                              color: fontColorLight,
+                              color: fontColorOnMain,
                             ),
 //tooltip: S.of(context).showManual,
-                            hoverColor: fontColorLight.withAlpha(50),
+                            hoverColor: fontColorOnMain.withAlpha(50),
                             iconSize: 24.0 * fontSize.factor,
                             onPressed: () {
                               showVDSLDialog(
@@ -441,7 +441,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                           S
                               .of(context)
                               .setVdslCompatibility,
-                          style: TextStyle(fontSize: 14, color: fontColorLight),
+                          style: TextStyle(fontSize: 14, color: fontColorOnMain),
                           textScaleFactor: fontSize.factor,
                           textAlign: TextAlign.center,
                         )
@@ -452,11 +452,11 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                       IconButton(
                         icon: Icon(
                           DevoloIcons.ic_file_upload_24px,
-                          color: fontColorLight,
+                          color: fontColorOnMain,
                           semanticLabel: "update",
                         ),
 //tooltip: S.of(context).factoryReset,
-                        hoverColor: fontColorLight.withAlpha(50),
+                        hoverColor: fontColorOnMain.withAlpha(50),
                         iconSize: 24.0 * fontSize.factor,
                         onPressed: () async {
                           bool confResponse = false;
@@ -502,7 +502,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                         S
                             .of(context)
                             .factoryReset,
-                        style: TextStyle(fontSize: 14, color: fontColorLight),
+                        style: TextStyle(fontSize: 14, color: fontColorOnMain),
                         textScaleFactor: fontSize.factor,
                         textAlign: TextAlign.center,
                       )
@@ -514,10 +514,10 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                       IconButton(
                         icon: Icon(
                           DevoloIcons.devolo_UI_delete,
-                          color: fontColorLight,
+                          color: fontColorOnMain,
                         ),
 //tooltip: S.of(context).deleteDevice,
-                        hoverColor: fontColorLight.withAlpha(50),
+                        hoverColor: fontColorOnMain.withAlpha(50),
                         iconSize: 24.0 * fontSize.factor,
                         onPressed: () async {
                           bool confResponse = false;
@@ -562,7 +562,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                         S
                             .of(context)
                             .deleteDevice,
-                        style: TextStyle(fontSize: 14, color: fontColorLight),
+                        style: TextStyle(fontSize: 14, color: fontColorOnMain),
                         textScaleFactor: fontSize.factor,
                         textAlign: TextAlign.center,
                       )

@@ -110,7 +110,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                 children: [
                   for (var networkIdx = 0; networkIdx < _deviceList.getNetworkListLength(); networkIdx++)
                     FlatButton(
-                      textColor: networkIdx != _deviceList.selectedNetworkIndex ? secondColor : fontColorLight,
+                      textColor: networkIdx != _deviceList.selectedNetworkIndex ? drawingColor : drawingColor,
                       hoverColor: secondColor.withOpacity(0.3),
                       //color: networkIdx != _deviceList.selectedNetworkIndex? Colors.transparent: secondColor,
                       child: networkIdx == 0
@@ -149,8 +149,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
         },
         tooltip: 'Neu laden',
         backgroundColor: secondColor,
-        foregroundColor: fontColorDark,
-        hoverColor: fontColorLight,
+        foregroundColor: fontColorOnSecond,
+        hoverColor: fontColorOnMain,
         child: Icon(
           DevoloIcons.ic_refresh_24px,
           color: mainColor,

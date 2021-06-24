@@ -11,14 +11,15 @@ import 'package:flutter/material.dart';
 
 import 'helpers.dart';
 
-Color mainColor= Colors.white;// = Colors.grey[850]; //Colors.blue[700]; // Colors.grey[850];
-Color backgroundColor= Colors.white;// = Colors.grey[850];//Colors.blue[700]; //
-Color secondColor= Colors.white;// = Colors.grey[400];//Colors.blue[100];
-Color accentColor= Colors.white;// = Colors.grey[400];//Colors.blue[100];
-Color drawingColor= Colors.white;// = Colors.white;
-Color fontColorLight= Colors.white;// = Colors.white;
-Color fontColorMedium= Colors.white;// = Colors.grey[800];
-Color fontColorDark= Colors.white ;// = Colors.black;
+Color mainColor= Colors.white;
+Color backgroundColor= Colors.white;
+Color secondColor= Colors.white;
+Color accentColor= Colors.white; // accent to background, color for every second entry in list
+Color surfaceColor= Colors.white;
+Color drawingColor= Colors.white;
+Color fontColorOnMain= Colors.white;
+Color fontColorOnBackground= Colors.white;
+Color fontColorOnSecond= Colors.white ;
 
 Color devoloBlue = Color.fromARGB(255, 0, 114, 180);
 Color devoloBlueMedium = Color.fromARGB(255, 81, 154, 207);
@@ -50,24 +51,26 @@ void setTheme(String theme_name) {
     mainColor = theme["mainColor"];
     backgroundColor = theme["backgroundColor"];
     secondColor = theme["secondColor"];
+    surfaceColor = theme["surfaceColor"];
     accentColor = theme["accentColor"];
     drawingColor = theme["drawingColor"];
-    fontColorLight = theme["fontColorLight"];
-    fontColorMedium = theme["fontColorMedium"];
-    fontColorDark = theme["fontColorDark"];
+    fontColorOnMain = theme["fontColorOnMain"];
+    fontColorOnBackground = theme["fontColorOnBackground"];
+    fontColorOnSecond = theme["fontColorOnSecond"];
   }
 }
 
 Map<String, dynamic> theme_dark = {
   "name": "Dark Theme",
-  "mainColor" : Colors.grey[850], //Colors.blue[700]; // Colors.grey[850];
-  "backgroundColor" : Colors.grey[850], //Colors.blue[700]; //
-  "secondColor" : Colors.grey[400], //Colors.blue[100];
-  "accentColor" : Colors.grey[700], //Colors.blue[100];
+  "mainColor" : devoloGray, //devoloGray;
+  "backgroundColor" : devoloGray, //devoloGray;
+  "secondColor" : Colors.white, //Colors.grey[400];
+  "surfaceColor" : Colors.white,
+  "accentColor" : Color.fromARGB(255,131, 136, 139),
   "drawingColor" : Colors.white,
-  "fontColorLight" : Colors.white,
-  "fontColorMedium" : Colors.grey[800],
-  "fontColorDark" : Colors.black,
+  "fontColorOnMain" : Colors.white,
+  "fontColorOnBackground" : Colors.white,
+  "fontColorOnSecond" : Colors.black,
 };
 
 
@@ -75,12 +78,13 @@ Map<String, dynamic> theme_devolo = {
   "name": "Standard",
   "mainColor" : devoloBlue,
   "backgroundColor" : devoloBlue,
-  "secondColor" : devoloBlueLight,//Colors.blue[100],
-  "accentColor" : devoloBlueMedium,//Colors.blue[100],
+  "secondColor" : Colors.white,//devoloBlueLight,
+  "surfaceColor" : Colors.white,
+  "accentColor" : Color.fromARGB(255,81, 154, 207),
   "drawingColor" : Colors.white,
-  "fontColorLight" : Colors.white,
-  "fontColorMedium" : Colors.grey[800],
-  "fontColorDark" : Colors.black,
+  "fontColorOnMain" : Colors.white,
+  "fontColorOnBackground" : Colors.white,
+  "fontColorOnSecond" : Colors.black,
 };
 
 Map<String, dynamic> theme_highContrast = {
@@ -88,22 +92,24 @@ Map<String, dynamic> theme_highContrast = {
   "mainColor" : Colors.black,
   "backgroundColor" : Colors.black,
   "secondColor" : Colors.white,
+  "surfaceColor" : Colors.white,
   "accentColor" : Colors.white,
   "drawingColor" : Colors.white,
-  "fontColorLight" : Colors.yellowAccent,
-  "fontColorMedium" : Colors.black,
-  "fontColorDark" : Colors.black,
+  "fontColorOnMain" : Colors.yellowAccent,
+  "fontColorOnBackground" : Colors.white,
+  "fontColorOnSecond" : Colors.black,
 };
 
 Map<String, dynamic> theme_light = {
   "name": "Light Theme",
-  "mainColor" : Colors.white,
+  "mainColor" : devoloBlue,
   "backgroundColor" : Colors.white,
-  "secondColor" : Colors.grey[300],
-  "accentColor" : Colors.grey[300],
-  "drawingColor" : Colors.grey,
-  "fontColorLight" : Colors.black,
-  "fontColorMedium" : Colors.grey[800],
-  "fontColorDark" : Colors.black,
+  "secondColor" : devoloBlueLight, //Colors.grey[300],
+  "surfaceColor" : Colors.blue,
+  "accentColor" : Color.fromARGB(255, 234, 235, 236),
+  "drawingColor" : devoloBlue,
+  "fontColorOnMain" : Colors.white,
+  "fontColorOnBackground" : Colors.black,
+  "fontColorOnSecond" : Colors.white,
 };
 

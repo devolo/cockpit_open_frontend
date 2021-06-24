@@ -100,16 +100,16 @@ class _UpdateScreenState extends State<UpdateScreen> {
           children: [
             new Text(
               S.of(context).updates,
-              style: TextStyle(fontSize: fontSizeAppBarTitle - 5 * fontSize.factor, color: fontColorLight),
+              style: TextStyle(fontSize: fontSizeAppBarTitle - 5 * fontSize.factor, color: fontColorOnBackground),
               textAlign: TextAlign.start,
             ),
             Divider(
-              color: fontColorLight,
+              color: fontColorOnBackground,
             ),
           ],
         ),
         //centerTitle: true,
-        backgroundColor: mainColor,
+        backgroundColor: backgroundColor,
         shadowColor: Colors.transparent,
       ),
       body: Padding(
@@ -129,7 +129,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(28.0), side: BorderSide(color: devoloGreen))),
                     padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(horizontal: 35, vertical: 18)),
                     backgroundColor: MaterialStateProperty.all<Color>(devoloGreen),
-                    foregroundColor: MaterialStateProperty.all<Color>(fontColorLight),
+                    foregroundColor: MaterialStateProperty.all<Color>(fontColorOnMain),
                   ),
                   onPressed: () async {
                     // Warning! "UpdateCheck" and "RefreshNetwork" should only be triggered by a user interaction, not continously/automaticly
@@ -148,11 +148,11 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   child: Row(children: [
                     _loading
                         ? CircularProgressIndicator(
-                            valueColor: new AlwaysStoppedAnimation<Color>(fontColorLight),
+                            valueColor: new AlwaysStoppedAnimation<Color>(fontColorOnMain),
                           )
                         : Icon(
                             DevoloIcons.ic_refresh_24px,
-                            color: fontColorLight,
+                            color: fontColorOnMain,
                             size: 24 * fontSize.factor,
                           ),
                     Text(
@@ -168,10 +168,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   height: 50.0,
                   child: TextButton(
                     style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(28.0), side: BorderSide(color: fontColorLight, width: 1.5))),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(28.0), side: BorderSide(color: fontColorOnMain, width: 1.5))),
                       padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(horizontal: 30, vertical: 18)),
                       //backgroundColor: MaterialStateProperty.all<Color>(),
-                      foregroundColor: MaterialStateProperty.all<Color>(fontColorLight),
+                      foregroundColor: MaterialStateProperty.all<Color>(fontColorOnMain),
                     ),
                     onPressed: () async {
                       //logger.i("Updating ${device.mac}");
@@ -189,7 +189,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     child: Row(children: [
                       Icon(
                         DevoloIcons.ic_file_download_24px,
-                        color: fontColorLight,
+                        color: fontColorOnMain,
                         size: 24 * fontSize.factor,
                       ),
                       Text(
@@ -212,47 +212,78 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 3: FlexColumnWidth(6),
               },
               children: [
-                TableRow(children: [
+                TableRow(
+                    decoration: BoxDecoration(
+                        color: mainColor,
+                        border: Border(
+                          bottom: BorderSide(color: fontColorOnMain),
+                        )
+                    ),
+                    children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         S.of(context).state,
-                        style: TextStyle(color: fontColorLight),
+                        style: TextStyle(color: fontColorOnMain),
                         textAlign: TextAlign.center,
                       ),
                       Icon(
                         DevoloIcons.devolo_UI_chevron_down,
-                        color: fontColorLight,
+                        color: fontColorOnMain,
                       )
                     ],
                   ),
                   TableCell(
-                    child: Text(
-                      S.of(context).name,
-                      style: TextStyle(color: fontColorLight),
-                      textAlign: TextAlign.center,
-                    ),
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 1.0),
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            left: BorderSide(width: 1.0, color: backgroundColor),
+                          ),
+                        ),
+                        child: Text(
+                          S.of(context).name,
+                          style: TextStyle(color: fontColorOnMain),
+                          textAlign: TextAlign.center,
+                        ),
+                      )
                   ),
                   TableCell(
-                    child: Text(
-                      S.of(context).currentVersion,
-                      style: TextStyle(color: fontColorLight),
-                      textAlign: TextAlign.center,
-                    ),
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 1.0),
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            left: BorderSide(width: 1.0, color: backgroundColor),
+                          ),
+                        ),
+                        child: Text(
+                          S.of(context).currentVersion,
+                          style: TextStyle(color: fontColorOnMain),
+                          textAlign: TextAlign.center,
+                        ),
+                      )
                   ),
                   TableCell(
-                    child: Text(
-                      S.of(context).state,
-                      style: TextStyle(color: fontColorLight),
-                      textAlign: TextAlign.center,
-                    ),
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(vertical: 1.0),
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          left: BorderSide(width: 1.0, color: backgroundColor),
+                        ),
+                      ),
+                      child: Text(
+                        S.of(context).state,
+                        style: TextStyle(color: fontColorOnMain),
+                        textAlign: TextAlign.center,
+                      ),
+                    )
                   ),
                 ]),
               ],
-            ),
-            Divider(
-              color: fontColorLight,
             ),
             Expanded(
               child: SingleChildScrollView (
@@ -272,7 +303,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 CircularProgressIndicator(
-                                  valueColor: new AlwaysStoppedAnimation<Color>(fontColorLight),
+                                  valueColor: new AlwaysStoppedAnimation<Color>(fontColorOnBackground),
                                   strokeWidth: 3,
                                 ),
                               ],
@@ -298,7 +329,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                     IconButton(
                                         icon: Icon(
                                           DevoloIcons.ic_file_download_24px,
-                                          color: mainColor,
+                                          color: fontColorOnBackground,
                                         ),
                                         iconSize: 24 * fontSize.factor,
                                         onPressed: () async {
@@ -306,7 +337,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                         }),
                                     if (_loadingSoftware)
                                       CircularProgressIndicator(
-                                        valueColor: new AlwaysStoppedAnimation<Color>(fontColorLight),
+                                        valueColor: new AlwaysStoppedAnimation<Color>(fontColorOnBackground),
                                         strokeWidth: 3,
                                       ),
                                   ],
@@ -317,12 +348,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         horizontalTitleGap: 1,
                         leading: Icon(
                           Icons.speed_rounded,
-                          color: Colors.white,
+                          color: fontColorOnBackground,
                           size: 24.0 * fontSize.factor,
                         ),
                         title: Text(
                           "Cockpit Software",
-                          style: TextStyle(color: fontColorLight, fontSize: 18),
+                          style: TextStyle(color: fontColorOnBackground, fontSize: 18),
                           textAlign: TextAlign.center,
                           textScaleFactor: fontSize.factor,
                         ),
@@ -331,7 +362,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     TableCell(
                       child: Text(
                         "",
-                        style: TextStyle(color: fontColorLight),
+                        style: TextStyle(color: fontColorOnBackground),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -339,13 +370,13 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       child: _loading
                           ? SelectableText(
                               " ${S.of(context).searching}",
-                              style: TextStyle(color: fontColorLight),
+                              style: TextStyle(color: fontColorOnBackground),
                               textAlign: TextAlign.center,
                             )
                           : _deviceList.cockpitUpdate == false
                               ? Text(
                                   " ${S.of(context).upToDate}",
-                                  style: TextStyle(color: fontColorLight),
+                                  style: TextStyle(color: fontColorOnBackground),
                                   textAlign: TextAlign.center,
                                 )
                               : Row(
@@ -353,7 +384,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                     FlatButton(
                                         child: Text(
                                           S.of(context).update2,
-                                          style: TextStyle(color: fontColorLight, fontSize: 20 * fontSize.factor),
+                                          style: TextStyle(color: fontColorOnBackground, fontSize: 20 * fontSize.factor),
                                           textAlign: TextAlign.center,
                                         ),
                                         onPressed: () async {
@@ -364,14 +395,14 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     ),
                   ]),
                   for (int i = 0; i < _deviceList.getAllDevices().length; i++)
-                    TableRow(decoration: BoxDecoration(color: i % 2 == 0 ? accentColor : mainColor), children: [
+                    TableRow(decoration: BoxDecoration(color: i % 2 == 0 ? accentColor : Colors.transparent), children: [
                       TableCell(
                         child: _loading
                             ? Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   CircularProgressIndicator(
-                                    valueColor: new AlwaysStoppedAnimation<Color>(fontColorLight),
+                                    valueColor: new AlwaysStoppedAnimation<Color>(fontColorOnBackground),
                                     strokeWidth: 3,
                                   ),
                                 ],
@@ -396,7 +427,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                       IconButton(
                                           icon: Icon(
                                             DevoloIcons.ic_file_download_24px,
-                                            color: mainColor,
+                                            color: fontColorOnBackground,
                                           ),
                                           iconSize: 24 * fontSize.factor,
                                           onPressed: () async {
@@ -404,7 +435,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                           }),
                                       if (_loadingSoftware)
                                         CircularProgressIndicator(
-                                          valueColor: new AlwaysStoppedAnimation<Color>(fontColorLight),
+                                          valueColor: new AlwaysStoppedAnimation<Color>(fontColorOnBackground),
                                         ),
                                     ],
                                   ),
@@ -423,13 +454,13 @@ class _UpdateScreenState extends State<UpdateScreen> {
                             ),
                             title: Text(
                               _deviceList.getAllDevices()[i].name,
-                              style: TextStyle(fontWeight: FontWeight.bold, color: fontColorLight, fontSize: 17,),
+                              style: TextStyle(fontWeight: FontWeight.bold, color: fontColorOnBackground, fontSize: 17,),
                               textAlign: TextAlign.center,
                               textScaleFactor: fontSize.factor,
                             ),
                             subtitle: Text(
                               '${_deviceList.getAllDevices()[i].type}',
-                              style: TextStyle(color: fontColorLight, fontSize: 17,),
+                              style: TextStyle(color: fontColorOnBackground, fontSize: 17,),
                               textAlign: TextAlign.center,
                               textScaleFactor: fontSize.factor,
                             ),
@@ -439,7 +470,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       TableCell(
                         child: Text(
                           _deviceList.getAllDevices()[i].version,
-                          style: TextStyle(color: fontColorLight),
+                          style: TextStyle(color: fontColorOnBackground),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -447,13 +478,13 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         child: _loading
                             ? SelectableText(
                                 " ${S.of(context).searching}",
-                                style: TextStyle(color: fontColorLight),
+                                style: TextStyle(color: fontColorOnBackground),
                                 textAlign: TextAlign.center,
                               )
                             : _deviceList.cockpitUpdate == false
                                 ? Text(
                                     " ${S.of(context).upToDate}",
-                                    style: TextStyle(color: fontColorLight),
+                                    style: TextStyle(color: fontColorOnBackground),
                                     textAlign: TextAlign.center,
                                   )
                                 : Row(
@@ -461,7 +492,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                       FlatButton(
                                           child: Text(
                                             S.of(context).update2,
-                                            style: TextStyle(color: fontColorLight, fontSize: 20 * fontSize.factor),
+                                            style: TextStyle(color: fontColorOnBackground, fontSize: 20 * fontSize.factor),
                                             textAlign: TextAlign.center,
                                           ),
                                           onPressed: () async {
@@ -474,9 +505,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 ],
               ),
             ),
-            ),
-            SizedBox(
-              height: 20,
             ),
           ],
         ),

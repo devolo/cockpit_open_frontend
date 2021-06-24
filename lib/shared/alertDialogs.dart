@@ -17,7 +17,7 @@ Future<bool> confirmDialog(context, title, body, FontSize fontSize) async {
               getCloseButton(context),
               Text(
                 title,
-                style: TextStyle(color: fontColorLight),
+                style: TextStyle(color: fontColorOnMain),
               ),
             ],
           ),
@@ -49,7 +49,7 @@ void errorDialog(context, title, body, FontSize fontSize) {
               getCloseButton(context),
               Text(
                 title,
-                style: TextStyle(color: fontColorLight),
+                style: TextStyle(color: fontColorOnMain),
               ),
             ],
           ),

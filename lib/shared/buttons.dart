@@ -10,7 +10,7 @@ getConfirmButton(context, FontSize fontSize) {
   return TextButton(
     child: Text(
       S.of(context).confirm,
-      style: TextStyle(fontSize: 14, color: fontColorLight),
+      style: TextStyle(fontSize: 14, color: fontColorOnMain),
       textScaleFactor: fontSize.factor,
     ),
     onPressed: () {
@@ -62,11 +62,11 @@ getCancelButton(context, FontSize fontSize) {
       foregroundColor: MaterialStateProperty.resolveWith<Color?>(
             (states) {
           if (states.contains(MaterialState.hovered)) {
-            return fontColorLight.withOpacity(hoverOpacity);
+            return fontColorOnMain.withOpacity(hoverOpacity);
           } else if (states.contains(MaterialState.pressed)) {
-            return fontColorLight;
+            return fontColorOnMain;
           }
-          return fontColorLight;
+          return fontColorOnMain;
         },
       ),
       padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 13.0, horizontal: 32.0)),
@@ -78,11 +78,11 @@ getCancelButton(context, FontSize fontSize) {
       side: MaterialStateProperty.resolveWith<BorderSide>(
             (states) {
           if (states.contains(MaterialState.hovered)) {
-            return BorderSide(color: fontColorLight.withOpacity(hoverOpacity), width: 2.0);
+            return BorderSide(color: fontColorOnMain.withOpacity(hoverOpacity), width: 2.0);
           } else if (states.contains(MaterialState.pressed)) {
-            return BorderSide(color: fontColorLight.withOpacity(activeOpacity), width: 2.0);
+            return BorderSide(color: fontColorOnMain.withOpacity(activeOpacity), width: 2.0);
           }
-          return BorderSide(color: fontColorLight, width: 2.0);
+          return BorderSide(color: fontColorOnMain, width: 2.0);
         },
       ),
     ),

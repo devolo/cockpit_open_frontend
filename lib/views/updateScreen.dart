@@ -126,10 +126,19 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 // ),
                 TextButton(
                   style: ButtonStyle(
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(28.0), side: BorderSide(color: devoloGreen))),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(28.0))),
                     padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(horizontal: 35, vertical: 18)),
-                    backgroundColor: MaterialStateProperty.all<Color>(devoloGreen),
-                    foregroundColor: MaterialStateProperty.all<Color>(fontColorOnMain),
+                    backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                          (states) {
+                        if (states.contains(MaterialState.hovered)) {
+                          return devoloGreen.withOpacity(hoverOpacity);
+                        } else if (states.contains(MaterialState.pressed)) {
+                          return devoloGreen.withOpacity(activeOpacity);
+                        }
+                        return devoloGreen;
+                      },
+                    ),
+                    foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
                   ),
                   onPressed: () async {
                     // Warning! "UpdateCheck" and "RefreshNetwork" should only be triggered by a user interaction, not continously/automaticly
@@ -168,10 +177,38 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   height: 50.0,
                   child: TextButton(
                     style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(28.0), side: BorderSide(color: fontColorOnMain, width: 1.5))),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(28.0))),
                       padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(horizontal: 30, vertical: 18)),
-                      //backgroundColor: MaterialStateProperty.all<Color>(),
-                      foregroundColor: MaterialStateProperty.all<Color>(fontColorOnMain),
+                      side: MaterialStateProperty.resolveWith<BorderSide>(
+                            (states) {
+                          if (states.contains(MaterialState.hovered)) {
+                            return BorderSide(color: drawingColor.withOpacity(hoverOpacity), width: 2.0);
+                          } else if (states.contains(MaterialState.pressed)) {
+                            return BorderSide(color: drawingColor.withOpacity(activeOpacity), width: 2.0);
+                          }
+                          return BorderSide(color: drawingColor, width: 2.0);
+                        },
+                      ),
+                      backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                            (states) {
+                          if (states.contains(MaterialState.hovered)) {
+                            return Colors.transparent;
+                          } else if (states.contains(MaterialState.pressed)) {
+                            return drawingColor;
+                          }
+                          return Colors.transparent;
+                        },
+                      ),
+                      foregroundColor: MaterialStateProperty.resolveWith<Color?>(
+                            (states) {
+                          if (states.contains(MaterialState.hovered)) {
+                            return drawingColor.withOpacity(hoverOpacity);
+                          } else if (states.contains(MaterialState.pressed)) {
+                            return drawingColor;
+                          }
+                          return drawingColor;
+                        },
+                      ),
                     ),
                     onPressed: () async {
                       //logger.i("Updating ${device.mac}");
@@ -189,7 +226,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     child: Row(children: [
                       Icon(
                         DevoloIcons.ic_file_download_24px,
-                        color: fontColorOnMain,
                         size: 24 * fontSize.factor,
                       ),
                       Text(

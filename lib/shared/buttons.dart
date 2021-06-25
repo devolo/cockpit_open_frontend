@@ -10,7 +10,7 @@ getConfirmButton(context, FontSize fontSize) {
   return TextButton(
     child: Text(
       S.of(context).confirm,
-      style: TextStyle(fontSize: 14, color: fontColorOnMain),
+      style: TextStyle(fontSize: 14, color: Colors.white),
       textScaleFactor: fontSize.factor,
     ),
     onPressed: () {
@@ -54,7 +54,7 @@ getCancelButton(context, FontSize fontSize) {
           if (states.contains(MaterialState.hovered)) {
             return Colors.transparent;
           } else if (states.contains(MaterialState.pressed)) {
-            return Colors.white;
+            return drawingColor;
           }
           return Colors.transparent;
         },
@@ -62,11 +62,11 @@ getCancelButton(context, FontSize fontSize) {
       foregroundColor: MaterialStateProperty.resolveWith<Color?>(
             (states) {
           if (states.contains(MaterialState.hovered)) {
-            return fontColorOnMain.withOpacity(hoverOpacity);
+            return drawingColor.withOpacity(hoverOpacity);
           } else if (states.contains(MaterialState.pressed)) {
-            return fontColorOnMain;
+            return drawingColor;
           }
-          return fontColorOnMain;
+          return drawingColor;
         },
       ),
       padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 13.0, horizontal: 32.0)),
@@ -78,11 +78,11 @@ getCancelButton(context, FontSize fontSize) {
       side: MaterialStateProperty.resolveWith<BorderSide>(
             (states) {
           if (states.contains(MaterialState.hovered)) {
-            return BorderSide(color: fontColorOnMain.withOpacity(hoverOpacity), width: 2.0);
+            return BorderSide(color: drawingColor.withOpacity(hoverOpacity), width: 2.0);
           } else if (states.contains(MaterialState.pressed)) {
-            return BorderSide(color: fontColorOnMain.withOpacity(activeOpacity), width: 2.0);
+            return BorderSide(color: drawingColor.withOpacity(activeOpacity), width: 2.0);
           }
-          return BorderSide(color: fontColorOnMain, width: 2.0);
+          return BorderSide(color: drawingColor, width: 2.0);
         },
       ),
     ),
@@ -99,7 +99,7 @@ getCloseButton(context) {
       },
       child: Container(
         alignment: FractionalOffset.topRight,
-        child: GestureDetector(child: Icon(DevoloIcons.devolo_UI_cancel,color: secondColor,),
+        child: GestureDetector(child: Icon(DevoloIcons.devolo_UI_cancel,color: fontColorOnBackground,),
 
           onTap: (){
             Navigator.pop(context);

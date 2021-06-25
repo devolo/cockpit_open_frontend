@@ -208,7 +208,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                 Center(
                     child: Text(
                   S.of(context).optimizationHelp,
-                  style: TextStyle(color: fontColorOnMain),
+                  style: TextStyle(color: fontColorOnBackground),
                 )),
               ],
             ),
@@ -311,7 +311,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                 Center(
                     child: Text(
                   "Gerät einrichten",
-                  style: TextStyle(color: fontColorOnMain),
+                  style: TextStyle(color: fontColorOnBackground),
                 )),
               ],
             ),
@@ -332,14 +332,20 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                             Expanded(
                               child: Theme(
                                 data: ThemeData(
-                                    accentColor: Colors.white,
-                                    primarySwatch: Colors.grey,
                                     canvasColor: Colors.transparent,
                                     shadowColor: Colors.transparent,
-                                    //textTheme: TextTheme(: fontColorDark),
-                                    colorScheme: ColorScheme.light(
-                                        //primary: Colors.white
-                                        )),
+                                    colorScheme:
+                                    fontColorOnSecond == Colors.black
+                                        ? ColorScheme.dark(
+                                      primary: secondColor,
+                                      secondary: secondColor,
+                                    )
+                                        : ColorScheme.light(
+                                      primary: secondColor,
+                                      secondary: secondColor,
+                                    ),
+                                ),
+
                                 child: Stepper(
                                   type: stepperType,
                                   physics: ScrollPhysics(),
@@ -361,10 +367,10 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                                           onPressed: onStepCancel,
                                           child: Row(
                                             children: [
-                                              Icon(DevoloIcons.devolo_UI_chevron_left, color: fontColorOnMain),
+                                              Icon(DevoloIcons.devolo_UI_chevron_left, color: fontColorOnBackground),
                                               Text(
                                                 'Zurück',
-                                                style: TextStyle(color: fontColorOnMain),
+                                                style: TextStyle(color: fontColorOnBackground),
                                               ),
                                             ],
                                           ),
@@ -375,8 +381,8 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                                           onPressed: onStepContinue,
                                           child: Row(
                                             children: [
-                                              Text('Weiter', style: TextStyle(color: fontColorOnMain)),
-                                              Icon(DevoloIcons.devolo_UI_chevron_right, color: fontColorOnMain,),
+                                              Text('Weiter', style: TextStyle(color: fontColorOnBackground)),
+                                              Icon(DevoloIcons.devolo_UI_chevron_right, color: fontColorOnBackground,),
                                             ],
                                           ),
                                           //color: Colors.white,
@@ -391,7 +397,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                                         children: <Widget>[
                                           SelectableText(
                                             "Stecken Sie beide PLC-Geräte in die gewünschten Wandsteckdosen und warten ca. 45 Sekunden.",
-                                            style: TextStyle(color: fontColorOnMain),
+                                            style: TextStyle(color: fontColorOnBackground),
                                           ),
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -432,11 +438,11 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                                         children: <Widget>[
                                           SelectableText(
                                             "Drücken Sie kurz den Verschlüsselungsknopf des ersten (evtl. bereits vorhandenen) PLC-Gerätes.",
-                                            style: TextStyle(color: fontColorOnMain),
+                                            style: TextStyle(color: fontColorOnBackground),
                                           ),
                                           SelectableText(
                                             "(Alternativ kann das Pairing auch über das Webinterface des bereits vorhandenen Geräts gestartet werden.)",
-                                            style: TextStyle(color: fontColorOnMain),
+                                            style: TextStyle(color: fontColorOnBackground),
                                           ),
                                             Image(
                                                   image: AssetImage('assets/addDevice/MagicWifi_step4.PNG'),
@@ -481,7 +487,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                                         children: <Widget>[
                                           SelectableText(
                                             "Drücken Sie innerhalb von zwei Minuten den Verschlüsselungsknopf des zweiten (neuen) PLC-Gerätes ebenfalls kurz.",
-                                            style: TextStyle(color: fontColorOnMain),
+                                            style: TextStyle(color: fontColorOnBackground),
                                           ),
                                           Image(
                                             image: AssetImage('assets/addDevice/MagicWifi_step5.PNG'),
@@ -498,7 +504,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                                         children: <Widget>[
                                           SelectableText(
                                             "Sobald die LEDs dauerhaft leuchten, sind die PLC-Geräte betriebsbereit.",
-                                            style: TextStyle(color: fontColorOnMain),
+                                            style: TextStyle(color: fontColorOnBackground),
                                           ),
                                           Image(
                                             image: AssetImage('assets/addDevice/MagicWifi_step6.PNG'),
@@ -523,11 +529,11 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
         });
   }
 
+  //!!! add manually confirm/cancel buttons
   void _contactInfoAlert(context) {
     String _processNr;
     String _name;
     String _email;
-
 
     showDialog<void>(
         context: context,
@@ -536,10 +542,10 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
           return AlertDialog(
             title: Text(
               S.of(context).contactInfo,
-              style: TextStyle(color: fontColorOnMain),
+              style: TextStyle(color: fontColorOnBackground),
             ),
             backgroundColor: backgroundColor.withOpacity(0.9),
-            contentTextStyle: TextStyle(color: fontColorOnMain),
+            contentTextStyle: TextStyle(color: fontColorOnBackground),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -553,27 +559,27 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                   child: Column(
                     children: <Widget>[
                       TextFormField(
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: fontColorOnBackground),
                         decoration: InputDecoration(
                           labelText: S.of(context).processNumber,
-                          labelStyle: TextStyle(color: fontColorOnMain),
-                          hoverColor: secondColor.withOpacity(0.2),
+                          labelStyle: TextStyle(color: fontColorOnBackground),
+                          hoverColor: fontColorOnBackground.withOpacity(0.2),
                           contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                           filled: true,
-                          fillColor: secondColor.withOpacity(0.2),
+                          fillColor: fontColorOnBackground.withOpacity(0.2),
                           errorStyle: TextStyle(color: devoloRed),
                           //myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.0),
                             borderSide: BorderSide(
-                              color: fontColorOnMain,
+                              color: fontColorOnBackground,
                               width: 2.0,
                             ),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.0),
                             borderSide: BorderSide(
-                              color: fontColorOnMain, //Colors.transparent,
+                              color: fontColorOnBackground, //Colors.transparent,
                               //width: 2.0,
                             ),
                           ),
@@ -591,27 +597,27 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                         height: 20,
                       ),
                       TextFormField(
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: fontColorOnBackground),
                         decoration: InputDecoration(
                           labelText: S.of(context).yourName,
-                          labelStyle: TextStyle(color: fontColorOnMain),
-                          hoverColor: secondColor.withOpacity(0.2),
+                          labelStyle: TextStyle(color: fontColorOnBackground),
+                          hoverColor: fontColorOnBackground.withOpacity(0.2),
                           contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                           filled: true,
-                          fillColor: secondColor.withOpacity(0.2),
+                          fillColor: fontColorOnBackground.withOpacity(0.2),
                           errorStyle: TextStyle(color: devoloRed),
                           //myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.0),
                             borderSide: BorderSide(
-                              color: fontColorOnMain,
+                              color: fontColorOnBackground,
                               width: 2.0,
                             ),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.0),
                             borderSide: BorderSide(
-                              color: fontColorOnMain, //Colors.transparent,
+                              color: fontColorOnBackground, //Colors.transparent,
                               //width: 2.0,
                             ),
                           ),
@@ -629,28 +635,28 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                       ),
                       TextFormField(
                         //initialValue: _newPw,
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: fontColorOnBackground),
                         decoration: InputDecoration(
                           labelText: S.of(context).yourEmailaddress,
-                          labelStyle: TextStyle(color: fontColorOnMain),
-                          counterStyle: TextStyle(color: fontColorOnMain),
-                          hoverColor: secondColor.withOpacity(0.2),
+                          labelStyle: TextStyle(color: fontColorOnBackground),
+                          counterStyle: TextStyle(color: fontColorOnBackground),
+                          hoverColor: fontColorOnBackground.withOpacity(0.2),
                           contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                           filled: true,
-                          fillColor: secondColor.withOpacity(0.2),
+                          fillColor: fontColorOnBackground.withOpacity(0.2),
                           errorStyle: TextStyle(color: devoloRed),
                           //myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.0),
                             borderSide: BorderSide(
-                              color: fontColorOnMain,
+                              color: fontColorOnBackground,
                               width: 2.0,
                             ),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.0),
                             borderSide: BorderSide(
-                              color: fontColorOnMain, //Colors.transparent,
+                              color: fontColorOnBackground, //Colors.transparent,
                               //width: 2.0,
                             ),
                           ),
@@ -676,7 +682,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
               TextButton(
                 child: Text(
                   S.of(context).confirm,
-                  style: TextStyle(fontSize: 14, color: fontColorOnMain),
+                  style: TextStyle(fontSize: 14, color: Colors.white),
                   textScaleFactor: fontSize.factor,
                 ),
                 onPressed: () {
@@ -690,9 +696,6 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                     logger.i("failed");
                     //Navigator.maybeOf(context)!.pop();
                   }
-
-
-
                 },
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.resolveWith<Color?>(
@@ -728,7 +731,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                       if (states.contains(MaterialState.hovered)) {
                         return Colors.transparent;
                       } else if (states.contains(MaterialState.pressed)) {
-                        return Colors.white;
+                        return drawingColor;
                       }
                       return Colors.transparent;
                     },
@@ -736,11 +739,11 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                   foregroundColor: MaterialStateProperty.resolveWith<Color?>(
                         (states) {
                       if (states.contains(MaterialState.hovered)) {
-                        return fontColorOnMain.withOpacity(hoverOpacity);
+                        return drawingColor.withOpacity(hoverOpacity);
                       } else if (states.contains(MaterialState.pressed)) {
-                        return fontColorOnMain;
+                        return drawingColor;
                       }
-                      return fontColorOnMain;
+                      return drawingColor;
                     },
                   ),
                   padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 13.0, horizontal: 32.0)),
@@ -752,11 +755,11 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                   side: MaterialStateProperty.resolveWith<BorderSide>(
                         (states) {
                       if (states.contains(MaterialState.hovered)) {
-                        return BorderSide(color: fontColorOnMain.withOpacity(hoverOpacity), width: 2.0);
+                        return BorderSide(color: drawingColor.withOpacity(hoverOpacity), width: 2.0);
                       } else if (states.contains(MaterialState.pressed)) {
-                        return BorderSide(color: fontColorOnMain.withOpacity(activeOpacity), width: 2.0);
+                        return BorderSide(color: drawingColor.withOpacity(activeOpacity), width: 2.0);
                       }
-                      return BorderSide(color: fontColorOnMain, width: 2.0);
+                      return BorderSide(color: drawingColor, width: 2.0);
                     },
                   ),
                 ),
@@ -786,7 +789,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                   child: Container(
                     alignment: FractionalOffset.topRight,
                     child: GestureDetector(
-                      child: Icon(DevoloIcons.devolo_UI_cancel,color: secondColor),
+                      child: Icon(DevoloIcons.devolo_UI_cancel,color: fontColorOnBackground),
                       onTap: (){
                         dialogIsOpen = false;
                         Navigator.pop(context);
@@ -798,13 +801,13 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
             ),
             titlePadding: EdgeInsets.all(2),
             backgroundColor: backgroundColor.withOpacity(0.9),
-            contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18 * fontSize.factor),
+            contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: 18 * fontSize.factor),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children:[
                 if(actionSucessfull)
                   Container(
-                  child: CircularProgressIndicator(color: devoloGreen),
+                  child: CircularProgressIndicator(color: fontColorOnBackground),
                   height: 50.0,
                   width: 50.0,
                   ),
@@ -813,12 +816,12 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                 if(actionSucessfull)
                   Text(
                     S.of(context).LoadCockpitSupportInformationsBody,
-                    style: TextStyle(color: fontColorOnMain),
+                    style: TextStyle(color: fontColorOnBackground),
                   ),
                 if(!actionSucessfull)
                   Text(
                     S.of(context).supportInfoGenerateError,
-                    style: TextStyle(color: fontColorOnMain),
+                    style: TextStyle(color: fontColorOnBackground),
                   ),
               ],
             ),
@@ -857,7 +860,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                 Center(
                     child: Text(
                       S.of(context).cockpitSupportInformationsTitle,
-                      style: TextStyle(color: fontColorOnMain),
+                      style: TextStyle(color: fontColorOnBackground),
                     )
                 ),
               ],
@@ -872,7 +875,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                   constraints: BoxConstraints(maxWidth: 600),
                   child: Text(
                     S.of(context).cockpitSupportInformationsBody,
-                    style: TextStyle(color: fontColorOnMain),
+                    style: TextStyle(color: fontColorOnBackground),
                   ),
                 ),
                 SizedBox(height: 20,),

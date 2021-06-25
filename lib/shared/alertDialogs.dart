@@ -17,13 +17,13 @@ Future<bool> confirmDialog(context, title, body, FontSize fontSize) async {
               getCloseButton(context),
               Text(
                 title,
-                style: TextStyle(color: fontColorOnMain),
+                style: TextStyle(color: fontColorOnBackground),
               ),
             ],
           ),
           titlePadding: EdgeInsets.all(2),
           backgroundColor: backgroundColor.withOpacity(0.9),
-          contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18 * fontSize.factor),
+          contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: 18 * fontSize.factor),
           content: Text(body),
           actions: <Widget>[
             getConfirmButton(context, fontSize),
@@ -49,7 +49,7 @@ void errorDialog(context, title, body, FontSize fontSize) {
               getCloseButton(context),
               Text(
                 title,
-                style: TextStyle(color: fontColorOnMain),
+                style: TextStyle(color: fontColorOnBackground),
               ),
             ],
           ),

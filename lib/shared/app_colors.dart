@@ -16,7 +16,7 @@ Color backgroundColor= Colors.white;
 Color secondColor= Colors.white;
 Color accentColor= Colors.white; // accent to background, color for every second entry in list
 Color surfaceColor= Colors.white;
-Color drawingColor= Colors.white;
+Color drawingColor= Colors.white; // canvas + buttons
 Color fontColorOnMain= Colors.white;
 Color fontColorOnBackground= Colors.white;
 Color fontColorOnSecond= Colors.white ;
@@ -92,11 +92,11 @@ Map<String, dynamic> theme_highContrast = {
   "mainColor" : Colors.black,
   "backgroundColor" : Colors.black,
   "secondColor" : Colors.white,
-  "surfaceColor" : Colors.white,
-  "accentColor" : Colors.white,
-  "drawingColor" : Colors.white,
+  "surfaceColor" : Colors.black,
+  "accentColor" : Colors.yellowAccent.withOpacity(0.2),
+  "drawingColor" : Colors.yellowAccent,
   "fontColorOnMain" : Colors.yellowAccent,
-  "fontColorOnBackground" : Colors.white,
+  "fontColorOnBackground" : Colors.yellowAccent,
   "fontColorOnSecond" : Colors.black,
 };
 
@@ -110,6 +110,6 @@ Map<String, dynamic> theme_light = {
   "drawingColor" : devoloBlue,
   "fontColorOnMain" : Colors.white,
   "fontColorOnBackground" : Colors.black,
-  "fontColorOnSecond" : Colors.white,
+  "fontColorOnSecond" : Colors.black,
 };
 

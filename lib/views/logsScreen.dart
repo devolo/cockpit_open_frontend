@@ -52,11 +52,11 @@ class _DebugScreenState extends State<DebugScreen> {
     return new Scaffold(
       backgroundColor: backgroundColor,
       appBar: new AppBar(
-        title: new Text(title),
-        backgroundColor: backgroundColor,
+        title: new Text(title, style: TextStyle(color: fontColorOnMain)),
+        backgroundColor: mainColor,
       ),
       body: DefaultTextStyle(
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(color: fontColorOnBackground),
         child: Container(
           color: backgroundColor,
           child: Scrollbar(

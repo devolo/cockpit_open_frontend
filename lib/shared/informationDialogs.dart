@@ -21,8 +21,8 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
     builder: (BuildContext context) {
       return AlertDialog(
         backgroundColor: backgroundColor.withOpacity(0.9),
-        contentTextStyle: TextStyle(color: Colors.white,
-            decorationColor: Colors.white,
+        contentTextStyle: TextStyle(color: fontColorOnBackground,
+            decorationColor: fontColorOnBackground,
             fontSize: 17 * fontSize.factor),
         title: Column(
           children: [
@@ -31,14 +31,14 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
               S
                   .of(context)
                   .deviceinfo,
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: fontColorOnBackground),
               textScaleFactor: fontSize.factor,
             ),
           ],
         ),
         titlePadding: EdgeInsets.all(2),
         titleTextStyle: TextStyle(
-          color: Colors.white,
+          color: fontColorOnBackground,
           fontSize: 23,
         ),
         content: SingleChildScrollView(
@@ -70,33 +70,33 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                     TextFormField(
                       initialValue: newName,
                       focusNode: myFocusNode,
-                      style: TextStyle(color: fontColorOnMain),
-                      cursorColor: fontColorOnMain,
+                      style: TextStyle(color: fontColorOnBackground),
+                      cursorColor: fontColorOnBackground,
                       decoration: InputDecoration(
-                        hoverColor: secondColor.withOpacity(0.2),
+                        hoverColor: fontColorOnBackground.withOpacity(0.2),
                         contentPadding: new EdgeInsets.symmetric(
                             vertical: 5.0, horizontal: 10.0),
                         filled: true,
-                        fillColor: secondColor.withOpacity(0.2),
+                        fillColor: fontColorOnBackground.withOpacity(0.2),
 //myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
                           borderSide: BorderSide(
-                            color: fontColorOnMain,
+                            color: fontColorOnBackground,
                             width: 2.0,
                           ),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
                           borderSide: BorderSide(
-                            color: fontColorOnMain, //Colors.transparent,
+                            color: fontColorOnBackground, //Colors.transparent,
 //width: 2.0,
                           ),
                         ),
                         suffixIcon: IconButton(
                           icon: Icon(
                             DevoloIcons.ic_edit_24px,
-                            color: fontColorOnMain,
+                            color: fontColorOnBackground,
                           ),
                           onPressed: () async {
                             if (newName != hitDevice.name) {
@@ -318,9 +318,9 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                           DevoloIcons.devolo_UI_internet,
                         ),
 //tooltip: S.of(context).launchWebinterface,
-                        disabledColor: fontColorOnMain.withOpacity(0.33),
-                        color: fontColorOnMain,
-                        hoverColor: fontColorOnMain.withAlpha(50),
+                        disabledColor: fontColorOnBackground.withOpacity(0.33),
+                        color: fontColorOnBackground,
+                        hoverColor: fontColorOnBackground.withAlpha(50),
                         iconSize: 24.0 * fontSize.factor,
                         onPressed: !hitDevice.webinterfaceAvailable ? null : () =>
                             launchURL(hitDevice.ip),
@@ -333,8 +333,8 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                             .launchWebinterface,
                         style: TextStyle(fontSize: 14,
                             color: !hitDevice.webinterfaceAvailable
-                                ? fontColorOnMain.withOpacity(0.33)
-                                : fontColorOnMain),
+                                ? fontColorOnBackground.withOpacity(0.33)
+                                : fontColorOnBackground),
                         textScaleFactor: fontSize.factor,
                         textAlign: TextAlign.center,
                       )
@@ -347,9 +347,9 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                           DevoloIcons.ic_lightbulb_outline_24px,
                         ),
 //tooltip: S.of(context).identifyDevice,
-                        disabledColor: fontColorOnMain.withOpacity(0.33),
-                        color: fontColorOnMain,
-                        hoverColor: fontColorOnMain.withAlpha(50),
+                        disabledColor: fontColorOnBackground.withOpacity(0.33),
+                        color: fontColorOnBackground,
+                        hoverColor: fontColorOnBackground.withAlpha(50),
                         iconSize: 24.0 * fontSize.factor,
                         onPressed: !hitDevice.identifyDeviceAvailable
                             ? null
@@ -377,8 +377,8 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                             .identifyDevice,
                         style: TextStyle(fontSize: 14,
                             color: !hitDevice.identifyDeviceAvailable
-                                ? fontColorOnMain.withOpacity(0.33)
-                                : fontColorOnMain),
+                                ? fontColorOnBackground.withOpacity(0.33)
+                                : fontColorOnBackground),
                         textScaleFactor: fontSize.factor,
                         textAlign: TextAlign.center,
                       )
@@ -389,10 +389,10 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                       IconButton(
                           icon: Icon(
                             DevoloIcons.ic_find_in_page_24px,
-                            color: fontColorOnMain,
+                            color: fontColorOnBackground,
                           ),
 //tooltip: S.of(context).showManual,
-                          hoverColor: fontColorOnMain.withAlpha(50),
+                          hoverColor: fontColorOnBackground.withAlpha(50),
                           iconSize: 24.0 * fontSize.factor,
                           onPressed: () async {
                             socket.sendXML('GetManual', newValue: hitDevice.MT,
@@ -415,7 +415,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                         S
                             .of(context)
                             .showManual,
-                        style: TextStyle(fontSize: 14, color: fontColorOnMain),
+                        style: TextStyle(fontSize: 14, color: fontColorOnBackground),
                         textScaleFactor: fontSize.factor,
                         textAlign: TextAlign.center,
                       )
@@ -427,10 +427,10 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                         IconButton(
                             icon: Icon(
                               DevoloIcons.ic_router_24px,
-                              color: fontColorOnMain,
+                              color: fontColorOnBackground,
                             ),
 //tooltip: S.of(context).showManual,
-                            hoverColor: fontColorOnMain.withAlpha(50),
+                            hoverColor: fontColorOnBackground.withAlpha(50),
                             iconSize: 24.0 * fontSize.factor,
                             onPressed: () {
                               showVDSLDialog(
@@ -441,7 +441,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                           S
                               .of(context)
                               .setVdslCompatibility,
-                          style: TextStyle(fontSize: 14, color: fontColorOnMain),
+                          style: TextStyle(fontSize: 14, color: fontColorOnBackground),
                           textScaleFactor: fontSize.factor,
                           textAlign: TextAlign.center,
                         )
@@ -452,11 +452,11 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                       IconButton(
                         icon: Icon(
                           DevoloIcons.ic_file_upload_24px,
-                          color: fontColorOnMain,
+                          color: fontColorOnBackground,
                           semanticLabel: "update",
                         ),
 //tooltip: S.of(context).factoryReset,
-                        hoverColor: fontColorOnMain.withAlpha(50),
+                        hoverColor: fontColorOnBackground.withAlpha(50),
                         iconSize: 24.0 * fontSize.factor,
                         onPressed: () async {
                           bool confResponse = false;
@@ -502,7 +502,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                         S
                             .of(context)
                             .factoryReset,
-                        style: TextStyle(fontSize: 14, color: fontColorOnMain),
+                        style: TextStyle(fontSize: 14, color: fontColorOnBackground),
                         textScaleFactor: fontSize.factor,
                         textAlign: TextAlign.center,
                       )
@@ -514,10 +514,10 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                       IconButton(
                         icon: Icon(
                           DevoloIcons.devolo_UI_delete,
-                          color: fontColorOnMain,
+                          color: fontColorOnBackground,
                         ),
 //tooltip: S.of(context).deleteDevice,
-                        hoverColor: fontColorOnMain.withAlpha(50),
+                        hoverColor: fontColorOnBackground.withAlpha(50),
                         iconSize: 24.0 * fontSize.factor,
                         onPressed: () async {
                           bool confResponse = false;
@@ -562,7 +562,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                         S
                             .of(context)
                             .deleteDevice,
-                        style: TextStyle(fontSize: 14, color: fontColorOnMain),
+                        style: TextStyle(fontSize: 14, color: fontColorOnBackground),
                         textScaleFactor: fontSize.factor,
                         textAlign: TextAlign.center,
                       )
@@ -591,9 +591,9 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
         return AlertDialog(
           insetPadding: EdgeInsets.symmetric(horizontal: 300),
           title: Text(S.of(context).vdslCompatibility),
-          titleTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 17 * fontSize.factor),
+          titleTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: 17 * fontSize.factor),
           backgroundColor: backgroundColor.withOpacity(0.9),
-          contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 17 * fontSize.factor),
+          contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: 17 * fontSize.factor),
           content: StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
                 return SingleChildScrollView(
@@ -611,11 +611,11 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                                 Theme(
                                   data: ThemeData(
                                     //here change to your color
-                                    unselectedWidgetColor: secondColor,
+                                    unselectedWidgetColor: fontColorOnBackground,
                                   ),
                                   child: Checkbox(
                                       value: vdslModeAutomatic,
-                                      activeColor: secondColor,
+                                      activeColor: fontColorOnBackground,
                                       onChanged: (bool? newValue) async {
                                         vdslModeAutomatic = newValue!;
                                         setState(() {
@@ -637,17 +637,17 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                         ListTile(
                           title: Text(
                             vdsl_profile,
-                            style:  TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 17 * fontSize.factor),
+                            style:  TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: 17 * fontSize.factor),
                           ),
                           leading: Theme(
                             data: ThemeData(
                               //here change to your color
-                              unselectedWidgetColor: secondColor,
+                              unselectedWidgetColor: fontColorOnBackground,
                             ),
                             child: Radio(
                               value: vdsl_profile,
                               groupValue: vdslProfile,
-                              activeColor: secondColor,
+                              activeColor: fontColorOnBackground,
                               onChanged: (String? value) {
                                 setState(() {
                                   vdslProfile = value!;

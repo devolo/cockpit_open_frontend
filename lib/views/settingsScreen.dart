@@ -205,7 +205,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: new AppBar(
         title: new Text(
           S.of(context).settings,
-          style: TextStyle(fontSize: fontSizeAppBarTitle * fontSize.factor, color: fontColorOnMain),
+          style: TextStyle(fontSize: fontSizeAppBarTitle * fontSize.factor, color: fontColorOnBackground),
         ),
         centerTitle: true,
         backgroundColor: backgroundColor,
@@ -223,7 +223,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                 Text(
                   S.of(context).general,
-                  style: TextStyle(fontSize: fontSizeSectionTitle * fontSize.factor, color: fontColorOnMain),
+                  style: TextStyle(fontSize: fontSizeSectionTitle * fontSize.factor, color: fontColorOnBackground),
                 )
               ]),
               Divider(color: dividerColor),
@@ -240,7 +240,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   tileColor: secondColor,
                   subtitle: Padding(
                     padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
-                    child: Text(S.of(context).dataRatesArePermanentlyDisplayedInTheOverview, style: TextStyle(color: fontColorOnMain, fontSize: fontSizeListTileSubtitle * fontSize.factor,fontFamily: 'OpenSans')
+                    child: Text(S.of(context).dataRatesArePermanentlyDisplayedInTheOverview, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor,fontFamily: 'OpenSans')
                     ),
                   ),
                   title: Text(S.of(context).enableShowingSpeeds, style: TextStyle(fontSize: fontSizeListTileTitle*fontSize.factor, color: fontColorOnSecond), semanticsLabel: "Show Speeds"
@@ -270,7 +270,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   tileColor: secondColor,
                   subtitle: Padding(
                     padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
-                    child: Text(S.of(context).theOverviewWillBeCenteredAroundThePlcDeviceConnected, style: TextStyle(color: fontColorOnMain, fontSize: fontSizeListTileSubtitle * fontSize.factor)
+                    child: Text(S.of(context).theOverviewWillBeCenteredAroundThePlcDeviceConnected, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor)
                     ),
                   ),
                   title: Text(
@@ -309,7 +309,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   tileColor: secondColor,
                   subtitle: Padding(
                     padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
-                    child: Text(S.of(context).otherDevicesEgPcAreDisplayedInTheOverview, style: TextStyle(color: fontColorOnMain, fontSize: fontSizeListTileSubtitle * fontSize.factor)
+                    child: Text(S.of(context).otherDevicesEgPcAreDisplayedInTheOverview, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor)
                     ),
                   ),
                   title: Text(
@@ -337,7 +337,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                 Text(
                   S.of(context).appearance,
-                  style: TextStyle(fontSize: fontSizeSectionTitle * fontSize.factor, color: fontColorOnMain),
+                  style: TextStyle(fontSize: fontSizeSectionTitle * fontSize.factor, color: fontColorOnBackground),
                 )
               ]),
               Divider(color: dividerColor),
@@ -351,7 +351,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   tileColor: secondColor,
                   subtitle: Padding(
                     padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
-                    child: Text(S.of(context).chooseMainColorAccentColorAndFontColors, style: TextStyle(color: fontColorOnMain, fontSize: fontSizeListTileSubtitle * fontSize.factor)
+                    child: Text(S.of(context).chooseMainColorAccentColorAndFontColors, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor)
                     ),
                   ),
                   title: Text(
@@ -399,7 +399,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                 Text(
                   S.of(context).network,
-                  style: TextStyle(fontSize: fontSizeSectionTitle * fontSize.factor, color: fontColorOnMain),
+                  style: TextStyle(fontSize: fontSizeSectionTitle * fontSize.factor, color: fontColorOnBackground),
                 )
               ]),
               Divider(color: dividerColor),

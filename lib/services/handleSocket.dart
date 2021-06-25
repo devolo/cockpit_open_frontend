@@ -161,7 +161,39 @@ class DataHand extends ChangeNotifier {
 
         logger.d('UpdateStatus found ->');
         logger.v(document);
-      } else {
+      }
+
+      else if (document.findAllElements('MessageType').first.innerText == "UpdateIndication") {
+
+        if(!xmlResponseMap.containsKey("UpdateIndication")) {
+          xmlResponseMap["UpdateIndication"] = [];
+        }
+        xmlResponseMap["UpdateIndication"]!.add(document);
+
+        //possible status: "none","available","downloaded_setup","downloaded_other","check_failed","download_failed"
+        var responseElem = await findFirstElem(document, 'status');
+        logger.i(responseElem);
+        if (responseElem != null) {
+          if (responseElem == "available" || responseElem == "downloaded_setup") {
+            _networkList.cockpitUpdate = true;
+          } else {
+            _networkList.cockpitUpdate = false;
+          }
+        }
+
+        if (xmlDebugResponseList.length >= maxResponseListSize){
+          xmlDebugResponseList.removeLast();
+          xmlDebugResponseList.removeLast();
+        }
+        xmlDebugResponseList.insert(0, document);
+        xmlDebugResponseList.insert(0, DateTime.now());
+
+        logger.d('UpdateIndication found ->');
+        logger.v(document);
+
+      }
+
+      else {
 
         if (xmlDebugResponseList.length >= maxResponseListSize){
           xmlDebugResponseList.removeLast();
@@ -282,7 +314,7 @@ class DataHand extends ChangeNotifier {
           }
         }
 
-        //TODO should the cockpitUpdate not be set in parseXML()?
+        // variable cockpit update is already set in parseXML
         else if (wantedMessageTypes == "UpdateIndication") {
           //"UpdateIndication" for Cockpit Software updates
           wait = false;
@@ -292,12 +324,6 @@ class DataHand extends ChangeNotifier {
           responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'status');
           if (responseElem != null) {
             response['status'] = responseElem;
-
-            if (response['status'] == "none" || response['status'] == "check_failed") {
-              _networkList.cockpitUpdate = false;
-            } else {
-              _networkList.cockpitUpdate = true;
-            }
           }
           responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'commandline');
           if (responseElem != null) {

@@ -357,6 +357,25 @@ void main() {
 
     });
 
+    test('Given_DataHandObject_When_callParseXMLWithUpdateIndicationMessage_Then_XmlDebugResponseListANDXmlResponseMapANDCockpitUpdateVariable',() async{
+
+      var dataHandler = DataHand(true);
+
+      //create expected XMLDocuments
+      var xmlLength = int.parse(updateIndication1WithMGSOCK.substring(7, 15), radix: 16);
+      var xmlSingleDoc = updateIndication1WithMGSOCK.substring(updateIndication1WithMGSOCK.indexOf('<?'), xmlLength + 13);
+
+      await dataHandler.parseXML(updateIndication1WithMGSOCK);
+
+      expect(dataHandler.getNetworkList().cockpitUpdate, true);
+
+      //convert XMLDocuments to String for comparing
+      expect(dataHandler.xmlDebugResponseList.length, 2);
+      expect(dataHandler.xmlDebugResponseList[1].toString(), XmlDocument.parse(xmlSingleDoc).toString());
+      expect(dataHandler.xmlResponseMap["UpdateIndication"].toString(), [XmlDocument.parse(xmlSingleDoc)].toString());
+
+    });
+
     test('Given_emptyDataHandObject_When_callParseXMLWithSetAdapterNameResponseANDIdentifyDeviceStatusResponse_Then_setXmlResponseANDXmlDebugResponseListANDXmlResponseMapInDataHandObject', () {
 
       var dataHandler = DataHand(true);
@@ -443,7 +462,7 @@ void main() {
       expect(response,expectedResponse);
       expect(dataHandler.xmlResponseMap.isEmpty,true);
 
-      expect(dataHandler.getNetworkList().cockpitUpdate,true);
+      expect(dataHandler.getNetworkList().cockpitUpdate,false);
 
     });
 

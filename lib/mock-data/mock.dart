@@ -413,6 +413,17 @@ var firmwareUpdateStatus1WithMGSOCK = '''MSGSOCK0000029d<?xml version="1.0" enco
 	</Message>
 </boost_serialization>''';
 
+var updateIndication1WithMGSOCK = '''MSGSOCK00000179<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE boost_serialization>
+<boost_serialization signature="serialization::archive" version="13">
+<Message class_id="0" tracking_level="0" version="0">
+	<MessageType>UpdateIndication</MessageType>
+	<status>downloaded_setup</status>
+	<commandline></commandline>
+	<workdir></workdir>
+</Message>
+</boost_serialization>''';
+
 var deviceXML = '''<item class_id="2" tracking_level="0" version="0">
 			<type>Magic 2 WiFi 2-1</type>
 			<name>Study Room</name>

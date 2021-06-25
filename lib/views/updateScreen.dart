@@ -45,6 +45,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
   final String title;
 
   bool _loading = false;
+  bool _loadingCockpit = false;
   bool _loadingSoftware = false;
   DateTime _lastPoll = DateTime.now();
 
@@ -56,25 +57,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
   late FontSize fontSize;
 
   Future<void> updateCockpit(socket, _deviceList) async {
+
     setState(() {
-      socket.sendXML('UpdateCheck');
-      //_loading = socket.waitingResponse;
+      socket.sendXML('UpdateResponse', valueType: 'action', newValue: 'execute');
+      _deviceList.cockpitUpdate = false;
+
     });
-    var responseUpdateIndication = await socket.receiveXML("UpdateIndication");
-    var responseFirmwareUpdateIndication = await socket.receiveXML("FirmwareUpdateIndication");
-
-    //logger.i(responseUpdateIndication);
-    //logger.i(responseFirmwareUpdateIndication);
-
-    Timer(Duration(seconds: 4), () {
-      setState(() {
-        socket.sendXML('UpdateResponse', valueType: 'action', newValue: 'execute');
-        //_loadingFW = socket.waitingResponse;
-        _loadingSoftware = false;
-      });
-    });
-
-    _deviceList.cockpitUpdate = false;
   }
 
   Future<void> updateDevices(socket, _deviceList) async {
@@ -135,19 +123,27 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         } else if (states.contains(MaterialState.pressed)) {
                           return devoloGreen.withOpacity(activeOpacity);
                         }
-                        return devoloGreen;
+                        return (_loading == true || _loadingCockpit == true || _loadingSoftware == true)? buttonDisabledBackground : devoloGreen;
                       },
                     ),
-                    foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                    foregroundColor: (_loading == true || _loadingCockpit == true || _loadingSoftware == true)
+                        ? MaterialStateProperty.all<Color>(buttonDisabledForeground)
+                        : MaterialStateProperty.all<Color>(Colors.white),
                   ),
-                  onPressed: () async {
+                  onPressed: (_loading == true || _loadingCockpit == true || _loadingSoftware == true)? null : () async {
+
                     // Warning! "UpdateCheck" and "RefreshNetwork" should only be triggered by a user interaction, not continously/automaticly
                     setState(() {
                       socket.sendXML('UpdateCheck');
                       _loading = true;
+                      _loadingCockpit = true;
                     });
-                    //var response = await socket.receiveXML(["UpdateIndication", "FirmwareUpdateIndication"]);// "UpdateIndication", "FirmwareUpdateIndication"
+
                     var response1 = await socket.receiveXML("UpdateIndication");
+                    setState(() {
+                      _loadingCockpit = false;
+                      //if (response!["messageType"] != null) _lastPoll = DateTime.now();
+                    });
                     var response2 = await socket.receiveXML("FirmwareUpdateIndication");
                     setState(() {
                       _loading = false;
@@ -155,15 +151,11 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     });
                   },
                   child: Row(children: [
-                    _loading
-                        ? CircularProgressIndicator(
-                            valueColor: new AlwaysStoppedAnimation<Color>(fontColorOnMain),
-                          )
-                        : Icon(
-                            DevoloIcons.ic_refresh_24px,
-                            color: fontColorOnMain,
-                            size: 24 * fontSize.factor,
-                          ),
+                    Icon(
+                      DevoloIcons.ic_refresh_24px,
+                      color: fontColorOnMain,
+                      size: 24 * fontSize.factor,
+                    ),
                     Text(
                       S.of(context).checkUpdates,
                     ),
@@ -186,7 +178,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
                           } else if (states.contains(MaterialState.pressed)) {
                             return BorderSide(color: drawingColor.withOpacity(activeOpacity), width: 2.0);
                           }
-                          return BorderSide(color: drawingColor, width: 2.0);
+                          return (_loading == true || _loadingCockpit == true || _loadingSoftware == true || (_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))
+                          ? BorderSide(color: buttonDisabledForeground2, width: 2.0)
+                          : BorderSide(color: drawingColor, width: 2.0);
                         },
                       ),
                       backgroundColor: MaterialStateProperty.resolveWith<Color?>(
@@ -199,7 +193,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
                           return Colors.transparent;
                         },
                       ),
-                      foregroundColor: MaterialStateProperty.resolveWith<Color?>(
+                      foregroundColor: (_loading == true || _loadingCockpit == true || _loadingSoftware == true || (_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))
+                          ? MaterialStateProperty.all<Color?>(buttonDisabledForeground2)
+                          : MaterialStateProperty.resolveWith<Color?>(
                             (states) {
                           if (states.contains(MaterialState.hovered)) {
                             return drawingColor.withOpacity(hoverOpacity);
@@ -210,7 +206,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         },
                       ),
                     ),
-                    onPressed: () async {
+                    onPressed: (_loading == true || _loadingCockpit == true || _loadingSoftware == true || (_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))
+                        ? null
+                        : () async {
                       //logger.i("Updating ${device.mac}");
                       await updateCockpit(socket, _deviceList);
                       Timer(Duration(seconds: 4), () {});
@@ -334,7 +332,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 children: [
                   TableRow(children: [
                     TableCell(
-                      child: _loading
+                      child: _loadingCockpit
                           ? Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -371,11 +369,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                         onPressed: () async {
                                           await updateCockpit(socket, _deviceList);
                                         }),
-                                    if (_loadingSoftware)
-                                      CircularProgressIndicator(
-                                        valueColor: new AlwaysStoppedAnimation<Color>(fontColorOnBackground),
-                                        strokeWidth: 3,
-                                      ),
                                   ],
                                 ),
                     ),
@@ -403,7 +396,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       ),
                     ),
                     TableCell(
-                      child: _loading
+                      child: _loadingCockpit
                           ? SelectableText(
                               " ${S.of(context).searching}",
                               style: TextStyle(color: fontColorOnBackground),

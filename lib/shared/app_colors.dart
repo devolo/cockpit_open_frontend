@@ -33,6 +33,10 @@ Color devoloGreen = Color.fromARGB(255, 149, 193, 31);
 Color devoloOrange = Color.fromARGB(255, 243, 146, 0);
 Color devoloRed = Color.fromARGB(255, 199, 20, 61);
 
+Color buttonDisabledBackground = Color.fromARGB(255,234, 235, 236);
+Color buttonDisabledForeground = Color.fromARGB(255,131, 136, 139);
+Color buttonDisabledForeground2 = Color.fromARGB(2555,193, 195, 197);
+
 double hoverOpacity = 0.7;
 double activeOpacity = 0.33;
 

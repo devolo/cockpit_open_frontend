@@ -293,7 +293,7 @@ class DataHand extends ChangeNotifier {
           if (responseElem != null) {
             response['status'] = responseElem;
 
-            if (response['status'] == "none") {
+            if (response['status'] == "none" || response['status'] == "check_failed") {
               _networkList.cockpitUpdate = false;
             } else {
               _networkList.cockpitUpdate = true;

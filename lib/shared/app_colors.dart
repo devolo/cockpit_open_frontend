@@ -11,15 +11,18 @@ import 'package:flutter/material.dart';
 
 import 'helpers.dart';
 
-Color mainColor= Colors.white;
-Color backgroundColor= Colors.white;
-Color secondColor= Colors.white;
-Color accentColor= Colors.white; // accent to background, color for every second entry in list
-Color surfaceColor= Colors.white;
+Color mainColor= Colors.white; // used for top bar
+Color backgroundColor= Colors.white; // used for background + dialog background. Maybe create sperate dialog Color?
+Color secondColor= Colors.white; // used mainly for the surfaces in help and settings. Maybe create new color surface?
+Color accentColor= Colors.white; // color for every second entry in list
 Color drawingColor= Colors.white; // canvas + buttons
 Color fontColorOnMain= Colors.white;
 Color fontColorOnBackground= Colors.white;
 Color fontColorOnSecond= Colors.white ;
+// Color surfaceColor= Colors.white;
+// Color fontColorOnSurface= Colors.white;
+// Color dialogColor= Colors.white;
+// Color fontColorOnDialog= Colors.white;
 
 Color devoloBlue = Color.fromARGB(255, 0, 114, 180);
 Color devoloBlueMedium = Color.fromARGB(255, 81, 154, 207);
@@ -51,7 +54,6 @@ void setTheme(String theme_name) {
     mainColor = theme["mainColor"];
     backgroundColor = theme["backgroundColor"];
     secondColor = theme["secondColor"];
-    surfaceColor = theme["surfaceColor"];
     accentColor = theme["accentColor"];
     drawingColor = theme["drawingColor"];
     fontColorOnMain = theme["fontColorOnMain"];
@@ -65,7 +67,6 @@ Map<String, dynamic> theme_dark = {
   "mainColor" : devoloGray, //devoloGray;
   "backgroundColor" : devoloGray, //devoloGray;
   "secondColor" : Colors.white, //Colors.grey[400];
-  "surfaceColor" : Colors.white,
   "accentColor" : Color.fromARGB(255,131, 136, 139),
   "drawingColor" : Colors.white,
   "fontColorOnMain" : Colors.white,
@@ -79,7 +80,6 @@ Map<String, dynamic> theme_devolo = {
   "mainColor" : devoloBlue,
   "backgroundColor" : devoloBlue,
   "secondColor" : Colors.white,//devoloBlueLight,
-  "surfaceColor" : Colors.white,
   "accentColor" : Color.fromARGB(255,81, 154, 207),
   "drawingColor" : Colors.white,
   "fontColorOnMain" : Colors.white,
@@ -92,7 +92,6 @@ Map<String, dynamic> theme_highContrast = {
   "mainColor" : Colors.black,
   "backgroundColor" : Colors.black,
   "secondColor" : Colors.white,
-  "surfaceColor" : Colors.black,
   "accentColor" : Colors.yellowAccent.withOpacity(0.2),
   "drawingColor" : Colors.yellowAccent,
   "fontColorOnMain" : Colors.yellowAccent,
@@ -105,7 +104,6 @@ Map<String, dynamic> theme_light = {
   "mainColor" : devoloBlue,
   "backgroundColor" : Colors.white,
   "secondColor" : devoloBlueLight, //Colors.grey[300],
-  "surfaceColor" : Colors.blue,
   "accentColor" : Color.fromARGB(255, 234, 235, 236),
   "drawingColor" : devoloBlue,
   "fontColorOnMain" : Colors.white,

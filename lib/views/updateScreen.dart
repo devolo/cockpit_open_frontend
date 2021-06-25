@@ -178,7 +178,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                           } else if (states.contains(MaterialState.pressed)) {
                             return BorderSide(color: drawingColor.withOpacity(activeOpacity), width: 2.0);
                           }
-                          return (_loading == true || _loadingCockpit == true || _loadingSoftware == true || (_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))
+                          return (_loading == true || _loadingCockpit == true || _loadingSoftware == true || _deviceList.cockpitUpdate == false || _deviceList.getUpdateList().isEmpty)
                           ? BorderSide(color: buttonDisabledForeground2, width: 2.0)
                           : BorderSide(color: drawingColor, width: 2.0);
                         },
@@ -193,7 +193,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                           return Colors.transparent;
                         },
                       ),
-                      foregroundColor: (_loading == true || _loadingCockpit == true || _loadingSoftware == true || (_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))
+                      foregroundColor: (_loading == true || _loadingCockpit == true || _loadingSoftware == true || _deviceList.cockpitUpdate == false || _deviceList.getUpdateList().isEmpty)
                           ? MaterialStateProperty.all<Color?>(buttonDisabledForeground2)
                           : MaterialStateProperty.resolveWith<Color?>(
                             (states) {
@@ -206,19 +206,11 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         },
                       ),
                     ),
-                    onPressed: (_loading == true || _loadingCockpit == true || _loadingSoftware == true || (_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))
+                    onPressed: (_loading == true || _loadingCockpit == true || _loadingSoftware == true || _deviceList.cockpitUpdate == false || _deviceList.getUpdateList().isEmpty)
                         ? null
                         : () async {
-                      //logger.i("Updating ${device.mac}");
-                      await updateCockpit(socket, _deviceList);
-                      Timer(Duration(seconds: 4), () {});
-                      setState(() {
-                        socket.sendXML('UpdateCheck');
-                        //_loading = socket.waitingResponse;
-                      });
-                      var responseUpdateIndication = await socket.receiveXML("UpdateIndication");
-                      var responseFirmwareUpdateIndication = await socket.receiveXML("FirmwareUpdateIndication");
 
+                      await updateCockpit(socket, _deviceList);
                       await updateDevices(socket, _deviceList);
                     },
                     child: Row(children: [
@@ -346,15 +338,11 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               ? Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    IconButton(
-                                      icon: Icon(
-                                        DevoloIcons.devolo_UI_check_fill,
-                                        color: devoloGreen,
+                                    Icon(
+                                      DevoloIcons.devolo_UI_check_fill,
+                                      color: devoloGreen,
+                                      size: 24 * fontSize.factor,
                                       ),
-                                      iconSize: 24 * fontSize.factor,
-                                      onPressed: () {},
-                                      // tooltip: "already uptodate",
-                                    ),
                                   ],
                                 )
                               : Row(
@@ -436,18 +424,14 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                   ),
                                 ],
                               )
-                            : _deviceList.cockpitUpdate == false
+                            : _deviceList.getUpdateList().contains(_deviceList.getAllDevices()[i].mac) == false
                                 ? Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      IconButton(
-                                        icon: Icon(
-                                          DevoloIcons.devolo_UI_check_fill,
-                                          color: devoloGreen,
-                                        ),
-                                        iconSize: 24 * fontSize.factor,
-                                        onPressed: () {},
-                                        // tooltip: "already uptodate",
+                                      Icon(
+                                        DevoloIcons.devolo_UI_check_fill,
+                                        color: devoloGreen,
+                                        size: 24 * fontSize.factor,
                                       ),
                                     ],
                                   )
@@ -510,7 +494,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                 style: TextStyle(color: fontColorOnBackground),
                                 textAlign: TextAlign.center,
                               )
-                            : _deviceList.cockpitUpdate == false
+                            : _deviceList.getUpdateList().contains(_deviceList.getAllDevices()[i].mac) == false
                                 ? Text(
                                     " ${S.of(context).upToDate}",
                                     style: TextStyle(color: fontColorOnBackground),

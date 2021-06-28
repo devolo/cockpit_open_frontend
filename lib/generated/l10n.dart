@@ -1370,6 +1370,16 @@ class S {
     );
   }
 
+  /// `The new VDSL settings have been saved on the device`
+  String get vdslsuccessful {
+    return Intl.message(
+      'The new VDSL settings have been saved on the device',
+      name: 'vdslsuccessful',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Automatic compatibility mode (recommended)`
   String get automaticCompatibilityMode {
     return Intl.message(

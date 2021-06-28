@@ -249,6 +249,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Wenn der automatische Modus deaktiviert ist oder die Störung nicht zuverlässig erkannt werden kann, kann stattdessen ein fest eingestelltes Profil für eine angepasste Sendeleistung verwendet werden. Wählen Sie das Profil aus, das dem Typ ihres VDSL-Anschlusses entspricht, oder wählen Sie \"volle Leistung\", wenn keine Störungsvermeidung benötigt wird."),
         "vdslfailed": MessageLookupByLibrary.simpleMessage(
             "Die neuen VDSL-Einstellungen konnten nicht auf dem Gerät gespeichert werden."),
+        "vdslsuccessful": MessageLookupByLibrary.simpleMessage(
+            "Die neuen VDSL-Einstellungen wurden auf dem Gerät gespeichert."),
         "version": MessageLookupByLibrary.simpleMessage("Firmware-Version:"),
         "windowsNetworkThrottling":
             MessageLookupByLibrary.simpleMessage("Windows Netzwerkdrosselung"),

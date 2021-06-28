@@ -203,7 +203,7 @@ class DataHand extends ChangeNotifier {
         xmlDebugResponseList.insert(0, DateTime.now());
 
         logger.d('Another Response found ->');
-        logger.v(document);
+        logger.i(document);
 
         var xmlResponseType = document.findAllElements('MessageType').first.innerText;
 

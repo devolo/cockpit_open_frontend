@@ -244,6 +244,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Select a transmission profile from the given options as a fallback when automatic mode is OFF or reliable detection of interference is not possible"),
         "vdslfailed": MessageLookupByLibrary.simpleMessage(
             "The new VDSL settings could not be saved on the device"),
+        "vdslsuccessful": MessageLookupByLibrary.simpleMessage(
+            "The new VDSL settings have been saved on the device"),
         "version": MessageLookupByLibrary.simpleMessage("Firmware version"),
         "windowsNetworkThrottling": MessageLookupByLibrary.simpleMessage(
             "Use Windows network throttling"),

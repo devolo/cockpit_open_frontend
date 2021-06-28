@@ -141,6 +141,7 @@
   "vdslexplanation2": "Select a transmission profile from the given options as a fallback when automatic mode is OFF or reliable detection of interference is not possible",
   "setVdslCompatibility": "Set VDSL \ncompatibility",
   "vdslfailed": "The new VDSL settings could not be saved on the device",
+  "vdslsuccessful": "The new VDSL settings have been saved on the device",
   "automaticCompatibilityMode": "Automatic compatibility mode (recommended)",
   "vdslCompatibility": "VDSL compatibility",
   "cockpitSupportInformationsTitle": "devolo Cockpit support informations",

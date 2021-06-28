@@ -421,7 +421,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                       )
                     ],
                   ),
-                  if (hitDevice.supported_vdsl != null)
+                  if (hitDevice.supported_vdsl.isNotEmpty)
                     Column(
                       children: [
                         IconButton(
@@ -680,9 +680,10 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
 
       showDialog<void>(
           context: context,
-          barrierDismissible: true, // user doesn't need to tap button!
+          barrierDismissible: false,
           builder: (BuildContext context) {
             return AlertDialog(
+              elevation: 0,
               backgroundColor: Colors.transparent,
               content: Column(mainAxisSize: MainAxisSize.min ,
                   children: [
@@ -695,11 +696,12 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
       if (response['result'] == "failed") {
         Navigator.maybeOf(context)!.pop(true);
         errorDialog(context, "Error", S.of(context).vdslfailed, fontSize);
-      } else if (response['result'] != "ok") {
+      } else if (response['result'] == "ok") {
         Navigator.maybeOf(context)!.pop(true);
-        errorDialog(context, "Done", S.of(context).resetDeviceErrorBody, fontSize);
+        errorDialog(context, "Done", S.of(context).vdslsuccessful, fontSize);
       }
       else {
+        logger.w("[showVDSLDialog] - Unexpected response: " + response['result']);
         Navigator.maybeOf(context)!.pop();
       }
     }

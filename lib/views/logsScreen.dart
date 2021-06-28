@@ -62,10 +62,10 @@ class _DebugScreenState extends State<DebugScreen> {
           child: Scrollbar(
             controller: _scrollController, // <---- Here, the controller
             isAlwaysShown: true, // <---- Required
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: new SingleChildScrollView(
-                controller: _scrollController,
+            child: new SingleChildScrollView(
+              controller: _scrollController,
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
                   SelectableText(
                     'All devices',

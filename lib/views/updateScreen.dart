@@ -39,6 +39,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
   /* =========== Styling =========== */
 
   double paddingContentTop = 10;
+  double paddingBarTop = 10;
 
   /* ===========  =========== */
 
@@ -92,9 +93,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(height:paddingBarTop),
             new Text(
               S.of(context).updates,
-              style: TextStyle(fontSize: fontSizeAppBarTitle - 5 * fontSize.factor, color: fontColorOnBackground),
+              style: TextStyle(fontSize: (fontSizeAppBarTitle -5) * fontSize.factor, color: fontColorOnBackground),
               textAlign: TextAlign.start,
             ),
             Divider(
@@ -105,6 +107,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
         //centerTitle: true,
         backgroundColor: backgroundColor,
         shadowColor: Colors.transparent,
+
       ),
       body: Padding(
         padding: EdgeInsets.only(top: paddingContentTop, left: 20, right: 20, bottom: 20),

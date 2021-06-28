@@ -99,39 +99,56 @@ class _OverviewScreenState extends State<OverviewScreen> {
           onLongPressUp: _handleLongPressEnd,
           child: Stack(
             children: [
-              Center(
-                child: CustomPaint(
-                  painter: _Painter,
-                  child: Container(),
+              Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: Center(
+                  child: CustomPaint(
+                    painter: _Painter,
+                    child: Container(
+                    ),
+                  ),
                 ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   for (var networkIdx = 0; networkIdx < _deviceList.getNetworkListLength(); networkIdx++)
-                    FlatButton(
-                      textColor: networkIdx != _deviceList.selectedNetworkIndex ? drawingColor : drawingColor,
-                      hoverColor: secondColor.withOpacity(0.3),
-                      //color: networkIdx != _deviceList.selectedNetworkIndex? Colors.transparent: secondColor,
-                      child: networkIdx == 0
-                          ? networkIdx != _deviceList.selectedNetworkIndex
-                              ? Text("${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network}")
-                              : Text(
-                                  "${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network}",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                )
-                          : networkIdx != _deviceList.selectedNetworkIndex
-                              ? Text("${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network} ${networkIdx}")
-                              : Text(
-                                  "${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network} ${networkIdx}",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                      onPressed: () {
-                        _deviceList.selectedNetworkIndex = networkIdx;
-                        config["selected_network"] = networkIdx;
-                        saveToSharedPrefs(config);
-                        AppBuilder.of(context)!.rebuild();
-                      },
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 5.0,vertical: 10.0),
+                      child:TextButton(
+                        style: ButtonStyle(
+                          foregroundColor: networkIdx !=
+                              _deviceList.selectedNetworkIndex
+                              ? MaterialStateProperty.all(drawingColor)
+                              : MaterialStateProperty.all(drawingColor),
+                          backgroundColor: MaterialStateProperty.resolveWith<
+                              Color?>(
+                                (states) {
+                              if (states.contains(MaterialState.hovered)) {
+                                return drawingColor.withOpacity(0.3);
+                              }
+                              return Colors.transparent;
+                            },
+                          ),
+                        ),
+                        child: networkIdx == 0
+                            ? networkIdx != _deviceList.selectedNetworkIndex
+                            ? Text("${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network}")
+                            : Text("${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network}",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )
+                            : networkIdx != _deviceList.selectedNetworkIndex
+                            ? Text("${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network} ${networkIdx}")
+                            : Text("${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network} ${networkIdx}",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        onPressed: () {
+                          _deviceList.selectedNetworkIndex = networkIdx;
+                          config["selected_network"] = networkIdx;
+                          saveToSharedPrefs(config);
+                          AppBuilder.of(context)!.rebuild();
+                        },
+                      ),
                     ),
                 ],
               )

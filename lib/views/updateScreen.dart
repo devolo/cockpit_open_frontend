@@ -65,11 +65,17 @@ class _UpdateScreenState extends State<UpdateScreen> {
     });
   }
 
-  Future<void> updateDevices(socket, _deviceList) async {
+  Future<void> updateAllDevices(socket, _deviceList) async {
     setState(() {
       for (var mac in _deviceList.getUpdateList()) {
         socket.sendXML('FirmwareUpdateResponse', newValue: mac);
       }
+    });
+  }
+
+  Future<void> updateDevice(socket, mac) async {
+    setState(() {
+      socket.sendXML('FirmwareUpdateResponse', newValue: mac);
     });
   }
 
@@ -211,7 +217,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         : () async {
 
                       await updateCockpit(socket, _deviceList);
-                      await updateDevices(socket, _deviceList);
+                      await updateAllDevices(socket, _deviceList);
                     },
                     child: Row(children: [
                       Icon(
@@ -444,7 +450,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                           ),
                                           iconSize: 24 * fontSize.factor,
                                           onPressed: () async {
-                                            await updateCockpit(socket, _deviceList);
+                                            await updateDevice(socket, _deviceList.getAllDevices()[i].mac);
                                           }),
                                       if (_loadingSoftware)
                                         CircularProgressIndicator(

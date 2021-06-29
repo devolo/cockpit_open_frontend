@@ -82,12 +82,17 @@ bool compareDevice(Device first, Device other){
       first.identifyDeviceAvailable == other.identifyDeviceAvailable &&
       first.selected_vdsl == other.selected_vdsl &&
       listEquals(first.supported_vdsl,other.supported_vdsl) &&
-      first.mode_vdsl == other.mode_vdsl
+      listEquals(first.disable_leds,other.disable_leds) &&
+      listEquals(first.disable_traffic, other.disable_traffic) &&
+      listEquals(first.disable_standby,other.disable_standby)
 
   ){
     return true;
   }
   else{
+    logger.w(first.disable_leds + other.disable_leds);
+    logger.w(first.disable_traffic + other.disable_traffic);
+    logger.w(first.disable_standby + other.disable_standby);
     logger.w("failed compare attributes");
     return false;
   }

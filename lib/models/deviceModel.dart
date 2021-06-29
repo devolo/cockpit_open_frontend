@@ -38,12 +38,12 @@ class Device extends ChangeNotifier {
   String selected_vdsl = "";
   List<String> supported_vdsl = [];
   String mode_vdsl  = "";
-  List<bool> disable_leds = List.filled(2, false); // first value indicates if the action is available for the device, second shows the value
-  List<bool> disable_standby = List.filled(2, false); // first value indicates if the action is available for the device, second shows the value
-  List<bool> disable_traffic = List.filled(2, false); // first value indicates if the action is available for the device, second shows the value
+  List<int> disable_leds = List.filled(2, 0); // first value indicates if the action is available for the device, second shows the value
+  List<int> disable_standby = List.filled(2, 0); // first value indicates if the action is available for the device, second shows the value
+  List<int> disable_traffic = List.filled(2, 0); // first value indicates if the action is available for the device, second shows the value
 
 
-  Device(String type, String name, String mac, String ip, String MT, String serialno, String version, String versionDate, atRouter, isLocal, bool webinterfaceAvailable, bool identifyDeviceAvailable, selectedVDSL, supportedVDSL, modeVDSL, disable_leds, disable_standby, disable_traffic) {
+  Device(String type, String name, String mac, String ip, String MT, String serialno, String version, String versionDate, atRouter, isLocal, bool webinterfaceAvailable, bool identifyDeviceAvailable, selectedVDSL, supportedVDSL, modeVDSL, List<int> disable_leds, List<int> disable_standby, List<int> disable_traffic) {
     this.typeEnum = getDeviceType(type);
     this.type = type;
     this.name = name;
@@ -89,9 +89,9 @@ class Device extends ChangeNotifier {
 
     bool webinterfaceAvailable = false;
     bool identifyDeviceAvailable = false;
-    List<bool> disable_leds = List.filled(2, false); // first value indicates if the action is available for the device, second shows the value
-    List<bool> disable_standby = List.filled(2, false); // first value indicates if the action is available for the device, second shows the value
-    List<bool> disable_traffic = List.filled(2, false); // first value indicates if the action is available for the device, second shows the value
+    List<int> disable_leds = List.filled(2, 0); // first value indicates if the action is available for the device, second shows the value
+    List<int> disable_standby = List.filled(2, 0); // first value indicates if the action is available for the device, second shows the value
+    List<int> disable_traffic = List.filled(2, 0); // first value indicates if the action is available for the device, second shows the value
 
     if (element.getElement('actions') != null) {
 
@@ -104,25 +104,20 @@ class Device extends ChangeNotifier {
           webinterfaceAvailable = true;
         }
         else if(first.innerText == "disable_leds"){
+          logger.i(first.parentElement);
           var disable_ledsStatus = first.parentElement!.findAllElements("item").first.findElements("second").first.innerText;
-          if(disable_ledsStatus == "0")
-            disable_leds = [true,false];
-          else if(disable_ledsStatus == "1")
-            disable_leds = [true,true];
+          disable_leds = [1,int.parse(disable_ledsStatus)];
         }
         else if(first.innerText == "disable_standby"){
+          logger.i(first.parentElement);
           var disable_standbyStatus = first.parentElement!.findAllElements("item").first.findElements("second").first.innerText;
-          if(disable_standbyStatus == "0")
-            disable_standby = [true,false];
-          else if(disable_standbyStatus == "1")
-            disable_standby = [true,true];
+          disable_standby = [1,int.parse(disable_standbyStatus)];
+
         }
         else if(first.innerText == "disable_traffic"){
+          logger.i(first.parentElement);
           var disable_trafficStatus = first.parentElement!.findAllElements("item").first.findElements("second").first.innerText;
-          if(disable_trafficStatus == "0")
-            disable_traffic = [true,false];
-          else if(disable_trafficStatus == "1")
-            disable_traffic = [true,true];
+          disable_traffic = [1,int.parse(disable_trafficStatus)];
         }
       }
     }

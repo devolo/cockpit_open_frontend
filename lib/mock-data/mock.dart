@@ -446,7 +446,7 @@ var deviceXML = '''<item class_id="2" tracking_level="0" version="0">
 				</item>
 			</states>
 			<actions class_id="6" tracking_level="0" version="0">
-				<count>3</count>
+				<count>5</count>
 				<item_version>0</item_version>
 				<item class_id="7" tracking_level="0" version="0">
 					<first>identify_device</first>
@@ -477,6 +477,28 @@ var deviceXML = '''<item class_id="2" tracking_level="0" version="0">
 							<second>mimo_vdsl17a siso_full siso_vdsl17a siso_vdsl35b mimo_full mimo_vdsl35b</second>
 						</item>
 					</second>
+				</item>
+				<item>
+          <first>disable_standby</first>
+          <second>
+            <count>1</count>
+            <item_version>0</item_version>
+            <item>
+              <first>state</first>
+              <second>0</second>
+            </item>
+          </second>
+				</item>
+				<item>
+          <first>disable_traffic</first>
+          <second>
+            <count>1</count>
+            <item_version>0</item_version>
+            <item>
+              <first>state</first>
+              <second>1</second>
+            </item>
+          </second>
 				</item>
 				<item>
 					<first>web_interface</first>
@@ -520,7 +542,7 @@ var deviceXML = '''<item class_id="2" tracking_level="0" version="0">
 						</item>
 					</states>
 					<actions>
-						<count>3</count>
+						<count>5</count>
 						<item_version>0</item_version>
 						<item>
 							<first>identify_device</first>
@@ -533,6 +555,28 @@ var deviceXML = '''<item class_id="2" tracking_level="0" version="0">
 								</item>
 							</second>
 						</item>
+						<item>
+              <first>disable_leds</first>
+              <second>
+                <count>1</count>
+                <item_version>0</item_version>
+                <item>
+                  <first>state</first>
+                  <second>0</second>
+                </item>
+              </second>
+            </item>
+            <item>
+              <first>disable_traffic</first>
+              <second>
+                <count>1</count>
+                <item_version>0</item_version>
+                <item>
+                  <first>state</first>
+                  <second>1</second>
+                </item>
+              </second>
+				    </item>
 						<item>
 							<first>vdsl_compat</first>
 							<second>
@@ -589,7 +633,7 @@ var deviceXML = '''<item class_id="2" tracking_level="0" version="0">
 						</item>
 					</states>
 					<actions>
-						<count>3</count>
+						<count>5</count>
 						<item_version>0</item_version>
 						<item>
 							<first>identify_device</first>
@@ -602,6 +646,28 @@ var deviceXML = '''<item class_id="2" tracking_level="0" version="0">
 								</item>
 							</second>
 						</item>
+						<item>
+              <first>disable_leds</first>
+              <second>
+                <count>1</count>
+                <item_version>0</item_version>
+                <item>
+                  <first>state</first>
+                  <second>0</second>
+                </item>
+              </second>
+				    </item>
+            <item>
+              <first>disable_standby</first>
+              <second>
+                <count>1</count>
+                <item_version>0</item_version>
+                <item>
+                  <first>state</first>
+                  <second>1</second>
+                </item>
+              </second>
+				    </item>
 						<item>
 							<first>vdsl_compat</first>
 							<second>

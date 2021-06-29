@@ -703,7 +703,7 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
   }
 }
 
-void moreSettings(BuildContext context, socket, List<bool> disable_traffic,List<bool> disable_leds, List<bool> disable_standby, String mac, FontSize fontSize) {
+void moreSettings(BuildContext context, socket, List<int> disable_traffic,List<int> disable_leds, List<int> disable_standby, String mac, FontSize fontSize) {
 
   // Styling
   Color switchActiveTrackColor = devoloGreen.withOpacity(0.4);
@@ -734,17 +734,17 @@ void moreSettings(BuildContext context, socket, List<bool> disable_traffic,List<
           content: Column(
             mainAxisSize: MainAxisSize.min,
               children: [
-                if(disable_leds[0])
+                if(disable_leds[0] == 1)
                   SwitchListTile(
                     title:  Text(S.of(context).activateLEDs, style: TextStyle(color: fontColorOnBackground, fontSize: 18 * fontSize.factor )),
-                    value: !disable_leds[1],
+                    value: disable_leds[1] == 0 ? true : false,
                     onChanged: (bool value) async {
                       String newStatus =  value? "0" : "1";
                       socket.sendXML('DisableLEDs', newValue: newStatus, valueType: 'state', mac: mac);
                       circularProgressIndicatorInMiddle(context);
                       var response = await socket.receiveXML("DisableLEDsStatus");
                       if(response['result'] == "ok") {
-                        disable_leds[1] = !value;
+                        disable_leds[1] = value ? 0 : 1;
                         Navigator.maybeOf(context)!.pop();
                       }
                       else{
@@ -759,17 +759,17 @@ void moreSettings(BuildContext context, socket, List<bool> disable_traffic,List<
                     inactiveThumbColor: switchInactiveThumbColor,
                     inactiveTrackColor: switchInactiveTrackColor,
                   ),
-                if(disable_traffic[0])
+                if(disable_traffic[0] == 1)
                   SwitchListTile(
                     title: Text(S.of(context).activateTransmission, style: TextStyle(color: fontColorOnBackground, fontSize: 18 * fontSize.factor )),
-                    value: !disable_traffic[1],
+                    value: disable_traffic[1] == 0 ? true : false,
                     onChanged: (bool value) async {
                       String newStatus =  value? "0" : "1";
                       socket.sendXML('DisableTraffic', newValue: newStatus, valueType: 'state', mac: mac);
                       circularProgressIndicatorInMiddle(context);
                       var response = await socket.receiveXML("DisableTrafficStatus");
                       if(response['result'] == "ok"){
-                        disable_traffic[1] = !value;
+                        disable_traffic[1] = value ? 0 : 1;
                         Navigator.maybeOf(context)!.pop();
                       }
                       else{
@@ -785,17 +785,17 @@ void moreSettings(BuildContext context, socket, List<bool> disable_traffic,List<
                     inactiveThumbColor: switchInactiveThumbColor,
                     inactiveTrackColor: switchInactiveTrackColor,
                   ),
-                if(disable_standby[0])
+                if(disable_standby[0] == 1)
                   SwitchListTile(
                     title: Text(S.of(context).powerSavingMode, style: TextStyle(color: fontColorOnBackground, fontSize: 18 * fontSize.factor )),
-                    value: !disable_standby[1],
+                    value: disable_standby[1] == 0 ? true : false,
                     onChanged: (bool value) async {
                       String newStatus =  value? "0" : "1";
                       socket.sendXML('DisableStandby', newValue: newStatus, valueType: 'state', mac: mac);
                       circularProgressIndicatorInMiddle(context);
                       var response = await socket.receiveXML("DisableStandbyStatus");
                       if(response['result'] == "ok"){
-                        disable_standby[1] = !value;
+                        disable_standby[1] = value ? 0 : 1;
                         Navigator.maybeOf(context)!.pop();
                       }
                       else{

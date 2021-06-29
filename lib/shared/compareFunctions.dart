@@ -90,9 +90,6 @@ bool compareDevice(Device first, Device other){
     return true;
   }
   else{
-    logger.w(first.disable_leds + other.disable_leds);
-    logger.w(first.disable_traffic + other.disable_traffic);
-    logger.w(first.disable_standby + other.disable_standby);
     logger.w("failed compare attributes");
     return false;
   }

@@ -60,7 +60,7 @@ var config3WithoutMGSOCK = '''<?xml version="1.0" encoding="UTF-8" standalone="y
 </boost_serialization>
 ''';
 
-var networkUpdate1 = '''MSGSOCK000020f0<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+var networkUpdate1 = '''MSGSOCK0000283e<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <!DOCTYPE boost_serialization>
 <boost_serialization signature="serialization::archive" version="13">
 <Message class_id="0" tracking_level="0" version="0">
@@ -90,7 +90,7 @@ var networkUpdate1 = '''MSGSOCK000020f0<?xml version="1.0" encoding="UTF-8" stan
 				</item>
 			</states>
 			<actions class_id="6" tracking_level="0" version="0">
-				<count>3</count>
+				<count>5</count>
 				<item_version>0</item_version>
 				<item class_id="7" tracking_level="0" version="0">
 					<first>identify_device</first>
@@ -121,6 +121,28 @@ var networkUpdate1 = '''MSGSOCK000020f0<?xml version="1.0" encoding="UTF-8" stan
 							<second>mimo_vdsl17a siso_full siso_vdsl17a siso_vdsl35b mimo_full mimo_vdsl35b</second>
 						</item>
 					</second>
+				</item>
+				<item>
+          <first>disable_standby</first>
+          <second>
+            <count>1</count>
+            <item_version>0</item_version>
+            <item>
+              <first>state</first>
+              <second>0</second>
+            </item>
+          </second>
+				</item>
+				<item>
+          <first>disable_traffic</first>
+          <second>
+            <count>1</count>
+            <item_version>0</item_version>
+            <item>
+              <first>state</first>
+              <second>1</second>
+            </item>
+          </second>
 				</item>
 				<item>
 					<first>web_interface</first>
@@ -164,7 +186,7 @@ var networkUpdate1 = '''MSGSOCK000020f0<?xml version="1.0" encoding="UTF-8" stan
 						</item>
 					</states>
 					<actions>
-						<count>3</count>
+						<count>5</count>
 						<item_version>0</item_version>
 						<item>
 							<first>identify_device</first>
@@ -196,6 +218,28 @@ var networkUpdate1 = '''MSGSOCK000020f0<?xml version="1.0" encoding="UTF-8" stan
 								</item>
 							</second>
 						</item>
+						<item>
+              <first>disable_leds</first>
+              <second>
+                <count>1</count>
+                <item_version>0</item_version>
+                <item>
+                  <first>state</first>
+                  <second>0</second>
+                </item>
+              </second>
+            </item>
+            <item>
+              <first>disable_traffic</first>
+              <second>
+                <count>1</count>
+                <item_version>0</item_version>
+                <item>
+                  <first>state</first>
+                  <second>1</second>
+                </item>
+              </second>
+				    </item>
 						<item>
 							<first>web_interface</first>
 							<second>
@@ -233,7 +277,7 @@ var networkUpdate1 = '''MSGSOCK000020f0<?xml version="1.0" encoding="UTF-8" stan
 						</item>
 					</states>
 					<actions>
-						<count>3</count>
+						<count>5</count>
 						<item_version>0</item_version>
 						<item>
 							<first>identify_device</first>
@@ -246,6 +290,28 @@ var networkUpdate1 = '''MSGSOCK000020f0<?xml version="1.0" encoding="UTF-8" stan
 								</item>
 							</second>
 						</item>
+						<item>
+              <first>disable_leds</first>
+              <second>
+                <count>1</count>
+                <item_version>0</item_version>
+                <item>
+                  <first>state</first>
+                  <second>0</second>
+                </item>
+              </second>
+				    </item>
+            <item>
+              <first>disable_standby</first>
+              <second>
+                <count>1</count>
+                <item_version>0</item_version>
+                <item>
+                  <first>state</first>
+                  <second>1</second>
+                </item>
+              </second>
+				    </item>
 						<item>
 							<first>vdsl_compat</first>
 							<second>

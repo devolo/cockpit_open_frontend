@@ -104,18 +104,15 @@ class Device extends ChangeNotifier {
           webinterfaceAvailable = true;
         }
         else if(first.innerText == "disable_leds"){
-          logger.i(first.parentElement);
           var disable_ledsStatus = first.parentElement!.findAllElements("item").first.findElements("second").first.innerText;
           disable_leds = [1,int.parse(disable_ledsStatus)];
         }
         else if(first.innerText == "disable_standby"){
-          logger.i(first.parentElement);
           var disable_standbyStatus = first.parentElement!.findAllElements("item").first.findElements("second").first.innerText;
           disable_standby = [1,int.parse(disable_standbyStatus)];
 
         }
         else if(first.innerText == "disable_traffic"){
-          logger.i(first.parentElement);
           var disable_trafficStatus = first.parentElement!.findAllElements("item").first.findElements("second").first.innerText;
           disable_traffic = [1,int.parse(disable_trafficStatus)];
         }

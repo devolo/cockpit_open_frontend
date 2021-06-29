@@ -25,13 +25,12 @@ void main (){
       await loadAllDeviceIcons();
 
       expect(areDeviceIconsLoaded,true);
-      expect(deviceIconList.length,6);
+      expect(deviceIconList.length,5);
       expect(deviceIconList[0].toString(),"[35×79]");
       expect(deviceIconList[1].toString(),"[35×79]");
       expect(deviceIconList[2].toString(),"[36×64]");
       expect(deviceIconList[3].toString(),"[36×37]");
       expect(deviceIconList[4].toString(),"[76×69]");
-      expect(deviceIconList[5].toString(),"[352×334]");
     });
   });
 

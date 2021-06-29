@@ -439,7 +439,10 @@ class DrawOverview extends CustomPainter {
               canvas: canvas,
               image: deviceIcon!,
               fit: BoxFit.scaleDown,
-              rect: Rect.fromPoints(imageRectUpperLeft, imageRectLowerRight));
+              rect: Rect.fromPoints(imageRectUpperLeft, imageRectLowerRight),
+              //colorFilter: ColorFilter.mode(drawingColor, BlendMode.color)
+              );
+
         }
       }
     } else {
@@ -454,7 +457,9 @@ class DrawOverview extends CustomPainter {
             canvas: canvas,
             image: deviceIcon!, //deviceIconList[0],
             fit: BoxFit.scaleDown,
-            rect: Rect.fromPoints(imageRectUpperLeft, imageRectLowerRight));
+            rect: Rect.fromPoints(imageRectUpperLeft, imageRectLowerRight),
+            //colorFilter: ColorFilter.mode(drawingColor, BlendMode.overlay)
+      );
       }
     }
   }

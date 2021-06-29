@@ -103,7 +103,7 @@ Map<String, dynamic> theme_light = {
   "name": "Light Theme",
   "mainColor" : devoloBlue,
   "backgroundColor" : Colors.white,
-  "secondColor" : devoloBlueLight, //Colors.grey[300],
+  "secondColor" : Color.fromARGB(255, 234, 235, 236),
   "accentColor" : Color.fromARGB(255, 234, 235, 236),
   "drawingColor" : devoloBlue,
   "fontColorOnMain" : Colors.white,

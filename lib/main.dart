@@ -352,6 +352,7 @@ class _MyHomePageState extends State<MyHomePage> {
         data: Theme.of(context).copyWith(
           canvasColor: mainColor, //This will change the drawer background.
           hoverColor: Colors.white.withOpacity(0.2),
+          primaryIconTheme: IconThemeData(color: fontColorOnMain),
           //hoverColor: mainColor.withOpacity(0.7), doesn´t work !!!
         ),
 

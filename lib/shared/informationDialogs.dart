@@ -421,93 +421,96 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                       )
                     ],
                   ),
-                  if (hitDevice.supported_vdsl.isNotEmpty)
-                    Column(
-                      children: [
-                        IconButton(
-                            icon: Icon(
-                              DevoloIcons.ic_router_24px,
-                              color: fontColorOnBackground,
-                            ),
-//tooltip: S.of(context).showManual,
-                            hoverColor: fontColorOnBackground.withAlpha(50),
-                            iconSize: 24.0 * fontSize.factor,
-                            onPressed: () {
-                              showVDSLDialog(
-                                  context,socket, hitDevice.mode_vdsl, hitDevice.supported_vdsl,
-                                  hitDevice.selected_vdsl, hitDevice.mac, fontSize);
-                            }),
-                        Text(
-                          S
-                              .of(context)
-                              .setVdslCompatibility,
-                          style: TextStyle(fontSize: 14, color: fontColorOnBackground),
-                          textScaleFactor: fontSize.factor,
-                          textAlign: TextAlign.center,
-                        )
-                      ],
-                    ),
                   Column(
                     children: [
                       IconButton(
-                        icon: Icon(
-                          DevoloIcons.ic_file_upload_24px,
+                          icon: Icon(
+                            DevoloIcons.ic_router_24px,
+                          ),
+//tooltip: S.of(context).showManual,
                           color: fontColorOnBackground,
-                          semanticLabel: "update",
-                        ),
-//tooltip: S.of(context).factoryReset,
-                        hoverColor: fontColorOnBackground.withAlpha(50),
-                        iconSize: 24.0 * fontSize.factor,
-                        onPressed: () async {
-                          bool confResponse = false;
-                          hitDevice.attachedToRouter
-                              ? confResponse = await confirmDialog(context, S
-                              .of(context)
-                              .resetDeviceConfirmTitle, S
-                              .of(context)
-                              .resetDeviceConfirmBody + "\n" + S
-                              .of(context)
-                              .confirmActionConnectedToRouterWarning, fontSize)
-                              : confResponse = await confirmDialog(context, S
-                              .of(context)
-                              .resetDeviceConfirmTitle, S
-                              .of(context)
-                              .resetDeviceConfirmBody, fontSize);
-
-                          if (confResponse) {
-                            socket.sendXML("ResetAdapterToFactoryDefaults",
-                                mac: hitDevice.mac);
-
-                            var response = await socket.receiveXML(
-                                "ResetAdapterToFactoryDefaultsStatus");
-                            if (response!['result'] == "device_not_found") {
-                              errorDialog(context, S
-                                  .of(context)
-                                  .resetDeviceErrorTitle, S
-                                  .of(context)
-                                  .deviceNotFoundResetDevice + "\n\n" + S
-                                  .of(context)
-                                  .deviceNotFoundHint, fontSize);
-                            } else if (response['result'] != "ok") {
-                              errorDialog(context, S
-                                  .of(context)
-                                  .resetDeviceErrorTitle, S
-                                  .of(context)
-                                  .resetDeviceErrorBody, fontSize);
-                            }
+                          hoverColor: fontColorOnBackground.withAlpha(50),
+                          disabledColor: fontColorOnBackground.withOpacity(0.33),
+                          iconSize: 24.0 * fontSize.factor,
+                          onPressed: (hitDevice.supported_vdsl.isNotEmpty)
+                              ? () { showVDSLDialog(
+                              context,socket, hitDevice.mode_vdsl, hitDevice.supported_vdsl,
+                              hitDevice.selected_vdsl, hitDevice.mac, fontSize);
                           }
-                        },
+                          : null,
+                        mouseCursor: !hitDevice.supported_vdsl.isNotEmpty ? SystemMouseCursors
+                            .basic : SystemMouseCursors.click,
                       ),
                       Text(
                         S
                             .of(context)
-                            .factoryReset,
-                        style: TextStyle(fontSize: 14, color: fontColorOnBackground),
-                        textScaleFactor: fontSize.factor,
+                            .setVdslCompatibility,
+                        style: TextStyle(fontSize: 14, color: !hitDevice.supported_vdsl.isNotEmpty ? fontColorOnBackground.withOpacity(0.33) : fontColorOnBackground),                        textScaleFactor: fontSize.factor,
                         textAlign: TextAlign.center,
                       )
                     ],
                   ),
+                Column(
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        DevoloIcons.ic_file_upload_24px,
+                        color: fontColorOnBackground,
+                        semanticLabel: "update",
+                      ),
+//tooltip: S.of(context).factoryReset,
+                      hoverColor: fontColorOnBackground.withAlpha(50),
+                      iconSize: 24.0 * fontSize.factor,
+                      onPressed: () async {
+                        bool confResponse = false;
+                        hitDevice.attachedToRouter
+                            ? confResponse = await confirmDialog(context, S
+                            .of(context)
+                            .resetDeviceConfirmTitle, S
+                            .of(context)
+                            .resetDeviceConfirmBody + "\n" + S
+                            .of(context)
+                            .confirmActionConnectedToRouterWarning, fontSize)
+                            : confResponse = await confirmDialog(context, S
+                            .of(context)
+                            .resetDeviceConfirmTitle, S
+                            .of(context)
+                            .resetDeviceConfirmBody, fontSize);
+
+                        if (confResponse) {
+                          socket.sendXML("ResetAdapterToFactoryDefaults",
+                              mac: hitDevice.mac);
+
+                          var response = await socket.receiveXML(
+                              "ResetAdapterToFactoryDefaultsStatus");
+                          if (response!['result'] == "device_not_found") {
+                            errorDialog(context, S
+                                .of(context)
+                                .resetDeviceErrorTitle, S
+                                .of(context)
+                                .deviceNotFoundResetDevice + "\n\n" + S
+                                .of(context)
+                                .deviceNotFoundHint, fontSize);
+                          } else if (response['result'] != "ok") {
+                            errorDialog(context, S
+                                .of(context)
+                                .resetDeviceErrorTitle, S
+                                .of(context)
+                                .resetDeviceErrorBody, fontSize);
+                          }
+                        }
+                      },
+                    ),
+                    Text(
+                      S
+                          .of(context)
+                          .factoryReset,
+                      style: TextStyle(fontSize: 14, color: fontColorOnBackground),
+                      textScaleFactor: fontSize.factor,
+                      textAlign: TextAlign.center,
+                    )
+                  ],
+                ),
 
                   Column(
                     children: [

@@ -323,7 +323,6 @@ class _MyHomePageState extends State<MyHomePage> {
             IconButton(
               icon: const Icon(DevoloIcons.ic_brightness_medium_24px),
               color: fontColorOnMain,
-              color: fontColorOnMain,
               tooltip: S.of(context).highContrast,
               onPressed: () {
                 setState(() {

@@ -675,38 +675,34 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
   if (returnVal == null) returnVal = false;
 
   if (returnVal == true) {
-    bool confResponse = false;
-    confResponse = await confirmDialog(context, "Set VDSL Compatibility", "Neue VDSL Einstellungen ${vdslProfile} übernehmen?", fontSize);
 
-    if (confResponse) {
-      socket.sendXML('SetVDSLCompatibility', newValue: vdslProfile, valueType: 'profile', newValue2: hitDeviceVDSLmode, valueType2: 'mode', mac: hitDeviceMac);
+    socket.sendXML('SetVDSLCompatibility', newValue: vdslProfile, valueType: 'profile', newValue2: hitDeviceVDSLmode, valueType2: 'mode', mac: hitDeviceMac);
 
-      showDialog<void>(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-              content: Column(mainAxisSize: MainAxisSize.min ,
-                  children: [
-                    CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(secondColor),)]
-              ),
-            );
-          });
+    showDialog<void>(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            content: Column(mainAxisSize: MainAxisSize.min ,
+                children: [
+                  CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(secondColor),)]
+            ),
+          );
+        });
 
-      var response = await socket.receiveXML("SetVDSLCompatibilityStatus");
-      if (response['result'] == "failed") {
-        Navigator.maybeOf(context)!.pop(true);
-        errorDialog(context, "Error", S.of(context).vdslfailed, fontSize);
-      } else if (response['result'] == "ok") {
-        Navigator.maybeOf(context)!.pop(true);
-        errorDialog(context, "Done", S.of(context).vdslsuccessful, fontSize);
-      }
-      else {
-        logger.w("[showVDSLDialog] - Unexpected response: " + response['result']);
-        Navigator.maybeOf(context)!.pop();
-      }
+    var response = await socket.receiveXML("SetVDSLCompatibilityStatus");
+    if (response['result'] == "failed") {
+      Navigator.maybeOf(context)!.pop(true);
+      errorDialog(context, "Error", S.of(context).vdslfailed, fontSize);
+    } else if (response['result'] == "ok") {
+      Navigator.maybeOf(context)!.pop(true);
+      errorDialog(context, "Done", S.of(context).vdslsuccessful, fontSize);
+    }
+    else {
+      logger.w("[showVDSLDialog] - Unexpected response: " + response['result']);
+      Navigator.maybeOf(context)!.pop();
     }
   }
   else {

@@ -159,11 +159,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   child: Row(children: [
                     Icon(
                       DevoloIcons.ic_refresh_24px,
-                      color: fontColorOnMain,
+                      color: (_loading == true || _loadingCockpit == true || _loadingSoftware == true) ? buttonDisabledForeground : Colors.white,
                       size: 24 * fontSize.factor,
                     ),
                     Text(
                       S.of(context).checkUpdates,
+                      style:TextStyle(color: (_loading == true || _loadingCockpit == true || _loadingSoftware == true) ? buttonDisabledForeground : Colors.white)
                     ),
                   ]),
                 ),

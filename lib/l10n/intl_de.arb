@@ -150,5 +150,15 @@
   "LoadCockpitSupportInformationsBody": "Support-Informationen werden erstellt.",
   "cockpitSupportInformationsBody": "Die Support-Informationen wurden erstellt und stehen Ihnen jetzt zur Verfügung. Bitte wählen Sie eine Aktion aus.",
   "emailIsInvalid": "Ungültige E-mail Adresse",
-  "supportInfoGenerateError": "Bei der Erstellung der Support Informationen ist ein Fehler aufgetreten.\nBitte versuchen Sie es erneut!"
+  "supportInfoGenerateError": "Bei der Erstellung der Support Informationen ist ein Fehler aufgetreten.\nBitte versuchen Sie es erneut!",
+  "additionalSettings": "erweiterte Einstellungen",
+  "activateLEDs": "Leuchtdioden (LEDs) angeschaltet",
+  "activateTransmission": "Datenkommunikation erlauben",
+  "powerSavingMode": "Stromsparmodus",
+  "activateLEDsFailedTitle": "Aktion fehlgeschlagen",
+  "activateLEDsFailedBody": "Es ist ein Fehler beim Ändern der LEDs aufgetreten!\nBitte versuchen Sie es erneut.",
+  "activateTransmissionFailedTitle": "Aktion fehlgeschlagen",
+  "activateTransmissionFailedBody": "Es ist ein Fehler beim Anpassen der Datenkommunikation aufgetreten!\nBitte versuchen Sie es erneut.",
+  "powerSavingModeFailedTitle": "Aktion fehlgeschlagen",
+  "powerSavingModeFailedBody": "Es ist ein Fehler beim Anpassen des Stromsparmodus aufgetreten!\nBitte versuchen Sie es erneut."
 }

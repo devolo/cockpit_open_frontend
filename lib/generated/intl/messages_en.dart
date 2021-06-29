@@ -24,10 +24,23 @@ class MessageLookup extends MessageLookupByLibrary {
         "LoadCockpitSupportInformationsBody":
             MessageLookupByLibrary.simpleMessage(
                 "Support informations are getting generated."),
+        "activateLEDs": MessageLookupByLibrary.simpleMessage("LEDs activated"),
+        "activateLEDsFailedBody": MessageLookupByLibrary.simpleMessage(
+            "An error occurred while modifying the LEDs!\nTry again later"),
+        "activateLEDsFailedTitle":
+            MessageLookupByLibrary.simpleMessage("Action failed"),
+        "activateTransmission": MessageLookupByLibrary.simpleMessage(
+            "Data communication activated"),
+        "activateTransmissionFailedBody": MessageLookupByLibrary.simpleMessage(
+            "An error occurred while setting the data communication!\nTry again later"),
+        "activateTransmissionFailedTitle":
+            MessageLookupByLibrary.simpleMessage("Action failed"),
         "add": MessageLookupByLibrary.simpleMessage("Add"),
         "addDevice": MessageLookupByLibrary.simpleMessage("Add device"),
         "addDeviceInstructionText": MessageLookupByLibrary.simpleMessage(
             "1) Plug both PLC devices into wall sockets and wait for 45 seconds.\n2) Briefly press the encryption button of the existing PLC device.\n(Alternatively start pairing via the web interface of the existing device.)\n3) Within 2 minutes, press the encryption button of the new PLC device also briefly.\n4) As soon as the LEDs light up and do not blink, the PLC devices are ready for operation."),
+        "additionalSettings":
+            MessageLookupByLibrary.simpleMessage("Additional settings"),
         "appColor": MessageLookupByLibrary.simpleMessage("Set app theme"),
         "appInfo": MessageLookupByLibrary.simpleMessage("App info"),
         "appInformation":
@@ -173,6 +186,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Enter your email address"),
         "pleaseFillInYourName":
             MessageLookupByLibrary.simpleMessage("Enter your name"),
+        "powerSavingMode":
+            MessageLookupByLibrary.simpleMessage("Power saving mode"),
+        "powerSavingModeFailedBody": MessageLookupByLibrary.simpleMessage(
+            "An error occurred while setting the Power save mode!\nTry again later"),
+        "powerSavingModeFailedTitle":
+            MessageLookupByLibrary.simpleMessage("Action failed"),
         "previousNetwork":
             MessageLookupByLibrary.simpleMessage("Previous network"),
         "processNumber": MessageLookupByLibrary.simpleMessage("Process number"),

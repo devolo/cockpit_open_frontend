@@ -148,5 +148,15 @@
   "LoadCockpitSupportInformationsBody": "Support informations are getting generated.",
   "cockpitSupportInformationsBody": "The support informations have been created and are now available to you. Please select an action.",
   "emailIsInvalid": "E-mail is invalid",
-  "supportInfoGenerateError": "An error occurred while creating the support informations.\nPlease try again!"
+  "supportInfoGenerateError": "An error occurred while creating the support informations.\nPlease try again!",
+  "additionalSettings": "Additional settings",
+  "activateLEDs": "LEDs activated",
+  "activateTransmission": "Data communication activated",
+  "powerSavingMode": "Power saving mode",
+  "activateLEDsFailedTitle": "Action failed",
+  "activateLEDsFailedBody": "An error occurred while modifying the LEDs!\nTry again later",
+  "activateTransmissionFailedTitle": "Action failed",
+  "activateTransmissionFailedBody": "An error occurred while setting the data communication!\nTry again later",
+  "powerSavingModeFailedTitle": "Action failed",
+  "powerSavingModeFailedBody": "An error occurred while setting the Power save mode!\nTry again later"
 }

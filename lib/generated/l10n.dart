@@ -1449,6 +1449,106 @@ class S {
       args: [],
     );
   }
+
+  /// `Additional settings`
+  String get additionalSettings {
+    return Intl.message(
+      'Additional settings',
+      name: 'additionalSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `LEDs activated`
+  String get activateLEDs {
+    return Intl.message(
+      'LEDs activated',
+      name: 'activateLEDs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Data communication activated`
+  String get activateTransmission {
+    return Intl.message(
+      'Data communication activated',
+      name: 'activateTransmission',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Power saving mode`
+  String get powerSavingMode {
+    return Intl.message(
+      'Power saving mode',
+      name: 'powerSavingMode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Action failed`
+  String get activateLEDsFailedTitle {
+    return Intl.message(
+      'Action failed',
+      name: 'activateLEDsFailedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred while modifying the LEDs!\nTry again later`
+  String get activateLEDsFailedBody {
+    return Intl.message(
+      'An error occurred while modifying the LEDs!\nTry again later',
+      name: 'activateLEDsFailedBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Action failed`
+  String get activateTransmissionFailedTitle {
+    return Intl.message(
+      'Action failed',
+      name: 'activateTransmissionFailedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred while setting the data communication!\nTry again later`
+  String get activateTransmissionFailedBody {
+    return Intl.message(
+      'An error occurred while setting the data communication!\nTry again later',
+      name: 'activateTransmissionFailedBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Action failed`
+  String get powerSavingModeFailedTitle {
+    return Intl.message(
+      'Action failed',
+      name: 'powerSavingModeFailedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred while setting the Power save mode!\nTry again later`
+  String get powerSavingModeFailedBody {
+    return Intl.message(
+      'An error occurred while setting the Power save mode!\nTry again later',
+      name: 'powerSavingModeFailedBody',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

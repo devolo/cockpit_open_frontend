@@ -38,9 +38,12 @@ class Device extends ChangeNotifier {
   String selected_vdsl = "";
   List<String> supported_vdsl = [];
   String mode_vdsl  = "";
+  List<bool> disable_leds = List.filled(2, false); // first value indicates if the action is available for the device, second shows the value
+  List<bool> disable_standby = List.filled(2, false); // first value indicates if the action is available for the device, second shows the value
+  List<bool> disable_traffic = List.filled(2, false); // first value indicates if the action is available for the device, second shows the value
 
 
-  Device(String type, String name, String mac, String ip, String MT, String serialno, String version, String versionDate, atRouter, isLocal, bool webinterfaceAvailable, bool identifyDeviceAvailable, selectedVDSL, supportedVDSL, modeVDSL) {
+  Device(String type, String name, String mac, String ip, String MT, String serialno, String version, String versionDate, atRouter, isLocal, bool webinterfaceAvailable, bool identifyDeviceAvailable, selectedVDSL, supportedVDSL, modeVDSL, disable_leds, disable_standby, disable_traffic) {
     this.typeEnum = getDeviceType(type);
     this.type = type;
     this.name = name;
@@ -55,6 +58,9 @@ class Device extends ChangeNotifier {
     this.selected_vdsl = selectedVDSL;
     this.supported_vdsl = supportedVDSL;
     this.mode_vdsl = modeVDSL;
+    this.disable_leds = disable_leds;
+    this.disable_standby = disable_standby;
+    this.disable_traffic = disable_traffic;
 
     if(version.contains("_")) {
       this.version = version.substring(0,version.indexOf("_"));
@@ -83,6 +89,9 @@ class Device extends ChangeNotifier {
 
     bool webinterfaceAvailable = false;
     bool identifyDeviceAvailable = false;
+    List<bool> disable_leds = List.filled(2, false); // first value indicates if the action is available for the device, second shows the value
+    List<bool> disable_standby = List.filled(2, false); // first value indicates if the action is available for the device, second shows the value
+    List<bool> disable_traffic = List.filled(2, false); // first value indicates if the action is available for the device, second shows the value
 
     if (element.getElement('actions') != null) {
 
@@ -93,6 +102,27 @@ class Device extends ChangeNotifier {
         }
         else if(first.innerText == "web_interface"){
           webinterfaceAvailable = true;
+        }
+        else if(first.innerText == "disable_leds"){
+          var disable_ledsStatus = first.parentElement!.findAllElements("item").first.findElements("second").first.innerText;
+          if(disable_ledsStatus == "0")
+            disable_leds = [true,false];
+          else if(disable_ledsStatus == "1")
+            disable_leds = [true,true];
+        }
+        else if(first.innerText == "disable_standby"){
+          var disable_standbyStatus = first.parentElement!.findAllElements("item").first.findElements("second").first.innerText;
+          if(disable_standbyStatus == "0")
+            disable_standby = [true,false];
+          else if(disable_standbyStatus == "1")
+            disable_standby = [true,true];
+        }
+        else if(first.innerText == "disable_traffic"){
+          var disable_trafficStatus = first.parentElement!.findAllElements("item").first.findElements("second").first.innerText;
+          if(disable_trafficStatus == "0")
+            disable_traffic = [true,false];
+          else if(disable_trafficStatus == "1")
+            disable_traffic = [true,true];
         }
       }
     }
@@ -138,6 +168,9 @@ class Device extends ChangeNotifier {
       selected_VDSL,
       supported_VDSL,
       mode_VDSL,
+      disable_leds,
+      disable_standby,
+      disable_traffic,
     );
 
     if (element.getElement('remotes') != null) {

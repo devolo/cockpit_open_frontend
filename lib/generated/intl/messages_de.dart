@@ -24,10 +24,24 @@ class MessageLookup extends MessageLookupByLibrary {
         "LoadCockpitSupportInformationsBody":
             MessageLookupByLibrary.simpleMessage(
                 "Support-Informationen werden erstellt."),
+        "activateLEDs": MessageLookupByLibrary.simpleMessage(
+            "Leuchtdioden (LEDs) angeschaltet"),
+        "activateLEDsFailedBody": MessageLookupByLibrary.simpleMessage(
+            "Es ist ein Fehler beim Ändern der LEDs aufgetreten!\nBitte versuchen Sie es erneut."),
+        "activateLEDsFailedTitle":
+            MessageLookupByLibrary.simpleMessage("Aktion fehlgeschlagen"),
+        "activateTransmission":
+            MessageLookupByLibrary.simpleMessage("Datenkommunikation erlauben"),
+        "activateTransmissionFailedBody": MessageLookupByLibrary.simpleMessage(
+            "Es ist ein Fehler beim Anpassen der Datenkommunikation aufgetreten!\nBitte versuchen Sie es erneut."),
+        "activateTransmissionFailedTitle":
+            MessageLookupByLibrary.simpleMessage("Aktion fehlgeschlagen"),
         "add": MessageLookupByLibrary.simpleMessage("Hinzufügen"),
         "addDevice": MessageLookupByLibrary.simpleMessage("Gerät hinzufügen"),
         "addDeviceInstructionText": MessageLookupByLibrary.simpleMessage(
             "1.) Stecken Sie beide PLC-Geräte in die gewünschten Wandsteckdosen und warten ca. 45 Sekunden.\n2.) Drücken Sie kurz den Verschlüsselungsknopf des ersten (evtl. bereits vorhandenen) PLC-Gerätes.\n    (Alternativ kann das Pairing auch über das Webinterface des bereits vorhandenen Geräts gestartet werden.) \n3.) Drücken Sie innerhalb von zwei Minuten den Verschlüsselungsknopf des zweiten (neuen) PLC-Gerätes ebenfalls kurz.\n4.) Sobald die LEDs dauerhaft leuchten, sind die PLC-Geräte betriebsbereit."),
+        "additionalSettings":
+            MessageLookupByLibrary.simpleMessage("erweiterte Einstellungen"),
         "appColor": MessageLookupByLibrary.simpleMessage("App Farben"),
         "appInfo": MessageLookupByLibrary.simpleMessage("App Info"),
         "appInformation":
@@ -175,6 +189,12 @@ class MessageLookup extends MessageLookupByLibrary {
             "Bitte tragen Sie ihre E-mail Adresse ein"),
         "pleaseFillInYourName": MessageLookupByLibrary.simpleMessage(
             "Bitte tragen Sie ihren Namen ein"),
+        "powerSavingMode":
+            MessageLookupByLibrary.simpleMessage("Stromsparmodus"),
+        "powerSavingModeFailedBody": MessageLookupByLibrary.simpleMessage(
+            "Es ist ein Fehler beim Anpassen des Stromsparmodus aufgetreten!\nBitte versuchen Sie es erneut."),
+        "powerSavingModeFailedTitle":
+            MessageLookupByLibrary.simpleMessage("Aktion fehlgeschlagen"),
         "previousNetwork":
             MessageLookupByLibrary.simpleMessage("vorheriges Netzwerk"),
         "processNumber":

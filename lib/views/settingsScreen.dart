@@ -109,15 +109,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return new Scaffold(
       backgroundColor: Colors.transparent,
-      appBar: new AppBar(
-        title: new Text(
-          S.of(context).settings,
-          style: TextStyle(fontSize: fontSizeAppBarTitle * fontSize.factor, color: fontColorOnBackground),
-        ),
-        centerTitle: true,
-        backgroundColor: backgroundColor,
-        shadowColor: Colors.transparent,
-      ),
       body: SingleChildScrollView(
         controller: _scrollController, // <---- Here, the controller
         //isAlwaysShown: true, // <---- Required
@@ -126,6 +117,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           child: new Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
+              Text(
+                S.of(context).settings,
+                style: TextStyle(fontSize: fontSizeAppBarTitle * fontSize.factor, color: fontColorOnBackground),
+              ),
               Divider(color: dividerColor, height: dividerTitleSpacing),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                 Text(
@@ -256,7 +251,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     S.of(context).appTheme,
                     style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond),
                   ),
-                  trailing: Text(config["theme"], style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: mainColor)),
+                  trailing: Padding(
+                    padding: const EdgeInsets.only(right: 12.0),
+                    child: Text(config["theme"], style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: mainColor)),
+                  ),
                 ),
               ),
               Divider(color: dividerColor),
@@ -525,7 +523,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 }
                               }
                             },
-                      child: getGreenButton(context, S.of(context).save, fontSize),
+                      child: Padding(padding: EdgeInsets.only(right: 10.0),
+                        child: getGreenButton(context, S.of(context).save, fontSize),)
                     ),
                   ],
                 ),

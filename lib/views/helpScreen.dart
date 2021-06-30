@@ -53,6 +53,8 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
+  double paddingBarTop = 10;
+
   @override
   Widget build(BuildContext context) {
     _currImage = optimizeImages.first;
@@ -62,21 +64,18 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
 
     return new Scaffold(
       backgroundColor: Colors.transparent,
-      appBar: new AppBar(
-        title: new Text(
-          S.of(context).help,
-          style: TextStyle(fontSize: fontSizeAppBarTitle * fontSize.factor, color: fontColorOnMain),
-        ),
-        centerTitle: true,
-        backgroundColor: backgroundColor,
-        shadowColor: Colors.transparent,
-      ),
+
       body: new SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(top: paddingContentTop, left: 20, right: 20),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            //crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              Text(
+                S.of(context).help,
+                style: TextStyle(fontSize: fontSizeAppBarTitle * fontSize.factor, color: fontColorOnMain),
+              ),
+              SizedBox(height:paddingBarTop),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

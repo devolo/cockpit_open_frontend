@@ -25,10 +25,11 @@ Color fontColorOnSecond= Colors.white ;
 // Color fontColorOnDialog= Colors.white;
 
 Color devoloBlue = Color.fromARGB(255, 0, 114, 180);
-Color devoloBlueMedium = Color.fromARGB(255, 81, 154, 207);
-Color devoloBlueLight = Color.fromARGB(255, 177, 203, 232);
+Color devoloMediumBlue = Color.fromARGB(255, 81, 154, 207);
+Color devoloLightBlue = Color.fromARGB(255, 177, 203, 232);
 Color devoloGray = Color.fromARGB(255, 67, 74, 79);
 Color devoloLightGray = Color.fromARGB(255, 108, 116, 121);
+Color devoloLighterGray = Color.fromARGB(255, 193, 195, 197);
 Color devoloGreen = Color.fromARGB(255, 149, 193, 31);
 Color devoloOrange = Color.fromARGB(255, 243, 146, 0);
 Color devoloRed = Color.fromARGB(255, 199, 20, 61);

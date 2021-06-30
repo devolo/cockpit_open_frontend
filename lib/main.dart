@@ -260,6 +260,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: mainColor,
         centerTitle: true,
+        iconTheme: IconThemeData(color: fontColorLight),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -348,7 +349,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       endDrawer: Theme(
-
         data: Theme.of(context).copyWith(
           canvasColor: mainColor, //This will change the drawer background.
           hoverColor: Colors.white.withOpacity(0.2),

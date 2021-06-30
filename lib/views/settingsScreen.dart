@@ -23,18 +23,22 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/views/logsScreen.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
+
 //import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:cockpit_devolo/views/appBuilder.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
-
 class SettingsScreen extends StatefulWidget {
-  SettingsScreen({Key? key, required this.title,}) : super(key: key);
+  SettingsScreen({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
 
   final String title;
   DrawOverview? painter;
+
   //ConfigModel configModel = ConfigModel();
 
   @override
@@ -42,7 +46,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-
   /* =========== Styling =========== */
 
   double listTilePaddingContentTop = 10;
@@ -64,8 +67,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   /* ===========  =========== */
 
-
-
   String? _newPw;
   bool _hiddenPw = true;
   bool _isButtonDisabled = true;
@@ -76,17 +77,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   var waitForNetworkPasswordResponse = false;
   var networkPasswordResponseTrue = false;
   var networkPasswordResponseFalse = false;
-
-  // ColorSwatch _tempMainColor;
-  // ColorSwatch _mainColor;
-  // Color _tempShadeMainColor; //=configModel.mainColor;
-  // Color _shadeMainColor; // = mainColor;
-  // Color _tempShadeSecondColor; // = secondColor;
-  // Color _shadeSecondColor; // = secondColor;
-  // Color _tempShadeFontColorLight; // = fontColorLight;
-  // Color _shadeFontColorLight; // = fontColorLight;
-  // Color _tempShadeFontColorDark; // = fontColorDark;
-  // Color _shadeFontColorDark; // = fontColorDark;
 
   final _scrollController = ScrollController();
   FocusNode myFocusNode = new FocusNode();
@@ -99,89 +89,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       saveToSharedPrefs(config);
     });
   }
-
-  // void _mainColorPicker(title, title2, title3, title4) async {
-  //   _openDialog(
-  //     title,
-  //     MaterialColorPicker(
-  //       colors: fullMaterialColors,
-  //       selectedColor: mainColor,
-  //       onColorChange: (color) {
-  //         setState(() {
-  //           _tempShadeMainColor = color;
-  //           mainColor = color;
-  //           backgroundColor = color;
-  //           AppBuilder.of(context).rebuild();
-  //         });
-  //       },
-  //       onMainColorChange: (color) {
-  //         setState(() {
-  //           _tempMainColor = color;
-  //           mainColor = color;
-  //           backgroundColor = color;
-  //           AppBuilder.of(context).rebuild();
-  //         });
-  //       },
-  //       onBack: () => logger.i("Back button pressed"),
-  //     ),
-  //     title2,
-  //     MaterialColorPicker(
-  //       colors: fullMaterialColors,
-  //       selectedColor: secondColor,
-  //       onColorChange: (color) {
-  //         setState(() {
-  //           _tempShadeSecondColor = color;
-  //           secondColor = color;
-  //           AppBuilder.of(context).rebuild();
-  //         });
-  //       },
-  //       onMainColorChange: (color) {
-  //         setState(() {
-  //           _shadeSecondColor = color;
-  //           secondColor = color;
-  //           AppBuilder.of(context).rebuild();
-  //         });
-  //       },
-  //       onBack: () => logger.i("Back button pressed"),
-  //     ),
-  //     title3,
-  //     MaterialColorPicker(
-  //       colors: fullMaterialColors,
-  //       selectedColor: _shadeFontColorLight,
-  //       onColorChange: (color) {
-  //         setState(() {
-  //           _tempShadeFontColorLight = color;
-  //           fontColorLight = color;
-  //           //drawingColor = color;
-  //           AppBuilder.of(context).rebuild();
-  //         });
-  //       },
-  //       onMainColorChange: (color) => setState(() {
-  //         _tempShadeFontColorLight = color;
-  //         fontColorLight = color;
-  //         AppBuilder.of(context).rebuild();
-  //       }),
-  //       onBack: () => logger.i("Back button pressed"),
-  //     ),
-  //     title4,
-  //     MaterialColorPicker(
-  //       colors: fullMaterialColors,
-  //       selectedColor: _shadeFontColorDark,
-  //       onColorChange: (color) {
-  //         setState(() {
-  //           _tempShadeFontColorDark = color;
-  //           fontColorDark = color;
-  //           //drawingColor = color;
-  //         });
-  //       },
-  //       onMainColorChange: (color) => setState(() {
-  //         _tempShadeFontColorDark = color;
-  //         fontColorDark = color;
-  //       }),
-  //       onBack: () => logger.i("Back button pressed"),
-  //     ),
-  //   );
-  // }
 
   //creating the timer that stops the loading after 15 secs
   void startTimer() {
@@ -227,7 +134,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 )
               ]),
               Divider(color: dividerColor),
-
               GestureDetector(
                 onTap: () {
                   setState(() {
@@ -237,16 +143,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 },
                 child: ListTile(
                   contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
-                  tileColor: secondColor,
+                  tileColor: Colors.white,
                   subtitle: Padding(
                     padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
-                    child: Text(S.of(context).dataRatesArePermanentlyDisplayedInTheOverview, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor,fontFamily: 'OpenSans')
-                    ),
+                    child: Text(S.of(context).dataRatesArePermanentlyDisplayedInTheOverview, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor, fontFamily: 'OpenSans')),
                   ),
-                  title: Text(S.of(context).enableShowingSpeeds, style: TextStyle(fontSize: fontSizeListTileTitle*fontSize.factor, color: fontColorOnSecond), semanticsLabel: "Show Speeds"
-                  ),
+                  title: Text(S.of(context).enableShowingSpeeds, style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond), semanticsLabel: "Show Speeds"),
                   trailing: Switch(
-                    value: config["show_speeds_permanent"], //widget.painter.showSpeedsPermanently,
+                    value: config["show_speeds_permanent"],
+                    //widget.painter.showSpeedsPermanently,
                     onChanged: toggleCheckbox,
                     activeTrackColor: switchActiveTrackColor,
                     activeColor: switchActiveThumbColor,
@@ -255,7 +160,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
               ),
-
               Divider(color: dividerColor),
               GestureDetector(
                 onTap: () {
@@ -270,35 +174,32 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   tileColor: secondColor,
                   subtitle: Padding(
                     padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
-                    child: Text(S.of(context).theOverviewWillBeCenteredAroundThePlcDeviceConnected, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor)
-                    ),
+                    child: Text(S.of(context).theOverviewWillBeCenteredAroundThePlcDeviceConnected, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor)),
                   ),
                   title: Text(
-                      S.of(context).internetcentered,
-                      style: TextStyle(fontSize: fontSizeListTileTitle* fontSize.factor, color: fontColorOnSecond),
-                    ),
-
+                    S.of(context).internetcentered,
+                    style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond),
+                  ),
                   trailing: Switch(
-                      value: config["internet_centered"],
-                      //materialTapTargetSize: MaterialTapTargetSize,
-                      onChanged: (value) {
-                        setState(() {
-                          config["internet_centered"] = value;
-                          socket.sendXML('RefreshNetwork');
-                          saveToSharedPrefs(config);
-                        });
-                      },
-                      activeTrackColor: switchActiveTrackColor,
-                      activeColor: switchActiveThumbColor,
-                      inactiveThumbColor: switchInactiveThumbColor,
-                      inactiveTrackColor: switchInactiveTrackColor,
-                    ),
+                    value: config["internet_centered"],
+                    //materialTapTargetSize: MaterialTapTargetSize,
+                    onChanged: (value) {
+                      setState(() {
+                        config["internet_centered"] = value;
+                        socket.sendXML('RefreshNetwork');
+                        saveToSharedPrefs(config);
+                      });
+                    },
+                    activeTrackColor: switchActiveTrackColor,
+                    activeColor: switchActiveThumbColor,
+                    inactiveThumbColor: switchInactiveThumbColor,
+                    inactiveTrackColor: switchInactiveTrackColor,
+                  ),
                 ),
               ),
-
               Divider(color: dividerColor),
               GestureDetector(
-                onTap:() {
+                onTap: () {
                   setState(() {
                     config["show_other_devices"] = !config["show_other_devices"];
                     socket.sendXML('RefreshNetwork');
@@ -306,31 +207,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 },
                 child: ListTile(
                   contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
-                  tileColor: secondColor,
+                  tileColor: Colors.white,
                   subtitle: Padding(
                     padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
-                    child: Text(S.of(context).otherDevicesEgPcAreDisplayedInTheOverview, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor)
-                    ),
+                    child: Text(S.of(context).otherDevicesEgPcAreDisplayedInTheOverview, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor)),
                   ),
                   title: Text(
-                      S.of(context).showOtherDevices,
-                      style: TextStyle(fontSize: fontSizeListTileTitle*fontSize.factor, color: fontColorOnSecond),
-                    ),
+                    S.of(context).showOtherDevices,
+                    style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond),
+                  ),
                   trailing: Switch(
-                      value: config["show_other_devices"],
-                      onChanged: (value) {
-                        setState(() {
-                          config["show_other_devices"] = value;
-                          socket.sendXML('RefreshNetwork');
-                          saveToSharedPrefs(config);
-                        });
-                      },
-                      activeTrackColor: switchActiveTrackColor,
-                      activeColor: switchActiveThumbColor,
-                      inactiveThumbColor: switchInactiveThumbColor,
-                      inactiveTrackColor: switchInactiveTrackColor,
-                    ),
-
+                    value: config["show_other_devices"],
+                    onChanged: (value) {
+                      setState(() {
+                        config["show_other_devices"] = value;
+                        socket.sendXML('RefreshNetwork');
+                        saveToSharedPrefs(config);
+                      });
+                    },
+                    activeTrackColor: switchActiveTrackColor,
+                    activeColor: switchActiveThumbColor,
+                    inactiveThumbColor: switchInactiveThumbColor,
+                    inactiveTrackColor: switchInactiveTrackColor,
+                  ),
                 ),
               ),
               Divider(color: dividerColor, height: dividerTitleSpacing),
@@ -348,52 +247,74 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 },
                 child: ListTile(
                   contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
-                  tileColor: secondColor,
+                  tileColor: Colors.white,
                   subtitle: Padding(
                     padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
-                    child: Text(S.of(context).chooseMainColorAccentColorAndFontColors, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor)
-                    ),
+                    child: Text(S.of(context).chooseMainColorAccentColorAndFontColors, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor)),
                   ),
                   title: Text(
-                      S.of(context).appColor,
-                      style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond),
-                    ),
-
+                    S.of(context).appColor,
+                    style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond),
+                  ),
                   trailing: Text(config["theme"], style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond)),
                 ),
               ),
               Divider(color: dividerColor),
               ListTile(
                 contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
-                tileColor: secondColor,
-                title: Text(S.of(context).fontsize, style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond),
+                tileColor: Colors.white,
+                title: Text(
+                  S.of(context).fontsize,
+                  style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond),
                 ),
-                trailing: SizedBox( width: 150, height: 300, child: SpinBox(
-                  cursorColor: mainColor,
-                  min: 0.1,
-                  max: 5.0,
-                  step: 0.1,
-                  acceleration: 0.1,
-                  decimals: 1,
-                  value: fontSize.factor.toDouble(),
-                  incrementIcon: Icon(DevoloIcons.ic_add_circle_24px, color: mainColor),
-                  decrementIcon: Icon(DevoloIcons.ic_remove_24px, color: mainColor),
-                  decoration: InputDecoration(
-                    focusedBorder: new UnderlineInputBorder(
-                        borderSide: new BorderSide(color: mainColor)),
-                    enabledBorder: new UnderlineInputBorder(
-                        borderSide: new BorderSide(color: mainColor)),
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      fontSize.factor = value;
-                      config["font_size_factor"] = value;
-                    });
-                    saveToSharedPrefs(config);
-                    AppBuilder.of(context)!.rebuild();
-                  },
-                ),
-                ),
+                trailing: SizedBox(
+                    width: 170,
+                    height: 300,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          TextButton(
+                            style: ButtonStyle(alignment: Alignment.bottomCenter),
+                            onPressed: () {
+                              setState(() {
+                                fontSize.factor = 0.9;
+                                config["font_size_factor"] = 0.9;
+                              });
+                              saveToSharedPrefs(config);
+                              AppBuilder.of(context)!.rebuild();
+                            },
+                              child: Icon(Icons.text_format, size: 23, color: mainColor,),
+                          ),
+                          TextButton(
+                            style: ButtonStyle(alignment: Alignment.bottomCenter),
+                            onPressed: () {
+                              setState(() {
+                                fontSize.factor = 1.1;
+                                config["font_size_factor"] = 1.1;
+                              });
+                              saveToSharedPrefs(config);
+                              AppBuilder.of(context)!.rebuild();
+                            },
+                              child: Icon(Icons.text_format, size: 30, color: mainColor,),
+                          ),
+                          TextButton(
+                            style: ButtonStyle(alignment: Alignment.bottomCenter),
+                            onPressed: () {
+                              setState(() {
+                                fontSize.factor = 1.4;
+                                config["font_size_factor"] = 1.4;
+                              });
+                              saveToSharedPrefs(config);
+                              AppBuilder.of(context)!.rebuild();
+                            },
+                              child: Icon(Icons.text_format, size: 38, color: mainColor,),
+                          ),
+                        ],
+                      ),
+                    )
+                    ),
               ),
               Divider(color: dividerColor, height: dividerTitleSpacing),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
@@ -413,26 +334,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 },
                 child: ListTile(
                   contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
-                  tileColor: secondColor,
+                  tileColor: Colors.white,
                   title: Text(
-                      S.of(context).ignoreUpdates,
-                      style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond),
-                    ),
+                    S.of(context).ignoreUpdates,
+                    style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond),
+                  ),
                   trailing: Switch(
-                        value: config["ignore_updates"],
-                        onChanged: (bool value) {
-                          setState(() {
-                            config["ignore_updates"] = !config["ignore_updates"];
-                            socket.sendXML('Config');
-                            saveToSharedPrefs(config);
-                          });
-                        },
-                        activeTrackColor: switchActiveTrackColor,
-                        activeColor: switchActiveThumbColor,
-                        inactiveThumbColor: switchInactiveThumbColor,
-                        inactiveTrackColor: switchInactiveTrackColor,
-                    ),
-
+                    value: config["ignore_updates"],
+                    onChanged: (bool value) {
+                      setState(() {
+                        config["ignore_updates"] = !config["ignore_updates"];
+                        socket.sendXML('Config');
+                        saveToSharedPrefs(config);
+                      });
+                    },
+                    activeTrackColor: switchActiveTrackColor,
+                    activeColor: switchActiveThumbColor,
+                    inactiveThumbColor: switchInactiveThumbColor,
+                    inactiveTrackColor: switchInactiveTrackColor,
+                  ),
                 ),
               ),
               Divider(color: dividerColor),
@@ -446,38 +366,36 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 },
                 child: ListTile(
                   contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
-                  tileColor: secondColor,
+                  tileColor: Colors.white,
                   title: Text(
-                      S.of(context).recordTheTransmissionPowerOfTheDevicesAndTransmitIt,
-                      style: TextStyle(fontSize: fontSizeListTileTitle*fontSize.factor, color: fontColorOnSecond),
+                    S.of(context).recordTheTransmissionPowerOfTheDevicesAndTransmitIt,
+                    style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond),
                   ),
                   trailing: Switch(
-                        value: config["allow_data_collection"],
-                        onChanged: (bool value) {
-                          setState(() {
-                            config["allow_data_collection"] = !config["allow_data_collection"];
-                            socket.sendXML('Config');
-                            saveToSharedPrefs(config);
-                          });
-                        },
-                        activeTrackColor: switchActiveTrackColor,
-                        activeColor: switchActiveThumbColor,
-                        inactiveThumbColor: switchInactiveThumbColor,
-                        inactiveTrackColor: switchInactiveTrackColor,
+                    value: config["allow_data_collection"],
+                    onChanged: (bool value) {
+                      setState(() {
+                        config["allow_data_collection"] = !config["allow_data_collection"];
+                        socket.sendXML('Config');
+                        saveToSharedPrefs(config);
+                      });
+                    },
+                    activeTrackColor: switchActiveTrackColor,
+                    activeColor: switchActiveThumbColor,
+                    inactiveThumbColor: switchInactiveThumbColor,
+                    inactiveTrackColor: switchInactiveTrackColor,
                   ),
                 ),
               ),
               Divider(color: dividerColor),
               ListTile(
                 contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
-                tileColor: secondColor,
+                tileColor: Colors.white,
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                      flex: !waitForNetworkPasswordResponse
-                          ?2
-                          :3,
+                      flex: !waitForNetworkPasswordResponse ? 2 : 3,
                       child: TextFormField(
                         focusNode: myFocusNode,
                         initialValue: _newPw,
@@ -487,44 +405,52 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         decoration: InputDecoration(
                           labelText: S.of(context).changePlcnetworkPassword,
                           labelStyle: TextStyle(color: fontColorOnSecond),
-                            hoverColor: mainColor.withOpacity(0.2),
-                            contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-                            filled: true,
-                            fillColor: secondColor.withOpacity(0.2),//myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                              borderSide: BorderSide(
-                                color: fontColorOnSecond,
-                                width: 2.0,
-                              ),
+                          hoverColor: mainColor.withOpacity(0.2),
+                          contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                          filled: true,
+                          fillColor: secondColor.withOpacity(0.2),
+                          //myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                            borderSide: BorderSide(
+                              color: fontColorOnSecond,
+                              width: 2.0,
                             ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                              borderSide: BorderSide(
-                                color: fontColorOnSecond,//Colors.transparent,
-                                //width: 2.0,
-                              ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                            borderSide: BorderSide(
+                              color: fontColorOnSecond, //Colors.transparent,
+                              //width: 2.0,
                             ),
-                          suffixIcon: _hiddenPw?
-                          IconButton(
-                            icon: Icon(DevoloIcons.devolo_UI_visibility_off, color: fontColorOnSecond,),
-                            onPressed: (){
-                              //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
-                              setState(() {
-                                _hiddenPw = !_hiddenPw;
-                              });
-                            },
-                          ):
-                          IconButton(
-                            icon: Icon(DevoloIcons.devolo_UI_visibility, color: fontColorOnSecond,),
-                            onPressed: (){
-                              //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
-                              setState(() {
-                                _hiddenPw = !_hiddenPw;
-                              });
-                            },
                           ),
-                          ),
+                          suffixIcon: _hiddenPw
+                              ? IconButton(
+
+                                  icon: Icon(
+                                    DevoloIcons.devolo_UI_visibility_off,
+                                    color: fontColorOnSecond,
+                                  ),
+                                  onPressed: () {
+                                    //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
+                                    setState(() {
+                                      _hiddenPw = !_hiddenPw;
+                                    });
+                                  },
+                                )
+                              : IconButton(
+                                  icon: Icon(
+                                    DevoloIcons.devolo_UI_visibility,
+                                    color: fontColorOnSecond,
+                                  ),
+                                  onPressed: () {
+                                    //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
+                                    setState(() {
+                                      _hiddenPw = !_hiddenPw;
+                                    });
+                                  },
+                                ),
+                        ),
                         onChanged: (value) => (_newPw = value),
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -543,63 +469,64 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Icon(DevoloIcons.devolo_UI_check_fill, color: Colors.green),
                     if(networkPasswordResponseFalse)
                       Icon(DevoloIcons.devolo_UI_cancel_fill, color: fontColorOnSecond),
+                    Spacer(),
+                    // Container(
+                    //   padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                    //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.0), color: secondColor.withOpacity(0.2), border: Border.all(color: mainColor)),
+                    //   child: DropdownButtonHideUnderline(
+                    //     child: DropdownButton(
+                    //         value: 0,
+                    //         dropdownColor: mainColor,
+                    //         //style: TextStyle(color: fontColorLight),
+                    //         icon: Icon(
+                    //           Icons.arrow_drop_down,
+                    //           color: mainColor,
+                    //         ),
+                    //         items: _deviceList..map<DropdownMenuItem<String>>((String value) {
+                    //           return DropdownMenuItem<String>(
+                    //             value: value,
+                    //             child: Text(value, style: TextStyle(color: mainColor),),
+                    //           );
+                    //         }).toList(),
+                    //         onChanged: (value) {
+                    //           setState(() {
+                    //             //_vdslProfile = value;
+                    //             //_showEditAlert(context, socket, 'SetVDSLCompatibility', hitDeviceMac, 'profile', _vdslProfile, 'mode', _vdslMode.toString());
+                    //           });
+                    //         }),
+                    //   ),
+                    // ),
 
-                    Spacer(
-                    ),
-                    FlatButton(
-                      height: 62,
-                      hoverColor: mainColor.withOpacity(0.4),
-                      color: mainColor.withOpacity(0.4),
+                    TextButton(
                       onPressed: waitForNetworkPasswordResponse
                           ? null
                           : () async {
-
-                        if(_deviceList.getNetworkListLength() == 0){
-                          waitForNetworkPasswordResponse = false;
-                          networkPasswordResponseFalse = true;
-                          _errorDialog(context,S.of(context).networkPasswordErrorTitle,S.of(context).networkPasswordErrorBody + "\n\n" + S.of(context).networkPasswordErrorHint);
-
-                        }
-
-                        else {
-                          socket.sendXML(
-                              'SetNetworkPassword', newValue: _newPw,
-                              valueType: "password",
-                              mac: _deviceList
-                                  .getLocalDevice()!
-                                  .mac);
-                          setState(() {
-                            networkPasswordResponseTrue = false;
-                            networkPasswordResponseFalse = false;
-                            waitForNetworkPasswordResponse = true;
-                          });
-                          var response = await socket.receiveXML(
-                              "SetNetworkPasswordStatus");
-                          if (response!['status'] == "complete" &&
-                              int.parse(response['total']) > 0 &&
-                              int.parse(response['failed']) == 0) {
-                            setState(() {
-                              waitForNetworkPasswordResponse = false;
-                              networkPasswordResponseTrue = true;
-                            });
-                          }
-                          else {
-                            _errorDialog(context, S
-                                .of(context)
-                                .networkPasswordErrorTitle, S
-                                .of(context)
-                                .networkPasswordErrorBody + "\n\n" + S
-                                .of(context)
-                                .networkPasswordErrorHint);
-                            waitForNetworkPasswordResponse = false;
-                            networkPasswordResponseFalse = true;
-                          }
-                        }
-                      },
-                      child: Text(
-                        S.of(context).save, /*style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),*/
-                      ),
-                    )
+                              if (_deviceList.getNetworkListLength() == 0) {
+                                waitForNetworkPasswordResponse = false;
+                                networkPasswordResponseFalse = true;
+                                _errorDialog(context, S.of(context).networkPasswordErrorTitle, S.of(context).networkPasswordErrorBody + "\n\n" + S.of(context).networkPasswordErrorHint);
+                              } else {
+                                socket.sendXML('SetNetworkPassword', newValue: _newPw, valueType: "password", mac: _deviceList.getLocalDevice()!.mac);
+                                setState(() {
+                                  networkPasswordResponseTrue = false;
+                                  networkPasswordResponseFalse = false;
+                                  waitForNetworkPasswordResponse = true;
+                                });
+                                var response = await socket.receiveXML("SetNetworkPasswordStatus");
+                                if (response!['status'] == "complete" && int.parse(response['total']) > 0 && int.parse(response['failed']) == 0) {
+                                  setState(() {
+                                    waitForNetworkPasswordResponse = false;
+                                    networkPasswordResponseTrue = true;
+                                  });
+                                } else {
+                                  _errorDialog(context, S.of(context).networkPasswordErrorTitle, S.of(context).networkPasswordErrorBody + "\n\n" + S.of(context).networkPasswordErrorHint);
+                                  waitForNetworkPasswordResponse = false;
+                                  networkPasswordResponseFalse = true;
+                                }
+                              }
+                            },
+                      child: getGreenButton(context, S.of(context).save, fontSize),
+                    ),
                   ],
                 ),
               ),
@@ -644,122 +571,121 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           titlePadding: EdgeInsets.all(2),
           content: StatefulBuilder(
-                // You need this, notice the parameters below:
-                builder: (BuildContext context, StateSetter setState) {
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
+            // You need this, notice the parameters below:
+            builder: (BuildContext context, StateSetter setState) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    S.of(context).chooseTheme,
+                    style: TextStyle(color: fontColorOnMain),
+                  ),
+                  Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        S.of(context).chooseTheme,
-                        style: TextStyle(color: fontColorOnMain),
+                      new FlatButton(
+                        minWidth: 200,
+                        color: secondColor,
+                        child: Column(
+                          children: [
+                            SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_devolo.PNG'))),
+                            new Text(
+                              "Standard Theme",
+                              style: TextStyle(color: fontColorOnSecond),
+                            ),
+                          ],
+                        ),
+                        hoverColor: fontColorOnMain,
+                        onPressed: () {
+                          setState(() {
+                            //config["theme"] = theme_devolo;
+                            setTheme(theme_devolo["name"]);
+                            config["theme"] = theme_devolo["name"];
+                            saveToSharedPrefs(config);
+                            AppBuilder.of(context)!.rebuild();
+                          });
+                        },
                       ),
-                      Divider(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          new FlatButton(
-                            minWidth: 200,
-                            color: secondColor,
-                            child: Column(
-                              children: [
-                                SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_devolo.PNG'))),
-                                new Text(
-                                  "Standard Theme",
-                                  style: TextStyle(color: fontColorOnSecond),
-                                ),
-                              ],
+                      new FlatButton(
+                        minWidth: 200,
+                        color: secondColor,
+                        child: Column(
+                          children: [
+                            SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_dark.PNG'))),
+                            new Text(
+                              "Dark Theme",
+                              style: TextStyle(color: fontColorOnSecond),
                             ),
-                            hoverColor: fontColorOnMain,
-                            onPressed: () {
-                              setState(() {
-                                //config["theme"] = theme_devolo;
-                                setTheme(theme_devolo["name"]);
-                                config["theme"] = theme_devolo["name"];
-                                saveToSharedPrefs(config);
-                                AppBuilder.of(context)!.rebuild();
-                              });
-                            },
-                          ),
-                          new FlatButton(
-                            minWidth: 200,
-                            color: secondColor,
-                            child: Column(
-                              children: [
-                                SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_dark.PNG'))),
-                                new Text(
-                                  "Dark Theme",
-                                  style: TextStyle(color: fontColorOnSecond),
-                                ),
-                              ],
-                            ),
-                            hoverColor: fontColorOnMain,
-                            onPressed: () {
-                              setState(() {
-                                setTheme(theme_dark["name"]);
-                                config["theme"] = theme_dark["name"];
-                                saveToSharedPrefs(config);
-                                AppBuilder.of(context)!.rebuild();
-                              });
-                            },
-                          ),
-                          new FlatButton(
-                            minWidth: 200,
-                            color: secondColor,
-                            child: Column(
-                              children: [
-                                SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_devolo.PNG'))),
-                                new Text(
-                                  "Light Theme",
-                                  style: TextStyle(color: fontColorOnSecond),
-                                ),
-                              ],
-                            ),
-                            hoverColor: fontColorOnMain,
-                            onPressed: () {
-                              setState(() {
-                                config["theme"] = theme_light["name"];
-                                setTheme(theme_light["name"]);
-                                saveToSharedPrefs(config);
-                                AppBuilder.of(context)!.rebuild();
-                              });
-                            },
-                          ),
-                          new FlatButton(
-                            minWidth: 200,
-                            color: secondColor,
-                            child: Column(
-                              children: [
-                                SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_highContrast.PNG'))),
-                                new Text(
-                                  "High Contrast Theme",
-                                  style: TextStyle(color: fontColorOnSecond),
-                                ),
-                              ],
-                            ),
-                            hoverColor: fontColorOnMain,
-                            onPressed: () {
-                              setState(() {
-                                config["theme"] = theme_highContrast["name"];
-                                setTheme(theme_highContrast["name"]);
-                                saveToSharedPrefs(config);
-                                AppBuilder.of(context)!.rebuild();
-                              });
-                            },
-                          ),
-                        ],
+                          ],
+                        ),
+                        hoverColor: fontColorOnMain,
+                        onPressed: () {
+                          setState(() {
+                            setTheme(theme_dark["name"]);
+                            config["theme"] = theme_dark["name"];
+                            saveToSharedPrefs(config);
+                            AppBuilder.of(context)!.rebuild();
+                          });
+                        },
                       ),
-                      Divider(),
+                      new FlatButton(
+                        minWidth: 200,
+                        color: secondColor,
+                        child: Column(
+                          children: [
+                            SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_devolo.PNG'))),
+                            new Text(
+                              "Light Theme",
+                              style: TextStyle(color: fontColorOnSecond),
+                            ),
+                          ],
+                        ),
+                        hoverColor: fontColorOnMain,
+                        onPressed: () {
+                          setState(() {
+                            config["theme"] = theme_light["name"];
+                            setTheme(theme_light["name"]);
+                            saveToSharedPrefs(config);
+                            AppBuilder.of(context)!.rebuild();
+                          });
+                        },
+                      ),
+                      new FlatButton(
+                        minWidth: 200,
+                        color: secondColor,
+                        child: Column(
+                          children: [
+                            SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_highContrast.PNG'))),
+                            new Text(
+                              "High Contrast Theme",
+                              style: TextStyle(color: fontColorOnSecond),
+                            ),
+                          ],
+                        ),
+                        hoverColor: fontColorOnMain,
+                        onPressed: () {
+                          setState(() {
+                            config["theme"] = theme_highContrast["name"];
+                            setTheme(theme_highContrast["name"]);
+                            saveToSharedPrefs(config);
+                            AppBuilder.of(context)!.rebuild();
+                          });
+                        },
+                      ),
                     ],
-                  );
-                },
-              ),
-          );
+                  ),
+                  Divider(),
+                ],
+              );
+            },
+          ),
+        );
       },
     );
   }
 
   void _errorDialog(context, title, body) {
-
     showDialog<void>(
         context: context,
         barrierDismissible: true, // user doesn't need to tap button!
@@ -778,9 +704,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             backgroundColor: backgroundColor.withOpacity(0.9),
             contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18 * fontSize.factor),
             content: Text(body),
-            actions: <Widget>[
-
-            ],
+            actions: <Widget>[],
           );
         });
   }

@@ -89,6 +89,38 @@ getCancelButton(context, FontSize fontSize) {
   );
 }
 
+getGreenButton(context, text, FontSize fontSize) {
+
+  return TextButton(
+    child: Text(
+      text,
+      style: TextStyle(fontSize: 14, color: fontColorLight),
+      textScaleFactor: fontSize.factor,
+    ),
+    onPressed: () {
+
+    },
+    style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+              (states) {
+            if (states.contains(MaterialState.hovered)) {
+              return devoloGreen.withOpacity(hoverOpacity);
+            } else if (states.contains(MaterialState.pressed)) {
+              return devoloGreen.withOpacity(activeOpacity);
+            }
+            return devoloGreen;
+          },
+        ),
+        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 13.0, horizontal: 32.0)),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25.0),
+            )
+        )
+    ),
+  );
+}
+
 getCloseButton(context) {
 
   return Padding(

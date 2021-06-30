@@ -14,6 +14,7 @@ import 'package:cockpit_devolo/models/deviceModel.dart';
 
 class NetworkList extends ChangeNotifier{
   List<List<Device>> _networkList = [];
+  List<String> _networkNames = [];
   int selectedNetworkIndex = 0;
   List<String> _updateMacs = [];
   bool cockpitUpdate = false;
@@ -91,6 +92,7 @@ class NetworkList extends ChangeNotifier{
     }
     return null;
   }
+
 
   String getNetworkType(networkIndex){
     String type = "";

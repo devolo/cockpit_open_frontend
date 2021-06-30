@@ -21,6 +21,9 @@ class DevoloIcons {
   static const _kFontFam = 'DevoloIcons';
   static const String? _kFontPkg = null;
 
+  static const IconData ic_perm_data_setting_24px = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData ic_settings_power_24px = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData ic_battery_charging_full_24px = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData logo = IconData(0xe82b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData ic_add_24px = IconData(0xe82c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData ic_refresh_24px = IconData(0xe82e, fontFamily: _kFontFam, fontPackage: _kFontPkg);

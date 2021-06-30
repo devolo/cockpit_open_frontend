@@ -575,6 +575,27 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                     )
                   ],
                 ), //ToDo Delete Device see wiki
+              if (hitDevice.disable_traffic[0] == 1 || hitDevice.disable_leds[0] == 1 || hitDevice.disable_standby[0] == 1)
+                Column(
+                  children: [
+                    IconButton(
+                        icon: Icon(
+                          DevoloIcons.devolo_UI_more_horiz,
+                          color: fontColorOnBackground,
+                        ),
+                        hoverColor: fontColorOnBackground.withAlpha(50),
+                        iconSize: 24.0 * fontSize.factor,
+                        onPressed: () {
+                          moreSettings(context,socket,hitDevice.disable_traffic,hitDevice.disable_leds, hitDevice.disable_standby, hitDevice.mac, fontSize);
+                        }),
+                    Text(
+                      S.of(context).additionalSettings,
+                      style: TextStyle(fontSize: 14, color: fontColorOnBackground),
+                      textScaleFactor: fontSize.factor,
+                      textAlign: TextAlign.center,
+                    )
+                  ],
+                ),
             ],
           ),
             ],
@@ -753,7 +774,7 @@ void moreSettings(BuildContext context, socket, List<int> disable_traffic,List<i
                       }
 
                       },
-                    secondary: Icon(Icons.lightbulb_outline, color: fontColorOnBackground, size: 18 * fontSize.factor),
+                    secondary: Icon(DevoloIcons.ic_lightbulb_outline_24px, color: fontColorOnBackground, size: 18 * fontSize.factor),
                     activeTrackColor: switchActiveTrackColor,
                     activeColor: switchActiveThumbColor,
                     inactiveThumbColor: switchInactiveThumbColor,
@@ -779,7 +800,7 @@ void moreSettings(BuildContext context, socket, List<int> disable_traffic,List<i
 
 
                     },
-                    secondary: Icon(Icons.perm_data_setting, color: fontColorOnBackground, size: 18 * fontSize.factor),
+                    secondary: Icon(DevoloIcons.ic_perm_data_setting_24px, color: fontColorOnBackground, size: 18 * fontSize.factor),
                     activeTrackColor: switchActiveTrackColor,
                     activeColor: switchActiveThumbColor,
                     inactiveThumbColor: switchInactiveThumbColor,
@@ -803,7 +824,7 @@ void moreSettings(BuildContext context, socket, List<int> disable_traffic,List<i
                         errorDialog(context, S.of(context).powerSavingModeFailedTitle, S.of(context).powerSavingModeFailedBody, fontSize);
                       }
                     },
-                    secondary: Icon(Icons.power_settings_new, color: fontColorOnBackground, size: 18 * fontSize.factor),
+                    secondary: Icon(DevoloIcons.ic_battery_charging_full_24px, color: fontColorOnBackground, size: 18 * fontSize.factor),
                     activeTrackColor: switchActiveTrackColor,
                     activeColor: switchActiveThumbColor,
                     inactiveThumbColor: switchInactiveThumbColor,

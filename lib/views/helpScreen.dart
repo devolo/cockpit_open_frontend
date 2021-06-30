@@ -682,7 +682,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
               TextButton(
                 child: Text(
                   S.of(context).confirm,
-                  style: TextStyle(fontSize: 14, color: fontColorLight),
+                  style: TextStyle(fontSize: 14, color: Colors.white),
                   textScaleFactor: fontSize.factor,
                 ),
                 onPressed: () {

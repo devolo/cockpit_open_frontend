@@ -224,7 +224,10 @@ class Device extends ChangeNotifier {
  UpdateStatusInt: ${this.updateStateInt},
  SelectedVDSL: ${this.selected_vdsl},
  SupportedVDSL: ${this.supported_vdsl},
- ModeVDSL: ${this.mode_vdsl}
+ ModeVDSL: ${this.mode_vdsl},
+ disable_leds: ${this.disable_leds},
+ disable_standby: ${this.disable_standby},
+ disable_traffic: ${this.disable_traffic}
 ''';
   }
 }

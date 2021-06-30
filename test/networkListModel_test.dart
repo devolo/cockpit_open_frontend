@@ -612,7 +612,10 @@ void main() {
  UpdateStatusInt: 0.0,
  SelectedVDSL: mimo_vdsl17a,
  SupportedVDSL: [mimo_vdsl17a, siso_full, siso_vdsl17a, siso_vdsl35b, mimo_full, mimo_vdsl35b],
- ModeVDSL: 0
+ ModeVDSL: 0,
+ disable_leds: [0, 0],
+ disable_standby: [1, 0],
+ disable_traffic: [1, 1]
  
 Name: AP-Unten2,
  type: Magic 1 WiFi 2-1,
@@ -633,7 +636,10 @@ Name: AP-Unten2,
  UpdateStatusInt: 0.0,
  SelectedVDSL: siso_vdsl17a,
  SupportedVDSL: [siso_vdsl17a, siso_full, siso_vdsl35b],
- ModeVDSL: 1
+ ModeVDSL: 1,
+ disable_leds: [1, 0],
+ disable_standby: [0, 0],
+ disable_traffic: [1, 1]
  
 ''';
 
@@ -665,12 +671,12 @@ Name: AP-Unten2,
       final networkList = NetworkList();
       networkList.selectedNetworkIndex = 0;
 
-      final dev1 = Device("Magic 2 LAN 1-1", "devoloLAN", "30:D3:2D:EE:8D:A1", "192.168.178.139", "MT2999", "1806154350000340", "7.8.5.47", "2020-06-05", true, true, true, true, "mimo_vdsl17a", ["mimo_vdsl17a", "siso_full", "siso_vdsl17a", "siso_vdsl35b", "mimo_full", "mimo_vdsl35b"], "0");
+      final dev1 = Device("Magic 2 LAN 1-1", "devoloLAN", "30:D3:2D:EE:8D:A1", "192.168.178.139", "MT2999", "1806154350000340", "7.8.5.47", "2020-06-05", true, true, true, true, "mimo_vdsl17a", ["mimo_vdsl17a", "siso_full", "siso_vdsl17a", "siso_vdsl35b", "mimo_full", "mimo_vdsl35b"], "0",[0,0],[1,0],[1,1]);
       var dataratePair1 = new DataratePair(double.parse("4.46453333333333319e+02").round(), double.parse("7.20000000000000018e+00").round());
       var dataratePair2 = new DataratePair(double.parse("3.18240000000000009e+02").round(), double.parse("5.65706666666666592e+02").round());
       dev1.speeds = {"B8:BE:F4:00:0C:07": dataratePair1};
 
-      final dev2 = Device("Magic 1 WiFi 2-1", "AP-Unten2", "B8:BE:F4:00:0C:07", "192.168.178.136", "MT3064", "1807255601000215", "5.8.0.N1077", "2021-04-06", false, false, true, true, "siso_vdsl17a", ["siso_vdsl17a", "siso_full", "siso_vdsl35b"], "1");
+      final dev2 = Device("Magic 1 WiFi 2-1", "AP-Unten2", "B8:BE:F4:00:0C:07", "192.168.178.136", "MT3064", "1807255601000215", "5.8.0.N1077", "2021-04-06", false, false, true, true, "siso_vdsl17a", ["siso_vdsl17a", "siso_full", "siso_vdsl35b"], "1",[1,0],[0,0],[1,1]);
       var dataratePair3 = new DataratePair(double.parse("2.98080000000000041e+02").round(), double.parse("8.28853333333333353e+02").round());
       var dataratePair4 = new DataratePair(double.parse("2.94719999999999970e+02").round(), double.parse("3.70133333333333326e+02").round());
       dev2.speeds = {"30:D3:2D:EE:8D:A1": dataratePair3, "B8:BE:F4:00:08:B5": dataratePair4};
@@ -700,7 +706,10 @@ Name: AP-Unten2,
  UpdateStatusInt: 0.0,
  SelectedVDSL: mimo_vdsl17a,
  SupportedVDSL: [mimo_vdsl17a, siso_full, siso_vdsl17a, siso_vdsl35b, mimo_full, mimo_vdsl35b],
- ModeVDSL: 0
+ ModeVDSL: 0,
+ disable_leds: [0, 0],
+ disable_standby: [1, 0],
+ disable_traffic: [1, 1]
  
 Name: AP-Unten2,
  type: Magic 1 WiFi 2-1,
@@ -721,7 +730,10 @@ Name: AP-Unten2,
  UpdateStatusInt: 0.0,
  SelectedVDSL: siso_vdsl17a,
  SupportedVDSL: [siso_vdsl17a, siso_full, siso_vdsl35b],
- ModeVDSL: 1
+ ModeVDSL: 1,
+ disable_leds: [1, 0],
+ disable_standby: [0, 0],
+ disable_traffic: [1, 1]
  
 ''';
 

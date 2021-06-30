@@ -75,8 +75,8 @@ void main() {
 
     test('Given Device When toRealString is called Then DeviceString returns', () {
       //ARRANGE - Initialisation
-      final dev = Device("Magic 1 WiFi 2-1", "devolo-045", "B8:BE:F4:00:08:B5", "192.168.178.137", "MT3064", "1807255601000045", "5.3.2", "2020-06-05", false, false, true, true, "siso_vdsl17a", ["siso_vdsl17a", "siso_full", "siso_vdsl35b"], "0",[0,0],[1,0],[1,1]);
-      final deviceString = "Name: devolo-045,\n type: Magic 1 WiFi 2-1,\n typeEnum: DeviceType.dtWiFiPlus,\n mac: B8:BE:F4:00:08:B5,\n ip: 192.168.178.137,\n version: 5.3.2,\n version_date: 2020-06-05,\n MT: MT3064,\n serialno: 1807255601000045,\n remoteDevices: [],\n speeds: {},\n attachedToRouter: false,\n isLocalDevice: false,\n webinterfaceAvailable: true,\n identifyDeviceAvailable: true,\n UpdateStatus: ,\n UpdateStatusInt: 0.0,\n SelectedVDSL: siso_vdsl17a,\n SupportedVDSL: [siso_vdsl17a, siso_full, siso_vdsl35b],\n ModeVDSL: 0\n";
+      final dev = Device("Magic 1 WiFi 2-1", "devolo-045", "B8:BE:F4:00:08:B5", "192.168.178.137", "MT3064", "1807255601000045", "5.3.2", "2020-06-05", false, false, true, true, "siso_vdsl17a", ["siso_vdsl17a", "siso_full", "siso_vdsl35b"], "0",[0,0],[1,1],[0,0]);
+      final deviceString = "Name: devolo-045,\n type: Magic 1 WiFi 2-1,\n typeEnum: DeviceType.dtWiFiPlus,\n mac: B8:BE:F4:00:08:B5,\n ip: 192.168.178.137,\n version: 5.3.2,\n version_date: 2020-06-05,\n MT: MT3064,\n serialno: 1807255601000045,\n remoteDevices: [],\n speeds: {},\n attachedToRouter: false,\n isLocalDevice: false,\n webinterfaceAvailable: true,\n identifyDeviceAvailable: true,\n UpdateStatus: ,\n UpdateStatusInt: 0.0,\n SelectedVDSL: siso_vdsl17a,\n SupportedVDSL: [siso_vdsl17a, siso_full, siso_vdsl35b],\n ModeVDSL: 0,\n disable_leds: [0, 0],\n disable_standby: [1, 1],\n disable_traffic: [0, 0]\n";
 
       //ACT - Execute
       String devStr = dev.toRealString();
@@ -109,7 +109,7 @@ void main() {
 						</item>
 					</states>
 					<actions>
-						<count>3</count>
+						<count>4</count>
 						<item_version>0</item_version>
 						<item>
 							<first>identify_device</first>
@@ -122,6 +122,17 @@ void main() {
 								</item>
 							</second>
 						</item>
+						<item>
+              <first>disable_standby</first>
+              <second>
+                <count>1</count>
+                <item_version>0</item_version>
+                <item>
+                  <first>state</first>
+                  <second>1</second>
+                </item>
+              </second>
+				    </item>
 						<item>
 							<first>vdsl_compat</first>
 							<second>
@@ -159,7 +170,7 @@ void main() {
       final doc = XmlDocument.parse(devXML);
       final devElement = doc.getElement("item");
       final dev = Device.fromXML(devElement!, false);
-      final deviceString = "Name: devolo-045,\n type: Magic 1 WiFi 2-1,\n typeEnum: DeviceType.dtWiFiPlus,\n mac: B8:BE:F4:00:08:B5,\n ip: 192.168.178.137,\n version: 5.3.2,\n version_date: 2020-06-05,\n MT: MT3064,\n serialno: 1807255601000045,\n remoteDevices: [],\n speeds: {},\n attachedToRouter: false,\n isLocalDevice: false,\n webinterfaceAvailable: true,\n identifyDeviceAvailable: true,\n UpdateStatus: ,\n UpdateStatusInt: 0.0,\n SelectedVDSL: siso_vdsl17a,\n SupportedVDSL: [siso_vdsl17a, siso_full, siso_vdsl35b],\n ModeVDSL: 0\n";
+      final deviceString = "Name: devolo-045,\n type: Magic 1 WiFi 2-1,\n typeEnum: DeviceType.dtWiFiPlus,\n mac: B8:BE:F4:00:08:B5,\n ip: 192.168.178.137,\n version: 5.3.2,\n version_date: 2020-06-05,\n MT: MT3064,\n serialno: 1807255601000045,\n remoteDevices: [],\n speeds: {},\n attachedToRouter: false,\n isLocalDevice: false,\n webinterfaceAvailable: true,\n identifyDeviceAvailable: true,\n UpdateStatus: ,\n UpdateStatusInt: 0.0,\n SelectedVDSL: siso_vdsl17a,\n SupportedVDSL: [siso_vdsl17a, siso_full, siso_vdsl35b],\n ModeVDSL: 0,\n disable_leds: [0, 0],\n disable_standby: [1, 1],\n disable_traffic: [0, 0]\n";
 
       //ACT - Execute
       String devStr = dev.toRealString();

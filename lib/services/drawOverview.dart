@@ -660,7 +660,7 @@ class DrawOverview extends CustomPainter {
 
       //do not draw pivot device line, since it would start and end at the same place
       if (numDev != pivotDeviceIndex) {
-        drawDeviceConnection(canvas, _deviceIconOffsetList.elementAt(numDev), getLineThickness(numDev), getLineColor(numDev));
+        drawDeviceConnection(canvas, _deviceIconOffsetList.elementAt(numDev), {"rx": 5.0, "tx": 5.0}, getLineColor(numDev));
       }
 
       if (config["show_other_devices"]) {
@@ -679,41 +679,18 @@ class DrawOverview extends CustomPainter {
     dynamic rates = _deviceList[pivotDeviceIndex].speeds![_deviceList[dev].mac];
     if (rates != null) {
       if (rates.rx > 400)
-        colors['rx'] = Colors.green;
+        colors['rx'] = devoloGreen;
       else if (rates.rx > 100)
         colors['rx'] = Colors.yellow;
       else if (rates.rx < 100) colors['rx'] = Colors.red;
 
       if (rates.tx > 400)
-        colors['tx'] = Colors.green;
+        colors['tx'] = devoloGreen;
       else if (rates.tx > 100)
         colors['tx'] = Colors.yellow;
       else if (rates.tx < 100) colors['tx'] = Colors.red;
     }
     return colors;
-  }
-
-  Map<String?, double?> getLineThickness(int dev) {
-    Map<String?, double?> thickness = {"rx": 0, "tx":0};
-    dynamic rates = _deviceList[pivotDeviceIndex].speeds![_deviceList[dev].mac];
-    if (rates != null) {
-      if (rates.rx * 0.01 > 7.0) //
-        thickness['rx'] = 7.0;
-      else
-        thickness['rx'] = rates.rx * 0.01.toDouble();
-
-      if (rates.tx * 0.01 > 7.0)
-        thickness['tx'] = 7.0;
-      else
-        thickness['tx'] = rates.tx * 0.01.toDouble();
-      //logger.i('THIIICKNESSS ' + dev.toString() + " " + thickness.toString());
-
-    } else {
-      thickness['rx'] = 0.3;
-      thickness['tx'] = 0.3;
-
-    }
-    return thickness;
   }
 
   void drawAllDeviceIcons(Canvas canvas, Size size) {

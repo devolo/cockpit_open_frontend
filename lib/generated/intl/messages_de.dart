@@ -40,8 +40,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "addDevice": MessageLookupByLibrary.simpleMessage("Gerät hinzufügen"),
         "addDeviceInstructionText": MessageLookupByLibrary.simpleMessage(
             "1.) Stecken Sie beide PLC-Geräte in die gewünschten Wandsteckdosen und warten ca. 45 Sekunden.\n2.) Drücken Sie kurz den Verschlüsselungsknopf des ersten (evtl. bereits vorhandenen) PLC-Gerätes.\n    (Alternativ kann das Pairing auch über das Webinterface des bereits vorhandenen Geräts gestartet werden.) \n3.) Drücken Sie innerhalb von zwei Minuten den Verschlüsselungsknopf des zweiten (neuen) PLC-Gerätes ebenfalls kurz.\n4.) Sobald die LEDs dauerhaft leuchten, sind die PLC-Geräte betriebsbereit."),
+        "additionalDialogTitle":
+            MessageLookupByLibrary.simpleMessage("Erweiterte Einstellungen"),
         "additionalSettings":
-            MessageLookupByLibrary.simpleMessage("erweiterte Einstellungen"),
+            MessageLookupByLibrary.simpleMessage("erweiterte\nEinstellungen"),
         "appColor": MessageLookupByLibrary.simpleMessage("App Farben"),
         "appInfo": MessageLookupByLibrary.simpleMessage("App Info"),
         "appInformation":

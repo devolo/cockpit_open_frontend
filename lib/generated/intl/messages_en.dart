@@ -39,8 +39,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "addDevice": MessageLookupByLibrary.simpleMessage("Add device"),
         "addDeviceInstructionText": MessageLookupByLibrary.simpleMessage(
             "1) Plug both PLC devices into wall sockets and wait for 45 seconds.\n2) Briefly press the encryption button of the existing PLC device.\n(Alternatively start pairing via the web interface of the existing device.)\n3) Within 2 minutes, press the encryption button of the new PLC device also briefly.\n4) As soon as the LEDs light up and do not blink, the PLC devices are ready for operation."),
-        "additionalSettings":
+        "additionalDialogTitle":
             MessageLookupByLibrary.simpleMessage("Additional settings"),
+        "additionalSettings":
+            MessageLookupByLibrary.simpleMessage("additional\nsettings"),
         "appColor": MessageLookupByLibrary.simpleMessage("Set app theme"),
         "appInfo": MessageLookupByLibrary.simpleMessage("App info"),
         "appInformation":

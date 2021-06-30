@@ -51,7 +51,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
             children: <Widget>[
             SizedBox(
               height: 15,
-              width: 750.0 * fontSize.factor,
+              width: 800.0 * fontSize.factor,
           ),
           Table(
             children: [
@@ -742,7 +742,7 @@ void moreSettings(BuildContext context, socket, List<int> disable_traffic,List<i
               getCloseButton(context),
               Center(
                   child: Text(
-                    S.of(context).additionalSettings,
+                    S.of(context).additionalDialogTitle,
                     style: TextStyle(color: fontColorOnBackground),
                     textScaleFactor: fontSize.factor,
                   )
@@ -838,7 +838,7 @@ void moreSettings(BuildContext context, socket, List<int> disable_traffic,List<i
 void circularProgressIndicatorInMiddle(context){
   showDialog<void>(
       context: context,
-      barrierDismissible: true, // user doesn't need to tap button!
+      barrierDismissible: false, // user doesn't need to tap button!
       builder: (BuildContext context) {
         return AlertDialog(
           elevation: 0,

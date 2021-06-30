@@ -1450,11 +1450,21 @@ class S {
     );
   }
 
-  /// `Additional settings`
+  /// `additional\nsettings`
   String get additionalSettings {
     return Intl.message(
-      'Additional settings',
+      'additional\nsettings',
       name: 'additionalSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Additional settings`
+  String get additionalDialogTitle {
+    return Intl.message(
+      'Additional settings',
+      name: 'additionalDialogTitle',
       desc: '',
       args: [],
     );

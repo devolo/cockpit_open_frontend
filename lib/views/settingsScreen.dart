@@ -143,7 +143,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 },
                 child: ListTile(
                   contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
-                  tileColor: Colors.white,
+                  tileColor: secondColor,
                   subtitle: Padding(
                     padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
                     child: Text(S.of(context).dataRatesArePermanentlyDisplayedInTheOverview, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor, fontFamily: 'OpenSans')),
@@ -207,7 +207,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 },
                 child: ListTile(
                   contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
-                  tileColor: Colors.white,
+                  tileColor: secondColor,
                   subtitle: Padding(
                     padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
                     child: Text(S.of(context).otherDevicesEgPcAreDisplayedInTheOverview, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor)),
@@ -247,7 +247,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 },
                 child: ListTile(
                   contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
-                  tileColor: Colors.white,
+                  tileColor: secondColor,
                   subtitle: Padding(
                     padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
                     child: Text(S.of(context).chooseMainColorAccentColorAndFontColors, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor)),
@@ -262,7 +262,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Divider(color: dividerColor),
               ListTile(
                 contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
-                tileColor: Colors.white,
+                tileColor: secondColor,
                 title: Text(
                   S.of(context).fontsize,
                   style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond),
@@ -334,7 +334,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 },
                 child: ListTile(
                   contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
-                  tileColor: Colors.white,
+                  tileColor: secondColor,
                   title: Text(
                     S.of(context).ignoreUpdates,
                     style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond),
@@ -366,7 +366,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 },
                 child: ListTile(
                   contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
-                  tileColor: Colors.white,
+                  tileColor: secondColor,
                   title: Text(
                     S.of(context).recordTheTransmissionPowerOfTheDevicesAndTransmitIt,
                     style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond),
@@ -390,7 +390,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Divider(color: dividerColor),
               ListTile(
                 contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
-                tileColor: Colors.white,
+                tileColor: secondColor,
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

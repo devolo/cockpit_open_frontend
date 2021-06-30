@@ -260,7 +260,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: mainColor,
         centerTitle: true,
-        iconTheme: IconThemeData(color: fontColorLight),
+        iconTheme: IconThemeData(color: fontColorOnMain),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

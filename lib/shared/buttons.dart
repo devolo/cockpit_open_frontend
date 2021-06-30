@@ -94,7 +94,7 @@ getGreenButton(context, text, FontSize fontSize) {
   return TextButton(
     child: Text(
       text,
-      style: TextStyle(fontSize: 14, color: fontColorLight),
+      style: TextStyle(fontSize: 14, color: fontColorOnMain),
       textScaleFactor: fontSize.factor,
     ),
     onPressed: () {

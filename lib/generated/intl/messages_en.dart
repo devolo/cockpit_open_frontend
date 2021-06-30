@@ -43,10 +43,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Additional settings"),
         "additionalSettings":
             MessageLookupByLibrary.simpleMessage("additional\nsettings"),
-        "appColor": MessageLookupByLibrary.simpleMessage("Set app theme"),
         "appInfo": MessageLookupByLibrary.simpleMessage("App info"),
         "appInformation":
             MessageLookupByLibrary.simpleMessage("App information"),
+        "appTheme": MessageLookupByLibrary.simpleMessage("App Theme"),
         "appearance": MessageLookupByLibrary.simpleMessage("Appearance"),
         "attachedToRouter":
             MessageLookupByLibrary.simpleMessage("Attached to router"),
@@ -61,9 +61,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Change language"),
         "checkUpdates":
             MessageLookupByLibrary.simpleMessage("Check for updates"),
-        "chooseMainColorAccentColorAndFontColors":
-            MessageLookupByLibrary.simpleMessage(
-                "Select from classic devolo, light, dark, and high-contrast themes"),
+        "chooseTheAppTheme":
+            MessageLookupByLibrary.simpleMessage("Choose the app theme"),
         "chooseTheme": MessageLookupByLibrary.simpleMessage("Change theme"),
         "cockpitSoftwareIsUpToDate": MessageLookupByLibrary.simpleMessage(
             "Cockpit software is up to date"),

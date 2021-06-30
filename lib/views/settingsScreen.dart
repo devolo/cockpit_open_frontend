@@ -250,13 +250,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   tileColor: secondColor,
                   subtitle: Padding(
                     padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
-                    child: Text(S.of(context).chooseMainColorAccentColorAndFontColors, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor)),
+                    child: Text(S.of(context).chooseTheAppTheme, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor)),
                   ),
                   title: Text(
-                    S.of(context).appColor,
+                    S.of(context).appTheme,
                     style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond),
                   ),
-                  trailing: Text(config["theme"], style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond)),
+                  trailing: Text(config["theme"], style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: mainColor)),
                 ),
               ),
               Divider(color: dividerColor),
@@ -563,7 +563,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             children: [
               getCloseButton(context),
               Text(
-                S.of(context).appColor,
+                S.of(context).appTheme,
                 style: TextStyle(color: fontColorOnMain),
                 textAlign: TextAlign.center,
               ),
@@ -576,11 +576,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    S.of(context).chooseTheme,
-                    style: TextStyle(color: fontColorOnMain),
-                  ),
-                  Divider(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

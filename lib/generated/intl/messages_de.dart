@@ -44,10 +44,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Erweiterte Einstellungen"),
         "additionalSettings":
             MessageLookupByLibrary.simpleMessage("erweiterte\nEinstellungen"),
-        "appColor": MessageLookupByLibrary.simpleMessage("App Farben"),
         "appInfo": MessageLookupByLibrary.simpleMessage("App Info"),
         "appInformation":
             MessageLookupByLibrary.simpleMessage("App Information"),
+        "appTheme": MessageLookupByLibrary.simpleMessage("App Design"),
         "appearance": MessageLookupByLibrary.simpleMessage("Erscheinungbild"),
         "attachedToRouter": MessageLookupByLibrary.simpleMessage(
             "Ist am Router angeschlossen:"),
@@ -62,9 +62,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Ändere die Sprache der App"),
         "checkUpdates":
             MessageLookupByLibrary.simpleMessage(" Aktualisierungen suchen "),
-        "chooseMainColorAccentColorAndFontColors":
-            MessageLookupByLibrary.simpleMessage(
-                "Wähle Hauptfarbe, Akzentfarbe und Schriftfarben"),
+        "chooseTheAppTheme":
+            MessageLookupByLibrary.simpleMessage("Wähle das App Design"),
         "chooseTheme": MessageLookupByLibrary.simpleMessage("Wähle Thema"),
         "cockpitSoftwareIsUpToDate": MessageLookupByLibrary.simpleMessage(
             "Cockpit Software auf dem neusten Stand."),

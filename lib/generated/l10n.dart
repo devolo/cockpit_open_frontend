@@ -830,21 +830,21 @@ class S {
     );
   }
 
-  /// `Set app theme`
-  String get appColor {
+  /// `App Theme`
+  String get appTheme {
     return Intl.message(
-      'Set app theme',
-      name: 'appColor',
+      'App Theme',
+      name: 'appTheme',
       desc: '',
       args: [],
     );
   }
 
-  /// `Select from classic devolo, light, dark, and high-contrast themes`
-  String get chooseMainColorAccentColorAndFontColors {
+  /// `Choose the app theme`
+  String get chooseTheAppTheme {
     return Intl.message(
-      'Select from classic devolo, light, dark, and high-contrast themes',
-      name: 'chooseMainColorAccentColorAndFontColors',
+      'Choose the app theme',
+      name: 'chooseTheAppTheme',
       desc: '',
       args: [],
     );

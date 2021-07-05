@@ -149,7 +149,7 @@ class DataHand extends ChangeNotifier {
         }
         xmlResponseMap["FirmwareUpdateStatus"]!.add(document);
 
-        parseUpdateStatus(document);
+        parseFWUpdateStatus(document);
 
         if (xmlDebugResponseList.length >= maxResponseListSize){
           xmlDebugResponseList.removeLast();
@@ -411,7 +411,7 @@ class DataHand extends ChangeNotifier {
                   response['failed'] = [];
 
                 response['failed'].add(item.getElement("first")!.getElement("macAddress")!.innerText);
-                logger.i(response['failed']);
+                logger.i("update failed: " + response['failed'].toString());
               }
             }
 
@@ -499,7 +499,7 @@ class DataHand extends ChangeNotifier {
     saveToSharedPrefs(config);
   }
 
-  void parseUpdateStatus(XmlDocument xmlResponse) {
+  void parseFWUpdateStatus(XmlDocument xmlResponse) {
     var items = xmlResponse.findAllElements("item");
     for (var item in items) {
 
@@ -508,10 +508,11 @@ class DataHand extends ChangeNotifier {
         String status = item.getElement("second")!.innerText;
 
         if (status == "complete") {
+          dev.updateState = status;
           _networkList.getUpdateList().removeWhere((element) => element == dev.mac);
         }
         if (status.endsWith("%")){
-          dev.updateState = status.substring(status.indexOf(" "), status.indexOf("%"));
+          dev.updateState = status.substring(status.indexOf(" ")+1, status.indexOf("%"));
         }
         else
           dev.updateState = status;

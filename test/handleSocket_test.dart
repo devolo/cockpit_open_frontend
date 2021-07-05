@@ -347,7 +347,7 @@ void main() {
       dataHandler.parseXML(firmwareUpdateStatus1WithMGSOCK);
 
       Device device1 = dataHandler.getNetworkList().getDeviceList().where((element) => element.mac == "B8:BE:F4:31:96:AF").first;
-      expect(device1.updateState, 80.0);
+      expect(device1.updateState, "80");
 
       expect(dataHandler.getNetworkList().getUpdateList(), expectedUpdateList);
 
@@ -477,6 +477,23 @@ void main() {
       dataHandler.xmlResponseMap['FirmwareUpdateIndication'] = [XmlDocument.parse(firmwareUpdateIndication1)];
 
       var response = await dataHandler.receiveXML('FirmwareUpdateIndication');
+
+      expect(response,expectedResponse);
+      expect(dataHandler.xmlResponseMap.isEmpty,true);
+
+    });
+
+    test('Given__When_callReceiveXMLWithFirmwareUpdateStatus_Then_returnResponse',() async {
+
+      var dataHandler = DataHand(true);
+
+      Map<String, dynamic>? expectedResponse = Map<String, dynamic>();
+      expectedResponse['failed'] = ['B8:BE:F4:31:96:8B'];
+      expectedResponse['status'] = 'complete';
+
+      dataHandler.xmlResponseMap['FirmwareUpdateStatus'] = [XmlDocument.parse(firmwareUpdateStatus3)];
+
+      var response = await dataHandler.receiveXML('FirmwareUpdateStatus');
 
       expect(response,expectedResponse);
       expect(dataHandler.xmlResponseMap.isEmpty,true);
@@ -665,9 +682,9 @@ void main() {
 
   });
 
-  group('void parseUpdateStatus(XmlDocument xmlResponse)',() {
+  group('void parseFWUpdateStatus(XmlDocument xmlResponse)',() {
 
-    test('Given_DataHandObjectWithNetworkListAndUpdateList_When_parseUpdateStatus_Then_setUpdateListAndUpdateState', () {
+    test('Given_DataHandObjectWithNetworkListAndUpdateList_When_parseFWUpdateStatus_Then_setUpdateListAndUpdateState', () {
 
       var dataHandler = DataHand(true);
       var oldUpdateList = ["B8:BE:F4:31:96:AF","B8:BE:F4:31:96:8B"];
@@ -676,16 +693,18 @@ void main() {
 
       var expectedUpdateList = ["B8:BE:F4:31:96:AF","B8:BE:F4:31:96:8B"];
 
-      dataHandler.parseUpdateStatus(XmlDocument.parse(firmwareUpdateStatus1));
+      dataHandler.parseFWUpdateStatus(XmlDocument.parse(firmwareUpdateStatus1));
 
       expect(dataHandler.getNetworkList().getUpdateList(), expectedUpdateList);
 
       Device device1 = dataHandler.getNetworkList().getDeviceList().where((element) => element.mac == "B8:BE:F4:31:96:AF").first;
-      expect(device1.updateState, "80.0");
+      Device device2 = dataHandler.getNetworkList().getDeviceList().where((element) => element.mac == "B8:BE:F4:31:96:8B").first;
+      expect(device1.updateState, "80");
+      expect(device2.updateState, "pending");
 
     });
 
-    test('Given_DataHandObjectWithNetworkListAndUpdateList_When_parseUpdateStatus_Then_setUpdateListAndUpdateState', () {
+    test('Given_DataHandObjectWithNetworkListAndUpdateList_When_parseFWUpdateStatus_Then_setUpdateListAndUpdateState', () {
 
       var dataHandler = DataHand(true);
       var oldUpdateList = ["B8:BE:F4:31:96:AF","B8:BE:F4:31:96:8B"];
@@ -695,15 +714,15 @@ void main() {
       var expectedUpdateList = ["B8:BE:F4:31:96:AF"];
 
       //B8:BE:F4:31:96:AF(40%) and B8:F2:F4:51:96:8B(not in Network) and B8:BE:F4:31:96:8B(complete)
-      dataHandler.parseUpdateStatus(XmlDocument.parse(firmwareUpdateStatus2));
+      dataHandler.parseFWUpdateStatus(XmlDocument.parse(firmwareUpdateStatus2));
 
       expect(dataHandler.getNetworkList().getUpdateList(), expectedUpdateList);
 
       Device device1 = dataHandler.getNetworkList().getDeviceList().where((element) => element.mac == "B8:BE:F4:31:96:AF").first;
-      expect(device1.updateState, "40.0");
+      expect(device1.updateState, "40");
       
       Device device2 = dataHandler.getNetworkList().getDeviceList().where((element) => element.mac == "B8:BE:F4:31:96:8B").first;
-      expect(device2.updateState, "0.0");
+      expect(device2.updateState, "complete");
 
     });
 

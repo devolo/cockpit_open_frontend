@@ -84,7 +84,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
       String macs = "\n";
       for(var mac in response['failed']){
-        macs = "\n- " + _deviceList.getDeviceByMac(mac.toString()).name + " : " + mac.toString() + "\n";
+        if(_deviceList.getDeviceByMac(mac.toString()) != null){
+          macs = "\n- " + _deviceList.getDeviceByMac(mac.toString())!.name + " : " + mac.toString() + "\n";
+        }
+        else{
+          macs = "\n- " + mac.toString() + "\n";
+        }
       }
 
       errorDialog(context, S.of(context).UpdateDeviceFailedTitle, S.of(context).UpdateDeviceFailedBody + macs, fontSize);
@@ -104,7 +109,14 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
     if(response != null && response['failed'] != null){
 
-      String failedDevices = "\n- " + _deviceList.getDeviceByMac(mac).name + " : " + response!['failed'].toString() + "\n";
+      String failedDevices;
+      if(_deviceList.getDeviceByMac(mac) != null){
+        failedDevices = "\n- " + _deviceList.getDeviceByMac(mac)!.name + " : " + response!['failed'].toString() + "\n";
+      }
+      else{
+        failedDevices = "\n- " + mac.toString() + "\n";
+      }
+
       errorDialog(context, S.of(context).UpdateDeviceFailedTitle, S.of(context).UpdateDeviceFailedBody + failedDevices, fontSize);
 
     }

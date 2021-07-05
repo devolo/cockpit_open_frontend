@@ -139,9 +139,16 @@ class NetworkList extends ChangeNotifier{
     }
   }
 
-  Device getDeviceByMac(String mac){
+  Device? getDeviceByMac(String mac){
 
-    Device searchedDevice = getAllDevices().firstWhere((element) => element.mac == mac, orElse: null);
+    Device? searchedDevice;
+
+    try {
+      searchedDevice = getAllDevices().firstWhere((element) =>
+      element.mac == mac, orElse: null);
+    } catch(error){
+      searchedDevice = null;
+    }
     return searchedDevice;
   }
 

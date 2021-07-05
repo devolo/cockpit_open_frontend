@@ -77,7 +77,6 @@ bool compareDevice(Device first, Device other){
       first.attachedToRouter == other.attachedToRouter &&
       first.isLocalDevice == other.isLocalDevice &&
       first.updateState == other.updateState &&
-      first.updateStateInt == other.updateStateInt &&
       first.webinterfaceAvailable == other.webinterfaceAvailable &&
       first.identifyDeviceAvailable == other.identifyDeviceAvailable &&
       first.selected_vdsl == other.selected_vdsl &&

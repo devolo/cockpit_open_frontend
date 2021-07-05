@@ -24,6 +24,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "LoadCockpitSupportInformationsBody":
             MessageLookupByLibrary.simpleMessage(
                 "Support informations are getting generated."),
+        "UpdateDeviceFailedBody": MessageLookupByLibrary.simpleMessage(
+            "Following devices could not be updated:"),
+        "UpdateDeviceFailedTitle":
+            MessageLookupByLibrary.simpleMessage("Update failed"),
         "activateLEDs": MessageLookupByLibrary.simpleMessage("LEDs activated"),
         "activateLEDsFailedBody": MessageLookupByLibrary.simpleMessage(
             "An error occurred while modifying the LEDs!\nTry again later"),
@@ -70,6 +74,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "The support informations have been created and are now available to you. Please select an action."),
         "cockpitSupportInformationsTitle": MessageLookupByLibrary.simpleMessage(
             "devolo Cockpit support informations"),
+        "complete": MessageLookupByLibrary.simpleMessage("complete"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "confirmAction": MessageLookupByLibrary.simpleMessage("Confirm action"),
         "confirmActionConnectedToRouterWarning":
@@ -110,6 +115,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "enableShowingSpeeds":
             MessageLookupByLibrary.simpleMessage("Show network speeds"),
         "factoryReset": MessageLookupByLibrary.simpleMessage("Factory reset"),
+        "failed": MessageLookupByLibrary.simpleMessage("failed"),
         "fontsize": MessageLookupByLibrary.simpleMessage("Set font size"),
         "forward": MessageLookupByLibrary.simpleMessage("Next"),
         "fullyCustomizeColors":
@@ -173,6 +179,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Overview shows other devices, e.g., laptops and mobiles"),
         "overview": MessageLookupByLibrary.simpleMessage("Overview"),
+        "pending": MessageLookupByLibrary.simpleMessage("pending"),
         "pleaseConfirmAction":
             MessageLookupByLibrary.simpleMessage("Confirm action"),
         "pleaseEnterDeviceName":
@@ -250,7 +257,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "type": MessageLookupByLibrary.simpleMessage("Type"),
         "upToDate": MessageLookupByLibrary.simpleMessage("Up-to-date"),
         "update": MessageLookupByLibrary.simpleMessage("Update"),
-        "update2": MessageLookupByLibrary.simpleMessage("Update"),
+        "update2": MessageLookupByLibrary.simpleMessage("Update available"),
         "updateAll": MessageLookupByLibrary.simpleMessage("Update all"),
         "updateReadyToInstall":
             MessageLookupByLibrary.simpleMessage("Ready to install updates"),

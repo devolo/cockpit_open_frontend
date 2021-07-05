@@ -21,7 +21,7 @@ class DataHand extends ChangeNotifier {
   List<dynamic> xmlDebugResponseList = []; // used for debugging log
   int maxResponseListSize = 50; // determines the max number of displayed responses in debugging log
 
-  Map<String,List<dynamic>> xmlResponseMap = new Map<String,List<dynamic>>();
+  Map<String,List<XmlDocument>> xmlResponseMap = new Map<String,List<XmlDocument>>();
 
   // optional parameter to avoid the socket connection with the backend for testing
   DataHand([bool? testing]) {
@@ -289,6 +289,9 @@ class DataHand extends ChangeNotifier {
     if(wantedMessageTypes == "SetNetworkPasswordStatus")
       timoutTime = 120; //s
 
+    if(wantedMessageTypes == "FirmwareUpdateStatus")
+      timoutTime = 300; //s
+
     bool wait = true;
     await new Future.delayed(const Duration(seconds: 2));
 
@@ -392,6 +395,30 @@ class DataHand extends ChangeNotifier {
           }
         }
 
+        // ignore responses with <status>running</status>
+        else if (wantedMessageTypes == "FirmwareUpdateStatus") {
+
+          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'status');
+          if (responseElem != "running") {
+            wait = false;
+
+            var items = xmlResponseMap[wantedMessageTypes]!.first.findAllElements('item');
+            for (var item in items) {
+
+              if(item.getElement("second")!.innerText == "failed"){
+
+                if(!response.containsKey('failed'))
+                  response['failed'] = [];
+
+                response['failed'].add(item.getElement("first")!.getElement("macAddress")!.innerText);
+                logger.i(response['failed']);
+              }
+            }
+
+            response['status'] = responseElem;
+          }
+        }
+
         else if (wantedMessageTypes == "SetNetworkPasswordStatus") {
 
           wait = false;
@@ -477,12 +504,18 @@ class DataHand extends ChangeNotifier {
     for (var item in items) {
 
       try{
-        Device dev = _networkList.getDeviceList().where((element) => element.mac == item.getElement("first")!.getElement("macAddress")!.innerText).first;
+        Device dev = _networkList.getAllDevices().where((element) => element.mac == item.getElement("first")!.getElement("macAddress")!.innerText).first;
         String status = item.getElement("second")!.innerText;
 
-        dev.updateState = status;
-        if (status == "complete") _networkList.getUpdateList().removeWhere((element) => element == dev.mac);
-        if (status.endsWith("%")) dev.updateStateInt = double.parse(status.substring(status.indexOf(" "), status.indexOf("%")));
+        if (status == "complete") {
+          _networkList.getUpdateList().removeWhere((element) => element == dev.mac);
+        }
+        if (status.endsWith("%")){
+          dev.updateState = status.substring(status.indexOf(" "), status.indexOf("%"));
+        }
+        else
+          dev.updateState = status;
+
 
       } catch (e) {
         logger.w("parseUpdateStatus failed! - Maybe not in selected deviceList");
@@ -501,7 +534,7 @@ class DataHand extends ChangeNotifier {
 
     for (var item in items) {
       try {
-        Device dev = _networkList.getDeviceList().where((element) => element.mac == item.getElement("first")!.getElement("macAddress")!.innerText).first;
+        Device dev = _networkList.getAllDevices().where((element) => element.mac == item.getElement("first")!.getElement("macAddress")!.innerText).first;
         _networkList.getUpdateList().add(dev.mac);
       } catch (e) {
         logger.w("ParseFWUpdateIndication failed! - Maybe not in selected deviceList");

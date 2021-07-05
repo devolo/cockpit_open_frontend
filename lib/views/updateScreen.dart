@@ -11,6 +11,7 @@ import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:cockpit_devolo/models/fontSizeModel.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
+import 'package:cockpit_devolo/shared/alertDialogs.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/app_fontSize.dart';
 import 'package:cockpit_devolo/shared/devolo_icons_icons.dart';
@@ -40,14 +41,18 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
   double paddingContentTop = 10;
   double paddingBarTop = 10;
+  double splashRadius = 25;
+  double opacity = 0.2;
+  Color splashColor = fontColorOnBackground.withOpacity(0.2);
 
   /* ===========  =========== */
 
   final String title;
 
-  bool _loading = false;
-  bool _loadingCockpit = false;
-  bool _loadingSoftware = false;
+  bool _searchingDeviceUpdate = false;
+  bool _searchingCockpitUpdate = false;
+  List<String> _upgradingDevicesList = [];
+  bool _upgradingCockpit = false;
   DateTime _lastPoll = DateTime.now();
 
   bool _changeNameLoading = false;
@@ -62,22 +67,48 @@ class _UpdateScreenState extends State<UpdateScreen> {
     setState(() {
       socket.sendXML('UpdateResponse', valueType: 'action', newValue: 'execute');
       _deviceList.cockpitUpdate = false;
-
+      _upgradingCockpit = false;
     });
   }
 
-  Future<void> updateAllDevices(socket, _deviceList) async {
+  Future<void> updateAllDevices(DataHand socket, NetworkList _deviceList) async {
+
+    socket.sendXML('FirmwareUpdateResponse', newValue: _deviceList.getUpdateList().toString());
+
+    var response = await socket.receiveXML("FirmwareUpdateStatus");
     setState(() {
-      for (var mac in _deviceList.getUpdateList()) {
-        socket.sendXML('FirmwareUpdateResponse', newValue: mac);
+      _upgradingDevicesList = [];
+    });
+
+    if(response != null && response['failed'] != null){
+
+      String macs = "\n";
+      for(var mac in response['failed']){
+        macs = "\n- " + _deviceList.getDeviceByMac(mac.toString()).name + " : " + mac.toString() + "\n";
       }
-    });
+
+      errorDialog(context, S.of(context).UpdateDeviceFailedTitle, S.of(context).UpdateDeviceFailedBody + macs, fontSize);
+
+    }
   }
 
-  Future<void> updateDevice(socket, mac) async {
+
+  Future<void> updateDevice(socket, mac, NetworkList _deviceList ) async {
+
+    socket.sendXML('FirmwareUpdateResponse', newValue: mac);
+
+    var response = await socket.receiveXML("FirmwareUpdateStatus");
     setState(() {
-      socket.sendXML('FirmwareUpdateResponse', newValue: mac);
+      _upgradingDevicesList.remove(mac);
     });
+
+    if(response != null && response['failed'] != null){
+
+      String failedDevices = "\n- " + _deviceList.getDeviceByMac(mac).name + " : " + response!['failed'].toString() + "\n";
+      errorDialog(context, S.of(context).UpdateDeviceFailedTitle, S.of(context).UpdateDeviceFailedBody + failedDevices, fontSize);
+
+    }
+
   }
 
   @override
@@ -127,42 +158,42 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         } else if (states.contains(MaterialState.pressed)) {
                           return devoloGreen.withOpacity(activeOpacity);
                         }
-                        return (_loading == true || _loadingCockpit == true || _loadingSoftware == true)? buttonDisabledBackground : devoloGreen;
+                        return (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true)? buttonDisabledBackground : devoloGreen;
                       },
                     ),
-                    foregroundColor: (_loading == true || _loadingCockpit == true || _loadingSoftware == true)
+                    foregroundColor: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true)
                         ? MaterialStateProperty.all<Color>(buttonDisabledForeground)
                         : MaterialStateProperty.all<Color>(Colors.white),
                   ),
-                  onPressed: (_loading == true || _loadingCockpit == true || _loadingSoftware == true)? null : () async {
+                  onPressed: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true)? null : () async {
 
                     // Warning! "UpdateCheck" and "RefreshNetwork" should only be triggered by a user interaction, not continously/automaticly
                     setState(() {
                       socket.sendXML('UpdateCheck');
-                      _loading = true;
-                      _loadingCockpit = true;
+                      _searchingDeviceUpdate = true;
+                      _searchingCockpitUpdate = true;
                     });
 
                     var response1 = await socket.receiveXML("UpdateIndication");
                     setState(() {
-                      _loadingCockpit = false;
+                      _searchingCockpitUpdate = false;
                       //if (response!["messageType"] != null) _lastPoll = DateTime.now();
                     });
                     var response2 = await socket.receiveXML("FirmwareUpdateIndication");
                     setState(() {
-                      _loading = false;
+                      _searchingDeviceUpdate = false;
                       //if (response!["messageType"] != null) _lastPoll = DateTime.now();
                     });
                   },
                   child: Row(children: [
                     Icon(
                       DevoloIcons.ic_refresh_24px,
-                      color: (_loading == true || _loadingCockpit == true || _loadingSoftware == true) ? buttonDisabledForeground : Colors.white,
+                      color: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true) ? buttonDisabledForeground : Colors.white,
                       size: 24 * fontSize.factor,
                     ),
                     Text(
                       S.of(context).checkUpdates, textScaleFactor: fontSize.factor,
-                      style:TextStyle(color: (_loading == true || _loadingCockpit == true || _loadingSoftware == true) ? buttonDisabledForeground : Colors.white)
+                      style:TextStyle(color: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true) ? buttonDisabledForeground : Colors.white)
                     ),
                   ]),
                 ),
@@ -183,7 +214,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                           } else if (states.contains(MaterialState.pressed)) {
                             return BorderSide(color: drawingColor.withOpacity(activeOpacity), width: 2.0);
                           }
-                          return (_loading == true || _loadingCockpit == true || _loadingSoftware == true || _deviceList.cockpitUpdate == false || _deviceList.getUpdateList().isEmpty)
+                          return (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || (_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))
                           ? BorderSide(color: buttonDisabledForeground2, width: 2.0)
                           : BorderSide(color: drawingColor, width: 2.0);
                         },
@@ -198,7 +229,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                           return Colors.transparent;
                         },
                       ),
-                      foregroundColor: (_loading == true || _loadingCockpit == true || _loadingSoftware == true || _deviceList.cockpitUpdate == false || _deviceList.getUpdateList().isEmpty)
+                      foregroundColor: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || (_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))
                           ? MaterialStateProperty.all<Color?>(buttonDisabledForeground2)
                           : MaterialStateProperty.resolveWith<Color?>(
                             (states) {
@@ -211,12 +242,25 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         },
                       ),
                     ),
-                    onPressed: (_loading == true || _loadingCockpit == true || _loadingSoftware == true || _deviceList.cockpitUpdate == false || _deviceList.getUpdateList().isEmpty)
+                    onPressed: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true ||_upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || (_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))
                         ? null
                         : () async {
 
-                      await updateCockpit(socket, _deviceList);
-                      await updateAllDevices(socket, _deviceList);
+                      if(_deviceList.getUpdateList().length != 0){
+
+                        for(String mac in _deviceList.getUpdateList()) {
+                          _upgradingDevicesList.add(mac);
+                        }
+
+                        await updateAllDevices(socket, _deviceList);
+                      }
+
+                      if(_deviceList.cockpitUpdate){
+
+                        _upgradingCockpit = true;
+                        await updateCockpit(socket, _deviceList); //update Cockpit as second as it requires the application to restart
+                      }
+
                     },
                     child: Row(children: [
                       Icon(
@@ -333,7 +377,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 children: [
                   TableRow(children: [
                     TableCell(
-                      child: _loadingCockpit
+                      child: _searchingCockpitUpdate || _upgradingCockpit
                           ? Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -354,28 +398,41 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                       ),
                                   ],
                                 )
-                              : Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
+                              : new Material(
+                                  type: MaterialType.transparency, // used to see the spash color over the background Color of the row
+                                  child:
                                     IconButton(
                                         icon: Icon(
                                           DevoloIcons.ic_file_download_24px,
                                           color: fontColorOnBackground,
                                         ),
                                         iconSize: 24 * fontSize.factor,
-                                        onPressed: () async {
+                                        hoverColor: splashColor,
+                                        splashColor: splashColor,
+                                        splashRadius: splashRadius,
+                                        disabledColor: fontColorOnBackground.withOpacity(opacity),
+                                        onPressed: _upgradingDevicesList.isNotEmpty
+                                            ? null
+                                            : () async {
+                                          _upgradingCockpit = true;
                                           await updateCockpit(socket, _deviceList);
-                                        }),
-                                  ],
+                                        },
+                                        mouseCursor: _upgradingDevicesList.isNotEmpty ? SystemMouseCursors.basic : SystemMouseCursors.click
+                                    ),
                                 ),
                     ),
                     TableCell(
                       child: ListTile(
+                        minLeadingWidth: 1,
                         horizontalTitleGap: 1,
+                        dense:true,
+                        contentPadding: EdgeInsets.symmetric(vertical: 16.0, horizontal:
+                        10.0),
                         leading: Icon(
                           Icons.speed_rounded,
                           color: fontColorOnBackground,
                           size: 24.0 * fontSize.factor,
+                          textDirection: TextDirection.ltr,
                         ),
                         title: Text(
                           "Cockpit Software",
@@ -392,42 +449,43 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    TableCell(
-                      child: _loadingCockpit
-                          ? SelectableText(
-                              " ${S.of(context).searching}",
+                    _searchingCockpitUpdate || _upgradingCockpit
+                          ?  TableCell(
+                        child: SelectableText(
+                          _searchingCockpitUpdate ? " ${S.of(context).searching}" : " ${S.of(context).updating}",
                               style: TextStyle(color: fontColorOnBackground),
                               textAlign: TextAlign.center,
                         textScaleFactor: fontSize.factor,
-                            )
+                            ))
                           : _deviceList.cockpitUpdate == false
-                              ? Text(
+                              ?  TableCell(
+                        child: Text(
                                   " ${S.of(context).upToDate}",
                                   style: TextStyle(color: fontColorOnBackground),
                                   textAlign: TextAlign.center,
                         textScaleFactor: fontSize.factor,
-                                )
-                              : Row(
-                                  children: [
-                                    FlatButton(
-                                        child: Text(
-                                          S.of(context).update2,
-                                          style: TextStyle(color: fontColorOnBackground, fontSize: 20 * fontSize.factor),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        onPressed: () async {
-                                          await updateCockpit(socket, _deviceList);
-                                        }),
-                                  ],
-                                ),
-                    ),
+                                ))
+                              :  TableCell(
+                      verticalAlignment:TableCellVerticalAlignment.fill,
+                      child:TextButton(
+                          style: ButtonStyle(overlayColor: MaterialStateProperty.all<Color?>(fontColorOnBackground.withOpacity(opacity))),
+                                  child: Text(
+                                    S.of(context).update2,
+                                    style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  onPressed: () async {
+                                    _upgradingCockpit = true;
+                                    await updateCockpit(socket, _deviceList);
+                                      }),
+                    )
                   ]),
                   for (int i = 0; i < _deviceList.getAllDevices().length; i++)
                     TableRow(decoration: BoxDecoration(color: i % 2 == 0 ? accentColor : Colors.transparent), children: [
                       TableCell(
-                        child: _loading
+                        child: _searchingDeviceUpdate || _upgradingDevicesList.contains(_deviceList.getAllDevices()[i].mac)
                             ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   CircularProgressIndicator(
                                     valueColor: new AlwaysStoppedAnimation<Color>(fontColorOnBackground),
@@ -446,47 +504,52 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                       ),
                                     ],
                                   )
-                                : Row(
-                                    children: [
+                                : new Material(
+                                    type: MaterialType.transparency, // used to see the spash color over the background Color of the row
+                                    child:
                                       IconButton(
+                                          hoverColor: splashColor,
+                                          splashRadius: splashRadius,
+                                          splashColor: splashColor,
+                                          color: fontColorOnBackground,
                                           icon: Icon(
                                             DevoloIcons.ic_file_download_24px,
-                                            color: fontColorOnBackground,
                                           ),
                                           iconSize: 24 * fontSize.factor,
                                           onPressed: () async {
-                                            await updateDevice(socket, _deviceList.getAllDevices()[i].mac);
+                                            _upgradingDevicesList.add(_deviceList.getAllDevices()[i].mac);
+                                            await updateDevice(socket, _deviceList.getAllDevices()[i].mac, _deviceList);
                                           }),
-                                      if (_loadingSoftware)
-                                        CircularProgressIndicator(
-                                          valueColor: new AlwaysStoppedAnimation<Color>(fontColorOnBackground),
-                                        ),
-                                    ],
+
                                   ),
                       ),
                       TableCell(
-                        child: Container(
-                          //alignment: Alignment.centerLeft,
-                          child: ListTile(
-                            //contentPadding: EdgeInsets.only(left:20),
-                            horizontalTitleGap: 1,
-                            minLeadingWidth: 1,
-                            onTap: () => _handleTap(_deviceList.getAllDevices()[i]),
-                            leading: RawImage(
-                              image: getIconForDeviceType(_deviceList.getAllDevices()[i].typeEnum),
-                              height: 35 * fontSize.factor,
-                            ),
-                            title: Text(
-                              _deviceList.getAllDevices()[i].name,
-                              style: TextStyle(fontWeight: FontWeight.bold, color: fontColorOnBackground, fontSize: 17,),
-                              textAlign: TextAlign.center,
-                              textScaleFactor: fontSize.factor,
-                            ),
-                            subtitle: Text(
-                              '${_deviceList.getAllDevices()[i].type}',
-                              style: TextStyle(color: fontColorOnBackground, fontSize: 17,),
-                              textAlign: TextAlign.center,
-                              textScaleFactor: fontSize.factor,
+                        child: new Material(
+                          type: MaterialType.transparency, // used to see the spash color over the background Color of the row
+                          child:Container(
+                            //alignment: Alignment.centerLeft,
+                            child: ListTile(
+                              hoverColor: fontColorOnBackground.withOpacity(opacity),
+                              //contentPadding: EdgeInsets.only(left:20),
+                              horizontalTitleGap: 1,
+                              minLeadingWidth: 1,
+                              onTap: () => _handleTap(_deviceList.getAllDevices()[i]),
+                              leading: RawImage(
+                                image: getIconForDeviceType(_deviceList.getAllDevices()[i].typeEnum),
+                                scale: fontSize.factor,
+                              ),
+                              title: Text(
+                                _deviceList.getAllDevices()[i].name,
+                                style: TextStyle(fontWeight: FontWeight.bold, color: fontColorOnBackground, fontSize: 17,),
+                                textAlign: TextAlign.center,
+                                textScaleFactor: fontSize.factor,
+                              ),
+                              subtitle: Text(
+                                '${_deviceList.getAllDevices()[i].type}',
+                                style: TextStyle(color: fontColorOnBackground, fontSize: 17,),
+                                textAlign: TextAlign.center,
+                                textScaleFactor: fontSize.factor,
+                              ),
                             ),
                           ),
                         ),
@@ -499,36 +562,45 @@ class _UpdateScreenState extends State<UpdateScreen> {
                           textScaleFactor: fontSize.factor,
                         ),
                       ),
-                      TableCell(
-                        child: _loading
-                            ? SelectableText(
-                                " ${S.of(context).searching}",
+                       _searchingDeviceUpdate || _upgradingDevicesList.contains(_deviceList.getAllDevices()[i].mac)
+                            ? TableCell(
+                            child:SelectableText(
+                                _searchingDeviceUpdate
+                                    ? " ${S.of(context).searching}"
+                                    : _deviceList.getAllDevices()[i].updateState == "complete"
+                                      ?" ${S.of(context).update} : ${S.of(context).complete}"
+                                      : _deviceList.getAllDevices()[i].updateState == "pending"
+                                        ?" ${S.of(context).update} : ${S.of(context).pending}"
+                                        : _deviceList.getAllDevices()[i].updateState == "failed"
+                                          ?" ${S.of(context).update} : ${S.of(context).failed}"
+                                          :" ${S.of(context).update} : ${ _deviceList.getAllDevices()[i].updateState}%",
                                 style: TextStyle(color: fontColorOnBackground),
                                 textAlign: TextAlign.center,
-                          textScaleFactor: fontSize.factor,
-                              )
+                                textScaleFactor: fontSize.factor,
+                              ))
                             : _deviceList.getUpdateList().contains(_deviceList.getAllDevices()[i].mac) == false
-                                ? Text(
+                                ? TableCell(
+                         child:Text(
                                     " ${S.of(context).upToDate}",
                                     style: TextStyle(color: fontColorOnBackground),
                                     textAlign: TextAlign.center,
-                          textScaleFactor: fontSize.factor,
-                                  )
-                                : Row(
-                                    children: [
-                                      FlatButton(
-                                          child: Text(
-                                            S.of(context).update2,
-                                            style: TextStyle(color: fontColorOnBackground, fontSize: 20 * fontSize.factor),
-                                            textAlign: TextAlign.center,
-                                            textScaleFactor: fontSize.factor,
-                                          ),
-                                          onPressed: () async {
-                                            await updateCockpit(socket, _deviceList);
-                                          }),
-                                    ],
-                                  ),
-                      ),
+                                    textScaleFactor: fontSize.factor,
+                            textHeightBehavior:TextHeightBehavior()
+                                  ))
+                                : TableCell(
+                                    verticalAlignment:TableCellVerticalAlignment.fill,
+                                    child:TextButton(
+                                    style: ButtonStyle(overlayColor: MaterialStateProperty.all<Color?>(fontColorOnBackground.withOpacity(opacity))),
+                                    child: Text(
+                                      S.of(context).update2,
+                                      style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor),
+                                    ),
+                                    onPressed: () async {
+                                      _upgradingDevicesList.add(_deviceList.getAllDevices()[i].mac);
+                                      await updateDevice(socket, _deviceList.getAllDevices()[i].mac, _deviceList);
+                                    }),
+                        ),
+
                     ]),
                 ],
               ),

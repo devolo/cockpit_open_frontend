@@ -24,6 +24,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "LoadCockpitSupportInformationsBody":
             MessageLookupByLibrary.simpleMessage(
                 "Support-Informationen werden erstellt."),
+        "UpdateDeviceFailedBody": MessageLookupByLibrary.simpleMessage(
+            "Folgende Geräte konnten nicht aktualisiert werden:"),
+        "UpdateDeviceFailedTitle": MessageLookupByLibrary.simpleMessage(
+            "Aktualisierung fehlgeschlagen"),
         "activateLEDs": MessageLookupByLibrary.simpleMessage(
             "Leuchtdioden (LEDs) angeschaltet"),
         "activateLEDsFailedBody": MessageLookupByLibrary.simpleMessage(
@@ -71,6 +75,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Die Support-Informationen wurden erstellt und stehen Ihnen jetzt zur Verfügung. Bitte wählen Sie eine Aktion aus."),
         "cockpitSupportInformationsTitle": MessageLookupByLibrary.simpleMessage(
             "devolo Cockpit Support-Informationen"),
+        "complete": MessageLookupByLibrary.simpleMessage("erfolgreich"),
         "confirm": MessageLookupByLibrary.simpleMessage("Bestätigen"),
         "confirmAction":
             MessageLookupByLibrary.simpleMessage("Aktion Bestätigen"),
@@ -112,6 +117,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Anzeigen der Datenraten"),
         "factoryReset":
             MessageLookupByLibrary.simpleMessage("Werkseinstellung \nsetzen"),
+        "failed": MessageLookupByLibrary.simpleMessage("fehlgeschlagen"),
         "fontsize": MessageLookupByLibrary.simpleMessage("Schriftgröße"),
         "forward": MessageLookupByLibrary.simpleMessage("weiter"),
         "fullyCustomizeColors": MessageLookupByLibrary.simpleMessage(
@@ -176,6 +182,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Weitere Geräte, z.B. PC werden in der Übersicht angezeigt"),
         "overview": MessageLookupByLibrary.simpleMessage("Übersicht"),
+        "pending": MessageLookupByLibrary.simpleMessage("anstehend"),
         "pleaseConfirmAction":
             MessageLookupByLibrary.simpleMessage("Bitte Aktion bestätigen."),
         "pleaseEnterDeviceName":
@@ -256,7 +263,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "type": MessageLookupByLibrary.simpleMessage("Typ:"),
         "upToDate": MessageLookupByLibrary.simpleMessage("aktuell"),
         "update": MessageLookupByLibrary.simpleMessage("Aktualisierung"),
-        "update2": MessageLookupByLibrary.simpleMessage("aktualisieren"),
+        "update2":
+            MessageLookupByLibrary.simpleMessage("Aktualisierung verfügbar"),
         "updateAll": MessageLookupByLibrary.simpleMessage("Aktualisiere Alle"),
         "updateReadyToInstall": MessageLookupByLibrary.simpleMessage(
             "Update bereit zur Installation."),

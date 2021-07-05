@@ -99,7 +99,7 @@
   "updateAll": "Update all",
   "confirmAction": "Confirm action",
   "upToDate": "Up-to-date",
-  "update2": "Update",
+  "update2": "Update available",
   "updating": "Updating...",
   "searching": "Searching...",
   "general": "General",
@@ -159,5 +159,12 @@
   "activateTransmissionFailedTitle": "Action failed",
   "activateTransmissionFailedBody": "An error occurred while setting the data communication!\nTry again later",
   "powerSavingModeFailedTitle": "Action failed",
-  "powerSavingModeFailedBody": "An error occurred while setting the Power save mode!\nTry again later"
+  "powerSavingModeFailedBody": "An error occurred while setting the Power save mode!\nTry again later",
+
+  "UpdateDeviceFailedTitle": "Update failed",
+  "UpdateDeviceFailedBody": "Following devices could not be updated:",
+
+  "complete": "complete",
+  "failed": "failed",
+  "pending": "pending"
 }

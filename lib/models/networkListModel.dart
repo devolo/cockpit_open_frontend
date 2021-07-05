@@ -139,6 +139,12 @@ class NetworkList extends ChangeNotifier{
     }
   }
 
+  Device getDeviceByMac(String mac){
+
+    Device searchedDevice = getAllDevices().firstWhere((element) => element.mac == mac, orElse: null);
+    return searchedDevice;
+  }
+
   void clearDeviceList() {
     _networkList[selectedNetworkIndex].clear();
     notifyListeners();

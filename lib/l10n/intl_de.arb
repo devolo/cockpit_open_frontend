@@ -100,7 +100,7 @@
   "updateAll": "Aktualisiere Alle",
   "confirmAction": "Aktion Bestätigen",
   "upToDate": "aktuell",
-  "update2": "aktualisieren",
+  "update2": "Aktualisierung verfügbar",
   "updating": " aktualisieren...",
   "searching": "suche...",
   "general": "Allgemein",
@@ -161,5 +161,12 @@
   "activateTransmissionFailedTitle": "Aktion fehlgeschlagen",
   "activateTransmissionFailedBody": "Es ist ein Fehler beim Anpassen der Datenkommunikation aufgetreten!\nBitte versuchen Sie es erneut.",
   "powerSavingModeFailedTitle": "Aktion fehlgeschlagen",
-  "powerSavingModeFailedBody": "Es ist ein Fehler beim Anpassen des Stromsparmodus aufgetreten!\nBitte versuchen Sie es erneut."
+  "powerSavingModeFailedBody": "Es ist ein Fehler beim Anpassen des Stromsparmodus aufgetreten!\nBitte versuchen Sie es erneut.",
+
+  "UpdateDeviceFailedTitle": "Aktualisierung fehlgeschlagen",
+  "UpdateDeviceFailedBody": "Folgende Geräte konnten nicht aktualisiert werden:",
+
+  "complete": "erfolgreich",
+  "failed": "fehlgeschlagen",
+  "pending": "anstehend"
 }

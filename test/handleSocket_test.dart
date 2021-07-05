@@ -347,8 +347,7 @@ void main() {
       dataHandler.parseXML(firmwareUpdateStatus1WithMGSOCK);
 
       Device device1 = dataHandler.getNetworkList().getDeviceList().where((element) => element.mac == "B8:BE:F4:31:96:AF").first;
-      expect(device1.updateStateInt, 80.0);
-      expect(device1.updateState, "running 80%");
+      expect(device1.updateState, 80.0);
 
       expect(dataHandler.getNetworkList().getUpdateList(), expectedUpdateList);
 
@@ -682,8 +681,7 @@ void main() {
       expect(dataHandler.getNetworkList().getUpdateList(), expectedUpdateList);
 
       Device device1 = dataHandler.getNetworkList().getDeviceList().where((element) => element.mac == "B8:BE:F4:31:96:AF").first;
-      expect(device1.updateStateInt, 80.0);
-      expect(device1.updateState, "running 80%");
+      expect(device1.updateState, "80.0");
 
     });
 
@@ -702,12 +700,10 @@ void main() {
       expect(dataHandler.getNetworkList().getUpdateList(), expectedUpdateList);
 
       Device device1 = dataHandler.getNetworkList().getDeviceList().where((element) => element.mac == "B8:BE:F4:31:96:AF").first;
-      expect(device1.updateStateInt, 40.0);
-      expect(device1.updateState, "running 40%");
+      expect(device1.updateState, "40.0");
       
       Device device2 = dataHandler.getNetworkList().getDeviceList().where((element) => element.mac == "B8:BE:F4:31:96:8B").first;
-      expect(device2.updateState, "complete");
-      expect(device2.updateStateInt, 0.0);
+      expect(device2.updateState, "0.0");
 
     });
 

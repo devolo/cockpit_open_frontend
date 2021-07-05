@@ -73,6 +73,7 @@ class MyApp extends StatelessWidget {
                 title: 'devolo Cockpit',
                 theme: ThemeData(
 
+                  highlightColor: Colors.transparent,
                   textTheme: Theme.of(context).textTheme.apply(
                         fontFamily: 'OpenSans',
                         displayColor: fontColorOnSecond,

@@ -563,8 +563,8 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                 .removeDeviceErrorBody, fontSize);
                           }
                         }
-                      },
-                    ),
+                      }
+                        ),
                     Text(
                       S
                           .of(context)

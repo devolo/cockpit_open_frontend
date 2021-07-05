@@ -31,8 +31,7 @@ class Device extends ChangeNotifier {
   Map<String, DataratePair>? speeds; //Map<mac address of remote device, datarates to and from this remote device>
   bool attachedToRouter = false;
   bool isLocalDevice = false;
-  String updateState = "";
-  double updateStateInt = 0.0;
+  String updateState = "0.0";
   bool webinterfaceAvailable = false;
   bool identifyDeviceAvailable = false;
   String selected_vdsl = "";
@@ -221,7 +220,6 @@ class Device extends ChangeNotifier {
  webinterfaceAvailable: ${this.webinterfaceAvailable},
  identifyDeviceAvailable: ${this.identifyDeviceAvailable},
  UpdateStatus: ${this.updateState},
- UpdateStatusInt: ${this.updateStateInt},
  SelectedVDSL: ${this.selected_vdsl},
  SupportedVDSL: ${this.supported_vdsl},
  ModeVDSL: ${this.mode_vdsl},

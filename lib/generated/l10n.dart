@@ -1000,10 +1000,10 @@ class S {
     );
   }
 
-  /// `Update`
+  /// `Update available`
   String get update2 {
     return Intl.message(
-      'Update',
+      'Update available',
       name: 'update2',
       desc: '',
       args: [],
@@ -1555,6 +1555,56 @@ class S {
     return Intl.message(
       'An error occurred while setting the Power save mode!\nTry again later',
       name: 'powerSavingModeFailedBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update failed`
+  String get UpdateDeviceFailedTitle {
+    return Intl.message(
+      'Update failed',
+      name: 'UpdateDeviceFailedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Following devices could not be updated:`
+  String get UpdateDeviceFailedBody {
+    return Intl.message(
+      'Following devices could not be updated:',
+      name: 'UpdateDeviceFailedBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `complete`
+  String get complete {
+    return Intl.message(
+      'complete',
+      name: 'complete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `failed`
+  String get failed {
+    return Intl.message(
+      'failed',
+      name: 'failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `pending`
+  String get pending {
+    return Intl.message(
+      'pending',
+      name: 'pending',
       desc: '',
       args: [],
     );

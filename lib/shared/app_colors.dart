@@ -76,7 +76,7 @@ Map<String, dynamic> theme_dark = {
   "drawingColor" : Colors.white,
   "fontColorOnMain" : Colors.white,
   "fontColorOnBackground" : Colors.white,
-  "fontColorOnSecond" : Colors.black,
+  "fontColorOnSecond" : devoloGray,
 };
 
 
@@ -89,19 +89,19 @@ Map<String, dynamic> theme_devolo = {
   "drawingColor" : Colors.white,
   "fontColorOnMain" : Colors.white,
   "fontColorOnBackground" : Colors.white,
-  "fontColorOnSecond" : Colors.black,
+  "fontColorOnSecond" : devoloGray,
 };
 
 Map<String, dynamic> theme_highContrast = {
   "name": "High Contrast",
-  "mainColor" : Colors.black,
-  "backgroundColor" : Colors.black,
+  "mainColor" : devoloGray,
+  "backgroundColor" : devoloGray,
   "secondColor" : Colors.white,
   "accentColor" : Colors.yellowAccent.withOpacity(0.2),
   "drawingColor" : Colors.yellowAccent,
   "fontColorOnMain" : Colors.yellowAccent,
   "fontColorOnBackground" : Colors.yellowAccent,
-  "fontColorOnSecond" : Colors.black,
+  "fontColorOnSecond" : devoloGray,
 };
 
 Map<String, dynamic> theme_light = {
@@ -112,7 +112,7 @@ Map<String, dynamic> theme_light = {
   "accentColor" : Color.fromARGB(255, 234, 235, 236),
   "drawingColor" : devoloBlue,
   "fontColorOnMain" : Colors.white,
-  "fontColorOnBackground" : Colors.black,
-  "fontColorOnSecond" : Colors.black,
+  "fontColorOnBackground" : devoloGray,
+  "fontColorOnSecond" : devoloGray,
 };
 

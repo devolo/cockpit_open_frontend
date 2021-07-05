@@ -334,7 +334,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                                     canvasColor: Colors.transparent,
                                     shadowColor: Colors.transparent,
                                     colorScheme:
-                                    fontColorOnSecond == Colors.black
+                                    fontColorOnSecond == devoloGray
                                         ? ColorScheme.dark(
                                       primary: secondColor,
                                       secondary: secondColor,

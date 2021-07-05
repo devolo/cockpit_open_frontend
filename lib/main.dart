@@ -375,9 +375,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2), top: BorderSide(color: fontColorOnMain, width: 2)),
                 ),
                 child: ListTile(
-                    leading: Icon(Icons.workspaces_filled, color: fontColorOnMain), //miscellaneous_services
+                    leading: Icon(Icons.workspaces_filled, color: fontColorOnMain, size: 24*fontSize.factor), //miscellaneous_services
                     title: Text(S.of(context).overview,
-                        style: TextStyle(color: fontColorOnMain)),
+                        style: TextStyle(color: fontColorOnMain),
+                        textScaleFactor: fontSize.factor),
                     contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
                     onTap: () {
                       bottomTapped(0);
@@ -391,9 +392,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
                 ),
                 child: ListTile(
-                    leading: Icon(DevoloIcons.ic_file_download_24px, color: fontColorOnMain),
+                    leading: Icon(DevoloIcons.ic_file_download_24px, color: fontColorOnMain, size: 24*fontSize.factor),
                     title: Text(S.of(context).updates,
-                        style: TextStyle(color: fontColorOnMain)),
+                        style: TextStyle(color: fontColorOnMain),
+                        textScaleFactor: fontSize.factor),
                     contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
                     onTap: () {
                       bottomTapped(1);
@@ -405,9 +407,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
                 ),
                 child: ListTile(
-                    leading: Icon(DevoloIcons.ic_help_24px, color: fontColorOnMain),
+                    leading: Icon(DevoloIcons.ic_help_24px, color: fontColorOnMain, size: 24*fontSize.factor),
                     title: Text(S.of(context).help,
-                        style: TextStyle(color: fontColorOnMain)),
+                        style: TextStyle(color: fontColorOnMain),
+                        textScaleFactor: fontSize.factor),
                     contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
                     onTap: () {
                       bottomTapped(2);
@@ -419,9 +422,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
                 ),
                 child: ListTile(
-                    leading: Icon(DevoloIcons.devolo_UI_settings, color: fontColorOnMain),
+                    leading: Icon(DevoloIcons.devolo_UI_settings, color: fontColorOnMain, size: 24*fontSize.factor),
                     title: Text(S.of(context).settings,
-                        style: TextStyle(color: fontColorOnMain)),
+                        style: TextStyle(color: fontColorOnMain),
+                        textScaleFactor: fontSize.factor),
                     contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
                     onTap: () {
                       bottomTapped(3);
@@ -433,9 +437,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
                 ),
                 child: ListTile(
-                    leading: Icon(DevoloIcons.ic_info_24px, color: fontColorOnMain),
+                    leading: Icon(DevoloIcons.ic_info_24px, color: fontColorOnMain, size: 24*fontSize.factor),
                     title: Text(S.of(context).appInfo,
-                        style: TextStyle(color: fontColorOnMain)),
+                        style: TextStyle(color: fontColorOnMain),
+                        textScaleFactor: fontSize.factor),
                     contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
                     onTap: () {
                       Navigator.pop(context); //close drawer

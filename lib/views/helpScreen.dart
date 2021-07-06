@@ -18,7 +18,6 @@ import 'package:cockpit_devolo/shared/imageLoader.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 class AddDeviceScreen extends StatefulWidget {
   AddDeviceScreen({Key? key, NetworkList? deviceList, required this.title}) : super(key: key);
@@ -354,7 +353,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                                     return Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
-                                        FlatButton(
+                                        TextButton(
                                           onPressed: onStepCancel,
                                           child: Row(
                                             children: [
@@ -368,7 +367,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                                           //color: Colors.white,
                                         ),
 
-                                        FlatButton(
+                                        TextButton(
                                           onPressed: onStepContinue,
                                           child: Row(
                                             children: [

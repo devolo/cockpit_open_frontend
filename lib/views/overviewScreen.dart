@@ -6,8 +6,6 @@ This source code is licensed under the BSD-style license found in the
 LICENSE file in the root directory of this source tree.
 */
 
-import 'dart:convert';
-
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:cockpit_devolo/models/fontSizeModel.dart';
@@ -24,9 +22,6 @@ import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/views/appBuilder.dart';
 import 'package:cockpit_devolo/shared/imageLoader.dart';
-
-import 'package:flutter/foundation.dart' show debugDefaultTargetPlatformOverride;
-import 'package:shared_preferences/shared_preferences.dart';
 
 class OverviewScreen extends StatefulWidget {
   OverviewScreen({Key? key}) : super(key: key);
@@ -138,8 +133,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )
                             : networkIdx != _deviceList.selectedNetworkIndex
-                            ? Text("${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network} ${networkIdx}", textScaleFactor: fontSize.factor-0.1)
-                            : Text("${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network} ${networkIdx}", textScaleFactor: fontSize.factor,
+                            ? Text("${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network} $networkIdx", textScaleFactor: fontSize.factor-0.1)
+                            : Text("${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network} $networkIdx", textScaleFactor: fontSize.factor,
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         onPressed: () {
@@ -196,7 +191,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
       //logger.i("absolute: " + absoluteOffset.toString());
 
       //test if network got hit
-      if (_Painter.isPointInsideNetworkIcon(details.localPosition, networkIconOffset, _Painter.hn_circle_radius)) {
+      if (_Painter.isPointInsideNetworkIcon(details.localPosition, networkIconOffset, _Painter.hnCircleRadius)) {
         logger.i("Hit Network #" + i.toString());
         setState(() {
           deviceList.selectedNetworkIndex = i;
@@ -211,7 +206,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
       Offset absoluteOffset = Offset(deviceIconOffset.dx + (_Painter.screenWidth / 2), deviceIconOffset.dy + (_Painter.screenHeight / 2));
 
       //test if device got hit
-      if (_Painter.isPointInsideCircle(details.localPosition, absoluteOffset, _Painter.hn_circle_radius)) {
+      if (_Painter.isPointInsideCircle(details.localPosition, absoluteOffset, _Painter.hnCircleRadius)) {
         logger.i("Hit icon #" + index.toString());
 
         Device hitDevice = deviceList.getDeviceList()[index];
@@ -235,7 +230,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
       Offset absoluteOffset = Offset(deviceIconOffset.dx + (_Painter.screenWidth / 2), deviceIconOffset.dy + (_Painter.screenHeight / 2));
 
-      if (_Painter.isPointInsideCircle(_lastTapDownPosition, absoluteOffset, _Painter.hn_circle_radius)) {
+      if (_Painter.isPointInsideCircle(_lastTapDownPosition, absoluteOffset, _Painter.hnCircleRadius)) {
         logger.i("Long press on icon #" + index.toString());
 
         final deviceList = Provider.of<NetworkList>(context, listen: false);

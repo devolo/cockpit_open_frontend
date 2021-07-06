@@ -11,7 +11,6 @@ import 'dart:async';
 import 'dart:io';
 import 'package:cockpit_devolo/logging/log_printer.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:open_file/open_file.dart';

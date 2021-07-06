@@ -69,7 +69,7 @@ bool compareDevice(Device first, Device other){
       first.mac == other.mac &&
       first.ip == other.ip &&
       first.version == other.version &&
-      first.version_date == other.version_date &&
+      first.versionDate == other.versionDate &&
       first.MT == other.MT &&
       first.serialno == other.serialno &&
       //List<Device> remoteDevices = <Device>[];
@@ -79,11 +79,11 @@ bool compareDevice(Device first, Device other){
       first.updateState == other.updateState &&
       first.webinterfaceAvailable == other.webinterfaceAvailable &&
       first.identifyDeviceAvailable == other.identifyDeviceAvailable &&
-      first.selected_vdsl == other.selected_vdsl &&
-      listEquals(first.supported_vdsl,other.supported_vdsl) &&
-      listEquals(first.disable_leds,other.disable_leds) &&
-      listEquals(first.disable_traffic, other.disable_traffic) &&
-      listEquals(first.disable_standby,other.disable_standby)
+      first.selectedVDSL == other.selectedVDSL &&
+      listEquals(first.supportedVDSL,other.supportedVDSL) &&
+      listEquals(first.disableLeds,other.disableLeds) &&
+      listEquals(first.disableTraffic, other.disableTraffic) &&
+      listEquals(first.disableStandby,other.disableStandby)
 
   ){
     return true;

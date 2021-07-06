@@ -23,7 +23,7 @@ void main() {
       var device = new Device("Magic 2 WiFi 2-1","Study Room","B8:BE:F4:31:96:AF","192.168.1.56","MT3082","1811269791000709","5.7.2_05.02.2020","",false,true,true,true,"mimo_vdsl17a",["mimo_vdsl17a", "siso_full", "siso_vdsl17a", "siso_vdsl35b", "mimo_full", "mimo_vdsl35b"],"1",[0,0],[1,0],[1,1]);
 
       expect(device.version, "5.7.2");
-      expect(device.version_date, "05.02.2020");
+      expect(device.versionDate, "05.02.2020");
 
     });
 
@@ -32,7 +32,7 @@ void main() {
       var device = new Device("Magic 2 WiFi 2-1","Study Room","B8:BE:F4:31:96:AF","192.168.1.56","MT3082","1811269791000709","5.7.2","05.02.2020",false,true,true,true,"mimo_vdsl17a",["mimo_vdsl17a", "siso_full", "siso_vdsl17a", "siso_vdsl35b", "mimo_full", "mimo_vdsl35b"],"1",[0,0],[1,0],[1,1]);
 
       expect(device.version, "5.7.2");
-      expect(device.version_date, "05.02.2020");
+      expect(device.versionDate, "05.02.2020");
 
     });
 

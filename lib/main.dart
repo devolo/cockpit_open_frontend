@@ -19,7 +19,6 @@ import 'package:cockpit_devolo/views/updateScreen.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
@@ -31,11 +30,7 @@ import 'package:window_size/window_size.dart';
 import 'dart:io';
 import 'package:cockpit_devolo/shared/globals.dart';
 import 'package:cockpit_devolo/shared/imageLoader.dart';
-import 'dart:developer';
-import 'package:flutter/services.dart';
-import 'package:intl_utils/intl_utils.dart';
 
-import 'package:package_info_plus/package_info_plus.dart';
 import 'dart:convert';
 
 import 'models/fontSizeModel.dart';
@@ -118,7 +113,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late TextStyle _menuItemStyle;
+
   int bottomSelectedIndex = 0;
   bool highContrast = false; // MediaQueryData().highContrast;  // Query current device if high Contrast theme is set
 
@@ -171,7 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     if(checkSharedPreference){
 
-      dynamic ? configuration = prefs.get("config");
+      dynamic configuration = prefs.get("config");
       var jsonconfig = json.decode(configuration);
 
       config = jsonconfig;
@@ -511,8 +506,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(
                   height: 20,
                 ),
-                Text('Frontend Version: ${version_frontend.toString()}'), // from package_info_plus
-                Text('Installed Backend Version: ${version_backend.toString()}'), // from package_info_plus
+                Text('Frontend Version: ${versionFrontend.toString()}'), // from package_info_plus
+                Text('Installed Backend Version: ${versionBackend.toString()}'), // from package_info_plus
                 SizedBox(height: 20,),
                 TextButton(
                   child: Text(

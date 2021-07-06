@@ -10,7 +10,6 @@ import 'dart:async';
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/fontSizeModel.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
-import 'package:cockpit_devolo/models/configModel.dart';
 import 'package:cockpit_devolo/services/drawOverview.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/alertDialogs.dart';
@@ -19,18 +18,12 @@ import 'package:cockpit_devolo/shared/app_fontSize.dart';
 import 'package:cockpit_devolo/shared/buttons.dart';
 import 'package:cockpit_devolo/shared/devolo_icons_icons.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
-import 'package:flag/flag.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/views/logsScreen.dart';
-import 'package:flutter_spinbox/flutter_spinbox.dart';
-
-//import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:cockpit_devolo/views/appBuilder.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
 
 class SettingsScreen extends StatefulWidget {
   SettingsScreen({
@@ -72,7 +65,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   String? _newPw;
   bool _hiddenPw = true;
   bool _isButtonDisabled = true;
-  bool _loading = false;
   String? _zipfilename;
   String? _htmlfilename;
   var response;

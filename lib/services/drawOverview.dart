@@ -7,7 +7,6 @@ LICENSE file in the root directory of this source tree.
 */
 
 import 'dart:math';
-import 'package:cockpit_devolo/models/configModel.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:cockpit_devolo/models/fontSizeModel.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
@@ -18,12 +17,11 @@ import 'package:cockpit_devolo/shared/imageLoader.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:cockpit_devolo/shared/devolo_icons_icons.dart';
 import 'package:cockpit_devolo/generated/l10n.dart';
-import 'dart:io';
 import 'dart:ui';
 
 class DrawOverview extends CustomPainter {
-  double hn_circle_radius = 35.0;
-  double complete_circle_radius = 50.0;
+  double hnCircleRadius = 35.0;
+  double completeCircleRadius = 50.0;
   late List<Device> _deviceList;
   late List<List<Device>> _networkList;
   late NetworkList _providerList;
@@ -186,7 +184,7 @@ class DrawOverview extends CustomPainter {
     _textPainter.text = textSpan;
     //_textPainter.text = loading as InlineSpan;
     _textPainter.layout(minWidth: 0, maxWidth: 250);
-    _textPainter.paint(canvas, Offset(absoluteOffset.dx - (_textPainter.width / 2), absoluteOffset.dy + (hn_circle_radius + _textPainter.height) - 5));
+    _textPainter.paint(canvas, Offset(absoluteOffset.dx - (_textPainter.width / 2), absoluteOffset.dy + (hnCircleRadius + _textPainter.height) - 5));
   }
 
   void drawOtherConnection(Canvas canvas, Offset deviceOffset, Size size) {
@@ -251,7 +249,7 @@ class DrawOverview extends CustomPainter {
 
     double lineLength = sqrt(pow(absoluteOffset.dx - absolutePivotOffset.dx, 2) + pow(absoluteOffset.dy - absolutePivotOffset.dy, 2));
 
-    double outerCircle = (complete_circle_radius + 7) / lineLength; // factor where the arrow tip ends
+    double outerCircle = (completeCircleRadius + 7) / lineLength; // factor where the arrow tip ends
     double shiftFactor = (1 + (thickness["rx"] + thickness["tx"]) / 4) / lineLength; // how much space between lines (dependents on line thickness)
     double arrowLength = 27 / lineLength; // how long is the arrow tip
 
@@ -370,20 +368,20 @@ class DrawOverview extends CustomPainter {
     Offset absoluteOffset = Offset(_deviceIconOffsetList.elementAt(deviceIndex).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(deviceIndex).dy + (screenHeight / 2));
     Offset absolutePivotOffset = Offset(_deviceIconOffsetList.elementAt(pivotDeviceIndex).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(pivotDeviceIndex).dy + (screenHeight / 2));
 
-    canvas.drawCircle(absoluteOffset, hn_circle_radius + 15, _circleAreaPaint); //"shadow" of the device circle. covers the connection lines.
-    canvas.drawCircle(absoluteOffset, hn_circle_radius, _circleBorderPaint); //the actual circle for a device
+    canvas.drawCircle(absoluteOffset, hnCircleRadius + 15, _circleAreaPaint); //"shadow" of the device circle. covers the connection lines.
+    canvas.drawCircle(absoluteOffset, hnCircleRadius, _circleBorderPaint); //the actual circle for a device
 
     if (showingSpeeds && deviceIndex != pivotDeviceIndex) {
-      canvas.drawCircle(absoluteOffset, hn_circle_radius, _speedCircleAreaPaint); //the inner filling of a device circle, when showing speeds
+      canvas.drawCircle(absoluteOffset, hnCircleRadius, _speedCircleAreaPaint); //the inner filling of a device circle, when showing speeds
     } else {
-      canvas.drawCircle(absoluteOffset, hn_circle_radius, _circleAreaPaint); //the inner filling of a device circle, when showing icons
+      canvas.drawCircle(absoluteOffset, hnCircleRadius, _circleAreaPaint); //the inner filling of a device circle, when showing icons
     }
   }
 
   void drawDeviceIconContent(Canvas canvas, int deviceIndex) {
     Offset absoluteCenterOffset = Offset(_deviceIconOffsetList.elementAt(deviceIndex).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(deviceIndex).dy + (screenHeight / 2));
-    Offset lineStart = Offset(absoluteCenterOffset.dx - hn_circle_radius + 10, absoluteCenterOffset.dy - 5);
-    Offset lineEnd = Offset(absoluteCenterOffset.dx + hn_circle_radius - 10, absoluteCenterOffset.dy - 5);
+    Offset lineStart = Offset(absoluteCenterOffset.dx - hnCircleRadius + 10, absoluteCenterOffset.dy - 5);
+    Offset lineEnd = Offset(absoluteCenterOffset.dx + hnCircleRadius - 10, absoluteCenterOffset.dy - 5);
     //logger.i('showingSpeeds: ' + showingSpeeds.toString());
 
     if (showingSpeeds /*&& deviceIndex != pivotDeviceIndex*/) {
@@ -428,8 +426,8 @@ class DrawOverview extends CustomPainter {
       _speedTextPainter.paint(canvas, Offset(absoluteCenterOffset.dx - (_speedTextPainter.width / 2), absoluteCenterOffset.dy - (_speedTextPainter.height / 2) + 20));
 
       if (deviceIndex == pivotDeviceIndex) {
-        Offset imageRectUpperLeft = Offset(absoluteCenterOffset.dx - (hn_circle_radius / 1.6), absoluteCenterOffset.dy - (hn_circle_radius / 1.6));
-        Offset imageRectLowerRight = Offset(absoluteCenterOffset.dx + (hn_circle_radius / 1.6), absoluteCenterOffset.dy + (hn_circle_radius / 1.6));
+        Offset imageRectUpperLeft = Offset(absoluteCenterOffset.dx - (hnCircleRadius / 1.6), absoluteCenterOffset.dy - (hnCircleRadius / 1.6));
+        Offset imageRectLowerRight = Offset(absoluteCenterOffset.dx + (hnCircleRadius / 1.6), absoluteCenterOffset.dy + (hnCircleRadius / 1.6));
 
         if (areDeviceIconsLoaded) {
           var deviceIcon = getIconForDeviceType(_deviceList.elementAt(pivotDeviceIndex).typeEnum);
@@ -445,8 +443,8 @@ class DrawOverview extends CustomPainter {
         }
       }
     } else {
-      Offset imageRectUpperLeft = Offset(absoluteCenterOffset.dx - (hn_circle_radius / 1.6), absoluteCenterOffset.dy - (hn_circle_radius / 1.6));
-      Offset imageRectLowerRight = Offset(absoluteCenterOffset.dx + (hn_circle_radius / 1.6), absoluteCenterOffset.dy + (hn_circle_radius / 1.6));
+      Offset imageRectUpperLeft = Offset(absoluteCenterOffset.dx - (hnCircleRadius / 1.6), absoluteCenterOffset.dy - (hnCircleRadius / 1.6));
+      Offset imageRectLowerRight = Offset(absoluteCenterOffset.dx + (hnCircleRadius / 1.6), absoluteCenterOffset.dy + (hnCircleRadius / 1.6));
 
       //canvas.drawImage(deviceIconList.elementAt(0), imageOffset, _deviceIconPaint);
       if (areDeviceIconsLoaded) {
@@ -473,7 +471,7 @@ class DrawOverview extends CustomPainter {
     _textPainter.text = userNameTextSpan;
     _textPainter.layout(minWidth: 0, maxWidth: 300);
     double userNameHeight = _textPainter.height;
-    _textPainter.paint(canvas, Offset(absoluteOffset.dx - (_textPainter.width / 2), absoluteOffset.dy + hn_circle_radius + userNameHeight));
+    _textPainter.paint(canvas, Offset(absoluteOffset.dx - (_textPainter.width / 2), absoluteOffset.dy + hnCircleRadius + userNameHeight));
 
     final productNameTextSpan = TextSpan(
       text: pName,
@@ -482,7 +480,7 @@ class DrawOverview extends CustomPainter {
     _textPainter.text = productNameTextSpan;
     _textPainter.layout(minWidth: 0, maxWidth: 300);
     double productNameHeight = _textPainter.height;
-    _textPainter.paint(canvas, Offset(absoluteOffset.dx - (_textPainter.width / 2), absoluteOffset.dy + hn_circle_radius + productNameHeight + userNameHeight));
+    _textPainter.paint(canvas, Offset(absoluteOffset.dx - (_textPainter.width / 2), absoluteOffset.dy + hnCircleRadius + productNameHeight + userNameHeight));
   }
 
   void drawPCIcon(Canvas canvas, Size size) {
@@ -552,7 +550,7 @@ class DrawOverview extends CustomPainter {
       _textPainter.paint(canvas, absoluteAreaOffset.translate(35, -7));
     }
 
-    canvas.drawCircle(absoluteAreaOffset, hn_circle_radius, _circleAreaPaint); //"shadow" of the device circle. covers the connection lines.
+    canvas.drawCircle(absoluteAreaOffset, hnCircleRadius, _circleAreaPaint); //"shadow" of the device circle. covers the connection lines.
 
     _iconPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: 60.0, fontFamily: icon.fontFamily, color: drawingColor));
     _iconPainter.layout();
@@ -561,10 +559,10 @@ class DrawOverview extends CustomPainter {
   }
 
   void drawIcon(Canvas canvas, Offset offset, icon, [double? size]) {
-    Offset offsetCircle = Offset(offset.dx - hn_circle_radius.toDouble() / 2.0, offset.dy);
+    Offset offsetCircle = Offset(offset.dx - hnCircleRadius.toDouble() / 2.0, offset.dy);
     size??=30.0;
 
-    canvas.drawCircle(offset, hn_circle_radius - 10, _circleAreaPaint);
+    canvas.drawCircle(offset, hnCircleRadius - 10, _circleAreaPaint);
 
     _iconPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: size, fontFamily: icon.fontFamily, color: drawingColor, backgroundColor: backgroundColor));
     _iconPainter.layout();
@@ -717,7 +715,7 @@ class DrawOverview extends CustomPainter {
       //draw the pivot device icon last to cover all the line endings
       drawDeviceIconEmpty(canvas, pivotDeviceIndex);
       drawDeviceIconContent(canvas, pivotDeviceIndex);
-      drawDeviceName(canvas, _deviceList.elementAt(0).type, _deviceList.elementAt(0).name, _deviceIconOffsetList.elementAt(0).translate(0, -complete_circle_radius * 3), size);
+      drawDeviceName(canvas, _deviceList.elementAt(0).type, _deviceList.elementAt(0).name, _deviceIconOffsetList.elementAt(0).translate(0, -completeCircleRadius * 3), size);
     } else {
       drawNoDevices(canvas, _deviceIconOffsetList.elementAt(0));
     }
@@ -769,6 +767,6 @@ class DrawOverview extends CustomPainter {
 
     return false;
 
-    return oldDelegate.numberFoundDevices != numberFoundDevices;
+    //return oldDelegate.numberFoundDevices != numberFoundDevices;
   }
 }

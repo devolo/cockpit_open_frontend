@@ -21,7 +21,6 @@ import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/shared/imageLoader.dart';
-import 'dart:ui' as ui;
 
 class UpdateScreen extends StatefulWidget {
   UpdateScreen({Key? key, required this.title, NetworkList? deviceList}) : super(key: key);
@@ -51,11 +50,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
   bool _searchingCockpitUpdate = false;
   List<String> _upgradingDevicesList = [];
   bool _upgradingCockpit = false;
-  DateTime _lastPoll = DateTime.now();
 
   bool _changeNameLoading = false;
 
-  final _scrollController = ScrollController();
   FocusNode myFocusNode = new FocusNode();
 
   late FontSize fontSize;

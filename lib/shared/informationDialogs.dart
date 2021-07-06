@@ -278,7 +278,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 5.0),
                   child: SelectableText(
-                      hitDevice.version + "(" + hitDevice.version_date + ")"),
+                      hitDevice.version + "(" + hitDevice.versionDate + ")"),
                 ),
               ]),
               TableRow(children: [
@@ -445,20 +445,20 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                           hoverColor: fontColorOnBackground.withAlpha(50),
                           disabledColor: fontColorOnBackground.withOpacity(0.33),
                           iconSize: 24.0 * fontSize.factor,
-                          onPressed: (hitDevice.supported_vdsl.isNotEmpty)
+                          onPressed: (hitDevice.supportedVDSL.isNotEmpty)
                               ? () { showVDSLDialog(
-                              context,socket, hitDevice.mode_vdsl, hitDevice.supported_vdsl,
-                              hitDevice.selected_vdsl, hitDevice.mac, fontSize);
+                              context,socket, hitDevice.modeVDSL, hitDevice.supportedVDSL,
+                              hitDevice.selectedVDSL, hitDevice.mac, fontSize);
                           }
                           : null,
-                        mouseCursor: !hitDevice.supported_vdsl.isNotEmpty ? SystemMouseCursors
+                        mouseCursor: !hitDevice.supportedVDSL.isNotEmpty ? SystemMouseCursors
                             .basic : SystemMouseCursors.click,
                       ),
                       Text(
                         S
                             .of(context)
                             .setVdslCompatibility,
-                        style: TextStyle(fontSize: 14, color: !hitDevice.supported_vdsl.isNotEmpty ? fontColorOnBackground.withOpacity(0.33) : fontColorOnBackground),                        textScaleFactor: fontSize.factor,
+                        style: TextStyle(fontSize: 14, color: !hitDevice.supportedVDSL.isNotEmpty ? fontColorOnBackground.withOpacity(0.33) : fontColorOnBackground),                        textScaleFactor: fontSize.factor,
                         textAlign: TextAlign.center,
                       )
                     ],
@@ -584,7 +584,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                     )
                   ],
                 ), //ToDo Delete Device see wiki
-              if (hitDevice.disable_traffic[0] == 1 || hitDevice.disable_leds[0] == 1 || hitDevice.disable_standby[0] == 1)
+              if (hitDevice.disableTraffic[0] == 1 || hitDevice.disableLeds[0] == 1 || hitDevice.disableStandby[0] == 1)
                 Column(
                   children: [
                     IconButton(
@@ -595,7 +595,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                         hoverColor: fontColorOnBackground.withAlpha(50),
                         iconSize: 24.0 * fontSize.factor,
                         onPressed: () {
-                          moreSettings(context,socket,hitDevice.disable_traffic,hitDevice.disable_leds, hitDevice.disable_standby, hitDevice.mac, fontSize);
+                          moreSettings(context,socket,hitDevice.disableTraffic,hitDevice.disableLeds, hitDevice.disableStandby, hitDevice.mac, fontSize);
                         }),
                     Text(
                       S.of(context).additionalSettings,
@@ -732,7 +732,7 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
   }
 }
 
-void moreSettings(BuildContext context, socket, List<int> disable_traffic,List<int> disable_leds, List<int> disable_standby, String mac, FontSize fontSize) {
+void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<int> disableLeds, List<int> disableStandby, String mac, FontSize fontSize) {
 
   // Styling
   Color switchActiveTrackColor = devoloGreen.withOpacity(0.4);
@@ -762,17 +762,17 @@ void moreSettings(BuildContext context, socket, List<int> disable_traffic,List<i
           content: Column(
             mainAxisSize: MainAxisSize.min,
               children: [
-                if(disable_leds[0] == 1)
+                if(disableLeds[0] == 1)
                   SwitchListTile(
                     title:  Text(S.of(context).activateLEDs, style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor )),
-                    value: disable_leds[1] == 0 ? true : false,
+                    value: disableLeds[1] == 0 ? true : false,
                     onChanged: (bool value) async {
                       String newStatus =  value? "0" : "1";
                       socket.sendXML('DisableLEDs', newValue: newStatus, valueType: 'state', mac: mac);
                       circularProgressIndicatorInMiddle(context);
                       var response = await socket.receiveXML("DisableLEDsStatus");
                       if(response['result'] == "ok") {
-                        disable_leds[1] = value ? 0 : 1;
+                        disableLeds[1] = value ? 0 : 1;
                         Navigator.maybeOf(context)!.pop();
                       }
                       else{
@@ -787,17 +787,17 @@ void moreSettings(BuildContext context, socket, List<int> disable_traffic,List<i
                     inactiveThumbColor: switchInactiveThumbColor,
                     inactiveTrackColor: switchInactiveTrackColor,
                   ),
-                if(disable_traffic[0] == 1)
+                if(disableTraffic[0] == 1)
                   SwitchListTile(
                     title: Text(S.of(context).activateTransmission, style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor )),
-                    value: disable_traffic[1] == 0 ? true : false,
+                    value: disableTraffic[1] == 0 ? true : false,
                     onChanged: (bool value) async {
                       String newStatus =  value? "0" : "1";
                       socket.sendXML('DisableTraffic', newValue: newStatus, valueType: 'state', mac: mac);
                       circularProgressIndicatorInMiddle(context);
                       var response = await socket.receiveXML("DisableTrafficStatus");
                       if(response['result'] == "ok"){
-                        disable_traffic[1] = value ? 0 : 1;
+                        disableTraffic[1] = value ? 0 : 1;
                         Navigator.maybeOf(context)!.pop();
                       }
                       else{
@@ -813,17 +813,17 @@ void moreSettings(BuildContext context, socket, List<int> disable_traffic,List<i
                     inactiveThumbColor: switchInactiveThumbColor,
                     inactiveTrackColor: switchInactiveTrackColor,
                   ),
-                if(disable_standby[0] == 1)
+                if(disableStandby[0] == 1)
                   SwitchListTile(
                     title: Text(S.of(context).powerSavingMode, style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor )),
-                    value: disable_standby[1] == 0 ? true : false,
+                    value: disableStandby[1] == 0 ? true : false,
                     onChanged: (bool value) async {
                       String newStatus =  value? "0" : "1";
                       socket.sendXML('DisableStandby', newValue: newStatus, valueType: 'state', mac: mac);
                       circularProgressIndicatorInMiddle(context);
                       var response = await socket.receiveXML("DisableStandbyStatus");
                       if(response['result'] == "ok"){
-                        disable_standby[1] = value ? 0 : 1;
+                        disableStandby[1] = value ? 0 : 1;
                         Navigator.maybeOf(context)!.pop();
                       }
                       else{

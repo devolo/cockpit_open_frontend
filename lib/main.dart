@@ -275,7 +275,7 @@ class _MyHomePageState extends State<MyHomePage> {
             InkWell(child: Icon(DevoloIcons.logo, color: fontColorOnMain,)),
             Spacer(),
             DropdownButton<String>(
-              value: config["language"],
+              value: config["language"] == "" ? "en" : config["language"], // this had to be done, because config["language"] isn´t directly initialized as reading SharedPreferences needs some time
               dropdownColor: secondColor,
               //isDense: true,
               elevation: 8,
@@ -504,7 +504,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 Padding(padding: EdgeInsets.only(right: 110 * fontSize.factor),child: Icon(DevoloIcons.logo, color: drawingColor, size: 24 * fontSize.factor)),
                 GestureDetector(
-                    child: Text("\nwww.devolo.de", style: TextStyle(decoration: TextDecoration.underline, color: devoloBlue)),
+                    child: Text("\nwww.devolo.de", style: TextStyle(decoration: TextDecoration.underline, color: drawingColor)),
                     onTap: () {
                       launch("https://www.devolo.de/");
                     }),

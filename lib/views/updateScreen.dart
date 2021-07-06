@@ -39,7 +39,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
   /* =========== Styling =========== */
 
-  double splashRadius = 25;
+  double splashRadius = 18;
   double opacity = 0.2;
   Color splashColor = fontColorOnBackground.withOpacity(0.2);
 
@@ -131,7 +131,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
     return new Scaffold(
       backgroundColor: Colors.transparent,
       body: Padding(
-        padding: EdgeInsets.only(top: paddingBarTop, left: 20, right: 20, bottom: 20),
+        padding: EdgeInsets.only(top: paddingBarTop, left: 20, right: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -418,7 +418,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                         iconSize: 24 * fontSize.factor,
                                         hoverColor: splashColor,
                                         splashColor: splashColor,
-                                        splashRadius: splashRadius,
+                                        splashRadius: splashRadius * fontSize.factor,
                                         disabledColor: fontColorOnBackground.withOpacity(opacity),
                                         onPressed: _upgradingDevicesList.isNotEmpty
                                             ? null
@@ -435,8 +435,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         minLeadingWidth: 1,
                         horizontalTitleGap: 1,
                         dense:true,
-                        contentPadding: EdgeInsets.symmetric(vertical: 16.0, horizontal:
-                        10.0),
+                        contentPadding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 15),
                         leading: Icon(
                           Icons.speed_rounded,
                           color: fontColorOnBackground,
@@ -518,7 +517,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                     child:
                                       IconButton(
                                           hoverColor: splashColor,
-                                          splashRadius: splashRadius,
+                                          splashRadius: splashRadius * fontSize.factor,
                                           splashColor: splashColor,
                                           color: fontColorOnBackground,
                                           icon: Icon(

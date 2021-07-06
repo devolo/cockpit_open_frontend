@@ -279,42 +279,50 @@ mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.center,
 
                         children: [
-                          TextButton(
-                            style: ButtonStyle(padding: MaterialStateProperty.all<EdgeInsetsGeometry?>(EdgeInsets.only(top:(23/2)+9)), overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33))),
-                            onPressed: () {
-                              setState(() {
-                                fontSize.factor = 0.9;
-                                config["font_size_factor"] = 0.9;
-                              });
-                              saveToSharedPrefs(config);
-                              AppBuilder.of(context)!.rebuild();
-                            },
+                          Column(children: [
+                            SizedBox(height: 10),
+                            TextButton(
+                              style: ButtonStyle(overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33))),
+                              onPressed: () {
+                                setState(() {
+                                  fontSize.factor = 1.1;
+                                  config["font_size_factor"] = 1.1;
+                                });
+                                saveToSharedPrefs(config);
+                                AppBuilder.of(context)!.rebuild();
+                              },
                               child: Icon(Icons.text_format, size: 23, color: fontColorOnSecond,),
-                          ),
-                          TextButton(
-                            style: ButtonStyle(padding: MaterialStateProperty.all<EdgeInsetsGeometry?>(EdgeInsets.only(top:(29/2)+3)), overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33))),
-                            onPressed: () {
-                              setState(() {
-                                fontSize.factor = 1.1;
-                                config["font_size_factor"] = 1.1;
-                              });
-                              saveToSharedPrefs(config);
-                              AppBuilder.of(context)!.rebuild();
-                            },
+                            ),
+                          ]),
+                          Column(children: [
+                            SizedBox(height: 7),
+                            TextButton(
+                              style: ButtonStyle(overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33))),
+                              onPressed: () {
+                                setState(() {
+                                  fontSize.factor = 1.1;
+                                  config["font_size_factor"] = 1.1;
+                                });
+                                saveToSharedPrefs(config);
+                                AppBuilder.of(context)!.rebuild();
+                              },
                               child: Icon(Icons.text_format, size: 29, color: fontColorOnSecond,),
-                          ),
-                          TextButton(
-                            style: ButtonStyle(padding: MaterialStateProperty.all<EdgeInsetsGeometry?>(EdgeInsets.only(top:(38/2)-8)), overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33))),
-                            onPressed: () {
-                              setState(() {
-                                fontSize.factor = 1.4;
-                                config["font_size_factor"] = 1.4;
-                              });
-                              saveToSharedPrefs(config);
-                              AppBuilder.of(context)!.rebuild();
-                            },
+                            ),
+                          ]),
+                          Column(children: [
+                            TextButton(
+                              style: ButtonStyle(overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33))),
+                              onPressed: () {
+                                setState(() {
+                                  fontSize.factor = 1.1;
+                                  config["font_size_factor"] = 1.1;
+                                });
+                                saveToSharedPrefs(config);
+                                AppBuilder.of(context)!.rebuild();
+                              },
                               child: Icon(Icons.text_format, size: 38, color: fontColorOnSecond,),
-                          ),
+                            ),
+                          ]),
                         ],
                       ),
                     )

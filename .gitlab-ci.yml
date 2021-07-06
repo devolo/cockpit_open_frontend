@@ -1,0 +1,9 @@
+test:
+  stage: test
+  script:
+    - flutter test --machine | tojunit -o report.xml
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - report.xml

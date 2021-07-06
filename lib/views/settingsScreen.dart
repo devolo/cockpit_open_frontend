@@ -109,14 +109,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     fontSize = context.watch<FontSize>();
 
+    var width = MediaQuery.of(context).size.width;
+
     return new Scaffold(
       backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
         padding: EdgeInsets.only(top: paddingBarTop),
         controller: _scrollController, // <---- Here, the controller
         //isAlwaysShown: true, // <---- Required
+
         child: Padding(
-          padding: const EdgeInsets.only(left: 200, right: 200),
+          padding: EdgeInsets.only(left: width/7, right: width/7),
           child: new Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -585,137 +588,143 @@ mainAxisAlignment: MainAxisAlignment.end,
           content: StatefulBuilder(
             // You need this, notice the parameters below:
             builder: (BuildContext context, StateSetter setState) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Wrap(
-                    alignment: WrapAlignment.spaceBetween,
-                    spacing: 20,
+              var width = MediaQuery.of(context).size.width;
+              return SingleChildScrollView(
+                child: Container(
+                  width: width - 200,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      new TextButton(
-                        child: Column(
-                          children: [
-                            SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_devolo.PNG'))),
-                            new Text(
-                              "Standard Theme",
-                              style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                      Wrap(
+                        alignment: WrapAlignment.center,
+                        spacing: 20,
+                        children: [
+                          new TextButton(
+                            child: Column(
+                              children: [
+                                SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_devolo.PNG'))),
+                                new Text(
+                                  "Standard Theme",
+                                  style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.resolveWith<
-                              Color?>(
-                                (states) {
-                              if (states.contains(MaterialState.hovered)) {
-                                return fontColorOnBackground.withOpacity(0.3);
-                              }
-                              return Colors.transparent;
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.resolveWith<
+                                  Color?>(
+                                    (states) {
+                                  if (states.contains(MaterialState.hovered)) {
+                                    return fontColorOnBackground.withOpacity(0.3);
+                                  }
+                                  return Colors.transparent;
+                                },
+                              ),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                //config["theme"] = theme_devolo;
+                                setTheme(theme_devolo["name"]);
+                                config["theme"] = theme_devolo["name"];
+                                saveToSharedPrefs(config);
+                                AppBuilder.of(context)!.rebuild();
+                              });
                             },
                           ),
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            //config["theme"] = theme_devolo;
-                            setTheme(theme_devolo["name"]);
-                            config["theme"] = theme_devolo["name"];
-                            saveToSharedPrefs(config);
-                            AppBuilder.of(context)!.rebuild();
-                          });
-                        },
-                      ),
-                      new TextButton(
-                        child: Column(
-                          children: [
-                            SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_dark.PNG'))),
-                            new Text(
-                              "Dark Theme",
-                              style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                          new TextButton(
+                            child: Column(
+                              children: [
+                                SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_dark.PNG'))),
+                                new Text(
+                                  "Dark Theme",
+                                  style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.resolveWith<
-                              Color?>(
-                                (states) {
-                              if (states.contains(MaterialState.hovered)) {
-                                return fontColorOnBackground.withOpacity(0.3);
-                              }
-                              return Colors.transparent;
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.resolveWith<
+                                  Color?>(
+                                    (states) {
+                                  if (states.contains(MaterialState.hovered)) {
+                                    return fontColorOnBackground.withOpacity(0.3);
+                                  }
+                                  return Colors.transparent;
+                                },
+                              ),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                setTheme(theme_dark["name"]);
+                                config["theme"] = theme_dark["name"];
+                                saveToSharedPrefs(config);
+                                AppBuilder.of(context)!.rebuild();
+                              });
                             },
                           ),
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            setTheme(theme_dark["name"]);
-                            config["theme"] = theme_dark["name"];
-                            saveToSharedPrefs(config);
-                            AppBuilder.of(context)!.rebuild();
-                          });
-                        },
-                      ),
-                      new TextButton(
-                        child: Column(
-                          children: [
-                            SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_devolo.PNG'))),
-                            new Text(
-                              "Light Theme",
-                              style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                          new TextButton(
+                            child: Column(
+                              children: [
+                                SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_devolo.PNG'))),
+                                new Text(
+                                  "Light Theme",
+                                  style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.resolveWith<
-                              Color?>(
-                                (states) {
-                              if (states.contains(MaterialState.hovered)) {
-                                return fontColorOnBackground.withOpacity(0.3);
-                              }
-                              return Colors.transparent;
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.resolveWith<
+                                  Color?>(
+                                    (states) {
+                                  if (states.contains(MaterialState.hovered)) {
+                                    return fontColorOnBackground.withOpacity(0.3);
+                                  }
+                                  return Colors.transparent;
+                                },
+                              ),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                config["theme"] = theme_light["name"];
+                                setTheme(theme_light["name"]);
+                                saveToSharedPrefs(config);
+                                AppBuilder.of(context)!.rebuild();
+                              });
                             },
                           ),
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            config["theme"] = theme_light["name"];
-                            setTheme(theme_light["name"]);
-                            saveToSharedPrefs(config);
-                            AppBuilder.of(context)!.rebuild();
-                          });
-                        },
-                      ),
-                      new TextButton(
-                        child: Column(
-                          children: [
-                            SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_highContrast.PNG'))),
-                            new Text(
-                              "High Contrast Theme",
-                              style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                          new TextButton(
+                            child: Column(
+                              children: [
+                                SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_highContrast.PNG'))),
+                                new Text(
+                                  "High Contrast Theme",
+                                  style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.resolveWith<
-                              Color?>(
-                                (states) {
-                              if (states.contains(MaterialState.hovered)) {
-                                return fontColorOnBackground.withOpacity(0.3);
-                              }
-                              return Colors.transparent;
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.resolveWith<
+                                  Color?>(
+                                    (states) {
+                                  if (states.contains(MaterialState.hovered)) {
+                                    return fontColorOnBackground.withOpacity(0.3);
+                                  }
+                                  return Colors.transparent;
+                                },
+                              ),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                config["theme"] = theme_highContrast["name"];
+                                setTheme(theme_highContrast["name"]);
+                                saveToSharedPrefs(config);
+                                AppBuilder.of(context)!.rebuild();
+                              });
                             },
                           ),
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            config["theme"] = theme_highContrast["name"];
-                            setTheme(theme_highContrast["name"]);
-                            saveToSharedPrefs(config);
-                            AppBuilder.of(context)!.rebuild();
-                          });
-                        },
+                        ],
                       ),
                     ],
                   ),
-                ],
+                ),
               );
             },
           ),

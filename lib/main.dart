@@ -9,6 +9,8 @@ LICENSE file in the root directory of this source tree.
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
+import 'package:cockpit_devolo/shared/app_fontSize.dart';
+import 'package:cockpit_devolo/shared/buttons.dart';
 import 'package:cockpit_devolo/shared/devolo_icons_icons.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:cockpit_devolo/views/helpScreen.dart';
@@ -72,6 +74,8 @@ class MyApp extends StatelessWidget {
               return MaterialApp(
                 title: 'devolo Cockpit',
                 theme: ThemeData(
+
+                  dialogTheme: DialogTheme(backgroundColor: backgroundColor.withOpacity(0.9)),
 
                   highlightColor: Colors.transparent,
                   textTheme: Theme.of(context).textTheme.apply(
@@ -201,15 +205,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List<BottomNavigationBarItem> buildBottomNavBarItems() {
     return [
-      BottomNavigationBarItem(icon: Icon(Icons.workspaces_filled), label: S.of(context).overview),
+      BottomNavigationBarItem(icon: Icon(Icons.workspaces_filled), label: S.of(context).overview, tooltip: ""),
       BottomNavigationBarItem(
         icon: Icon(DevoloIcons.ic_file_download_24px),
         label: S.of(context).update,
+        tooltip: "",
       ),
-      BottomNavigationBarItem(icon: Icon(DevoloIcons.ic_help_24px), label: S.of(context).help),
+      BottomNavigationBarItem(icon: Icon(DevoloIcons.ic_help_24px), label: S.of(context).help, tooltip: "",),
       BottomNavigationBarItem(
         icon: Icon(DevoloIcons.devolo_UI_settings),
         label: S.of(context).settings,
+        tooltip: "",
       ),
     ];
   }
@@ -269,25 +275,12 @@ class _MyHomePageState extends State<MyHomePage> {
             InkWell(child: Icon(DevoloIcons.logo, color: fontColorOnMain,)),
             Spacer(),
             DropdownButton<String>(
+              value: config["language"],
               dropdownColor: secondColor,
-              isDense: true,
-              icon: Row(
-                children: [
-                  Flag(
-                    config["language"] == 'en' ? 'gb' : config["language"], // ToDo which flag?
-                    height: 15,
-                    width: 25,
-                    fit: BoxFit.fill,
-                  ),
-                  Icon(
-                    DevoloIcons.ic_arrow_drop_down_24px,
-                    color: fontColorOnMain,
-                  ),
-                ],
-              ),
-              iconSize: 24,
+              //isDense: true,
               elevation: 8,
-              style: TextStyle(color: fontColorOnMain),
+              style: TextStyle(color: fontColorOnSecond),
+              iconEnabledColor: fontColorOnMain,
               underline: Container(
                 height: 0,
                 color: secondColor,
@@ -301,6 +294,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 AppBuilder.of(context)!.rebuild();
                 saveToSharedPrefs(config);
               },
+              selectedItemBuilder: (BuildContext context) {
+                return languageList.map((String value) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Flag(
+                        value == 'en' ? 'gb' : value, // ToDo which flag?
+                        height: 15,
+                        width: 25,
+                        fit: BoxFit.fill,
+                      ),
+                    ],
+                  );
+                }).toList();
+              },
               items: languageList.map<DropdownMenuItem<String>>((String _value2) {
                 return DropdownMenuItem<String>(
                   value: _value2,
@@ -309,7 +317,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: [
                       Text(
                         _value2 + " ",
-                        style: TextStyle(color: fontColorOnSecond),
+                        textScaleFactor: fontSize.factor,
                       ),
                       Flag(
                         _value2 == 'en' ? 'gb' : _value2, // ToDo which flag?
@@ -468,6 +476,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  //added showLicenses button manually!!!
   void _appInfoAlert(context) {
     //ToDo not working yet, switch _index and rebuild
     showDialog<void>(
@@ -475,52 +484,67 @@ class _MyHomePageState extends State<MyHomePage> {
         barrierDismissible: true, // user doesn't need to tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(
-              S.of(context).appInformation,
-              textAlign: TextAlign.center,
-              style: TextStyle(color: fontColorOnMain),
+            title: Column(
+              children: [
+                getCloseButton(context),
+                Center(
+                    child: Text(
+                      S.of(context).appInformation,
+                      textAlign: TextAlign.center,
+                    ),
+                ),
+              ],
             ),
-            backgroundColor: mainColor,
-            contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18),
-            content: Container(
-              child: Column(
-                //crossAxisAlignment: CrossAxisAlignment.center,
-                //mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(DevoloIcons.logo, color: drawingColor, ),
-                  GestureDetector(
-                      child: Text("\nwww.devolo.de", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue)),
-                      onTap: () {
-                        launch("https://www.devolo.de/");
-                      }),
-                  SizedBox(
-                    height: 20,
+            titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
+            contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(padding: EdgeInsets.only(right: 110 * fontSize.factor),child: Icon(DevoloIcons.logo, color: drawingColor, size: 24 * fontSize.factor)),
+                GestureDetector(
+                    child: Text("\nwww.devolo.de", style: TextStyle(decoration: TextDecoration.underline, color: devoloBlue)),
+                    onTap: () {
+                      launch("https://www.devolo.de/");
+                    }),
+                SizedBox(
+                  height: 20,
+                ),
+                Text('Frontend Version: ${version_frontend.toString()}'), // from package_info_plus
+                Text('Installed Backend Version: ${version_backend.toString()}'), // from package_info_plus
+                SizedBox(height: 20,),
+                TextButton(
+                  child: Text(
+                    S.of(context).showLicences,
+                    style: TextStyle(fontSize: dialogContentTextFontSize, color: Colors.white),
+                    textScaleFactor: fontSize.factor,
                   ),
-                  Text('Frontend Version: ${version_frontend.toString()}'), // from package_info_plus
-                  Text('Installed Backend Version: ${version_backend.toString()}'), // from package_info_plus
-                  SizedBox(height: 20,),
-                  RaisedButton(onPressed: () {
-                    Navigator.push(
-                      context,
-                      new MaterialPageRoute(builder: (context) => new LicensePage()),
-                    );
+                  onPressed: () {
+                    Navigator.maybeOf(context)!.pop(true);
                   },
-                  child: Text("show Licences"))
-                ],
-              ),
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                            (states) {
+                          if (states.contains(MaterialState.hovered)) {
+                            return devoloGreen.withOpacity(hoverOpacity);
+                          } else if (states.contains(MaterialState.pressed)) {
+                            return devoloGreen.withOpacity(activeOpacity);
+                          }
+                          return devoloGreen;
+                        },
+                      ),
+                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 13.0, horizontal: 32.0)),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          )
+                      )
+                  ),
+                ),
+              ],
             ),
             actions: <Widget>[
-              FlatButton(
-                child: Icon(
-                  DevoloIcons.devolo_UI_check_fill,
-                  size: 35,
-                  color: mainColor,
-                ), //Text('Bestätigen'),
-                onPressed: () {
-                  // Critical things happening here
-                  Navigator.pop(context);
-                },
-              ),
             ],
           );
         });

@@ -28,13 +28,13 @@
   "save": "Save",
   "support": "Support",
   "generateSupportInformation": "Generate support information",
-  "openSupportInformations": "Open support informations",
-  "saveSupportInformations": "Save support informations",
-  "sendToDevolo": "send support informations to devolo Support",
+  "openSupportInformations": "Open",
+  "saveSupportInformations": "Save",
+  "sendToDevolo": "Send",
   "showLogs": "Show logs",
   "pleaseConfirmAction": "Confirm action",
   "contactInfo": "Contact information",
-  "theCreatedSupportInformationCanNowBeSentToDevolo": "The created support information can now be sent to devolo support.\nFill the following fields",
+  "theCreatedSupportInformationCanNowBeSentToDevolo": "The created support information can now be sent to devolo support.\nFill in the following fields",
   "processNumber": "Process number",
   "pleaseEnterProcessingNumber": "Enter processing number",
   "yourName": "Your name",
@@ -145,7 +145,7 @@
   "automaticCompatibilityMode": "Automatic compatibility mode (recommended)",
   "vdslCompatibility": "VDSL compatibility",
   "cockpitSupportInformationsTitle": "devolo Cockpit support informations",
-  "LoadCockpitSupportInformationsBody": "Support informations are getting generated.",
+  "LoadCockpitSupportInformationsBody": "Support informations are getting generated",
   "cockpitSupportInformationsBody": "The support informations have been created and are now available to you. Please select an action.",
   "emailIsInvalid": "E-mail is invalid",
   "supportInfoGenerateError": "An error occurred while creating the support informations.\nPlease try again!",
@@ -167,4 +167,6 @@
   "complete": "complete",
   "failed": "failed",
   "pending": "pending"
+  "powerSavingModeFailedBody": "An error occurred while setting the Power save mode!\nTry again later",
+  "showLicences": "show licenses"
 }

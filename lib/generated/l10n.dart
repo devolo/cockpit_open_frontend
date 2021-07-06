@@ -290,30 +290,30 @@ class S {
     );
   }
 
-  /// `Open support informations`
+  /// `Open`
   String get openSupportInformations {
     return Intl.message(
-      'Open support informations',
+      'Open',
       name: 'openSupportInformations',
       desc: '',
       args: [],
     );
   }
 
-  /// `Save support informations`
+  /// `Save`
   String get saveSupportInformations {
     return Intl.message(
-      'Save support informations',
+      'Save',
       name: 'saveSupportInformations',
       desc: '',
       args: [],
     );
   }
 
-  /// `send support informations to devolo Support`
+  /// `Send`
   String get sendToDevolo {
     return Intl.message(
-      'send support informations to devolo Support',
+      'Send',
       name: 'sendToDevolo',
       desc: '',
       args: [],
@@ -350,10 +350,10 @@ class S {
     );
   }
 
-  /// `The created support information can now be sent to devolo support.\nFill the following fields`
+  /// `The created support information can now be sent to devolo support.\nFill in the following fields`
   String get theCreatedSupportInformationCanNowBeSentToDevolo {
     return Intl.message(
-      'The created support information can now be sent to devolo support.\nFill the following fields',
+      'The created support information can now be sent to devolo support.\nFill in the following fields',
       name: 'theCreatedSupportInformationCanNowBeSentToDevolo',
       desc: '',
       args: [],
@@ -1410,10 +1410,10 @@ class S {
     );
   }
 
-  /// `Support informations are getting generated.`
+  /// `Support informations are getting generated`
   String get LoadCockpitSupportInformationsBody {
     return Intl.message(
-      'Support informations are getting generated.',
+      'Support informations are getting generated',
       name: 'LoadCockpitSupportInformationsBody',
       desc: '',
       args: [],
@@ -1605,6 +1605,16 @@ class S {
     return Intl.message(
       'pending',
       name: 'pending',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `show licenses`
+  String get showLicences {
+    return Intl.message(
+      'show licenses',
+      name: 'showLicences',
       desc: '',
       args: [],
     );

@@ -4,13 +4,14 @@ import 'package:cockpit_devolo/shared/devolo_icons_icons.dart';
 import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
+import 'app_fontSize.dart';
 
 getConfirmButton(context, FontSize fontSize) {
 
   return TextButton(
     child: Text(
       S.of(context).confirm,
-      style: TextStyle(fontSize: 14, color: Colors.white),
+      style: TextStyle(fontSize: dialogContentTextFontSize, color: Colors.white),
       textScaleFactor: fontSize.factor,
     ),
     onPressed: () {
@@ -42,7 +43,7 @@ getCancelButton(context, FontSize fontSize) {
   return TextButton(
     child: Text(
       S.of(context).cancel,
-      style: TextStyle(fontSize: 14),
+      style: TextStyle(fontSize: dialogContentTextFontSize),
       textScaleFactor: fontSize.factor,
     ),
     onPressed: () {
@@ -94,7 +95,7 @@ getGreenButton(context, text, FontSize fontSize) {
   return TextButton(
     child: Text(
       text,
-      style: TextStyle(fontSize: 14, color: fontColorOnMain),
+      style: TextStyle(fontSize: dialogContentTextFontSize, color: fontColorOnMain),
       textScaleFactor: fontSize.factor,
     ),
     onPressed: () {

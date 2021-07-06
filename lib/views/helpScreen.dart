@@ -32,12 +32,6 @@ class AddDeviceScreen extends StatefulWidget {
 
 class _AddDeviceScreenState extends State<AddDeviceScreen> {
 
-  /* =========== Styling =========== */
-
-  double paddingContentTop = 10;
-
-  /* ===========  =========== */
-
   var response;
 
   //_AddDeviceScreenState({required this.title});
@@ -53,8 +47,6 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
-  double paddingBarTop = 10;
-
   @override
   Widget build(BuildContext context) {
     _currImage = optimizeImages.first;
@@ -67,13 +59,13 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
 
       body: new SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.only(top: paddingContentTop, left: 20, right: 20),
+          padding: EdgeInsets.only(top: paddingBarTop, left: 20, right: 20),
           child: Column(
             //crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
                 S.of(context).help,
-                style: TextStyle(fontSize: fontSizeAppBarTitle * fontSize.factor, color: fontColorOnMain),
+                style: TextStyle(fontSize: fontSizeAppBarTitle * fontSize.factor, color: fontColorOnBackground),
               ),
               SizedBox(height:paddingBarTop),
               Row(
@@ -541,10 +533,9 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
           return AlertDialog(
             title: Text(
               S.of(context).contactInfo,
-              style: TextStyle(color: fontColorOnBackground),
             ),
-            backgroundColor: backgroundColor.withOpacity(0.9),
-            contentTextStyle: TextStyle(color: fontColorOnBackground),
+            titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
+            contentTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -561,7 +552,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                         style: TextStyle(color: fontColorOnBackground),
                         decoration: InputDecoration(
                           labelText: S.of(context).processNumber,
-                          labelStyle: TextStyle(color: fontColorOnBackground),
+                          labelStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
                           hoverColor: fontColorOnBackground.withOpacity(0.2),
                           contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                           filled: true,
@@ -599,7 +590,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                         style: TextStyle(color: fontColorOnBackground),
                         decoration: InputDecoration(
                           labelText: S.of(context).yourName,
-                          labelStyle: TextStyle(color: fontColorOnBackground),
+                          labelStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
                           hoverColor: fontColorOnBackground.withOpacity(0.2),
                           contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                           filled: true,
@@ -637,7 +628,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                         style: TextStyle(color: fontColorOnBackground),
                         decoration: InputDecoration(
                           labelText: S.of(context).yourEmailaddress,
-                          labelStyle: TextStyle(color: fontColorOnBackground),
+                          labelStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
                           counterStyle: TextStyle(color: fontColorOnBackground),
                           hoverColor: fontColorOnBackground.withOpacity(0.2),
                           contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
@@ -681,7 +672,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
               TextButton(
                 child: Text(
                   S.of(context).confirm,
-                  style: TextStyle(fontSize: 14, color: Colors.white),
+                  style: TextStyle(fontSize: dialogContentTextFontSize, color: Colors.white),
                   textScaleFactor: fontSize.factor,
                 ),
                 onPressed: () {
@@ -718,7 +709,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
               TextButton(
                 child: Text(
                   S.of(context).cancel,
-                  style: TextStyle(fontSize: 14),
+                  style: TextStyle(fontSize: dialogContentTextFontSize),
                   textScaleFactor: fontSize.factor,
                 ),
                 onPressed: () {
@@ -798,9 +789,8 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                 ),
               ],
             ),
-            titlePadding: EdgeInsets.all(2),
-            backgroundColor: backgroundColor.withOpacity(0.9),
-            contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: 18 * fontSize.factor),
+            titlePadding: EdgeInsets.all(dialogTitlePadding),
+            contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children:[
@@ -859,14 +849,13 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                 Center(
                     child: Text(
                       S.of(context).cockpitSupportInformationsTitle,
-                      style: TextStyle(color: fontColorOnBackground),
                     )
                 ),
               ],
             ),
-            titlePadding: EdgeInsets.all(2),
-            backgroundColor: backgroundColor.withOpacity(0.9),
-            //insetPadding: EdgeInsets.symmetric(horizontal: 300, vertical: 100),
+            titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize* fontSize.factor),
+            titlePadding: EdgeInsets.all(dialogTitlePadding),
+            contentTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize* fontSize.factor),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -875,80 +864,6 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                   child: Text(
                     S.of(context).cockpitSupportInformationsBody,
                     style: TextStyle(color: fontColorOnBackground),
-                  ),
-                ),
-                SizedBox(height: 20,),
-                TextButton(
-                  child: Row(mainAxisAlignment: MainAxisAlignment.center,children: [
-                    Icon(
-                      Icons.open_in_browser,
-                      color: fontColorOnMain,
-                      size: 24 * fontSize.factor,
-                    ),
-                    SizedBox(width: 4,),
-                    Text(
-                      S.of(context).openSupportInformations,
-                      style: TextStyle(fontSize: 14, color: fontColorOnMain),
-                      textScaleFactor: fontSize.factor,
-                    ),
-                  ]),
-                  onPressed: () {
-                    openFile(htmlFileName);
-                    },
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith<Color?>(
-                            (states) {
-                              if (states.contains(MaterialState.hovered)) {
-                                return devoloGreen.withOpacity(0.7);
-                              } else if (states.contains(MaterialState.pressed)) {
-                                return devoloGreen.withOpacity(0.33);
-                              }
-                              return devoloGreen;
-                              },
-                      ),
-                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 13.0, horizontal: 32.0)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                          )
-                      )
-                  ),
-                ),
-                SizedBox(height: 20,),
-                TextButton(
-                  child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Icon(
-                      DevoloIcons.ic_archive_24px,
-                      color: fontColorOnMain,
-                      size: 24 * fontSize.factor,
-                    ),
-                    SizedBox(width: 4,),
-                    Text(
-                      S.of(context).saveSupportInformations,
-                      style: TextStyle(fontSize: 14, color: fontColorOnMain),
-                      textScaleFactor: fontSize.factor,
-                    ),
-                  ]),
-                  onPressed: () {
-                    openFile(zipFileName);
-                    },
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith<Color?>(
-                            (states) {
-                              if (states.contains(MaterialState.hovered)) {
-                                return devoloGreen.withOpacity(0.7);
-                              } else if (states.contains(MaterialState.pressed)) {
-                                return devoloGreen.withOpacity(0.33);
-                              }
-                              return devoloGreen;
-                              },
-                      ),
-                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 13.0, horizontal: 32.0)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                          )
-                      )
                   ),
                 ),
                 SizedBox(height: 20,),
@@ -962,7 +877,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                     SizedBox(width: 4,),
                     Text(
                       S.of(context).sendToDevolo,
-                      style: TextStyle(fontSize: 14, color: fontColorOnMain),
+                      style: TextStyle(fontSize: dialogContentTextFontSize, color: fontColorOnMain),
                       textScaleFactor: fontSize.factor,
                     ),
                   ]),
@@ -988,6 +903,81 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                       )
                   ),
                 ),
+                SizedBox(height: 20,),
+                TextButton(
+                  child: Row(mainAxisAlignment: MainAxisAlignment.center,children: [
+                    Icon(
+                      Icons.open_in_browser,
+                      color: fontColorOnMain,
+                      size: 24 * fontSize.factor,
+                    ),
+                    SizedBox(width: 4,),
+                    Text(
+                      S.of(context).openSupportInformations,
+                      style: TextStyle(fontSize: dialogContentTextFontSize, color: fontColorOnMain),
+                      textScaleFactor: fontSize.factor,
+                    ),
+                  ]),
+                  onPressed: () {
+                    openFile(htmlFileName);
+                  },
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                            (states) {
+                          if (states.contains(MaterialState.hovered)) {
+                            return devoloGreen.withOpacity(0.7);
+                          } else if (states.contains(MaterialState.pressed)) {
+                            return devoloGreen.withOpacity(0.33);
+                          }
+                          return devoloGreen;
+                        },
+                      ),
+                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 13.0, horizontal: 32.0)),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          )
+                      )
+                  ),
+                ),
+                SizedBox(height: 20,),
+                TextButton(
+                  child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Icon(
+                      DevoloIcons.ic_archive_24px,
+                      color: fontColorOnMain,
+                      size: 24 * fontSize.factor,
+                    ),
+                    SizedBox(width: 4,),
+                    Text(
+                      S.of(context).saveSupportInformations,
+                      style: TextStyle(fontSize: dialogContentTextFontSize, color: fontColorOnMain),
+                      textScaleFactor: fontSize.factor,
+                    ),
+                  ]),
+                  onPressed: () {
+                    openFile(zipFileName);
+                  },
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                            (states) {
+                          if (states.contains(MaterialState.hovered)) {
+                            return devoloGreen.withOpacity(0.7);
+                          } else if (states.contains(MaterialState.pressed)) {
+                            return devoloGreen.withOpacity(0.33);
+                          }
+                          return devoloGreen;
+                        },
+                      ),
+                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 13.0, horizontal: 32.0)),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          )
+                      )
+                  ),
+                ),
+                SizedBox(height: 20,),
               ],
             ),
           );

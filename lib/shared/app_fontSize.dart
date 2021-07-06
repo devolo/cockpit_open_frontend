@@ -10,3 +10,10 @@ double fontSizeAppBarTitle = 28.0;
 double fontSizeSectionTitle = 20.0;
 double fontSizeListTileTitle = 18.0;
 double fontSizeListTileSubtitle = 15.0;
+
+double dialogContentTextFontSize = 17.0;
+double dialogTitleTextFontSize = 23.0;
+double dialogTitlePadding = 2.0;
+
+double paddingContentTop = 10;
+double paddingBarTop = 20;

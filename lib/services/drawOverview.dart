@@ -30,7 +30,6 @@ class DrawOverview extends CustomPainter {
   List<Offset> _deviceIconOffsetList = deviceIconOffsetList;
   int pivotDeviceIndex = 0;
   int selectedNetworkIndex = 0;
-  bool showSpeedsPermanently = false;
   bool showingSpeeds = false; //true: draw the device circles with speeds as content. false: draw device circles with icons as content.
   double dashWidth = 9, dashSpace = 5, startX = 0;
   bool connect = false;
@@ -89,7 +88,7 @@ class DrawOverview extends CustomPainter {
     selectedNetworkIndex = _providerList.selectedNetworkIndex;
     //networkOffsetList.insertAll(0,[Offset(740.0, 74.3), Offset(840.0, 74.3), Offset(640.0, 74.3), Offset(940.0, 74.3)]); // is growable -100 +100 on the opposite site
 
-    showingSpeeds = showSpeeds;
+    showingSpeeds = showSpeeds | config['show_speeds_permanent'];
     pivotDeviceIndex = pivot; // ToDo same
 
     fontSize = context.watch<FontSize>();

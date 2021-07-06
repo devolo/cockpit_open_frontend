@@ -23,7 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "LoadCockpitSupportInformationsBody":
             MessageLookupByLibrary.simpleMessage(
-                "Support informations are getting generated."),
+                "Support informations are getting generated"),
         "UpdateDeviceFailedBody": MessageLookupByLibrary.simpleMessage(
             "Following devices could not be updated:"),
         "UpdateDeviceFailedTitle":
@@ -169,8 +169,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "No devices found. \n\nScanning for devices ..."),
         "openOptimization":
             MessageLookupByLibrary.simpleMessage("Open optimization help"),
-        "openSupportInformations":
-            MessageLookupByLibrary.simpleMessage("Open support informations"),
+        "openSupportInformations": MessageLookupByLibrary.simpleMessage("Open"),
         "optimizationHelp":
             MessageLookupByLibrary.simpleMessage("Optimization help"),
         "optimizeReception":
@@ -224,16 +223,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "resetDeviceErrorTitle":
             MessageLookupByLibrary.simpleMessage("Reset failed"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
-        "saveSupportInformations":
-            MessageLookupByLibrary.simpleMessage("Save support informations"),
+        "saveSupportInformations": MessageLookupByLibrary.simpleMessage("Save"),
         "searching": MessageLookupByLibrary.simpleMessage("Searching..."),
-        "sendToDevolo": MessageLookupByLibrary.simpleMessage(
-            "send support informations to devolo Support"),
+        "sendToDevolo": MessageLookupByLibrary.simpleMessage("Send"),
         "serialNumber": MessageLookupByLibrary.simpleMessage("Serial number"),
         "setUpDevice": MessageLookupByLibrary.simpleMessage("Setup new device"),
         "setVdslCompatibility":
             MessageLookupByLibrary.simpleMessage("Set VDSL \ncompatibility"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "showLicences": MessageLookupByLibrary.simpleMessage("show licenses"),
         "showLogs": MessageLookupByLibrary.simpleMessage("Show logs"),
         "showManual": MessageLookupByLibrary.simpleMessage("Show manual"),
         "showOtherDevices":
@@ -245,7 +243,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "An error occurred while creating the support informations.\nPlease try again!"),
         "theCreatedSupportInformationCanNowBeSentToDevolo":
             MessageLookupByLibrary.simpleMessage(
-                "The created support information can now be sent to devolo support.\nFill the following fields"),
+                "The created support information can now be sent to devolo support.\nFill in the following fields"),
         "theOverviewWillBeCenteredAroundThePlcDeviceConnected":
             MessageLookupByLibrary.simpleMessage(
                 "The overview is centered around the PLC device connected to the internet"),

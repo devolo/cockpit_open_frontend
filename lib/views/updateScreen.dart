@@ -39,8 +39,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
   /* =========== Styling =========== */
 
-  double paddingContentTop = 10;
-  double paddingBarTop = 10;
   double splashRadius = 25;
   double opacity = 0.2;
   Color splashColor = fontColorOnBackground.withOpacity(0.2);
@@ -133,14 +131,13 @@ class _UpdateScreenState extends State<UpdateScreen> {
     return new Scaffold(
       backgroundColor: Colors.transparent,
       body: Padding(
-        padding: EdgeInsets.only(top: paddingContentTop, left: 20, right: 20, bottom: 20),
+        padding: EdgeInsets.only(top: paddingBarTop, left: 20, right: 20, bottom: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height:paddingBarTop),
                 new Text(
                   S.of(context).updates,
                   style: TextStyle(fontSize: (fontSizeAppBarTitle -5) * fontSize.factor, color: fontColorOnBackground),

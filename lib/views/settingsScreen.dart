@@ -13,12 +13,14 @@ import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/models/configModel.dart';
 import 'package:cockpit_devolo/services/drawOverview.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
+import 'package:cockpit_devolo/shared/alertDialogs.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/app_fontSize.dart';
 import 'package:cockpit_devolo/shared/buttons.dart';
 import 'package:cockpit_devolo/shared/devolo_icons_icons.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:flag/flag.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/views/logsScreen.dart';
@@ -110,6 +112,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return new Scaffold(
       backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
+        padding: EdgeInsets.only(top: paddingBarTop),
         controller: _scrollController, // <---- Here, the controller
         //isAlwaysShown: true, // <---- Required
         child: Padding(
@@ -253,7 +256,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   trailing: Padding(
                     padding: const EdgeInsets.only(right: 12.0),
-                    child: Text(config["theme"], style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: mainColor)),
+                    child: Text(config["theme"], style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond)),
                   ),
                 ),
               ),
@@ -283,7 +286,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               saveToSharedPrefs(config);
                               AppBuilder.of(context)!.rebuild();
                             },
-                              child: Icon(Icons.text_format, size: 23, color: mainColor,),
+                              child: Icon(Icons.text_format, size: 23, color: fontColorOnSecond,),
                           ),
                           TextButton(
                             style: ButtonStyle(alignment: Alignment.bottomCenter),
@@ -295,7 +298,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               saveToSharedPrefs(config);
                               AppBuilder.of(context)!.rebuild();
                             },
-                              child: Icon(Icons.text_format, size: 30, color: mainColor,),
+                              child: Icon(Icons.text_format, size: 30, color: fontColorOnSecond,),
                           ),
                           TextButton(
                             style: ButtonStyle(alignment: Alignment.bottomCenter),
@@ -307,7 +310,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               saveToSharedPrefs(config);
                               AppBuilder.of(context)!.rebuild();
                             },
-                              child: Icon(Icons.text_format, size: 38, color: mainColor,),
+                              child: Icon(Icons.text_format, size: 38, color: fontColorOnSecond,),
                           ),
                         ],
                       ),
@@ -402,7 +405,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         cursorColor: fontColorOnSecond,
                         decoration: InputDecoration(
                           labelText: S.of(context).changePlcnetworkPassword,
-                          labelStyle: TextStyle(color: fontColorOnSecond),
+                          labelStyle: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileTitle * fontSize.factor,),
                           hoverColor: mainColor.withOpacity(0.2),
                           contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                           filled: true,
@@ -502,7 +505,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               if (_deviceList.getNetworkListLength() == 0) {
                                 waitForNetworkPasswordResponse = false;
                                 networkPasswordResponseFalse = true;
-                                _errorDialog(context, S.of(context).networkPasswordErrorTitle, S.of(context).networkPasswordErrorBody + "\n\n" + S.of(context).networkPasswordErrorHint);
+                                errorDialog(context, S.of(context).networkPasswordErrorTitle, S.of(context).networkPasswordErrorBody + "\n\n" + S.of(context).networkPasswordErrorHint,fontSize);
                               } else {
                                 socket.sendXML('SetNetworkPassword', newValue: _newPw, valueType: "password", mac: _deviceList.getLocalDevice()!.mac);
                                 setState(() {
@@ -517,7 +520,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     networkPasswordResponseTrue = true;
                                   });
                                 } else {
-                                  _errorDialog(context, S.of(context).networkPasswordErrorTitle, S.of(context).networkPasswordErrorBody + "\n\n" + S.of(context).networkPasswordErrorHint);
+                                  errorDialog(context, S.of(context).networkPasswordErrorTitle, S.of(context).networkPasswordErrorBody + "\n\n" + S.of(context).networkPasswordErrorHint,fontSize);
                                   waitForNetworkPasswordResponse = false;
                                   networkPasswordResponseFalse = true;
                                 }
@@ -532,7 +535,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Divider(color: dividerColor),
               Row(mainAxisAlignment: MainAxisAlignment.end, crossAxisAlignment: CrossAxisAlignment.end, children: <Widget>[
                 IconButton(
-                  icon: Icon(DevoloIcons.ic_view_list_24px, size: 30),
+                  iconSize: 30 * fontSize.factor,
+                  icon: Icon(DevoloIcons.ic_view_list_24px),
                   tooltip: S.of(context).showLogs,
                   color: drawingColor,
                   onPressed: () {
@@ -556,41 +560,48 @@ class _SettingsScreenState extends State<SettingsScreen> {
       barrierDismissible: true, // user doesn't need to tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: backgroundColor.withOpacity(0.9),
-          contentPadding: const EdgeInsets.all(20.0),
           title: Column(
             children: [
               getCloseButton(context),
               Text(
                 S.of(context).appTheme,
-                style: TextStyle(color: fontColorOnMain),
                 textAlign: TextAlign.center,
               ),
             ],
           ),
-          titlePadding: EdgeInsets.all(2),
+          titleTextStyle: TextStyle(color: fontColorOnBackground,fontSize: dialogTitleTextFontSize * fontSize.factor),
+          titlePadding: EdgeInsets.all(dialogTitlePadding),
           content: StatefulBuilder(
             // You need this, notice the parameters below:
             builder: (BuildContext context, StateSetter setState) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Wrap(
+                    alignment: WrapAlignment.spaceBetween,
+                    spacing: 20,
                     children: [
-                      new FlatButton(
-                        minWidth: 200,
-                        color: secondColor,
+                      new TextButton(
                         child: Column(
                           children: [
                             SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_devolo.PNG'))),
                             new Text(
                               "Standard Theme",
-                              style: TextStyle(color: fontColorOnSecond),
+                              style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
                             ),
                           ],
                         ),
-                        hoverColor: fontColorOnMain,
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.resolveWith<
+                              Color?>(
+                                (states) {
+                              if (states.contains(MaterialState.hovered)) {
+                                return fontColorOnBackground.withOpacity(0.3);
+                              }
+                              return Colors.transparent;
+                            },
+                          ),
+                        ),
                         onPressed: () {
                           setState(() {
                             //config["theme"] = theme_devolo;
@@ -601,19 +612,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           });
                         },
                       ),
-                      new FlatButton(
-                        minWidth: 200,
-                        color: secondColor,
+                      new TextButton(
                         child: Column(
                           children: [
                             SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_dark.PNG'))),
                             new Text(
                               "Dark Theme",
-                              style: TextStyle(color: fontColorOnSecond),
+                              style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
                             ),
                           ],
                         ),
-                        hoverColor: fontColorOnMain,
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.resolveWith<
+                              Color?>(
+                                (states) {
+                              if (states.contains(MaterialState.hovered)) {
+                                return fontColorOnBackground.withOpacity(0.3);
+                              }
+                              return Colors.transparent;
+                            },
+                          ),
+                        ),
                         onPressed: () {
                           setState(() {
                             setTheme(theme_dark["name"]);
@@ -623,19 +642,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           });
                         },
                       ),
-                      new FlatButton(
-                        minWidth: 200,
-                        color: secondColor,
+                      new TextButton(
                         child: Column(
                           children: [
                             SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_devolo.PNG'))),
                             new Text(
                               "Light Theme",
-                              style: TextStyle(color: fontColorOnSecond),
+                              style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
                             ),
                           ],
                         ),
-                        hoverColor: fontColorOnMain,
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.resolveWith<
+                              Color?>(
+                                (states) {
+                              if (states.contains(MaterialState.hovered)) {
+                                return fontColorOnBackground.withOpacity(0.3);
+                              }
+                              return Colors.transparent;
+                            },
+                          ),
+                        ),
                         onPressed: () {
                           setState(() {
                             config["theme"] = theme_light["name"];
@@ -645,19 +672,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           });
                         },
                       ),
-                      new FlatButton(
-                        minWidth: 200,
-                        color: secondColor,
+                      new TextButton(
                         child: Column(
                           children: [
                             SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_highContrast.PNG'))),
                             new Text(
                               "High Contrast Theme",
-                              style: TextStyle(color: fontColorOnSecond),
+                              style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
                             ),
                           ],
                         ),
-                        hoverColor: fontColorOnMain,
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.resolveWith<
+                              Color?>(
+                                (states) {
+                              if (states.contains(MaterialState.hovered)) {
+                                return fontColorOnBackground.withOpacity(0.3);
+                              }
+                              return Colors.transparent;
+                            },
+                          ),
+                        ),
                         onPressed: () {
                           setState(() {
                             config["theme"] = theme_highContrast["name"];
@@ -669,7 +704,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                     ],
                   ),
-                  Divider(),
                 ],
               );
             },
@@ -677,29 +711,5 @@ class _SettingsScreenState extends State<SettingsScreen> {
         );
       },
     );
-  }
-
-  void _errorDialog(context, title, body) {
-    showDialog<void>(
-        context: context,
-        barrierDismissible: true, // user doesn't need to tap button!
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Column(
-              children: [
-                getCloseButton(context),
-                Text(
-                  title,
-                  style: TextStyle(color: fontColorOnMain),
-                ),
-              ],
-            ),
-            titlePadding: EdgeInsets.all(2),
-            backgroundColor: backgroundColor.withOpacity(0.9),
-            contentTextStyle: TextStyle(color: Colors.white, decorationColor: Colors.white, fontSize: 18 * fontSize.factor),
-            content: Text(body),
-            actions: <Widget>[],
-          );
-        });
   }
 }

@@ -139,18 +139,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "internet": MessageLookupByLibrary.simpleMessage("Internet"),
         "internetcentered":
             MessageLookupByLibrary.simpleMessage("Internetzentrisch"),
-        "ipaddress": MessageLookupByLibrary.simpleMessage("IP-Adresse:"),
+        "ipaddress": MessageLookupByLibrary.simpleMessage("IP-Adresse"),
         "isLocalDevice":
             MessageLookupByLibrary.simpleMessage("Ist lokales Gerät:"),
         "language": MessageLookupByLibrary.simpleMessage("Sprache"),
         "launchWebinterface":
             MessageLookupByLibrary.simpleMessage("Webinterface \nöffnen "),
-        "macaddress": MessageLookupByLibrary.simpleMessage("MAC-Adresse:"),
+        "macaddress": MessageLookupByLibrary.simpleMessage("MAC-Adresse"),
         "manualErrorBody": MessageLookupByLibrary.simpleMessage(
             "Für Ihr PLC-Gerät wurde kein passendes Handbuch gefunden.\n\nSie können das Handbuch auf der Produkt-CD oder der devolo Internet-Seite finden."),
         "manualErrorTitle":
             MessageLookupByLibrary.simpleMessage("Handbuch nicht gefunden"),
-        "mtnumber": MessageLookupByLibrary.simpleMessage("devolo MT-Nummer:"),
+        "mtnumber": MessageLookupByLibrary.simpleMessage("devolo MT-Nummer"),
         "name": MessageLookupByLibrary.simpleMessage("Name"),
         "network": MessageLookupByLibrary.simpleMessage("Netzwerk"),
         "networkPasswordErrorBody": MessageLookupByLibrary.simpleMessage(
@@ -172,8 +172,8 @@ class MessageLookup extends MessageLookupByLibrary {
                 "No devices found \nScanning for devices ..."),
         "openOptimization":
             MessageLookupByLibrary.simpleMessage("Optimierungshilfe öffnen"),
-        "openSupportInformations": MessageLookupByLibrary.simpleMessage(
-            "Support-Informationen öffnen"),
+        "openSupportInformations":
+            MessageLookupByLibrary.simpleMessage("Öffnen"),
         "optimizationHelp":
             MessageLookupByLibrary.simpleMessage("Optimierungs Hilfe"),
         "optimizeReception":
@@ -228,16 +228,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "resetDeviceErrorTitle": MessageLookupByLibrary.simpleMessage(
             "Zurücksetzung fehlgeschlagen"),
         "save": MessageLookupByLibrary.simpleMessage("speichern"),
-        "saveSupportInformations": MessageLookupByLibrary.simpleMessage(
-            "Support-Informationen speichern"),
+        "saveSupportInformations":
+            MessageLookupByLibrary.simpleMessage("Speichern"),
         "searching": MessageLookupByLibrary.simpleMessage("suche..."),
-        "sendToDevolo": MessageLookupByLibrary.simpleMessage(
-            "Support-Informationen zum devolo Support senden"),
-        "serialNumber": MessageLookupByLibrary.simpleMessage("Seriennummer:"),
+        "sendToDevolo": MessageLookupByLibrary.simpleMessage("Senden"),
+        "serialNumber": MessageLookupByLibrary.simpleMessage("Seriennummer"),
         "setUpDevice": MessageLookupByLibrary.simpleMessage("Gerät einrichten"),
         "setVdslCompatibility": MessageLookupByLibrary.simpleMessage(
             "VDSL Kompatibilität \nsetzen"),
         "settings": MessageLookupByLibrary.simpleMessage("Einstellungen"),
+        "showLicences":
+            MessageLookupByLibrary.simpleMessage("Lizenzen anzeigen"),
         "showLogs": MessageLookupByLibrary.simpleMessage("Zeige Logs"),
         "showManual":
             MessageLookupByLibrary.simpleMessage("Handbuch \nanzeigen"),
@@ -260,7 +261,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Dieses Gerät ist direkt an den Internet-Router angeschlossen."),
         "thisPc": MessageLookupByLibrary.simpleMessage("Dieser PC"),
         "title": MessageLookupByLibrary.simpleMessage("devolo Cockpit"),
-        "type": MessageLookupByLibrary.simpleMessage("Typ:"),
+        "type": MessageLookupByLibrary.simpleMessage("Typ"),
         "upToDate": MessageLookupByLibrary.simpleMessage("aktuell"),
         "update": MessageLookupByLibrary.simpleMessage("Aktualisierung"),
         "update2":
@@ -280,7 +281,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Die neuen VDSL-Einstellungen konnten nicht auf dem Gerät gespeichert werden."),
         "vdslsuccessful": MessageLookupByLibrary.simpleMessage(
             "Die neuen VDSL-Einstellungen wurden auf dem Gerät gespeichert."),
-        "version": MessageLookupByLibrary.simpleMessage("Firmware-Version:"),
+        "version": MessageLookupByLibrary.simpleMessage("Firmware-Version"),
         "windowsNetworkThrottling":
             MessageLookupByLibrary.simpleMessage("Windows Netzwerkdrosselung"),
         "yes": MessageLookupByLibrary.simpleMessage("Ja"),

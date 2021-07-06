@@ -2,10 +2,12 @@ import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:cockpit_devolo/models/fontSizeModel.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
+import 'package:cockpit_devolo/views/appBuilder.dart';
 import 'package:flutter/material.dart';
 
 import 'alertDialogs.dart';
 import 'app_colors.dart';
+import 'app_fontSize.dart';
 import 'buttons.dart';
 import 'devolo_icons_icons.dart';
 import 'helpers.dart';
@@ -21,10 +23,8 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
     barrierDismissible: true, // user doesn't need to tap button!
     builder: (BuildContext context) {
       return AlertDialog(
-        backgroundColor: backgroundColor.withOpacity(0.9),
         contentTextStyle: TextStyle(color: fontColorOnBackground,
-            decorationColor: fontColorOnBackground,
-            fontSize: 17 * fontSize.factor),
+            fontSize: dialogContentTextFontSize * fontSize.factor),
         title: Column(
           children: [
             getCloseButton(context),
@@ -37,10 +37,10 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
             ),
           ],
         ),
-        titlePadding: EdgeInsets.all(2),
+        titlePadding: EdgeInsets.all(dialogTitlePadding),
         titleTextStyle: TextStyle(
           color: fontColorOnBackground,
-          fontSize: 23,
+          fontSize: dialogTitleTextFontSize,
         ),
         content: SingleChildScrollView(
           child: Column(
@@ -56,153 +56,162 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
           Table(
             children: [
               TableRow(children: [
-                Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  if (changeNameLoading)
-                    CircularProgressIndicator(
-                      valueColor: new AlwaysStoppedAnimation<Color>(
-                          secondColor),
-                      strokeWidth: 2.0,
-                    ),
-                  SizedBox(width: 25),
-                  SelectableText(
-                    'Name:   ',
-                    style: TextStyle(height: 2),
-                  ),
-                ]),
-                TextFormField(
-                  initialValue: newName,
-                  focusNode: myFocusNode,
-                  style: TextStyle(color: fontColorOnBackground),
-                  cursorColor: fontColorOnBackground,
-                  decoration: InputDecoration(
-                    hoverColor: fontColorOnBackground.withOpacity(0.2),
-                    contentPadding: new EdgeInsets.symmetric(
-                        vertical: 5.0, horizontal: 10.0),
-                    filled: true,
-                    fillColor: fontColorOnBackground.withOpacity(0.2),
-//myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                      borderSide: BorderSide(
-                        color: fontColorOnBackground,
-                        width: 2.0,
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5.0),
+                  child: Align(
+                      alignment: Alignment.centerRight,
+                      child: SelectableText(
+                        'Name:   ',
+                      )),
+                ),
+                Container (
+                  width: 60, // doesn´t affect the width if the text field
+                  child: TextFormField(
+                    initialValue: newName,
+                    focusNode: myFocusNode,
+                    style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize* fontSize.factor),
+                    cursorColor: fontColorOnBackground,
+                    decoration: InputDecoration(
+                      isDense: true,
+                      hoverColor: fontColorOnBackground.withOpacity(0.2),
+                      contentPadding: new EdgeInsets.symmetric(
+                          vertical: 5.0, horizontal: 10.0),
+                      filled: true,
+                      fillColor: fontColorOnBackground.withOpacity(0.2),
+  //myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                        borderSide: BorderSide(
+                          color: fontColorOnBackground,
+                          width: 2.0,
+                        ),
                       ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                      borderSide: BorderSide(
-                        color: fontColorOnBackground, //Colors.transparent,
-//width: 2.0,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                        borderSide: BorderSide(
+                          color: fontColorOnBackground, //Colors.transparent,
+  //width: 2.0,
+                        ),
                       ),
-                    ),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        DevoloIcons.ic_edit_24px,
-                        color: fontColorOnBackground,
-                      ),
-                      onPressed: () async {
-                        if (newName != hitDevice.name) {
-                          bool confResponse = await confirmDialog(context, S
-                              .of(context)
-                              .deviceNameDialogTitle, S
-                              .of(context)
-                              .deviceNameDialogBody, fontSize);
-                          if (confResponse) {
-                            changeNameLoading = true;
-                            socket.sendXML(
-                                'SetAdapterName', mac: hitDevice.mac,
-                                newValue: newName,
-                                valueType: 'name');
-                            var response = await socket.receiveXML(
-                                "SetAdapterNameStatus");
-                            if (response!['result'] == "ok") {
-                              hitDevice.name = newName;
-                              await Future.delayed(
-                                  const Duration(seconds: 1), () {});
-                              socket.sendXML('RefreshNetwork');
+                      suffixIcon: changeNameLoading
+                        ? SizedBox(
+                          width: 0.5,
+                          height: 0.5,
+                          child: Padding(padding: const EdgeInsets.all(10.0), child: CircularProgressIndicator(
+                            valueColor: new AlwaysStoppedAnimation<Color>(
+                                fontColorOnBackground),
+                            strokeWidth: 3.0,
+                          )))
+                      : IconButton(
+                        icon: Icon(
+                          DevoloIcons.ic_edit_24px,
+                          color: fontColorOnBackground,
+                        ),
+                        onPressed: () async {
+                          if (newName != hitDevice.name) {
+                            bool confResponse = await confirmDialog(context, S
+                                .of(context)
+                                .deviceNameDialogTitle, S
+                                .of(context)
+                                .deviceNameDialogBody, fontSize);
+                            if (confResponse) {
+                              changeNameLoading = true;
+                              AppBuilder.of(context)!.rebuild();
+                              socket.sendXML(
+                                  'SetAdapterName', mac: hitDevice.mac,
+                                  newValue: newName,
+                                  valueType: 'name');
+                              var response = await socket.receiveXML(
+                                  "SetAdapterNameStatus");
+                              if (response!['result'] == "ok") {
+                                hitDevice.name = newName;
+                                await Future.delayed(
+                                    const Duration(seconds: 1), () {});
+                                socket.sendXML('RefreshNetwork');
 
-//setState(() {
-//   socket.sendXML('RefreshNetwork');
-//});
-                            } else
-                            if (response['result'] == "device_not_found") {
-                              errorDialog(context, S
-                                  .of(context)
-                                  .deviceNameErrorTitle, S
-                                  .of(context)
-                                  .deviceNotFoundDeviceName + "\n\n" + S
-                                  .of(context)
-                                  .deviceNotFoundHint, fontSize);
-                            } else if (response['result'] != "ok") {
-                              errorDialog(context, S
-                                  .of(context)
-                                  .deviceNameErrorTitle, S
-                                  .of(context)
-                                  .deviceNameErrorBody, fontSize);
+  //setState(() {
+  //   socket.sendXML('RefreshNetwork');
+  //});
+                              } else
+                              if (response['result'] == "device_not_found") {
+                                errorDialog(context, S
+                                    .of(context)
+                                    .deviceNameErrorTitle, S
+                                    .of(context)
+                                    .deviceNotFoundDeviceName + "\n\n" + S
+                                    .of(context)
+                                    .deviceNotFoundHint, fontSize);
+                              } else if (response['result'] != "ok") {
+                                errorDialog(context, S
+                                    .of(context)
+                                    .deviceNameErrorTitle, S
+                                    .of(context)
+                                    .deviceNameErrorBody, fontSize);
+                              }
+
+                              changeNameLoading = false;
                             }
-
-                            changeNameLoading = false;
                           }
-                        }
-                      },
+                        },
+                      ),
                     ),
-                  ),
-                  onChanged: (value) => (newName = value),
-                  onEditingComplete: () async {
-                    if (newName != hitDevice.name) {
-                      bool confResponse = await confirmDialog(context, S
-                          .of(context)
-                          .deviceNameDialogTitle, S
-                          .of(context)
-                          .deviceNameDialogBody, fontSize);
-                      if (confResponse) {
-                        changeNameLoading = true;
-                        socket.sendXML('SetAdapterName', mac: hitDevice.mac,
-                            newValue: newName,
-                            valueType: 'name');
-                        var response = await socket.receiveXML(
-                            "SetAdapterNameStatus");
-                        if (response!['result'] == "ok") {
-                          hitDevice.name = newName;
-                          await Future.delayed(
-                              const Duration(seconds: 1), () {});
-                          socket.sendXML('RefreshNetwork');
+                    onChanged: (value) => (newName = value),
+                    onEditingComplete: () async {
+                      if (newName != hitDevice.name) {
+                        bool confResponse = await confirmDialog(context, S
+                            .of(context)
+                            .deviceNameDialogTitle, S
+                            .of(context)
+                            .deviceNameDialogBody, fontSize);
+                        if (confResponse) {
+                          changeNameLoading = true;
+                          socket.sendXML('SetAdapterName', mac: hitDevice.mac,
+                              newValue: newName,
+                              valueType: 'name');
+                          var response = await socket.receiveXML(
+                              "SetAdapterNameStatus");
+                          if (response!['result'] == "ok") {
+                            hitDevice.name = newName;
+                            await Future.delayed(
+                                const Duration(seconds: 1), () {});
+                            socket.sendXML('RefreshNetwork');
 
-//setState(() {
-//   socket.sendXML('RefreshNetwork');
-//});
-                        } else if (response['result'] == "timeout") {
-                          errorDialog(context, S
-                              .of(context)
-                              .deviceNameErrorTitle, S
-                              .of(context)
-                              .deviceNameErrorBody, fontSize);
-                        } else
-                        if (response['result'] == "device_not_found") {
-                          errorDialog(context, S
-                              .of(context)
-                              .deviceNameErrorTitle, S
-                              .of(context)
-                              .deviceNotFoundDeviceName + "\n\n" + S
-                              .of(context)
-                              .deviceNotFoundHint, fontSize);
+  //setState(() {
+  //   socket.sendXML('RefreshNetwork');
+  //});
+                          } else if (response['result'] == "timeout") {
+                            errorDialog(context, S
+                                .of(context)
+                                .deviceNameErrorTitle, S
+                                .of(context)
+                                .deviceNameErrorBody, fontSize);
+                          } else
+                          if (response['result'] == "device_not_found") {
+                            errorDialog(context, S
+                                .of(context)
+                                .deviceNameErrorTitle, S
+                                .of(context)
+                                .deviceNotFoundDeviceName + "\n\n" + S
+                                .of(context)
+                                .deviceNotFoundHint, fontSize);
+                          }
+
+                          changeNameLoading = false;
                         }
-
-                        changeNameLoading = false;
                       }
-                    }
-                  },
-                  onTap: () {
-                    myFocusNode.hasFocus;
-                  },
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return S
-                          .of(context)
-                          .pleaseEnterDeviceName;
-                    }
-                    return null;
-                  },
+                    },
+                    onTap: () {
+                      myFocusNode.hasFocus;
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return S
+                            .of(context)
+                            .pleaseEnterDeviceName;
+                      }
+                      return null;
+                    },
+                  ),
                 ),
               ]),
               TableRow(children: [
@@ -213,7 +222,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                       child: SelectableText(
                         "${S
                             .of(context)
-                            .type}   ",
+                            .type}:   ",
                       )),
                 ),
                 Padding(
@@ -229,7 +238,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                       child: SelectableText(
                         "${S
                             .of(context)
-                            .serialNumber}   ",
+                            .serialNumber}:   ",
                       )),
                 ),
                 Padding(
@@ -245,7 +254,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                     child: SelectableText(
                       "${S
                           .of(context)
-                          .mtnumber}   ",
+                          .mtnumber}:   ",
                     ),
                   ),
                 ),
@@ -262,7 +271,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                     child: SelectableText(
                       "${S
                           .of(context)
-                          .version}   ",
+                          .version}:   ",
                     ),
                   ),
                 ),
@@ -280,7 +289,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                     child: SelectableText(
                       "${S
                           .of(context)
-                          .ipaddress}   ",
+                          .ipaddress}:   ",
                     ),
                   ),
                 ),
@@ -297,7 +306,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                     child: SelectableText(
                       "${S
                           .of(context)
-                          .macaddress}   ",
+                          .macaddress}:   ",
                     ),
                   ),
                 ),
@@ -620,9 +629,8 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
         return AlertDialog(
           insetPadding: EdgeInsets.symmetric(horizontal: 300),
           title: Text(S.of(context).vdslCompatibility),
-          titleTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: 17 * fontSize.factor),
-          backgroundColor: backgroundColor.withOpacity(0.9),
-          contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: 17 * fontSize.factor),
+          titleTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
+          contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
           content: StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
                 return SingleChildScrollView(
@@ -666,7 +674,7 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                         ListTile(
                           title: Text(
                             vdsl_profile,
-                            style:  TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: 17 * fontSize.factor),
+                            style:  TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
                           ),
                           leading: Theme(
                             data: ThemeData(
@@ -737,6 +745,8 @@ void moreSettings(BuildContext context, socket, List<int> disable_traffic,List<i
       barrierDismissible: true, // user doesn't need to tap button!
       builder: (BuildContext context) {
         return AlertDialog(
+          titleTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
+          contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
           title: Column(
             children: [
               getCloseButton(context),
@@ -744,20 +754,17 @@ void moreSettings(BuildContext context, socket, List<int> disable_traffic,List<i
                   child: Text(
                     S.of(context).additionalDialogTitle,
                     style: TextStyle(color: fontColorOnBackground),
-                    textScaleFactor: fontSize.factor,
                   )
               ),
             ],
           ),
-          titlePadding: EdgeInsets.all(2),
-          backgroundColor: backgroundColor.withOpacity(0.9),
-          //insetPadding: EdgeInsets.symmetric(horizontal: 300, vertical: 100),
+          titlePadding: EdgeInsets.all(dialogTitlePadding),
           content: Column(
             mainAxisSize: MainAxisSize.min,
               children: [
                 if(disable_leds[0] == 1)
                   SwitchListTile(
-                    title:  Text(S.of(context).activateLEDs, style: TextStyle(color: fontColorOnBackground, fontSize: 18 * fontSize.factor )),
+                    title:  Text(S.of(context).activateLEDs, style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor )),
                     value: disable_leds[1] == 0 ? true : false,
                     onChanged: (bool value) async {
                       String newStatus =  value? "0" : "1";
@@ -774,7 +781,7 @@ void moreSettings(BuildContext context, socket, List<int> disable_traffic,List<i
                       }
 
                       },
-                    secondary: Icon(DevoloIcons.ic_lightbulb_outline_24px, color: fontColorOnBackground, size: 18 * fontSize.factor),
+                    secondary: Icon(DevoloIcons.ic_lightbulb_outline_24px, color: fontColorOnBackground, size: 24 * fontSize.factor),
                     activeTrackColor: switchActiveTrackColor,
                     activeColor: switchActiveThumbColor,
                     inactiveThumbColor: switchInactiveThumbColor,
@@ -782,7 +789,7 @@ void moreSettings(BuildContext context, socket, List<int> disable_traffic,List<i
                   ),
                 if(disable_traffic[0] == 1)
                   SwitchListTile(
-                    title: Text(S.of(context).activateTransmission, style: TextStyle(color: fontColorOnBackground, fontSize: 18 * fontSize.factor )),
+                    title: Text(S.of(context).activateTransmission, style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor )),
                     value: disable_traffic[1] == 0 ? true : false,
                     onChanged: (bool value) async {
                       String newStatus =  value? "0" : "1";
@@ -800,7 +807,7 @@ void moreSettings(BuildContext context, socket, List<int> disable_traffic,List<i
 
 
                     },
-                    secondary: Icon(DevoloIcons.ic_perm_data_setting_24px, color: fontColorOnBackground, size: 18 * fontSize.factor),
+                    secondary: Icon(DevoloIcons.ic_perm_data_setting_24px, color: fontColorOnBackground, size: 24 * fontSize.factor),
                     activeTrackColor: switchActiveTrackColor,
                     activeColor: switchActiveThumbColor,
                     inactiveThumbColor: switchInactiveThumbColor,
@@ -808,7 +815,7 @@ void moreSettings(BuildContext context, socket, List<int> disable_traffic,List<i
                   ),
                 if(disable_standby[0] == 1)
                   SwitchListTile(
-                    title: Text(S.of(context).powerSavingMode, style: TextStyle(color: fontColorOnBackground, fontSize: 18 * fontSize.factor )),
+                    title: Text(S.of(context).powerSavingMode, style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor )),
                     value: disable_standby[1] == 0 ? true : false,
                     onChanged: (bool value) async {
                       String newStatus =  value? "0" : "1";
@@ -824,7 +831,7 @@ void moreSettings(BuildContext context, socket, List<int> disable_traffic,List<i
                         errorDialog(context, S.of(context).powerSavingModeFailedTitle, S.of(context).powerSavingModeFailedBody, fontSize);
                       }
                     },
-                    secondary: Icon(DevoloIcons.ic_battery_charging_full_24px, color: fontColorOnBackground, size: 18 * fontSize.factor),
+                    secondary: Icon(DevoloIcons.ic_battery_charging_full_24px, color: fontColorOnBackground, size: 24 * fontSize.factor),
                     activeTrackColor: switchActiveTrackColor,
                     activeColor: switchActiveThumbColor,
                     inactiveThumbColor: switchInactiveThumbColor,

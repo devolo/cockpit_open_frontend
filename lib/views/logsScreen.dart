@@ -6,6 +6,7 @@ This source code is licensed under the BSD-style license found in the
 LICENSE file in the root directory of this source tree.
 */
 
+import 'package:cockpit_devolo/models/fontSizeModel.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,9 +28,17 @@ class _DebugScreenState extends State<DebugScreen> {
   _DebugScreenState({required this.title});
 
   final String title;
-
+  late FontSize fontSize;
   final _scrollController = ScrollController();
   final _scrollControllerInside = ScrollController();
+
+  /* =========== Styling =========== */
+
+  double titleFontSize = 23;
+  double textFontSize = 14;
+  double contentPadding = 14;
+  double titlePadding = 14;
+  /* ====================== */
 
   String printResponseList(socket) {
     String ret = "";
@@ -49,6 +58,7 @@ class _DebugScreenState extends State<DebugScreen> {
   Widget build(BuildContext context) {
     final socket = Provider.of<DataHand>(context);
     final deviceList = Provider.of<NetworkList>(context);
+    fontSize = context.watch<FontSize>();
     return new Scaffold(
       backgroundColor: backgroundColor,
       appBar: new AppBar(
@@ -65,58 +75,73 @@ class _DebugScreenState extends State<DebugScreen> {
             child: new SingleChildScrollView(
               controller: _scrollController,
               child: Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.only(left: 40),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
+                  SizedBox(
+                    height: titlePadding,
+                  ),
                   SelectableText(
                     'All devices',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: titleFontSize * fontSize.factor,
                     ),
                   ),
-                  SelectableText(deviceList.networkListToRealString()),
                   SizedBox(
-                    height: 20,
+                    height: contentPadding,
+                  ),
+                  SelectableText(
+                    deviceList.networkListToRealString(),
+                    style: TextStyle(fontSize: textFontSize * fontSize.factor)
+                  ),
+                  SizedBox(
+                    height: titlePadding,
                   ),
                   SelectableText(
                     'Devices of selected Network',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: titleFontSize * fontSize.factor,
                     ),
                   ),
-                  Column(
-                    children: [
-                      Scrollbar(
-                          controller: _scrollControllerInside, // <---- Here, the controller
-                          isAlwaysShown: true, // <---- Required
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: new SingleChildScrollView(
-                              controller: _scrollControllerInside,
-                              child: SelectableText(deviceList.selectedNetworkListToRealString()),
-                            ),
-                          )),
-                    ],
-                  ),
                   SizedBox(
-                    height: 20,
+                    height: contentPadding,
+                  ),
+                  SelectableText(deviceList.selectedNetworkListToRealString()),
+                  SizedBox(
+                    height: titlePadding,
                   ),
                   SelectableText(
                     'XML-Responses',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: titleFontSize * fontSize.factor,
                     ),
                   ),
-                  SelectableText(socket.xmlDebugResponseList != [] ? printResponseList(socket) : "nothing send yet"),
                   SizedBox(
-                    height: 20,
+                    height: contentPadding,
+                  ),
+                  SelectableText(
+                      socket.xmlDebugResponseList != [] ? printResponseList(socket) : "nothing send yet",
+                      style: TextStyle(
+                        fontSize: textFontSize * fontSize.factor,
+                      ),
+                  ),
+                  SizedBox(
+                    height: titlePadding,
                   ),
                   SelectableText(
                     'Config',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: titleFontSize * fontSize.factor,
                     ),
                   ),
-                  SelectableText(config.toString()),
+                  SizedBox(
+                    height: contentPadding,
+                  ),
+                  SelectableText(
+                      config.toString(),
+                      style: TextStyle(
+                        fontSize: textFontSize * fontSize.factor,
+                      ),
+                  ),
                 ]),
               ),
             ),

@@ -134,7 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     getConnection();
     readSharedPrefs();
-    //getVersion();
+    getVersions();
 
     fontSize = context.read<FontSize>();
   }

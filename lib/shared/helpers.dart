@@ -11,12 +11,15 @@ import 'dart:async';
 import 'dart:io';
 import 'package:cockpit_devolo/logging/log_printer.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:open_file/open_file.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:xml/xml.dart';
 import 'package:logger/logger.dart';
+
+import 'globals.dart';
 
 bool connected = false;
 
@@ -46,6 +49,26 @@ List<XmlNode> findElements(List<XmlNode> xmlNodes, String searchString) {
     }
   }
   return deviceItems;
+}
+
+Future<void> getVersions() async {
+  String fileData = await rootBundle.loadString('assets/version.txt');
+  String versionFrontendFile = "";
+  String versionBackendFile = "";
+
+  if(fileData.contains("versionFrontend")){
+    versionFrontendFile = fileData.substring(fileData.indexOf("=")+2,fileData.indexOf(";")+1);
+    versionFrontendFile = versionFrontendFile.replaceAll('_', ' (');
+    versionFrontendFile = versionFrontendFile.replaceAll(';', ')');
+  }
+  if(fileData.contains("versionBackend")){
+    versionBackendFile = fileData.substring(fileData.lastIndexOf("=")+2,fileData.lastIndexOf(";")+1);
+    versionBackendFile = versionBackendFile.replaceAll('_', ' (');
+    versionBackendFile = versionBackendFile.replaceAll(';', ')');
+  }
+
+  versionFrontend = versionFrontendFile;
+  versionBackend = versionBackendFile;
 }
 
 void saveToSharedPrefs(Map<String, dynamic> inputMap) async {

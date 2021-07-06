@@ -274,10 +274,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
                       child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+
+mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+
                         children: [
                           TextButton(
-                            style: ButtonStyle(overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33)),fixedSize: MaterialStateProperty.all<Size?>(Size(30,30)),alignment: Alignment(0.0, 2.5)),
+                            style: ButtonStyle(padding: MaterialStateProperty.all<EdgeInsetsGeometry?>(EdgeInsets.only(top:(23/2)+9)), overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33))),
                             onPressed: () {
                               setState(() {
                                 fontSize.factor = 0.9;
@@ -289,7 +292,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               child: Icon(Icons.text_format, size: 23, color: fontColorOnSecond,),
                           ),
                           TextButton(
-                            style: ButtonStyle(alignment: Alignment(0.0, 14.0), overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33)), fixedSize: MaterialStateProperty.all<Size?>(Size(30,30))),
+                            style: ButtonStyle(padding: MaterialStateProperty.all<EdgeInsetsGeometry?>(EdgeInsets.only(top:(29/2)+3)), overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33))),
                             onPressed: () {
                               setState(() {
                                 fontSize.factor = 1.1;
@@ -301,7 +304,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               child: Icon(Icons.text_format, size: 29, color: fontColorOnSecond,),
                           ),
                           TextButton(
-                            style: ButtonStyle(overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33)),fixedSize: MaterialStateProperty.all<Size?>(Size(30,30)),alignment: Alignment(0.0, 0.0)),
+                            style: ButtonStyle(padding: MaterialStateProperty.all<EdgeInsetsGeometry?>(EdgeInsets.only(top:(38/2)-8)), overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33))),
                             onPressed: () {
                               setState(() {
                                 fontSize.factor = 1.4;

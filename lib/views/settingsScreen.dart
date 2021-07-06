@@ -277,7 +277,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           TextButton(
-                            style: ButtonStyle(alignment: Alignment.bottomCenter),
+                            style: ButtonStyle(overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33)),fixedSize: MaterialStateProperty.all<Size?>(Size(30,30)),alignment: Alignment(0.0, 2.5)),
                             onPressed: () {
                               setState(() {
                                 fontSize.factor = 0.9;
@@ -289,7 +289,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               child: Icon(Icons.text_format, size: 23, color: fontColorOnSecond,),
                           ),
                           TextButton(
-                            style: ButtonStyle(alignment: Alignment.bottomCenter),
+                            style: ButtonStyle(alignment: Alignment(0.0, 14.0), overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33)), fixedSize: MaterialStateProperty.all<Size?>(Size(30,30))),
                             onPressed: () {
                               setState(() {
                                 fontSize.factor = 1.1;
@@ -298,10 +298,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               saveToSharedPrefs(config);
                               AppBuilder.of(context)!.rebuild();
                             },
-                              child: Icon(Icons.text_format, size: 30, color: fontColorOnSecond,),
+                              child: Icon(Icons.text_format, size: 29, color: fontColorOnSecond,),
                           ),
                           TextButton(
-                            style: ButtonStyle(alignment: Alignment.bottomCenter),
+                            style: ButtonStyle(overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33)),fixedSize: MaterialStateProperty.all<Size?>(Size(30,30)),alignment: Alignment(0.0, 0.0)),
                             onPressed: () {
                               setState(() {
                                 fontSize.factor = 1.4;

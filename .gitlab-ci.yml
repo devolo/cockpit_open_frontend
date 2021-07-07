@@ -1,9 +1,37 @@
-test:
-  stage: test
+image: cirrusci/flutter:stable
+
+stages:
+  - build
+  - test
+
+before_script:
+  - flutter pub get
+  - flutter clean
+
+build:
+  stage: build
+
   script:
-    - flutter test --machine | tojunit -o report.xml
-  artifacts:
-    when: always
-    reports:
-      junit:
-        - report.xml
+    - flutter build aot
+
+  tags:
+    - shared
+    - linux
+    - docker
+
+  only:
+    - merge_requests
+
+unit_test:
+  stage: test
+
+  script:
+    - flutter test test/*
+
+  tags:
+    - shared
+    - linux
+    - docker
+
+  only:
+    - merge_requests

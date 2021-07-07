@@ -18,8 +18,6 @@ build:
     - linux
     - docker
 
-  only:
-    - merge_requests
 
 unit_test:
   stage: test

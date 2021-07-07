@@ -14,6 +14,7 @@ unit_test:
 
   script:
     - dart pub global activate junitreport
+    - export PATH="$PATH":"$HOME/.pub-cache/bin"
     - flutter test test/* | tojunit -o report.xml
 
   tags:

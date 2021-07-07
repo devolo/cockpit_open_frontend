@@ -2,10 +2,12 @@ image: cirrusci/flutter:stable
 
 stages:
   - test
+  - test_coverage
 
 before_script:
   - flutter pub get
   - flutter clean
+  - flutter --version
 
 unit_test:
   stage: test
@@ -13,6 +15,20 @@ unit_test:
   script:
     - flutter test test/*
 
+  tags:
+    - linux
+    - docker
+
+test_coverage:
+  stage: test_coverage
+  
+  script:
+    - flutter test --coverage ./lib 
+    - lcov -r coverage/lcov.info '*/__test*__/*' -o coverage/lcov_cleaned.info
+    - genhtml coverage/lcov_cleaned.info --output=coverage
+  artifacts:
+    paths:
+      - coverage
   tags:
     - linux
     - docker

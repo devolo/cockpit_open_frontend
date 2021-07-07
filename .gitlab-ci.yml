@@ -33,5 +33,3 @@ unit_test:
     - linux
     - docker
 
-  only:
-    - merge_requests

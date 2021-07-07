@@ -1,7 +1,6 @@
 # Cockpit Open Frontend
 
 [![pipeline status](https://gitlab.devolo.intern/dune/cockpit_open_frontend/badges/develop/pipeline.svg)](https://gitlab.devolo.intern/dune/cockpit_open_frontend/-/commits/develop)
-
 [![coverage report](https://gitlab.devolo.intern/dune/cockpit_open_frontend/badges/develop/coverage.svg)](https://gitlab.devolo.intern/dune/cockpit_open_frontend/-/commits/develop)
 
 <img align="center" src="images/overviewENG.png" width="100%">

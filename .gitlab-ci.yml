@@ -13,11 +13,17 @@ unit_test:
   stage: test
 
   script:
-    - flutter test test/*
+    - flutter test test/* | tojunit -o report.xml
 
   tags:
     - linux
     - docker
+
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - report.xml
 
 test_coverage:
   stage: test_coverage

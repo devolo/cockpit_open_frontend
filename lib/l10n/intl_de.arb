@@ -97,7 +97,8 @@
   "no": "Nein",
   "thisDeviceIsConnectedDirectlyToTheInternetRouter": "Dieses Gerät ist direkt an den Internet-Router angeschlossen.",
   "yourCurrentTerminalIsConnectedToThisDevolodevice": "Ihr aktuelles Endgerät ist mit diesem devolo-Gerät verbunden.",
-  "updateAll": "Aktualisiere Alle",
+  "selectAll": "Alle auswählen",
+  "updateSelected": "Aktualisiere Auswahl",
   "confirmAction": "Aktion Bestätigen",
   "upToDate": "aktuell",
   "update2": "Aktualisierung verfügbar",
@@ -168,7 +169,6 @@
 
   "complete": "erfolgreich",
   "failed": "fehlgeschlagen",
-  "pending": "anstehend"
-  "powerSavingModeFailedBody": "Es ist ein Fehler beim Anpassen des Stromsparmodus aufgetreten!\nBitte versuchen Sie es erneut.",
+  "pending": "anstehend",
   "showLicences": "Lizenzen anzeigen"
 }

@@ -15,6 +15,7 @@ import 'package:cockpit_devolo/shared/alertDialogs.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/app_fontSize.dart';
 import 'package:cockpit_devolo/shared/devolo_icons_icons.dart';
+import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:cockpit_devolo/shared/informationDialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -49,9 +50,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
   bool _searchingDeviceUpdate = false;
   bool _searchingCockpitUpdate = false;
   List<String> _upgradingDevicesList = [];
-  bool _upgradingCockpit = false;
 
-  bool _changeNameLoading = false;
+  bool _upgradingCockpit = false;
+  bool _checkedCockpit = true;
 
   FocusNode myFocusNode = new FocusNode();
 
@@ -66,9 +67,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
     });
   }
 
-  Future<void> updateAllDevices(DataHand socket, NetworkList _deviceList) async {
+  Future<void> updateDevices(DataHand socket, NetworkList _deviceList) async {
 
-    socket.sendXML('FirmwareUpdateResponse', newValue: _deviceList.getUpdateList().toString());
+    logger.d("update following Devices ->" + _deviceList.checkedUpdateMacs.toString());
+    socket.sendXML('FirmwareUpdateResponse', newValue: _deviceList.checkedUpdateMacs.toString());
 
     var response = await socket.receiveXML("FirmwareUpdateStatus");
     setState(() {
@@ -92,37 +94,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
     }
   }
 
-
-  Future<void> updateDevice(socket, mac, NetworkList _deviceList ) async {
-
-    socket.sendXML('FirmwareUpdateResponse', newValue: mac);
-
-    var response = await socket.receiveXML("FirmwareUpdateStatus");
-    setState(() {
-      _upgradingDevicesList.remove(mac);
-    });
-
-    if(response != null && response['failed'] != null){
-
-      String failedDevices;
-      if(_deviceList.getDeviceByMac(mac) != null){
-        failedDevices = "\n- " + _deviceList.getDeviceByMac(mac)!.name + " : " + response!['failed'].toString() + "\n";
-      }
-      else{
-        failedDevices = "\n- " + mac.toString() + "\n";
-      }
-
-      errorDialog(context, S.of(context).UpdateDeviceFailedTitle, S.of(context).UpdateDeviceFailedBody + failedDevices, fontSize);
-
-    }
-
-  }
-
   @override
   Widget build(BuildContext context) {
     final socket = Provider.of<DataHand>(context);
     var _deviceList = Provider.of<NetworkList>(context);
-
     fontSize = context.watch<FontSize>();
 
     return new Scaffold(
@@ -220,7 +195,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                           } else if (states.contains(MaterialState.pressed)) {
                             return BorderSide(color: drawingColor.withOpacity(activeOpacity), width: 2.0);
                           }
-                          return (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || (_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))
+                          return (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true ||_upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || ((_deviceList.cockpitUpdate == false || (_deviceList.cockpitUpdate == true && _checkedCockpit == false)) && _deviceList.checkedUpdateMacs.isEmpty) ||(_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))
                           ? BorderSide(color: buttonDisabledForeground2, width: 2.0)
                           : BorderSide(color: drawingColor, width: 2.0);
                         },
@@ -235,7 +210,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                           return Colors.transparent;
                         },
                       ),
-                      foregroundColor: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || (_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))
+                      foregroundColor: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true ||_upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || ((_deviceList.cockpitUpdate == false || (_deviceList.cockpitUpdate == true && _checkedCockpit == false)) && _deviceList.checkedUpdateMacs.isEmpty) ||(_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))
                           ? MaterialStateProperty.all<Color?>(buttonDisabledForeground2)
                           : MaterialStateProperty.resolveWith<Color?>(
                             (states) {
@@ -248,20 +223,20 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         },
                       ),
                     ),
-                    onPressed: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true ||_upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || (_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))
+                    onPressed: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true ||_upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || ((_deviceList.cockpitUpdate == false || (_deviceList.cockpitUpdate == true && _checkedCockpit == false)) && _deviceList.checkedUpdateMacs.isEmpty) ||(_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))
                         ? null
                         : () async {
 
-                      if(_deviceList.getUpdateList().length != 0){
+                      if(_deviceList.getUpdateList().isNotEmpty && _deviceList.checkedUpdateMacs.isNotEmpty){
 
-                        for(String mac in _deviceList.getUpdateList()) {
+                        for(String mac in _deviceList.checkedUpdateMacs) {
                           _upgradingDevicesList.add(mac);
                         }
 
-                        await updateAllDevices(socket, _deviceList);
+                        await updateDevices(socket, _deviceList);
                       }
 
-                      if(_deviceList.cockpitUpdate){
+                      if(_deviceList.cockpitUpdate && _checkedCockpit){
 
                         _upgradingCockpit = true;
                         await updateCockpit(socket, _deviceList); //update Cockpit as second as it requires the application to restart
@@ -274,11 +249,39 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         size: 24 * fontSize.factor,
                       ),
                       Text(
-                        " ${S.of(context).updateAll}", textScaleFactor: fontSize.factor,
+                        S.of(context).updateSelected, textScaleFactor: fontSize.factor,
                       ),
                     ]),
                   ),
                 ),
+                SizedBox(width: 20,),
+                Row(
+                  children: [
+                    Checkbox(
+                      fillColor: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || (_deviceList.getUpdateList().isEmpty && _deviceList.cockpitUpdate == false)) ? MaterialStateProperty.all(devoloLighterGray) : MaterialStateProperty.all(devoloGreen),
+                      checkColor: Colors.white,
+                      value: (_deviceList.checkedUpdateMacs.length == _deviceList.getUpdateList().length) & _checkedCockpit,
+                      onChanged: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || (_deviceList.getUpdateList().isEmpty && _deviceList.cockpitUpdate == false))
+                          ? null
+                          : (bool? value) {
+                            setState(() {
+                              if(value != null && value){
+                                _deviceList.checkedUpdateMacs.clear();
+                                for(String mac in _deviceList.getUpdateList()){
+                                  _deviceList.checkedUpdateMacs.add(mac);
+                                }
+                                _checkedCockpit = true;
+                              }
+                              else{
+                                _deviceList.checkedUpdateMacs.clear();
+                                _checkedCockpit = false;
+                              }
+                            });
+                            },
+                    ),
+                    Text(S.of(context).selectAll,textScaleFactor: fontSize.factor, style: TextStyle(color: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || (_deviceList.getUpdateList().isEmpty && _deviceList.cockpitUpdate == false)) ? devoloLighterGray : fontColorOnBackground),),
+                  ]
+                )
               ],
             ),
             SizedBox(
@@ -405,26 +408,25 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                   ],
                                 )
                               : new Material(
-                                  type: MaterialType.transparency, // used to see the spash color over the background Color of the row
+                                  type: MaterialType.transparency, // used to see the splash color over the background Color of the row
                                   child:
-                                    IconButton(
-                                        icon: Icon(
-                                          DevoloIcons.ic_file_download_24px,
-                                          color: fontColorOnBackground,
-                                        ),
-                                        iconSize: 24 * fontSize.factor,
-                                        hoverColor: splashColor,
-                                        splashColor: splashColor,
-                                        splashRadius: splashRadius * fontSize.factor,
-                                        disabledColor: fontColorOnBackground.withOpacity(opacity),
-                                        onPressed: _upgradingDevicesList.isNotEmpty
-                                            ? null
-                                            : () async {
-                                          _upgradingCockpit = true;
-                                          await updateCockpit(socket, _deviceList);
-                                        },
-                                        mouseCursor: _upgradingDevicesList.isNotEmpty ? SystemMouseCursors.basic : SystemMouseCursors.click
-                                    ),
+                                  Checkbox(
+                                    checkColor: Colors.white,
+                                    fillColor: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate) ? MaterialStateProperty.all(devoloLighterGray) : MaterialStateProperty.all(devoloGreen),
+                                    value: _checkedCockpit,
+                                    onChanged: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate)
+                                        ? null
+                                        : (bool? value) {
+                                          setState(() {
+                                            if(value != null && value){
+                                              _checkedCockpit = true;
+                                            }
+                                            else{
+                                              _checkedCockpit = false;
+                                            }
+                                          });
+                                          },
+                                  ),
                                 ),
                     ),
                     TableCell(
@@ -471,18 +473,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         textScaleFactor: fontSize.factor,
                                 ))
                               :  TableCell(
-                      verticalAlignment:TableCellVerticalAlignment.fill,
-                      child:TextButton(
-                          style: ButtonStyle(overlayColor: MaterialStateProperty.all<Color?>(fontColorOnBackground.withOpacity(opacity))),
                                   child: Text(
                                     S.of(context).update2,
-                                    style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor),
+                                    style: TextStyle(color: fontColorOnBackground),
                                     textAlign: TextAlign.center,
+                                    textScaleFactor: fontSize.factor,
                                   ),
-                                  onPressed: () async {
-                                    _upgradingCockpit = true;
-                                    await updateCockpit(socket, _deviceList);
-                                      }),
                     )
                   ]),
                   for (int i = 0; i < _deviceList.getAllDevices().length; i++)
@@ -512,20 +508,23 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                 : new Material(
                                     type: MaterialType.transparency, // used to see the spash color over the background Color of the row
                                     child:
-                                      IconButton(
-                                          hoverColor: splashColor,
-                                          splashRadius: splashRadius * fontSize.factor,
-                                          splashColor: splashColor,
-                                          color: fontColorOnBackground,
-                                          icon: Icon(
-                                            DevoloIcons.ic_file_download_24px,
-                                          ),
-                                          iconSize: 24 * fontSize.factor,
-                                          onPressed: () async {
-                                            _upgradingDevicesList.add(_deviceList.getAllDevices()[i].mac);
-                                            await updateDevice(socket, _deviceList.getAllDevices()[i].mac, _deviceList);
-                                          }),
-
+                                    Checkbox(
+                                      checkColor: Colors.white,
+                                      fillColor: (_upgradingDevicesList.isNotEmpty || _upgradingCockpit) ? MaterialStateProperty.all(devoloLighterGray) : MaterialStateProperty.all(devoloGreen),
+                                      value: _deviceList.checkedUpdateMacs.contains(_deviceList.getAllDevices()[i].mac),
+                                      onChanged: (_upgradingDevicesList.isNotEmpty || _upgradingCockpit)
+                                          ? null
+                                          :(bool? value) {
+                                            setState(() {
+                                              if(value != null && value){
+                                                _deviceList.checkedUpdateMacs.add(_deviceList.getAllDevices()[i].mac);
+                                              }
+                                              else{
+                                                _deviceList.checkedUpdateMacs.remove(_deviceList.getAllDevices()[i].mac);
+                                              }
+                                            });
+                                            },
+                                    ),
                                   ),
                       ),
                       TableCell(
@@ -593,18 +592,14 @@ class _UpdateScreenState extends State<UpdateScreen> {
                             textHeightBehavior:TextHeightBehavior()
                                   ))
                                 : TableCell(
-                                    verticalAlignment:TableCellVerticalAlignment.fill,
-                                    child:TextButton(
-                                    style: ButtonStyle(overlayColor: MaterialStateProperty.all<Color?>(fontColorOnBackground.withOpacity(opacity))),
                                     child: Text(
                                       S.of(context).update2,
-                                      style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor),
+                                      style: TextStyle(color: fontColorOnBackground),
+                                      textAlign: TextAlign.center,
+                                      textScaleFactor: fontSize.factor,
+                                      textHeightBehavior:TextHeightBehavior()
                                     ),
-                                    onPressed: () async {
-                                      _upgradingDevicesList.add(_deviceList.getAllDevices()[i].mac);
-                                      await updateDevice(socket, _deviceList.getAllDevices()[i].mac, _deviceList);
-                                    }),
-                        ),
+                       ),
 
                     ]),
                 ],

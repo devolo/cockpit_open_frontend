@@ -103,14 +103,14 @@ void main() {
 
   group('void setUpdateList(List<String> updateList)', () {
 
-    test('Given_networkListObject_When_callSetUpdateList_Then_setUpdateList', () {
+    test('Given_networkListObject_When_callSetUpdateList_Then_setUpdateListANDcheckedUpdateMacs', () {
 
       var network = NetworkList();
 
       network.setUpdateList(["test1","test2"]);
 
       expect(network.getUpdateList(),["test1","test2"]);
-
+      expect(network.checkedUpdateMacs,["test1","test2"]);
     });
   });
 

@@ -231,6 +231,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "saveSupportInformations":
             MessageLookupByLibrary.simpleMessage("Speichern"),
         "searching": MessageLookupByLibrary.simpleMessage("suche..."),
+        "selectAll": MessageLookupByLibrary.simpleMessage("Alle auswählen"),
         "sendToDevolo": MessageLookupByLibrary.simpleMessage("Senden"),
         "serialNumber": MessageLookupByLibrary.simpleMessage("Seriennummer"),
         "setUpDevice": MessageLookupByLibrary.simpleMessage("Gerät einrichten"),
@@ -266,9 +267,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "update": MessageLookupByLibrary.simpleMessage("Aktualisierung"),
         "update2":
             MessageLookupByLibrary.simpleMessage("Aktualisierung verfügbar"),
-        "updateAll": MessageLookupByLibrary.simpleMessage("Aktualisiere Alle"),
         "updateReadyToInstall": MessageLookupByLibrary.simpleMessage(
             "Update bereit zur Installation."),
+        "updateSelected":
+            MessageLookupByLibrary.simpleMessage("Aktualisiere Auswahl"),
         "updates": MessageLookupByLibrary.simpleMessage("Aktualisierungen"),
         "updating": MessageLookupByLibrary.simpleMessage(" aktualisieren..."),
         "vdslCompatibility":

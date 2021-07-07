@@ -970,11 +970,21 @@ class S {
     );
   }
 
-  /// `Update all`
-  String get updateAll {
+  /// `Select all`
+  String get selectAll {
     return Intl.message(
-      'Update all',
-      name: 'updateAll',
+      'Select all',
+      name: 'selectAll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update selected`
+  String get updateSelected {
+    return Intl.message(
+      'Update selected',
+      name: 'updateSelected',
       desc: '',
       args: [],
     );

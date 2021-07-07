@@ -96,7 +96,8 @@
   "no": "no",
   "thisDeviceIsConnectedDirectlyToTheInternetRouter": "This device is connected directly to the internet router.",
   "yourCurrentTerminalIsConnectedToThisDevolodevice": "Your current terminal is connected to this devolo device.",
-  "updateAll": "Update all",
+  "selectAll": "Select all",
+  "updateSelected": "Update selected",
   "confirmAction": "Confirm action",
   "upToDate": "Up-to-date",
   "update2": "Update available",
@@ -166,7 +167,6 @@
 
   "complete": "complete",
   "failed": "failed",
-  "pending": "pending"
-  "powerSavingModeFailedBody": "An error occurred while setting the Power save mode!\nTry again later",
+  "pending": "pending",
   "showLicences": "show licenses"
 }

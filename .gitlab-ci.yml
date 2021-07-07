@@ -8,13 +8,13 @@ before_script:
   - flutter pub get
   - flutter clean
   - flutter --version
+  - flutter pub global activate junitreport
+  - export PATH="$PATH":"$HOME/.pub-cache/bin"
 
 unit_test:
   stage: test
 
   script:
-    - dart pub global activate junitreport
-    - export PATH="$PATH":"$HOME/.pub-cache/bin"
     - flutter test test/* | tojunit -o report.xml
 
   tags:

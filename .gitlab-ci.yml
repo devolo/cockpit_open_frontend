@@ -15,7 +15,6 @@ build:
     - flutter build aot
 
   tags:
-    - shared
     - linux
     - docker
 
@@ -29,7 +28,6 @@ unit_test:
     - flutter test test/*
 
   tags:
-    - shared
     - linux
     - docker
 

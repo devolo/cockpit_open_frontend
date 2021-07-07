@@ -96,23 +96,28 @@ class NetworkList extends ChangeNotifier{
 
   String getNetworkType(networkIndex){
     String type = "";
+    bool meshDevice = false;
+
     for(var device in _networkList[networkIndex]){
-      if(device.type.contains('Magic')){
-        type = "Magic";
-        //logger.i("Type: " + type);
+      if (device.type.contains('dLAN')){
+        type = "dLAN";
         break;
       }
-      else if (device.type.contains('dLAN')){
-        type = "dLAN";
-        //logger.i("Type: " + type);
-        break;
+      else if(device.type.contains('Magic')){
+        type = "Magic";
+      }
+      else if(device.type.contains('Mesh')){
+        meshDevice = true;
       }
       else{
         type = "PLC";
-        //logger.i("Type: " + type);
-        break;
       }
     }
+
+    // name network "Mesh" if one mesh device exists.
+    if(meshDevice)
+      type = "Mesh";
+
     return type;
   }
 

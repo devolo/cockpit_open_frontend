@@ -54,6 +54,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
   bool _upgradingCockpit = false;
   bool _checkedCockpit = true;
 
+  bool _filterState = true;
+
   FocusNode myFocusNode = new FocusNode();
 
   late FontSize fontSize;
@@ -99,6 +101,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
     final socket = Provider.of<DataHand>(context);
     var _deviceList = Provider.of<NetworkList>(context);
     fontSize = context.watch<FontSize>();
+
+    var allDevices = _filterState ? _deviceList.getAllDevicesFilteredByState() : _deviceList.getAllDevices();
 
     return new Scaffold(
       backgroundColor: Colors.transparent,
@@ -313,10 +317,15 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         textAlign: TextAlign.center,
                         textScaleFactor: fontSize.factor,
                       ),
-                      Icon(
-                        DevoloIcons.devolo_UI_chevron_down,
-                        color: fontColorOnMain,
-                      )
+                      new Material(
+                        type: MaterialType.transparency, // used to see the splash color over the background Color of the row
+                        child:IconButton(
+                          icon: Icon(DevoloIcons.devolo_UI_chevron_down),
+                          splashRadius: splashRadius * fontSize.factor,
+                          color: fontColorOnMain,
+                          onPressed: () {setState(() {_filterState = !_filterState;});},
+                        )
+                      ),
                     ],
                   ),
                   TableCell(
@@ -481,10 +490,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                   ),
                     )
                   ]),
-                  for (int i = 0; i < _deviceList.getAllDevices().length; i++)
+                  for (int i = 0; i < allDevices.length; i++)
                     TableRow(decoration: BoxDecoration(color: i % 2 == 0 ? accentColor : Colors.transparent), children: [
                       TableCell(
-                        child: _searchingDeviceUpdate || _upgradingDevicesList.contains(_deviceList.getAllDevices()[i].mac)
+                        child: _searchingDeviceUpdate || _upgradingDevicesList.contains(allDevices[i].mac)
                             ? Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -494,7 +503,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                   ),
                                 ],
                               )
-                            : _deviceList.getUpdateList().contains(_deviceList.getAllDevices()[i].mac) == false
+                            : _deviceList.getUpdateList().contains(allDevices[i].mac) == false
                                 ? Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
@@ -511,16 +520,16 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                     Checkbox(
                                       checkColor: Colors.white,
                                       fillColor: (_upgradingDevicesList.isNotEmpty || _upgradingCockpit) ? MaterialStateProperty.all(devoloLighterGray) : MaterialStateProperty.all(devoloGreen),
-                                      value: _deviceList.checkedUpdateMacs.contains(_deviceList.getAllDevices()[i].mac),
+                                      value: _deviceList.checkedUpdateMacs.contains(allDevices[i].mac),
                                       onChanged: (_upgradingDevicesList.isNotEmpty || _upgradingCockpit)
                                           ? null
                                           :(bool? value) {
                                             setState(() {
                                               if(value != null && value){
-                                                _deviceList.checkedUpdateMacs.add(_deviceList.getAllDevices()[i].mac);
+                                                _deviceList.checkedUpdateMacs.add(allDevices[i].mac);
                                               }
                                               else{
-                                                _deviceList.checkedUpdateMacs.remove(_deviceList.getAllDevices()[i].mac);
+                                                _deviceList.checkedUpdateMacs.remove(allDevices[i].mac);
                                               }
                                             });
                                             },
@@ -537,19 +546,19 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               //contentPadding: EdgeInsets.only(left:20),
                               horizontalTitleGap: 1,
                               minLeadingWidth: 1,
-                              onTap: () => _handleTap(_deviceList.getAllDevices()[i]),
+                              onTap: () => _handleTap(allDevices[i]),
                               leading: RawImage(
-                                image: getIconForDeviceType(_deviceList.getAllDevices()[i].typeEnum),
+                                image: getIconForDeviceType(allDevices[i].typeEnum),
                                 scale: fontSize.factor,
                               ),
                               title: Text(
-                                _deviceList.getAllDevices()[i].name,
+                                allDevices[i].name,
                                 style: TextStyle(fontWeight: FontWeight.bold, color: fontColorOnBackground, fontSize: 17,),
                                 textAlign: TextAlign.center,
                                 textScaleFactor: fontSize.factor,
                               ),
                               subtitle: Text(
-                                '${_deviceList.getAllDevices()[i].type}',
+                                '${allDevices[i].type}',
                                 style: TextStyle(color: fontColorOnBackground, fontSize: 17,),
                                 textAlign: TextAlign.center,
                                 textScaleFactor: fontSize.factor,
@@ -560,29 +569,29 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       ),
                       TableCell(
                         child: Text(
-                          _deviceList.getAllDevices()[i].version,
+                          allDevices[i].version,
                           style: TextStyle(color: fontColorOnBackground),
                           textAlign: TextAlign.center,
                           textScaleFactor: fontSize.factor,
                         ),
                       ),
-                       _searchingDeviceUpdate || _upgradingDevicesList.contains(_deviceList.getAllDevices()[i].mac)
+                       _searchingDeviceUpdate || _upgradingDevicesList.contains(allDevices[i].mac)
                             ? TableCell(
                             child:SelectableText(
                                 _searchingDeviceUpdate
                                     ? " ${S.of(context).searching}"
-                                    : _deviceList.getAllDevices()[i].updateState == "complete"
+                                    : allDevices[i].updateState == "complete"
                                       ?" ${S.of(context).update} : ${S.of(context).complete}"
-                                      : _deviceList.getAllDevices()[i].updateState == "pending"
+                                      : allDevices[i].updateState == "pending"
                                         ?" ${S.of(context).update} : ${S.of(context).pending}"
-                                        : _deviceList.getAllDevices()[i].updateState == "failed"
+                                        : allDevices[i].updateState == "failed"
                                           ?" ${S.of(context).update} : ${S.of(context).failed}"
-                                          :" ${S.of(context).update} : ${ _deviceList.getAllDevices()[i].updateState}%",
+                                          :" ${S.of(context).update} : ${ allDevices[i].updateState}%",
                                 style: TextStyle(color: fontColorOnBackground),
                                 textAlign: TextAlign.center,
                                 textScaleFactor: fontSize.factor,
                               ))
-                            : _deviceList.getUpdateList().contains(_deviceList.getAllDevices()[i].mac) == false
+                            : _deviceList.getUpdateList().contains(allDevices[i].mac) == false
                                 ? TableCell(
                          child:Text(
                                     " ${S.of(context).upToDate}",

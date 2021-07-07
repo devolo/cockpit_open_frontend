@@ -62,6 +62,28 @@ class NetworkList extends ChangeNotifier{
     return allDevices;
   }
 
+  List<Device> getAllDevicesFilteredByState(){
+
+    if(_updateMacs.isEmpty){
+      return getAllDevices();
+    }
+
+    List<Device> filteredDevices = [];
+    List<Device> nonFilteredDevices = [];
+    for(List<Device> network in _networkList){
+      for(Device device in network){
+        if(_updateMacs.contains(device.mac))
+          filteredDevices.add(device);
+        else
+          nonFilteredDevices.add(device);
+      }
+    }
+
+    List<Device> allDevices = filteredDevices + nonFilteredDevices;
+
+    return allDevices;
+  }
+
   int getNetworkListLength(){
     int length = 0;
     for(var elem in _networkList){

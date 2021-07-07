@@ -280,8 +280,8 @@ mainAxisAlignment: MainAxisAlignment.end,
                               style: ButtonStyle(overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33))),
                               onPressed: () {
                                 setState(() {
-                                  fontSize.factor = 1.1;
-                                  config["font_size_factor"] = 1.1;
+                                  fontSize.factor = 0.9;
+                                  config["font_size_factor"] = 0.9;
                                 });
                                 saveToSharedPrefs(config);
                                 AppBuilder.of(context)!.rebuild();
@@ -309,8 +309,8 @@ mainAxisAlignment: MainAxisAlignment.end,
                               style: ButtonStyle(overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33))),
                               onPressed: () {
                                 setState(() {
-                                  fontSize.factor = 1.1;
-                                  config["font_size_factor"] = 1.1;
+                                  fontSize.factor = 1.4;
+                                  config["font_size_factor"] = 1.4;
                                 });
                                 saveToSharedPrefs(config);
                                 AppBuilder.of(context)!.rebuild();

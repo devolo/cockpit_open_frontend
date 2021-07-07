@@ -1,23 +1,11 @@
 image: cirrusci/flutter:stable
 
 stages:
-  - build
   - test
 
 before_script:
   - flutter pub get
   - flutter clean
-
-build:
-  stage: build
-
-  script:
-    - flutter build aot
-
-  tags:
-    - linux
-    - docker
-
 
 unit_test:
   stage: test
@@ -27,5 +15,5 @@ unit_test:
 
   tags:
     - linux
-    - docker
+    - shell
 

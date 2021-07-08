@@ -1250,6 +1250,26 @@ class S {
     );
   }
 
+  /// `Setup failed`
+  String get addDeviceErrorTitle {
+    return Intl.message(
+      'Setup failed',
+      name: 'addDeviceErrorTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred while adding the device!\nTry again later`
+  String get addDeviceErrorBody {
+    return Intl.message(
+      'An error occurred while adding the device!\nTry again later',
+      name: 'addDeviceErrorBody',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Manual not found`
   String get manualErrorTitle {
     return Intl.message(
@@ -1625,6 +1645,56 @@ class S {
     return Intl.message(
       'show licenses',
       name: 'showLicences',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Security ID`
+  String get securityId {
+    return Intl.message(
+      'Security ID',
+      name: 'securityId',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add device via security ID`
+  String get addDeviceViaSecurityId {
+    return Intl.message(
+      'Add device via security ID',
+      name: 'addDeviceViaSecurityId',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter the security ID of the new PLC device.\nThe security ID can be found on the back of the PLC device.`
+  String get addDeviceViaSecurityIdDialogContent {
+    return Intl.message(
+      'Enter the security ID of the new PLC device.\nThe security ID can be found on the back of the PLC device.',
+      name: 'addDeviceViaSecurityIdDialogContent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Device will be added`
+  String get addDeviceLoading {
+    return Intl.message(
+      'Device will be added',
+      name: 'addDeviceLoading',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select the network in which the device should be added.`
+  String get chooseNetwork {
+    return Intl.message(
+      'Select the network in which the device should be added.',
+      name: 'chooseNetwork',
       desc: '',
       args: [],
     );

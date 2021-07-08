@@ -118,6 +118,19 @@ class NetworkList extends ChangeNotifier{
     return null;
   }
 
+  List<Device> getLocalDevices(){
+
+    List<Device> localDevices = [];
+
+    for(var network in _networkList){
+      for(var dev in network){
+        if(dev.isLocalDevice==true){
+          localDevices.add(dev);
+        }
+      }
+    }
+    return localDevices;
+  }
 
   String getNetworkType(networkIndex){
     String type = "";
@@ -144,6 +157,15 @@ class NetworkList extends ChangeNotifier{
       type = "Mesh";
 
     return type;
+  }
+
+  List<String> getNetworkTypes(){
+    List<String> networkTypes = [];
+    for(var network in _networkList){
+      networkTypes.add(network.first.networkType);
+    }
+    logger.i(networkTypes.toString());
+    return networkTypes;
   }
 
   void setDeviceList(List<Device> devList) {

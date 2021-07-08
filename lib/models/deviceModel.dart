@@ -17,6 +17,7 @@ enum DeviceType { dtLanMini, dtLanPlus, dtWiFiMini, dtWiFiPlus, dtWiFiOnly, dtDI
 class Device extends ChangeNotifier {
   DeviceType? typeEnum;
   String type  = "";
+  String networkType  = "";
   String name = "";
   String mac  = "";
   String ip  = "";
@@ -39,9 +40,10 @@ class Device extends ChangeNotifier {
   List<int> disableTraffic = List.filled(2, 0); // first value indicates if the action is available for the device, second shows the value
 
 
-  Device(String type, String name, String mac, String ip, String MT, String serialno, String version, String versionDate, atRouter, isLocal, bool webinterfaceAvailable, bool identifyDeviceAvailable, selectedVDSL, supportedVDSL, modeVDSL, List<int> disableLeds, List<int> disableStandby, List<int> disableTraffic) {
+  Device(String type, String networkType, String name, String mac, String ip, String MT, String serialno, String version, String versionDate, atRouter, isLocal, bool webinterfaceAvailable, bool identifyDeviceAvailable, selectedVDSL, supportedVDSL, modeVDSL, List<int> disableLeds, List<int> disableStandby, List<int> disableTraffic) {
     this.typeEnum = getDeviceType(type);
     this.type = type;
+    this.networkType = networkType;
     this.name = name;
     this.mac = mac;
     this.ip = ip;
@@ -75,11 +77,17 @@ class Device extends ChangeNotifier {
 
     // get attribute if device is attached to the router
     bool attachedToRouter = false;
-    var gatewayStates=element.getElement('states');
-    if(gatewayStates != null){
-      for(var elem in gatewayStates.children){
-        if(elem.innerText.contains("gateway"))
+    String networkType = "";
+
+    var states=element.getElement('states');
+    if(states != null){
+      var firstList = states.findAllElements('first');
+      for(var first in firstList){
+        if(first.innerText.contains("gateway"))
           attachedToRouter = true;
+        else if(first.innerText.contains("network_type")){
+          networkType = first.parent!.getElement('second')!.innerText;
+        }
       }
     }
 
@@ -142,6 +150,7 @@ class Device extends ChangeNotifier {
 
     Device retDevice = Device(
       element.getElement('type')!.text,
+      networkType,
       element.getElement('name')!.text,
       element.getElement('macAddress')!.text,
       element.getElement('ipAddress')!.text,

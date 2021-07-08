@@ -127,6 +127,8 @@
   "removeDeviceErrorTitle" : "Remove failed",
   "removeDeviceErrorBody" : "An error occurred while removing the device!\nTry again later",
   "identifyDeviceErrorTitle" : "Identifying failed",
+  "addDeviceErrorTitle" : "Setup failed",
+  "addDeviceErrorBody" : "An error occurred while adding the device!\nTry again later",
 
   "manualErrorTitle" : "Manual not found",
   "manualErrorBody" : "No suitable manual was found for your PLC device.\n\nYou can find the manual on the product CD or on the devolo website",
@@ -168,5 +170,11 @@
   "complete": "complete",
   "failed": "failed",
   "pending": "pending",
-  "showLicences": "show licenses"
+  "showLicences": "show licenses",
+
+  "securityId": "Security ID",
+  "addDeviceViaSecurityId": "Add device via security ID",
+  "addDeviceViaSecurityIdDialogContent": "Enter the security ID of the new PLC device.\nThe security ID can be found on the back of the PLC device.",
+  "addDeviceLoading": "Device will be added",
+  "chooseNetwork": "Select the network in which the device should be added."
 }

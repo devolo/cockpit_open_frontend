@@ -42,8 +42,18 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Aktion fehlgeschlagen"),
         "add": MessageLookupByLibrary.simpleMessage("Hinzufügen"),
         "addDevice": MessageLookupByLibrary.simpleMessage("Gerät hinzufügen"),
+        "addDeviceErrorBody": MessageLookupByLibrary.simpleMessage(
+            "Es ist ein Fehler beim Hinzufügen des Gerätes aufgetreten!\nBitte versuchen Sie es erneut."),
+        "addDeviceErrorTitle":
+            MessageLookupByLibrary.simpleMessage("Einrichtung fehlgeschlagen"),
         "addDeviceInstructionText": MessageLookupByLibrary.simpleMessage(
             "1.) Stecken Sie beide PLC-Geräte in die gewünschten Wandsteckdosen und warten ca. 45 Sekunden.\n2.) Drücken Sie kurz den Verschlüsselungsknopf des ersten (evtl. bereits vorhandenen) PLC-Gerätes.\n    (Alternativ kann das Pairing auch über das Webinterface des bereits vorhandenen Geräts gestartet werden.) \n3.) Drücken Sie innerhalb von zwei Minuten den Verschlüsselungsknopf des zweiten (neuen) PLC-Gerätes ebenfalls kurz.\n4.) Sobald die LEDs dauerhaft leuchten, sind die PLC-Geräte betriebsbereit."),
+        "addDeviceLoading":
+            MessageLookupByLibrary.simpleMessage("Gerät wird hinzugefügt"),
+        "addDeviceViaSecurityId": MessageLookupByLibrary.simpleMessage(
+            "Gerät mittels Security-ID hinzufügen"),
+        "addDeviceViaSecurityIdDialogContent": MessageLookupByLibrary.simpleMessage(
+            "Geben Sie die Security-ID des neuen PLC-Gerätes ein.\nDie Security-ID finden Sie auf der Rückseite des PLC-Gerätes"),
         "additionalDialogTitle":
             MessageLookupByLibrary.simpleMessage("Erweiterte Einstellungen"),
         "additionalSettings":
@@ -66,6 +76,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Ändere die Sprache der App"),
         "checkUpdates":
             MessageLookupByLibrary.simpleMessage(" Aktualisierungen suchen "),
+        "chooseNetwork": MessageLookupByLibrary.simpleMessage(
+            "Wähle das Netzwerk in welchem das Gerät hinzugefügt werden soll."),
         "chooseTheAppTheme":
             MessageLookupByLibrary.simpleMessage("Wähle das App Design"),
         "chooseTheme": MessageLookupByLibrary.simpleMessage("Wähle Thema"),
@@ -232,6 +244,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Speichern"),
         "searching": MessageLookupByLibrary.simpleMessage("suche..."),
         "selectAll": MessageLookupByLibrary.simpleMessage("Alle auswählen"),
+        "securityId": MessageLookupByLibrary.simpleMessage("Security-ID"),
         "sendToDevolo": MessageLookupByLibrary.simpleMessage("Senden"),
         "serialNumber": MessageLookupByLibrary.simpleMessage("Seriennummer"),
         "setUpDevice": MessageLookupByLibrary.simpleMessage("Gerät einrichten"),

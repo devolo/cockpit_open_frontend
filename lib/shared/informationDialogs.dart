@@ -65,7 +65,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                       )),
                 ),
                 Container (
-                  width: 60, // doesn´t affect the width if the text field
+                  width: 60, // doesn´t affect the width in the text field
                   child: TextFormField(
                     initialValue: newName,
                     focusNode: myFocusNode,

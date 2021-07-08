@@ -292,6 +292,9 @@ class DataHand extends ChangeNotifier {
     if(wantedMessageTypes == "FirmwareUpdateStatus")
       timoutTime = 300; //s
 
+    if(wantedMessageTypes == "AddRemoteAdapterStatus")
+      timoutTime = 300; //s
+
     bool wait = true;
     await new Future.delayed(const Duration(seconds: 2));
 
@@ -433,6 +436,22 @@ class DataHand extends ChangeNotifier {
           responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'failed');
           if (responseElem != null) {
             response['failed'] = responseElem;
+          }
+        }
+
+        // ignore responses with <status>running</status>
+        else if (wantedMessageTypes == "AddRemoteAdapterStatus") {
+
+          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'status');
+          if (responseElem != "running") {
+            wait = false;
+
+            responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'result');
+            if (responseElem != null) {
+              response['result'] = responseElem;
+            }
+
+            response['status'] = responseElem;
           }
         }
 

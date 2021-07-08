@@ -128,6 +128,8 @@
   "removeDeviceErrorTitle" : "Löschvorgang fehlgeschlagen",
   "removeDeviceErrorBody" : "Es ist ein Fehler beim Entfernen des Gerätes aufgetreten!\nBitte versuchen Sie es erneut.",
   "identifyDeviceErrorTitle" : "Identifizierung fehlgeschlagen",
+  "addDeviceErrorTitle" : "Einrichtung fehlgeschlagen",
+  "addDeviceErrorBody" : "Es ist ein Fehler beim Hinzufügen des Gerätes aufgetreten!\nBitte versuchen Sie es erneut.",
 
   "manualErrorTitle" : "Handbuch nicht gefunden",
   "manualErrorBody" : "Für Ihr PLC-Gerät wurde kein passendes Handbuch gefunden.\n\nSie können das Handbuch auf der Produkt-CD oder der devolo Internet-Seite finden.",
@@ -170,5 +172,11 @@
   "complete": "erfolgreich",
   "failed": "fehlgeschlagen",
   "pending": "anstehend",
-  "showLicences": "Lizenzen anzeigen"
+  "showLicences": "Lizenzen anzeigen",
+
+  "securityId": "Security-ID",
+  "addDeviceViaSecurityId": "Gerät mittels Security-ID hinzufügen",
+  "addDeviceViaSecurityIdDialogContent": "Geben Sie die Security-ID des neuen PLC-Gerätes ein.\nDie Security-ID finden Sie auf der Rückseite des PLC-Gerätes",
+  "addDeviceLoading": "Gerät wird hinzugefügt",
+  "chooseNetwork": "Wähle das Netzwerk in welchem das Gerät hinzugefügt werden soll."
 }

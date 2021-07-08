@@ -41,8 +41,18 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Action failed"),
         "add": MessageLookupByLibrary.simpleMessage("Add"),
         "addDevice": MessageLookupByLibrary.simpleMessage("Add device"),
+        "addDeviceErrorBody": MessageLookupByLibrary.simpleMessage(
+            "An error occurred while adding the device!\nTry again later"),
+        "addDeviceErrorTitle":
+            MessageLookupByLibrary.simpleMessage("Setup failed"),
         "addDeviceInstructionText": MessageLookupByLibrary.simpleMessage(
             "1) Plug both PLC devices into wall sockets and wait for 45 seconds.\n2) Briefly press the encryption button of the existing PLC device.\n(Alternatively start pairing via the web interface of the existing device.)\n3) Within 2 minutes, press the encryption button of the new PLC device also briefly.\n4) As soon as the LEDs light up and do not blink, the PLC devices are ready for operation."),
+        "addDeviceLoading":
+            MessageLookupByLibrary.simpleMessage("Device will be added"),
+        "addDeviceViaSecurityId":
+            MessageLookupByLibrary.simpleMessage("Add device via security ID"),
+        "addDeviceViaSecurityIdDialogContent": MessageLookupByLibrary.simpleMessage(
+            "Enter the security ID of the new PLC device.\nThe security ID can be found on the back of the PLC device."),
         "additionalDialogTitle":
             MessageLookupByLibrary.simpleMessage("Additional settings"),
         "additionalSettings":
@@ -65,6 +75,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Change language"),
         "checkUpdates":
             MessageLookupByLibrary.simpleMessage("Check for updates"),
+        "chooseNetwork": MessageLookupByLibrary.simpleMessage(
+            "Select the network in which the device should be added."),
         "chooseTheAppTheme":
             MessageLookupByLibrary.simpleMessage("Choose the app theme"),
         "chooseTheme": MessageLookupByLibrary.simpleMessage("Change theme"),
@@ -225,6 +237,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "save": MessageLookupByLibrary.simpleMessage("Save"),
         "saveSupportInformations": MessageLookupByLibrary.simpleMessage("Save"),
         "searching": MessageLookupByLibrary.simpleMessage("Searching..."),
+        "securityId": MessageLookupByLibrary.simpleMessage("Security ID"),
         "selectAll": MessageLookupByLibrary.simpleMessage("Select all"),
         "sendToDevolo": MessageLookupByLibrary.simpleMessage("Send"),
         "serialNumber": MessageLookupByLibrary.simpleMessage("Serial number"),

@@ -65,6 +65,7 @@ bool compareDevice(Device first, Device other){
 
   first.typeEnum == other.typeEnum &&
       first.type == other.type &&
+      first.networkType == other.networkType &&
       first.name == other.name &&
       first.mac == other.mac &&
       first.ip == other.ip &&

@@ -159,15 +159,6 @@ class NetworkList extends ChangeNotifier{
     return type;
   }
 
-  List<String> getNetworkTypes(){
-    List<String> networkTypes = [];
-    for(var network in _networkList){
-      networkTypes.add(network.first.networkType);
-    }
-    logger.i(networkTypes.toString());
-    return networkTypes;
-  }
-
   void setDeviceList(List<Device> devList) {
 
     if(!_networkList.asMap().containsKey(selectedNetworkIndex)){

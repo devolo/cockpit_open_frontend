@@ -213,6 +213,7 @@ class Device extends ChangeNotifier {
     return '''Name: ${this.name},
  type: ${this.type},
  typeEnum: ${this.typeEnum},
+ networkType: ${this.networkType},
  mac: ${this.mac},
  ip: ${this.ip},
  version: ${this.version},

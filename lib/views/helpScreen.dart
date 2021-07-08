@@ -1053,10 +1053,12 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
+            titlePadding: EdgeInsets.all(dialogTitlePadding),
             contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children:[
+                SizedBox(height: 20,),
                 Container(
                   child: CircularProgressIndicator(color: fontColorOnBackground),
                   height: 50.0,
@@ -1130,7 +1132,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
         Navigator.pop(context, true);
     }
 
-    else if(response["status"] == "timeout" ||response["result"] == "timeout" || response["result"] == "read_pib_failed") {
+    else if(response["result"] == "timeout" || response["result"] == "read_pib_failed") {
       Navigator.pop(context, true);
       errorDialog(context, S
           .of(context)

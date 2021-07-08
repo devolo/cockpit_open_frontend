@@ -1214,6 +1214,17 @@ var setNetworkPasswordStatus1 = '''<?xml version="1.0" encoding="UTF-8" standalo
 	</Message>
 </boost_serialization>''';
 
+var addRemoteAdapterStatus1 = '''<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE boost_serialization>
+<boost_serialization signature="serialization::archive" version="13">
+<Message class_id="0" tracking_level="0" version="0">
+        <MessageType>AddRemoteAdapterStatus</MessageType>
+        <macAddress>B8:BE:F4:1A:92:B6</macAddress>
+        <status>complete</status>
+        <result>read_pib_failed</result>
+</Message>
+</boost_serialization>''';
+
 var setVDSLCompatibilityStatus1 = '''<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <!DOCTYPE boost_serialization>
 <boost_serialization signature="serialization::archive" version="13">

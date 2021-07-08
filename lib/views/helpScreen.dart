@@ -62,8 +62,8 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
 
     localHpavDevices.clear();
     List<Device> localDevices = _deviceList.getLocalDevices();
-    for(Device device in localDevices){
-      if(device.networkType.contains('hpav')){
+    for (Device device in localDevices) {
+      if (device.networkType.contains('hpav')) {
         localHpavDevices.add(device);
       }
     }
@@ -80,10 +80,12 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
             //crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                S.of(context).help,
+                S
+                    .of(context)
+                    .help,
                 style: TextStyle(fontSize: fontSizeAppBarTitle * fontSize.factor, color: fontColorOnBackground),
               ),
-              SizedBox(height:paddingBarTop),
+              SizedBox(height: paddingBarTop),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -110,13 +112,15 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                             height: 40,
                           ),
                           Text(
-                            S.of(context).setUpDevice,
+                            S
+                                .of(context)
+                                .setUpDevice,
                             textScaleFactor: fontSize.factor,
                           ),
                         ],
                       ),
                       onPressed: () {
-                        _addDeviceAlert(context,socket);
+                        _addDeviceAlert(context, socket);
                       },
                     ),
                   ),
@@ -143,7 +147,9 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                             height: 40,
                           ),
                           Text(
-                            S.of(context).optimizeReception,
+                            S
+                                .of(context)
+                                .optimizeReception,
                             textScaleFactor: fontSize.factor,
                           ),
                         ],
@@ -176,13 +182,15 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                             height: 40,
                           ),
                           Text(
-                            S.of(context).contactSupport,
+                            S
+                                .of(context)
+                                .contactSupport,
                             textScaleFactor: fontSize.factor,
                           ),
                         ],
                       ),
                       onPressed: () {
-                        _loadingSupportDialog(context,socket);
+                        _loadingSupportDialog(context, socket);
                       },
                     ),
                   ),
@@ -214,17 +222,19 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                 getCloseButton(context),
                 Center(
                     child: Text(
-                  S.of(context).optimizationHelp,
-                  style: TextStyle(color: fontColorOnBackground),
-                )),
+                      S
+                          .of(context)
+                          .optimizationHelp,
+                      style: TextStyle(color: fontColorOnBackground),
+                    )),
               ],
             ),
             titlePadding: EdgeInsets.all(2),
             backgroundColor: backgroundColor.withOpacity(0.9),
             insetPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
-            content: StatefulBuilder(// You need this, notice the parameters below:
-            builder: (BuildContext context, StateSetter setState) {
-              return Center(
+            content: StatefulBuilder( // You need this, notice the parameters below:
+                builder: (BuildContext context, StateSetter setState) {
+                  return Center(
                     child: Column(
                       children: [
                         for (dynamic con in contents.entries)
@@ -282,7 +292,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                       ],
                     ),
                   );
-            }),
+                }),
           );
         });
   }
@@ -317,17 +327,17 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                 getCloseButton(context),
                 Center(
                     child: Text(
-                  "Gerät einrichten",
-                  style: TextStyle(color: fontColorOnBackground),
-                )),
+                      "Gerät einrichten",
+                      style: TextStyle(color: fontColorOnBackground),
+                    )),
               ],
             ),
             titlePadding: EdgeInsets.all(2),
             backgroundColor: backgroundColor.withOpacity(0.9),
             insetPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 100),
-            content: StatefulBuilder(// You need this, notice the parameters below:
+            content: StatefulBuilder( // You need this, notice the parameters below:
                 builder: (BuildContext context, StateSetter setState) {
-              return Container(
+                  return Container(
                     //color: Colors.grey[200],
                     height: 800,
                     width: 900,
@@ -353,27 +363,29 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                                   ),
                                   foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
                                 ),
-                                onPressed: () => _addRemoteDeviceDialog(context,socket),
+                                onPressed: () => _addRemoteDeviceDialog(context, socket),
                                 child: Text(
-                                      S.of(context).addDeviceViaSecurityId, textScaleFactor: fontSize.factor,
-                                      style:TextStyle(color: Colors.white)
-                                  ),
+                                    S
+                                        .of(context)
+                                        .addDeviceViaSecurityId, textScaleFactor: fontSize.factor,
+                                    style: TextStyle(color: Colors.white)
                                 ),
+                              ),
                             Expanded(
                               child: Theme(
                                 data: ThemeData(
-                                    canvasColor: Colors.transparent,
-                                    shadowColor: Colors.transparent,
-                                    colorScheme:
-                                    fontColorOnSecond == devoloGray
-                                        ? ColorScheme.dark(
-                                      primary: secondColor,
-                                      secondary: secondColor,
-                                    )
-                                        : ColorScheme.light(
-                                      primary: secondColor,
-                                      secondary: secondColor,
-                                    ),
+                                  canvasColor: Colors.transparent,
+                                  shadowColor: Colors.transparent,
+                                  colorScheme:
+                                  fontColorOnSecond == devoloGray
+                                      ? ColorScheme.dark(
+                                    primary: secondColor,
+                                    secondary: secondColor,
+                                  )
+                                      : ColorScheme.light(
+                                    primary: secondColor,
+                                    secondary: secondColor,
+                                  ),
                                 ),
 
                                 child: Stepper(
@@ -474,23 +486,23 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                                             "(Alternativ kann das Pairing auch über das Webinterface des bereits vorhandenen Geräts gestartet werden.)",
                                             style: TextStyle(color: fontColorOnBackground),
                                           ),
-                                            Image(
-                                                  image: AssetImage('assets/addDevice/MagicWifi_step4.PNG'),
-                                                  fit: BoxFit.scaleDown,
-                                                ),
+                                          Image(
+                                            image: AssetImage('assets/addDevice/MagicWifi_step4.PNG'),
+                                            fit: BoxFit.scaleDown,
+                                          ),
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                                             children: [
                                               Expanded(
                                                   child: Image(
-                                                image: AssetImage('assets/addDevice1.png'),
-                                                fit: BoxFit.scaleDown,
-                                              )),
+                                                    image: AssetImage('assets/addDevice1.png'),
+                                                    fit: BoxFit.scaleDown,
+                                                  )),
                                               Expanded(
                                                   child: Image(
-                                                image: AssetImage('assets/addDevice2.png'),
-                                                fit: BoxFit.scaleDown,
-                                              )),
+                                                    image: AssetImage('assets/addDevice2.png'),
+                                                    fit: BoxFit.scaleDown,
+                                                  )),
                                               Expanded(
                                                   child: Image(
                                                     image: AssetImage('assets/addDevice3.png'),
@@ -554,19 +566,18 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                       ],
                     ),
                   );
-            }),
+                }),
           );
         });
   }
 
   void _addRemoteDeviceDialog(context, socket) {
-
     Device selectedDevice = localHpavDevices.first;
     List<String> hpavDevicesNames = [];
-    for(Device device in localHpavDevices){
+    for (Device device in localHpavDevices) {
       hpavDevicesNames.add(device.name);
     }
-    
+
     String securityID = "";
     var securityIDController = TextEditingController();
     var oldValueLength = 0;
@@ -577,36 +588,102 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(
-              S.of(context).addDeviceViaSecurityId,
-                textAlign: TextAlign.center,
+              S
+                  .of(context)
+                  .addDeviceViaSecurityId,
+              textAlign: TextAlign.center,
             ),
             titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
             contentTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
             content: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
 
-                if(localHpavDevices.length > 1)
-                  Text(S.of(context).chooseNetwork, textAlign: TextAlign.start),
-                if(localHpavDevices.length > 1)
-                SizedBox(
-                  height: 20,
-                ),
-                if(localHpavDevices.length > 1)
-                  DropdownButtonFormField<String>(
-                    value: selectedDevice.name, //TODO - use Network Name
-                    dropdownColor: secondColor,
-                    icon: Icon(DevoloIcons.devolo_UI_chevron_down),
-                    isDense: true,
-                    elevation: 8,
-                    style: TextStyle(color: fontColorOnSecond, fontSize: dialogContentTextFontSize * fontSize.factor),
-                    iconSize: 24 * fontSize.factor,
+                  if(localHpavDevices.length > 1)
+                    Text(S
+                        .of(context)
+                        .chooseNetwork, textAlign: TextAlign.start),
+                  if(localHpavDevices.length > 1)
+                    SizedBox(
+                      height: 20,
+                    ),
+                  if(localHpavDevices.length > 1)
+                    DropdownButtonFormField<String>(
+                      value: selectedDevice.name,
+                      //TODO - use Network Name
+                      dropdownColor: secondColor,
+                      icon: Icon(DevoloIcons.devolo_UI_chevron_down),
+                      isDense: true,
+                      elevation: 8,
+                      style: TextStyle(color: fontColorOnSecond, fontSize: dialogContentTextFontSize * fontSize.factor),
+                      iconSize: 24 * fontSize.factor,
+                      decoration: InputDecoration(
+                        hoverColor: fontColorOnBackground.withOpacity(0.2),
+                        contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                        filled: true,
+                        fillColor: fontColorOnBackground.withOpacity(0.2),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          borderSide: BorderSide(
+                            color: fontColorOnBackground,
+                            width: 2.0,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          borderSide: BorderSide(
+                            color: fontColorOnBackground, //Colors.transparent,
+                          ),
+                        ),
+                      ),
+                      iconEnabledColor: fontColorOnBackground,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedDevice = localHpavDevices.firstWhere((element) => element.name.contains(newValue!));
+                        });
+                      },
+                      selectedItemBuilder: (BuildContext context) {
+                        return hpavDevicesNames.map((String value) {
+                          return Text(value, textScaleFactor: fontSize.factor, style: TextStyle(color: fontColorOnBackground));
+                        }).toList();
+                      },
+                      items: hpavDevicesNames.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value, textScaleFactor: fontSize.factor),
+                        );
+                      }).toList(),
+                    ),
+                  if(localHpavDevices.length > 1)
+                    SizedBox(
+                      height: 20,
+                    ),
+                  Text(S
+                      .of(context)
+                      .addDeviceViaSecurityIdDialogContent),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    controller: securityIDController,
+                    keyboardType: TextInputType.text,
+                    enableInteractiveSelection: false,
+                    maxLength: 19,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp("[0-9a-zA-Z-]")),
+                    ],
+                    style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
                     decoration: InputDecoration(
+                      labelText: S
+                          .of(context)
+                          .securityId,
+                      labelStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
                       hoverColor: fontColorOnBackground.withOpacity(0.2),
                       contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                       filled: true,
                       fillColor: fontColorOnBackground.withOpacity(0.2),
+                      errorStyle: TextStyle(color: devoloRed),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0),
                         borderSide: BorderSide(
@@ -621,113 +698,58 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                         ),
                       ),
                     ),
-                    iconEnabledColor: fontColorOnBackground,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedDevice = localHpavDevices.firstWhere((element) => element.name.contains(newValue!));
-                      });
+                    onChanged: (value) {
+                      int setMinusAt = 4;
+                      int setMinusAt2 = setMinusAt + 1;
+                      switch ('-'
+                          .allMatches(value)
+                          .length) {
+                        case 1:
+                          setMinusAt = 9;
+                          setMinusAt2 = setMinusAt + 1;
+                          break;
+                        case 2:
+                          setMinusAt = 14;
+                          setMinusAt2 = setMinusAt + 1;
+                      }
+
+                      if (value.length == setMinusAt2 && !(value.length < oldValueLength)) {
+                        securityIDController.text = value.replaceRange(value.length - 1, value.length, "-" + value[value.length - 1]);
+                        securityIDController.selection = TextSelection.collapsed(offset: value.length + 1);
+                        oldValueLength = value.length + 1;
+                      }
+
+                      else if (value.length == setMinusAt && !(value.length < oldValueLength)) {
+                        securityIDController.text = value + "-";
+                        securityIDController.selection = TextSelection.collapsed(offset: value.length + 1);
+                        oldValueLength = value.length + 1;
+                      }
+
+                      else
+                        oldValueLength = value.length;
+
+                      if (value.length >= 18) {
+                        AppBuilder.of(context)!.rebuild();
+                      }
+
+                      securityID = value;
                     },
-                    selectedItemBuilder: (BuildContext context) {
-                      return hpavDevicesNames.map((String value) {
-                        return Text(value, textScaleFactor: fontSize.factor, style: TextStyle(color: fontColorOnBackground));
-                      }).toList();
-                    },
-                    items: hpavDevicesNames.map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value, textScaleFactor: fontSize.factor),
-                      );
-                    }).toList(),
                   ),
-                if(localHpavDevices.length > 1)
-                SizedBox(
-                  height: 20,
-                ),
-                Text(S.of(context).addDeviceViaSecurityIdDialogContent),
-                SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  controller: securityIDController,
-                  keyboardType: TextInputType.text,
-                  enableInteractiveSelection: false,
-                  maxLength: 19,
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.allow(RegExp("[0-9a-zA-Z-]")),
-                  ],
-                  style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
-                  decoration: InputDecoration(
-                    labelText: S.of(context).securityId,
-                    labelStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
-                    hoverColor: fontColorOnBackground.withOpacity(0.2),
-                    contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-                    filled: true,
-                    fillColor: fontColorOnBackground.withOpacity(0.2),
-                    errorStyle: TextStyle(color: devoloRed),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                      borderSide: BorderSide(
-                        color: fontColorOnBackground,
-                        width: 2.0,
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                      borderSide: BorderSide(
-                        color: fontColorOnBackground, //Colors.transparent,
-                      ),
-                    ),
-                  ),
-                  onChanged: (value) {
-
-                    int setMinusAt = 4;
-                    int setMinusAt2 = setMinusAt + 1;
-                    switch ('-'.allMatches(value).length){
-                      case 1:
-                        setMinusAt = 9;
-                        setMinusAt2 = setMinusAt + 1;
-                        break;
-                      case 2:
-                        setMinusAt = 14;
-                        setMinusAt2 = setMinusAt + 1;
-                    }
-
-                    if(value.length == setMinusAt2 && !(value.length < oldValueLength)){
-                      securityIDController.text = value.replaceRange(value.length -1, value.length, "-" + value[value.length -1]);
-                      securityIDController.selection = TextSelection.collapsed(offset: value.length + 1);
-                      oldValueLength = value.length + 1;
-                    }
-
-                    else if(value.length == setMinusAt && !(value.length < oldValueLength)){
-                      securityIDController.text = value + "-";
-                      securityIDController.selection = TextSelection.collapsed(offset: value.length + 1);
-                      oldValueLength = value.length + 1;
-                    }
-
-                    else
-                      oldValueLength = value.length;
-
-                    if(value.length >= 18){
-                      AppBuilder.of(context)!.rebuild();
-                    }
-
-                    securityID = value;
-
-                  },
-                ),
-              ]),
+                ]),
             actions: <Widget>[
               TextButton(
                 child: Text(
-                  S.of(context).confirm,
+                  S
+                      .of(context)
+                      .confirm,
                   style: TextStyle(fontSize: dialogContentTextFontSize, color: (securityID.length == 19) ? Colors.white : buttonDisabledForeground),
                   textScaleFactor: fontSize.factor,
                 ),
                 onPressed: (securityID.length != 19)
                     ? null
                     : () {
-                      _loadingAddDeviceDialog(context,socket,selectedDevice, securityID);
-                    },
+                  _loadingAddDeviceDialog(context, socket, selectedDevice, securityID);
+                },
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.resolveWith<Color?>(
                           (states) {
@@ -749,7 +771,9 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
               ),
               TextButton(
                 child: Text(
-                  S.of(context).cancel,
+                  S
+                      .of(context)
+                      .cancel,
                   style: TextStyle(fontSize: dialogContentTextFontSize),
                   textScaleFactor: fontSize.factor,
                 ),
@@ -815,146 +839,166 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(
-              S.of(context).contactInfo,
+              S
+                  .of(context)
+                  .contactInfo,
             ),
             titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
             contentTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text(S.of(context).theCreatedSupportInformationCanNowBeSentToDevolo,
-                    textScaleFactor: fontSize.factor,),
+                Text(S
+                    .of(context)
+                    .theCreatedSupportInformationCanNowBeSentToDevolo,
+                  textScaleFactor: fontSize.factor,),
                 SizedBox(
                   height: 20,
                 ),
                 Form(
-                  key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      TextFormField(
-                        style: TextStyle(color: fontColorOnBackground),
-                        decoration: InputDecoration(
-                          labelText: S.of(context).processNumber,
-                          labelStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
-                          hoverColor: fontColorOnBackground.withOpacity(0.2),
-                          contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-                          filled: true,
-                          fillColor: fontColorOnBackground.withOpacity(0.2),
-                          errorStyle: TextStyle(color: devoloRed),
-                          //myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                            borderSide: BorderSide(
-                              color: fontColorOnBackground,
-                              width: 2.0,
+                    key: _formKey,
+                    child: Column(
+                      children: <Widget>[
+                        TextFormField(
+                          style: TextStyle(color: fontColorOnBackground),
+                          decoration: InputDecoration(
+                            labelText: S
+                                .of(context)
+                                .processNumber,
+                            labelStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                            hoverColor: fontColorOnBackground.withOpacity(0.2),
+                            contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                            filled: true,
+                            fillColor: fontColorOnBackground.withOpacity(0.2),
+                            errorStyle: TextStyle(color: devoloRed),
+                            //myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide: BorderSide(
+                                color: fontColorOnBackground,
+                                width: 2.0,
+                              ),
                             ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                            borderSide: BorderSide(
-                              color: fontColorOnBackground, //Colors.transparent,
-                              //width: 2.0,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide: BorderSide(
+                                color: fontColorOnBackground, //Colors.transparent,
+                                //width: 2.0,
+                              ),
                             ),
+                            //labelStyle: TextStyle(color: myFocusNode.hasFocus ? Colors.amberAccent : Colors.blue),
                           ),
-                          //labelStyle: TextStyle(color: myFocusNode.hasFocus ? Colors.amberAccent : Colors.blue),
+                          onChanged: (value) => (_processNr = value),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return S
+                                  .of(context)
+                                  .pleaseEnterProcessingNumber;
+                            }
+                            return null;
+                          },
                         ),
-                        onChanged: (value) => (_processNr = value),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return S.of(context).pleaseEnterProcessingNumber;
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      TextFormField(
-                        style: TextStyle(color: fontColorOnBackground),
-                        decoration: InputDecoration(
-                          labelText: S.of(context).yourName,
-                          labelStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
-                          hoverColor: fontColorOnBackground.withOpacity(0.2),
-                          contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-                          filled: true,
-                          fillColor: fontColorOnBackground.withOpacity(0.2),
-                          errorStyle: TextStyle(color: devoloRed),
-                          //myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                            borderSide: BorderSide(
-                              color: fontColorOnBackground,
-                              width: 2.0,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                            borderSide: BorderSide(
-                              color: fontColorOnBackground, //Colors.transparent,
-                              //width: 2.0,
-                            ),
-                          ),
+                        SizedBox(
+                          height: 20,
                         ),
-                        onChanged: (value) => (_name = value),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return S.of(context).pleaseFillInYourName;
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      TextFormField(
-                        //initialValue: _newPw,
-                        style: TextStyle(color: fontColorOnBackground),
-                        decoration: InputDecoration(
-                          labelText: S.of(context).yourEmailaddress,
-                          labelStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
-                          counterStyle: TextStyle(color: fontColorOnBackground),
-                          hoverColor: fontColorOnBackground.withOpacity(0.2),
-                          contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-                          filled: true,
-                          fillColor: fontColorOnBackground.withOpacity(0.2),
-                          errorStyle: TextStyle(color: devoloRed),
-                          //myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                            borderSide: BorderSide(
-                              color: fontColorOnBackground,
-                              width: 2.0,
+                        TextFormField(
+                          style: TextStyle(color: fontColorOnBackground),
+                          decoration: InputDecoration(
+                            labelText: S
+                                .of(context)
+                                .yourName,
+                            labelStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                            hoverColor: fontColorOnBackground.withOpacity(0.2),
+                            contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                            filled: true,
+                            fillColor: fontColorOnBackground.withOpacity(0.2),
+                            errorStyle: TextStyle(color: devoloRed),
+                            //myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide: BorderSide(
+                                color: fontColorOnBackground,
+                                width: 2.0,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide: BorderSide(
+                                color: fontColorOnBackground, //Colors.transparent,
+                                //width: 2.0,
+                              ),
                             ),
                           ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                            borderSide: BorderSide(
-                              color: fontColorOnBackground, //Colors.transparent,
-                              //width: 2.0,
-                            ),
-                          ),
+                          onChanged: (value) => (_name = value),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return S
+                                  .of(context)
+                                  .pleaseFillInYourName;
+                            }
+                            return null;
+                          },
                         ),
-                        onChanged: (value) => (_email = value),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return S.of(context).pleaseEnterYourMailAddress;
-                          }
+                        SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                          //initialValue: _newPw,
+                          style: TextStyle(color: fontColorOnBackground),
+                          decoration: InputDecoration(
+                            labelText: S
+                                .of(context)
+                                .yourEmailaddress,
+                            labelStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                            counterStyle: TextStyle(color: fontColorOnBackground),
+                            hoverColor: fontColorOnBackground.withOpacity(0.2),
+                            contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                            filled: true,
+                            fillColor: fontColorOnBackground.withOpacity(0.2),
+                            errorStyle: TextStyle(color: devoloRed),
+                            //myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide: BorderSide(
+                                color: fontColorOnBackground,
+                                width: 2.0,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide: BorderSide(
+                                color: fontColorOnBackground, //Colors.transparent,
+                                //width: 2.0,
+                              ),
+                            ),
+                          ),
+                          onChanged: (value) => (_email = value),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return S
+                                  .of(context)
+                                  .pleaseEnterYourMailAddress;
+                            }
 
-                          if (!value.contains('@')) {
-                            return S.of(context).emailIsInvalid;
-                          }
-                          return null;
-                        },
-                      ),
-                    ],
-                  )
+                            if (!value.contains('@')) {
+                              return S
+                                  .of(context)
+                                  .emailIsInvalid;
+                            }
+                            return null;
+                          },
+                        ),
+                      ],
+                    )
                 )
               ],
             ),
             actions: <Widget>[
               TextButton(
                 child: Text(
-                  S.of(context).confirm,
+                  S
+                      .of(context)
+                      .confirm,
                   style: TextStyle(fontSize: dialogContentTextFontSize, color: Colors.white),
                   textScaleFactor: fontSize.factor,
                 ),
@@ -965,7 +1009,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                     //socket.sendXML(messageType, mac: hitDevice.mac);
                     Navigator.maybeOf(context)!.pop();
                   }
-                  else{
+                  else {
                     logger.i("failed");
                     //Navigator.maybeOf(context)!.pop();
                   }
@@ -991,7 +1035,9 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
               ),
               TextButton(
                 child: Text(
-                  S.of(context).cancel,
+                  S
+                      .of(context)
+                      .cancel,
                   style: TextStyle(fontSize: dialogContentTextFontSize),
                   textScaleFactor: fontSize.factor,
                 ),
@@ -1046,8 +1092,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
   }
 
   // !!! closeButton is added manually
-  void _loadingAddDeviceDialog (context, DataHand socket, Device selectedDevice, String securityID) async {
-
+  void _loadingAddDeviceDialog(context, DataHand socket, Device selectedDevice, String securityID) async {
     showDialog<void>(
         context: context,
         barrierDismissible: false,
@@ -1057,7 +1102,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
             contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
             content: Column(
               mainAxisSize: MainAxisSize.min,
-              children:[
+              children: [
                 SizedBox(height: 20,),
                 Container(
                   child: CircularProgressIndicator(color: fontColorOnBackground),
@@ -1066,7 +1111,9 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                 ),
                 SizedBox(height: 20,),
                 Text(
-                  S.of(context).addDeviceLoading,
+                  S
+                      .of(context)
+                      .addDeviceLoading,
                   style: TextStyle(color: fontColorOnBackground),
                 ),
               ],
@@ -1074,7 +1121,9 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
             actions: <Widget>[
               TextButton(
                 child: Text(
-                  S.of(context).cancel,
+                  S
+                      .of(context)
+                      .cancel,
                   style: TextStyle(fontSize: dialogContentTextFontSize),
                   textScaleFactor: fontSize.factor,
                 ),
@@ -1129,10 +1178,10 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
     response = await socket.receiveXML("AddRemoteAdapterStatus");
 
     if (response["result"] == "ok") {
-        Navigator.pop(context, true);
+      Navigator.pop(context, true);
     }
 
-    else if(response["result"] == "timeout" || response["result"] == "read_pib_failed") {
+    else if (response["result"] == "timeout" || response["result"] == "read_pib_failed") {
       Navigator.pop(context, true);
       errorDialog(context, S
           .of(context)
@@ -1141,7 +1190,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
           .addDeviceErrorBody, fontSize);
     }
 
-    else if(response["result"] == "device_not_found"){
+    else if (response["result"] == "device_not_found") {
       Navigator.pop(context, true);
       errorDialog(context, S
           .of(context)
@@ -1154,225 +1203,348 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
   }
 
   // !!! closeButton is added manually
-  void _loadingSupportDialog (context, socket) async {
-    bool dialogIsOpen = true;
-    bool actionSucessfull = true;
-
-    showDialog<void>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 5, 5, 0),
-                  child: Container(
-                    alignment: FractionalOffset.topRight,
-                    child: GestureDetector(
-                      child: Icon(DevoloIcons.devolo_UI_cancel,color: fontColorOnBackground),
-                      onTap: (){
-                        dialogIsOpen = false;
-                        Navigator.pop(context);
-                        },
+  void _loadingSupportDialog(context, socket) async {
+    void _loadingAddDeviceDialog(context, DataHand socket, Device selectedDevice, String securityID) async {
+      showDialog<void>(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    child: CircularProgressIndicator(color: fontColorOnBackground),
+                    height: 50.0,
+                    width: 50.0,
+                  ),
+                  SizedBox(height: 20,),
+                  Text(
+                    S
+                        .of(context)
+                        .addDeviceLoading,
+                    style: TextStyle(color: fontColorOnBackground),
+                  ),
+                ],
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: Text(
+                    S
+                        .of(context)
+                        .cancel,
+                    style: TextStyle(fontSize: dialogContentTextFontSize),
+                    textScaleFactor: fontSize.factor,
+                  ),
+                  onPressed: () {
+                    socket.sendXML("AddRemoteAdapterCancel");
+                    Navigator.maybeOf(context)!.pop(false);
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                          (states) {
+                        if (states.contains(MaterialState.hovered)) {
+                          return Colors.transparent;
+                        } else if (states.contains(MaterialState.pressed)) {
+                          return drawingColor;
+                        }
+                        return Colors.transparent;
+                      },
+                    ),
+                    foregroundColor: MaterialStateProperty.resolveWith<Color?>(
+                          (states) {
+                        if (states.contains(MaterialState.hovered)) {
+                          return drawingColor.withOpacity(hoverOpacity);
+                        } else if (states.contains(MaterialState.pressed)) {
+                          return drawingColor;
+                        }
+                        return drawingColor;
+                      },
+                    ),
+                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 13.0, horizontal: 32.0)),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        )
+                    ),
+                    side: MaterialStateProperty.resolveWith<BorderSide>(
+                          (states) {
+                        if (states.contains(MaterialState.hovered)) {
+                          return BorderSide(color: drawingColor.withOpacity(hoverOpacity), width: 2.0);
+                        } else if (states.contains(MaterialState.pressed)) {
+                          return BorderSide(color: drawingColor.withOpacity(activeOpacity), width: 2.0);
+                        }
+                        return BorderSide(color: drawingColor, width: 2.0);
+                      },
                     ),
                   ),
                 ),
               ],
-            ),
-            titlePadding: EdgeInsets.all(dialogTitlePadding),
-            contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children:[
-                if(actionSucessfull)
-                  Container(
-                  child: CircularProgressIndicator(color: fontColorOnBackground),
-                  height: 50.0,
-                  width: 50.0,
-                  ),
-                if(actionSucessfull)
-                  SizedBox(height: 20,),
-                if(actionSucessfull)
-                  Text(
-                    S.of(context).LoadCockpitSupportInformationsBody,
-                    style: TextStyle(color: fontColorOnBackground),
-                  ),
-                if(!actionSucessfull)
-                  Text(
-                    S.of(context).supportInfoGenerateError,
-                    style: TextStyle(color: fontColorOnBackground),
-                  ),
-              ],
-            ),
-            actions: <Widget>[],
-          );
-        });
+            );
+          });
 
-    socket.sendXML('SupportInfoGenerate');
-    response = await socket.receiveXML("SupportInfoGenerateStatus");
-    //logger.i('Response: ' + response.toString());
+      socket.sendXML('AddRemoteAdapter', mac: selectedDevice.mac, newValue: securityID, valueType: "securityID");
+      response = await socket.receiveXML("AddRemoteAdapterStatus");
 
-    if (response["result"] == "ok") {
-      if(dialogIsOpen){
+      if (response["result"] == "ok") {
         Navigator.pop(context, true);
       }
 
-      _contactSupportAlert(context, socket, response["htmlfilename"], response["zipfilename"]);
+      else if (response["status"] == "timeout" || response["result"] == "timeout" || response["result"] == "read_pib_failed") {
+        Navigator.pop(context, true);
+        errorDialog(context, S
+            .of(context)
+            .addDeviceErrorTitle, S
+            .of(context)
+            .addDeviceErrorBody, fontSize);
+      }
 
+      else if (response["result"] == "device_not_found") {
+        Navigator.pop(context, true);
+        errorDialog(context, S
+            .of(context)
+            .deviceNameErrorTitle, S
+            .of(context)
+            .deviceNotFoundDeviceName + "\n\n" + S
+            .of(context)
+            .deviceNotFoundHint, fontSize);
+      }
     }
 
-    else if(response["result"] == "failed" || response["status"] == "timeout"){
-        actionSucessfull = false;
-    }
-  }
-
-  void _contactSupportAlert(context, socket, htmlFileName, zipFileName) {
-
-    showDialog<void>(
-        context: context,
-        barrierDismissible: true, // user doesn't need to tap button!
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Column(
-              children: [
-                getCloseButton(context),
-                Center(
+    void _contactSupportAlert(context, socket, htmlFileName, zipFileName) {
+      showDialog<void>(
+          context: context,
+          barrierDismissible: true, // user doesn't need to tap button!
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Column(
+                children: [
+                  getCloseButton(context),
+                  Center(
+                      child: Text(
+                        S
+                            .of(context)
+                            .cockpitSupportInformationsTitle,
+                      )
+                  ),
+                ],
+              ),
+              titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
+              titlePadding: EdgeInsets.all(dialogTitlePadding),
+              contentTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    constraints: BoxConstraints(maxWidth: 600),
                     child: Text(
-                      S.of(context).cockpitSupportInformationsTitle,
-                    )
-                ),
-              ],
-            ),
-            titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize* fontSize.factor),
-            titlePadding: EdgeInsets.all(dialogTitlePadding),
-            contentTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize* fontSize.factor),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  constraints: BoxConstraints(maxWidth: 600),
-                  child: Text(
-                    S.of(context).cockpitSupportInformationsBody,
-                    style: TextStyle(color: fontColorOnBackground),
+                      S
+                          .of(context)
+                          .cockpitSupportInformationsBody,
+                      style: TextStyle(color: fontColorOnBackground),
+                    ),
                   ),
-                ),
-                SizedBox(height: 20,),
-                TextButton(
-                  child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Icon(
-                      DevoloIcons.ic_send_24px,
-                      color: fontColorOnMain,
-                      size: 24 * fontSize.factor,
-                    ),
-                    SizedBox(width: 4,),
-                    Text(
-                      S.of(context).sendToDevolo,
-                      style: TextStyle(fontSize: dialogContentTextFontSize, color: fontColorOnMain),
-                      textScaleFactor: fontSize.factor,
-                    ),
-                  ]),
-                  onPressed: () {
-                    _contactInfoAlert(context);
+                  SizedBox(height: 20,),
+                  TextButton(
+                    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      Icon(
+                        DevoloIcons.ic_send_24px,
+                        color: fontColorOnMain,
+                        size: 24 * fontSize.factor,
+                      ),
+                      SizedBox(width: 4,),
+                      Text(
+                        S
+                            .of(context)
+                            .sendToDevolo,
+                        style: TextStyle(fontSize: dialogContentTextFontSize, color: fontColorOnMain),
+                        textScaleFactor: fontSize.factor,
+                      ),
+                    ]),
+                    onPressed: () {
+                      _contactInfoAlert(context);
                     },
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith<Color?>(
-                            (states) {
-                              if (states.contains(MaterialState.hovered)) {
-                                return devoloGreen.withOpacity(0.7);
-                              } else if (states.contains(MaterialState.pressed)) {
-                                return devoloGreen.withOpacity(0.33);
-                              }
-                              return devoloGreen;
-                              },
-                      ),
-                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 13.0, horizontal: 32.0)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                          )
-                      )
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                              (states) {
+                            if (states.contains(MaterialState.hovered)) {
+                              return devoloGreen.withOpacity(0.7);
+                            } else if (states.contains(MaterialState.pressed)) {
+                              return devoloGreen.withOpacity(0.33);
+                            }
+                            return devoloGreen;
+                          },
+                        ),
+                        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 13.0, horizontal: 32.0)),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                            )
+                        )
+                    ),
                   ),
-                ),
-                SizedBox(height: 20,),
-                TextButton(
-                  child: Row(mainAxisAlignment: MainAxisAlignment.center,children: [
-                    Icon(
-                      Icons.open_in_browser,
-                      color: fontColorOnMain,
-                      size: 24 * fontSize.factor,
+                  SizedBox(height: 20,),
+                  TextButton(
+                    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      Icon(
+                        Icons.open_in_browser,
+                        color: fontColorOnMain,
+                        size: 24 * fontSize.factor,
+                      ),
+                      SizedBox(width: 4,),
+                      Text(
+                        S
+                            .of(context)
+                            .openSupportInformations,
+                        style: TextStyle(fontSize: dialogContentTextFontSize, color: fontColorOnMain),
+                        textScaleFactor: fontSize.factor,
+                      ),
+                    ]),
+                    onPressed: () {
+                      openFile(htmlFileName);
+                    },
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                              (states) {
+                            if (states.contains(MaterialState.hovered)) {
+                              return devoloGreen.withOpacity(0.7);
+                            } else if (states.contains(MaterialState.pressed)) {
+                              return devoloGreen.withOpacity(0.33);
+                            }
+                            return devoloGreen;
+                          },
+                        ),
+                        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 13.0, horizontal: 32.0)),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                            )
+                        )
                     ),
-                    SizedBox(width: 4,),
-                    Text(
-                      S.of(context).openSupportInformations,
-                      style: TextStyle(fontSize: dialogContentTextFontSize, color: fontColorOnMain),
-                      textScaleFactor: fontSize.factor,
+                  ),
+                  SizedBox(height: 20,),
+                  TextButton(
+                    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      Icon(
+                        DevoloIcons.ic_archive_24px,
+                        color: fontColorOnMain,
+                        size: 24 * fontSize.factor,
+                      ),
+                      SizedBox(width: 4,),
+                      Text(
+                        S
+                            .of(context)
+                            .saveSupportInformations,
+                        style: TextStyle(fontSize: dialogContentTextFontSize, color: fontColorOnMain),
+                        textScaleFactor: fontSize.factor,
+                      ),
+                    ]),
+                    onPressed: () {
+                      openFile(zipFileName);
+                    },
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                              (states) {
+                            if (states.contains(MaterialState.hovered)) {
+                              return devoloGreen.withOpacity(0.7);
+                            } else if (states.contains(MaterialState.pressed)) {
+                              return devoloGreen.withOpacity(0.33);
+                            }
+                            return devoloGreen;
+                          },
+                        ),
+                        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 13.0, horizontal: 32.0)),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                            )
+                        )
                     ),
-                  ]),
-                  onPressed: () {
-                    openFile(htmlFileName);
-                  },
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith<Color?>(
-                            (states) {
-                          if (states.contains(MaterialState.hovered)) {
-                            return devoloGreen.withOpacity(0.7);
-                          } else if (states.contains(MaterialState.pressed)) {
-                            return devoloGreen.withOpacity(0.33);
-                          }
-                          return devoloGreen;
+                  ),
+                  SizedBox(height: 20,),
+                ],
+              ),
+            );
+          });
+    }
+
+    // !!! closeButton is added manually
+    void _loadingSupportDialog(context, socket) async {
+      bool dialogIsOpen = true;
+      bool actionSucessfull = true;
+
+      showDialog<void>(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 5, 5, 0),
+                    child: Container(
+                      alignment: FractionalOffset.topRight,
+                      child: GestureDetector(
+                        child: Icon(DevoloIcons.devolo_UI_cancel, color: fontColorOnBackground),
+                        onTap: () {
+                          dialogIsOpen = false;
+                          Navigator.pop(context);
                         },
                       ),
-                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 13.0, horizontal: 32.0)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                          )
-                      )
-                  ),
-                ),
-                SizedBox(height: 20,),
-                TextButton(
-                  child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Icon(
-                      DevoloIcons.ic_archive_24px,
-                      color: fontColorOnMain,
-                      size: 24 * fontSize.factor,
                     ),
-                    SizedBox(width: 4,),
+                  ),
+                ],
+              ),
+              titlePadding: EdgeInsets.all(dialogTitlePadding),
+              contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if(actionSucessfull)
+                    Container(
+                      child: CircularProgressIndicator(color: fontColorOnBackground),
+                      height: 50.0,
+                      width: 50.0,
+                    ),
+                  if(actionSucessfull)
+                    SizedBox(height: 20,),
+                  if(actionSucessfull)
                     Text(
-                      S.of(context).saveSupportInformations,
-                      style: TextStyle(fontSize: dialogContentTextFontSize, color: fontColorOnMain),
-                      textScaleFactor: fontSize.factor,
+                      S
+                          .of(context)
+                          .LoadCockpitSupportInformationsBody,
+                      style: TextStyle(color: fontColorOnBackground),
                     ),
-                  ]),
-                  onPressed: () {
-                    openFile(zipFileName);
-                  },
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith<Color?>(
-                            (states) {
-                          if (states.contains(MaterialState.hovered)) {
-                            return devoloGreen.withOpacity(0.7);
-                          } else if (states.contains(MaterialState.pressed)) {
-                            return devoloGreen.withOpacity(0.33);
-                          }
-                          return devoloGreen;
-                        },
-                      ),
-                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 13.0, horizontal: 32.0)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                          )
-                      )
-                  ),
-                ),
-                SizedBox(height: 20,),
-              ],
-            ),
-          );
-        });
+                  if(!actionSucessfull)
+                    Text(
+                      S
+                          .of(context)
+                          .supportInfoGenerateError,
+                      style: TextStyle(color: fontColorOnBackground),
+                    ),
+                ],
+              ),
+              actions: <Widget>[],
+            );
+          });
+
+      socket.sendXML('SupportInfoGenerate');
+      response = await socket.receiveXML("SupportInfoGenerateStatus");
+      //logger.i('Response: ' + response.toString());
+
+      if (response["result"] == "ok") {
+        if (dialogIsOpen) {
+          Navigator.pop(context, true);
+        }
+
+        _contactSupportAlert(context, socket, response["htmlfilename"], response["zipfilename"]);
+      }
+
+      else if (response["result"] == "failed" || response["status"] == "timeout") {
+        actionSucessfull = false;
+      }
+    }
   }
 }
 

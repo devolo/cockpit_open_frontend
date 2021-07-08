@@ -267,56 +267,74 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     width: 170,
                     height: 300,
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
+                      padding: const EdgeInsets.only(bottom: 6.0),
                       child: Row(
-
-mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
 
                         children: [
-                          Column(children: [
-                            SizedBox(height: 10),
-                            TextButton(
-                              style: ButtonStyle(overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33))),
-                              onPressed: () {
-                                setState(() {
-                                  fontSize.factor = 1.1;
-                                  config["font_size_factor"] = 1.1;
-                                });
-                                saveToSharedPrefs(config);
-                                AppBuilder.of(context)!.rebuild();
-                              },
-                              child: Icon(Icons.text_format, size: 23, color: fontColorOnSecond,),
-                            ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                  height: 25.55,
+                                  width: 50,
+                                  child: TextButton(
+                                    style: ButtonStyle(overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33))),
+                                    onPressed: () {
+                                      setState(() {
+                                        fontSize.factor = 1.1;
+                                        config["font_size_factor"] = 1.1;
+                                      });
+                                      saveToSharedPrefs(config);
+                                      AppBuilder.of(context)!.rebuild();
+                                    },
+                                    child: Icon(Icons.text_format, size: 23, color: fontColorOnSecond,),
+                                  ),
+                              )
+                            ]),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                  height: 29.0,
+                                  width: 50,
+                                  child: TextButton(
+                                    style: ButtonStyle(overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33))),
+                                    onPressed: () {
+                                      setState(() {
+                                        fontSize.factor = 1.1;
+                                        config["font_size_factor"] = 1.1;
+                                      });
+                                      saveToSharedPrefs(config);
+                                      AppBuilder.of(context)!.rebuild();
+                                    },
+                                    child: Icon(Icons.text_format, size: 29, color: fontColorOnSecond,),
+                                  ),
+                              )
                           ]),
-                          Column(children: [
-                            SizedBox(height: 7),
-                            TextButton(
-                              style: ButtonStyle(overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33))),
-                              onPressed: () {
-                                setState(() {
-                                  fontSize.factor = 1.1;
-                                  config["font_size_factor"] = 1.1;
-                                });
-                                saveToSharedPrefs(config);
-                                AppBuilder.of(context)!.rebuild();
-                              },
-                              child: Icon(Icons.text_format, size: 29, color: fontColorOnSecond,),
-                            ),
-                          ]),
-                          Column(children: [
-                            TextButton(
-                              style: ButtonStyle(overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33))),
-                              onPressed: () {
-                                setState(() {
-                                  fontSize.factor = 1.1;
-                                  config["font_size_factor"] = 1.1;
-                                });
-                                saveToSharedPrefs(config);
-                                AppBuilder.of(context)!.rebuild();
-                              },
-                              child: Icon(Icons.text_format, size: 38, color: fontColorOnSecond,),
-                            ),
+                          Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                    height: 36.0,
+                                    width: 55,
+                                    child: TextButton(
+                                    style: ButtonStyle(overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33))),
+                                    onPressed: () {
+                                      setState(() {
+                                        fontSize.factor = 1.1;
+                                        config["font_size_factor"] = 1.1;
+                                      });
+                                      saveToSharedPrefs(config);
+                                      AppBuilder.of(context)!.rebuild();
+                                    },
+                                    child: Icon(Icons.text_format, size: 38, color: fontColorOnSecond,),
+                                  ),
+                                )
                           ]),
                         ],
                       ),

@@ -42,7 +42,6 @@ class _OverviewScreenState extends State<OverviewScreen> {
   late DrawOverview _Painter;
 
   bool showingSpeeds = false;
-  List<int> pivotDeviceIndexList = [];
 
   FocusNode myFocusNode = new FocusNode();
 
@@ -67,14 +66,14 @@ class _OverviewScreenState extends State<OverviewScreen> {
     if(_deviceList.getNetworkListLength() == 0){
       pivotDeviceIndex = 0;
     }
-    else if(_deviceList.getNetworkListLength() != pivotDeviceIndexList.length){
-      pivotDeviceIndexList.clear();
+    else if(_deviceList.getNetworkListLength() != _deviceList.pivotDeviceIndexList.length){
+      _deviceList.pivotDeviceIndexList.clear();
       for(int i = 0; i < _deviceList.getNetworkListLength(); i++)
-        pivotDeviceIndexList.add(0);
-      pivotDeviceIndex = pivotDeviceIndexList[_deviceList.selectedNetworkIndex];
+        _deviceList.pivotDeviceIndexList.add(0);
+      pivotDeviceIndex = _deviceList.pivotDeviceIndexList[_deviceList.selectedNetworkIndex];
     }
     else
-      pivotDeviceIndex = pivotDeviceIndexList[_deviceList.selectedNetworkIndex];
+      pivotDeviceIndex = _deviceList.pivotDeviceIndexList[_deviceList.selectedNetworkIndex];
 
 
     _Painter = DrawOverview(context, _deviceList, showingSpeeds, pivotDeviceIndex);
@@ -90,7 +89,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
           behavior: HitTestBehavior.translucent,
           onTapUp: _handleTap,
           onTapDown: _handleTapDown,
-          onLongPress: () => _handleLongPressStart(context),
+          onLongPress: () => _handleLongPressStart(context,_deviceList),
           onLongPressUp: _handleLongPressEnd,
           child: Stack(
             children: [
@@ -219,7 +218,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
     }
   }
 
-  void _handleLongPressStart(context) {
+  void _handleLongPressStart(context, NetworkList _deviceList) {
     RenderBox renderBox = context.findRenderObject();
 
     int index = 0;
@@ -241,7 +240,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
           showingSpeeds = true;
 
           //_Painter.pivotDeviceIndex = index;
-          pivotDeviceIndexList[deviceList.selectedNetworkIndex] = index;
+          _deviceList.pivotDeviceIndexList[deviceList.selectedNetworkIndex] = index;
 
           //do not update pivot device when the "router device" is long pressed
           logger.i('Pivot on longPress:' + _Painter.pivotDeviceIndex.toString());

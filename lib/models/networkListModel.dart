@@ -19,6 +19,7 @@ class NetworkList extends ChangeNotifier{
   List<String> _updateMacs = [];
   List<String> checkedUpdateMacs = [];
   bool cockpitUpdate = false;
+  List<int>pivotDeviceIndexList = [];
 
   NetworkList();
 

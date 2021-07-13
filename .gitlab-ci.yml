@@ -30,15 +30,11 @@ code_quality:
 
 unit_test:
   stage: test
-
-  script:
-    - flutter test --machine > report.json
-
-  tags:
-    - linux
-    - docker
-
-  artifacts:
+  pub_cache:
+    folder: ~/.pub-cache
+  test_script: flutter test -machine > report.json
+  always:
+    report_artifacts:
       path: report.json
       format: flutter
 

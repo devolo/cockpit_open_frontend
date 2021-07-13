@@ -32,7 +32,7 @@ unit_test:
   stage: test
   pub_cache:
     folder: ~/.pub-cache
-  test_script: flutter test -machine > report.json
+  script: flutter test -machine > report.json
   always:
     report_artifacts:
       path: report.json

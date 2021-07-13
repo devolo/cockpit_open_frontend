@@ -7,9 +7,10 @@ stages:
 before_script:
   - flutter pub get
   - flutter clean
-  - flutter --version  
-  - export PATH="$PATH":"$HOME/.pub-cache/bin"
+  - flutter --version    
   - flutter pub global activate junitreport
+  - export PATH="$PATH":"$HOME/.pub-cache/bin"
+
 
 
 unit_test:

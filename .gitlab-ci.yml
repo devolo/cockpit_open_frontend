@@ -24,11 +24,11 @@ unit_test:
     - linux
     - docker
 
-  artifacts:
-    when: always
-    reports:
-      junit:
-        - report.xml
+  #artifacts:
+    #when: always
+    #reports:
+      #junit:
+        #- report.xml
 
 test_coverage:
   stage: test_coverage

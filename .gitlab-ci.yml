@@ -9,9 +9,19 @@ before_script:
   - flutter pub get
   - flutter clean
   - flutter --version    
-  - flutter test --machine > report.json
   - pub global activate dart_code_metrics
   - export PATH="$PATH":"$HOME/.pub-cache/bin"
+
+
+unit_test:
+  stage: test
+
+  script:
+    - flutter test test/*
+
+  tags:
+    - linux
+    - docker
 
 code_quality:
   stage: test_code_quality
@@ -25,18 +35,6 @@ code_quality:
   artifacts:
     reports:
       codequality: gl-code-quality-report.json
-
-
-
-unit_test:
-  stage: test
-  pub_cache:
-    folder: ~/.pub-cache
-  script: flutter test -machine > report.json
-  always:
-    report_artifacts:
-      path: report.json
-      format: flutter
 
 test_coverage:
   stage: test_coverage

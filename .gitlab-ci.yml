@@ -38,7 +38,7 @@ unit_test:
     - linux
     - docker
 
-  report_artifacts:
+  artifacts:
       path: report.json
       format: flutter
 

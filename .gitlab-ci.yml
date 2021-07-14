@@ -18,8 +18,9 @@ unit_test:
   stage: test
 
   script:
-    - flutter test --machine > report.json
-    - flutter pub global run junitreport:tojunit --input report.json --output test_results_junit.xml
+    - flutter test --machine > test_report.json
+    - sed -i 's/\\u001b//g' test_report.json
+    - flutter pub global run junitreport:tojunit --input test_report.json --output test_results_junit.xml
 
   tags:
     - linux

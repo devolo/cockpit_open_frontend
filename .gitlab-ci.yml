@@ -9,6 +9,7 @@ before_script:
   - flutter pub get
   - flutter clean
   - flutter --version    
+  - flutter pub pub global activate junitreport
   - pub global activate dart_code_metrics
   - export PATH="$PATH":"$HOME/.pub-cache/bin"
 
@@ -17,11 +18,16 @@ unit_test:
   stage: test
 
   script:
-    - flutter test test/*
+    - flutter test --machine > report.json
+    - flutter pub global run junitreport:tojunit --input report.json --output test_results_junit.xml
 
   tags:
     - linux
     - docker
+
+  artifacts:
+    reports:
+      junit: test_results_junit.xml
 
 code_quality:
   stage: test_code_quality

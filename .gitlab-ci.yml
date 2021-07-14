@@ -19,7 +19,8 @@ unit_test:
 
   script:
     - flutter test --machine > test_report.json
-    - sed -i 's/\\u001b//g' test_report.json
+    # replace all "\u001b" in jsonreport cause its not valid for xml
+    - sed -i 's/\\u001b//g' test_report.json 
     - flutter pub global run junitreport:tojunit --input test_report.json --output test_results_junit.xml
 
   tags:

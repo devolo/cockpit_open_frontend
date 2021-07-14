@@ -1,8 +1,8 @@
 image: cirrusci/flutter:stable
 
 stages:
-  - test_code_quality
   - test
+  - test_code_quality
   - test_coverage
 
 before_script:
@@ -28,6 +28,8 @@ unit_test:
   artifacts:
     reports:
       junit: test_results_junit.xml
+    paths:
+      - test_results_junit.xml
 
 code_quality:
   stage: test_code_quality

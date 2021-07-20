@@ -2,15 +2,15 @@ image: cirrusci/flutter:stable
 
 stages:
   - test
-  - test_code_quality
   - test_coverage
-
+  #- test_code_quality
+  
 before_script:
   - flutter pub get
   - flutter clean
   - flutter --version    
   - flutter pub pub global activate junitreport
-  - pub global activate dart_code_metrics
+  # - pub global activate dart_code_metrics
   - export PATH="$PATH":"$HOME/.pub-cache/bin"
 
 
@@ -19,7 +19,7 @@ unit_test:
 
   script:
     - flutter test --machine > test_report.json
-    # replace all "\u001b" in jsonreport cause its not valid for xml
+    # replace all "\u001b" in jsonreport cause its not valid for xml:
     - sed -i 's/\\u001b//g' test_report.json 
     - flutter pub global run junitreport:tojunit --input test_report.json --output test_results_junit.xml
 
@@ -32,19 +32,6 @@ unit_test:
       junit: test_results_junit.xml
     paths:
       - test_results_junit.xml
-
-code_quality:
-  stage: test_code_quality
-  script:
-    - metrics lib -r codeclimate  > gl-code-quality-report.json
-
-  tags:
-    - linux
-    - docker
-    
-  artifacts:
-    reports:
-      codequality: gl-code-quality-report.json
 
 test_coverage:
   stage: test_coverage
@@ -60,3 +47,15 @@ test_coverage:
     - linux
     - docker
 
+#code_quality:
+  #stage: test_code_quality
+  #script:
+    #- metrics lib -r codeclimate  > gl-code-quality-report.json
+
+  #tags:
+    #- linux
+    #- docker
+    
+  #artifacts:
+    #reports:
+      #codequality: gl-code-quality-report.json

@@ -3,14 +3,12 @@ image: cirrusci/flutter:stable
 stages:
   - test
   - test_coverage
-  #- test_code_quality
   
 before_script:
   - flutter pub get
   - flutter clean
   - flutter --version    
   - flutter pub pub global activate junitreport
-  # - pub global activate dart_code_metrics
   - export PATH="$PATH":"$HOME/.pub-cache/bin"
 
 
@@ -47,15 +45,4 @@ test_coverage:
     - linux
     - docker
 
-#code_quality:
-  #stage: test_code_quality
-  #script:
-    #- metrics lib -r codeclimate  > gl-code-quality-report.json
 
-  #tags:
-    #- linux
-    #- docker
-    
-  #artifacts:
-    #reports:
-      #codequality: gl-code-quality-report.json

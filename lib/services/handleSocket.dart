@@ -111,10 +111,20 @@ class DataHand extends ChangeNotifier {
           Device device = Device.fromXML(dev, true);
           //logger.i(device.toRealString());
           _networkList.addDevice(device, listCounter);
+          _networkList.addDevice(device, listCounter+1);
+          _networkList.addDevice(device, listCounter+2);
+          _networkList.addDevice(device, listCounter+3);
+
 
           for (var remoteDev in device.remoteDevices) {
             //logger.i(remoteDev.toRealString());
             _networkList.addDevice(remoteDev, listCounter);
+            _networkList.addDevice(remoteDev, listCounter+1);
+            _networkList.addDevice(remoteDev, listCounter+1);
+            _networkList.addDevice(remoteDev, listCounter+1);
+            _networkList.addDevice(remoteDev, listCounter+2);
+            _networkList.addDevice(remoteDev, listCounter+2);
+            _networkList.addDevice(remoteDev, listCounter+3);
           }
           listCounter++;
         }
@@ -214,6 +224,8 @@ class DataHand extends ChangeNotifier {
 
       }
     }
+
+    _networkList.fillNetworkNames();
 
     logger.d('parsed XML - DeviceList ready!');
 
@@ -426,6 +438,7 @@ class DataHand extends ChangeNotifier {
         }
 
         else if (wantedMessageTypes == "SetNetworkPasswordStatus") {
+          logger.d(responseElem);
 
           wait = false;
           responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'status');

@@ -295,6 +295,9 @@ class DataHand extends ChangeNotifier {
     if(wantedMessageTypes == "AddRemoteAdapterStatus")
       timoutTime = 300; //s
 
+    if(wantedMessageTypes == "IdentifyDeviceStatus")
+      timoutTime = 300; //s
+
     bool wait = true;
     await new Future.delayed(const Duration(seconds: 2));
 

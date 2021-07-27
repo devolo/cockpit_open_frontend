@@ -141,6 +141,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Home network desktop"),
         "identifyDevice":
             MessageLookupByLibrary.simpleMessage("Identify device"),
+        "identifyDeviceErrorBody": MessageLookupByLibrary.simpleMessage(
+            "An error occurred while identifying the device.\nTry again later"),
         "identifyDeviceErrorTitle":
             MessageLookupByLibrary.simpleMessage("Identifying failed"),
         "ignoreUpdates":

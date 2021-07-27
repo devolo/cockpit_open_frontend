@@ -1250,6 +1250,16 @@ class S {
     );
   }
 
+  /// `An error occurred while identifying the device.\nTry again later`
+  String get identifyDeviceErrorBody {
+    return Intl.message(
+      'An error occurred while identifying the device.\nTry again later',
+      name: 'identifyDeviceErrorBody',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Setup failed`
   String get addDeviceErrorTitle {
     return Intl.message(

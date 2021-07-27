@@ -128,6 +128,7 @@
   "removeDeviceErrorTitle" : "Löschvorgang fehlgeschlagen",
   "removeDeviceErrorBody" : "Es ist ein Fehler beim Entfernen des Gerätes aufgetreten!\nBitte versuchen Sie es erneut.",
   "identifyDeviceErrorTitle" : "Identifizierung fehlgeschlagen",
+  "identifyDeviceErrorBody" : "Es ist ein Fehler bei der Identifizierung des Gerätes aufgetreten!\nBitte versuchen Sie es erneut.",
   "addDeviceErrorTitle" : "Einrichtung fehlgeschlagen",
   "addDeviceErrorBody" : "Es ist ein Fehler beim Hinzufügen des Gerätes aufgetreten!\nBitte versuchen Sie es erneut.",
 

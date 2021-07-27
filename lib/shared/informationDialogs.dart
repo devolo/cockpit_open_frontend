@@ -379,6 +379,13 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                               .of(context)
                               .deviceNotFoundHint, fontSize);
                         }
+                        else if(response['result'] != "ok"){
+                          errorDialog(context, S
+                              .of(context)
+                              .identifyDeviceErrorTitle, S
+                              .of(context)
+                              .identifyDeviceErrorBody, fontSize);
+                        }
                       },
 
                       mouseCursor: !hitDevice.identifyDeviceAvailable ? SystemMouseCursors

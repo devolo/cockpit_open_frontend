@@ -127,6 +127,7 @@
   "removeDeviceErrorTitle" : "Remove failed",
   "removeDeviceErrorBody" : "An error occurred while removing the device!\nTry again later",
   "identifyDeviceErrorTitle" : "Identifying failed",
+  "identifyDeviceErrorBody" : "An error occurred while identifying the device.\nTry again later",
   "addDeviceErrorTitle" : "Setup failed",
   "addDeviceErrorBody" : "An error occurred while adding the device!\nTry again later",
 

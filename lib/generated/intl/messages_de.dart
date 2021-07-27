@@ -143,6 +143,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Home Netzwerk Desktop"),
         "identifyDevice":
             MessageLookupByLibrary.simpleMessage("Gerät \nidentifizieren"),
+        "identifyDeviceErrorBody": MessageLookupByLibrary.simpleMessage(
+            "Es ist ein Fehler bei der Identifizierung des Gerätes aufgetreten!\nBitte versuchen Sie es erneut."),
         "identifyDeviceErrorTitle": MessageLookupByLibrary.simpleMessage(
             "Identifizierung fehlgeschlagen"),
         "ignoreUpdates": MessageLookupByLibrary.simpleMessage(
@@ -243,8 +245,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "saveSupportInformations":
             MessageLookupByLibrary.simpleMessage("Speichern"),
         "searching": MessageLookupByLibrary.simpleMessage("suche..."),
-        "selectAll": MessageLookupByLibrary.simpleMessage("Alle auswählen"),
         "securityId": MessageLookupByLibrary.simpleMessage("Security-ID"),
+        "selectAll": MessageLookupByLibrary.simpleMessage("Alle auswählen"),
         "sendToDevolo": MessageLookupByLibrary.simpleMessage("Senden"),
         "serialNumber": MessageLookupByLibrary.simpleMessage("Seriennummer"),
         "setUpDevice": MessageLookupByLibrary.simpleMessage("Gerät einrichten"),

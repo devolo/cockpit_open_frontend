@@ -85,7 +85,7 @@ class Device extends ChangeNotifier {
       for(var first in firstList){
         if(first.innerText.contains("gateway"))
           attachedToRouter = true;
-        else if(first.innerText.contains("network_type")){
+       if(first.innerText.contains("network_type")){
           networkType = first.parent!.getElement('second')!.innerText;
         }
       }

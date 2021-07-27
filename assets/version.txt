@@ -1,2 +1,2 @@
-versionFrontend = 5.1.6.D0_2021-05-05;
-versionBackend = 5.1.6.2;
+versionFrontend = 5.1.7.D0_2021-07-13;
+versionBackend = 5.1.7.638_2021-07-13; 

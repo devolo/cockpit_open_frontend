@@ -47,6 +47,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
   late FontSize fontSize;
 
+  var _dropNetwork;
+
   @override
   Widget build(BuildContext context) {
     final socket = Provider.of<DataHand>(context);
@@ -127,13 +129,13 @@ class _OverviewScreenState extends State<OverviewScreen> {
                         ),
                         child: networkIdx == 0
                             ? networkIdx != _deviceList.selectedNetworkIndex
-                            ? Text("${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network}", textScaleFactor: fontSize.factor-0.1)
-                            : Text("${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network}", textScaleFactor: fontSize.factor,
+                            ? Text("${_deviceList.getNetworkName(networkIdx)}", textScaleFactor: fontSize.factor-0.1)
+                            : Text("${_deviceList.getNetworkName(networkIdx)} ", textScaleFactor: fontSize.factor,
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )
                             : networkIdx != _deviceList.selectedNetworkIndex
-                            ? Text("${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network} $networkIdx", textScaleFactor: fontSize.factor-0.1)
-                            : Text("${_deviceList.getNetworkType(networkIdx)} ${S.of(context).network} $networkIdx", textScaleFactor: fontSize.factor,
+                            ? Text("${_deviceList.getNetworkName(networkIdx)}", textScaleFactor: fontSize.factor-0.1)  // ${S.of(context).network}
+                            : Text("${_deviceList.getNetworkName(networkIdx)}", textScaleFactor: fontSize.factor,
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         onPressed: () {

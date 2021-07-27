@@ -61,9 +61,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Color switchInactiveTrackColor = Color(0x61000000);
 
   /* ===========  =========== */
-
   String? _newPw;
   bool _hiddenPw = true;
+  var _dropNetwork;
   bool _isButtonDisabled = true;
   String? _zipfilename;
   String? _htmlfilename;
@@ -76,6 +76,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   FocusNode myFocusNode = new FocusNode();
 
   late FontSize fontSize;
+
+
 
   void toggleCheckbox(bool value) {
     setState(() {
@@ -486,72 +488,106 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                     ),
 
-                    if(waitForNetworkPasswordResponse || networkPasswordResponseTrue || networkPasswordResponseFalse)
-                      Spacer(),
-                    if(waitForNetworkPasswordResponse)
-                      CircularProgressIndicator(),
-                    if(networkPasswordResponseTrue)
-                      Icon(DevoloIcons.devolo_UI_check_fill, color: Colors.green),
-                    if(networkPasswordResponseFalse)
-                      Icon(DevoloIcons.devolo_UI_cancel_fill, color: fontColorOnSecond),
-                    Spacer(),
-                    // Container(
-                    //   padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                    //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.0), color: secondColor.withOpacity(0.2), border: Border.all(color: mainColor)),
-                    //   child: DropdownButtonHideUnderline(
-                    //     child: DropdownButton(
-                    //         value: 0,
-                    //         dropdownColor: mainColor,
-                    //         //style: TextStyle(color: fontColorLight),
-                    //         icon: Icon(
-                    //           Icons.arrow_drop_down,
-                    //           color: mainColor,
-                    //         ),
-                    //         items: _deviceList..map<DropdownMenuItem<String>>((String value) {
-                    //           return DropdownMenuItem<String>(
-                    //             value: value,
-                    //             child: Text(value, style: TextStyle(color: mainColor),),
-                    //           );
-                    //         }).toList(),
-                    //         onChanged: (value) {
-                    //           setState(() {
-                    //             //_vdslProfile = value;
-                    //             //_showEditAlert(context, socket, 'SetVDSLCompatibility', hitDeviceMac, 'profile', _vdslProfile, 'mode', _vdslMode.toString());
-                    //           });
-                    //         }),
-                    //   ),
-                    // ),
 
+                    //Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Container(
+                        width: 200,
+                        padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.0), color: secondColor.withOpacity(0.2), border: Border.all(color: mainColor)),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                              value: _dropNetwork == null? _dropNetwork=_deviceList.getNetworkNames()[0]: _dropNetwork,
+                              dropdownColor: secondColor,
+                              //style: TextStyle(color: fontColorLight),
+                              icon: Icon(
+                                Icons.arrow_drop_down,
+                                color: mainColor,
+                              ),
+                              items: _deviceList.getNetworkNames().map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: new Text(value),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  _dropNetwork = value!;
+                                  logger.d("Dropdown: $value");
+                                });
+                              }),
+                        ),
+                      ),
+                    ),
+                    Spacer(),
+                    Padding(padding: EdgeInsets.symmetric(horizontal: 10.0),child:
+                      Row(
+                        children: [
+                        //if(waitForNetworkPasswordResponse || networkPasswordResponseTrue || networkPasswordResponseFalse)
+                          //Spacer(),
+                        if(waitForNetworkPasswordResponse)
+                          CircularProgressIndicator(color: fontColorOnSecond,),
+                        if(networkPasswordResponseTrue)
+                          Icon(DevoloIcons.devolo_UI_check_fill, color: devoloGreen),
+                        if(networkPasswordResponseFalse)
+                          Icon(DevoloIcons.devolo_UI_cancel_fill, color: fontColorOnSecond),
+                      ],),
+                    ),
+
+                    // buttonstyle is added manually
                     TextButton(
-                      onPressed: waitForNetworkPasswordResponse
+                      child: Text(
+                        S.of(context).save,
+                        style: TextStyle(fontSize: dialogContentTextFontSize, color: fontColorOnMain),
+                        textScaleFactor: fontSize.factor,
+                      ),
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                                (states) {
+                              if (states.contains(MaterialState.hovered)) {
+                                return devoloGreen.withOpacity(hoverOpacity);
+                              } else if (states.contains(MaterialState.pressed)) {
+                                return devoloGreen.withOpacity(activeOpacity);
+                              }
+                              return devoloGreen;
+                            },
+                          ),
+                          padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 13.0, horizontal: 32.0)),
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                              )
+                          )
+                      ), onPressed:
+                      waitForNetworkPasswordResponse
                           ? null
                           : () async {
-                              if (_deviceList.getNetworkListLength() == 0) {
-                                waitForNetworkPasswordResponse = false;
-                                networkPasswordResponseFalse = true;
-                                errorDialog(context, S.of(context).networkPasswordErrorTitle, S.of(context).networkPasswordErrorBody + "\n\n" + S.of(context).networkPasswordErrorHint,fontSize);
-                              } else {
-                                socket.sendXML('SetNetworkPassword', newValue: _newPw, valueType: "password", mac: _deviceList.getLocalDevice()!.mac);
-                                setState(() {
-                                  networkPasswordResponseTrue = false;
-                                  networkPasswordResponseFalse = false;
-                                  waitForNetworkPasswordResponse = true;
-                                });
-                                var response = await socket.receiveXML("SetNetworkPasswordStatus");
-                                if (response!['status'] == "complete" && int.parse(response['total']) > 0 && int.parse(response['failed']) == 0) {
-                                  setState(() {
-                                    waitForNetworkPasswordResponse = false;
-                                    networkPasswordResponseTrue = true;
-                                  });
-                                } else {
-                                  errorDialog(context, S.of(context).networkPasswordErrorTitle, S.of(context).networkPasswordErrorBody + "\n\n" + S.of(context).networkPasswordErrorHint,fontSize);
-                                  waitForNetworkPasswordResponse = false;
-                                  networkPasswordResponseFalse = true;
-                                }
-                              }
-                            },
-                      child: Padding(padding: EdgeInsets.only(right: 10.0),
-                        child: getGreenButton(context, S.of(context).save, fontSize),)
+                        if (_deviceList.getNetworkListLength() == 0) {
+                          waitForNetworkPasswordResponse = false;
+                          networkPasswordResponseFalse = true;
+                          errorDialog(context, S.of(context).networkPasswordErrorTitle, S.of(context).networkPasswordErrorBody + "\n\n" + S.of(context).networkPasswordErrorHint,fontSize);
+                        } else {
+                          int index = _deviceList.getNetworkNames().indexWhere((element) => element == _dropNetwork);
+                          socket.sendXML('SetNetworkPassword', newValue: _newPw, valueType: "password", mac: _deviceList.getLocalDevice(index)!.mac);
+                          setState(() {
+                            networkPasswordResponseTrue = false;
+                            networkPasswordResponseFalse = false;
+                            waitForNetworkPasswordResponse = true;
+                          });
+                          var response = await socket.receiveXML("SetNetworkPasswordStatus");
+                          if (response!['status'] == "complete" && int.parse(response['total']) > 0 && int.parse(response['failed']) == 0) {
+                            setState(() {
+                              waitForNetworkPasswordResponse = false;
+                              networkPasswordResponseTrue = true;
+                            });
+                          } else {
+                            errorDialog(context, S.of(context).networkPasswordErrorTitle, S.of(context).networkPasswordErrorBody + "\n\n" + S.of(context).networkPasswordErrorHint,fontSize);
+                            waitForNetworkPasswordResponse = false;
+                            networkPasswordResponseFalse = true;
+                          }
+                        }
+                      },
                     ),
                   ],
                 ),

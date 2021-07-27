@@ -98,9 +98,6 @@ getGreenButton(context, text, FontSize fontSize) {
       style: TextStyle(fontSize: dialogContentTextFontSize, color: fontColorOnMain),
       textScaleFactor: fontSize.factor,
     ),
-    onPressed: () {
-
-    },
     style: ButtonStyle(
         backgroundColor: MaterialStateProperty.resolveWith<Color?>(
               (states) {
@@ -118,7 +115,7 @@ getGreenButton(context, text, FontSize fontSize) {
               borderRadius: BorderRadius.circular(25.0),
             )
         )
-    ),
+    ), onPressed: () {  },
   );
 }
 

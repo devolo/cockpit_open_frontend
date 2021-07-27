@@ -109,8 +109,12 @@ class NetworkList extends ChangeNotifier{
     return null;
   }
 
-  Device? getLocalDevice(){
-    for(var dev in _networkList[selectedNetworkIndex]){
+  Device? getLocalDevice([int? selectedNetwork]){
+    int index = selectedNetworkIndex;
+    if(selectedNetwork != null)
+      index = selectedNetwork;
+
+    for(var dev in _networkList[index]){
       if(dev.isLocalDevice==true){
         return dev;
       }
@@ -132,31 +136,57 @@ class NetworkList extends ChangeNotifier{
     return localDevices;
   }
 
-  String getNetworkType(networkIndex){
+  String fillNetworkNames(){
+    _networkNames.clear();
     String type = "";
     bool meshDevice = false;
 
-    for(var device in _networkList[networkIndex]){
-      if (device.type.contains('dLAN')){
-        type = "dLAN";
-        break;
+    for(int networkIndex = 0; networkIndex < _networkList.length; networkIndex++) {
+      for (var device in _networkList[networkIndex]) {
+        if (device.type.contains('Magic')) {
+          type = "Magic";
+          //logger.i("Type: " + type);
+          break;
+        }
+        else if (device.type.contains('dLAN')) {
+          type = "dLAN";
+          //logger.i("Type: " + type);
+          break;
+        }
+        else if(device.type.contains('Mesh')){
+          meshDevice = true;
+        }
+        else {
+          type = "PLC";
+          //logger.i("Type: " + type);
+          break;
+        }
       }
-      else if(device.type.contains('Magic')){
-        type = "Magic";
-      }
-      else if(device.type.contains('Mesh')){
-        meshDevice = true;
-      }
-      else{
-        type = "PLC";
+
+      // name network "Mesh" if one mesh device exists.
+      if(meshDevice)
+        type = "Mesh";
+
+      if(!_networkNames.contains("$type Network")) {
+        _networkNames.insert(networkIndex, "$type Network");
+      } else {
+        var count = _networkNames.where((element) => element.contains(type)).length;
+        _networkNames.insert(networkIndex, "$type Network ${count+1}");
       }
     }
 
-    // name network "Mesh" if one mesh device exists.
-    if(meshDevice)
-      type = "Mesh";
 
+
+    logger.d("Networknames $_networkNames");
     return type;
+  }
+
+  String getNetworkName(networkIndex) {
+    return _networkNames.elementAt(networkIndex);
+  }
+
+  List<String> getNetworkNames() {
+    return _networkNames;
   }
 
   List<String> getNetworkTypes(){

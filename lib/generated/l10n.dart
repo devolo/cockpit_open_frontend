@@ -1460,6 +1460,16 @@ class S {
     );
   }
 
+  /// `Support informations are sent to devolo`
+  String get SendCockpitSupportInformationsBody {
+    return Intl.message(
+      'Support informations are sent to devolo',
+      name: 'SendCockpitSupportInformationsBody',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `The support informations have been created and are now available to you. Please select an action.`
   String get cockpitSupportInformationsBody {
     return Intl.message(
@@ -1480,10 +1490,20 @@ class S {
     );
   }
 
-  /// `An error occurred while creating the support informations.\nPlease try again!`
+  /// `An error occurred while sending the support informations.\nTry again later`
+  String get supportInfoSendError {
+    return Intl.message(
+      'An error occurred while sending the support informations.\nTry again later',
+      name: 'supportInfoSendError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred while creating the support informations.\nTry again later`
   String get supportInfoGenerateError {
     return Intl.message(
-      'An error occurred while creating the support informations.\nPlease try again!',
+      'An error occurred while creating the support informations.\nTry again later',
       name: 'supportInfoGenerateError',
       desc: '',
       args: [],
@@ -1710,10 +1730,10 @@ class S {
     );
   }
 
-  /// `Password must be greater than 8 characters`
+  /// `The password must contain more than 8 characters`
   String get passwordMustBeGreaterThan8Characters {
     return Intl.message(
-      'Password must be greater than 8 characters',
+      'The password must contain more than 8 characters',
       name: 'passwordMustBeGreaterThan8Characters',
       desc: '',
       args: [],

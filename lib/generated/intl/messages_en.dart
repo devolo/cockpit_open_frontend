@@ -24,6 +24,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "LoadCockpitSupportInformationsBody":
             MessageLookupByLibrary.simpleMessage(
                 "Support informations are getting generated"),
+        "SendCockpitSupportInformationsBody":
+            MessageLookupByLibrary.simpleMessage(
+                "Support informations are sent to devolo"),
         "UpdateDeviceFailedBody": MessageLookupByLibrary.simpleMessage(
             "Following devices could not be updated:"),
         "UpdateDeviceFailedTitle":
@@ -194,7 +197,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "overview": MessageLookupByLibrary.simpleMessage("Overview"),
         "passwordMustBeGreaterThan8Characters":
             MessageLookupByLibrary.simpleMessage(
-                "Password must be greater than 8 characters"),
+                "The password must contain more than 8 characters"),
         "pending": MessageLookupByLibrary.simpleMessage("pending"),
         "pleaseConfirmAction":
             MessageLookupByLibrary.simpleMessage("Confirm action"),
@@ -259,7 +262,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "state": MessageLookupByLibrary.simpleMessage("State"),
         "support": MessageLookupByLibrary.simpleMessage("Support"),
         "supportInfoGenerateError": MessageLookupByLibrary.simpleMessage(
-            "An error occurred while creating the support informations.\nPlease try again!"),
+            "An error occurred while creating the support informations.\nTry again later"),
+        "supportInfoSendError": MessageLookupByLibrary.simpleMessage(
+            "An error occurred while sending the support informations.\nTry again later"),
         "theCreatedSupportInformationCanNowBeSentToDevolo":
             MessageLookupByLibrary.simpleMessage(
                 "The created support information can now be sent to devolo support.\nFill in the following fields"),

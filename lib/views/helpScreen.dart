@@ -828,10 +828,10 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
   }
 
   //!!! add manually confirm/cancel buttons
-  void _contactInfoAlert(context) {
-    String _processNr;
-    String _name;
-    String _email;
+  void _contactInfoAlert(context, socket) {
+    String _processNr = "";
+    String _name = "";
+    String _email = "";
 
     showDialog<void>(
         context: context,
@@ -1002,12 +1002,11 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                   style: TextStyle(fontSize: dialogContentTextFontSize, color: Colors.white),
                   textScaleFactor: fontSize.factor,
                 ),
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    logger.i("succes");
-                    //ToDo send supportInfo
-                    //socket.sendXML(messageType, mac: hitDevice.mac);
+                    socket.sendSupportInfo(_processNr, _name, _email);
                     Navigator.maybeOf(context)!.pop();
+                    _sendingSupportInformation(socket);
                   }
                   else {
                     logger.i("failed");
@@ -1089,6 +1088,74 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
             ],
           );
         });
+  }
+
+  //!!! add manually confirm/cancel buttons
+  void _sendingSupportInformation (socket) async {
+    bool dialogIsOpen = true;
+    bool actionSucessfull = true;
+
+    showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 5, 5, 0),
+                  child: Container(
+                    alignment: FractionalOffset.topRight,
+                    child: GestureDetector(
+                      child: Icon(DevoloIcons.devolo_UI_cancel,color: fontColorOnBackground),
+                      onTap: (){
+                        dialogIsOpen = false;
+                        Navigator.maybeOf(context)!.pop();
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            titlePadding: EdgeInsets.all(dialogTitlePadding),
+            contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children:[
+                if(actionSucessfull)
+                  Container(
+                    child: CircularProgressIndicator(color: fontColorOnBackground),
+                    height: 50.0,
+                    width: 50.0,
+                  ),
+                if(actionSucessfull)
+                  SizedBox(height: 20,),
+                if(actionSucessfull)
+                  Text(
+                    S.of(context).SendCockpitSupportInformationsBody,
+                    style: TextStyle(color: fontColorOnBackground),
+                  ),
+                if(!actionSucessfull)
+                  Text(
+                    S.of(context).supportInfoSendError,
+                    style: TextStyle(color: fontColorOnBackground),
+                  ),
+              ],
+            ),
+            actions: <Widget>[],
+          );
+        });
+
+    var response = await socket.receiveXML("SupportInfoSendStatus");
+
+    if (response["result"] == "ok") {
+      if(dialogIsOpen)
+        Navigator.maybeOf(context)!.pop();
+    }
+
+    else if(response["result"] == "failed" || response["status"] == "timeout"){
+      actionSucessfull = false;
+    }
   }
 
   // !!! closeButton is added manually
@@ -1363,7 +1430,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                       ),
                     ]),
                     onPressed: () {
-                      _contactInfoAlert(context);
+                      _contactInfoAlert(context, socket);
                     },
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.resolveWith<Color?>(

@@ -23,7 +23,10 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "LoadCockpitSupportInformationsBody":
             MessageLookupByLibrary.simpleMessage(
-                "Support-Informationen werden erstellt."),
+                "Support-Informationen werden erstellt"),
+        "SendCockpitSupportInformationsBody":
+            MessageLookupByLibrary.simpleMessage(
+                "Support-Informationen werden nach devolo gesendet"),
         "UpdateDeviceFailedBody": MessageLookupByLibrary.simpleMessage(
             "Folgende Geräte konnten nicht aktualisiert werden:"),
         "UpdateDeviceFailedTitle": MessageLookupByLibrary.simpleMessage(
@@ -269,6 +272,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "support": MessageLookupByLibrary.simpleMessage("Support"),
         "supportInfoGenerateError": MessageLookupByLibrary.simpleMessage(
             "Bei der Erstellung der Support Informationen ist ein Fehler aufgetreten.\nBitte versuchen Sie es erneut!"),
+        "supportInfoSendError": MessageLookupByLibrary.simpleMessage(
+            "Beim senden der Support Informationen ist ein Fehler aufgetreten.\nBitte versuchen Sie es erneut!"),
         "theCreatedSupportInformationCanNowBeSentToDevolo":
             MessageLookupByLibrary.simpleMessage(
                 "Die erstellten Support-Informationen können jetzt zum devolo Support gesendet werden.\nBitte füllen Sie folgende Felder aus."),

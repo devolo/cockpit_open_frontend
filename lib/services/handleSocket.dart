@@ -297,6 +297,25 @@ class DataHand extends ChangeNotifier {
     socket.write('MSGSOCK' + xmlLength + xmlString);
   }
 
+  void sendSupportInfo(String supportId, String userName, String emailAddr){
+
+    String _from = emailAddr;
+    String _body = "Name:       " + userName + "\n" + "Support-ID: " + supportId + "\n" + "E-Mail:     " + emailAddr + "\n";
+    String _dest = "devolo";
+
+    String xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0">'
+        '<MessageType>' + "SupportInfoSend" + '</MessageType>' +
+        '<' + "from" + '>' + _from + '</' + "from" + '>' +
+        '<' + "body" + '>' + _body + '</' + "body" + '>' +
+        '<' + "dest" + '>' + _dest + '</' + "dest" + '>' +
+        '</Message></boost_serialization>';
+
+    String xmlLength = xmlString.runes.length.toRadixString(16).padLeft(8, '0'); // message length for backend !disconnects if header wrong or missing!
+    logger.d("SendSupportInfo ->");
+    logger.v(xmlString);
+    socket.write('MSGSOCK' + xmlLength + xmlString);
+  }
+
   Future<Map<String, dynamic>?> receiveXML(String wantedMessageTypes) async { //TODO List instead of string for exp.: ["UpdateIndication", "FirmwareUpdateIndication"]
 
     Map<String, dynamic> response = Map<String, dynamic>();

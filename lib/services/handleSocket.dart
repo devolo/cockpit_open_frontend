@@ -23,6 +23,8 @@ class DataHand extends ChangeNotifier {
 
   Map<String,List<XmlDocument>> xmlResponseMap = new Map<String,List<XmlDocument>>();
 
+  bool testing = false;
+
   // optional parameter to avoid the socket connection with the backend for testing
   DataHand([bool? testing]) {
     if(testing == null){
@@ -111,20 +113,24 @@ class DataHand extends ChangeNotifier {
           Device device = Device.fromXML(dev, true);
           //logger.i(device.toRealString());
           _networkList.addDevice(device, listCounter);
-          _networkList.addDevice(device, listCounter+1);
-          _networkList.addDevice(device, listCounter+2);
-          _networkList.addDevice(device, listCounter+3);
+          if (testing) {
+            _networkList.addDevice(device, listCounter+1);
+            _networkList.addDevice(device, listCounter+2);
+            _networkList.addDevice(device, listCounter+3);
+          }
 
 
           for (var remoteDev in device.remoteDevices) {
             //logger.i(remoteDev.toRealString());
             _networkList.addDevice(remoteDev, listCounter);
-            _networkList.addDevice(remoteDev, listCounter+1);
-            _networkList.addDevice(remoteDev, listCounter+1);
-            _networkList.addDevice(remoteDev, listCounter+1);
-            _networkList.addDevice(remoteDev, listCounter+2);
-            _networkList.addDevice(remoteDev, listCounter+2);
-            _networkList.addDevice(remoteDev, listCounter+3);
+            if (testing) {
+              _networkList.addDevice(remoteDev, listCounter+1);
+              _networkList.addDevice(remoteDev, listCounter+1);
+              _networkList.addDevice(remoteDev, listCounter+1);
+              _networkList.addDevice(remoteDev, listCounter+2);
+              _networkList.addDevice(remoteDev, listCounter+2);
+              _networkList.addDevice(remoteDev, listCounter+3);
+            }
           }
           listCounter++;
         }
@@ -213,7 +219,7 @@ class DataHand extends ChangeNotifier {
         xmlDebugResponseList.insert(0, DateTime.now());
 
         logger.d('Another Response found ->');
-        logger.i(document);
+        logger.v(document);
 
         var xmlResponseType = document.findAllElements('MessageType').first.innerText;
 

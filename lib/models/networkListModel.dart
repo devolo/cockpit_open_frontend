@@ -145,7 +145,7 @@ class NetworkList extends ChangeNotifier{
       for (var device in _networkList[networkIndex]) {
         if (device.type.contains('Magic')) {
           type = "Magic";
-          //logger.i("Type: " + type);
+          logger.d("Type: " + type);
           break;
         }
         else if (device.type.contains('dLAN')) {

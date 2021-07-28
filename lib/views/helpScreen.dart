@@ -1261,116 +1261,6 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
     }
   }
 
-  // !!! closeButton is added manually
-  void _loadingSupportDialog(context, socket) async {
-    void _loadingAddDeviceDialog(context, DataHand socket, Device selectedDevice, String securityID) async {
-      showDialog<void>(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    child: CircularProgressIndicator(color: fontColorOnBackground),
-                    height: 50.0,
-                    width: 50.0,
-                  ),
-                  SizedBox(height: 20,),
-                  Text(
-                    S
-                        .of(context)
-                        .addDeviceLoading,
-                    style: TextStyle(color: fontColorOnBackground),
-                  ),
-                ],
-              ),
-              actions: <Widget>[
-                TextButton(
-                  child: Text(
-                    S
-                        .of(context)
-                        .cancel,
-                    style: TextStyle(fontSize: dialogContentTextFontSize),
-                    textScaleFactor: fontSize.factor,
-                  ),
-                  onPressed: () {
-                    socket.sendXML("AddRemoteAdapterCancel");
-                    Navigator.maybeOf(context)!.pop(false);
-                  },
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith<Color?>(
-                          (states) {
-                        if (states.contains(MaterialState.hovered)) {
-                          return Colors.transparent;
-                        } else if (states.contains(MaterialState.pressed)) {
-                          return drawingColor;
-                        }
-                        return Colors.transparent;
-                      },
-                    ),
-                    foregroundColor: MaterialStateProperty.resolveWith<Color?>(
-                          (states) {
-                        if (states.contains(MaterialState.hovered)) {
-                          return drawingColor.withOpacity(hoverOpacity);
-                        } else if (states.contains(MaterialState.pressed)) {
-                          return drawingColor;
-                        }
-                        return drawingColor;
-                      },
-                    ),
-                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 13.0, horizontal: 32.0)),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                        )
-                    ),
-                    side: MaterialStateProperty.resolveWith<BorderSide>(
-                          (states) {
-                        if (states.contains(MaterialState.hovered)) {
-                          return BorderSide(color: drawingColor.withOpacity(hoverOpacity), width: 2.0);
-                        } else if (states.contains(MaterialState.pressed)) {
-                          return BorderSide(color: drawingColor.withOpacity(activeOpacity), width: 2.0);
-                        }
-                        return BorderSide(color: drawingColor, width: 2.0);
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            );
-          });
-
-      socket.sendXML('AddRemoteAdapter', mac: selectedDevice.mac, newValue: securityID, valueType: "securityID");
-      response = await socket.receiveXML("AddRemoteAdapterStatus");
-
-      if (response["result"] == "ok") {
-        Navigator.pop(context, true);
-      }
-
-      else if (response["status"] == "timeout" || response["result"] == "timeout" || response["result"] == "read_pib_failed") {
-        Navigator.pop(context, true);
-        errorDialog(context, S
-            .of(context)
-            .addDeviceErrorTitle, S
-            .of(context)
-            .addDeviceErrorBody, fontSize);
-      }
-
-      else if (response["result"] == "device_not_found") {
-        Navigator.pop(context, true);
-        errorDialog(context, S
-            .of(context)
-            .deviceNameErrorTitle, S
-            .of(context)
-            .deviceNotFoundDeviceName + "\n\n" + S
-            .of(context)
-            .deviceNotFoundHint, fontSize);
-      }
-    }
-
     void _contactSupportAlert(context, socket, htmlFileName, zipFileName) {
       showDialog<void>(
           context: context,
@@ -1605,6 +1495,6 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
       }
     }
   }
-}
+
 
 

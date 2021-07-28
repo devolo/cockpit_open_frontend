@@ -191,7 +191,7 @@ class NetworkList extends ChangeNotifier{
     for(var network in _networkList){
       networkTypes.add(network.first.networkType);
     }
-    logger.i(networkTypes.toString());
+    logger.d(networkTypes.toString());
     return networkTypes;
   }
 

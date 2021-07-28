@@ -472,8 +472,6 @@ class DataHand extends ChangeNotifier {
             if (responseElem != null) {
               response['result'] = responseElem;
             }
-
-            response['status'] = responseElem;
           }
         }
 

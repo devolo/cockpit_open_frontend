@@ -1709,6 +1709,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Password must be greater than 8 characters`
+  String get passwordMustBeGreaterThan8Characters {
+    return Intl.message(
+      'Password must be greater than 8 characters',
+      name: 'passwordMustBeGreaterThan8Characters',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -192,6 +192,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Overview shows other devices, e.g., laptops and mobiles"),
         "overview": MessageLookupByLibrary.simpleMessage("Overview"),
+        "passwordMustBeGreaterThan8Characters":
+            MessageLookupByLibrary.simpleMessage(
+                "Password must be greater than 8 characters"),
         "pending": MessageLookupByLibrary.simpleMessage("pending"),
         "pleaseConfirmAction":
             MessageLookupByLibrary.simpleMessage("Confirm action"),

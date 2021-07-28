@@ -20,6 +20,7 @@ import 'package:cockpit_devolo/shared/devolo_icons_icons.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/views/logsScreen.dart';
 import 'package:cockpit_devolo/views/appBuilder.dart';
@@ -77,6 +78,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   late FontSize fontSize;
 
+  var maxLength = 12;
+  var minLength = 8;
+  var textLength = 0;
+
+  var _formKey = GlobalKey<FormState>();
 
 
   void toggleCheckbox(bool value) {
@@ -423,68 +429,84 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   children: [
                     Expanded(
                       flex: !waitForNetworkPasswordResponse ? 2 : 3,
-                      child: TextFormField(
-                        focusNode: myFocusNode,
-                        initialValue: _newPw,
-                        obscureText: _hiddenPw,
-                        style: TextStyle(color: fontColorOnSecond),
-                        cursorColor: fontColorOnSecond,
-                        decoration: InputDecoration(
-                          labelText: S.of(context).changePlcnetworkPassword,
-                          labelStyle: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileTitle * fontSize.factor,),
-                          hoverColor: mainColor.withOpacity(0.2),
-                          contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-                          filled: true,
-                          fillColor: secondColor.withOpacity(0.2),
-                          //myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                            borderSide: BorderSide(
-                              color: fontColorOnSecond,
-                              width: 2.0,
+                      child: Form(
+                        key: _formKey,
+                        child: TextFormField(
+                          focusNode: myFocusNode,
+                          initialValue: _newPw,
+                          obscureText: _hiddenPw,
+                          maxLength: maxLength,
+                          //maxLengthEnforcement: MaxLengthEnforcement.none,
+                          style: TextStyle(color: fontColorOnSecond),
+                          cursorColor: fontColorOnSecond,
+                          decoration: InputDecoration(
+                            counterText: "",
+                            suffixText: '${textLength.toString()}/${maxLength.toString()}',
+                            labelText: S.of(context).changePlcnetworkPassword,
+                            labelStyle: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileTitle * fontSize.factor,),
+                            hoverColor: mainColor.withOpacity(0.2),
+                            contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                            filled: true,
+                            fillColor: secondColor.withOpacity(0.2),
+                            //myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide: BorderSide(
+                                color: fontColorOnSecond,
+                                width: 2.0,
+                              ),
                             ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                            borderSide: BorderSide(
-                              color: fontColorOnSecond, //Colors.transparent,
-                              //width: 2.0,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide: BorderSide(
+                                color: fontColorOnSecond, //Colors.transparent,
+                                //width: 2.0,
+                              ),
                             ),
-                          ),
-                          suffixIcon: _hiddenPw
-                              ? IconButton(
+                            suffixIcon: _hiddenPw
+                                ? IconButton(
 
-                                  icon: Icon(
-                                    DevoloIcons.devolo_UI_visibility_off,
-                                    color: fontColorOnSecond,
+                                    icon: Icon(
+                                      DevoloIcons.devolo_UI_visibility_off,
+                                      color: fontColorOnSecond,
+                                    ),
+                                    onPressed: () {
+                                      //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
+                                      setState(() {
+                                        _hiddenPw = !_hiddenPw;
+                                      });
+                                    },
+                                  )
+                                : IconButton(
+                                    icon: Icon(
+                                      DevoloIcons.devolo_UI_visibility,
+                                      color: fontColorOnSecond,
+                                    ),
+                                    onPressed: () {
+                                      //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
+                                      setState(() {
+                                        _hiddenPw = !_hiddenPw;
+                                      });
+                                    },
                                   ),
-                                  onPressed: () {
-                                    //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
-                                    setState(() {
-                                      _hiddenPw = !_hiddenPw;
-                                    });
-                                  },
-                                )
-                              : IconButton(
-                                  icon: Icon(
-                                    DevoloIcons.devolo_UI_visibility,
-                                    color: fontColorOnSecond,
-                                  ),
-                                  onPressed: () {
-                                    //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
-                                    setState(() {
-                                      _hiddenPw = !_hiddenPw;
-                                    });
-                                  },
-                                ),
-                        ),
-                        onChanged: (value) => (_newPw = value),
-                        validator: (value) {
-                          if (value!.isEmpty) {
+                          ),
+                          onChanged: (value) {
+                            _newPw = value;
+                            setState(() {
+                              textLength = value.length;
+                            });
+                          },
+                          validator: (value) {
+                            if (value!.isEmpty) {
                             return S.of(context).pleaseEnterPassword;
                           }
-                          return null;
-                        },
+                            if(value.length < minLength) {
+                              return S.of(context).passwordMustBeGreaterThan8Characters;
+                            }
+
+                            return null;
+                          },
+                        ),
                       ),
                     ),
 
@@ -516,7 +538,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   _dropNetwork = value!;
                                   logger.d("Dropdown: $value");
                                 });
-                              }),
+                              }
+                              ),
                         ),
                       ),
                     ),
@@ -538,7 +561,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     // buttonstyle is added manually
                     TextButton(
                       child: Text(
-                        S.of(context).save,
+                        S.of(context).change,
                         style: TextStyle(fontSize: dialogContentTextFontSize, color: fontColorOnMain),
                         textScaleFactor: fontSize.factor,
                       ),
@@ -563,29 +586,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       waitForNetworkPasswordResponse
                           ? null
                           : () async {
-                        if (_deviceList.getNetworkListLength() == 0) {
-                          waitForNetworkPasswordResponse = false;
-                          networkPasswordResponseFalse = true;
-                          errorDialog(context, S.of(context).networkPasswordErrorTitle, S.of(context).networkPasswordErrorBody + "\n\n" + S.of(context).networkPasswordErrorHint,fontSize);
-                        } else {
-                          int index = _deviceList.getNetworkNames().indexWhere((element) => element == _dropNetwork);
-                          socket.sendXML('SetNetworkPassword', newValue: _newPw, valueType: "password", mac: _deviceList.getLocalDevice(index)!.mac);
-                          setState(() {
-                            networkPasswordResponseTrue = false;
-                            networkPasswordResponseFalse = false;
-                            waitForNetworkPasswordResponse = true;
-                          });
-                          var response = await socket.receiveXML("SetNetworkPasswordStatus");
-                          if (response!['status'] == "complete" && int.parse(response['total']) > 0 && int.parse(response['failed']) == 0) {
-                            setState(() {
-                              waitForNetworkPasswordResponse = false;
-                              networkPasswordResponseTrue = true;
-                            });
-                          } else {
-                            errorDialog(context, S.of(context).networkPasswordErrorTitle, S.of(context).networkPasswordErrorBody + "\n\n" + S.of(context).networkPasswordErrorHint,fontSize);
+                        if(_formKey.currentState!.validate()){
+                          if (_deviceList.getNetworkListLength() == 0) {
                             waitForNetworkPasswordResponse = false;
                             networkPasswordResponseFalse = true;
+                            errorDialog(context, S.of(context).networkPasswordErrorTitle, S.of(context).networkPasswordErrorBody + "\n\n" + S.of(context).networkPasswordErrorHint,fontSize);
+                          } else {
+                            int index = _deviceList.getNetworkNames().indexWhere((element) => element == _dropNetwork);
+                            socket.sendXML('SetNetworkPassword', newValue: _newPw, valueType: "password", mac: _deviceList.getLocalDevice(index)!.mac);
+                            setState(() {
+                              networkPasswordResponseTrue = false;
+                              networkPasswordResponseFalse = false;
+                              waitForNetworkPasswordResponse = true;
+                            });
+                            var response = await socket.receiveXML("SetNetworkPasswordStatus");
+                            if (response!['status'] == "complete" && int.parse(response['total']) > 0 && int.parse(response['failed']) == 0) {
+                              setState(() {
+                                waitForNetworkPasswordResponse = false;
+                                networkPasswordResponseTrue = true;
+                              });
+                            } else {
+                              errorDialog(context, S.of(context).networkPasswordErrorTitle, S.of(context).networkPasswordErrorBody + "\n\n" + S.of(context).networkPasswordErrorHint,fontSize);
+                              waitForNetworkPasswordResponse = false;
+                              networkPasswordResponseFalse = true;
+                            }
                           }
+                        }else{
+                          logger.d("validation failed");
                         }
                       },
                     ),

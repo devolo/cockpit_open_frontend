@@ -196,6 +196,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Weitere Geräte, z.B. PC werden in der Übersicht angezeigt"),
         "overview": MessageLookupByLibrary.simpleMessage("Übersicht"),
+        "passwordMustBeGreaterThan8Characters":
+            MessageLookupByLibrary.simpleMessage(
+                "Password muss länger als 8 Zeichen sein"),
         "pending": MessageLookupByLibrary.simpleMessage("anstehend"),
         "pleaseConfirmAction":
             MessageLookupByLibrary.simpleMessage("Bitte Aktion bestätigen."),

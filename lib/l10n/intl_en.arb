@@ -177,5 +177,6 @@
   "addDeviceViaSecurityId": "Add device via security ID",
   "addDeviceViaSecurityIdDialogContent": "Enter the security ID of the new PLC device.\nThe security ID can be found on the back of the PLC device.",
   "addDeviceLoading": "Device will be added",
-  "chooseNetwork": "Select the network in which the device should be added."
+  "chooseNetwork": "Select the network in which the device should be added.",
+  "passwordMustBeGreaterThan8Characters": "Password must be greater than 8 characters"
 }

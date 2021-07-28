@@ -136,7 +136,7 @@ class NetworkList extends ChangeNotifier{
     return localDevices;
   }
 
-  String fillNetworkNames(){
+  void fillNetworkNames(){
     _networkNames.clear();
     String type = "";
     bool meshDevice = false;
@@ -175,10 +175,7 @@ class NetworkList extends ChangeNotifier{
       }
     }
 
-
-
     logger.d("Networknames $_networkNames");
-    return type;
   }
 
   String getNetworkName(networkIndex) {

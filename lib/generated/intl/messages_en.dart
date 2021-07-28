@@ -263,8 +263,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "support": MessageLookupByLibrary.simpleMessage("Support"),
         "supportInfoGenerateError": MessageLookupByLibrary.simpleMessage(
             "An error occurred while creating the support informations.\nTry again later"),
-        "supportInfoSendError": MessageLookupByLibrary.simpleMessage(
-            "An error occurred while sending the support informations.\nTry again later"),
+        "supportInfoSendErrorBody1": MessageLookupByLibrary.simpleMessage(
+            "An error occurred while sending support information to devolo."),
+        "supportInfoSendErrorBody2": MessageLookupByLibrary.simpleMessage(
+            "Check that your email address is correct and that you have entered a valid processing number."),
+        "supportInfoSendErrorTitle":
+            MessageLookupByLibrary.simpleMessage("Failed to send"),
         "theCreatedSupportInformationCanNowBeSentToDevolo":
             MessageLookupByLibrary.simpleMessage(
                 "The created support information can now be sent to devolo support.\nFill in the following fields"),

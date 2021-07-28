@@ -1093,7 +1093,6 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
   //!!! add manually confirm/cancel buttons
   void _sendingSupportInformation (socket) async {
     bool dialogIsOpen = true;
-    bool actionSucessfull = true;
 
     showDialog<void>(
         context: context,
@@ -1122,22 +1121,14 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children:[
-                if(actionSucessfull)
                   Container(
                     child: CircularProgressIndicator(color: fontColorOnBackground),
                     height: 50.0,
                     width: 50.0,
                   ),
-                if(actionSucessfull)
                   SizedBox(height: 20,),
-                if(actionSucessfull)
                   Text(
                     S.of(context).SendCockpitSupportInformationsBody,
-                    style: TextStyle(color: fontColorOnBackground),
-                  ),
-                if(!actionSucessfull)
-                  Text(
-                    S.of(context).supportInfoSendError,
                     style: TextStyle(color: fontColorOnBackground),
                   ),
               ],
@@ -1154,7 +1145,8 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
     }
 
     else if(response["result"] == "failed" || response["status"] == "timeout"){
-      actionSucessfull = false;
+      Navigator.maybeOf(context)!.pop();
+      errorDialog(context, S.of(context).supportInfoSendErrorTitle, S.of(context).supportInfoSendErrorBody1 + "\n\n" + S.of(context).supportInfoSendErrorBody2, fontSize);
     }
   }
 

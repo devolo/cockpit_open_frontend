@@ -1490,11 +1490,31 @@ class S {
     );
   }
 
-  /// `An error occurred while sending the support informations.\nTry again later`
-  String get supportInfoSendError {
+  /// `Failed to send`
+  String get supportInfoSendErrorTitle {
     return Intl.message(
-      'An error occurred while sending the support informations.\nTry again later',
-      name: 'supportInfoSendError',
+      'Failed to send',
+      name: 'supportInfoSendErrorTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred while sending support information to devolo.`
+  String get supportInfoSendErrorBody1 {
+    return Intl.message(
+      'An error occurred while sending support information to devolo.',
+      name: 'supportInfoSendErrorBody1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check that your email address is correct and that you have entered a valid processing number.`
+  String get supportInfoSendErrorBody2 {
+    return Intl.message(
+      'Check that your email address is correct and that you have entered a valid processing number.',
+      name: 'supportInfoSendErrorBody2',
       desc: '',
       args: [],
     );

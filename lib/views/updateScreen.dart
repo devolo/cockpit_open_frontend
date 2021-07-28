@@ -294,10 +294,11 @@ class _UpdateScreenState extends State<UpdateScreen> {
             Table(
               defaultVerticalAlignment: TableCellVerticalAlignment.middle,
               columnWidths: {
-                0: FlexColumnWidth(1),
-                1: FlexColumnWidth(4),
-                2: FlexColumnWidth(5),
-                3: FlexColumnWidth(6),
+                0: FlexColumnWidth(2),
+                1: FlexColumnWidth(1),
+                2: FlexColumnWidth(4),
+                3: FlexColumnWidth(5),
+                4: FlexColumnWidth(6),
               },
               children: [
                 TableRow(
@@ -308,8 +309,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         )
                     ),
                     children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  TableCell(verticalAlignment: TableCellVerticalAlignment.middle, child: Wrap(
+                      direction:Axis.horizontal,
+                    alignment: WrapAlignment.center,
+                      crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       Text(
                         S.of(context).state,
@@ -328,6 +331,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       ),
                     ],
                   ),
+                  ),
+                  TableCell(child: Container()),
                   TableCell(
                       child: Container(
                         margin: const EdgeInsets.symmetric(vertical: 1.0),
@@ -387,10 +392,11 @@ class _UpdateScreenState extends State<UpdateScreen> {
               child: Table(
                 defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                 columnWidths: {
-                  0: FlexColumnWidth(1),
-                  1: FlexColumnWidth(4),
-                  2: FlexColumnWidth(5),
-                  3: FlexColumnWidth(6),
+                  0: FlexColumnWidth(2),
+                  1: FlexColumnWidth(1),
+                  2: FlexColumnWidth(4),
+                  3: FlexColumnWidth(5),
+                  4: FlexColumnWidth(6),
                 },
                 children: [
                   TableRow(children: [
@@ -439,17 +445,18 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                 ),
                     ),
                     TableCell(
+                      child: Icon(
+                        Icons.speed_rounded,
+                        color: fontColorOnBackground,
+                        size: 24.0 * fontSize.factor,
+                      ),
+                    ),
+                    TableCell(
                       child: ListTile(
                         minLeadingWidth: 1,
                         horizontalTitleGap: 1,
                         dense:true,
-                        contentPadding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 15),
-                        leading: Icon(
-                          Icons.speed_rounded,
-                          color: fontColorOnBackground,
-                          size: 24.0 * fontSize.factor,
-                          textDirection: TextDirection.ltr,
-                        ),
+                        contentPadding: EdgeInsets.only(top: 13.0, bottom: 13.0),
                         title: Text(
                           "Cockpit Software",
                           style: TextStyle(color: fontColorOnBackground, fontSize: 18),
@@ -537,6 +544,13 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                   ),
                       ),
                       TableCell(
+                          child:RawImage(
+                            image: getIconForDeviceType(allDevices[i].typeEnum),
+                            height: (getIconForDeviceType(allDevices[i].typeEnum)!.height).toDouble() * fontSize.factor * 0.5,
+                            width: (getIconForDeviceType(allDevices[i].typeEnum)!.width).toDouble() * fontSize.factor * 0.5,
+                          ),
+                      ),
+                      TableCell(
                         child: new Material(
                           type: MaterialType.transparency, // used to see the spash color over the background Color of the row
                           child:Container(
@@ -547,10 +561,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               horizontalTitleGap: 1,
                               minLeadingWidth: 1,
                               onTap: () => _handleTap(allDevices[i]),
-                              leading: RawImage(
-                                image: getIconForDeviceType(allDevices[i].typeEnum),
-                                scale: fontSize.factor,
-                              ),
                               title: Text(
                                 allDevices[i].name,
                                 style: TextStyle(fontWeight: FontWeight.bold, color: fontColorOnBackground, fontSize: 17,),

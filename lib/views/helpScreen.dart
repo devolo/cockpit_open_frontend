@@ -948,7 +948,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                           decoration: InputDecoration(
                             labelText: S
                                 .of(context)
-                                .yourEmailaddress,
+                                .yourEmailAddress,
                             labelStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
                             counterStyle: TextStyle(color: fontColorOnBackground),
                             hoverColor: fontColorOnBackground.withOpacity(0.2),
@@ -1128,7 +1128,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                   ),
                   SizedBox(height: 20,),
                   Text(
-                    S.of(context).SendCockpitSupportInformationsBody,
+                    S.of(context).SendCockpitSupportInformationBody,
                     style: TextStyle(color: fontColorOnBackground),
                   ),
               ],
@@ -1274,7 +1274,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                       child: Text(
                         S
                             .of(context)
-                            .cockpitSupportInformationsTitle,
+                            .cockpitSupportInformationTitle,
                       )
                   ),
                 ],
@@ -1290,7 +1290,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                     child: Text(
                       S
                           .of(context)
-                          .cockpitSupportInformationsBody,
+                          .cockpitSupportInformationBody,
                       style: TextStyle(color: fontColorOnBackground),
                     ),
                   ),
@@ -1345,7 +1345,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                       Text(
                         S
                             .of(context)
-                            .openSupportInformations,
+                            .openSupportInformation,
                         style: TextStyle(fontSize: dialogContentTextFontSize, color: fontColorOnMain),
                         textScaleFactor: fontSize.factor,
                       ),
@@ -1384,7 +1384,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                       Text(
                         S
                             .of(context)
-                            .saveSupportInformations,
+                            .saveSupportInformation,
                         style: TextStyle(fontSize: dialogContentTextFontSize, color: fontColorOnMain),
                         textScaleFactor: fontSize.factor,
                       ),
@@ -1462,7 +1462,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                     Text(
                       S
                           .of(context)
-                          .LoadCockpitSupportInformationsBody,
+                          .LoadCockpitSupportInformationBody,
                       style: TextStyle(color: fontColorOnBackground),
                     ),
                   if(!actionSucessfull)

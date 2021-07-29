@@ -21,10 +21,10 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "LoadCockpitSupportInformationsBody":
+        "LoadCockpitSupportInformationBody":
             MessageLookupByLibrary.simpleMessage(
                 "Support informations are getting generated"),
-        "SendCockpitSupportInformationsBody":
+        "SendCockpitSupportInformationBody":
             MessageLookupByLibrary.simpleMessage(
                 "Support informations are sent to devolo"),
         "UpdateDeviceFailedBody": MessageLookupByLibrary.simpleMessage(
@@ -42,8 +42,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "An error occurred while setting the data communication!\nTry again later"),
         "activateTransmissionFailedTitle":
             MessageLookupByLibrary.simpleMessage("Action failed"),
-        "add": MessageLookupByLibrary.simpleMessage("Add"),
-        "addDevice": MessageLookupByLibrary.simpleMessage("Add device"),
         "addDeviceErrorBody": MessageLookupByLibrary.simpleMessage(
             "An error occurred while adding the device!\nTry again later"),
         "addDeviceErrorTitle":
@@ -65,29 +63,22 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("App information"),
         "appTheme": MessageLookupByLibrary.simpleMessage("App Theme"),
         "appearance": MessageLookupByLibrary.simpleMessage("Appearance"),
-        "attachedToRouter":
-            MessageLookupByLibrary.simpleMessage("Attached to router"),
         "automaticCompatibilityMode": MessageLookupByLibrary.simpleMessage(
             "Automatic compatibility mode (recommended)"),
         "back": MessageLookupByLibrary.simpleMessage("Back"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "change": MessageLookupByLibrary.simpleMessage("Change"),
-        "changePlcnetworkPassword":
+        "changePlcNetworkPassword":
             MessageLookupByLibrary.simpleMessage("Change PLC network password"),
-        "changeTheLanguageOfTheApp":
-            MessageLookupByLibrary.simpleMessage("Change language"),
         "checkUpdates":
             MessageLookupByLibrary.simpleMessage("Check for updates"),
         "chooseNetwork": MessageLookupByLibrary.simpleMessage(
             "Select the network in which the device should be added."),
         "chooseTheAppTheme":
             MessageLookupByLibrary.simpleMessage("Choose the app theme"),
-        "chooseTheme": MessageLookupByLibrary.simpleMessage("Change theme"),
-        "cockpitSoftwareIsUpToDate": MessageLookupByLibrary.simpleMessage(
-            "Cockpit software is up to date"),
-        "cockpitSupportInformationsBody": MessageLookupByLibrary.simpleMessage(
+        "cockpitSupportInformationBody": MessageLookupByLibrary.simpleMessage(
             "The support informations have been created and are now available to you. Please select an action."),
-        "cockpitSupportInformationsTitle": MessageLookupByLibrary.simpleMessage(
+        "cockpitSupportInformationTitle": MessageLookupByLibrary.simpleMessage(
             "devolo Cockpit support informations"),
         "complete": MessageLookupByLibrary.simpleMessage("complete"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
@@ -105,6 +96,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Data transfer rates are always shown in overview"),
         "deleteDevice": MessageLookupByLibrary.simpleMessage("Delete device"),
+        "deviceInfo":
+            MessageLookupByLibrary.simpleMessage("Device information"),
         "deviceNameDialogBody": MessageLookupByLibrary.simpleMessage(
             "Do you really want to rename this device?"),
         "deviceNameDialogTitle":
@@ -123,25 +116,17 @@ class MessageLookup extends MessageLookupByLibrary {
             "An error occurred while removing the device"),
         "deviceNotFoundResetDevice": MessageLookupByLibrary.simpleMessage(
             "An error occurred while resetting the device"),
-        "deviceinfo":
-            MessageLookupByLibrary.simpleMessage("Device information"),
         "emailIsInvalid":
             MessageLookupByLibrary.simpleMessage("E-mail is invalid"),
         "enableShowingSpeeds":
             MessageLookupByLibrary.simpleMessage("Show network speeds"),
         "factoryReset": MessageLookupByLibrary.simpleMessage("Factory reset"),
         "failed": MessageLookupByLibrary.simpleMessage("failed"),
-        "fontsize": MessageLookupByLibrary.simpleMessage("Set font size"),
+        "fontSize": MessageLookupByLibrary.simpleMessage("Set font size"),
         "forward": MessageLookupByLibrary.simpleMessage("Next"),
-        "fullyCustomizeColors":
-            MessageLookupByLibrary.simpleMessage("Customize colors"),
         "general": MessageLookupByLibrary.simpleMessage("General"),
-        "generateSupportInformation": MessageLookupByLibrary.simpleMessage(
-            "Generate support information"),
         "help": MessageLookupByLibrary.simpleMessage("Help"),
         "highContrast": MessageLookupByLibrary.simpleMessage("High contrast"),
-        "homeNetworkDesktop":
-            MessageLookupByLibrary.simpleMessage("Home network desktop"),
         "identifyDevice":
             MessageLookupByLibrary.simpleMessage("Identify device"),
         "identifyDeviceErrorBody": MessageLookupByLibrary.simpleMessage(
@@ -150,22 +135,18 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Identifying failed"),
         "ignoreUpdates":
             MessageLookupByLibrary.simpleMessage("Ignore device updates"),
-        "install": MessageLookupByLibrary.simpleMessage("Install"),
         "internet": MessageLookupByLibrary.simpleMessage("Internet"),
-        "internetcentered": MessageLookupByLibrary.simpleMessage(
+        "internetCentered": MessageLookupByLibrary.simpleMessage(
             "Use internet-centered overview"),
-        "ipaddress": MessageLookupByLibrary.simpleMessage("IP address"),
-        "isLocalDevice":
-            MessageLookupByLibrary.simpleMessage("Is local device"),
-        "language": MessageLookupByLibrary.simpleMessage("Language"),
-        "launchWebinterface":
+        "ipAddress": MessageLookupByLibrary.simpleMessage("IP address"),
+        "launchWebInterface":
             MessageLookupByLibrary.simpleMessage("Web interface"),
-        "macaddress": MessageLookupByLibrary.simpleMessage("MAC address"),
+        "macAddress": MessageLookupByLibrary.simpleMessage("MAC address"),
         "manualErrorBody": MessageLookupByLibrary.simpleMessage(
             "No suitable manual was found for your PLC device.\n\nYou can find the manual on the product CD or on the devolo website"),
         "manualErrorTitle":
             MessageLookupByLibrary.simpleMessage("Manual not found"),
-        "mtnumber": MessageLookupByLibrary.simpleMessage("devolo MT number"),
+        "mtNumber": MessageLookupByLibrary.simpleMessage("devolo MT number"),
         "name": MessageLookupByLibrary.simpleMessage("Name"),
         "network": MessageLookupByLibrary.simpleMessage("Network"),
         "networkPasswordErrorBody": MessageLookupByLibrary.simpleMessage(
@@ -174,19 +155,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "- Check the connection to the PLC device and repeat the action"),
         "networkPasswordErrorTitle": MessageLookupByLibrary.simpleMessage(
             "Failed to set the network password"),
-        "networkSettings":
-            MessageLookupByLibrary.simpleMessage("Network settings"),
-        "networkoverview":
-            MessageLookupByLibrary.simpleMessage("Network overview"),
-        "newVersion": MessageLookupByLibrary.simpleMessage("New version"),
-        "nextNetwork": MessageLookupByLibrary.simpleMessage("Next network"),
-        "no": MessageLookupByLibrary.simpleMessage("no"),
-        "noDevicesFoundNscanningForDevices":
+        "noDevicesFoundScanningForDevices":
             MessageLookupByLibrary.simpleMessage(
                 "No devices found. \n\nScanning for devices ..."),
-        "openOptimization":
-            MessageLookupByLibrary.simpleMessage("Open optimization help"),
-        "openSupportInformations": MessageLookupByLibrary.simpleMessage("Open"),
+        "openSupportInformation": MessageLookupByLibrary.simpleMessage("Open"),
         "optimizationHelp":
             MessageLookupByLibrary.simpleMessage("Optimization help"),
         "optimizeReception":
@@ -199,12 +171,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "The password must contain more than 8 characters"),
         "pending": MessageLookupByLibrary.simpleMessage("pending"),
-        "pleaseConfirmAction":
-            MessageLookupByLibrary.simpleMessage("Confirm action"),
         "pleaseEnterDeviceName":
             MessageLookupByLibrary.simpleMessage("Enter device name"),
-        "pleaseEnterDevicename":
-            MessageLookupByLibrary.simpleMessage("Enter a device name"),
         "pleaseEnterPassword":
             MessageLookupByLibrary.simpleMessage("Enter password"),
         "pleaseEnterProcessingNumber":
@@ -219,8 +187,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "An error occurred while setting the Power save mode!\nTry again later"),
         "powerSavingModeFailedTitle":
             MessageLookupByLibrary.simpleMessage("Action failed"),
-        "previousNetwork":
-            MessageLookupByLibrary.simpleMessage("Previous network"),
         "processNumber": MessageLookupByLibrary.simpleMessage("Process number"),
         "recordTheTransmissionPowerOfTheDevicesAndTransmitIt":
             MessageLookupByLibrary.simpleMessage(
@@ -242,8 +208,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "An error occurred while resetting the device!\nTry again later"),
         "resetDeviceErrorTitle":
             MessageLookupByLibrary.simpleMessage("Reset failed"),
-        "save": MessageLookupByLibrary.simpleMessage("Save"),
-        "saveSupportInformations": MessageLookupByLibrary.simpleMessage("Save"),
+        "saveSupportInformation": MessageLookupByLibrary.simpleMessage("Save"),
         "searching": MessageLookupByLibrary.simpleMessage("Searching..."),
         "securityId": MessageLookupByLibrary.simpleMessage("Security ID"),
         "selectAll": MessageLookupByLibrary.simpleMessage("Select all"),
@@ -260,7 +225,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Show other devices"),
         "showPassword": MessageLookupByLibrary.simpleMessage("Show password"),
         "state": MessageLookupByLibrary.simpleMessage("State"),
-        "support": MessageLookupByLibrary.simpleMessage("Support"),
         "supportInfoGenerateError": MessageLookupByLibrary.simpleMessage(
             "An error occurred while creating the support informations.\nTry again later"),
         "supportInfoSendErrorBody1": MessageLookupByLibrary.simpleMessage(
@@ -275,39 +239,28 @@ class MessageLookup extends MessageLookupByLibrary {
         "theOverviewWillBeCenteredAroundThePlcDeviceConnected":
             MessageLookupByLibrary.simpleMessage(
                 "The overview is centered around the PLC device connected to the internet"),
-        "thisDeviceIsConnectedDirectlyToTheInternetRouter":
-            MessageLookupByLibrary.simpleMessage(
-                "This device is connected directly to the internet router."),
         "thisPc": MessageLookupByLibrary.simpleMessage("This PC"),
         "title": MessageLookupByLibrary.simpleMessage("devolo Cockpit"),
         "type": MessageLookupByLibrary.simpleMessage("Type"),
         "upToDate": MessageLookupByLibrary.simpleMessage("Up-to-date"),
         "update": MessageLookupByLibrary.simpleMessage("Update"),
         "update2": MessageLookupByLibrary.simpleMessage("Update available"),
-        "updateReadyToInstall":
-            MessageLookupByLibrary.simpleMessage("Ready to install updates"),
         "updateSelected":
             MessageLookupByLibrary.simpleMessage("Update selected"),
         "updates": MessageLookupByLibrary.simpleMessage("Updates"),
         "updating": MessageLookupByLibrary.simpleMessage("Updating..."),
         "vdslCompatibility":
             MessageLookupByLibrary.simpleMessage("VDSL compatibility"),
-        "vdslexplanation": MessageLookupByLibrary.simpleMessage(
+        "vdslExplanation": MessageLookupByLibrary.simpleMessage(
             "In rare cases, noise from Powerline signal can interfere with VDSL connection. Devices in automatic compatibility mode can automatically adjust transmission to limit interference"),
-        "vdslexplanation2": MessageLookupByLibrary.simpleMessage(
+        "vdslExplanation2": MessageLookupByLibrary.simpleMessage(
             "Select a transmission profile from the given options as a fallback when automatic mode is OFF or reliable detection of interference is not possible"),
-        "vdslfailed": MessageLookupByLibrary.simpleMessage(
+        "vdslFailed": MessageLookupByLibrary.simpleMessage(
             "The new VDSL settings could not be saved on the device"),
-        "vdslsuccessful": MessageLookupByLibrary.simpleMessage(
+        "vdslSuccessful": MessageLookupByLibrary.simpleMessage(
             "The new VDSL settings have been saved on the device"),
         "version": MessageLookupByLibrary.simpleMessage("Firmware version"),
-        "windowsNetworkThrottling": MessageLookupByLibrary.simpleMessage(
-            "Use Windows network throttling"),
-        "yes": MessageLookupByLibrary.simpleMessage("yes"),
-        "yourCurrentTerminalIsConnectedToThisDevolodevice":
-            MessageLookupByLibrary.simpleMessage(
-                "Your current terminal is connected to this devolo device."),
-        "yourEmailaddress":
+        "yourEmailAddress":
             MessageLookupByLibrary.simpleMessage("Your email address"),
         "yourName": MessageLookupByLibrary.simpleMessage("Your name"),
         "yourPc": MessageLookupByLibrary.simpleMessage("Your PC")

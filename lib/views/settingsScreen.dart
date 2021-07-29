@@ -178,7 +178,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     child: Text(S.of(context).theOverviewWillBeCenteredAroundThePlcDeviceConnected, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor)),
                   ),
                   title: Text(
-                    S.of(context).internetcentered,
+                    S.of(context).internetCentered,
                     style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond),
                   ),
                   trailing: Switch(
@@ -268,7 +268,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
                 tileColor: secondColor,
                 title: Text(
-                  S.of(context).fontsize,
+                  S.of(context).fontSize,
                   style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond),
                 ),
                 trailing: SizedBox(
@@ -442,7 +442,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           decoration: InputDecoration(
                             counterText: "",
                             suffixText: '${textLength.toString()}/${maxLength.toString()}',
-                            labelText: S.of(context).changePlcnetworkPassword,
+                            labelText: S.of(context).changePlcNetworkPassword,
                             labelStyle: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor,),
                             hoverColor: mainColor.withOpacity(0.2),
                             contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),

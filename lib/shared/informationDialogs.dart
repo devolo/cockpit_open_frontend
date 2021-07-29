@@ -31,7 +31,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
             SelectableText(
               S
                   .of(context)
-                  .deviceinfo,
+                  .deviceInfo,
               style: TextStyle(color: fontColorOnBackground),
               textScaleFactor: fontSize.factor,
             ),
@@ -254,7 +254,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                     child: SelectableText(
                       "${S
                           .of(context)
-                          .mtnumber}:   ",
+                          .mtNumber}:   ",
                     ),
                   ),
                 ),
@@ -289,7 +289,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                     child: SelectableText(
                       "${S
                           .of(context)
-                          .ipaddress}:   ",
+                          .ipAddress}:   ",
                     ),
                   ),
                 ),
@@ -306,7 +306,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                     child: SelectableText(
                       "${S
                           .of(context)
-                          .macaddress}:   ",
+                          .macAddress}:   ",
                     ),
                   ),
                 ),
@@ -343,7 +343,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                     Text(
                       S
                           .of(context)
-                          .launchWebinterface,
+                          .launchWebInterface,
                       style: TextStyle(fontSize: 14,
                           color: !hitDevice.webinterfaceAvailable
                               ? fontColorOnBackground.withOpacity(0.33)
@@ -647,7 +647,7 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                     children: [
                       if(hitDeviceVDSLmode != "0")
                         Column(children: [
-                          SelectableText(S.of(context).vdslexplanation),
+                          SelectableText(S.of(context).vdslExplanation),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
                             child: Row(
@@ -675,7 +675,7 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                               ],
                             ),
                           ),
-                          SelectableText(S.of(context).vdslexplanation2),
+                          SelectableText(S.of(context).vdslExplanation2),
                         ],),
                       for (String vdsl_profile in hitDeviceVDSLList)
                         ListTile(
@@ -724,10 +724,10 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
     var response = await socket.receiveXML("SetVDSLCompatibilityStatus");
     if (response['result'] == "failed") {
       Navigator.maybeOf(context)!.pop(true);
-      errorDialog(context, "Error", S.of(context).vdslfailed, fontSize);
+      errorDialog(context, "Error", S.of(context).vdslFailed, fontSize);
     } else if (response['result'] == "ok") {
       Navigator.maybeOf(context)!.pop(true);
-      errorDialog(context, "Done", S.of(context).vdslsuccessful, fontSize);
+      errorDialog(context, "Done", S.of(context).vdslSuccessful, fontSize);
     }
     else {
       logger.w("[showVDSLDialog] - Unexpected response: " + response['result']);

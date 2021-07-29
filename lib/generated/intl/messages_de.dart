@@ -21,10 +21,10 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "LoadCockpitSupportInformationsBody":
+        "LoadCockpitSupportInformationBody":
             MessageLookupByLibrary.simpleMessage(
                 "Support-Informationen werden erstellt"),
-        "SendCockpitSupportInformationsBody":
+        "SendCockpitSupportInformationBody":
             MessageLookupByLibrary.simpleMessage(
                 "Support-Informationen werden nach devolo gesendet"),
         "UpdateDeviceFailedBody": MessageLookupByLibrary.simpleMessage(
@@ -43,8 +43,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "Es ist ein Fehler beim Anpassen der Datenkommunikation aufgetreten!\nBitte versuchen Sie es erneut."),
         "activateTransmissionFailedTitle":
             MessageLookupByLibrary.simpleMessage("Aktion fehlgeschlagen"),
-        "add": MessageLookupByLibrary.simpleMessage("Hinzufügen"),
-        "addDevice": MessageLookupByLibrary.simpleMessage("Gerät hinzufügen"),
         "addDeviceErrorBody": MessageLookupByLibrary.simpleMessage(
             "Es ist ein Fehler beim Hinzufügen des Gerätes aufgetreten!\nBitte versuchen Sie es erneut."),
         "addDeviceErrorTitle":
@@ -66,29 +64,22 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("App Information"),
         "appTheme": MessageLookupByLibrary.simpleMessage("App Design"),
         "appearance": MessageLookupByLibrary.simpleMessage("Erscheinungbild"),
-        "attachedToRouter": MessageLookupByLibrary.simpleMessage(
-            "Ist am Router angeschlossen:"),
         "automaticCompatibilityMode": MessageLookupByLibrary.simpleMessage(
             "Automatischer Kompatibilitäsmodus (empfohlen)"),
         "back": MessageLookupByLibrary.simpleMessage("zurück"),
         "cancel": MessageLookupByLibrary.simpleMessage("Abbrechen"),
         "change": MessageLookupByLibrary.simpleMessage("ändern"),
-        "changePlcnetworkPassword": MessageLookupByLibrary.simpleMessage(
+        "changePlcNetworkPassword": MessageLookupByLibrary.simpleMessage(
             "PLC-Netzwerk Passwort ändern"),
-        "changeTheLanguageOfTheApp":
-            MessageLookupByLibrary.simpleMessage("Ändere die Sprache der App"),
         "checkUpdates":
             MessageLookupByLibrary.simpleMessage(" Aktualisierungen suchen "),
         "chooseNetwork": MessageLookupByLibrary.simpleMessage(
             "Wähle das Netzwerk in welchem das Gerät hinzugefügt werden soll."),
         "chooseTheAppTheme":
             MessageLookupByLibrary.simpleMessage("Wähle das App Design"),
-        "chooseTheme": MessageLookupByLibrary.simpleMessage("Wähle Thema"),
-        "cockpitSoftwareIsUpToDate": MessageLookupByLibrary.simpleMessage(
-            "Cockpit Software auf dem neusten Stand."),
-        "cockpitSupportInformationsBody": MessageLookupByLibrary.simpleMessage(
+        "cockpitSupportInformationBody": MessageLookupByLibrary.simpleMessage(
             "Die Support-Informationen wurden erstellt und stehen Ihnen jetzt zur Verfügung. Bitte wählen Sie eine Aktion aus."),
-        "cockpitSupportInformationsTitle": MessageLookupByLibrary.simpleMessage(
+        "cockpitSupportInformationTitle": MessageLookupByLibrary.simpleMessage(
             "devolo Cockpit Support-Informationen"),
         "complete": MessageLookupByLibrary.simpleMessage("erfolgreich"),
         "confirm": MessageLookupByLibrary.simpleMessage("Bestätigen"),
@@ -106,6 +97,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Datenraten werden dauerhaft in der Übersicht angezeigt "),
         "deleteDevice": MessageLookupByLibrary.simpleMessage("Gerät \nlöschen"),
+        "deviceInfo":
+            MessageLookupByLibrary.simpleMessage("Geräteinformationen"),
         "deviceNameDialogBody": MessageLookupByLibrary.simpleMessage(
             "Möchten Sie wirklich den Gerätenamen ändern?"),
         "deviceNameDialogTitle":
@@ -124,8 +117,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "Es ist ein Fehler beim Entfernen des Gerätes aufgetreten!"),
         "deviceNotFoundResetDevice": MessageLookupByLibrary.simpleMessage(
             "Es ist ein Fehler beim Zurücksetzen des Gerätes aufgetreten!"),
-        "deviceinfo":
-            MessageLookupByLibrary.simpleMessage("Geräteinformationen"),
         "emailIsInvalid":
             MessageLookupByLibrary.simpleMessage("Ungültige E-mail Adresse"),
         "enableShowingSpeeds":
@@ -133,17 +124,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "factoryReset":
             MessageLookupByLibrary.simpleMessage("Werkseinstellung \nsetzen"),
         "failed": MessageLookupByLibrary.simpleMessage("fehlgeschlagen"),
-        "fontsize": MessageLookupByLibrary.simpleMessage("Schriftgröße"),
+        "fontSize": MessageLookupByLibrary.simpleMessage("Schriftgröße"),
         "forward": MessageLookupByLibrary.simpleMessage("weiter"),
-        "fullyCustomizeColors": MessageLookupByLibrary.simpleMessage(
-            "Vollständig anpassbare Farben"),
         "general": MessageLookupByLibrary.simpleMessage("Allgemein"),
-        "generateSupportInformation": MessageLookupByLibrary.simpleMessage(
-            "Support Informationen generieren "),
         "help": MessageLookupByLibrary.simpleMessage("Hilfe"),
         "highContrast": MessageLookupByLibrary.simpleMessage("Hoher Kontrast"),
-        "homeNetworkDesktop":
-            MessageLookupByLibrary.simpleMessage("Home Netzwerk Desktop"),
         "identifyDevice":
             MessageLookupByLibrary.simpleMessage("Gerät \nidentifizieren"),
         "identifyDeviceErrorBody": MessageLookupByLibrary.simpleMessage(
@@ -152,22 +137,18 @@ class MessageLookup extends MessageLookupByLibrary {
             "Identifizierung fehlgeschlagen"),
         "ignoreUpdates": MessageLookupByLibrary.simpleMessage(
             "Ignoriere zukünftige Aktualisierungen (Updates)"),
-        "install": MessageLookupByLibrary.simpleMessage("Installieren"),
         "internet": MessageLookupByLibrary.simpleMessage("Internet"),
-        "internetcentered":
+        "internetCentered":
             MessageLookupByLibrary.simpleMessage("Internetzentrisch"),
-        "ipaddress": MessageLookupByLibrary.simpleMessage("IP-Adresse"),
-        "isLocalDevice":
-            MessageLookupByLibrary.simpleMessage("Ist lokales Gerät:"),
-        "language": MessageLookupByLibrary.simpleMessage("Sprache"),
-        "launchWebinterface":
+        "ipAddress": MessageLookupByLibrary.simpleMessage("IP-Adresse"),
+        "launchWebInterface":
             MessageLookupByLibrary.simpleMessage("Webinterface \nöffnen "),
-        "macaddress": MessageLookupByLibrary.simpleMessage("MAC-Adresse"),
+        "macAddress": MessageLookupByLibrary.simpleMessage("MAC-Adresse"),
         "manualErrorBody": MessageLookupByLibrary.simpleMessage(
             "Für Ihr PLC-Gerät wurde kein passendes Handbuch gefunden.\n\nSie können das Handbuch auf der Produkt-CD oder der devolo Internet-Seite finden."),
         "manualErrorTitle":
             MessageLookupByLibrary.simpleMessage("Handbuch nicht gefunden"),
-        "mtnumber": MessageLookupByLibrary.simpleMessage("devolo MT-Nummer"),
+        "mtNumber": MessageLookupByLibrary.simpleMessage("devolo MT-Nummer"),
         "name": MessageLookupByLibrary.simpleMessage("Name"),
         "network": MessageLookupByLibrary.simpleMessage("Netzwerk"),
         "networkPasswordErrorBody": MessageLookupByLibrary.simpleMessage(
@@ -176,20 +157,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "- Prüfen Sie die Verbindung zum PLC-Gerät und wiederholen Sie die Aktion!"),
         "networkPasswordErrorTitle": MessageLookupByLibrary.simpleMessage(
             "Setzen des Netzwerk-Kennworts fehlgeschlagen "),
-        "networkSettings":
-            MessageLookupByLibrary.simpleMessage("Netzwerk Einstellungen"),
-        "networkoverview":
-            MessageLookupByLibrary.simpleMessage("Netzwerkübersicht"),
-        "newVersion": MessageLookupByLibrary.simpleMessage("neue Version"),
-        "nextNetwork":
-            MessageLookupByLibrary.simpleMessage("nächstes Netzwerk"),
-        "no": MessageLookupByLibrary.simpleMessage("Nein"),
-        "noDevicesFoundNscanningForDevices":
+        "noDevicesFoundScanningForDevices":
             MessageLookupByLibrary.simpleMessage(
                 "No devices found \nScanning for devices ..."),
-        "openOptimization":
-            MessageLookupByLibrary.simpleMessage("Optimierungshilfe öffnen"),
-        "openSupportInformations":
+        "openSupportInformation":
             MessageLookupByLibrary.simpleMessage("Öffnen"),
         "optimizationHelp":
             MessageLookupByLibrary.simpleMessage("Optimierungs Hilfe"),
@@ -203,11 +174,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Passwort muss länger als 8 Zeichen sein"),
         "pending": MessageLookupByLibrary.simpleMessage("anstehend"),
-        "pleaseConfirmAction":
-            MessageLookupByLibrary.simpleMessage("Bitte Aktion bestätigen."),
         "pleaseEnterDeviceName":
-            MessageLookupByLibrary.simpleMessage("Bitte Gerätenamen eintragen"),
-        "pleaseEnterDevicename":
             MessageLookupByLibrary.simpleMessage("Bitte Gerätenamen eintragen"),
         "pleaseEnterPassword":
             MessageLookupByLibrary.simpleMessage("Bitte Passwort eingeben"),
@@ -223,8 +190,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "Es ist ein Fehler beim Anpassen des Stromsparmodus aufgetreten!\nBitte versuchen Sie es erneut."),
         "powerSavingModeFailedTitle":
             MessageLookupByLibrary.simpleMessage("Aktion fehlgeschlagen"),
-        "previousNetwork":
-            MessageLookupByLibrary.simpleMessage("vorheriges Netzwerk"),
         "processNumber":
             MessageLookupByLibrary.simpleMessage("Bearbeitungsnummer"),
         "recordTheTransmissionPowerOfTheDevicesAndTransmitIt":
@@ -247,8 +212,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Es ist ein Fehler beim Zurücksetzen des Gerätes aufgetreten!\nBitte versuchen Sie es erneut."),
         "resetDeviceErrorTitle": MessageLookupByLibrary.simpleMessage(
             "Zurücksetzung fehlgeschlagen"),
-        "save": MessageLookupByLibrary.simpleMessage("speichern"),
-        "saveSupportInformations":
+        "saveSupportInformation":
             MessageLookupByLibrary.simpleMessage("Speichern"),
         "searching": MessageLookupByLibrary.simpleMessage("suche..."),
         "securityId": MessageLookupByLibrary.simpleMessage("Security-ID"),
@@ -269,7 +233,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "showPassword":
             MessageLookupByLibrary.simpleMessage("Passwort anzeigen "),
         "state": MessageLookupByLibrary.simpleMessage("Status"),
-        "support": MessageLookupByLibrary.simpleMessage("Support"),
         "supportInfoGenerateError": MessageLookupByLibrary.simpleMessage(
             "Bei der Erstellung der Support Informationen ist ein Fehler aufgetreten.\nBitte versuchen Sie es erneut!"),
         "supportInfoSendErrorBody1": MessageLookupByLibrary.simpleMessage(
@@ -284,9 +247,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "theOverviewWillBeCenteredAroundThePlcDeviceConnected":
             MessageLookupByLibrary.simpleMessage(
                 "Die Übersicht wird um das PLC-Gerät zentriert, welches am Internet angeschlossen ist"),
-        "thisDeviceIsConnectedDirectlyToTheInternetRouter":
-            MessageLookupByLibrary.simpleMessage(
-                "Dieses Gerät ist direkt an den Internet-Router angeschlossen."),
         "thisPc": MessageLookupByLibrary.simpleMessage("Dieser PC"),
         "title": MessageLookupByLibrary.simpleMessage("devolo Cockpit"),
         "type": MessageLookupByLibrary.simpleMessage("Typ"),
@@ -294,30 +254,22 @@ class MessageLookup extends MessageLookupByLibrary {
         "update": MessageLookupByLibrary.simpleMessage("Aktualisierung"),
         "update2":
             MessageLookupByLibrary.simpleMessage("Aktualisierung verfügbar"),
-        "updateReadyToInstall": MessageLookupByLibrary.simpleMessage(
-            "Update bereit zur Installation."),
         "updateSelected":
             MessageLookupByLibrary.simpleMessage("Aktualisiere Auswahl"),
         "updates": MessageLookupByLibrary.simpleMessage("Aktualisierungen"),
         "updating": MessageLookupByLibrary.simpleMessage(" aktualisieren..."),
         "vdslCompatibility":
             MessageLookupByLibrary.simpleMessage("VDSL Kompatibilität"),
-        "vdslexplanation": MessageLookupByLibrary.simpleMessage(
+        "vdslExplanation": MessageLookupByLibrary.simpleMessage(
             "In seltenen Fällen können VDSL-Verbindungsprobleme durch Übersprechen des Powerline-Signals verursacht werden. Wenn der automatische Kompatibilitätsmodus aktiv ist, versucht das Gerät, diese Situation zu erkennen und automatisch seinen Sendepegel so anzupassen, dass die bestmögliche Leistung ohne Störung erzielt wird."),
-        "vdslexplanation2": MessageLookupByLibrary.simpleMessage(
+        "vdslExplanation2": MessageLookupByLibrary.simpleMessage(
             "Wenn der automatische Modus deaktiviert ist oder die Störung nicht zuverlässig erkannt werden kann, kann stattdessen ein fest eingestelltes Profil für eine angepasste Sendeleistung verwendet werden. Wählen Sie das Profil aus, das dem Typ ihres VDSL-Anschlusses entspricht, oder wählen Sie \"volle Leistung\", wenn keine Störungsvermeidung benötigt wird."),
-        "vdslfailed": MessageLookupByLibrary.simpleMessage(
+        "vdslFailed": MessageLookupByLibrary.simpleMessage(
             "Die neuen VDSL-Einstellungen konnten nicht auf dem Gerät gespeichert werden."),
-        "vdslsuccessful": MessageLookupByLibrary.simpleMessage(
+        "vdslSuccessful": MessageLookupByLibrary.simpleMessage(
             "Die neuen VDSL-Einstellungen wurden auf dem Gerät gespeichert."),
         "version": MessageLookupByLibrary.simpleMessage("Firmware-Version"),
-        "windowsNetworkThrottling":
-            MessageLookupByLibrary.simpleMessage("Windows Netzwerkdrosselung"),
-        "yes": MessageLookupByLibrary.simpleMessage("Ja"),
-        "yourCurrentTerminalIsConnectedToThisDevolodevice":
-            MessageLookupByLibrary.simpleMessage(
-                "Ihr aktuelles Endgerät ist mit diesem devolo-Gerät verbunden."),
-        "yourEmailaddress":
+        "yourEmailAddress":
             MessageLookupByLibrary.simpleMessage(" Ihre E-mail Adresse"),
         "yourName": MessageLookupByLibrary.simpleMessage("Ihr Name"),
         "yourPc": MessageLookupByLibrary.simpleMessage("Dein PC")

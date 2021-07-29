@@ -60,21 +60,11 @@ class S {
     );
   }
 
-  /// `Home network desktop`
-  String get homeNetworkDesktop {
+  /// `Overview`
+  String get overview {
     return Intl.message(
-      'Home network desktop',
-      name: 'homeNetworkDesktop',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Network overview`
-  String get networkoverview {
-    return Intl.message(
-      'Network overview',
-      name: 'networkoverview',
+      'Overview',
+      name: 'overview',
       desc: '',
       args: [],
     );
@@ -90,31 +80,11 @@ class S {
     );
   }
 
-  /// `Network settings`
-  String get networkSettings {
+  /// `Help`
+  String get help {
     return Intl.message(
-      'Network settings',
-      name: 'networkSettings',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `App info`
-  String get appInfo {
-    return Intl.message(
-      'App info',
-      name: 'appInfo',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `App information`
-  String get appInformation {
-    return Intl.message(
-      'App information',
-      name: 'appInformation',
+      'Help',
+      name: 'help',
       desc: '',
       args: [],
     );
@@ -130,11 +100,71 @@ class S {
     );
   }
 
+  /// `App info`
+  String get appInfo {
+    return Intl.message(
+      'App info',
+      name: 'appInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `High contrast`
+  String get highContrast {
+    return Intl.message(
+      'High contrast',
+      name: 'highContrast',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `App information`
+  String get appInformation {
+    return Intl.message(
+      'App information',
+      name: 'appInformation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `show licenses`
+  String get showLicences {
+    return Intl.message(
+      'show licenses',
+      name: 'showLicences',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `General`
+  String get general {
+    return Intl.message(
+      'General',
+      name: 'general',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Appearance`
   String get appearance {
     return Intl.message(
       'Appearance',
       name: 'appearance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Network`
+  String get network {
+    return Intl.message(
+      'Network',
+      name: 'network',
       desc: '',
       args: [],
     );
@@ -150,11 +180,31 @@ class S {
     );
   }
 
+  /// `Data transfer rates are always shown in overview`
+  String get dataRatesArePermanentlyDisplayedInTheOverview {
+    return Intl.message(
+      'Data transfer rates are always shown in overview',
+      name: 'dataRatesArePermanentlyDisplayedInTheOverview',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Use internet-centered overview`
-  String get internetcentered {
+  String get internetCentered {
     return Intl.message(
       'Use internet-centered overview',
-      name: 'internetcentered',
+      name: 'internetCentered',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The overview is centered around the PLC device connected to the internet`
+  String get theOverviewWillBeCenteredAroundThePlcDeviceConnected {
+    return Intl.message(
+      'The overview is centered around the PLC device connected to the internet',
+      name: 'theOverviewWillBeCenteredAroundThePlcDeviceConnected',
       desc: '',
       args: [],
     );
@@ -170,11 +220,41 @@ class S {
     );
   }
 
-  /// `Network`
-  String get network {
+  /// `Overview shows other devices, e.g., laptops and mobiles`
+  String get otherDevicesEgPcAreDisplayedInTheOverview {
     return Intl.message(
-      'Network',
-      name: 'network',
+      'Overview shows other devices, e.g., laptops and mobiles',
+      name: 'otherDevicesEgPcAreDisplayedInTheOverview',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `App Theme`
+  String get appTheme {
+    return Intl.message(
+      'App Theme',
+      name: 'appTheme',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose the app theme`
+  String get chooseTheAppTheme {
+    return Intl.message(
+      'Choose the app theme',
+      name: 'chooseTheAppTheme',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set font size`
+  String get fontSize {
+    return Intl.message(
+      'Set font size',
+      name: 'fontSize',
       desc: '',
       args: [],
     );
@@ -200,26 +280,6 @@ class S {
     );
   }
 
-  /// `Use Windows network throttling`
-  String get windowsNetworkThrottling {
-    return Intl.message(
-      'Use Windows network throttling',
-      name: 'windowsNetworkThrottling',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Language`
-  String get language {
-    return Intl.message(
-      'Language',
-      name: 'language',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Change`
   String get change {
     return Intl.message(
@@ -231,10 +291,10 @@ class S {
   }
 
   /// `Change PLC network password`
-  String get changePlcnetworkPassword {
+  String get changePlcNetworkPassword {
     return Intl.message(
       'Change PLC network password',
-      name: 'changePlcnetworkPassword',
+      name: 'changePlcNetworkPassword',
       desc: '',
       args: [],
     );
@@ -260,66 +320,6 @@ class S {
     );
   }
 
-  /// `Save`
-  String get save {
-    return Intl.message(
-      'Save',
-      name: 'save',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Support`
-  String get support {
-    return Intl.message(
-      'Support',
-      name: 'support',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Generate support information`
-  String get generateSupportInformation {
-    return Intl.message(
-      'Generate support information',
-      name: 'generateSupportInformation',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Open`
-  String get openSupportInformations {
-    return Intl.message(
-      'Open',
-      name: 'openSupportInformations',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Save`
-  String get saveSupportInformations {
-    return Intl.message(
-      'Save',
-      name: 'saveSupportInformations',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Send`
-  String get sendToDevolo {
-    return Intl.message(
-      'Send',
-      name: 'sendToDevolo',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Show logs`
   String get showLogs {
     return Intl.message(
@@ -330,21 +330,221 @@ class S {
     );
   }
 
-  /// `Confirm action`
-  String get pleaseConfirmAction {
+  /// `The password must contain more than 8 characters`
+  String get passwordMustBeGreaterThan8Characters {
     return Intl.message(
-      'Confirm action',
-      name: 'pleaseConfirmAction',
+      'The password must contain more than 8 characters',
+      name: 'passwordMustBeGreaterThan8Characters',
       desc: '',
       args: [],
     );
   }
 
-  /// `Contact information`
-  String get contactInfo {
+  /// `Name`
+  String get name {
     return Intl.message(
-      'Contact information',
-      name: 'contactInfo',
+      'Name',
+      name: 'name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Current version`
+  String get currentVersion {
+    return Intl.message(
+      'Current version',
+      name: 'currentVersion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `State`
+  String get state {
+    return Intl.message(
+      'State',
+      name: 'state',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update`
+  String get update {
+    return Intl.message(
+      'Update',
+      name: 'update',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check for updates`
+  String get checkUpdates {
+    return Intl.message(
+      'Check for updates',
+      name: 'checkUpdates',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select all`
+  String get selectAll {
+    return Intl.message(
+      'Select all',
+      name: 'selectAll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update selected`
+  String get updateSelected {
+    return Intl.message(
+      'Update selected',
+      name: 'updateSelected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Up-to-date`
+  String get upToDate {
+    return Intl.message(
+      'Up-to-date',
+      name: 'upToDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update available`
+  String get update2 {
+    return Intl.message(
+      'Update available',
+      name: 'update2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Updating...`
+  String get updating {
+    return Intl.message(
+      'Updating...',
+      name: 'updating',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Searching...`
+  String get searching {
+    return Intl.message(
+      'Searching...',
+      name: 'searching',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `complete`
+  String get complete {
+    return Intl.message(
+      'complete',
+      name: 'complete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `failed`
+  String get failed {
+    return Intl.message(
+      'failed',
+      name: 'failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `pending`
+  String get pending {
+    return Intl.message(
+      'pending',
+      name: 'pending',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Setup new device`
+  String get setUpDevice {
+    return Intl.message(
+      'Setup new device',
+      name: 'setUpDevice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Optimize reception`
+  String get optimizeReception {
+    return Intl.message(
+      'Optimize reception',
+      name: 'optimizeReception',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contact support`
+  String get contactSupport {
+    return Intl.message(
+      'Contact support',
+      name: 'contactSupport',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `devolo Cockpit support informations`
+  String get cockpitSupportInformationTitle {
+    return Intl.message(
+      'devolo Cockpit support informations',
+      name: 'cockpitSupportInformationTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open`
+  String get openSupportInformation {
+    return Intl.message(
+      'Open',
+      name: 'openSupportInformation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get saveSupportInformation {
+    return Intl.message(
+      'Save',
+      name: 'saveSupportInformation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send`
+  String get sendToDevolo {
+    return Intl.message(
+      'Send',
+      name: 'sendToDevolo',
       desc: '',
       args: [],
     );
@@ -410,101 +610,61 @@ class S {
     );
   }
 
-  /// `Name`
-  String get name {
+  /// `Contact information`
+  String get contactInfo {
     return Intl.message(
-      'Name',
-      name: 'name',
+      'Contact information',
+      name: 'contactInfo',
       desc: '',
       args: [],
     );
   }
 
-  /// `Current version`
-  String get currentVersion {
+  /// `Your email address`
+  String get yourEmailAddress {
     return Intl.message(
-      'Current version',
-      name: 'currentVersion',
+      'Your email address',
+      name: 'yourEmailAddress',
       desc: '',
       args: [],
     );
   }
 
-  /// `New version`
-  String get newVersion {
+  /// `Support informations are getting generated`
+  String get LoadCockpitSupportInformationBody {
     return Intl.message(
-      'New version',
-      name: 'newVersion',
+      'Support informations are getting generated',
+      name: 'LoadCockpitSupportInformationBody',
       desc: '',
       args: [],
     );
   }
 
-  /// `State`
-  String get state {
+  /// `Support informations are sent to devolo`
+  String get SendCockpitSupportInformationBody {
     return Intl.message(
-      'State',
-      name: 'state',
+      'Support informations are sent to devolo',
+      name: 'SendCockpitSupportInformationBody',
       desc: '',
       args: [],
     );
   }
 
-  /// `Update`
-  String get update {
+  /// `The support informations have been created and are now available to you. Please select an action.`
+  String get cockpitSupportInformationBody {
     return Intl.message(
-      'Update',
-      name: 'update',
+      'The support informations have been created and are now available to you. Please select an action.',
+      name: 'cockpitSupportInformationBody',
       desc: '',
       args: [],
     );
   }
 
-  /// `Cockpit software is up to date`
-  String get cockpitSoftwareIsUpToDate {
+  /// `E-mail is invalid`
+  String get emailIsInvalid {
     return Intl.message(
-      'Cockpit software is up to date',
-      name: 'cockpitSoftwareIsUpToDate',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Ready to install updates`
-  String get updateReadyToInstall {
-    return Intl.message(
-      'Ready to install updates',
-      name: 'updateReadyToInstall',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Check for updates`
-  String get checkUpdates {
-    return Intl.message(
-      'Check for updates',
-      name: 'checkUpdates',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Add device`
-  String get addDevice {
-    return Intl.message(
-      'Add device',
-      name: 'addDevice',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Open optimization help`
-  String get openOptimization {
-    return Intl.message(
-      'Open optimization help',
-      name: 'openOptimization',
+      'E-mail is invalid',
+      name: 'emailIsInvalid',
       desc: '',
       args: [],
     );
@@ -515,96 +675,6 @@ class S {
     return Intl.message(
       'Optimization help',
       name: 'optimizationHelp',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Attention! Your router is connected to this PLC device. You will lose connection to the internet`
-  String get confirmActionConnectedToRouterWarning {
-    return Intl.message(
-      'Attention! Your router is connected to this PLC device. You will lose connection to the internet',
-      name: 'confirmActionConnectedToRouterWarning',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Install`
-  String get install {
-    return Intl.message(
-      'Install',
-      name: 'install',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Confirm`
-  String get confirm {
-    return Intl.message(
-      'Confirm',
-      name: 'confirm',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Cancel`
-  String get cancel {
-    return Intl.message(
-      'Cancel',
-      name: 'cancel',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Show manual`
-  String get showManual {
-    return Intl.message(
-      'Show manual',
-      name: 'showManual',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Identify device`
-  String get identifyDevice {
-    return Intl.message(
-      'Identify device',
-      name: 'identifyDevice',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Web interface`
-  String get launchWebinterface {
-    return Intl.message(
-      'Web interface',
-      name: 'launchWebinterface',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Factory reset`
-  String get factoryReset {
-    return Intl.message(
-      'Factory reset',
-      name: 'factoryReset',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Delete device`
-  String get deleteDevice {
-    return Intl.message(
-      'Delete device',
-      name: 'deleteDevice',
       desc: '',
       args: [],
     );
@@ -640,81 +710,161 @@ class S {
     );
   }
 
-  /// `Overview`
-  String get overview {
+  /// `Security ID`
+  String get securityId {
     return Intl.message(
-      'Overview',
-      name: 'overview',
+      'Security ID',
+      name: 'securityId',
       desc: '',
       args: [],
     );
   }
 
-  /// `Add`
-  String get add {
+  /// `Add device via security ID`
+  String get addDeviceViaSecurityId {
     return Intl.message(
-      'Add',
-      name: 'add',
+      'Add device via security ID',
+      name: 'addDeviceViaSecurityId',
       desc: '',
       args: [],
     );
   }
 
-  /// `Help`
-  String get help {
+  /// `Enter the security ID of the new PLC device.\nThe security ID can be found on the back of the PLC device.`
+  String get addDeviceViaSecurityIdDialogContent {
     return Intl.message(
-      'Help',
-      name: 'help',
+      'Enter the security ID of the new PLC device.\nThe security ID can be found on the back of the PLC device.',
+      name: 'addDeviceViaSecurityIdDialogContent',
       desc: '',
       args: [],
     );
   }
 
-  /// `High contrast`
-  String get highContrast {
+  /// `Device will be added`
+  String get addDeviceLoading {
     return Intl.message(
-      'High contrast',
-      name: 'highContrast',
+      'Device will be added',
+      name: 'addDeviceLoading',
       desc: '',
       args: [],
     );
   }
 
-  /// `No devices found. \n\nScanning for devices ...`
-  String get noDevicesFoundNscanningForDevices {
+  /// `Select the network in which the device should be added.`
+  String get chooseNetwork {
     return Intl.message(
-      'No devices found. \n\nScanning for devices ...',
-      name: 'noDevicesFoundNscanningForDevices',
+      'Select the network in which the device should be added.',
+      name: 'chooseNetwork',
       desc: '',
       args: [],
     );
   }
 
-  /// `Previous network`
-  String get previousNetwork {
+  /// `Attention! Your router is connected to this PLC device. You will lose connection to the internet`
+  String get confirmActionConnectedToRouterWarning {
     return Intl.message(
-      'Previous network',
-      name: 'previousNetwork',
+      'Attention! Your router is connected to this PLC device. You will lose connection to the internet',
+      name: 'confirmActionConnectedToRouterWarning',
       desc: '',
       args: [],
     );
   }
 
-  /// `Next network`
-  String get nextNetwork {
+  /// `Confirm`
+  String get confirm {
     return Intl.message(
-      'Next network',
-      name: 'nextNetwork',
+      'Confirm',
+      name: 'confirm',
       desc: '',
       args: [],
     );
   }
 
-  /// `Enter a device name`
-  String get pleaseEnterDevicename {
+  /// `Cancel`
+  String get cancel {
     return Intl.message(
-      'Enter a device name',
-      name: 'pleaseEnterDevicename',
+      'Cancel',
+      name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Device information`
+  String get deviceInfo {
+    return Intl.message(
+      'Device information',
+      name: 'deviceInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Show manual`
+  String get showManual {
+    return Intl.message(
+      'Show manual',
+      name: 'showManual',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Identify device`
+  String get identifyDevice {
+    return Intl.message(
+      'Identify device',
+      name: 'identifyDevice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Web interface`
+  String get launchWebInterface {
+    return Intl.message(
+      'Web interface',
+      name: 'launchWebInterface',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Factory reset`
+  String get factoryReset {
+    return Intl.message(
+      'Factory reset',
+      name: 'factoryReset',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete device`
+  String get deleteDevice {
+    return Intl.message(
+      'Delete device',
+      name: 'deleteDevice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `additional\nsettings`
+  String get additionalSettings {
+    return Intl.message(
+      'additional\nsettings',
+      name: 'additionalSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter device name`
+  String get pleaseEnterDeviceName {
+    return Intl.message(
+      'Enter device name',
+      name: 'pleaseEnterDeviceName',
       desc: '',
       args: [],
     );
@@ -741,10 +891,10 @@ class S {
   }
 
   /// `devolo MT number`
-  String get mtnumber {
+  String get mtNumber {
     return Intl.message(
       'devolo MT number',
-      name: 'mtnumber',
+      name: 'mtNumber',
       desc: '',
       args: [],
     );
@@ -761,40 +911,30 @@ class S {
   }
 
   /// `IP address`
-  String get ipaddress {
+  String get ipAddress {
     return Intl.message(
       'IP address',
-      name: 'ipaddress',
+      name: 'ipAddress',
       desc: '',
       args: [],
     );
   }
 
   /// `MAC address`
-  String get macaddress {
+  String get macAddress {
     return Intl.message(
       'MAC address',
-      name: 'macaddress',
+      name: 'macAddress',
       desc: '',
       args: [],
     );
   }
 
-  /// `Attached to router`
-  String get attachedToRouter {
+  /// `No devices found. \n\nScanning for devices ...`
+  String get noDevicesFoundScanningForDevices {
     return Intl.message(
-      'Attached to router',
-      name: 'attachedToRouter',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Your email address`
-  String get yourEmailaddress {
-    return Intl.message(
-      'Your email address',
-      name: 'yourEmailaddress',
+      'No devices found. \n\nScanning for devices ...',
+      name: 'noDevicesFoundScanningForDevices',
       desc: '',
       args: [],
     );
@@ -805,246 +945,6 @@ class S {
     return Intl.message(
       'Refresh',
       name: 'refresh',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Is local device`
-  String get isLocalDevice {
-    return Intl.message(
-      'Is local device',
-      name: 'isLocalDevice',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Set font size`
-  String get fontsize {
-    return Intl.message(
-      'Set font size',
-      name: 'fontsize',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `App Theme`
-  String get appTheme {
-    return Intl.message(
-      'App Theme',
-      name: 'appTheme',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Choose the app theme`
-  String get chooseTheAppTheme {
-    return Intl.message(
-      'Choose the app theme',
-      name: 'chooseTheAppTheme',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Overview shows other devices, e.g., laptops and mobiles`
-  String get otherDevicesEgPcAreDisplayedInTheOverview {
-    return Intl.message(
-      'Overview shows other devices, e.g., laptops and mobiles',
-      name: 'otherDevicesEgPcAreDisplayedInTheOverview',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `The overview is centered around the PLC device connected to the internet`
-  String get theOverviewWillBeCenteredAroundThePlcDeviceConnected {
-    return Intl.message(
-      'The overview is centered around the PLC device connected to the internet',
-      name: 'theOverviewWillBeCenteredAroundThePlcDeviceConnected',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Data transfer rates are always shown in overview`
-  String get dataRatesArePermanentlyDisplayedInTheOverview {
-    return Intl.message(
-      'Data transfer rates are always shown in overview',
-      name: 'dataRatesArePermanentlyDisplayedInTheOverview',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Change language`
-  String get changeTheLanguageOfTheApp {
-    return Intl.message(
-      'Change language',
-      name: 'changeTheLanguageOfTheApp',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Device information`
-  String get deviceinfo {
-    return Intl.message(
-      'Device information',
-      name: 'deviceinfo',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Change theme`
-  String get chooseTheme {
-    return Intl.message(
-      'Change theme',
-      name: 'chooseTheme',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Customize colors`
-  String get fullyCustomizeColors {
-    return Intl.message(
-      'Customize colors',
-      name: 'fullyCustomizeColors',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Enter device name`
-  String get pleaseEnterDeviceName {
-    return Intl.message(
-      'Enter device name',
-      name: 'pleaseEnterDeviceName',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `yes`
-  String get yes {
-    return Intl.message(
-      'yes',
-      name: 'yes',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `no`
-  String get no {
-    return Intl.message(
-      'no',
-      name: 'no',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `This device is connected directly to the internet router.`
-  String get thisDeviceIsConnectedDirectlyToTheInternetRouter {
-    return Intl.message(
-      'This device is connected directly to the internet router.',
-      name: 'thisDeviceIsConnectedDirectlyToTheInternetRouter',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Your current terminal is connected to this devolo device.`
-  String get yourCurrentTerminalIsConnectedToThisDevolodevice {
-    return Intl.message(
-      'Your current terminal is connected to this devolo device.',
-      name: 'yourCurrentTerminalIsConnectedToThisDevolodevice',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Select all`
-  String get selectAll {
-    return Intl.message(
-      'Select all',
-      name: 'selectAll',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Update selected`
-  String get updateSelected {
-    return Intl.message(
-      'Update selected',
-      name: 'updateSelected',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Confirm action`
-  String get confirmAction {
-    return Intl.message(
-      'Confirm action',
-      name: 'confirmAction',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Up-to-date`
-  String get upToDate {
-    return Intl.message(
-      'Up-to-date',
-      name: 'upToDate',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Update available`
-  String get update2 {
-    return Intl.message(
-      'Update available',
-      name: 'update2',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Updating...`
-  String get updating {
-    return Intl.message(
-      'Updating...',
-      name: 'updating',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Searching...`
-  String get searching {
-    return Intl.message(
-      'Searching...',
-      name: 'searching',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `General`
-  String get general {
-    return Intl.message(
-      'General',
-      name: 'general',
       desc: '',
       args: [],
     );
@@ -1080,11 +980,11 @@ class S {
     );
   }
 
-  /// ` - Has the PLC device been disconnected from the power grid?\n - Is the PLC device in power-saving mode?`
-  String get deviceNotFoundHint {
+  /// `Confirm action`
+  String get confirmAction {
     return Intl.message(
-      ' - Has the PLC device been disconnected from the power grid?\n - Is the PLC device in power-saving mode?',
-      name: 'deviceNotFoundHint',
+      'Confirm action',
+      name: 'confirmAction',
       desc: '',
       args: [],
     );
@@ -1130,6 +1030,16 @@ class S {
     );
   }
 
+  /// ` - Has the PLC device been disconnected from the power grid?\n - Is the PLC device in power-saving mode?`
+  String get deviceNotFoundHint {
+    return Intl.message(
+      ' - Has the PLC device been disconnected from the power grid?\n - Is the PLC device in power-saving mode?',
+      name: 'deviceNotFoundHint',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Failed to set the network password`
   String get networkPasswordErrorTitle {
     return Intl.message(
@@ -1155,26 +1065,6 @@ class S {
     return Intl.message(
       '- Check the connection to the PLC device and repeat the action',
       name: 'networkPasswordErrorHint',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Confirm`
-  String get deviceNameDialogTitle {
-    return Intl.message(
-      'Confirm',
-      name: 'deviceNameDialogTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Do you really want to rename this device?`
-  String get deviceNameDialogBody {
-    return Intl.message(
-      'Do you really want to rename this device?',
-      name: 'deviceNameDialogBody',
       desc: '',
       args: [],
     );
@@ -1300,286 +1190,6 @@ class S {
     );
   }
 
-  /// `Remove the PLC device?`
-  String get removeDeviceConfirmTitle {
-    return Intl.message(
-      'Remove the PLC device?',
-      name: 'removeDeviceConfirmTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Do you want to remove the selected PLC device from the network?`
-  String get removeDeviceConfirmBody {
-    return Intl.message(
-      'Do you want to remove the selected PLC device from the network?',
-      name: 'removeDeviceConfirmBody',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Reset device to delivery state`
-  String get resetDeviceConfirmTitle {
-    return Intl.message(
-      'Reset device to delivery state',
-      name: 'resetDeviceConfirmTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Do you want to reset the selected PLC device to the delivery state?`
-  String get resetDeviceConfirmBody {
-    return Intl.message(
-      'Do you want to reset the selected PLC device to the delivery state?',
-      name: 'resetDeviceConfirmBody',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Setup new device`
-  String get setUpDevice {
-    return Intl.message(
-      'Setup new device',
-      name: 'setUpDevice',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Optimize reception`
-  String get optimizeReception {
-    return Intl.message(
-      'Optimize reception',
-      name: 'optimizeReception',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Contact support`
-  String get contactSupport {
-    return Intl.message(
-      'Contact support',
-      name: 'contactSupport',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `In rare cases, noise from Powerline signal can interfere with VDSL connection. Devices in automatic compatibility mode can automatically adjust transmission to limit interference`
-  String get vdslexplanation {
-    return Intl.message(
-      'In rare cases, noise from Powerline signal can interfere with VDSL connection. Devices in automatic compatibility mode can automatically adjust transmission to limit interference',
-      name: 'vdslexplanation',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Select a transmission profile from the given options as a fallback when automatic mode is OFF or reliable detection of interference is not possible`
-  String get vdslexplanation2 {
-    return Intl.message(
-      'Select a transmission profile from the given options as a fallback when automatic mode is OFF or reliable detection of interference is not possible',
-      name: 'vdslexplanation2',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Set VDSL \ncompatibility`
-  String get setVdslCompatibility {
-    return Intl.message(
-      'Set VDSL \ncompatibility',
-      name: 'setVdslCompatibility',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `The new VDSL settings could not be saved on the device`
-  String get vdslfailed {
-    return Intl.message(
-      'The new VDSL settings could not be saved on the device',
-      name: 'vdslfailed',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `The new VDSL settings have been saved on the device`
-  String get vdslsuccessful {
-    return Intl.message(
-      'The new VDSL settings have been saved on the device',
-      name: 'vdslsuccessful',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Automatic compatibility mode (recommended)`
-  String get automaticCompatibilityMode {
-    return Intl.message(
-      'Automatic compatibility mode (recommended)',
-      name: 'automaticCompatibilityMode',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `VDSL compatibility`
-  String get vdslCompatibility {
-    return Intl.message(
-      'VDSL compatibility',
-      name: 'vdslCompatibility',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `devolo Cockpit support informations`
-  String get cockpitSupportInformationsTitle {
-    return Intl.message(
-      'devolo Cockpit support informations',
-      name: 'cockpitSupportInformationsTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Support informations are getting generated`
-  String get LoadCockpitSupportInformationsBody {
-    return Intl.message(
-      'Support informations are getting generated',
-      name: 'LoadCockpitSupportInformationsBody',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Support informations are sent to devolo`
-  String get SendCockpitSupportInformationsBody {
-    return Intl.message(
-      'Support informations are sent to devolo',
-      name: 'SendCockpitSupportInformationsBody',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `The support informations have been created and are now available to you. Please select an action.`
-  String get cockpitSupportInformationsBody {
-    return Intl.message(
-      'The support informations have been created and are now available to you. Please select an action.',
-      name: 'cockpitSupportInformationsBody',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `E-mail is invalid`
-  String get emailIsInvalid {
-    return Intl.message(
-      'E-mail is invalid',
-      name: 'emailIsInvalid',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Failed to send`
-  String get supportInfoSendErrorTitle {
-    return Intl.message(
-      'Failed to send',
-      name: 'supportInfoSendErrorTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `An error occurred while sending support information to devolo.`
-  String get supportInfoSendErrorBody1 {
-    return Intl.message(
-      'An error occurred while sending support information to devolo.',
-      name: 'supportInfoSendErrorBody1',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Check that your email address is correct and that you have entered a valid processing number.`
-  String get supportInfoSendErrorBody2 {
-    return Intl.message(
-      'Check that your email address is correct and that you have entered a valid processing number.',
-      name: 'supportInfoSendErrorBody2',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `An error occurred while creating the support informations.\nTry again later`
-  String get supportInfoGenerateError {
-    return Intl.message(
-      'An error occurred while creating the support informations.\nTry again later',
-      name: 'supportInfoGenerateError',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `additional\nsettings`
-  String get additionalSettings {
-    return Intl.message(
-      'additional\nsettings',
-      name: 'additionalSettings',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Additional settings`
-  String get additionalDialogTitle {
-    return Intl.message(
-      'Additional settings',
-      name: 'additionalDialogTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `LEDs activated`
-  String get activateLEDs {
-    return Intl.message(
-      'LEDs activated',
-      name: 'activateLEDs',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Data communication activated`
-  String get activateTransmission {
-    return Intl.message(
-      'Data communication activated',
-      name: 'activateTransmission',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Power saving mode`
-  String get powerSavingMode {
-    return Intl.message(
-      'Power saving mode',
-      name: 'powerSavingMode',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Action failed`
   String get activateLEDsFailedTitle {
     return Intl.message(
@@ -1660,101 +1270,211 @@ class S {
     );
   }
 
-  /// `complete`
-  String get complete {
+  /// `Failed to send`
+  String get supportInfoSendErrorTitle {
     return Intl.message(
-      'complete',
-      name: 'complete',
+      'Failed to send',
+      name: 'supportInfoSendErrorTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `failed`
-  String get failed {
+  /// `An error occurred while sending support information to devolo.`
+  String get supportInfoSendErrorBody1 {
     return Intl.message(
-      'failed',
-      name: 'failed',
+      'An error occurred while sending support information to devolo.',
+      name: 'supportInfoSendErrorBody1',
       desc: '',
       args: [],
     );
   }
 
-  /// `pending`
-  String get pending {
+  /// `Check that your email address is correct and that you have entered a valid processing number.`
+  String get supportInfoSendErrorBody2 {
     return Intl.message(
-      'pending',
-      name: 'pending',
+      'Check that your email address is correct and that you have entered a valid processing number.',
+      name: 'supportInfoSendErrorBody2',
       desc: '',
       args: [],
     );
   }
 
-  /// `show licenses`
-  String get showLicences {
+  /// `An error occurred while creating the support informations.\nTry again later`
+  String get supportInfoGenerateError {
     return Intl.message(
-      'show licenses',
-      name: 'showLicences',
+      'An error occurred while creating the support informations.\nTry again later',
+      name: 'supportInfoGenerateError',
       desc: '',
       args: [],
     );
   }
 
-  /// `Security ID`
-  String get securityId {
+  /// `Confirm`
+  String get deviceNameDialogTitle {
     return Intl.message(
-      'Security ID',
-      name: 'securityId',
+      'Confirm',
+      name: 'deviceNameDialogTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Add device via security ID`
-  String get addDeviceViaSecurityId {
+  /// `Do you really want to rename this device?`
+  String get deviceNameDialogBody {
     return Intl.message(
-      'Add device via security ID',
-      name: 'addDeviceViaSecurityId',
+      'Do you really want to rename this device?',
+      name: 'deviceNameDialogBody',
       desc: '',
       args: [],
     );
   }
 
-  /// `Enter the security ID of the new PLC device.\nThe security ID can be found on the back of the PLC device.`
-  String get addDeviceViaSecurityIdDialogContent {
+  /// `Remove the PLC device?`
+  String get removeDeviceConfirmTitle {
     return Intl.message(
-      'Enter the security ID of the new PLC device.\nThe security ID can be found on the back of the PLC device.',
-      name: 'addDeviceViaSecurityIdDialogContent',
+      'Remove the PLC device?',
+      name: 'removeDeviceConfirmTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Device will be added`
-  String get addDeviceLoading {
+  /// `Do you want to remove the selected PLC device from the network?`
+  String get removeDeviceConfirmBody {
     return Intl.message(
-      'Device will be added',
-      name: 'addDeviceLoading',
+      'Do you want to remove the selected PLC device from the network?',
+      name: 'removeDeviceConfirmBody',
       desc: '',
       args: [],
     );
   }
 
-  /// `Select the network in which the device should be added.`
-  String get chooseNetwork {
+  /// `Reset device to delivery state`
+  String get resetDeviceConfirmTitle {
     return Intl.message(
-      'Select the network in which the device should be added.',
-      name: 'chooseNetwork',
+      'Reset device to delivery state',
+      name: 'resetDeviceConfirmTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `The password must contain more than 8 characters`
-  String get passwordMustBeGreaterThan8Characters {
+  /// `Do you want to reset the selected PLC device to the delivery state?`
+  String get resetDeviceConfirmBody {
     return Intl.message(
-      'The password must contain more than 8 characters',
-      name: 'passwordMustBeGreaterThan8Characters',
+      'Do you want to reset the selected PLC device to the delivery state?',
+      name: 'resetDeviceConfirmBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `In rare cases, noise from Powerline signal can interfere with VDSL connection. Devices in automatic compatibility mode can automatically adjust transmission to limit interference`
+  String get vdslExplanation {
+    return Intl.message(
+      'In rare cases, noise from Powerline signal can interfere with VDSL connection. Devices in automatic compatibility mode can automatically adjust transmission to limit interference',
+      name: 'vdslExplanation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select a transmission profile from the given options as a fallback when automatic mode is OFF or reliable detection of interference is not possible`
+  String get vdslExplanation2 {
+    return Intl.message(
+      'Select a transmission profile from the given options as a fallback when automatic mode is OFF or reliable detection of interference is not possible',
+      name: 'vdslExplanation2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set VDSL \ncompatibility`
+  String get setVdslCompatibility {
+    return Intl.message(
+      'Set VDSL \ncompatibility',
+      name: 'setVdslCompatibility',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The new VDSL settings could not be saved on the device`
+  String get vdslFailed {
+    return Intl.message(
+      'The new VDSL settings could not be saved on the device',
+      name: 'vdslFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The new VDSL settings have been saved on the device`
+  String get vdslSuccessful {
+    return Intl.message(
+      'The new VDSL settings have been saved on the device',
+      name: 'vdslSuccessful',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Automatic compatibility mode (recommended)`
+  String get automaticCompatibilityMode {
+    return Intl.message(
+      'Automatic compatibility mode (recommended)',
+      name: 'automaticCompatibilityMode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `VDSL compatibility`
+  String get vdslCompatibility {
+    return Intl.message(
+      'VDSL compatibility',
+      name: 'vdslCompatibility',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Additional settings`
+  String get additionalDialogTitle {
+    return Intl.message(
+      'Additional settings',
+      name: 'additionalDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `LEDs activated`
+  String get activateLEDs {
+    return Intl.message(
+      'LEDs activated',
+      name: 'activateLEDs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Data communication activated`
+  String get activateTransmission {
+    return Intl.message(
+      'Data communication activated',
+      name: 'activateTransmission',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Power saving mode`
+  String get powerSavingMode {
+    return Intl.message(
+      'Power saving mode',
+      name: 'powerSavingMode',
       desc: '',
       args: [],
     );

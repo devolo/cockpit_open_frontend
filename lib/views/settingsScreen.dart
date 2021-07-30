@@ -286,7 +286,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               SizedBox(
-                                  height: 25.55,
+                                  height: 23.5,
                                   width: 50,
                                   child: TextButton(
                                     style: ButtonStyle(overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33))),
@@ -437,13 +437,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           obscureText: _hiddenPw,
                           maxLength: maxLength,
                           //maxLengthEnforcement: MaxLengthEnforcement.none,
-                          style: TextStyle(color: fontColorOnSecond),
+                          style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor),
                           cursorColor: fontColorOnSecond,
                           decoration: InputDecoration(
                             counterText: "",
                             suffixText: '${textLength.toString()}/${maxLength.toString()}',
                             labelText: S.of(context).changePlcnetworkPassword,
-                            labelStyle: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileTitle * fontSize.factor,),
+                            labelStyle: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor,),
                             hoverColor: mainColor.withOpacity(0.2),
                             contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                             filled: true,
@@ -515,17 +515,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
                       child: Container(
-                        width: 200,
-                        padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.0), color: secondColor.withOpacity(0.2), border: Border.all(color: mainColor)),
+                        width: 230,
+                        padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.0), color: secondColor.withOpacity(0.2), border: Border.all(color: fontColorOnSecond)),
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton<String>(
                               value: _dropNetwork == null? _dropNetwork=_deviceList.getNetworkNames()[0]: _dropNetwork,
                               dropdownColor: secondColor,
-                              //style: TextStyle(color: fontColorLight),
+                              style: TextStyle(fontSize: fontSizeListTileSubtitle * fontSize.factor, color: fontColorOnSecond),
                               icon: Icon(
                                 Icons.arrow_drop_down,
-                                color: mainColor,
+                                color: fontColorOnSecond,
                               ),
                               items: _deviceList.getNetworkNames().map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(

@@ -160,8 +160,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "noDevicesFoundScanningForDevices":
             MessageLookupByLibrary.simpleMessage(
                 "No devices found \nScanning for devices ..."),
-        "openSupportInformation":
-            MessageLookupByLibrary.simpleMessage("Öffnen"),
+        "open": MessageLookupByLibrary.simpleMessage("Öffnen"),
         "optimizationHelp":
             MessageLookupByLibrary.simpleMessage("Optimierungs Hilfe"),
         "optimizeReception":
@@ -212,12 +211,11 @@ class MessageLookup extends MessageLookupByLibrary {
             "Es ist ein Fehler beim Zurücksetzen des Gerätes aufgetreten!\nBitte versuchen Sie es erneut."),
         "resetDeviceErrorTitle": MessageLookupByLibrary.simpleMessage(
             "Zurücksetzung fehlgeschlagen"),
-        "saveSupportInformation":
-            MessageLookupByLibrary.simpleMessage("Speichern"),
+        "save": MessageLookupByLibrary.simpleMessage("Speichern"),
         "searching": MessageLookupByLibrary.simpleMessage("suche..."),
         "securityId": MessageLookupByLibrary.simpleMessage("Security-ID"),
         "selectAll": MessageLookupByLibrary.simpleMessage("Alle auswählen"),
-        "sendToDevolo": MessageLookupByLibrary.simpleMessage("Senden"),
+        "send": MessageLookupByLibrary.simpleMessage("Senden"),
         "serialNumber": MessageLookupByLibrary.simpleMessage("Seriennummer"),
         "setUpDevice": MessageLookupByLibrary.simpleMessage("Gerät einrichten"),
         "setVdslCompatibility": MessageLookupByLibrary.simpleMessage(

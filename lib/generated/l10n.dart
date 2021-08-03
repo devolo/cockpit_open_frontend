@@ -520,36 +520,6 @@ class S {
     );
   }
 
-  /// `Open`
-  String get openSupportInformation {
-    return Intl.message(
-      'Open',
-      name: 'openSupportInformation',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Save`
-  String get saveSupportInformation {
-    return Intl.message(
-      'Save',
-      name: 'saveSupportInformation',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Send`
-  String get sendToDevolo {
-    return Intl.message(
-      'Send',
-      name: 'sendToDevolo',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `The created support information can now be sent to devolo support.\nFill in the following fields`
   String get theCreatedSupportInformationCanNowBeSentToDevolo {
     return Intl.message(
@@ -785,6 +755,36 @@ class S {
     return Intl.message(
       'Cancel',
       name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open`
+  String get open {
+    return Intl.message(
+      'Open',
+      name: 'open',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get save {
+    return Intl.message(
+      'Save',
+      name: 'save',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send`
+  String get send {
+    return Intl.message(
+      'Send',
+      name: 'send',
       desc: '',
       args: [],
     );

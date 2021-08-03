@@ -72,9 +72,6 @@
   "@_SUPPORT_DIALOG": {
   },
   "cockpitSupportInformationTitle": "devolo Cockpit Support-Informationen",
-  "openSupportInformation": "Öffnen",
-  "saveSupportInformation": "Speichern",
-  "sendToDevolo": "Senden",
   "theCreatedSupportInformationCanNowBeSentToDevolo": "Die erstellten Support-Informationen können jetzt zum devolo Support gesendet werden.\nBitte füllen Sie folgende Felder aus.",
   "processNumber": "Bearbeitungsnummer",
   "pleaseEnterProcessingNumber": "Bitte Bearbeitungsnummer eintragen",
@@ -111,6 +108,9 @@
   },
   "confirm": "Bestätigen",
   "cancel": "Abbrechen",
+  "open": "Öffnen",
+  "save": "Speichern",
+  "send": "Senden",
 
   "@_DEVICE_INFORMATION_DIALOG": {
   },

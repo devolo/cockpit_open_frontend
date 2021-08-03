@@ -158,7 +158,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "noDevicesFoundScanningForDevices":
             MessageLookupByLibrary.simpleMessage(
                 "No devices found. \n\nScanning for devices ..."),
-        "openSupportInformation": MessageLookupByLibrary.simpleMessage("Open"),
+        "open": MessageLookupByLibrary.simpleMessage("Open"),
         "optimizationHelp":
             MessageLookupByLibrary.simpleMessage("Optimization help"),
         "optimizeReception":
@@ -208,11 +208,11 @@ class MessageLookup extends MessageLookupByLibrary {
             "An error occurred while resetting the device!\nTry again later"),
         "resetDeviceErrorTitle":
             MessageLookupByLibrary.simpleMessage("Reset failed"),
-        "saveSupportInformation": MessageLookupByLibrary.simpleMessage("Save"),
+        "save": MessageLookupByLibrary.simpleMessage("Save"),
         "searching": MessageLookupByLibrary.simpleMessage("Searching..."),
         "securityId": MessageLookupByLibrary.simpleMessage("Security ID"),
         "selectAll": MessageLookupByLibrary.simpleMessage("Select all"),
-        "sendToDevolo": MessageLookupByLibrary.simpleMessage("Send"),
+        "send": MessageLookupByLibrary.simpleMessage("Send"),
         "serialNumber": MessageLookupByLibrary.simpleMessage("Serial number"),
         "setUpDevice": MessageLookupByLibrary.simpleMessage("Setup new device"),
         "setVdslCompatibility":

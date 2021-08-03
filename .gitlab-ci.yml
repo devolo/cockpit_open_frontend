@@ -1,8 +1,5 @@
 image: cirrusci/flutter:stable
 
-stages:
-  - test
-  - test_coverage
   
 before_script:
   - flutter pub get
@@ -13,8 +10,6 @@ before_script:
 
 
 unit_test:
-  stage: test
-
   script:
     - flutter test --machine > test_report.json
     # replace all "\u001b" in jsonreport cause its not valid for xml:
@@ -32,8 +27,6 @@ unit_test:
       - test_results_junit.xml
 
 test_coverage:
-  stage: test_coverage
-  
   script:
     - flutter test --coverage ./lib 
     - lcov -r coverage/lcov.info '*/__test*__/*' -o coverage/lcov_cleaned.info

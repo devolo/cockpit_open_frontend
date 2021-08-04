@@ -1306,7 +1306,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                       Text(
                         S
                             .of(context)
-                            .sendToDevolo,
+                            .send,
                         style: TextStyle(fontSize: dialogContentTextFontSize, color: fontColorOnMain),
                         textScaleFactor: fontSize.factor,
                       ),
@@ -1345,7 +1345,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                       Text(
                         S
                             .of(context)
-                            .openSupportInformation,
+                            .open,
                         style: TextStyle(fontSize: dialogContentTextFontSize, color: fontColorOnMain),
                         textScaleFactor: fontSize.factor,
                       ),
@@ -1384,7 +1384,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                       Text(
                         S
                             .of(context)
-                            .saveSupportInformation,
+                            .save,
                         style: TextStyle(fontSize: dialogContentTextFontSize, color: fontColorOnMain),
                         textScaleFactor: fontSize.factor,
                       ),

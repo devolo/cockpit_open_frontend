@@ -125,6 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<String> languageList = <String>[
     "de",
     "en",
+    "fr",
   ];
 
   @override

@@ -79,7 +79,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cockpitSupportInformationBody": MessageLookupByLibrary.simpleMessage(
             "The support informations have been created and are now available to you. Please select an action."),
         "cockpitSupportInformationTitle": MessageLookupByLibrary.simpleMessage(
-            "devolo Cockpit support informations"),
+            "devolo Cockpit support information"),
         "complete": MessageLookupByLibrary.simpleMessage("complete"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "confirmAction": MessageLookupByLibrary.simpleMessage("Confirm action"),
@@ -111,7 +111,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "deviceNotFoundHint": MessageLookupByLibrary.simpleMessage(
             " - Has the PLC device been disconnected from the power grid?\n - Is the PLC device in power-saving mode?"),
         "deviceNotFoundIdentifyDevice": MessageLookupByLibrary.simpleMessage(
-            "An error occurred while removing the device"),
+            "An error occurred while identifying the device"),
         "deviceNotFoundRemoveDevice": MessageLookupByLibrary.simpleMessage(
             "An error occurred while removing the device"),
         "deviceNotFoundResetDevice": MessageLookupByLibrary.simpleMessage(

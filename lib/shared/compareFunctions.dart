@@ -79,6 +79,7 @@ bool compareDevice(Device first, Device other){
       first.isLocalDevice == other.isLocalDevice &&
       first.updateState == other.updateState &&
       first.webinterfaceAvailable == other.webinterfaceAvailable &&
+      first.webinterfaceURL== other.webinterfaceURL &&
       first.identifyDeviceAvailable == other.identifyDeviceAvailable &&
       first.selectedVDSL == other.selectedVDSL &&
       listEquals(first.supportedVDSL,other.supportedVDSL) &&

@@ -31,6 +31,7 @@ class Device extends ChangeNotifier {
   bool isLocalDevice = false;
   String updateState = "0";
   bool webinterfaceAvailable = false;
+  String webinterfaceURL = "";
   bool identifyDeviceAvailable = false;
   String selectedVDSL = "";
   List<String> supportedVDSL = [];
@@ -40,7 +41,7 @@ class Device extends ChangeNotifier {
   List<int> disableTraffic = List.filled(2, 0); // first value indicates if the action is available for the device, second shows the value
 
 
-  Device(String type, String networkType, String name, String mac, String ip, String MT, String serialno, String version, String versionDate, atRouter, isLocal, bool webinterfaceAvailable, bool identifyDeviceAvailable, selectedVDSL, supportedVDSL, modeVDSL, List<int> disableLeds, List<int> disableStandby, List<int> disableTraffic) {
+  Device(String type, String networkType, String name, String mac, String ip, String MT, String serialno, String version, String versionDate, atRouter, isLocal, bool webinterfaceAvailable, String webinterfaceURL, bool identifyDeviceAvailable, selectedVDSL, supportedVDSL, modeVDSL, List<int> disableLeds, List<int> disableStandby, List<int> disableTraffic) {
     this.typeEnum = getDeviceType(type);
     this.type = type;
     this.networkType = networkType;
@@ -52,6 +53,7 @@ class Device extends ChangeNotifier {
     this.attachedToRouter = atRouter;
     this.isLocalDevice = isLocal;
     this.webinterfaceAvailable = webinterfaceAvailable;
+    this.webinterfaceURL = webinterfaceURL;
     this.identifyDeviceAvailable = identifyDeviceAvailable;
     this.selectedVDSL = selectedVDSL;
     this.supportedVDSL = supportedVDSL;
@@ -92,6 +94,7 @@ class Device extends ChangeNotifier {
     }
 
     bool webinterfaceAvailable = false;
+    String webinterfaceURL = "";
     bool identifyDeviceAvailable = false;
     List<int> disable_leds = List.filled(2, 0); // first value indicates if the action is available for the device, second shows the value
     List<int> disable_standby = List.filled(2, 0); // first value indicates if the action is available for the device, second shows the value
@@ -106,6 +109,15 @@ class Device extends ChangeNotifier {
         }
         else if(first.innerText == "web_interface"){
           webinterfaceAvailable = true;
+          webinterfaceURL = first.parentElement!.getElement('second')!.getElement('item')!.getElement('second')!.innerText;
+
+          //need to cut http(s):// out as it´s automatically added to the command which opens the URL
+          if(webinterfaceURL.contains("http://")){
+            webinterfaceURL = webinterfaceURL.substring(7,webinterfaceURL.length);
+          }
+          else if(webinterfaceURL.contains("https://")){
+            webinterfaceURL = webinterfaceURL.substring(8,webinterfaceURL.length);
+          }
         }
         else if(first.innerText == "disable_leds"){
           var disableLedsStatus = first.parentElement!.findAllElements("item").first.findElements("second").first.innerText;
@@ -161,6 +173,7 @@ class Device extends ChangeNotifier {
       attachedToRouter,
       islocalDevice,
       webinterfaceAvailable,
+      webinterfaceURL,
       identifyDeviceAvailable,
       selectedVDSL,
       supportedVDSL,
@@ -225,6 +238,7 @@ class Device extends ChangeNotifier {
  attachedToRouter: ${this.attachedToRouter},
  isLocalDevice: ${this.isLocalDevice},
  webinterfaceAvailable: ${this.webinterfaceAvailable},
+ webinterfaceURL: ${this.webinterfaceURL},
  identifyDeviceAvailable: ${this.identifyDeviceAvailable},
  UpdateStatus: ${this.updateState},
  SelectedVDSL: ${this.selectedVDSL},

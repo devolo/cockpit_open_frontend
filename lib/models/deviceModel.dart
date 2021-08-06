@@ -112,10 +112,10 @@ class Device extends ChangeNotifier {
           webinterfaceURL = first.parentElement!.getElement('second')!.getElement('item')!.getElement('second')!.innerText;
 
           //need to cut http(s):// out as it´s automatically added to the command which opens the URL
-          if(webinterfaceURL.contains("http://")){
+          if(webinterfaceURL.startsWith("http://")){
             webinterfaceURL = webinterfaceURL.substring(7,webinterfaceURL.length);
           }
-          else if(webinterfaceURL.contains("https://")){
+          else if(webinterfaceURL.startsWith("https://")){
             webinterfaceURL = webinterfaceURL.substring(8,webinterfaceURL.length);
           }
         }

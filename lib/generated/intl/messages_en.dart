@@ -224,7 +224,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "showOtherDevices":
             MessageLookupByLibrary.simpleMessage("Show other devices"),
         "showPassword": MessageLookupByLibrary.simpleMessage("Show password"),
-        "state": MessageLookupByLibrary.simpleMessage("State"),
+        "state": MessageLookupByLibrary.simpleMessage("Status"),
         "supportInfoGenerateError": MessageLookupByLibrary.simpleMessage(
             "An error occurred while creating the support informations.\nTry again later"),
         "supportInfoSendErrorBody1": MessageLookupByLibrary.simpleMessage(

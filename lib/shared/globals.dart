@@ -2,3 +2,7 @@
 // format: <developBackendVersion>_YYYY-MM-DD
 String versionFrontend = "5.1.6_2021-05-05";
 String versionBackend = "5.1.6.2"; // ToDo get current installed backend version from backend
+
+// Define config options for device simulator
+const bool simulatedDevices = true;
+const int nDevices = 5;

@@ -42,6 +42,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
   double splashRadius = 18;
   double opacity = 0.2;
   Color splashColor = fontColorOnBackground.withOpacity(0.2);
+  double verticalPaddingCockpitSoftware = 7;
+  double textSpacingUpdateStatus = 5;
 
   /* ===========  =========== */
 
@@ -102,7 +104,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
     var _deviceList = Provider.of<NetworkList>(context);
     fontSize = context.watch<FontSize>();
 
-    logger.i(_deviceList.checkedUpdateMacs);
     var allDevices = _filterState ? _deviceList.getAllDevicesFilteredByState() : _deviceList.getAllDevices();
 
     return new Scaffold(
@@ -135,7 +136,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 Row(
                     children: [
                       Transform.scale(
-                        scale: fontSize.factor,
+                        scale: fontSize.factor + 0.2,
                         child: Checkbox(
                           shape: CircleBorder(),
                           fillColor: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || (_deviceList.getUpdateList().isEmpty && _deviceList.cockpitUpdate == false)) ? MaterialStateProperty.all(devoloLighterGray) : MaterialStateProperty.all(devoloGreen),
@@ -303,11 +304,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
             Table(
               defaultVerticalAlignment: TableCellVerticalAlignment.middle,
               columnWidths: {
-                0: FlexColumnWidth(1),
-                1: FlexColumnWidth(0.5),
-                2: FlexColumnWidth(4),
-                3: FlexColumnWidth(5),
-                4: FlexColumnWidth(6),
+                0: FlexColumnWidth(5),
+                1: FlexColumnWidth(3),
+                2: FlexColumnWidth(5),
               },
               children: [
                 TableRow(
@@ -318,8 +317,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         )
                     ),
                     children: [
-                  TableCell(child: Container()),
-                  TableCell(child: Container()),
+                  TableCell(child: Text(
+                    S.of(context).state,
+                    textScaleFactor: fontSize.factor,
+                    style: TextStyle(color: fontColorOnMain),
+                    textAlign: TextAlign.center,
+                  ),),
                   TableCell(
                       child: Container(
                         margin: const EdgeInsets.symmetric(vertical: 1.0),
@@ -354,23 +357,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         ),
                       )
                   ),
-                  TableCell(
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 1.0),
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      decoration: BoxDecoration(
-                        border: Border(
-                          left: BorderSide(width: 1.0, color: backgroundColor),
-                        ),
-                      ),
-                      child: Text(
-                        S.of(context).state,
-                        textScaleFactor: fontSize.factor,
-                        style: TextStyle(color: fontColorOnMain),
-                        textAlign: TextAlign.center,
-                      ),
-                    )
-                  ),
                 ]),
               ],
             ),
@@ -379,74 +365,106 @@ class _UpdateScreenState extends State<UpdateScreen> {
               child: Table(
                 defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                 columnWidths: {
-                  0: FlexColumnWidth(1),
-                  1: FlexColumnWidth(0.5),
-                  2: FlexColumnWidth(4),
-                  3: FlexColumnWidth(5),
-                  4: FlexColumnWidth(6),
+                  0: FlexColumnWidth(5),
+                  1: FlexColumnWidth(3),
+                  2: FlexColumnWidth(5),
                 },
                 children: [
-                  TableRow(children: [
+                  if(_deviceList.getUpdateList().isEmpty)
+                  TableRow(decoration: BoxDecoration(color: _deviceList.cockpitUpdate ? devoloOrange : Colors.transparent), children: [
                     TableCell(
-                      child: _searchingCockpitUpdate || _upgradingCockpit
-                          ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Transform.scale(
-                                  scale: fontSize.factor - 0.4,
-                                  child: CircularProgressIndicator(
-                                    valueColor: new AlwaysStoppedAnimation<Color>(fontColorOnBackground),
-                                    strokeWidth: 3,
-                                  ),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children:[
+                              _searchingCockpitUpdate || _upgradingCockpit
+                                  ? Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Transform.scale(
+                                          scale: fontSize.factor - 0.4,
+                                          child: CircularProgressIndicator(
+                                            valueColor: new AlwaysStoppedAnimation<Color>(fontColorOnBackground),
+                                            strokeWidth: 3,
+                                          ),
+                                        ),
+                                        SizedBox(width: textSpacingUpdateStatus * fontSize.factor),
+                                      ],
+                                    )
+                                  : _deviceList.cockpitUpdate == false
+                                      ? Container()
+                                      : Row( children: [
+                                        Material(
+                                          type: MaterialType.transparency, // used to see the splash color over the background Color of the row
+                                          child:
+                                          Transform.scale(
+                                            scale: fontSize.factor,
+                                            child: Checkbox(
+                                              shape: CircleBorder(),
+                                              checkColor: Colors.white,
+                                              fillColor: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate) ? MaterialStateProperty.all(devoloLighterGray) : MaterialStateProperty.all(devoloGreen),
+                                              value: _checkedCockpit,
+                                              onChanged: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate)
+                                                  ? null
+                                                  : (bool? value) {
+                                                    setState(() {
+                                                      if(value != null && value){
+                                                        _checkedCockpit = true;
+                                                      }
+                                                      else{
+                                                        _checkedCockpit = false;
+                                                      }
+                                                    });
+                                                    },
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: textSpacingUpdateStatus * fontSize.factor)
+                                        ]),
+
+                              _searchingCockpitUpdate || _upgradingCockpit
+                                  ?  TableCell(
+                                  child: SelectableText(
+                                    _searchingCockpitUpdate ? " ${S.of(context).searching}" : " ${S.of(context).updating}",
+                                    style: TextStyle(color: fontColorOnBackground),
+                                    textAlign: TextAlign.center,
+                                    textScaleFactor: fontSize.factor,
+                                  ))
+                                  : _deviceList.cockpitUpdate == false
+                                  ?  TableCell(
+                                  child: Text(
+                                    "${S.of(context).upToDate}",
+                                    style: TextStyle(color: fontColorOnBackground),
+                                    textAlign: TextAlign.center,
+                                    textScaleFactor: fontSize.factor,
+                                  ))
+                                  :  TableCell(
+                                child: Text(
+                                  S.of(context).updateAvailable,
+                                  style: TextStyle(color: fontColorOnBackground),
+                                  textAlign: TextAlign.center,
+                                  textScaleFactor: fontSize.factor,
                                 ),
-                              ],
-                            )
-                          : _deviceList.cockpitUpdate == false
-                              ? Container()
-                              : new Material(
-                                  type: MaterialType.transparency, // used to see the splash color over the background Color of the row
-                                  child:
-                                  Transform.scale(
-                                    scale: fontSize.factor,
-                                    child: Checkbox(
-                                      shape: CircleBorder(),
-                                      checkColor: Colors.white,
-                                      fillColor: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate) ? MaterialStateProperty.all(devoloLighterGray) : MaterialStateProperty.all(devoloGreen),
-                                      value: _checkedCockpit,
-                                      onChanged: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate)
-                                          ? null
-                                          : (bool? value) {
-                                            setState(() {
-                                              if(value != null && value){
-                                                _checkedCockpit = true;
-                                              }
-                                              else{
-                                                _checkedCockpit = false;
-                                              }
-                                            });
-                                            },
-                                    ),
-                                  ),
-                                ),
+                              )
+                    ]),
                     ),
                     TableCell(
-                      child: Icon(
-                        Icons.speed_rounded,
-                        color: fontColorOnBackground,
-                        size: 24.0 * fontSize.factor,
-                      ),
-                    ),
-                    TableCell(
-                      child: ListTile(
-                        minLeadingWidth: 1,
-                        horizontalTitleGap: 1,
-                        dense:true,
-                        contentPadding: EdgeInsets.only(top: 13.0, bottom: 13.0),
-                        title: Text(
-                          "Cockpit Software",
-                          style: TextStyle(color: fontColorOnBackground, fontSize: 18),
-                          textAlign: TextAlign.center,
-                          textScaleFactor: fontSize.factor,
+
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: verticalPaddingCockpitSoftware),
+                        child:ListTile(
+
+                          leading: Icon(
+                            Icons.speed_rounded,
+                            color: fontColorOnBackground,
+                            size: 24.0 * fontSize.factor,
+                          ),
+
+                          title: Text(
+                            "Cockpit Software",
+                            style: TextStyle(color: fontColorOnBackground, fontSize: 18),
+                            textAlign: TextAlign.center,
+                            textScaleFactor: fontSize.factor,
+                          ),
                         ),
                       ),
                     ),
@@ -457,106 +475,130 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    _searchingCockpitUpdate || _upgradingCockpit
-                          ?  TableCell(
-                        child: SelectableText(
-                          _searchingCockpitUpdate ? " ${S.of(context).searching}" : " ${S.of(context).updating}",
-                              style: TextStyle(color: fontColorOnBackground),
-                              textAlign: TextAlign.center,
-                        textScaleFactor: fontSize.factor,
-                            ))
-                          : _deviceList.cockpitUpdate == false
-                              ?  TableCell(
-                        child: Text(
-                                  " ${S.of(context).upToDate}",
-                                  style: TextStyle(color: fontColorOnBackground),
-                                  textAlign: TextAlign.center,
-                        textScaleFactor: fontSize.factor,
-                                ))
-                              :  TableCell(
-                                  child: Text(
-                                    S.of(context).update2,
-                                    style: TextStyle(color: fontColorOnBackground),
-                                    textAlign: TextAlign.center,
-                                    textScaleFactor: fontSize.factor,
-                                  ),
-                    )
                   ]),
                   for (int i = 0; i < allDevices.length; i++)
-                    TableRow(decoration: BoxDecoration(color: i % 2 == 0 ? accentColor : Colors.transparent), children: [
+                    TableRow(decoration: BoxDecoration(color: _deviceList.getUpdateList().contains(allDevices[i].mac) ? devoloOrange : i % 2 == 0 ? accentColor : Colors.transparent), children: [
                       TableCell(
-                        child: _searchingDeviceUpdate || _upgradingDevicesList.contains(allDevices[i].mac)
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center ,
+                            children: [ _searchingDeviceUpdate || _upgradingDevicesList.contains(allDevices[i].mac)
                             ? Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                Transform.scale(
-                                  scale: fontSize.factor - 0.4,
-                                  child: CircularProgressIndicator(
-                                    valueColor: new AlwaysStoppedAnimation<Color>(fontColorOnBackground),
-                                    strokeWidth: 3,
-                                  ),
-                                ),
-                                ],
-                              )
-                            : _deviceList.getUpdateList().contains(allDevices[i].mac) == false
-                                ? Container()
-                                : new Material(
-                                    type: MaterialType.transparency, // used to see the spash color over the background Color of the row
-                                    child:
-                                    Transform.scale(
-                                      scale: fontSize.factor,
-                                      child: Checkbox(
-                                        shape: CircleBorder(),
-                                        checkColor: Colors.white,
-                                        fillColor: (_upgradingDevicesList.isNotEmpty || _upgradingCockpit) ? MaterialStateProperty.all(devoloLighterGray) : MaterialStateProperty.all(devoloGreen),
-                                        value: _deviceList.checkedUpdateMacs.contains(allDevices[i].mac),
-                                        onChanged: (_upgradingDevicesList.isNotEmpty || _upgradingCockpit)
-                                            ? null
-                                            :(bool? value) {
-                                              setState(() {
-                                                if(value != null && value){
-                                                  _deviceList.checkedUpdateMacs.add(allDevices[i].mac);
-                                                }
-                                                else{
-                                                  _deviceList.checkedUpdateMacs.remove(allDevices[i].mac);
-                                                }
-                                              });
-    setState((){});
-                                              },
-                                        ),
+                                  Transform.scale(
+                                    scale: fontSize.factor - 0.4,
+                                    child: CircularProgressIndicator(
+                                      valueColor: new AlwaysStoppedAnimation<Color>(fontColorOnBackground),
+                                      strokeWidth: 3,
                                     ),
                                   ),
-                      ),
-                      TableCell(
-                          child:RawImage(
-                            image: getIconForDeviceType(allDevices[i].typeEnum),
-                            height: (getIconForDeviceType(allDevices[i].typeEnum)!.height).toDouble() * fontSize.factor * 0.5,
-                            width: (getIconForDeviceType(allDevices[i].typeEnum)!.width).toDouble() * fontSize.factor * 0.5,
-                          ),
+                                  SizedBox(width: textSpacingUpdateStatus * fontSize.factor),
+                                ],)
+                            : _deviceList.getUpdateList().contains(allDevices[i].mac) == false
+                                ? Container()
+                                : Row (children:[
+                                    Material(
+                                      type: MaterialType.transparency, // used to see the spash color over the background Color of the row
+                                      child:
+                                      Transform.scale(
+                                        scale: fontSize.factor + 0.2,
+                                        child: Checkbox(
+                                          shape: CircleBorder(),
+                                          checkColor: Colors.white,
+                                          fillColor: (_upgradingDevicesList.isNotEmpty || _upgradingCockpit) ? MaterialStateProperty.all(devoloLighterGray) : MaterialStateProperty.all(devoloGreen),
+                                          value: _deviceList.checkedUpdateMacs.contains(allDevices[i].mac),
+                                          onChanged: (_upgradingDevicesList.isNotEmpty || _upgradingCockpit)
+                                              ? null
+                                              :(bool? value) {
+                                                setState(() {
+                                                  if(value != null && value){
+                                                    _deviceList.checkedUpdateMacs.add(allDevices[i].mac);
+                                                  }
+                                                  else{
+                                                    _deviceList.checkedUpdateMacs.remove(allDevices[i].mac);
+                                                  }
+                                                });
+      setState((){});
+                                                },
+                                          ),
+                                      ),
+                                    ),
+                                    SizedBox(width: textSpacingUpdateStatus * fontSize.factor),
+                                  ]),
+
+                              _searchingDeviceUpdate || _upgradingDevicesList.contains(allDevices[i].mac)
+                                  ?
+                                  SelectableText(
+                                    _searchingDeviceUpdate
+                                        ? " ${S.of(context).searching}"
+                                        : allDevices[i].updateState == "complete"
+                                        ?" ${S.of(context).update} : ${S.of(context).complete}"
+                                        : allDevices[i].updateState == "pending"
+                                        ?" ${S.of(context).update} : ${S.of(context).pending}"
+                                        : allDevices[i].updateState == "failed"
+                                        ?" ${S.of(context).update} : ${S.of(context).failed}"
+                                        :" ${S.of(context).update} : ${ allDevices[i].updateState}%",
+                                    style: TextStyle(color: fontColorOnBackground),
+                                    textAlign: TextAlign.center,
+                                    textScaleFactor: fontSize.factor,
+                                  )
+                                  : _deviceList.getUpdateList().contains(allDevices[i].mac) == false
+                                  ? Row( children: [
+                                    if(_deviceList.getUpdateList().isNotEmpty || _deviceList.cockpitUpdate) // used to have CellContent in Column aligned
+                                      Transform.scale(
+                                        scale: fontSize.factor + 0.2,
+                                        child: Container(width: 29),
+                                      ),
+                                    if(_deviceList.getUpdateList().isNotEmpty || _deviceList.cockpitUpdate) // used to have CellContent in Column aligned
+                                      SizedBox(width: textSpacingUpdateStatus * fontSize.factor),
+                                      Text(
+                                        "${S.of(context).upToDate}",
+                                        style: TextStyle(color: fontColorOnBackground),
+                                        textAlign: TextAlign.center,
+                                        textScaleFactor: fontSize.factor,
+                                        textHeightBehavior:TextHeightBehavior()
+                                      ),
+                                    if(_deviceList.getUpdateList().isNotEmpty || _deviceList.cockpitUpdate) // used to have CellContent in Column aligned
+                                        Text(
+                                          "${S.of(context).upToDatePlaceholder}",
+                                          style: TextStyle(color: Colors.transparent),
+                                          textAlign: TextAlign.center,
+                                          textScaleFactor: fontSize.factor,
+                                          textHeightBehavior:TextHeightBehavior()
+                                        )
+                                    ])
+                                  : Text(
+                                    S.of(context).updateAvailable,
+                                    style: TextStyle(color: fontColorOnBackground),
+                                    textAlign: TextAlign.center,
+                                    textScaleFactor: fontSize.factor,
+                                    textHeightBehavior:TextHeightBehavior()
+                                ),
+                            ]),
+
                       ),
                       TableCell(
                         child: new Material(
                           type: MaterialType.transparency, // used to see the spash color over the background Color of the row
-                          child:Container(
-                            //alignment: Alignment.centerLeft,
-                            child: ListTile(
-                              hoverColor: fontColorOnBackground.withOpacity(opacity),
-                              //contentPadding: EdgeInsets.only(left:20),
-                              horizontalTitleGap: 1,
-                              minLeadingWidth: 1,
-                              onTap: () => _handleTap(allDevices[i]),
-                              title: Text(
-                                allDevices[i].name,
-                                style: TextStyle(fontWeight: FontWeight.bold, color: fontColorOnBackground, fontSize: 17,),
-                                textAlign: TextAlign.center,
-                                textScaleFactor: fontSize.factor,
-                              ),
-                              subtitle: Text(
-                                '${allDevices[i].type}',
-                                style: TextStyle(color: fontColorOnBackground, fontSize: 17,),
-                                textAlign: TextAlign.center,
-                                textScaleFactor: fontSize.factor,
-                              ),
+                          child: ListTile(
+                            leading: RawImage(
+                              image: getIconForDeviceType(allDevices[i].typeEnum),
+                              height: (getIconForDeviceType(allDevices[i].typeEnum)!.height).toDouble() * fontSize.factor * 0.5,
+                              width: (getIconForDeviceType(allDevices[i].typeEnum)!.width).toDouble() * fontSize.factor * 0.5,
+                            ),
+                            hoverColor: fontColorOnBackground.withOpacity(opacity),
+                            onTap: () => _handleTap(allDevices[i]),
+                            title: Text(
+                              allDevices[i].name,
+                              style: TextStyle(fontWeight: FontWeight.bold, color: fontColorOnBackground, fontSize: 17,),
+                              textAlign: TextAlign.center,
+                              textScaleFactor: fontSize.factor,
+                            ),
+                            subtitle: Text(
+                              '${allDevices[i].type}',
+                              style: TextStyle(color: fontColorOnBackground, fontSize: 17,),
+                              textAlign: TextAlign.center,
+                              textScaleFactor: fontSize.factor,
                             ),
                           ),
                         ),
@@ -569,41 +611,129 @@ class _UpdateScreenState extends State<UpdateScreen> {
                           textScaleFactor: fontSize.factor,
                         ),
                       ),
-                       _searchingDeviceUpdate || _upgradingDevicesList.contains(allDevices[i].mac)
-                            ? TableCell(
-                            child:SelectableText(
-                                _searchingDeviceUpdate
-                                    ? " ${S.of(context).searching}"
-                                    : allDevices[i].updateState == "complete"
-                                      ?" ${S.of(context).update} : ${S.of(context).complete}"
-                                      : allDevices[i].updateState == "pending"
-                                        ?" ${S.of(context).update} : ${S.of(context).pending}"
-                                        : allDevices[i].updateState == "failed"
-                                          ?" ${S.of(context).update} : ${S.of(context).failed}"
-                                          :" ${S.of(context).update} : ${ allDevices[i].updateState}%",
-                                style: TextStyle(color: fontColorOnBackground),
-                                textAlign: TextAlign.center,
-                                textScaleFactor: fontSize.factor,
-                              ))
-                            : _deviceList.getUpdateList().contains(allDevices[i].mac) == false
-                                ? TableCell(
-                         child:Text(
-                                    " ${S.of(context).upToDate}",
-                                    style: TextStyle(color: fontColorOnBackground),
-                                    textAlign: TextAlign.center,
-                                    textScaleFactor: fontSize.factor,
-                            textHeightBehavior:TextHeightBehavior()
-                                  ))
-                                : TableCell(
-                                    child: Text(
-                                      S.of(context).update2,
+                    ]),
+                  if(_deviceList.getUpdateList().isNotEmpty)
+                    TableRow(
+                        decoration: BoxDecoration(color: _deviceList.cockpitUpdate ? devoloOrange : _deviceList.getAllDevices().length.isEven ? accentColor : Colors.transparent),
+                        children: [
+                        TableCell(
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children:[
+                                _searchingCockpitUpdate || _upgradingCockpit
+                                    ? Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Transform.scale(
+                                      scale: fontSize.factor - 0.4,
+                                      child: CircularProgressIndicator(
+                                        valueColor: new AlwaysStoppedAnimation<Color>(fontColorOnBackground),
+                                        strokeWidth: 3,
+                                      ),
+                                    ),
+                                    SizedBox(width: textSpacingUpdateStatus * fontSize.factor),
+                                  ],
+                                )
+                                    : _deviceList.cockpitUpdate == false
+                                    ? Container()
+                                    : Row( children:[
+                                      Material(
+                                        type: MaterialType.transparency, // used to see the splash color over the background Color of the row
+                                        child:
+                                        Transform.scale(
+                                          scale: fontSize.factor,
+                                          child: Checkbox(
+                                            shape: CircleBorder(),
+                                            checkColor: Colors.white,
+                                            fillColor: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate) ? MaterialStateProperty.all(devoloLighterGray) : MaterialStateProperty.all(devoloGreen),
+                                            value: _checkedCockpit,
+                                            onChanged: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate)
+                                                ? null
+                                                : (bool? value) {
+                                              setState(() {
+                                                if(value != null && value){
+                                                  _checkedCockpit = true;
+                                                }
+                                                else{
+                                                  _checkedCockpit = false;
+                                                }
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(width: textSpacingUpdateStatus * fontSize.factor),
+                                    ]),
+                                _searchingCockpitUpdate || _upgradingCockpit
+                                    ?  TableCell(
+                                    child: SelectableText(
+                                      _searchingCockpitUpdate ? " ${S.of(context).searching}" : " ${S.of(context).updating}",
                                       style: TextStyle(color: fontColorOnBackground),
                                       textAlign: TextAlign.center,
                                       textScaleFactor: fontSize.factor,
-                                      textHeightBehavior:TextHeightBehavior()
-                                    ),
-                       ),
+                                    ))
+                                    : _deviceList.cockpitUpdate == false
+                                    ?  TableCell(
+                                    child: Row( children: [
+                                      if(_deviceList.getUpdateList().isNotEmpty) // used to have CellContent in Column aligned
+                                        Transform.scale(
+                                          scale: fontSize.factor + 0.2,
+                                          child: Container(width: 29),
+                                        ),
+                                      if(_deviceList.getUpdateList().isNotEmpty) // used to have CellContent in Column aligned
+                                        SizedBox(width: textSpacingUpdateStatus * fontSize.factor),
+                                      Text(
+                                        "${S.of(context).upToDate}",
+                                        style: TextStyle(color: fontColorOnBackground),
+                                        textAlign: TextAlign.center,
+                                        textScaleFactor: fontSize.factor,
+                                      ),
+                                      if(_deviceList.getUpdateList().isNotEmpty) // used to have CellContent in Column aligned
+                                        Text(
+                                            "${S.of(context).upToDatePlaceholder}",
+                                            style: TextStyle(color: Colors.transparent),
+                                            textAlign: TextAlign.center,
+                                            textScaleFactor: fontSize.factor,
+                                            textHeightBehavior:TextHeightBehavior()
+                                      )
+                                    ])
+                                    )
+                                    :  TableCell(
+                                  child: Text(
+                                    S.of(context).updateAvailable,
+                                    style: TextStyle(color: fontColorOnBackground),
+                                    textAlign: TextAlign.center,
+                                    textScaleFactor: fontSize.factor,
+                                  ),
+                                )
+                              ]),
+                        ),
+                        TableCell(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: verticalPaddingCockpitSoftware),
+                            child:ListTile(
+                              leading: Icon(
+                                Icons.speed_rounded,
+                                color: fontColorOnBackground,
+                                size: 24.0 * fontSize.factor,
+                              ),
 
+                              title: Text(
+                                "Cockpit Software",
+                                style: TextStyle(color: fontColorOnBackground, fontSize: 18),
+                                textAlign: TextAlign.center,
+                                textScaleFactor: fontSize.factor,
+                              ),
+                            ),
+                          ),
+                        ),
+                        TableCell(
+                          child: Text(
+                            "",
+                            style: TextStyle(color: fontColorOnBackground),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
                     ]),
                 ],
               ),

@@ -360,10 +360,10 @@ class S {
     );
   }
 
-  /// `Status`
+  /// `Update Status`
   String get state {
     return Intl.message(
-      'Status',
+      'Update Status',
       name: 'state',
       desc: '',
       args: [],
@@ -420,11 +420,21 @@ class S {
     );
   }
 
+  /// `ilable`
+  String get upToDatePlaceholder {
+    return Intl.message(
+      'ilable',
+      name: 'upToDatePlaceholder',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Update available`
-  String get update2 {
+  String get updateAvailable {
     return Intl.message(
       'Update available',
-      name: 'update2',
+      name: 'updateAvailable',
       desc: '',
       args: [],
     );

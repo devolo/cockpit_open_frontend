@@ -230,7 +230,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Anzeigen anderer Geräte"),
         "showPassword":
             MessageLookupByLibrary.simpleMessage("Passwort anzeigen "),
-        "state": MessageLookupByLibrary.simpleMessage("Status"),
+        "state": MessageLookupByLibrary.simpleMessage("Update Status"),
         "supportInfoGenerateError": MessageLookupByLibrary.simpleMessage(
             "Bei der Erstellung der Support Informationen ist ein Fehler aufgetreten.\nBitte versuchen Sie es erneut!"),
         "supportInfoSendErrorBody1": MessageLookupByLibrary.simpleMessage(
@@ -249,8 +249,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "title": MessageLookupByLibrary.simpleMessage("devolo Cockpit"),
         "type": MessageLookupByLibrary.simpleMessage("Typ"),
         "upToDate": MessageLookupByLibrary.simpleMessage("aktuell"),
+        "upToDatePlaceholder":
+            MessageLookupByLibrary.simpleMessage("sierung verfügbar"),
         "update": MessageLookupByLibrary.simpleMessage("Aktualisierung"),
-        "update2":
+        "updateAvailable":
             MessageLookupByLibrary.simpleMessage("Aktualisierung verfügbar"),
         "updateSelected":
             MessageLookupByLibrary.simpleMessage("Aktualisiere Auswahl"),

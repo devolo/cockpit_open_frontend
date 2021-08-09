@@ -224,7 +224,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "showOtherDevices":
             MessageLookupByLibrary.simpleMessage("Show other devices"),
         "showPassword": MessageLookupByLibrary.simpleMessage("Show password"),
-        "state": MessageLookupByLibrary.simpleMessage("Status"),
+        "state": MessageLookupByLibrary.simpleMessage("Update Status"),
         "supportInfoGenerateError": MessageLookupByLibrary.simpleMessage(
             "An error occurred while creating the support informations.\nTry again later"),
         "supportInfoSendErrorBody1": MessageLookupByLibrary.simpleMessage(
@@ -243,8 +243,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "title": MessageLookupByLibrary.simpleMessage("devolo Cockpit"),
         "type": MessageLookupByLibrary.simpleMessage("Type"),
         "upToDate": MessageLookupByLibrary.simpleMessage("Up-to-date"),
+        "upToDatePlaceholder": MessageLookupByLibrary.simpleMessage("ilable"),
         "update": MessageLookupByLibrary.simpleMessage("Update"),
-        "update2": MessageLookupByLibrary.simpleMessage("Update available"),
+        "updateAvailable":
+            MessageLookupByLibrary.simpleMessage("Update available"),
         "updateSelected":
             MessageLookupByLibrary.simpleMessage("Update selected"),
         "updates": MessageLookupByLibrary.simpleMessage("Updates"),

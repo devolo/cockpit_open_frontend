@@ -38,12 +38,12 @@ class DeviceSimulator {
     Device device = new Device("Type: " + describeEnum(deviceType), // type
         "powerline:ghn", // networkType
         "Simulated " + getRandomDeviceName() + " device", // name
-        "A8:A8:A8:A8:A8", // MAC address
-        "192.168.1.1", // IP address
-        "MT2000", // MT number
-        "1811269791000709", // Serial number
-        "5.7.2", // Version
-        "2021-03-05", // Version date
+        "FF:FF:FF:FF:FF", // MAC address
+        "255.255.255.255", // IP address
+        "MT9999", // MT number
+        "9999999999999999", // Serial number
+        "9.9.9", // Version
+        "1900-01-01", // Version date
         isDeviceAtRouter, // Is device at Router?
         true, // Is local device?
         false, // Is a web interface available?

@@ -44,6 +44,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
   Color splashColor = fontColorOnBackground.withOpacity(0.2);
   double verticalPaddingCockpitSoftware = 7;
   double textSpacingUpdateStatus = 5;
+  double borderRadiusCheckbox = 3;
+  double checkboxScaleAddition = 0;
 
   /* ===========  =========== */
 
@@ -138,9 +140,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 Row(
                     children: [
                       Transform.scale(
-                        scale: fontSize.factor + 0.2,
+                        scale: fontSize.factor + checkboxScaleAddition,
                         child: Checkbox(
-                          shape: CircleBorder(),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
                           fillColor: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || (_deviceList.getUpdateList().isEmpty && _deviceList.cockpitUpdate == false)) ? MaterialStateProperty.all(devoloLighterGray) : MaterialStateProperty.all(devoloGreen),
                           checkColor: Colors.white,
                           value: (_deviceList.checkedUpdateMacs.length == _deviceList.getUpdateList().length) & _checkedCockpit,
@@ -401,7 +403,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                           Transform.scale(
                                             scale: fontSize.factor,
                                             child: Checkbox(
-                                              shape: CircleBorder(),
+                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
                                               checkColor: Colors.white,
                                               fillColor: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate) ? MaterialStateProperty.all(devoloLighterGray) : MaterialStateProperty.all(devoloGreen),
                                               value: _checkedCockpit,
@@ -503,9 +505,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                       type: MaterialType.transparency, // used to see the spash color over the background Color of the row
                                       child:
                                       Transform.scale(
-                                        scale: fontSize.factor + 0.2,
+                                        scale: fontSize.factor + checkboxScaleAddition,
                                         child: Checkbox(
-                                          shape: CircleBorder(),
+                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
                                           checkColor: Colors.white,
                                           fillColor: (_upgradingDevicesList.isNotEmpty || _upgradingCockpit) ? MaterialStateProperty.all(devoloLighterGray) : MaterialStateProperty.all(devoloGreen),
                                           value: _deviceList.checkedUpdateMacs.contains(allDevices[i].mac),
@@ -548,7 +550,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                   ? Row( children: [
                                     if(_deviceList.getUpdateList().isNotEmpty || _deviceList.cockpitUpdate) // used to have CellContent in Column aligned
                                       Transform.scale(
-                                        scale: fontSize.factor + 0.2,
+                                        scale: fontSize.factor + checkboxScaleAddition,
                                         child: Container(width: 29),
                                       ),
                                     if(_deviceList.getUpdateList().isNotEmpty || _deviceList.cockpitUpdate) // used to have CellContent in Column aligned
@@ -645,7 +647,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                         Transform.scale(
                                           scale: fontSize.factor,
                                           child: Checkbox(
-                                            shape: CircleBorder(),
+                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
                                             checkColor: Colors.white,
                                             fillColor: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate) ? MaterialStateProperty.all(devoloLighterGray) : MaterialStateProperty.all(devoloGreen),
                                             value: _checkedCockpit,
@@ -679,7 +681,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                     child: Row( children: [
                                       if(_deviceList.getUpdateList().isNotEmpty) // used to have CellContent in Column aligned
                                         Transform.scale(
-                                          scale: fontSize.factor + 0.2,
+                                          scale: fontSize.factor + checkboxScaleAddition,
                                           child: Container(width: 29),
                                         ),
                                       if(_deviceList.getUpdateList().isNotEmpty) // used to have CellContent in Column aligned

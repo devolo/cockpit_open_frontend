@@ -104,6 +104,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
     var _deviceList = Provider.of<NetworkList>(context);
     fontSize = context.watch<FontSize>();
 
+    logger.i(_deviceList.getUpdateList());
+
     var allDevices = _filterState ? _deviceList.getAllDevicesFilteredByState() : _deviceList.getAllDevices();
 
     return new Scaffold(
@@ -604,12 +606,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         ),
                       ),
                       TableCell(
-                        child: Text(
+                        child: Align(alignment: Alignment.center, child: Text(
                           allDevices[i].version,
                           style: TextStyle(color: fontColorOnBackground),
-                          textAlign: TextAlign.center,
+                          textAlign: TextAlign.left,
                           textScaleFactor: fontSize.factor,
-                        ),
+                        ),),
                       ),
                     ]),
                   if(_deviceList.getUpdateList().isNotEmpty)

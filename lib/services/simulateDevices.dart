@@ -7,29 +7,40 @@ LICENSE file in the root directory of this source tree.
 */
 
 import 'dart:io';
+import 'dart:math';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 
 class DeviceSimulator {
+  List<String> deviceNames = ["Living Room", "Kitchen", "Home Office", "Balcony", "Children's Room", "Bedroom 1", "Bedroom 2"];
+  var randomNumberGenerator = new Random();
+
+  String getRandomDeviceName() {
+    int nDeviceNames = deviceNames.length;
+    int randomIndex = randomNumberGenerator.nextInt(nDeviceNames);
+
+    return deviceNames[randomIndex];
+  }
 
   Device createDevice(int deviceNumber) {
-    Device device = new Device("Simulated device" + deviceNumber.toString(),
-        "powerline:ghn",
-        "Living Room",
-        "A8:A8:A8:A8:A8",
-        "192.168.1.1",
-        "MT2000",
-        "1811269791000709",
-        "5.7.2","2021-03-05",
-        false,
-        true,
-        true,
-        true,
-        "mimo_vdsl17a",
+    Device device = new Device("Simulated device " + deviceNumber.toString(), // type
+        "powerline:ghn", // networkType
+        getRandomDeviceName(), // name
+        "A8:A8:A8:A8:A8", // MAC address
+        "192.168.1.1", // IP address
+        "MT2000", // MT number
+        "1811269791000709", // Serial number
+        "5.7.2", // Version
+        "2021-03-05", // Version date
+        false, // Is device at Router?
+        true, // Is local device?
+        true, // Is a web interface available?
+        true, // Is identify device available?
+        "mimo_vdsl17a", // VDSL settings
         ["mimo_vdsl17a", "siso_full", "siso_vdsl17a", "siso_vdsl35b", "mimo_full", "mimo_vdsl35b"],
         "1",
-        [0,0],
-        [1,0],
-        [1,1]);
+        [0,0], // Disable LEDs
+        [1,0], // Disable Standby
+        [1,1]); // Disable traffic
 
     return device;
   }

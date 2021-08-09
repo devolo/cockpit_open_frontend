@@ -37,7 +37,7 @@ class DeviceSimulator {
 
     Device device = new Device("Type: " + describeEnum(deviceType), // type
         "powerline:ghn", // networkType
-        "Simulated " + device() + " getRandomDeviceName", // name
+        "Simulated " + getRandomDeviceName() + " device", // name
         "FF:FF:FF:FF:FF", // MAC address
         "255.255.255.255", // IP address
         "MT9999", // MT number

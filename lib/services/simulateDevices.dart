@@ -39,8 +39,8 @@ class DeviceSimulator {
         "2021-03-05", // Version date
         false, // Is device at Router?
         true, // Is local device?
-        true, // Is a web interface available?
-        true, // Is identify device available?
+        false, // Is a web interface available?
+        false, // Is identify device available?
         "mimo_vdsl17a", // VDSL settings
         ["mimo_vdsl17a", "siso_full", "siso_vdsl17a", "siso_vdsl35b", "mimo_full", "mimo_vdsl35b"],
         "1",

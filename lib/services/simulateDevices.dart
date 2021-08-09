@@ -28,6 +28,13 @@ class DeviceSimulator {
       deviceType = deviceNumber == 1 ? DeviceType.dtLanMini : DeviceType.dtWiFiMini;
     }
 
+    bool isDeviceAtRouter;
+    if (deviceType == DeviceType.dtLanMini || deviceType == DeviceType.dtLanPlus) {
+      isDeviceAtRouter = true;
+    } else {
+      isDeviceAtRouter = false;
+    }
+
     Device device = new Device("Type: " + describeEnum(deviceType), // type
         "powerline:ghn", // networkType
         "Simulated " + getRandomDeviceName() + " device", // name
@@ -37,7 +44,7 @@ class DeviceSimulator {
         "1811269791000709", // Serial number
         "5.7.2", // Version
         "2021-03-05", // Version date
-        false, // Is device at Router?
+        isDeviceAtRouter, // Is device at Router?
         true, // Is local device?
         false, // Is a web interface available?
         false, // Is identify device available?

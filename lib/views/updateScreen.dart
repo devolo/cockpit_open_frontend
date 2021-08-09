@@ -172,59 +172,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 SizedBox(
                   width: 20,
                 ),
-                TextButton(
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(28.0))),
-                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(horizontal: 35, vertical: 18)),
-                    backgroundColor: MaterialStateProperty.resolveWith<Color?>(
-                          (states) {
-                        if (states.contains(MaterialState.hovered)) {
-                          return devoloGreen.withOpacity(hoverOpacity);
-                        } else if (states.contains(MaterialState.pressed)) {
-                          return devoloGreen.withOpacity(activeOpacity);
-                        }
-                        return (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true)? buttonDisabledBackground : devoloGreen;
-                      },
-                    ),
-                    foregroundColor: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true)
-                        ? MaterialStateProperty.all<Color>(buttonDisabledForeground)
-                        : MaterialStateProperty.all<Color>(Colors.white),
-                  ),
-                  onPressed: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true)? null : () async {
-
-                    // Warning! "UpdateCheck" and "RefreshNetwork" should only be triggered by a user interaction, not continously/automaticly
-                    setState(() {
-                      socket.sendXML('UpdateCheck');
-                      _searchingDeviceUpdate = true;
-                      _searchingCockpitUpdate = true;
-                    });
-
-                    var response1 = await socket.receiveXML("UpdateIndication");
-                    setState(() {
-                      _searchingCockpitUpdate = false;
-                      //if (response!["messageType"] != null) _lastPoll = DateTime.now();
-                    });
-                    var response2 = await socket.receiveXML("FirmwareUpdateIndication");
-                    setState(() {
-                      _searchingDeviceUpdate = false;
-                      //if (response!["messageType"] != null) _lastPoll = DateTime.now();
-                    });
-                  },
-                  child: Row(children: [
-                    Icon(
-                      DevoloIcons.ic_refresh_24px,
-                      color: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true) ? buttonDisabledForeground : Colors.white,
-                      size: 24 * fontSize.factor,
-                    ),
-                    Text(
-                      S.of(context).checkUpdates, textScaleFactor: fontSize.factor,
-                      style:TextStyle(color: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true) ? buttonDisabledForeground : Colors.white)
-                    ),
-                  ]),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
                 ButtonTheme(
                   minWidth: 270.0,
                   height: 50.0,
@@ -232,40 +179,19 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(28.0))),
                       padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(horizontal: 30, vertical: 18)),
-                      side: MaterialStateProperty.resolveWith<BorderSide>(
-                            (states) {
-                          if (states.contains(MaterialState.hovered)) {
-                            return BorderSide(color: drawingColor.withOpacity(hoverOpacity), width: 2.0);
-                          } else if (states.contains(MaterialState.pressed)) {
-                            return BorderSide(color: drawingColor.withOpacity(activeOpacity), width: 2.0);
-                          }
-                          return (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true ||_upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || ((_deviceList.cockpitUpdate == false || (_deviceList.cockpitUpdate == true && _checkedCockpit == false)) && _deviceList.checkedUpdateMacs.isEmpty) ||(_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))
-                          ? BorderSide(color: buttonDisabledForeground2, width: 2.0)
-                          : BorderSide(color: drawingColor, width: 2.0);
-                        },
-                      ),
                       backgroundColor: MaterialStateProperty.resolveWith<Color?>(
                             (states) {
                           if (states.contains(MaterialState.hovered)) {
-                            return Colors.transparent;
+                            return devoloGreen.withOpacity(hoverOpacity);
                           } else if (states.contains(MaterialState.pressed)) {
-                            return drawingColor;
+                            return devoloGreen.withOpacity(activeOpacity);
                           }
-                          return Colors.transparent;
+                          return (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true)? buttonDisabledBackground : devoloGreen;
                         },
                       ),
-                      foregroundColor: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true ||_upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || ((_deviceList.cockpitUpdate == false || (_deviceList.cockpitUpdate == true && _checkedCockpit == false)) && _deviceList.checkedUpdateMacs.isEmpty) ||(_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))
-                          ? MaterialStateProperty.all<Color?>(buttonDisabledForeground2)
-                          : MaterialStateProperty.resolveWith<Color?>(
-                            (states) {
-                          if (states.contains(MaterialState.hovered)) {
-                            return drawingColor.withOpacity(hoverOpacity);
-                          } else if (states.contains(MaterialState.pressed)) {
-                            return drawingColor;
-                          }
-                          return drawingColor;
-                        },
-                      ),
+                      foregroundColor: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true)
+                          ? MaterialStateProperty.all<Color>(buttonDisabledForeground)
+                          : MaterialStateProperty.all<Color>(Colors.white),
                     ),
                     onPressed: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true ||_upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || ((_deviceList.cockpitUpdate == false || (_deviceList.cockpitUpdate == true && _checkedCockpit == false)) && _deviceList.checkedUpdateMacs.isEmpty) ||(_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))
                         ? null
@@ -291,12 +217,86 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       Icon(
                         DevoloIcons.ic_file_download_24px,
                         size: 24 * fontSize.factor,
+                        color: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true) ? buttonDisabledForeground : Colors.white,
                       ),
                       Text(
                         S.of(context).updateSelected, textScaleFactor: fontSize.factor,
+                          style:TextStyle(color: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true) ? buttonDisabledForeground : Colors.white)
                       ),
                     ]),
                   ),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                TextButton(
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(28.0))),
+                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(horizontal: 35, vertical: 18)),
+                    side: MaterialStateProperty.resolveWith<BorderSide>(
+                          (states) {
+                        if (states.contains(MaterialState.hovered)) {
+                          return BorderSide(color: drawingColor.withOpacity(hoverOpacity), width: 2.0);
+                        } else if (states.contains(MaterialState.pressed)) {
+                          return BorderSide(color: drawingColor.withOpacity(activeOpacity), width: 2.0);
+                        }
+                        return (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true ||_upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || ((_deviceList.cockpitUpdate == false || (_deviceList.cockpitUpdate == true && _checkedCockpit == false)) && _deviceList.checkedUpdateMacs.isEmpty) ||(_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))
+                            ? BorderSide(color: buttonDisabledForeground2, width: 2.0)
+                            : BorderSide(color: drawingColor, width: 2.0);
+                      },
+                    ),
+                    backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                          (states) {
+                        if (states.contains(MaterialState.hovered)) {
+                          return Colors.transparent;
+                        } else if (states.contains(MaterialState.pressed)) {
+                          return drawingColor;
+                        }
+                        return Colors.transparent;
+                      },
+                    ),
+                    foregroundColor: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true ||_upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || ((_deviceList.cockpitUpdate == false || (_deviceList.cockpitUpdate == true && _checkedCockpit == false)) && _deviceList.checkedUpdateMacs.isEmpty) ||(_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))
+                        ? MaterialStateProperty.all<Color?>(buttonDisabledForeground2)
+                        : MaterialStateProperty.resolveWith<Color?>(
+                          (states) {
+                        if (states.contains(MaterialState.hovered)) {
+                          return drawingColor.withOpacity(hoverOpacity);
+                        } else if (states.contains(MaterialState.pressed)) {
+                          return drawingColor;
+                        }
+                        return drawingColor;
+                      },
+                    ),
+                  ),
+                  onPressed: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true)? null : () async {
+
+                    // Warning! "UpdateCheck" and "RefreshNetwork" should only be triggered by a user interaction, not continously/automaticly
+                    setState(() {
+                      socket.sendXML('UpdateCheck');
+                      _searchingDeviceUpdate = true;
+                      _searchingCockpitUpdate = true;
+                    });
+
+                    var response1 = await socket.receiveXML("UpdateIndication");
+                    setState(() {
+                      _searchingCockpitUpdate = false;
+                      //if (response!["messageType"] != null) _lastPoll = DateTime.now();
+                    });
+                    var response2 = await socket.receiveXML("FirmwareUpdateIndication");
+                    setState(() {
+                      _searchingDeviceUpdate = false;
+                      //if (response!["messageType"] != null) _lastPoll = DateTime.now();
+                    });
+                  },
+                  child: Row(children: [
+                    Icon(
+                      DevoloIcons.ic_refresh_24px,
+                      size: 24 * fontSize.factor,
+                    ),
+                    Text(
+                        S.of(context).checkUpdates, textScaleFactor: fontSize.factor,
+                    ),
+                  ]),
                 ),
               ],
             ),

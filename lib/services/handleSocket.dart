@@ -591,7 +591,7 @@ class DataHand extends ChangeNotifier {
     //var macs = item.findAllElements("macAddress"); //ToDo List !! Get Test Devices to get more devices with updates
     _networkList.getUpdateList().clear();
     _networkList.checkedUpdateMacs.clear();
-    
+
     for (var item in items) {
       try {
         String mac = item.getElement("first")!.getElement("macAddress")!.innerText;

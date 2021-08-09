@@ -8,6 +8,7 @@ LICENSE file in the root directory of this source tree.
 
 import 'dart:io';
 import 'dart:math';
+import 'package:flutter/foundation.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 
 class DeviceSimulator {
@@ -21,10 +22,15 @@ class DeviceSimulator {
     return deviceNames[randomIndex];
   }
 
-  Device createDevice(int deviceNumber) {
-    Device device = new Device("Simulated device " + deviceNumber.toString(), // type
+  // Creates one LAN device and multiple WiFi devices as default
+  Device createDevice(int deviceNumber, [DeviceType? deviceType]) {
+    if (deviceType == null) {
+      deviceType = deviceNumber == 1 ? DeviceType.dtLanMini : DeviceType.dtWiFiMini;
+    }
+
+    Device device = new Device("Type: " + describeEnum(deviceType), // type
         "powerline:ghn", // networkType
-        getRandomDeviceName(), // name
+        "Simulated " + getRandomDeviceName() + " device", // name
         "A8:A8:A8:A8:A8", // MAC address
         "192.168.1.1", // IP address
         "MT2000", // MT number

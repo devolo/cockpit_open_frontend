@@ -13,10 +13,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:xml/xml.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
+import 'simulateDevices.dart';
+import '../shared/globals.dart' as deviceCreationConfig;
+
 
 class DataHand extends ChangeNotifier {
   late Socket socket;
   NetworkList _networkList = NetworkList();
+  DeviceSimulator deviceSimulator = DeviceSimulator();
 
   List<dynamic> xmlDebugResponseList = []; // used for debugging log
   int maxResponseListSize = 50; // determines the max number of displayed responses in debugging log
@@ -133,6 +137,12 @@ class DataHand extends ChangeNotifier {
             }
           }
           listCounter++;
+        }
+
+        if (deviceCreationConfig.simulatedDevices) {
+          for (var i=0; i<deviceCreationConfig.nDevices; i++) {
+            _networkList.addDevice(deviceSimulator.createDevice(i+1), listCounter);
+          }
         }
 
       } else if (document.findAllElements('MessageType').first.innerText == "Config") {

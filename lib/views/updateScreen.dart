@@ -46,7 +46,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
   double textSpacingUpdateStatus = 5;
   double borderRadiusCheckbox = 3;
   double checkboxScaleAddition = 0;
-  Color updateableDevicesColor = devoloOrange.withOpacity(0.6);
 
   /* ===========  =========== */
 

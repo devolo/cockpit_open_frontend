@@ -18,6 +18,7 @@ Color drawingColor= Colors.white; // canvas + buttons
 Color fontColorOnMain= Colors.white;
 Color fontColorOnBackground= Colors.white;
 Color fontColorOnSecond= Colors.white ;
+Color updateableDevicesColor = Colors.white;
 // Color surfaceColor= Colors.white;
 // Color fontColorOnSurface= Colors.white;
 // Color dialogColor= Colors.white;
@@ -63,6 +64,7 @@ void setTheme(String theme_name) {
     fontColorOnMain = theme["fontColorOnMain"];
     fontColorOnBackground = theme["fontColorOnBackground"];
     fontColorOnSecond = theme["fontColorOnSecond"];
+    updateableDevicesColor = theme["updateableDevicesColor"];
   }
 }
 
@@ -76,6 +78,7 @@ Map<String, dynamic> theme_dark = {
   "fontColorOnMain" : Colors.white,
   "fontColorOnBackground" : Colors.white,
   "fontColorOnSecond" : devoloGray,
+  "updateableDevicesColor" : devoloOrange.withOpacity(0.8),
 };
 
 
@@ -89,6 +92,7 @@ Map<String, dynamic> theme_devolo = {
   "fontColorOnMain" : Colors.white,
   "fontColorOnBackground" : Colors.white,
   "fontColorOnSecond" : devoloGray,
+  "updateableDevicesColor" : devoloOrange.withOpacity(0.8),
 };
 
 Map<String, dynamic> theme_highContrast = {
@@ -101,6 +105,7 @@ Map<String, dynamic> theme_highContrast = {
   "fontColorOnMain" : Colors.yellowAccent,
   "fontColorOnBackground" : Colors.yellowAccent,
   "fontColorOnSecond" : devoloGray,
+  "updateableDevicesColor" : devoloOrange.withOpacity(0.7),
 };
 
 Map<String, dynamic> theme_light = {
@@ -113,5 +118,6 @@ Map<String, dynamic> theme_light = {
   "fontColorOnMain" : Colors.white,
   "fontColorOnBackground" : devoloGray,
   "fontColorOnSecond" : devoloGray,
+  "updateableDevicesColor" : devoloOrange,
 };
 

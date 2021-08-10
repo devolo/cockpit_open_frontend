@@ -429,7 +429,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                         ]),
 
                               _searchingCockpitUpdate || _upgradingCockpit
-                                  ?  TableCell(
+                                  ?  Container(
                                   child: SelectableText(
                                     _searchingCockpitUpdate ? " ${S.of(context).searching}" : " ${S.of(context).updating}",
                                     style: TextStyle(color: fontColorOnBackground),
@@ -437,14 +437,14 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                     textScaleFactor: fontSize.factor,
                                   ))
                                   : _deviceList.cockpitUpdate == false
-                                  ?  TableCell(
+                                  ?  Container(
                                   child: Text(
                                     "${S.of(context).upToDate}",
                                     style: TextStyle(color: fontColorOnBackground),
                                     textAlign: TextAlign.center,
                                     textScaleFactor: fontSize.factor,
                                   ))
-                                  :  TableCell(
+                                  :  Container(
                                 child: Text(
                                   S.of(context).updateAvailable,
                                   style: TextStyle(color: fontColorOnBackground),
@@ -672,7 +672,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                       SizedBox(width: textSpacingUpdateStatus * fontSize.factor),
                                     ]),
                                 _searchingCockpitUpdate || _upgradingCockpit
-                                    ?  TableCell(
+                                    ?  Container(
                                     child: SelectableText(
                                       _searchingCockpitUpdate ? " ${S.of(context).searching}" : " ${S.of(context).updating}",
                                       style: TextStyle(color: fontColorOnBackground),
@@ -680,7 +680,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                       textScaleFactor: fontSize.factor,
                                     ))
                                     : _deviceList.cockpitUpdate == false
-                                    ?  TableCell(
+                                    ?  Container(
                                     child: Row( children: [
                                       if(_deviceList.getUpdateList().isNotEmpty) // used to have CellContent in Column aligned
                                         Transform.scale(
@@ -705,7 +705,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                       )
                                     ])
                                     )
-                                    :  TableCell(
+                                    :  Container(
                                   child: Text(
                                     S.of(context).updateAvailable,
                                     style: TextStyle(color: fontColorOnBackground),

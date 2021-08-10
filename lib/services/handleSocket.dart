@@ -588,22 +588,20 @@ class DataHand extends ChangeNotifier {
 
   void parseFWUpdateIndication(XmlDocument xmlResponse) {
     var items = xmlResponse.findAllElements("item");
-    //var macs = item.findAllElements("macAddress"); //ToDo List !! Get Test Devices to get more devices with updates
-    _networkList.getUpdateList().clear();
-    _networkList.checkedUpdateMacs.clear();
 
+    List<String> macAdresses = [];
     for (var item in items) {
       try {
         String mac = item.getElement("first")!.getElement("macAddress")!.innerText;
-        _networkList.getUpdateList().add(mac);
-        _networkList.checkedUpdateMacs.add(mac);
+        macAdresses.add(mac);
+
       } catch (e) {
         logger.w("ParseFWUpdateIndication failed! - Maybe not in selected deviceList");
         logger.e(e);
         continue;
       }
     }
-
+    _networkList.setUpdateList(macAdresses);
     _networkList.changedList();
   }
 }

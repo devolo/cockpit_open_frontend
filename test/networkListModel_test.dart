@@ -110,7 +110,7 @@ void main() {
       network.setUpdateList(["test1","test2"]);
 
       expect(network.getUpdateList(),["test1","test2"]);
-      expect(network.checkedUpdateMacs,["test1","test2"]);
+      expect(network.getCheckedUpdateMacs(),["test1","test2"]);
     });
   });
 

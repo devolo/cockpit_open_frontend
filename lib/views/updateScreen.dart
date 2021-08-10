@@ -75,8 +75,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
   Future<void> updateDevices(DataHand socket, NetworkList _deviceList) async {
 
-    logger.d("update following Devices ->" + _deviceList.checkedUpdateMacs.toString());
-    socket.sendXML('FirmwareUpdateResponse', newValue: _deviceList.checkedUpdateMacs.toString());
+    logger.d("update following Devices ->" + _deviceList.getCheckedUpdateMacs().toString());
+    socket.sendXML('FirmwareUpdateResponse', newValue: _deviceList.getCheckedUpdateMacs().toString());
 
     var response = await socket.receiveXML("FirmwareUpdateStatus");
     setState(() {
@@ -105,8 +105,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
     final socket = Provider.of<DataHand>(context);
     var _deviceList = Provider.of<NetworkList>(context);
     fontSize = context.watch<FontSize>();
-
-    logger.i(_deviceList.getUpdateList());
 
     var allDevices = _filterState ? _deviceList.getAllDevicesFilteredByState() : _deviceList.getAllDevices();
 
@@ -145,21 +143,21 @@ class _UpdateScreenState extends State<UpdateScreen> {
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
                           fillColor: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || (_deviceList.getUpdateList().isEmpty && _deviceList.cockpitUpdate == false)) ? MaterialStateProperty.all(devoloLighterGray) : MaterialStateProperty.all(devoloGreen),
                           checkColor: Colors.white,
-                          value: (_deviceList.checkedUpdateMacs.length == _deviceList.getUpdateList().length) & _checkedCockpit,
+                          value: (_deviceList.getCheckedUpdateMacs().length == _deviceList.getUpdateList().length) & _checkedCockpit,
                           onChanged: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || (_deviceList.getUpdateList().isEmpty && _deviceList.cockpitUpdate == false))
                               ? null
                               : (bool? value) {
                             setState(() {
                               if(value != null && value){
-                                _deviceList.checkedUpdateMacs.clear();
+                                _deviceList.getCheckedUpdateMacs().clear();
                                 for(String mac in _deviceList.getUpdateList()){
-                                  _deviceList.checkedUpdateMacs.add(mac);
+                                  _deviceList.getCheckedUpdateMacs().add(mac);
                                 }
                                 if(_deviceList.cockpitUpdate)
                                   _checkedCockpit = true;
                               }
                               else{
-                                _deviceList.checkedUpdateMacs.clear();
+                                _deviceList.getCheckedUpdateMacs().clear();
                                 if(_deviceList.cockpitUpdate)
                                   _checkedCockpit = false;
                               }
@@ -188,20 +186,20 @@ class _UpdateScreenState extends State<UpdateScreen> {
                           } else if (states.contains(MaterialState.pressed)) {
                             return devoloGreen.withOpacity(activeOpacity);
                           }
-                          return (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true ||_upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || ((_deviceList.cockpitUpdate == false || (_deviceList.cockpitUpdate == true && _checkedCockpit == false)) && _deviceList.checkedUpdateMacs.isEmpty) ||(_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))? buttonDisabledBackground : devoloGreen;
+                          return (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true ||_upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || ((_deviceList.cockpitUpdate == false || (_deviceList.cockpitUpdate == true && _checkedCockpit == false)) && _deviceList.getCheckedUpdateMacs().isEmpty) ||(_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))? buttonDisabledBackground : devoloGreen;
                         },
                       ),
-                      foregroundColor: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true ||_upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || ((_deviceList.cockpitUpdate == false || (_deviceList.cockpitUpdate == true && _checkedCockpit == false)) && _deviceList.checkedUpdateMacs.isEmpty) ||(_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))
+                      foregroundColor: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true ||_upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || ((_deviceList.cockpitUpdate == false || (_deviceList.cockpitUpdate == true && _checkedCockpit == false)) && _deviceList.getCheckedUpdateMacs().isEmpty) ||(_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))
                           ? MaterialStateProperty.all<Color>(buttonDisabledForeground)
                           : MaterialStateProperty.all<Color>(Colors.white),
                     ),
-                    onPressed: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true ||_upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || ((_deviceList.cockpitUpdate == false || (_deviceList.cockpitUpdate == true && _checkedCockpit == false)) && _deviceList.checkedUpdateMacs.isEmpty) ||(_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))
+                    onPressed: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true ||_upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || ((_deviceList.cockpitUpdate == false || (_deviceList.cockpitUpdate == true && _checkedCockpit == false)) && _deviceList.getCheckedUpdateMacs().isEmpty) ||(_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))
                         ? null
                         : () async {
 
-                      if(_deviceList.getUpdateList().isNotEmpty && _deviceList.checkedUpdateMacs.isNotEmpty){
+                      if(_deviceList.getUpdateList().isNotEmpty && _deviceList.getCheckedUpdateMacs().isNotEmpty){
 
-                        for(String mac in _deviceList.checkedUpdateMacs) {
+                        for(String mac in _deviceList.getCheckedUpdateMacs()) {
                           _upgradingDevicesList.add(mac);
                         }
 
@@ -219,11 +217,11 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       Icon(
                         DevoloIcons.ic_file_download_24px,
                         size: 24 * fontSize.factor,
-                        color: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true ||_upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || ((_deviceList.cockpitUpdate == false || (_deviceList.cockpitUpdate == true && _checkedCockpit == false)) && _deviceList.checkedUpdateMacs.isEmpty) ||(_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty)) ? buttonDisabledForeground : Colors.white,
+                        color: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true ||_upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || ((_deviceList.cockpitUpdate == false || (_deviceList.cockpitUpdate == true && _checkedCockpit == false)) && _deviceList.getCheckedUpdateMacs().isEmpty) ||(_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty)) ? buttonDisabledForeground : Colors.white,
                       ),
                       Text(
                         S.of(context).updateSelected, textScaleFactor: fontSize.factor,
-                          style:TextStyle(color: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true ||_upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || ((_deviceList.cockpitUpdate == false || (_deviceList.cockpitUpdate == true && _checkedCockpit == false)) && _deviceList.checkedUpdateMacs.isEmpty) ||(_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty)) ? buttonDisabledForeground : Colors.white)
+                          style:TextStyle(color: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true ||_upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || ((_deviceList.cockpitUpdate == false || (_deviceList.cockpitUpdate == true && _checkedCockpit == false)) && _deviceList.getCheckedUpdateMacs().isEmpty) ||(_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty)) ? buttonDisabledForeground : Colors.white)
                       ),
                     ]),
                   ),
@@ -257,7 +255,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         return Colors.transparent;
                       },
                     ),
-                    foregroundColor: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true ||_upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || ((_deviceList.cockpitUpdate == false || (_deviceList.cockpitUpdate == true && _checkedCockpit == false)) && _deviceList.checkedUpdateMacs.isEmpty) ||(_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))
+                    foregroundColor: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true ||_upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || ((_deviceList.cockpitUpdate == false || (_deviceList.cockpitUpdate == true && _checkedCockpit == false)) && _deviceList.getCheckedUpdateMacs().isEmpty) ||(_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty))
                         ? MaterialStateProperty.all<Color?>(buttonDisabledForeground2)
                         : MaterialStateProperty.resolveWith<Color?>(
                           (states) {
@@ -513,16 +511,16 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
                                           checkColor: Colors.white,
                                           fillColor: (_upgradingDevicesList.isNotEmpty || _upgradingCockpit) ? MaterialStateProperty.all(devoloLighterGray) : MaterialStateProperty.all(devoloGreen),
-                                          value: _deviceList.checkedUpdateMacs.contains(allDevices[i].mac),
+                                          value: _deviceList.getCheckedUpdateMacs().contains(allDevices[i].mac),
                                           onChanged: (_upgradingDevicesList.isNotEmpty || _upgradingCockpit)
                                               ? null
                                               :(bool? value) {
                                                 setState(() {
                                                   if(value != null && value){
-                                                    _deviceList.checkedUpdateMacs.add(allDevices[i].mac);
+                                                    _deviceList.getCheckedUpdateMacs().add(allDevices[i].mac);
                                                   }
                                                   else{
-                                                    _deviceList.checkedUpdateMacs.remove(allDevices[i].mac);
+                                                    _deviceList.getCheckedUpdateMacs().remove(allDevices[i].mac);
                                                   }
                                                 });
       setState((){});

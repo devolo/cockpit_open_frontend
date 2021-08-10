@@ -17,7 +17,7 @@ class NetworkList extends ChangeNotifier{
   List<String> _networkNames = [];
   int selectedNetworkIndex = 0;
   List<String> _updateMacs = [];
-  List<String> checkedUpdateMacs = [];
+  List<String> _checkedUpdateMacs = [];
   bool cockpitUpdate = false;
   List<int>pivotDeviceIndexList = [];
 
@@ -42,9 +42,15 @@ class NetworkList extends ChangeNotifier{
     return _updateMacs;
   }
 
+  List<String> getCheckedUpdateMacs(){
+    return _checkedUpdateMacs;
+  }
+
   void setUpdateList(List<String> updateList){
-    _updateMacs = updateList;
-    checkedUpdateMacs = updateList;
+    for(String mac in updateList){
+      _updateMacs.add(mac);
+      _checkedUpdateMacs.add(mac);
+    }
   }
 
   List<List<Device>> getNetworkList(){

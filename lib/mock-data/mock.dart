@@ -1040,37 +1040,6 @@ var firmwareUpdateIndication2 = '''<?xml version="1.0" encoding="UTF-8" standalo
 	</Message>
 </boost_serialization>''';
 
-//with 3 mac Addresses where 1 Address is not existing in Network
-var firmwareUpdateIndication3 = '''<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<!DOCTYPE boost_serialization>
-<boost_serialization signature="serialization::archive" version="13">
-	<Message class_id="0" tracking_level="0" version="0">
-		<MessageType>FirmwareUpdateIndication</MessageType>
-		<DeviceList class_id="1" tracking_level="0" version="0">
-			<count>1</count>
-			<item_version>0</item_version>
-			<item class_id="2" tracking_level="0" version="0">
-				<first class_id="3" tracking_level="0" version="0">
-					<macAddress>B8:BE:F4:31:96:AF</macAddress>
-				</first>
-				<second>0</second>
-			</item>
-			<item class_id="2" tracking_level="0" version="0">
-				<first class_id="3" tracking_level="0" version="0">
-					<macAddress>B8:F2:F4:51:96:8B</macAddress>
-				</first>
-				<second>0</second>
-			</item>
-			<item class_id="2" tracking_level="0" version="0">
-				<first class_id="3" tracking_level="0" version="0">
-					<macAddress>B8:BE:F4:31:96:8B</macAddress>
-				</first>
-				<second>0</second>
-			</item>
-		</DeviceList>
-	</Message>
-</boost_serialization>''';
-
 //B8:BE:F4:31:96:AF and running 80% and B8:BE:F4:31:96:8B(pending)
 var firmwareUpdateStatus1 = '''<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE boost_serialization>

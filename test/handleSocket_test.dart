@@ -763,6 +763,7 @@ void main() {
       dataHandler.parseFWUpdateIndication(XmlDocument.parse(firmwareUpdateIndication1));
 
       expect(dataHandler.getNetworkList().getUpdateList(), expectedUpdateList);
+      expect(dataHandler.getNetworkList().getCheckedUpdateMacs(), expectedUpdateList);
 
     });
 
@@ -778,24 +779,9 @@ void main() {
       dataHandler.parseFWUpdateIndication(XmlDocument.parse(firmwareUpdateIndication2));
 
       expect(dataHandler.getNetworkList().getUpdateList(), expectedUpdateList);
+      expect(dataHandler.getNetworkList().getCheckedUpdateMacs(), expectedUpdateList);
 
     });
-
-    test('Given_DataHandObjectWithNetworkListAndUpdateList_When_parseFWUpdateIndicationWithNotExistingMacAddress_Then_setUpdateList', () {
-
-      var dataHandler = DataHand(true);
-      var oldUpdateList = ["B8:BE:F4:31:96:AF"];
-      dataHandler.parseXML(networkUpdate1);
-      dataHandler.getNetworkList().setUpdateList(oldUpdateList);
-
-      var expectedUpdateList = ["B8:BE:F4:31:96:AF","B8:BE:F4:31:96:8B"];
-
-      dataHandler.parseFWUpdateIndication(XmlDocument.parse(firmwareUpdateIndication3));
-
-      expect(dataHandler.getNetworkList().getUpdateList(), expectedUpdateList);
-
-    });
-
   });
   group('Future<Map<String, dynamic>?> parseUpdateIndication(XmlDocument xmlResponse)',() {
 
@@ -816,6 +802,7 @@ void main() {
       dataHandler.parseFWUpdateIndication(XmlDocument.parse(firmwareUpdateIndication1));
 
       expect(dataHandler.getNetworkList().getUpdateList(), expectedUpdateList);
+      expect(dataHandler.getNetworkList().getCheckedUpdateMacs(), expectedUpdateList);
 
     });
 
@@ -831,24 +818,9 @@ void main() {
       dataHandler.parseFWUpdateIndication(XmlDocument.parse(firmwareUpdateIndication2));
 
       expect(dataHandler.getNetworkList().getUpdateList(), expectedUpdateList);
+      expect(dataHandler.getNetworkList().getCheckedUpdateMacs(), expectedUpdateList);
 
     });
-
-    test('Given_DataHandObjectWithNetworkListAndUpdateList_When_parseFWUpdateIndicationWithNotExistingMacAddress_Then_setUpdateList', () {
-
-      var dataHandler = DataHand(true);
-      var oldUpdateList = ["B8:BE:F4:31:96:AF"];
-      dataHandler.parseXML(networkUpdate1);
-      dataHandler.getNetworkList().setUpdateList(oldUpdateList);
-
-      var expectedUpdateList = ["B8:BE:F4:31:96:AF","B8:BE:F4:31:96:8B"];
-
-      dataHandler.parseFWUpdateIndication(XmlDocument.parse(firmwareUpdateIndication3));
-
-      expect(dataHandler.getNetworkList().getUpdateList(), expectedUpdateList);
-
-    });
-
   });
 
 }

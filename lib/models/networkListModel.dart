@@ -47,6 +47,10 @@ class NetworkList extends ChangeNotifier{
   }
 
   void setUpdateList(List<String> updateList){
+
+    _updateMacs.clear();
+    _checkedUpdateMacs.clear();
+
     for(String mac in updateList){
       _updateMacs.add(mac);
       _checkedUpdateMacs.add(mac);

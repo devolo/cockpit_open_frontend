@@ -1415,7 +1415,9 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                 ],
               ),
             );
-          });
+          }).then((val){
+            socket.sendXML("SupportInfoCleanup"); // clean temporary files after closing support dialog
+      });
     }
 
     // !!! closeButton is added manually

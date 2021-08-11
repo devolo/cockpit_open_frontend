@@ -71,7 +71,7 @@
 
   "@_SUPPORT_DIALOG": {
   },
-  "cockpitSupportInformationTitle": "devolo Cockpit support informations",
+  "cockpitSupportInformationTitle": "devolo Cockpit support information",
   "theCreatedSupportInformationCanNowBeSentToDevolo": "The created support information can now be sent to devolo support.\nFill in the following fields",
   "processNumber": "Process number",
   "pleaseEnterProcessingNumber": "Enter processing number",
@@ -146,7 +146,7 @@
   "deviceNotFoundDeviceName" : "An error occurred while setting the device name",
   "deviceNotFoundResetDevice" : "An error occurred while resetting the device",
   "deviceNotFoundRemoveDevice" : "An error occurred while removing the device",
-  "deviceNotFoundIdentifyDevice" : "An error occurred while removing the device",
+  "deviceNotFoundIdentifyDevice" : "An error occurred while identifying the device",
   "deviceNotFoundHint" : " - Has the PLC device been disconnected from the power grid?\n - Is the PLC device in power-saving mode?",
 
   "networkPasswordErrorTitle" : "Failed to set the network password",

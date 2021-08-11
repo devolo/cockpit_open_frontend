@@ -336,7 +336,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                       hoverColor: fontColorOnBackground.withAlpha(50),
                       iconSize: 24.0 * fontSize.factor,
                       onPressed: !hitDevice.webinterfaceAvailable ? null : () =>
-                          launchURL(hitDevice.ip),
+                          launchURL(hitDevice.webinterfaceURL),
                       mouseCursor: !hitDevice.webinterfaceAvailable ? SystemMouseCursors
                           .basic : SystemMouseCursors.click,
                     ),

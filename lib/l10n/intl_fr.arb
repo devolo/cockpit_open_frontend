@@ -1,0 +1,209 @@
+{
+  "@@locale": "fr",
+  "title": "devolo Cockpit",
+  "@title": {
+    "type": "text",
+    "placeholders": {}
+  },
+
+  "@_SIDE_MENU": {
+  },
+  "overview": "Vue d´ensamble",
+  "updates": "Actualisation",
+  "help": "Aide",
+  "settings": "Paramètres",
+  "appInfo": "Info app",
+
+  "@_TOP_BAR": {
+  },
+  "highContrast": "Haut contraste",
+
+  "@_APP_INFORMATION_DIALOG": {
+  },
+  "appInformation": "Information app",
+  "showLicences": "licenses",
+
+  "@_Settings_Page": {
+  },
+  "general": "Général",
+  "appearance": "Apparence",
+  "network": "Réseau",
+  "enableShowingSpeeds": "Afficher les taux de transmission",
+  "dataRatesArePermanentlyDisplayedInTheOverview": "Les taux de transmission seront toujours indiqués dans la vue d'ensemble",
+  "internetCentered": "Centrer la vue d´ensamble sur l´internet",
+  "theOverviewWillBeCenteredAroundThePlcDeviceConnected": "La vue d'ensemble sera centrée sur l´adapteur CPL connecté à l'internet.",
+  "showOtherDevices": "Afficher autres appareils",
+  "otherDevicesEgPcAreDisplayedInTheOverview": "La vue d'ensemble affichera autres appareils, e.g., ordinateurs",
+  "appTheme": "App design",
+  "chooseTheAppTheme": "Choisir le design de l´application",
+  "fontSize": "Choisir la taille des caractères",
+  "ignoreUpdates": "Ignorer les mises à jour des apparails",
+  "recordTheTransmissionPowerOfTheDevicesAndTransmitIt": "Enregistrer les taux de transmission des appareils CPL et les envoyer à devolo.",
+  "change": "Modifier",
+  "changePlcNetworkPassword": "Modifiez le mot de passe du réseau CPL",
+  "pleaseEnterPassword": "Entrez un mot de passe",
+  "showPassword": "Montrer le mot de passe",
+  "showLogs": "Voir le fichier journal",
+  "passwordMustBeGreaterThan8Characters": "Le mot de passe doit contenir plus de 8 caractères",
+
+  "@_UPDATE_SCREEN": {
+  },
+  "name": "Nom",
+  "currentVersion": "Version actuelle",
+  "state": "État",
+  "update": "Actualisation",
+  "checkUpdates": "Rechercher des mises à jour",
+  "selectAll": "Sélectionner tout",
+  "updateSelected": "Mettre à jour la sélection",
+  "upToDate": "À jour",
+  "update2": "Mise à jour disponible",
+  "updating": "l'appareil est en train de se mettre à jour...",
+  "searching": "Recherche...",
+  "complete": "terminé",
+  "failed": "échoué",
+  "pending": "en attente",
+
+  "@_HELP_PAGE": {
+  },
+  "setUpDevice": "Ajouter un nouvel appareil",
+  "optimizeReception": "Optimiser la connexion",
+  "contactSupport": "Contacter le support",
+
+  "@_SUPPORT_DIALOG": {
+  },
+  "cockpitSupportInformationTitle": "devolo Cockpit informations support",
+  "theCreatedSupportInformationCanNowBeSentToDevolo": "Les informations créées peuvent maintenant être envoyées au support de devolo.\nComplétez le formulaire ci-dessous.",
+  "processNumber": "Numéro de processus",
+  "pleaseEnterProcessingNumber": "Entrez le numéro de processus",
+  "yourName": "Votre nom",
+  "pleaseFillInYourName": "Entrez votre nom",
+  "pleaseEnterYourMailAddress": "Entrez votre adresse e-mail",
+  "contactInfo": "Information de contact",
+  "yourEmailAddress": "Votre adresse e-mail",
+  "LoadCockpitSupportInformationBody": "Les informations de support sont générées",
+  "SendCockpitSupportInformationBody": "Les informations sont envoyées à devolo",
+  "cockpitSupportInformationBody": "Les informations de support ont été créées et sont maintenant disponibles pour vous. Veuillez sélectionner une action.",
+  "emailIsInvalid": "Adresse e-mail non valide",
+
+  "@_OPTIMIZATION_DIALOG": {
+  },
+  "optimizationHelp": "Aide d´optimisation",
+
+  "@_SETUP_DEVICE_DIALOG": {
+  },
+  "addDeviceInstructionText":  "1) Branchez les deux adaptateurs WiFi dans une prise de courant libre et attendez 45 secondes.\n2) Appuyez sur le bouton de cryptage du adapteur CPL déjà existant.\n(\nVous pouvez également établir la connection via l'interface web de l'appareil déja existant.)\n3) Dans les deux minutes qui suivent, appuyez sur le bouton de cryptage du nouveau adapteur CPL.\n4) Les adapteurs CPL sont prêt à fonctionner une fois que la DEL blanche est allumée et ne clignotte plus.",
+  "back": "Précédente",
+  "forward": "Suivant",
+  "securityId": "ID de sécurité",
+  "addDeviceViaSecurityId": "Ajouter un appareil par l´ID de sécurité",
+  "addDeviceViaSecurityIdDialogContent": "Entrez l´ID de sécurité du nouveau adapteur CPL.\nL'ID de sécurité se trouve à l'arrière de l'appareil CPL.",
+  "addDeviceLoading": "L´appareil sera ajouté",
+  "chooseNetwork": "Sélectionnez le réseau dans lequel l´adapteur doit être ajouté.",
+
+  "@_WARNINGS": {
+  },
+  "confirmActionConnectedToRouterWarning": "Attention ! Votre routeur est connecté à cet appareil CPL. Vous allez perdre la connexion à l'internet",
+
+  "@_BUTTONS": {
+  },
+  "confirm": "Confirmer",
+  "cancel": "Annuler",
+  "open": "Ouvrir",
+  "save": "Enregistrer",
+  "send": "Envoyer",
+
+  "@_DEVICE_INFORMATION_DIALOG": {
+  },
+  "deviceInfo": "Informations sur l´appareil",
+  "showManual": "Voir le manuel",
+  "identifyDevice": "Identifier l´appareil",
+  "launchWebInterface": "Site web",
+  "factoryReset": "Réinitialisé aux paramètres d'origine",
+  "deleteDevice": "Supprimer l'appareil",
+  "additionalSettings": "Paramètres supplémentaires",
+  "pleaseEnterDeviceName": "Entrez le nom de l´appareil",
+  "type": "Type",
+  "serialNumber": "Numéro de série",
+  "mtNumber": "numéro MT devolo",
+  "version": "Version firmware",
+  "ipAddress": "Adresse IP",
+  "macAddress": "Adresse MAC",
+
+  "@_OVERVIEW_PAGE": {
+  },
+  "noDevicesFoundScanningForDevices": "Aucun adapteur trouvé. \n\nRecherche d'appareils ...",
+  "refresh": "Actualiser",
+  "yourPc": "Votre PC",
+  "thisPc": "Cet PC",
+  "internet": "Internet",
+
+  "@_DIALOG": {
+  },
+  "confirmAction": "Confirmer activité",
+
+  "@_ERROR_DIALOGS": {
+  },
+  "deviceNotFoundDeviceName" : "Une erreur s'est produite lors de la définition du nom de l'appareil",
+  "deviceNotFoundResetDevice" : "Une erreur s'est produite lors de la réinitialisation de l'appareil",
+  "deviceNotFoundRemoveDevice" : "Une erreur s'est produite lors de la suppression de l'appareil",
+  "deviceNotFoundIdentifyDevice" : "Une erreur s'est produite lors de l'identification de l'appareil",
+  "deviceNotFoundHint" : " - L'adapteur CPL a-t-il été déconnecté du réseau électrique ?\n - Est-ce que l´adapteur CPL est en mode d'économie d'énergie ?",
+
+  "networkPasswordErrorTitle" : "La définition du mot de passe réseau n'a pas abouti",
+  "networkPasswordErrorBody" : "Une erreur s'est produite lors de la définition du mot de passe du réseau",
+  "networkPasswordErrorHint" : "- Vérifiez la connexion avec l´adapteur CPL et réessayez l'action.",
+  "deviceNameErrorTitle" : "Le changement de nom a échoué",
+  "deviceNameErrorBody" : "Une erreur s'est produite lors du changement de nom.\nRéessayez plus tard",
+  "resetDeviceErrorTitle" : "Réinitialisation échouée",
+  "resetDeviceErrorBody" : "Une erreur s'est produite lors de la réinitialisation de l'appareil!\nRéessayez plus tard",
+  "removeDeviceErrorTitle" : "Suppression échouée",
+  "removeDeviceErrorBody" : "Une erreur s'est produite lors de la suppression de l'appareil!\nRéessayez plus tard",
+  "identifyDeviceErrorTitle" : "Identification échouée",
+  "identifyDeviceErrorBody" : "Une erreur s'est produite lors de l'identification de l'appareil.\nRéessayez plus tard",
+  "addDeviceErrorTitle" : "L'installation échoué",
+  "addDeviceErrorBody" : "Une erreur s'est produite lors de l'ajout de l'appareil!\nTRéessayez plus tard",
+  "manualErrorTitle" : "Manuel introuvable",
+  "manualErrorBody" : "Aucun manuel approprié n'a été trouvé pour votre adapteur PLC..\n\nVous trouverez le manuel sur le CD du produit ou sur le site web de devolo.",
+
+  "activateLEDsFailedTitle": "Action échouée",
+  "activateLEDsFailedBody": "Une erreur s'est produite lors de la modification des DEL!\nRéessayez plus tard",
+  "activateTransmissionFailedTitle": "Action échouée",
+  "activateTransmissionFailedBody": "Une erreur s'est produite lors du réglage de la communication de données!\nRéessayez plus tard",
+  "powerSavingModeFailedTitle": "Action échouée",
+  "powerSavingModeFailedBody": "Une erreur s'est produite lors du réglage du mode d'économie d'énergie!\nRéessayez plus tard",
+
+  "UpdateDeviceFailedTitle": "Mise à jour échoué",
+  "UpdateDeviceFailedBody": "Les appareils suivants n'ont pas pu être mis à jour:",
+
+  "supportInfoSendErrorTitle": "Impossible d'envoyer",
+  "supportInfoSendErrorBody1": "Une erreur s'est produite lors de l'envoi d'informations de support à devolo.",
+  "supportInfoSendErrorBody2": "Vérifiez que votre adresse e-mail est correcte et que vous avez saisi un numéro de processus valide.",
+  "supportInfoGenerateError": "Une erreur s'est produite lors de la création des informations de support.\nRéessayez plus tard",
+
+  "@_CONFIRM_DIALOGS": {
+  },
+  "deviceNameDialogTitle" : "Confirmer",
+  "deviceNameDialogBody" : "Voulez-vous vraiment renommer cet appareil?",
+  "removeDeviceConfirmTitle": "Supprimer l´appareil PLC ?",
+  "removeDeviceConfirmBody": "Voulez-vous supprimer l´appareil PLC sélectionné du réseau ?",
+  "resetDeviceConfirmTitle": "Réinitialiser l'appareil aux paramètres d'origine",
+  "resetDeviceConfirmBody": "Voulez-vous réinitialiser l´appareil PLC sélectionné aux paramètres d'origine?",
+
+  "@_VDSL_DIALOG": {
+  },
+  "vdslExplanation": "Dans de rares cas, la distorsion du signal Powerline peut interférer avec la connexion VDSL. Les appareils en mode de compatibilité automatique peuvent ajuster automatiquement la transmission pour limiter les interférences.",
+  "vdslExplanation2": "Sélectionnez un profil de transmission parmi les options proposées comme solution de repli lorsque le mode automatique est désactivé ou qu'une détection fiable des interférences n'est pas possible.",
+  "setVdslCompatibility": "Définir la compatibilité VDSL",
+  "vdslFailed": "Les nouveaux paramètres VDSL n'ont pas pu être enregistrés sur l'appareil",
+  "vdslSuccessful": "Les nouveaux paramètres VDSL ont été enregistrés sur l'appareil",
+  "automaticCompatibilityMode": "Mode de compatibilité automatique (recommandé)",
+  "vdslCompatibility": "Compatibilité VDSL",
+
+  "@_ADDITIONAL_SETTINGS_DIALOG": {
+  },
+  "additionalDialogTitle": "Paramètres supplémentaires",
+  "activateLEDs": "DELs allumés",
+  "activateTransmission": "Communication des données activé",
+  "powerSavingMode": "Mode d'économie d'énergie"
+
+}

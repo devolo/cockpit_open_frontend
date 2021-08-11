@@ -510,10 +510,10 @@ class S {
     );
   }
 
-  /// `devolo Cockpit support informations`
+  /// `devolo Cockpit support information`
   String get cockpitSupportInformationTitle {
     return Intl.message(
-      'devolo Cockpit support informations',
+      'devolo Cockpit support information',
       name: 'cockpitSupportInformationTitle',
       desc: '',
       args: [],
@@ -1020,10 +1020,10 @@ class S {
     );
   }
 
-  /// `An error occurred while removing the device`
+  /// `An error occurred while identifying the device`
   String get deviceNotFoundIdentifyDevice {
     return Intl.message(
-      'An error occurred while removing the device',
+      'An error occurred while identifying the device',
       name: 'deviceNotFoundIdentifyDevice',
       desc: '',
       args: [],
@@ -1488,6 +1488,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'en'),
       Locale.fromSubtags(languageCode: 'de'),
+      Locale.fromSubtags(languageCode: 'fr'),
     ];
   }
 

@@ -524,7 +524,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               dropdownColor: secondColor,
                               style: TextStyle(fontSize: fontSizeListTileSubtitle * fontSize.factor, color: fontColorOnSecond),
                               icon: Icon(
-                                Icons.arrow_drop_down,
+                                DevoloIcons.ic_arrow_drop_down_24px,
                                 color: fontColorOnSecond,
                               ),
                               items: _deviceList.getNetworkNames().map<DropdownMenuItem<String>>((String value) {

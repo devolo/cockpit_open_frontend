@@ -47,6 +47,7 @@ class DeviceSimulator {
         isDeviceAtRouter, // Is device at Router?
         true, // Is local device?
         false, // Is a web interface available?
+        "http://255.255.255.255", // Web interface URL
         false, // Is identify device available?
         "mimo_vdsl17a", // VDSL settings
         ["mimo_vdsl17a", "siso_full", "siso_vdsl17a", "siso_vdsl35b", "mimo_full", "mimo_vdsl35b"],

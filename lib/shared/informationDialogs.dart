@@ -602,7 +602,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                         hoverColor: fontColorOnBackground.withAlpha(50),
                         iconSize: 24.0 * fontSize.factor,
                         onPressed: () {
-                          moreSettings(context,socket,hitDevice.disableTraffic,hitDevice.disableLeds, hitDevice.disableStandby, hitDevice.mac, hitDevice.ipConfigMac, hitDevice.ipConfigAddress, hitDevice.ipConfigNetmask,fontSize);
+                          moreSettings(context,socket,hitDevice.disableTraffic,hitDevice.disableLeds, hitDevice.disableStandby, hitDevice.mac, "E4:B9:7A:DE:00:94", "169.254.8.113", "255.255.255.0",fontSize);
                         }),
                     Text(
                       S.of(context).additionalSettings,
@@ -1021,11 +1021,37 @@ void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<in
                                 formNetmask != ipConfigNetmask)
                                 ? () async {
                                   if (_formKey.currentState!.validate()) {
-                                    //socket.sendSupportInfo(_processNr, _name, _email);
-                                    logger.i("change");
+                                    socket.sendXML('SetIpConfig',newValue2 : formIpAdress,valueType2 : 'address',newValue : formNetmask,valueType : 'netmask',mac : ipConfigMac);
+                                    circularProgressIndicatorInMiddle(context);
+                                    var response = await socket.receiveXML(
+                                        "SetIpConfigStatus");
+                                    if (response!['result'] == "ok") {
+                                      Navigator.maybeOf(context)!.pop();
+                                      await Future.delayed(
+                                          const Duration(seconds: 1), () {});
+                                      socket.sendXML('RefreshNetwork');
+
+                                    } else
+                                    if (response['result'] == "device_not_found") {
+                                      Navigator.maybeOf(context)!.pop();
+                                      errorDialog(context, S
+                                          .of(context)
+                                          .setIpConfigErrorTitle, S
+                                          .of(context)
+                                          .deviceNotFoundSetIpConfig + "\n\n" + S
+                                          .of(context)
+                                          .deviceNotFoundHint, fontSize);
+                                    } else if (response['result'] != "ok") {
+                                      Navigator.maybeOf(context)!.pop();
+                                      errorDialog(context, S
+                                          .of(context)
+                                          .setIpConfigErrorTitle, S
+                                          .of(context)
+                                          .setIpConfigErrorBody, fontSize);
+                                    }
                                   }
                                   else {
-                                    logger.i("failed");
+
                                   }
                                 }
                                 : null,

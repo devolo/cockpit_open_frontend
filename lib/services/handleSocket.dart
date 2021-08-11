@@ -278,7 +278,7 @@ class DataHand extends ChangeNotifier {
           '</macAddress></first><second></second></item></DeviceList></Message></boost_serialization>';
     } else if (messageType == "UpdateResponse") {
       xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType>' + '<' + valueType! + '>' + newValue! + '</' + valueType + '>' + '</Message></boost_serialization>';
-    } else if (messageType == "SetVDSLCompatibility") {
+    } else if (messageType == "SetVDSLCompatibility" || messageType == "SetIpConfig") {
       xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType><macAddress>' + mac! + '</macAddress><' + valueType2! + '>' + newValue2! + '</' + valueType2 + '><' + valueType! + '>' + newValue! + '</' + valueType + '>' + '</Message></boost_serialization>';
     } else if (newValue == null && mac != null) {
       xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType><macAddress>' + mac + '</macAddress></Message></boost_serialization>';

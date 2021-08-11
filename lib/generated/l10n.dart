@@ -1040,6 +1040,16 @@ class S {
     );
   }
 
+  /// `An error occurred while changing the IP address/netmask`
+  String get deviceNotFoundSetIpConfig {
+    return Intl.message(
+      'An error occurred while changing the IP address/netmask',
+      name: 'deviceNotFoundSetIpConfig',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// ` - Has the PLC device been disconnected from the power grid?\n - Is the PLC device in power-saving mode?`
   String get deviceNotFoundHint {
     return Intl.message(
@@ -1195,6 +1205,26 @@ class S {
     return Intl.message(
       'No suitable manual was found for your PLC device.\n\nYou can find the manual on the product CD or on the devolo website',
       name: 'manualErrorBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Configuration failed`
+  String get setIpConfigErrorTitle {
+    return Intl.message(
+      'Configuration failed',
+      name: 'setIpConfigErrorTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred while changing the IP address/netmask!\nTry again later`
+  String get setIpConfigErrorBody {
+    return Intl.message(
+      'An error occurred while changing the IP address/netmask!\nTry again later',
+      name: 'setIpConfigErrorBody',
       desc: '',
       args: [],
     );

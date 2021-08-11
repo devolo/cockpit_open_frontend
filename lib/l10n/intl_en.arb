@@ -148,6 +148,7 @@
   "deviceNotFoundResetDevice" : "An error occurred while resetting the device",
   "deviceNotFoundRemoveDevice" : "An error occurred while removing the device",
   "deviceNotFoundIdentifyDevice" : "An error occurred while identifying the device",
+  "deviceNotFoundSetIpConfig" : "An error occurred while changing the IP address/netmask",
   "deviceNotFoundHint" : " - Has the PLC device been disconnected from the power grid?\n - Is the PLC device in power-saving mode?",
 
   "networkPasswordErrorTitle" : "Failed to set the network password",
@@ -165,6 +166,8 @@
   "addDeviceErrorBody" : "An error occurred while adding the device!\nTry again later",
   "manualErrorTitle" : "Manual not found",
   "manualErrorBody" : "No suitable manual was found for your PLC device.\n\nYou can find the manual on the product CD or on the devolo website",
+  "setIpConfigErrorTitle" : "Configuration failed",
+  "setIpConfigErrorBody" : "An error occurred while changing the IP address/netmask!\nTry again later",
 
   "activateLEDsFailedTitle": "Action failed",
   "activateLEDsFailedBody": "An error occurred while modifying the LEDs!\nTry again later",

@@ -117,6 +117,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Es ist ein Fehler beim Entfernen des Gerätes aufgetreten!"),
         "deviceNotFoundResetDevice": MessageLookupByLibrary.simpleMessage(
             "Es ist ein Fehler beim Zurücksetzen des Gerätes aufgetreten!"),
+        "deviceNotFoundSetIpConfig": MessageLookupByLibrary.simpleMessage(
+            "Es ist ein Fehler beim Ändern der IP-Adresse/Netzmaske aufgetreten!"),
         "emailIsInvalid":
             MessageLookupByLibrary.simpleMessage("Ungültige E-mail Adresse"),
         "enableShowingSpeeds":
@@ -222,6 +224,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectAll": MessageLookupByLibrary.simpleMessage("Alle auswählen"),
         "send": MessageLookupByLibrary.simpleMessage("Senden"),
         "serialNumber": MessageLookupByLibrary.simpleMessage("Seriennummer"),
+        "setIpConfigErrorBody": MessageLookupByLibrary.simpleMessage(
+            "Es ist ein Fehler bei der Änderung der IP-Adresse/Netzmaske aufgetreten!.\nBitte versuchen Sie es erneut."),
+        "setIpConfigErrorTitle": MessageLookupByLibrary.simpleMessage(
+            "Konfiguration fehlgeschlagen"),
         "setUpDevice": MessageLookupByLibrary.simpleMessage("Gerät einrichten"),
         "setVdslCompatibility": MessageLookupByLibrary.simpleMessage(
             "VDSL Kompatibilität \nsetzen"),

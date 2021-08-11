@@ -148,6 +148,7 @@
   "deviceNotFoundResetDevice" : "Es ist ein Fehler beim Zurücksetzen des Gerätes aufgetreten!",
   "deviceNotFoundRemoveDevice" : "Es ist ein Fehler beim Entfernen des Gerätes aufgetreten!",
   "deviceNotFoundIdentifyDevice" : "Es ist ein Fehler beim Identifizieren des Gerätes aufgetreten!",
+  "deviceNotFoundSetIpConfig" : "Es ist ein Fehler beim Ändern der IP-Adresse/Netzmaske aufgetreten!",
   "deviceNotFoundHint" : " - Wurde das PLC-Gerät vom Stromnetz getrennt?\n - Befindet sich das PLC-Gerät im Stromsparmodus?",
 
   "networkPasswordErrorTitle" : "Setzen des Netzwerk-Kennworts fehlgeschlagen ",
@@ -165,6 +166,8 @@
   "addDeviceErrorBody" : "Es ist ein Fehler beim Hinzufügen des Gerätes aufgetreten!\nBitte versuchen Sie es erneut.",
   "manualErrorTitle" : "Handbuch nicht gefunden",
   "manualErrorBody" : "Für Ihr PLC-Gerät wurde kein passendes Handbuch gefunden.\n\nSie können das Handbuch auf der Produkt-CD oder der devolo Internet-Seite finden.",
+  "setIpConfigErrorTitle" : "Konfiguration fehlgeschlagen",
+  "setIpConfigErrorBody" : "Es ist ein Fehler bei der Änderung der IP-Adresse/Netzmaske aufgetreten!.\nBitte versuchen Sie es erneut.",
 
   "activateLEDsFailedTitle": "Aktion fehlgeschlagen",
   "activateLEDsFailedBody": "Es ist ein Fehler beim Ändern der LEDs aufgetreten!\nBitte versuchen Sie es erneut.",

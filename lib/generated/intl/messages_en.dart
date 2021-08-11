@@ -116,6 +116,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "An error occurred while removing the device"),
         "deviceNotFoundResetDevice": MessageLookupByLibrary.simpleMessage(
             "An error occurred while resetting the device"),
+        "deviceNotFoundSetIpConfig": MessageLookupByLibrary.simpleMessage(
+            "An error occurred while changing the IP address/netmask"),
         "emailIsInvalid":
             MessageLookupByLibrary.simpleMessage("E-mail is invalid"),
         "enableShowingSpeeds":
@@ -219,6 +221,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectAll": MessageLookupByLibrary.simpleMessage("Select all"),
         "send": MessageLookupByLibrary.simpleMessage("Send"),
         "serialNumber": MessageLookupByLibrary.simpleMessage("Serial number"),
+        "setIpConfigErrorBody": MessageLookupByLibrary.simpleMessage(
+            "An error occurred while changing the IP address/netmask!\nTry again later"),
+        "setIpConfigErrorTitle":
+            MessageLookupByLibrary.simpleMessage("Configuration failed"),
         "setUpDevice": MessageLookupByLibrary.simpleMessage("Setup new device"),
         "setVdslCompatibility":
             MessageLookupByLibrary.simpleMessage("Set VDSL \ncompatibility"),

@@ -148,6 +148,7 @@
   "deviceNotFoundResetDevice" : "Une erreur s'est produite lors de la réinitialisation de l'appareil",
   "deviceNotFoundRemoveDevice" : "Une erreur s'est produite lors de la suppression de l'appareil",
   "deviceNotFoundIdentifyDevice" : "Une erreur s'est produite lors de l'identification de l'appareil",
+  "deviceNotFoundSetIpConfig" : "Une erreur s'est produite lors de la configuration de l'adresse IP/masque de réseau",
   "deviceNotFoundHint" : " - L'adapteur CPL a-t-il été déconnecté du réseau électrique ?\n - Est-ce que l´adapteur CPL est en mode d'économie d'énergie ?",
 
   "networkPasswordErrorTitle" : "La définition du mot de passe réseau n'a pas abouti",
@@ -165,6 +166,8 @@
   "addDeviceErrorBody" : "Une erreur s'est produite lors de l'ajout de l'appareil!\nTRéessayez plus tard",
   "manualErrorTitle" : "Manuel introuvable",
   "manualErrorBody" : "Aucun manuel approprié n'a été trouvé pour votre adapteur PLC..\n\nVous trouverez le manuel sur le CD du produit ou sur le site web de devolo.",
+  "setIpConfigErrorTitle" : "Configuration échoué",
+  "setIpConfigErrorBody" : "Une erreur s'est produite lors du changement de l´adresse IP/masque de réseau.\nRéessayez plus tard",
 
   "activateLEDsFailedTitle": "Action échouée",
   "activateLEDsFailedBody": "Une erreur s'est produite lors de la modification des LED!\nRéessayez plus tard",

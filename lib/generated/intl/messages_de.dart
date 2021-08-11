@@ -124,6 +124,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "factoryReset":
             MessageLookupByLibrary.simpleMessage("Werkseinstellung \nsetzen"),
         "failed": MessageLookupByLibrary.simpleMessage("fehlgeschlagen"),
+        "fillInIpAddress":
+            MessageLookupByLibrary.simpleMessage("Bitte IP-Adresse eintragen"),
+        "fillInNetmask":
+            MessageLookupByLibrary.simpleMessage("Bitte Netzmaske eintragen"),
         "fontSize": MessageLookupByLibrary.simpleMessage("Schriftgröße"),
         "forward": MessageLookupByLibrary.simpleMessage("weiter"),
         "general": MessageLookupByLibrary.simpleMessage("Allgemein"),
@@ -150,6 +154,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Handbuch nicht gefunden"),
         "mtNumber": MessageLookupByLibrary.simpleMessage("devolo MT-Nummer"),
         "name": MessageLookupByLibrary.simpleMessage("Name"),
+        "netmask": MessageLookupByLibrary.simpleMessage("Netzmaske"),
         "network": MessageLookupByLibrary.simpleMessage("Netzwerk"),
         "networkPasswordErrorBody": MessageLookupByLibrary.simpleMessage(
             "Es ist ein Fehler beim Setzen des Netzwerk-Kennwortes aufgetreten!"),

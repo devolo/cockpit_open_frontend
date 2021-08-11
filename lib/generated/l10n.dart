@@ -1489,6 +1489,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Netmask`
+  String get netmask {
+    return Intl.message(
+      'Netmask',
+      name: 'netmask',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter the IP address`
+  String get fillInIpAddress {
+    return Intl.message(
+      'Enter the IP address',
+      name: 'fillInIpAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter the netmask`
+  String get fillInNetmask {
+    return Intl.message(
+      'Enter the netmask',
+      name: 'fillInNetmask',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

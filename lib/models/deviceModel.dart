@@ -39,9 +39,12 @@ class Device extends ChangeNotifier {
   List<int> disableLeds = List.filled(2, 0); // first value indicates if the action is available for the device, second shows the value
   List<int> disableStandby = List.filled(2, 0); // first value indicates if the action is available for the device, second shows the value
   List<int> disableTraffic = List.filled(2, 0); // first value indicates if the action is available for the device, second shows the value
+  String ipConfigMac = "";
+  String ipConfigAddress = "";
+  String ipConfigNetmask = "";
 
 
-  Device(String type, String networkType, String name, String mac, String ip, String MT, String serialno, String version, String versionDate, atRouter, isLocal, bool webinterfaceAvailable, String webinterfaceURL, bool identifyDeviceAvailable, selectedVDSL, supportedVDSL, modeVDSL, List<int> disableLeds, List<int> disableStandby, List<int> disableTraffic) {
+  Device(String type, String networkType, String name, String mac, String ip, String MT, String serialno, String version, String versionDate, atRouter, isLocal, bool webinterfaceAvailable, String webinterfaceURL, bool identifyDeviceAvailable, selectedVDSL, supportedVDSL, modeVDSL, List<int> disableLeds, List<int> disableStandby, List<int> disableTraffic, String ipConfigMac, String ipConfigAddress, String ipConfigNetmask) {
     this.typeEnum = getDeviceType(type);
     this.type = type;
     this.networkType = networkType;
@@ -61,6 +64,9 @@ class Device extends ChangeNotifier {
     this.disableLeds = disableLeds;
     this.disableStandby = disableStandby;
     this.disableTraffic = disableTraffic;
+    this.ipConfigMac = ipConfigMac;
+    this.ipConfigAddress = ipConfigAddress;
+    this.ipConfigNetmask = ipConfigNetmask;
 
     if(version.contains("_")) {
       this.version = version.substring(0,version.indexOf("_"));
@@ -99,6 +105,9 @@ class Device extends ChangeNotifier {
     List<int> disable_leds = List.filled(2, 0); // first value indicates if the action is available for the device, second shows the value
     List<int> disable_standby = List.filled(2, 0); // first value indicates if the action is available for the device, second shows the value
     List<int> disable_traffic = List.filled(2, 0); // first value indicates if the action is available for the device, second shows the value
+    String ipConfigMac = "";
+    String ipConfigAddress = "";
+    String ipConfigNetmask = "";
 
     if (element.getElement('actions') != null) {
 
@@ -131,6 +140,12 @@ class Device extends ChangeNotifier {
         else if(first.innerText == "disable_traffic"){
           var disableTrafficStatus = first.parentElement!.findAllElements("item").first.findElements("second").first.innerText;
           disable_traffic = [1,int.parse(disableTrafficStatus)];
+        }
+
+        else if(first.innerText == "set_ip_config"){
+          ipConfigMac = first.parentElement!.findAllElements("item").toList().firstWhere((element) => element.innerText.contains("macAddress"),).lastElementChild!.innerText;
+          ipConfigAddress = first.parentElement!.findAllElements("item").toList().firstWhere((element) => element.innerText.contains("address"),).lastElementChild!.innerText;
+          ipConfigNetmask = first.parentElement!.findAllElements("item").toList().firstWhere((element) => element.innerText.contains("netmask"),).lastElementChild!.innerText;
         }
       }
     }
@@ -181,6 +196,9 @@ class Device extends ChangeNotifier {
       disable_leds,
       disable_standby,
       disable_traffic,
+      ipConfigMac,
+      ipConfigAddress,
+      ipConfigNetmask
     );
 
     if (element.getElement('remotes') != null) {

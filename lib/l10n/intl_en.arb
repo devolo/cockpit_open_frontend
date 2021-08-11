@@ -205,6 +205,8 @@
   "additionalDialogTitle": "Additional settings",
   "activateLEDs": "LEDs activated",
   "activateTransmission": "Data communication activated",
-  "powerSavingMode": "Power saving mode"
-
+  "powerSavingMode": "Power saving mode",
+  "netmask": "Netmask",
+  "fillInIpAddress": "Enter the IP address",
+  "fillInNetmask": "Enter the netmask"
 }

@@ -205,6 +205,9 @@
   "additionalDialogTitle": "Erweiterte Einstellungen",
   "activateLEDs": "Leuchtdioden (LEDs) angeschaltet",
   "activateTransmission": "Datenkommunikation erlauben",
-  "powerSavingMode": "Stromsparmodus"
+  "powerSavingMode": "Stromsparmodus",
+  "netmask": "Netzmaske",
+  "fillInIpAddress": "Bitte IP-Adresse eintragen",
+  "fillInNetmask": "Bitte Netzmaske eintragen"
 
 }

@@ -61,7 +61,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: SelectableText(
-                        'Name:   ',
+                        "${S.of(context).name}:   ",
                       )),
                 ),
                 Container (
@@ -591,7 +591,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                     )
                   ],
                 ), //ToDo Delete Device see wiki
-              if (hitDevice.disableTraffic[0] == 1 || hitDevice.disableLeds[0] == 1 || hitDevice.disableStandby[0] == 1)
+              if (hitDevice.disableTraffic[0] == 1 || hitDevice.disableLeds[0] == 1 || hitDevice.disableStandby[0] == 1 || (hitDevice.ipConfigAddress.isNotEmpty || hitDevice.ipConfigMac.isNotEmpty || hitDevice.ipConfigNetmask.isNotEmpty))
                 Column(
                   children: [
                     IconButton(
@@ -602,7 +602,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                         hoverColor: fontColorOnBackground.withAlpha(50),
                         iconSize: 24.0 * fontSize.factor,
                         onPressed: () {
-                          moreSettings(context,socket,hitDevice.disableTraffic,hitDevice.disableLeds, hitDevice.disableStandby, hitDevice.mac, fontSize);
+                          moreSettings(context,socket,hitDevice.disableTraffic,hitDevice.disableLeds, hitDevice.disableStandby, hitDevice.mac, hitDevice.ipConfigMac, hitDevice.ipConfigAddress, hitDevice.ipConfigNetmask,fontSize);
                         }),
                     Text(
                       S.of(context).additionalSettings,
@@ -739,7 +739,13 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
   }
 }
 
-void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<int> disableLeds, List<int> disableStandby, String mac, FontSize fontSize) {
+// add confirm button manually
+void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<int> disableLeds, List<int> disableStandby, String mac, String ipConfigMac, String ipConfigAddress, String ipConfigNetmask, FontSize fontSize) {
+
+  final _formKey = GlobalKey<FormState>();
+  String formIpAdress = ipConfigAddress;
+  String formNetmask = ipConfigNetmask;
+
 
   // Styling
   Color switchActiveTrackColor = devoloGreen.withOpacity(0.4);
@@ -752,6 +758,7 @@ void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<in
       barrierDismissible: true, // user doesn't need to tap button!
       builder: (BuildContext context) {
         return AlertDialog(
+          insetPadding: EdgeInsets.symmetric(horizontal: 0),
           titleTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
           contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
           title: Column(
@@ -766,85 +773,298 @@ void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<in
             ],
           ),
           titlePadding: EdgeInsets.all(dialogTitlePadding),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-              children: [
-                if(disableLeds[0] == 1)
-                  SwitchListTile(
-                    title:  Text(S.of(context).activateLEDs, style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor )),
-                    value: disableLeds[1] == 0 ? true : false,
-                    onChanged: (bool value) async {
-                      String newStatus =  value? "0" : "1";
-                      socket.sendXML('DisableLEDs', newValue: newStatus, valueType: 'state', mac: mac);
-                      circularProgressIndicatorInMiddle(context);
-                      var response = await socket.receiveXML("DisableLEDsStatus");
-                      if(response['result'] == "ok") {
-                        disableLeds[1] = value ? 0 : 1;
-                        Navigator.maybeOf(context)!.pop();
-                      }
-                      else{
-                        Navigator.maybeOf(context)!.pop();
-                        errorDialog(context, S.of(context).activateLEDsFailedTitle, S.of(context).activateLEDsFailedBody, fontSize);
-                      }
-
+          content: StatefulBuilder( builder: (BuildContext context, StateSetter setState) {
+            return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if(disableLeds[0] == 1)
+                    SwitchListTile(
+                      title: Text(S
+                          .of(context)
+                          .activateLEDs, style: TextStyle(
+                          color: fontColorOnBackground,
+                          fontSize: dialogContentTextFontSize *
+                              fontSize.factor)),
+                      value: disableLeds[1] == 0 ? true : false,
+                      onChanged: (bool value) async {
+                        String newStatus = value ? "0" : "1";
+                        socket.sendXML('DisableLEDs', newValue: newStatus,
+                            valueType: 'state',
+                            mac: mac);
+                        circularProgressIndicatorInMiddle(context);
+                        var response = await socket.receiveXML(
+                            "DisableLEDsStatus");
+                        if (response['result'] == "ok") {
+                          disableLeds[1] = value ? 0 : 1;
+                          Navigator.maybeOf(context)!.pop();
+                        }
+                        else {
+                          Navigator.maybeOf(context)!.pop();
+                          errorDialog(context, S
+                              .of(context)
+                              .activateLEDsFailedTitle, S
+                              .of(context)
+                              .activateLEDsFailedBody, fontSize);
+                        }
                       },
-                    secondary: Icon(DevoloIcons.ic_lightbulb_outline_24px, color: fontColorOnBackground, size: 24 * fontSize.factor),
-                    activeTrackColor: switchActiveTrackColor,
-                    activeColor: switchActiveThumbColor,
-                    inactiveThumbColor: switchInactiveThumbColor,
-                    inactiveTrackColor: switchInactiveTrackColor,
-                  ),
-                if(disableTraffic[0] == 1)
-                  SwitchListTile(
-                    title: Text(S.of(context).activateTransmission, style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor )),
-                    value: disableTraffic[1] == 0 ? true : false,
-                    onChanged: (bool value) async {
-                      String newStatus =  value? "0" : "1";
-                      socket.sendXML('DisableTraffic', newValue: newStatus, valueType: 'state', mac: mac);
-                      circularProgressIndicatorInMiddle(context);
-                      var response = await socket.receiveXML("DisableTrafficStatus");
-                      if(response['result'] == "ok"){
-                        disableTraffic[1] = value ? 0 : 1;
-                        Navigator.maybeOf(context)!.pop();
-                      }
-                      else{
-                        Navigator.maybeOf(context)!.pop();
-                        errorDialog(context, S.of(context).activateTransmissionFailedTitle, S.of(context).activateTransmissionFailedBody, fontSize);
-                      }
-
-
-                    },
-                    secondary: Icon(DevoloIcons.ic_perm_data_setting_24px, color: fontColorOnBackground, size: 24 * fontSize.factor),
-                    activeTrackColor: switchActiveTrackColor,
-                    activeColor: switchActiveThumbColor,
-                    inactiveThumbColor: switchInactiveThumbColor,
-                    inactiveTrackColor: switchInactiveTrackColor,
-                  ),
-                if(disableStandby[0] == 1)
-                  SwitchListTile(
-                    title: Text(S.of(context).powerSavingMode, style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor )),
-                    value: disableStandby[1] == 0 ? true : false,
-                    onChanged: (bool value) async {
-                      String newStatus =  value? "0" : "1";
-                      socket.sendXML('DisableStandby', newValue: newStatus, valueType: 'state', mac: mac);
-                      circularProgressIndicatorInMiddle(context);
-                      var response = await socket.receiveXML("DisableStandbyStatus");
-                      if(response['result'] == "ok"){
-                        disableStandby[1] = value ? 0 : 1;
-                        Navigator.maybeOf(context)!.pop();
-                      }
-                      else{
-                        Navigator.maybeOf(context)!.pop();
-                        errorDialog(context, S.of(context).powerSavingModeFailedTitle, S.of(context).powerSavingModeFailedBody, fontSize);
-                      }
-                    },
-                    secondary: Icon(DevoloIcons.ic_battery_charging_full_24px, color: fontColorOnBackground, size: 24 * fontSize.factor),
-                    activeTrackColor: switchActiveTrackColor,
-                    activeColor: switchActiveThumbColor,
-                    inactiveThumbColor: switchInactiveThumbColor,
-                    inactiveTrackColor: switchInactiveTrackColor,
+                      secondary: Icon(DevoloIcons.ic_lightbulb_outline_24px,
+                          color: fontColorOnBackground,
+                          size: 24 * fontSize.factor),
+                      activeTrackColor: switchActiveTrackColor,
+                      activeColor: switchActiveThumbColor,
+                      inactiveThumbColor: switchInactiveThumbColor,
+                      inactiveTrackColor: switchInactiveTrackColor,
+                    ),
+                  if(disableTraffic[0] == 1)
+                    SwitchListTile(
+                      title: Text(S
+                          .of(context)
+                          .activateTransmission, style: TextStyle(
+                          color: fontColorOnBackground,
+                          fontSize: dialogContentTextFontSize *
+                              fontSize.factor)),
+                      value: disableTraffic[1] == 0 ? true : false,
+                      onChanged: (bool value) async {
+                        String newStatus = value ? "0" : "1";
+                        socket.sendXML('DisableTraffic', newValue: newStatus,
+                            valueType: 'state',
+                            mac: mac);
+                        circularProgressIndicatorInMiddle(context);
+                        var response = await socket.receiveXML(
+                            "DisableTrafficStatus");
+                        if (response['result'] == "ok") {
+                          disableTraffic[1] = value ? 0 : 1;
+                          Navigator.maybeOf(context)!.pop();
+                        }
+                        else {
+                          Navigator.maybeOf(context)!.pop();
+                          errorDialog(context, S
+                              .of(context)
+                              .activateTransmissionFailedTitle, S
+                              .of(context)
+                              .activateTransmissionFailedBody, fontSize);
+                        }
+                      },
+                      secondary: Icon(DevoloIcons.ic_perm_data_setting_24px,
+                          color: fontColorOnBackground,
+                          size: 24 * fontSize.factor),
+                      activeTrackColor: switchActiveTrackColor,
+                      activeColor: switchActiveThumbColor,
+                      inactiveThumbColor: switchInactiveThumbColor,
+                      inactiveTrackColor: switchInactiveTrackColor,
+                    ),
+                  if(disableStandby[0] == 1)
+                    SwitchListTile(
+                      title: Text(S
+                          .of(context)
+                          .powerSavingMode, style: TextStyle(
+                          color: fontColorOnBackground,
+                          fontSize: dialogContentTextFontSize *
+                              fontSize.factor)),
+                      value: disableStandby[1] == 0 ? true : false,
+                      onChanged: (bool value) async {
+                        String newStatus = value ? "0" : "1";
+                        socket.sendXML('DisableStandby', newValue: newStatus,
+                            valueType: 'state',
+                            mac: mac);
+                        circularProgressIndicatorInMiddle(context);
+                        var response = await socket.receiveXML(
+                            "DisableStandbyStatus");
+                        if (response['result'] == "ok") {
+                          disableStandby[1] = value ? 0 : 1;
+                          Navigator.maybeOf(context)!.pop();
+                        }
+                        else {
+                          Navigator.maybeOf(context)!.pop();
+                          errorDialog(context, S
+                              .of(context)
+                              .powerSavingModeFailedTitle, S
+                              .of(context)
+                              .powerSavingModeFailedBody, fontSize);
+                        }
+                      },
+                      secondary: Icon(DevoloIcons.ic_battery_charging_full_24px,
+                          color: fontColorOnBackground,
+                          size: 24 * fontSize.factor),
+                      activeTrackColor: switchActiveTrackColor,
+                      activeColor: switchActiveThumbColor,
+                      inactiveThumbColor: switchInactiveThumbColor,
+                      inactiveTrackColor: switchInactiveTrackColor,
+                    ),
+                  if ((ipConfigAddress.isNotEmpty || ipConfigMac.isNotEmpty || ipConfigNetmask.isNotEmpty) && (disableLeds[0] == 1 || disableTraffic[0] == 1 || disableStandby[0] == 1))
+                  SizedBox(height: 20,),
+                  if ((ipConfigAddress.isNotEmpty || ipConfigMac.isNotEmpty || ipConfigNetmask.isNotEmpty) && (disableLeds[0] == 1 || disableTraffic[0] == 1 || disableStandby[0] == 1))
+                  Divider(color: fontColorOnBackground),
+                  if ((ipConfigAddress.isNotEmpty || ipConfigMac.isNotEmpty || ipConfigNetmask.isNotEmpty) && (disableLeds[0] == 1 || disableTraffic[0] == 1 || disableStandby[0] == 1))
+                  SizedBox(height: 20,),
+                  if (ipConfigAddress.isNotEmpty || ipConfigMac.isNotEmpty || ipConfigNetmask.isNotEmpty)
+                  Form(
+                      key: _formKey,
+                      child: Column(
+                        children: <Widget>[
+                          TextFormField(
+                            initialValue: formIpAdress,
+                            style: TextStyle(color: fontColorOnBackground),
+                            decoration: InputDecoration(
+                              labelText: S
+                                  .of(context)
+                                  .ipAddress,
+                              labelStyle: TextStyle(
+                                  color: fontColorOnBackground,
+                                  fontSize: dialogContentTextFontSize *
+                                      fontSize.factor),
+                              hoverColor: fontColorOnBackground.withOpacity(
+                                  0.2),
+                              contentPadding: new EdgeInsets.symmetric(
+                                  vertical: 5.0, horizontal: 10.0),
+                              filled: true,
+                              fillColor: fontColorOnBackground.withOpacity(0.2),
+                              errorStyle: TextStyle(color: devoloRed),
+                              //myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                                borderSide: BorderSide(
+                                  color: fontColorOnBackground,
+                                  width: 2.0,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                                borderSide: BorderSide(
+                                  color: fontColorOnBackground, //Colors.transparent,
+                                  //width: 2.0,
+                                ),
+                              ),
+                              //labelStyle: TextStyle(color: myFocusNode.hasFocus ? Colors.amberAccent : Colors.blue),
+                            ),
+                            onChanged: (String value) {
+                              setState(() {
+                                formIpAdress = value;
+                              });
+                            },
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return S
+                                    .of(context)
+                                    .fillInIpAddress;
+                              }
+                              return null;
+                            },
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            initialValue: formNetmask,
+                            style: TextStyle(color: fontColorOnBackground),
+                            decoration: InputDecoration(
+                              labelText: S
+                                  .of(context)
+                                  .netmask,
+                              labelStyle: TextStyle(
+                                  color: fontColorOnBackground,
+                                  fontSize: dialogContentTextFontSize *
+                                      fontSize.factor),
+                              hoverColor: fontColorOnBackground.withOpacity(
+                                  0.2),
+                              contentPadding: new EdgeInsets.symmetric(
+                                  vertical: 5.0, horizontal: 10.0),
+                              filled: true,
+                              fillColor: fontColorOnBackground.withOpacity(0.2),
+                              errorStyle: TextStyle(color: devoloRed),
+                              //myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                                borderSide: BorderSide(
+                                  color: fontColorOnBackground,
+                                  width: 2.0,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                                borderSide: BorderSide(
+                                  color: fontColorOnBackground, //Colors.transparent,
+                                  //width: 2.0,
+                                ),
+                              ),
+                            ),
+                            onChanged: (String value) {
+                              setState(() {
+                                formNetmask = value;
+                              });
+                            },
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return S
+                                    .of(context)
+                                    .fillInNetmask;
+                              }
+                              return null;
+                            },
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            alignment: Alignment.centerRight, child:
+                          TextButton(
+                            child: Text(
+                              S
+                                  .of(context)
+                                  .change,
+                              style: TextStyle(
+                                  fontSize: dialogContentTextFontSize,
+                                  color: (formIpAdress != ipConfigAddress || formNetmask != ipConfigNetmask) ? Colors.white : buttonDisabledForeground),
+                              textScaleFactor: fontSize.factor,
+                            ),
+                            onPressed: (formIpAdress != ipConfigAddress ||
+                                formNetmask != ipConfigNetmask)
+                                ? () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    //socket.sendSupportInfo(_processNr, _name, _email);
+                                    logger.i("change");
+                                  }
+                                  else {
+                                    logger.i("failed");
+                                  }
+                                }
+                                : null,
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty
+                                    .resolveWith<Color?>(
+                                      (states) {
+                                    if (states.contains(
+                                        MaterialState.hovered)) {
+                                      return devoloGreen.withOpacity(
+                                          hoverOpacity);
+                                    } else if (states.contains(
+                                        MaterialState.pressed)) {
+                                      return devoloGreen.withOpacity(
+                                          activeOpacity);
+                                    }
+                                    return (formIpAdress != ipConfigAddress || formNetmask != ipConfigNetmask) ? devoloGreen : buttonDisabledBackground;
+                                  },
+                                ),
+                                padding: MaterialStateProperty.all<
+                                    EdgeInsetsGeometry>(EdgeInsets.symmetric(
+                                    vertical: 13.0, horizontal: 32.0)),
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(25.0),
+                                    )
+                                )
+                            ),
+                          ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                        ],
+                      )
                   )
-              ]),
+                ]);
+          }),
         );
       });
 }

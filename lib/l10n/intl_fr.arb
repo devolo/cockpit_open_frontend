@@ -50,13 +50,14 @@
   },
   "name": "Nom",
   "currentVersion": "Version actuelle",
-  "state": "État",
+  "state": "Statut d´actualisation",
   "update": "Actualisation",
   "checkUpdates": "Rechercher des mises à jour",
   "selectAll": "Sélectionner tout",
   "updateSelected": "Mettre à jour la sélection",
   "upToDate": "À jour",
-  "update2": "Mise à jour disponible",
+  "upToDatePlaceholder": " jour disponible",
+  "updateAvailable": "Mise à jour disponible",
   "updating": "l'appareil est en train de se mettre à jour...",
   "searching": "Recherche...",
   "complete": "terminé",
@@ -91,7 +92,7 @@
 
   "@_SETUP_DEVICE_DIALOG": {
   },
-  "addDeviceInstructionText":  "1) Branchez les deux adaptateurs WiFi dans une prise de courant libre et attendez 45 secondes.\n2) Appuyez sur le bouton de cryptage du adapteur CPL déjà existant.\n(\nVous pouvez également établir la connection via l'interface web de l'appareil déja existant.)\n3) Dans les deux minutes qui suivent, appuyez sur le bouton de cryptage du nouveau adapteur CPL.\n4) Les adapteurs CPL sont prêt à fonctionner une fois que la DEL blanche est allumée et ne clignotte plus.",
+  "addDeviceInstructionText":  "1) Branchez les deux adaptateurs WiFi dans une prise de courant libre et attendez 45 secondes.\n2) Appuyez sur le bouton de cryptage du adapteur CPL déjà existant.\n(\nVous pouvez également établir la connection via l'interface web de l'appareil déja existant.)\n3) Dans les deux minutes qui suivent, appuyez sur le bouton de cryptage du nouveau adapteur CPL.\n4) Les adapteurs CPL sont prêt à fonctionner une fois que la LED blanche est allumée et ne clignotte plus.",
   "back": "Précédente",
   "forward": "Suivant",
   "securityId": "ID de sécurité",
@@ -166,7 +167,7 @@
   "manualErrorBody" : "Aucun manuel approprié n'a été trouvé pour votre adapteur PLC..\n\nVous trouverez le manuel sur le CD du produit ou sur le site web de devolo.",
 
   "activateLEDsFailedTitle": "Action échouée",
-  "activateLEDsFailedBody": "Une erreur s'est produite lors de la modification des DEL!\nRéessayez plus tard",
+  "activateLEDsFailedBody": "Une erreur s'est produite lors de la modification des LED!\nRéessayez plus tard",
   "activateTransmissionFailedTitle": "Action échouée",
   "activateTransmissionFailedBody": "Une erreur s'est produite lors du réglage de la communication de données!\nRéessayez plus tard",
   "powerSavingModeFailedTitle": "Action échouée",
@@ -202,8 +203,10 @@
   "@_ADDITIONAL_SETTINGS_DIALOG": {
   },
   "additionalDialogTitle": "Paramètres supplémentaires",
-  "activateLEDs": "DELs allumés",
+  "activateLEDs": "LEDs allumés",
   "activateTransmission": "Communication des données activé",
-  "powerSavingMode": "Mode d'économie d'énergie"
-
+  "powerSavingMode": "Mode d'économie d'énergie",
+  "Masque réseau": "Netmask",
+  "fillInIpAddress": "Entrez l'adresse IP",
+  "fillInNetmask": "Entrez la masque de réseau"
 }

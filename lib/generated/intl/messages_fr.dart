@@ -31,9 +31,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Les appareils suivants n\'ont pas pu être mis à jour:"),
         "UpdateDeviceFailedTitle":
             MessageLookupByLibrary.simpleMessage("Mise à jour échoué"),
-        "activateLEDs": MessageLookupByLibrary.simpleMessage("DELs allumés"),
+        "activateLEDs": MessageLookupByLibrary.simpleMessage("LEDs allumés"),
         "activateLEDsFailedBody": MessageLookupByLibrary.simpleMessage(
-            "Une erreur s\'est produite lors de la modification des DEL!\nRéessayez plus tard"),
+            "Une erreur s\'est produite lors de la modification des LED!\nRéessayez plus tard"),
         "activateLEDsFailedTitle":
             MessageLookupByLibrary.simpleMessage("Action échouée"),
         "activateTransmission": MessageLookupByLibrary.simpleMessage(
@@ -47,7 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addDeviceErrorTitle":
             MessageLookupByLibrary.simpleMessage("L\'installation échoué"),
         "addDeviceInstructionText": MessageLookupByLibrary.simpleMessage(
-            "1) Branchez les deux adaptateurs WiFi dans une prise de courant libre et attendez 45 secondes.\n2) Appuyez sur le bouton de cryptage du adapteur CPL déjà existant.\n(\nVous pouvez également établir la connection via l\'interface web de l\'appareil déja existant.)\n3) Dans les deux minutes qui suivent, appuyez sur le bouton de cryptage du nouveau adapteur CPL.\n4) Les adapteurs CPL sont prêt à fonctionner une fois que la DEL blanche est allumée et ne clignotte plus."),
+            "1) Branchez les deux adaptateurs WiFi dans une prise de courant libre et attendez 45 secondes.\n2) Appuyez sur le bouton de cryptage du adapteur CPL déjà existant.\n(\nVous pouvez également établir la connection via l\'interface web de l\'appareil déja existant.)\n3) Dans les deux minutes qui suivent, appuyez sur le bouton de cryptage du nouveau adapteur CPL.\n4) Les adapteurs CPL sont prêt à fonctionner une fois que la LED blanche est allumée et ne clignotte plus."),
         "addDeviceLoading":
             MessageLookupByLibrary.simpleMessage("L´appareil sera ajouté"),
         "addDeviceViaSecurityId": MessageLookupByLibrary.simpleMessage(
@@ -118,6 +118,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Une erreur s\'est produite lors de la suppression de l\'appareil"),
         "deviceNotFoundResetDevice": MessageLookupByLibrary.simpleMessage(
             "Une erreur s\'est produite lors de la réinitialisation de l\'appareil"),
+        "deviceNotFoundSetIpConfig": MessageLookupByLibrary.simpleMessage(
+            "Une erreur s\'est produite lors de la configuration de l\'adresse IP/masque de réseau"),
         "emailIsInvalid":
             MessageLookupByLibrary.simpleMessage("Adresse e-mail non valide"),
         "enableShowingSpeeds": MessageLookupByLibrary.simpleMessage(
@@ -125,6 +127,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "factoryReset": MessageLookupByLibrary.simpleMessage(
             "Réinitialisé aux paramètres d\'origine"),
         "failed": MessageLookupByLibrary.simpleMessage("échoué"),
+        "fillInIpAddress":
+            MessageLookupByLibrary.simpleMessage("Entrez l\'adresse IP"),
+        "fillInNetmask":
+            MessageLookupByLibrary.simpleMessage("Entrez la masque de réseau"),
         "fontSize": MessageLookupByLibrary.simpleMessage(
             "Choisir la taille des caractères"),
         "forward": MessageLookupByLibrary.simpleMessage("Suivant"),
@@ -218,6 +224,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectAll": MessageLookupByLibrary.simpleMessage("Sélectionner tout"),
         "send": MessageLookupByLibrary.simpleMessage("Envoyer"),
         "serialNumber": MessageLookupByLibrary.simpleMessage("Numéro de série"),
+        "setIpConfigErrorBody": MessageLookupByLibrary.simpleMessage(
+            "Une erreur s\'est produite lors du changement de l´adresse IP/masque de réseau.\nRéessayez plus tard"),
+        "setIpConfigErrorTitle":
+            MessageLookupByLibrary.simpleMessage("Configuration échoué"),
         "setUpDevice":
             MessageLookupByLibrary.simpleMessage("Ajouter un nouvel appareil"),
         "setVdslCompatibility": MessageLookupByLibrary.simpleMessage(
@@ -231,7 +241,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Afficher autres appareils"),
         "showPassword":
             MessageLookupByLibrary.simpleMessage("Montrer le mot de passe"),
-        "state": MessageLookupByLibrary.simpleMessage("État"),
+        "state": MessageLookupByLibrary.simpleMessage("Statut d´actualisation"),
         "supportInfoGenerateError": MessageLookupByLibrary.simpleMessage(
             "Une erreur s\'est produite lors de la création des informations de support.\nRéessayez plus tard"),
         "supportInfoSendErrorBody1": MessageLookupByLibrary.simpleMessage(
@@ -250,7 +260,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "title": MessageLookupByLibrary.simpleMessage("devolo Cockpit"),
         "type": MessageLookupByLibrary.simpleMessage("Type"),
         "upToDate": MessageLookupByLibrary.simpleMessage("À jour"),
+        "upToDatePlaceholder":
+            MessageLookupByLibrary.simpleMessage(" jour disponible"),
         "update": MessageLookupByLibrary.simpleMessage("Actualisation"),
+        "updateAvailable":
+            MessageLookupByLibrary.simpleMessage("Mise à jour disponible"),
         "updateSelected":
             MessageLookupByLibrary.simpleMessage("Mettre à jour la sélection"),
         "updates": MessageLookupByLibrary.simpleMessage("Actualisation"),

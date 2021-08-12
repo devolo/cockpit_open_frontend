@@ -634,20 +634,6 @@ void main() {
 
     });
 
-  // test timout case
-  test('Given__When_callReceiveXMLAndTheResponseIsNotExisting_Then_returnResponse',() async {
-
-    var dataHandler = DataHand(true);
-
-    Map<String, dynamic>? expectedResponse = Map<String, dynamic>();
-    expectedResponse['status'] = 'timeout';
-
-    var response = await dataHandler.receiveXML('DisableStandbyStatus');
-
-    expect(response,expectedResponse);
-
-  }, timeout: Timeout(Duration(minutes: 1)));
-
   // case when xmlResponseMap gets the needed response later
   test('Given__When_callReceiveXMLAndTheResponseIsSetLater_Then_returnResponse',() async {
 

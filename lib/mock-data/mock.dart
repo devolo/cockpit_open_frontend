@@ -60,7 +60,8 @@ var config3WithoutMGSOCK = '''<?xml version="1.0" encoding="UTF-8" standalone="y
 </boost_serialization>
 ''';
 
-var networkUpdate1 = '''MSGSOCK0000283e<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+// Magic 2 WiFi 2-1(Study Room) supports action 'setIpConfig'
+var networkUpdate1 = '''MSGSOCK000029F2<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <!DOCTYPE boost_serialization>
 <boost_serialization signature="serialization::archive" version="13">
 <Message class_id="0" tracking_level="0" version="0">
@@ -152,6 +153,25 @@ var networkUpdate1 = '''MSGSOCK0000283e<?xml version="1.0" encoding="UTF-8" stan
 						<item>
 							<first>url</first>
 							<second>http://192.168.1.56/</second>
+						</item>
+					</second>
+				</item>
+				<item>
+					<first>set_ip_config</first>
+					<second>
+						<count>1</count>
+						<item_version>0</item_version>
+						<item>
+							<first>macAddress</first>
+							<second>E4:B9:7A:DE:00:94</second>
+						</item>
+						<item>
+							<first>address</first>
+							<second>192.168.0.1</second>
+						</item>
+						<item>
+							<first>netmask</first>
+							<second>255.255.255.0</second>
 						</item>
 					</second>
 				</item>
@@ -490,6 +510,7 @@ var updateIndication1WithMGSOCK = '''MSGSOCK00000179<?xml version="1.0" encoding
 </Message>
 </boost_serialization>''';
 
+// Magic 2 WiFi 2-1(Study Room) supports action 'setIpConfig'
 var deviceXML = '''<item class_id="2" tracking_level="0" version="0">
 			<type>Magic 2 WiFi 2-1</type>
 			<name>Study Room</name>
@@ -574,6 +595,25 @@ var deviceXML = '''<item class_id="2" tracking_level="0" version="0">
 						<item>
 							<first>url</first>
 							<second>http://192.168.1.56/</second>
+						</item>
+					</second>
+				</item>
+				<item>
+					<first>set_ip_config</first>
+					<second>
+						<count>1</count>
+						<item_version>0</item_version>
+						<item>
+							<first>macAddress</first>
+							<second>E4:B9:7A:DE:00:94</second>
+						</item>
+						<item>
+							<first>address</first>
+							<second>192.168.0.1</second>
+						</item>
+						<item>
+							<first>netmask</first>
+							<second>255.255.255.0</second>
 						</item>
 					</second>
 				</item>
@@ -1213,6 +1253,17 @@ var disableStandbyStatus1 = '''<?xml version="1.0" encoding="UTF-8" standalone="
 		<macAddress>BC:F2:AF:AE:EF:C8</macAddress>
 		<status>complete</status>
 		<result>ok</result>
+	</Message>
+</boost_serialization>''';
+
+var setIpConfigStatus1 = '''<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE boost_serialization>
+<boost_serialization signature="serialization::archive" version="13">
+	<Message class_id="0" tracking_level="0" version="0">
+		<MessageType>SetIpConfigStatus</MessageType>
+		<macAddress>BC:F2:AF:AE:EF:C8</macAddress>
+		<status>complete</status>
+		<result>failed</result>
 	</Message>
 </boost_serialization>''';
 

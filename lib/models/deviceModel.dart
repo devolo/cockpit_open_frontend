@@ -264,7 +264,10 @@ class Device extends ChangeNotifier {
  ModeVDSL: ${this.modeVDSL},
  disable_leds: ${this.disableLeds},
  disable_standby: ${this.disableStandby},
- disable_traffic: ${this.disableTraffic}
+ disable_traffic: ${this.disableTraffic},
+ ipConfigMac: ${this.ipConfigMac},
+ ipConfigAddress: ${this.ipConfigAddress},
+ ipConfigNetmask: ${this.ipConfigNetmask}
 ''';
   }
 }

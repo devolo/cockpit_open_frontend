@@ -77,6 +77,7 @@ class DataHand extends ChangeNotifier {
 
   Future<void> parseXML(String? rawData) async {
     logger.d("parsing XML ...");
+
     if (rawData == null || rawData == "") {
       logger.w('XML empty');
       return;
@@ -90,6 +91,7 @@ class DataHand extends ChangeNotifier {
       //logger.i("XmlLength: " + xmlLength.toString());
       var xmlSingleDoc = xmlDataNext.substring(rawData.indexOf('<?'), xmlLength + 13); //why 13? I dont know yet -_(o.O)_- //TODO
       xmlDataList.add(xmlSingleDoc);
+
       try {
         xmlDataNext = xmlDataNext.substring(xmlLength + 15);
       } catch (error) {

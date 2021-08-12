@@ -85,7 +85,10 @@ bool compareDevice(Device first, Device other){
       listEquals(first.supportedVDSL,other.supportedVDSL) &&
       listEquals(first.disableLeds,other.disableLeds) &&
       listEquals(first.disableTraffic, other.disableTraffic) &&
-      listEquals(first.disableStandby,other.disableStandby)
+      listEquals(first.disableStandby,other.disableStandby) &&
+      first.ipConfigMac== other.ipConfigMac &&
+      first.ipConfigAddress == other.ipConfigAddress &&
+      first.ipConfigNetmask == other.ipConfigNetmask
 
   ){
     return true;

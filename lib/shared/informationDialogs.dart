@@ -602,7 +602,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                         hoverColor: fontColorOnBackground.withAlpha(50),
                         iconSize: 24.0 * fontSize.factor,
                         onPressed: () {
-                          moreSettings(context,socket,hitDevice.disableTraffic,hitDevice.disableLeds, hitDevice.disableStandby, hitDevice.mac, "E4:B9:7A:DE:00:94", "169.254.8.113", "255.255.255.0",fontSize);
+                          moreSettings(context,socket,hitDevice.disableTraffic,hitDevice.disableLeds, hitDevice.disableStandby, hitDevice.mac, hitDevice.ipConfigMac, hitDevice.ipConfigAddress, hitDevice.ipConfigNetmask,fontSize);
                         }),
                     Text(
                       S.of(context).additionalSettings,

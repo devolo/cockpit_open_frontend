@@ -1144,7 +1144,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
         Navigator.maybeOf(context)!.pop();
     }
 
-    else if(response["result"] == "failed" || response["status"] == "timeout"){
+    else if(response["result"] == "failed" || response["result"] == "timeout"){
       Navigator.maybeOf(context)!.pop();
       errorDialog(context, S.of(context).supportInfoSendErrorTitle, S.of(context).supportInfoSendErrorBody1 + "\n\n" + S.of(context).supportInfoSendErrorBody2, fontSize);
     }
@@ -1492,7 +1492,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
         _contactSupportAlert(context, socket, response["htmlfilename"], response["zipfilename"]);
       }
 
-      else if (response["result"] == "failed" || response["status"] == "timeout") {
+      else if (response["result"] == "failed" || response["result"] == "timeout") {
         actionSucessfull = false;
       }
     }

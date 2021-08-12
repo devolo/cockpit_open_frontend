@@ -323,20 +323,6 @@ class DataHand extends ChangeNotifier {
     Map<String, dynamic> response = Map<String, dynamic>();
     String? responseElem;
 
-    // introduced as response of SetNetworkPassword needs longer time
-    var timoutTime = 30; //s
-    if(wantedMessageTypes == "SetNetworkPasswordStatus")
-      timoutTime = 120; //s
-
-    if(wantedMessageTypes == "FirmwareUpdateStatus")
-      timoutTime = 300; //s
-
-    if(wantedMessageTypes == "AddRemoteAdapterStatus")
-      timoutTime = 300; //s
-
-    if(wantedMessageTypes == "IdentifyDeviceStatus")
-      timoutTime = 300; //s
-
     bool wait = true;
     await new Future.delayed(const Duration(seconds: 2));
 
@@ -524,10 +510,6 @@ class DataHand extends ChangeNotifier {
       }
 
       return wait;
-    }).timeout(Duration(seconds: timoutTime), onTimeout: () {
-      logger.w('Receive Response Timed Out');
-      response['status'] = "timeout";
-      wait = false;
     });
 
     logger.d("return Response -> ");

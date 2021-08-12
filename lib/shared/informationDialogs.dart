@@ -722,7 +722,7 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
       circularProgressIndicatorInMiddle(context);
 
     var response = await socket.receiveXML("SetVDSLCompatibilityStatus");
-    if (response['result'] == "failed") {
+    if (response['result'] == "failed" || response['result'] == "timeout") {
       Navigator.maybeOf(context)!.pop(true);
       errorDialog(context, "Error", S.of(context).vdslFailed, fontSize);
     } else if (response['result'] == "ok") {

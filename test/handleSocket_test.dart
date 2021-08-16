@@ -489,6 +489,7 @@ void main() {
 
       Map<String, dynamic>? expectedResponse = Map<String, dynamic>();
       expectedResponse['failed'] = ['B8:BE:F4:31:96:8B'];
+      expectedResponse['password'] = ['D6:FE:45:43:AC:FB'];
       expectedResponse['status'] = 'complete';
 
       dataHandler.xmlResponseMap['FirmwareUpdateStatus'] = [XmlDocument.parse(firmwareUpdateStatus3)];

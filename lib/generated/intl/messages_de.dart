@@ -206,6 +206,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Es ist ein Fehler beim Entfernen des Gerätes aufgetreten!\nBitte versuchen Sie es erneut."),
         "removeDeviceErrorTitle":
             MessageLookupByLibrary.simpleMessage("Löschvorgang fehlgeschlagen"),
+        "repeat": MessageLookupByLibrary.simpleMessage("Wiederholen"),
         "resetDeviceConfirmBody": MessageLookupByLibrary.simpleMessage(
             "Wollen Sie das gewählte PLC-Gerät in den Auslieferungszustand zurücksetzen?"),
         "resetDeviceConfirmTitle": MessageLookupByLibrary.simpleMessage(

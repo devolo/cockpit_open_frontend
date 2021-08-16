@@ -76,10 +76,16 @@ class _UpdateScreenState extends State<UpdateScreen> {
     });
   }
 
-  Future<void> updateDevices(DataHand socket, NetworkList _deviceList) async {
+  Future<void> updateDevices(DataHand socket, NetworkList _deviceList, {List<String>? pwProtectedDeviceList}) async {
 
-    logger.d("update following Devices ->" + _deviceList.getCheckedUpdateMacs().toString());
-    socket.sendXML('FirmwareUpdateResponse', newValue: _deviceList.getCheckedUpdateMacs().toString());
+    if(pwProtectedDeviceList == null){
+      logger.d("update following Devices ->" + _deviceList.getCheckedUpdateMacs().toString());
+      socket.sendXML('FirmwareUpdateResponse', newValue: _deviceList.getCheckedUpdateMacs().toString());
+    }
+    else{
+      logger.d("repeat updating following Devices ->" + _deviceList.getCheckedUpdateMacs().toString() + pwProtectedDeviceList.toString());
+      socket.sendXML('FirmwareUpdateResponse', newValue: _deviceList.getCheckedUpdateMacs().toString() + pwProtectedDeviceList.toString());
+    }
 
     var response = await socket.receiveXML("FirmwareUpdateStatus");
     setState(() {
@@ -88,25 +94,40 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
     if(response != null && (response['failed'] != null || response['password'] != null)){
 
-      String failedMacs = "\n";
+      String failedMacsUiText = "\n";
+      List<String> failedMacs = [];
       List<String> passwordSecuredMacs = [];
 
-      for(var mac in response['failed']){
-        if(_deviceList.getDeviceByMac(mac.toString()) != null){
-          failedMacs = "\n- " + _deviceList.getDeviceByMac(mac.toString())!.name + " : " + mac.toString() + "\n";
-        }
-        else{
-          failedMacs = "\n- " + mac.toString() + "\n";
-        }
-      }
-
-      for(var mac in response['password']){
-        if(_deviceList.getDeviceByMac(mac.toString()) != null){
-          passwordSecuredMacs.add(mac.toString());
+      if(response['failed'] != null){
+        for(var mac in response['failed']){
+          if(_deviceList.getDeviceByMac(mac.toString()) != null){
+            failedMacsUiText = "\n- " + _deviceList.getDeviceByMac(mac.toString())!.name + " : " + mac.toString() + "\n";
+            failedMacs.add(mac.toString());
+          }
+          else{
+            failedMacsUiText = "\n- " + mac.toString() + "\n";
+            failedMacs.add(mac.toString());
+          }
         }
       }
 
-      errorUpdateDialog(context, fontSize, _deviceList, failedMacs: failedMacs, passwordSecuredMacs: passwordSecuredMacs);
+      if(response['password'] != null){
+        for(var mac in response['password']){
+          if(_deviceList.getDeviceByMac(mac.toString()) != null){
+            passwordSecuredMacs.add(mac.toString());
+          }
+        }
+      }
+
+      if(response['password'] != null && response['failed'] != null){
+        errorUpdateDialog(socket, context, fontSize, _deviceList, failedMacs: failedMacs, failedMacsUiText: failedMacsUiText, passwordSecuredMacs: passwordSecuredMacs);
+      }
+      else if(response['password'] != null){
+        errorUpdateDialog(socket, context, fontSize, _deviceList, passwordSecuredMacs: passwordSecuredMacs);
+      }
+      else if(response['failed'] != null){
+        errorUpdateDialog(socket, context, fontSize, _deviceList, failedMacs: failedMacs, failedMacsUiText: failedMacsUiText);
+      }
 
     }
   }
@@ -280,9 +301,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     ),
                   ),
                   onPressed: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true)? null : () async {
-                    errorUpdateDialog(context,fontSize, _deviceList, failedMacs: "F4:06:8D:1F:E0:F7");
+
                     // Warning! "UpdateCheck" and "RefreshNetwork" should only be triggered by a user interaction, not continously/automaticly
-                    /*
+
                     setState(() {
                       socket.sendXML('UpdateCheck');
                       _searchingDeviceUpdate = true;
@@ -298,7 +319,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     setState(() {
                       _searchingDeviceUpdate = false;
                       //if (response!["messageType"] != null) _lastPoll = DateTime.now();
-                    }); */
+                    });
                   },
                   child: Row(children: [
                     Icon(
@@ -772,7 +793,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
   }
 
-  void errorUpdateDialog(context, FontSize fontSize, NetworkList _deviceList, {String? failedMacs, List<String>? passwordSecuredMacs}) {
+  void errorUpdateDialog(socket, context, FontSize fontSize, NetworkList _deviceList, {String? failedMacsUiText, List<String>? failedMacs, List<String>? passwordSecuredMacs}) {
 
     double spacingTitleBody = 30;
     double spacingBetweenFormFields = 20;
@@ -781,6 +802,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
     Map<String, bool> hiddenPwMap = new Map<String, bool>();
     Map<String, String> passwordMap = new Map<String, String>();
+    List<String> pwProtectedDeviceList = [];
+
     if(passwordSecuredMacs != null){
       for(String mac in passwordSecuredMacs) {
         passwordMap[mac] = "";
@@ -826,7 +849,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               obscureText: hiddenPwMap[mac]!,
                                 style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
                               decoration: InputDecoration(
-                                labelText: "Device Name" + " (" + mac + ")",
+                                labelText: _deviceList.getDeviceByMac(mac)!.name + " (" + mac + ")",
                                 labelStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
                                 hoverColor: fontColorOnBackground.withOpacity(0.2),
                                 contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
@@ -905,36 +928,19 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     onPressed: (!passwordMap.containsValue(""))
                         ? () async {
                       if (_formKey.currentState!.validate()) {
-                        logger.i(passwordMap);
-                      /*updateDevices
-                                circularProgressIndicatorInMiddle(context);
-                                var response = await socket.receiveXML(
-                                    "SetIpConfigStatus");
-                                if (response!['result'] == "ok") {
-                                  Navigator.maybeOf(context)!.pop();
-                                  await Future.delayed(
-                                      const Duration(seconds: 1), () {});
-                                  socket.sendXML('RefreshNetwork');
 
-                                } else
-                                if (response['result'] == "device_not_found") {
-                                  Navigator.maybeOf(context)!.pop();
-                                  errorDialog(context, S
-                                      .of(context)
-                                      .setIpConfigErrorTitle, S
-                                      .of(context)
-                                      .deviceNotFoundSetIpConfig + "\n\n" + S
-                                      .of(context)
-                                      .deviceNotFoundHint, fontSize);
-                                } else if (response['result'] != "ok") {
-                                  Navigator.maybeOf(context)!.pop();
-                                  errorDialog(context, S
-                                      .of(context)
-                                      .setIpConfigErrorTitle, S
-                                      .of(context)
-                                      .setIpConfigErrorBody, fontSize);
-                                }
-                                */
+                        for(String mac in _deviceList.getCheckedUpdateMacs()) {
+                          _upgradingDevicesList.add(mac);
+                        }
+
+                        for(String mac in passwordSecuredMacs){
+                          pwProtectedDeviceList.add(mac);
+                          pwProtectedDeviceList.add(passwordMap[mac]!);
+                        }
+
+                        updateDevices(socket,_deviceList, pwProtectedDeviceList: pwProtectedDeviceList);
+                        Navigator.pop(context);
+
                       }
                       else {
 
@@ -966,7 +972,45 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   SizedBox(height: spacingDivider),
                   Text(S.of(context).updateDeviceFailedTitle, style: TextStyle(fontWeight: FontWeight.w600)),
                   SizedBox(height: spacingTitleBody),
-                  Text(S.of(context).updateDeviceFailedBody + "\n \n- " + "Device Name" + " : " + failedMacs.toString() + "\n"),
+                  Text(S.of(context).updateDeviceFailedBody + failedMacsUiText.toString()),
+                  if(passwordSecuredMacs == null)
+                  Container(
+                    alignment: Alignment.centerRight, child:
+                  TextButton(
+                    child: Text(
+                      S.of(context).repeat,
+                      style: TextStyle(
+                          fontSize: dialogContentTextFontSize,
+                          color: (!passwordMap.containsValue("")) ? Colors.white : buttonDisabledForeground),
+                      textScaleFactor: fontSize.factor,
+                    ),
+                    onPressed: () async {
+
+                      for(String mac in _deviceList.getCheckedUpdateMacs()) {
+                        _upgradingDevicesList.add(mac);
+                      }
+
+                      updateDevices(socket,_deviceList);
+                      Navigator.pop(context);
+
+                    },
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                              (states) {
+                            if (states.contains(MaterialState.hovered)) {
+                              return devoloGreen.withOpacity(hoverOpacity);
+                            } else if (states.contains(MaterialState.pressed)) {
+                              return devoloGreen.withOpacity(activeOpacity);
+                            }
+                            return (!passwordMap.containsValue("")) ? devoloGreen : buttonDisabledBackground;
+                          },
+                        ),
+                        padding: MaterialStateProperty.all<
+                            EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 13.0, horizontal: 32.0)),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0),))
+                    ),
+                  ),
+                  ),
                 ]),
               ]);
             }),

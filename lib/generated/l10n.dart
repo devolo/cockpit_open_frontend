@@ -490,6 +490,16 @@ class S {
     );
   }
 
+  /// `Repeat`
+  String get repeat {
+    return Intl.message(
+      'Repeat',
+      name: 'repeat',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Update information`
   String get updateDialogTitle {
     return Intl.message(

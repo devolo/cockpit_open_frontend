@@ -63,6 +63,7 @@
   "complete": "erfolgreich",
   "failed": "fehlgeschlagen",
   "pending": "anstehend",
+  "repeat": "Wiederholen",
 
   "updateDialogTitle": "Aktualisierungsinformationen",
   "updateDevicePasswordNeededTitle": "Passwort benötigt",

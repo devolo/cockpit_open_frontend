@@ -203,6 +203,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "An error occurred while removing the device!\nTry again later"),
         "removeDeviceErrorTitle":
             MessageLookupByLibrary.simpleMessage("Remove failed"),
+        "repeat": MessageLookupByLibrary.simpleMessage("Repeat"),
         "resetDeviceConfirmBody": MessageLookupByLibrary.simpleMessage(
             "Do you want to reset the selected PLC device to the delivery state?"),
         "resetDeviceConfirmTitle": MessageLookupByLibrary.simpleMessage(

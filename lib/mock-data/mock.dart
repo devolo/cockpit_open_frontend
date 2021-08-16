@@ -1139,7 +1139,7 @@ var firmwareUpdateStatus2 = '''<?xml version="1.0" encoding="UTF-8" standalone="
 	</Message>
 </boost_serialization>''';
 
-//B8:BE:F4:31:96:AF complete and B8:BE:F4:31:96:8B failed
+//B8:BE:F4:31:96:AF complete and B8:BE:F4:31:96:8B failed and D6:FE:45:43:AC:FB password
 var firmwareUpdateStatus3 = '''<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE boost_serialization>
 <boost_serialization signature="serialization::archive" version="13">
@@ -1160,6 +1160,12 @@ var firmwareUpdateStatus3 = '''<?xml version="1.0" encoding="UTF-8" standalone="
 					<macAddress>B8:BE:F4:31:96:8B</macAddress>
 				</first>
 				<second>failed</second>
+			</item>
+			<item class_id="2" tracking_level="0" version="0">
+				<first class_id="3" tracking_level="0" version="0">
+					<macAddress>D6:FE:45:43:AC:FB</macAddress>
+				</first>
+				<second>password</second>
 			</item>
 		</DeviceList>
 	</Message>

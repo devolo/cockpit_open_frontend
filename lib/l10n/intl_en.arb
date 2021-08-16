@@ -63,6 +63,7 @@
   "complete": "complete",
   "failed": "failed",
   "pending": "pending",
+  "repeat": "Repeat",
 
   "updateDialogTitle": "Update information",
   "updateDevicePasswordNeededTitle": "Password required",

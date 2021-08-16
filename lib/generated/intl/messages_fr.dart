@@ -206,6 +206,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Une erreur s\'est produite lors de la suppression de l\'appareil!\nRéessayez plus tard"),
         "removeDeviceErrorTitle":
             MessageLookupByLibrary.simpleMessage("Suppression échouée"),
+        "repeat": MessageLookupByLibrary.simpleMessage("Répéter"),
         "resetDeviceConfirmBody": MessageLookupByLibrary.simpleMessage(
             "Voulez-vous réinitialiser l´appareil PLC sélectionné aux paramètres d\'origine?"),
         "resetDeviceConfirmTitle": MessageLookupByLibrary.simpleMessage(

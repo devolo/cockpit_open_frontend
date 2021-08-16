@@ -192,6 +192,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Es ist ein Fehler beim Anpassen des Stromsparmodus aufgetreten!\nBitte versuchen Sie es erneut."),
         "powerSavingModeFailedTitle":
             MessageLookupByLibrary.simpleMessage("Aktion fehlgeschlagen"),
+        "privacyWarningDialogBody": MessageLookupByLibrary.simpleMessage(
+            "Nach dieser Aktualisierung werden die Geräte selbstständig regelmäßig prüfen, ob neue Firmware verfügbar ist, und diese gegebenenfalls aktualisieren. Hierbei wird Ihre öffentliche IP-Adresse erfasst und unmittelbar nach der Aktualisierung wieder gelöscht.\n\nMöchten Sie diese jetzt aktualisieren?"),
+        "privacyWarningDialogTitle": MessageLookupByLibrary.simpleMessage(
+            "Aktualisierungsinformationen"),
         "processNumber":
             MessageLookupByLibrary.simpleMessage("Bearbeitungsnummer"),
         "recordTheTransmissionPowerOfTheDevicesAndTransmitIt":

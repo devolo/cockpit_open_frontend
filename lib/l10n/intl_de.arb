@@ -72,6 +72,9 @@
   "updateDeviceFailedTitle": "Aktualisierung fehlgeschlagen",
   "updateDeviceFailedBody": "Folgende Geräte konnten nicht aktualisiert werden:",
 
+  "privacyWarningDialogTitle": "Aktualisierungsinformationen",
+  "privacyWarningDialogBody": "Nach dieser Aktualisierung werden die Geräte selbstständig regelmäßig prüfen, ob neue Firmware verfügbar ist, und diese gegebenenfalls aktualisieren. Hierbei wird Ihre öffentliche IP-Adresse erfasst und unmittelbar nach der Aktualisierung wieder gelöscht.\n\nMöchten Sie diese jetzt aktualisieren?",
+
   "@_HELP_PAGE": {
   },
   "setUpDevice": "Gerät einrichten",

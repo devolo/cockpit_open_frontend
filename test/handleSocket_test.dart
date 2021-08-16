@@ -767,6 +767,7 @@ void main() {
 
       expect(dataHandler.getNetworkList().getUpdateList(), expectedUpdateList);
       expect(dataHandler.getNetworkList().getCheckedUpdateMacs(), expectedUpdateList);
+      expect(dataHandler.getNetworkList().getPrivacyWarningMacs(), []);
 
     });
 
@@ -783,6 +784,7 @@ void main() {
 
       expect(dataHandler.getNetworkList().getUpdateList(), expectedUpdateList);
       expect(dataHandler.getNetworkList().getCheckedUpdateMacs(), expectedUpdateList);
+      expect(dataHandler.getNetworkList().getPrivacyWarningMacs(), ["B8:BE:F4:31:96:8B"]);
 
     });
   });
@@ -806,6 +808,7 @@ void main() {
 
       expect(dataHandler.getNetworkList().getUpdateList(), expectedUpdateList);
       expect(dataHandler.getNetworkList().getCheckedUpdateMacs(), expectedUpdateList);
+      expect(dataHandler.getNetworkList().getPrivacyWarningMacs(), []);
 
     });
 
@@ -822,6 +825,7 @@ void main() {
 
       expect(dataHandler.getNetworkList().getUpdateList(), expectedUpdateList);
       expect(dataHandler.getNetworkList().getCheckedUpdateMacs(), expectedUpdateList);
+      expect(dataHandler.getNetworkList().getPrivacyWarningMacs(), ["B8:BE:F4:31:96:8B"]);
 
     });
   });

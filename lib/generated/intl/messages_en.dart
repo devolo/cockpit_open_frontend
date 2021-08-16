@@ -190,6 +190,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "An error occurred while setting the Power save mode!\nTry again later"),
         "powerSavingModeFailedTitle":
             MessageLookupByLibrary.simpleMessage("Action failed"),
+        "privacyWarningDialogBody": MessageLookupByLibrary.simpleMessage(
+            "After this update, the devices will automatically check for new firmware on a regular basis and update it if necessary. In this case, your public IP address will be collected and deleted immediately after the update.\n\nWould you like to install them now?"),
+        "privacyWarningDialogTitle":
+            MessageLookupByLibrary.simpleMessage("Update information"),
         "processNumber": MessageLookupByLibrary.simpleMessage("Process number"),
         "recordTheTransmissionPowerOfTheDevicesAndTransmitIt":
             MessageLookupByLibrary.simpleMessage(

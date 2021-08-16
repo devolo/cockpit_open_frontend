@@ -72,6 +72,9 @@
   "updateDeviceFailedTitle": "Mise à jour échoué",
   "updateDeviceFailedBody": "Les appareils suivants n'ont pas pu être mis à jour:",
 
+  "privacyWarningDialogTitle": "Information sur la mise à jour",
+  "privacyWarningDialogBody": "Après cette mise à jour, l'appareil vérifiera automatiquement et régulièrement la présence d'un nouveau microprogramme et le mettra à jour si nécessaire. Dans ce cas, votre adresse IP publique sera collectée et supprimée immédiatement après la mise à jour.\n\nSouhaitez-vous procéder à la mise à jour maintenant ?",
+
   "@_HELP_PAGE": {
   },
   "setUpDevice": "Ajouter un nouvel appareil",

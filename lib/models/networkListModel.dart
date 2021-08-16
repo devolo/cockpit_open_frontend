@@ -18,6 +18,7 @@ class NetworkList extends ChangeNotifier{
   int selectedNetworkIndex = 0;
   List<String> _updateMacs = [];
   List<String> _checkedUpdateMacs = [];
+  List<String> _privacyWarningMacs = [];
   bool cockpitUpdate = false;
   List<int>pivotDeviceIndexList = [];
 
@@ -46,10 +47,17 @@ class NetworkList extends ChangeNotifier{
     return _checkedUpdateMacs;
   }
 
-  void setUpdateList(List<String> updateList){
+  List<String> getPrivacyWarningMacs(){
+    return _privacyWarningMacs;
+  }
+
+  void setUpdateList(List<String> updateList, {List<String>? privacyWarningMacs}){
 
     _updateMacs = [...updateList];
     _checkedUpdateMacs= [...updateList];
+
+    if(privacyWarningMacs != null)
+      _privacyWarningMacs = [...privacyWarningMacs];
   }
 
   List<List<Device>> getNetworkList(){

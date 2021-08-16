@@ -111,6 +111,18 @@ void main() {
 
       expect(network.getUpdateList(),["test1","test2"]);
       expect(network.getCheckedUpdateMacs(),["test1","test2"]);
+      expect(network.getPrivacyWarningMacs(),[]);
+    });
+
+    test('Given_networkListObject_When_callSetUpdateList_Then_setUpdateListANDcheckedUpdateMacsANDprivacyWarningMacs', () {
+
+      var network = NetworkList();
+
+      network.setUpdateList(["test1","test2"],privacyWarningMacs: ["test3"]);
+
+      expect(network.getUpdateList(),["test1","test2"]);
+      expect(network.getCheckedUpdateMacs(),["test1","test2"]);
+      expect(network.getPrivacyWarningMacs(),["test3"]);
     });
   });
 

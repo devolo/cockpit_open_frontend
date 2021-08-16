@@ -560,6 +560,26 @@ class S {
     );
   }
 
+  /// `Update information`
+  String get privacyWarningDialogTitle {
+    return Intl.message(
+      'Update information',
+      name: 'privacyWarningDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `After this update, the devices will automatically check for new firmware on a regular basis and update it if necessary. In this case, your public IP address will be collected and deleted immediately after the update.\n\nWould you like to install them now?`
+  String get privacyWarningDialogBody {
+    return Intl.message(
+      'After this update, the devices will automatically check for new firmware on a regular basis and update it if necessary. In this case, your public IP address will be collected and deleted immediately after the update.\n\nWould you like to install them now?',
+      name: 'privacyWarningDialogBody',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Setup new device`
   String get setUpDevice {
     return Intl.message(

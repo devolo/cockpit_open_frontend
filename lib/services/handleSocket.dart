@@ -583,10 +583,13 @@ class DataHand extends ChangeNotifier {
     var items = xmlResponse.findAllElements("item");
 
     List<String> macAdresses = [];
+    List<String> privacyWarningMacs = [];
     for (var item in items) {
       try {
-        String mac = item.getElement("first")!.getElement("macAddress")!.innerText;
-        macAdresses.add(mac);
+        macAdresses.add(item.getElement("first")!.getElement("macAddress")!.innerText);
+        if(item.getElement("second")!.innerText == "1"){
+          privacyWarningMacs.add(item.getElement("first")!.getElement("macAddress")!.innerText);
+        }
 
       } catch (e) {
         logger.w("ParseFWUpdateIndication failed! - Maybe not in selected deviceList");
@@ -594,7 +597,14 @@ class DataHand extends ChangeNotifier {
         continue;
       }
     }
-    _networkList.setUpdateList(macAdresses);
+
+    if(privacyWarningMacs.isEmpty){
+      _networkList.setUpdateList(macAdresses);
+    }
+    else {
+      _networkList.setUpdateList(macAdresses, privacyWarningMacs : privacyWarningMacs);
+    }
+
     _networkList.changedList();
   }
 }

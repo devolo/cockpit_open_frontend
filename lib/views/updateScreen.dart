@@ -231,11 +231,16 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
                       if(_deviceList.getUpdateList().isNotEmpty && _deviceList.getCheckedUpdateMacs().isNotEmpty){
 
-                        for(String mac in _deviceList.getCheckedUpdateMacs()) {
-                          _upgradingDevicesList.add(mac);
+                        if(_deviceList.getPrivacyWarningMacs().isNotEmpty){
+                          privacyWarningDialog(socket, context, fontSize, _deviceList);
                         }
+                        else{
+                          for(String mac in _deviceList.getCheckedUpdateMacs()) {
+                            _upgradingDevicesList.add(mac);
+                          }
 
-                        await updateDevices(socket, _deviceList);
+                          await updateDevices(socket, _deviceList);
+                        }
                       }
 
                       if(_deviceList.cockpitUpdate && _checkedCockpit){
@@ -791,6 +796,118 @@ class _UpdateScreenState extends State<UpdateScreen> {
     //openDialog
     deviceInformationDialog(context, dev, myFocusNode, socket, fontSize);
 
+  }
+
+  void privacyWarningDialog(socket, context, FontSize fontSize, NetworkList _deviceList) {
+
+    showDialog<void>(
+        context: context,
+        barrierDismissible: true, // user doesn't need to tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Column(
+              children: [
+                getCloseButton(context),
+                Text(
+                  S.of(context).privacyWarningDialogTitle,
+                  style: TextStyle(color: fontColorOnBackground),
+                ),
+              ],
+            ),
+            titlePadding: EdgeInsets.all(dialogTitlePadding),
+            titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
+            contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+            content: StatefulBuilder( builder: (BuildContext context, StateSetter setState) {
+              return
+                Text("${S.of(context).privacyWarningDialogBody}", textScaleFactor: fontSize.factor);
+
+            }),
+            actions: <Widget>[
+              TextButton(
+                child: Text(
+                  S.of(context).update,
+                  style: TextStyle(
+                      fontSize: dialogContentTextFontSize,
+                      color: Colors.white),
+                  textScaleFactor: fontSize.factor,
+                ),
+                onPressed: () async {
+
+                  for(String mac in _deviceList.getCheckedUpdateMacs()) {
+                    _upgradingDevicesList.add(mac);
+                  }
+
+                  updateDevices(socket,_deviceList);
+                  Navigator.pop(context);
+
+                  },
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                          (states) {
+                        if (states.contains(MaterialState.hovered)) {
+                          return devoloGreen.withOpacity(hoverOpacity);
+                        } else if (states.contains(MaterialState.pressed)) {
+                          return devoloGreen.withOpacity(activeOpacity);
+                        }
+                        return devoloGreen;
+                      },
+                    ),
+                    padding: MaterialStateProperty.all<
+                        EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 13.0, horizontal: 32.0)),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0),))
+                ),
+              ),
+              TextButton(
+                child: Text(
+                  S.of(context).cancel,
+                  style: TextStyle(fontSize: dialogContentTextFontSize),
+                  textScaleFactor: fontSize.factor,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                        (states) {
+                      if (states.contains(MaterialState.hovered)) {
+                        return Colors.transparent;
+                      } else if (states.contains(MaterialState.pressed)) {
+                        return drawingColor;
+                      }
+                      return Colors.transparent;
+                    },
+                  ),
+                  foregroundColor: MaterialStateProperty.resolveWith<Color?>(
+                        (states) {
+                      if (states.contains(MaterialState.hovered)) {
+                        return drawingColor.withOpacity(hoverOpacity);
+                      } else if (states.contains(MaterialState.pressed)) {
+                        return drawingColor;
+                      }
+                      return drawingColor;
+                    },
+                  ),
+                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 13.0, horizontal: 32.0)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      )
+                  ),
+                  side: MaterialStateProperty.resolveWith<BorderSide>(
+                        (states) {
+                      if (states.contains(MaterialState.hovered)) {
+                        return BorderSide(color: drawingColor.withOpacity(hoverOpacity), width: 2.0);
+                      } else if (states.contains(MaterialState.pressed)) {
+                        return BorderSide(color: drawingColor.withOpacity(activeOpacity), width: 2.0);
+                      }
+                      return BorderSide(color: drawingColor, width: 2.0);
+                    },
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
   }
 
   void errorUpdateDialog(socket, context, FontSize fontSize, NetworkList _deviceList, {String? failedMacsUiText, List<String>? failedMacs, List<String>? passwordSecuredMacs}) {

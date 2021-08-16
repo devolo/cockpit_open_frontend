@@ -72,6 +72,9 @@
   "updateDeviceFailedTitle": "Update failed",
   "updateDeviceFailedBody": "Following devices could not be updated:",
 
+  "privacyWarningDialogTitle": "Update information",
+  "privacyWarningDialogBody": "After this update, the devices will automatically check for new firmware on a regular basis and update it if necessary. In this case, your public IP address will be collected and deleted immediately after the update.\n\nWould you like to install them now?",
+
   "@_HELP_PAGE": {
   },
   "setUpDevice": "Setup new device",

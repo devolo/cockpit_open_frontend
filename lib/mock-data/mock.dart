@@ -1055,7 +1055,7 @@ var firmwareUpdateIndication1 = '''<?xml version="1.0" encoding="UTF-8" standalo
 	</Message>
 </boost_serialization>''';
 
-//with 2 mac Addresses
+//with 2 mac Addresses and where B8:BE:F4:31:96:8B has the privacy Tag set
 var firmwareUpdateIndication2 = '''<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <!DOCTYPE boost_serialization>
 <boost_serialization signature="serialization::archive" version="13">
@@ -1074,7 +1074,7 @@ var firmwareUpdateIndication2 = '''<?xml version="1.0" encoding="UTF-8" standalo
 				<first class_id="3" tracking_level="0" version="0">
 					<macAddress>B8:BE:F4:31:96:8B</macAddress>
 				</first>
-				<second>0</second>
+				<second>1</second>
 			</item>
 		</DeviceList>
 	</Message>

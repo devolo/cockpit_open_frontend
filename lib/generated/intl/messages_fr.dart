@@ -192,6 +192,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Une erreur s\'est produite lors du réglage du mode d\'économie d\'énergie!\nRéessayez plus tard"),
         "powerSavingModeFailedTitle":
             MessageLookupByLibrary.simpleMessage("Action échouée"),
+        "privacyWarningDialogBody": MessageLookupByLibrary.simpleMessage(
+            "Après cette mise à jour, l\'appareil vérifiera automatiquement et régulièrement la présence d\'un nouveau microprogramme et le mettra à jour si nécessaire. Dans ce cas, votre adresse IP publique sera collectée et supprimée immédiatement après la mise à jour.\n\nSouhaitez-vous procéder à la mise à jour maintenant ?"),
+        "privacyWarningDialogTitle": MessageLookupByLibrary.simpleMessage(
+            "Information sur la mise à jour"),
         "processNumber":
             MessageLookupByLibrary.simpleMessage("Numéro de processus"),
         "recordTheTransmissionPowerOfTheDevicesAndTransmitIt":

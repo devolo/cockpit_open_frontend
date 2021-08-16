@@ -173,12 +173,17 @@ class _MyHomePageState extends State<MyHomePage> {
       config = jsonconfig;
 
       if(config["language"] == ""){
-        config["language"] = Localizations.localeOf(context).toString();
+        if(Localizations.localeOf(context).languageCode == "und") { // This must not be null. It may be 'und', representing 'undefined'. See flutter documentation
+          config["language"] = "en";
+        }
+        else{
+          config["language"] = Localizations.localeOf(context).languageCode;
+        }
         saveToSharedPrefs(config);
       }
 
       // prevent flutter to take the local language when config is different
-      if(config["language"] != Localizations.localeOf(context).toString()){
+      if(config["language"] != Localizations.localeOf(context).languageCode){
         S.load(Locale(config["language"], ''));
       }
 
@@ -187,7 +192,12 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     else{
-      config["language"] = Localizations.localeOf(context).toString();
+      if(Localizations.localeOf(context).languageCode == "und") { // This must not be null. It may be 'und', representing 'undefined'. See flutter documentation
+        config["language"] = "en";
+      }
+      else{
+        config["language"] = Localizations.localeOf(context).languageCode;
+      }
       saveToSharedPrefs(config);
 
       setTheme(config["theme"]);

@@ -64,6 +64,13 @@
   "failed": "fehlgeschlagen",
   "pending": "anstehend",
 
+  "updateDialogTitle": "Aktualisierungsinformationen",
+  "updateDevicePasswordNeededTitle": "Passwort benötigt",
+  "updateDevicePasswordNeededBody1": "Für folgendes Gerät wird ein Passwort zur Aktualisierung benötigt:",
+  "updateDevicePasswordNeededBody2": "Für folgende Geräte werden Passwörter zur Aktualisierung benötigt:",
+  "updateDeviceFailedTitle": "Aktualisierung fehlgeschlagen",
+  "updateDeviceFailedBody": "Folgende Geräte konnten nicht aktualisiert werden:",
+
   "@_HELP_PAGE": {
   },
   "setUpDevice": "Gerät einrichten",
@@ -175,9 +182,6 @@
   "activateTransmissionFailedBody": "Es ist ein Fehler beim Anpassen der Datenkommunikation aufgetreten!\nBitte versuchen Sie es erneut.",
   "powerSavingModeFailedTitle": "Aktion fehlgeschlagen",
   "powerSavingModeFailedBody": "Es ist ein Fehler beim Anpassen des Stromsparmodus aufgetreten!\nBitte versuchen Sie es erneut.",
-
-  "UpdateDeviceFailedTitle": "Aktualisierung fehlgeschlagen",
-  "UpdateDeviceFailedBody": "Folgende Geräte konnten nicht aktualisiert werden:",
 
   "supportInfoSendErrorTitle": "Senden fehlgeschlagen",
   "supportInfoSendErrorBody1": "Beim Senden der Support-Informationen an devolo ist ein Fehler aufgetreten.",

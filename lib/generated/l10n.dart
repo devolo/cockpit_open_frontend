@@ -490,6 +490,66 @@ class S {
     );
   }
 
+  /// `Update information`
+  String get updateDialogTitle {
+    return Intl.message(
+      'Update information',
+      name: 'updateDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password required`
+  String get updateDevicePasswordNeededTitle {
+    return Intl.message(
+      'Password required',
+      name: 'updateDevicePasswordNeededTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The following device requires a password to update:`
+  String get updateDevicePasswordNeededBody1 {
+    return Intl.message(
+      'The following device requires a password to update:',
+      name: 'updateDevicePasswordNeededBody1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter the passwords of following devices to update them:`
+  String get updateDevicePasswordNeededBody2 {
+    return Intl.message(
+      'Enter the passwords of following devices to update them:',
+      name: 'updateDevicePasswordNeededBody2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update failed`
+  String get updateDeviceFailedTitle {
+    return Intl.message(
+      'Update failed',
+      name: 'updateDeviceFailedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Following devices could not be updated:`
+  String get updateDeviceFailedBody {
+    return Intl.message(
+      'Following devices could not be updated:',
+      name: 'updateDeviceFailedBody',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Setup new device`
   String get setUpDevice {
     return Intl.message(
@@ -1285,26 +1345,6 @@ class S {
     return Intl.message(
       'An error occurred while setting the Power save mode!\nTry again later',
       name: 'powerSavingModeFailedBody',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Update failed`
-  String get UpdateDeviceFailedTitle {
-    return Intl.message(
-      'Update failed',
-      name: 'UpdateDeviceFailedTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Following devices could not be updated:`
-  String get UpdateDeviceFailedBody {
-    return Intl.message(
-      'Following devices could not be updated:',
-      name: 'UpdateDeviceFailedBody',
       desc: '',
       args: [],
     );

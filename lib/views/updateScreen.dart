@@ -14,6 +14,7 @@ import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/alertDialogs.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/app_fontSize.dart';
+import 'package:cockpit_devolo/shared/buttons.dart';
 import 'package:cockpit_devolo/shared/devolo_icons_icons.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:cockpit_devolo/shared/informationDialogs.dart';
@@ -64,6 +65,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
   late FontSize fontSize;
 
+  final _formKey = GlobalKey<FormState>();
+
   Future<void> updateCockpit(socket, _deviceList) async {
 
     setState(() {
@@ -83,19 +86,27 @@ class _UpdateScreenState extends State<UpdateScreen> {
       _upgradingDevicesList = [];
     });
 
-    if(response != null && response['failed'] != null){
+    if(response != null && (response['failed'] != null || response['password'] != null)){
 
-      String macs = "\n";
+      String failedMacs = "\n";
+      List<String> passwordSecuredMacs = [];
+
       for(var mac in response['failed']){
         if(_deviceList.getDeviceByMac(mac.toString()) != null){
-          macs = "\n- " + _deviceList.getDeviceByMac(mac.toString())!.name + " : " + mac.toString() + "\n";
+          failedMacs = "\n- " + _deviceList.getDeviceByMac(mac.toString())!.name + " : " + mac.toString() + "\n";
         }
         else{
-          macs = "\n- " + mac.toString() + "\n";
+          failedMacs = "\n- " + mac.toString() + "\n";
         }
       }
 
-      errorDialog(context, S.of(context).UpdateDeviceFailedTitle, S.of(context).UpdateDeviceFailedBody + macs, fontSize);
+      for(var mac in response['password']){
+        if(_deviceList.getDeviceByMac(mac.toString()) != null){
+          passwordSecuredMacs.add(mac.toString());
+        }
+      }
+
+      errorUpdateDialog(context, fontSize, _deviceList, failedMacs: failedMacs, passwordSecuredMacs: passwordSecuredMacs);
 
     }
   }
@@ -269,8 +280,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     ),
                   ),
                   onPressed: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true)? null : () async {
-
+                    errorUpdateDialog(context,fontSize, _deviceList, failedMacs: "F4:06:8D:1F:E0:F7");
                     // Warning! "UpdateCheck" and "RefreshNetwork" should only be triggered by a user interaction, not continously/automaticly
+                    /*
                     setState(() {
                       socket.sendXML('UpdateCheck');
                       _searchingDeviceUpdate = true;
@@ -286,7 +298,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     setState(() {
                       _searchingDeviceUpdate = false;
                       //if (response!["messageType"] != null) _lastPoll = DateTime.now();
-                    });
+                    }); */
                   },
                   child: Row(children: [
                     Icon(
@@ -758,5 +770,208 @@ class _UpdateScreenState extends State<UpdateScreen> {
     //openDialog
     deviceInformationDialog(context, dev, myFocusNode, socket, fontSize);
 
+  }
+
+  void errorUpdateDialog(context, FontSize fontSize, NetworkList _deviceList, {String? failedMacs, List<String>? passwordSecuredMacs}) {
+
+    double spacingTitleBody = 30;
+    double spacingBetweenFormFields = 20;
+    double spacingFormFieldButton = 30;
+    double spacingDivider = 10;
+
+    Map<String, bool> hiddenPwMap = new Map<String, bool>();
+    Map<String, String> passwordMap = new Map<String, String>();
+    if(passwordSecuredMacs != null){
+      for(String mac in passwordSecuredMacs) {
+        passwordMap[mac] = "";
+        hiddenPwMap[mac] = true;
+      }
+    }
+    showDialog<void>(
+        context: context,
+        barrierDismissible: true, // user doesn't need to tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Column(
+              children: [
+                getCloseButton(context),
+                Text(
+                  S.of(context).updateDialogTitle,
+                  style: TextStyle(color: fontColorOnBackground),
+                ),
+              ],
+            ),
+            titlePadding: EdgeInsets.all(dialogTitlePadding),
+            titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
+            contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+            content: StatefulBuilder( builder: (BuildContext context, StateSetter setState) {
+              return Column(mainAxisSize: MainAxisSize.min, mainAxisAlignment: MainAxisAlignment.center, children: [
+                if(passwordSecuredMacs != null)
+                Column(children:[
+                  Divider(color: fontColorOnBackground),
+                  SizedBox(height: spacingDivider,),
+                  Text(S.of(context).updateDevicePasswordNeededTitle, style: TextStyle(fontWeight: FontWeight.w600)),
+                  SizedBox(height: spacingTitleBody),
+                  (passwordSecuredMacs.length > 1)
+                      ? Text(S.of(context).updateDevicePasswordNeededBody2)
+                      : Text(S.of(context).updateDevicePasswordNeededBody1),
+                  SizedBox(height: spacingFormFieldButton),
+                  Form(
+                      key: _formKey,
+                      child: Column(
+                      children: <Widget>[
+                        for ( var mac in passwordSecuredMacs)
+                          Column(children: [
+                              TextFormField(
+                              obscureText: hiddenPwMap[mac]!,
+                                style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                              decoration: InputDecoration(
+                                labelText: "Device Name" + " (" + mac + ")",
+                                labelStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                                hoverColor: fontColorOnBackground.withOpacity(0.2),
+                                contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                                filled: true,
+                                fillColor: fontColorOnBackground.withOpacity(0.2),
+                                errorStyle: TextStyle(color: devoloRed),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  borderSide: BorderSide(
+                                    color: fontColorOnBackground,
+                                    width: 2.0,
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  borderSide: BorderSide(
+                                    color: fontColorOnBackground,
+                                  ),
+                                ),
+                                suffixIcon: hiddenPwMap[mac]!
+                                    ? IconButton(
+
+                                  icon: Icon(
+                                    DevoloIcons.devolo_UI_visibility_off,
+                                    color: fontColorOnSecond,
+                                  ),
+                                  onPressed: () {
+                                    //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
+                                    setState(() {
+                                      hiddenPwMap[mac] = !(hiddenPwMap[mac]!);
+                                    });
+                                  },
+                                )
+                                    : IconButton(
+                                  icon: Icon(
+                                    DevoloIcons.devolo_UI_visibility,
+                                    color: fontColorOnSecond,
+                                  ),
+                                  onPressed: () {
+                                    //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
+                                    setState(() {
+                                      hiddenPwMap[mac] = !(hiddenPwMap[mac]!);
+                                    });
+                                  },
+                                ),
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+                                  passwordMap[mac] = value;
+                                });
+                                },
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return S.of(context).pleaseEnterPassword;
+                                }
+                                return null;
+                                },
+                            ),
+                            SizedBox(
+                              height: spacingBetweenFormFields,
+                            )
+                          ]),
+                      ],
+                      )
+                  ),
+                  Container(
+                    alignment: Alignment.centerRight, child:
+                  TextButton(
+                    child: Text(
+                      S.of(context).update,
+                      style: TextStyle(
+                      fontSize: dialogContentTextFontSize,
+                      color: (!passwordMap.containsValue("")) ? Colors.white : buttonDisabledForeground),
+                      textScaleFactor: fontSize.factor,
+                    ),
+                    onPressed: (!passwordMap.containsValue(""))
+                        ? () async {
+                      if (_formKey.currentState!.validate()) {
+                        logger.i(passwordMap);
+                      /*updateDevices
+                                circularProgressIndicatorInMiddle(context);
+                                var response = await socket.receiveXML(
+                                    "SetIpConfigStatus");
+                                if (response!['result'] == "ok") {
+                                  Navigator.maybeOf(context)!.pop();
+                                  await Future.delayed(
+                                      const Duration(seconds: 1), () {});
+                                  socket.sendXML('RefreshNetwork');
+
+                                } else
+                                if (response['result'] == "device_not_found") {
+                                  Navigator.maybeOf(context)!.pop();
+                                  errorDialog(context, S
+                                      .of(context)
+                                      .setIpConfigErrorTitle, S
+                                      .of(context)
+                                      .deviceNotFoundSetIpConfig + "\n\n" + S
+                                      .of(context)
+                                      .deviceNotFoundHint, fontSize);
+                                } else if (response['result'] != "ok") {
+                                  Navigator.maybeOf(context)!.pop();
+                                  errorDialog(context, S
+                                      .of(context)
+                                      .setIpConfigErrorTitle, S
+                                      .of(context)
+                                      .setIpConfigErrorBody, fontSize);
+                                }
+                                */
+                      }
+                      else {
+
+                      }
+                    }
+                    : null,
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                              (states) {
+                                if (states.contains(MaterialState.hovered)) {
+                                  return devoloGreen.withOpacity(hoverOpacity);
+                                } else if (states.contains(MaterialState.pressed)) {
+                                  return devoloGreen.withOpacity(activeOpacity);
+                                }
+                                return (!passwordMap.containsValue("")) ? devoloGreen : buttonDisabledBackground;
+                                },
+                        ),
+                        padding: MaterialStateProperty.all<
+                        EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 13.0, horizontal: 32.0)),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0),))
+                    ),
+                  ),
+                  ),
+                ]),
+                SizedBox(height: spacingDivider),
+                if(failedMacs != null)
+                Column(children:[
+                  Divider(color: fontColorOnBackground),
+                  SizedBox(height: spacingDivider),
+                  Text(S.of(context).updateDeviceFailedTitle, style: TextStyle(fontWeight: FontWeight.w600)),
+                  SizedBox(height: spacingTitleBody),
+                  Text(S.of(context).updateDeviceFailedBody + "\n \n- " + "Device Name" + " : " + failedMacs.toString() + "\n"),
+                ]),
+              ]);
+            }),
+            actions: <Widget>[],
+          );
+        });
   }
 }

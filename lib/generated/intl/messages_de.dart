@@ -27,10 +27,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "SendCockpitSupportInformationBody":
             MessageLookupByLibrary.simpleMessage(
                 "Support-Informationen werden nach devolo gesendet"),
-        "UpdateDeviceFailedBody": MessageLookupByLibrary.simpleMessage(
-            "Folgende Geräte konnten nicht aktualisiert werden:"),
-        "UpdateDeviceFailedTitle": MessageLookupByLibrary.simpleMessage(
-            "Aktualisierung fehlgeschlagen"),
         "activateLEDs": MessageLookupByLibrary.simpleMessage(
             "Leuchtdioden (LEDs) angeschaltet"),
         "activateLEDsFailedBody": MessageLookupByLibrary.simpleMessage(
@@ -265,6 +261,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "update": MessageLookupByLibrary.simpleMessage("Aktualisierung"),
         "updateAvailable":
             MessageLookupByLibrary.simpleMessage("Aktualisierung verfügbar"),
+        "updateDeviceFailedBody": MessageLookupByLibrary.simpleMessage(
+            "Folgende Geräte konnten nicht aktualisiert werden:"),
+        "updateDeviceFailedTitle": MessageLookupByLibrary.simpleMessage(
+            "Aktualisierung fehlgeschlagen"),
+        "updateDevicePasswordNeededBody1": MessageLookupByLibrary.simpleMessage(
+            "Für folgendes Gerät wird ein Passwort zur Aktualisierung benötigt:"),
+        "updateDevicePasswordNeededBody2": MessageLookupByLibrary.simpleMessage(
+            "Für folgende Geräte werden Passwörter zur Aktualisierung benötigt:"),
+        "updateDevicePasswordNeededTitle":
+            MessageLookupByLibrary.simpleMessage("Passwort benötigt"),
+        "updateDialogTitle": MessageLookupByLibrary.simpleMessage(
+            "Aktualisierungsinformationen"),
         "updateSelected":
             MessageLookupByLibrary.simpleMessage("Aktualisiere Auswahl"),
         "updates": MessageLookupByLibrary.simpleMessage("Aktualisierungen"),

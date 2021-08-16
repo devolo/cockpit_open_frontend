@@ -27,10 +27,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "SendCockpitSupportInformationBody":
             MessageLookupByLibrary.simpleMessage(
                 "Les informations sont envoyées à devolo"),
-        "UpdateDeviceFailedBody": MessageLookupByLibrary.simpleMessage(
-            "Les appareils suivants n\'ont pas pu être mis à jour:"),
-        "UpdateDeviceFailedTitle":
-            MessageLookupByLibrary.simpleMessage("Mise à jour échoué"),
         "activateLEDs": MessageLookupByLibrary.simpleMessage("LEDs allumés"),
         "activateLEDsFailedBody": MessageLookupByLibrary.simpleMessage(
             "Une erreur s\'est produite lors de la modification des LED!\nRéessayez plus tard"),
@@ -265,6 +261,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "update": MessageLookupByLibrary.simpleMessage("Actualisation"),
         "updateAvailable":
             MessageLookupByLibrary.simpleMessage("Mise à jour disponible"),
+        "updateDeviceFailedBody": MessageLookupByLibrary.simpleMessage(
+            "Les appareils suivants n\'ont pas pu être mis à jour:"),
+        "updateDeviceFailedTitle":
+            MessageLookupByLibrary.simpleMessage("Mise à jour échoué"),
+        "updateDevicePasswordNeededBody1": MessageLookupByLibrary.simpleMessage(
+            "L\'appareil suivant nécessite un mot de passe pour être mis à jour:"),
+        "updateDevicePasswordNeededBody2": MessageLookupByLibrary.simpleMessage(
+            "Entrez les mots de passe des appareils suivants pour les mettre à jour:"),
+        "updateDevicePasswordNeededTitle":
+            MessageLookupByLibrary.simpleMessage("Mot de passe requis"),
+        "updateDialogTitle": MessageLookupByLibrary.simpleMessage(
+            "Informations sur la mise à jour"),
         "updateSelected":
             MessageLookupByLibrary.simpleMessage("Mettre à jour la sélection"),
         "updates": MessageLookupByLibrary.simpleMessage("Actualisation"),

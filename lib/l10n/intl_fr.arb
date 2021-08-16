@@ -64,6 +64,13 @@
   "failed": "échoué",
   "pending": "en attente",
 
+  "updateDialogTitle": "Informations sur la mise à jour",
+  "updateDevicePasswordNeededTitle": "Mot de passe requis",
+  "updateDevicePasswordNeededBody1": "L'appareil suivant nécessite un mot de passe pour être mis à jour:",
+  "updateDevicePasswordNeededBody2": "Entrez les mots de passe des appareils suivants pour les mettre à jour:",
+  "updateDeviceFailedTitle": "Mise à jour échoué",
+  "updateDeviceFailedBody": "Les appareils suivants n'ont pas pu être mis à jour:",
+
   "@_HELP_PAGE": {
   },
   "setUpDevice": "Ajouter un nouvel appareil",
@@ -175,9 +182,6 @@
   "activateTransmissionFailedBody": "Une erreur s'est produite lors du réglage de la communication de données!\nRéessayez plus tard",
   "powerSavingModeFailedTitle": "Action échouée",
   "powerSavingModeFailedBody": "Une erreur s'est produite lors du réglage du mode d'économie d'énergie!\nRéessayez plus tard",
-
-  "UpdateDeviceFailedTitle": "Mise à jour échoué",
-  "UpdateDeviceFailedBody": "Les appareils suivants n'ont pas pu être mis à jour:",
 
   "supportInfoSendErrorTitle": "Impossible d'envoyer",
   "supportInfoSendErrorBody1": "Une erreur s'est produite lors de l'envoi d'informations de support à devolo.",

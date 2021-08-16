@@ -444,6 +444,15 @@ class DataHand extends ChangeNotifier {
                 response['failed'].add(item.getElement("first")!.getElement("macAddress")!.innerText);
                 logger.i("update failed: " + response['failed'].toString());
               }
+
+              if(item.getElement("second")!.innerText == "password"){
+
+                if(!response.containsKey('password'))
+                  response['password'] = [];
+
+                response['password'].add(item.getElement("first")!.getElement("macAddress")!.innerText);
+                logger.i("password needed: " + response['password'].toString());
+              }
             }
 
             response['status'] = responseElem;

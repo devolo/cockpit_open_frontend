@@ -195,7 +195,7 @@
   "@_CONFIRM_DIALOGS": {
   },
   "deviceNameDialogTitle" : "Bestätigung",
-  "deviceNameDialogBody" : "Möchten Sie wirklich den Gerätenamen ändern?",
+  "deviceNameDialogBody" : "Möchten Sie den Gerätenamen ändern?",
   "removeDeviceConfirmTitle": "Das PLC-Gerät entfernen?",
   "removeDeviceConfirmBody": "Wollen Sie das gewählte PLC-Gerät aus dem Netzwerk entfernen?",
   "resetDeviceConfirmTitle": "Gerät in den Auslieferunszustand zurücksetzen",

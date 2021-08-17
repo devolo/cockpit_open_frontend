@@ -12,22 +12,131 @@ import 'buttons.dart';
 import 'devolo_icons_icons.dart';
 import 'helpers.dart';
 
+// add closeButton manually
 void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, DataHand socket, FontSize fontSize) {
 
   String newName = hitDevice.name;
   bool changeNameLoading = false;
 
   showDialog<void>(
-
     context: context,
     barrierDismissible: true, // user doesn't need to tap button!
     builder: (BuildContext context) {
-      return AlertDialog(
+      return WillPopScope(
+          onWillPop: () async {
+            if(newName != hitDevice.name) {
+              bool confResponse = await confirmDialog(context, S
+                  .of(context)
+                  .deviceNameDialogTitle, S
+                  .of(context)
+                  .deviceNameDialogBody, fontSize);
+              if (confResponse) {
+                changeNameLoading = true;
+                AppBuilder.of(context)!.rebuild();
+                socket.sendXML(
+                    'SetAdapterName', mac: hitDevice.mac,
+                    newValue: newName,
+                    valueType: 'name');
+                var response = await socket.receiveXML(
+                    "SetAdapterNameStatus");
+                if (response!['result'] == "ok") {
+                  changeNameLoading = false;
+                  hitDevice.name = newName;
+                  await Future.delayed(
+                      const Duration(seconds: 1), () {});
+                  socket.sendXML('RefreshNetwork');
+                } else if (response['result'] == "device_not_found") {
+                  changeNameLoading = false;
+                  errorDialog(context, S
+                      .of(context)
+                      .deviceNameErrorTitle, S
+                      .of(context)
+                      .deviceNotFoundDeviceName + "\n\n" + S
+                      .of(context)
+                      .deviceNotFoundHint, fontSize);
+                } else if (response['result'] != "ok") {
+                  changeNameLoading = false;
+                  errorDialog(context, S
+                      .of(context)
+                      .deviceNameErrorTitle, S
+                      .of(context)
+                      .deviceNameErrorBody, fontSize);
+                }
+
+                return false;
+              }
+              else{
+                return true;
+              }
+            }
+            return true;
+            },
+      child: AlertDialog(
         contentTextStyle: TextStyle(color: fontColorOnBackground,
             fontSize: dialogContentTextFontSize * fontSize.factor),
         title: Column(
           children: [
-            getCloseButton(context),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 5, 5, 0),
+              child: GestureDetector(
+                onTap: () {
+
+                },
+                child: Container(
+                  alignment: FractionalOffset.topRight,
+                  child: GestureDetector(child: Icon(DevoloIcons.devolo_UI_cancel,color: fontColorOnBackground,),
+
+                    onTap: () async {
+                      if(newName != hitDevice.name) {
+                        bool confResponse = await confirmDialog(context, S
+                            .of(context)
+                            .deviceNameDialogTitle, S
+                            .of(context)
+                            .deviceNameDialogBody, fontSize);
+                        if (confResponse) {
+                          changeNameLoading = true;
+                          AppBuilder.of(context)!.rebuild();
+                          socket.sendXML(
+                              'SetAdapterName', mac: hitDevice.mac,
+                              newValue: newName,
+                              valueType: 'name');
+                          var response = await socket.receiveXML(
+                              "SetAdapterNameStatus");
+                          if (response!['result'] == "ok") {
+                            changeNameLoading = false;
+                            hitDevice.name = newName;
+                            await Future.delayed(
+                                const Duration(seconds: 1), () {});
+                            socket.sendXML('RefreshNetwork');
+                          } else if (response['result'] == "device_not_found") {
+                            changeNameLoading = false;
+                            errorDialog(context, S
+                                .of(context)
+                                .deviceNameErrorTitle, S
+                                .of(context)
+                                .deviceNotFoundDeviceName + "\n\n" + S
+                                .of(context)
+                                .deviceNotFoundHint, fontSize);
+                          } else if (response['result'] != "ok") {
+                            changeNameLoading = false;
+                            errorDialog(context, S
+                                .of(context)
+                                .deviceNameErrorTitle, S
+                                .of(context)
+                                .deviceNameErrorBody, fontSize);
+                          }
+                        }
+                        else{
+                          Navigator.pop(context);
+                        }
+                      }
+                      else{
+                        Navigator.pop(context);
+                      }
+                    },),
+                ),
+              ),
+            ),
             SelectableText(
               S
                   .of(context)
@@ -128,10 +237,6 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                 await Future.delayed(
                                     const Duration(seconds: 1), () {});
                                 socket.sendXML('RefreshNetwork');
-
-  //setState(() {
-  //   socket.sendXML('RefreshNetwork');
-  //});
                               } else
                               if (response['result'] == "device_not_found") {
                                 errorDialog(context, S
@@ -616,7 +721,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
           ),
             ],
           ),
-        ),
+        ),)
       );
     },
   );

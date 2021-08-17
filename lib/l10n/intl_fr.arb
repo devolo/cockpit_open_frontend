@@ -195,7 +195,7 @@
   "@_CONFIRM_DIALOGS": {
   },
   "deviceNameDialogTitle" : "Confirmer",
-  "deviceNameDialogBody" : "Voulez-vous vraiment renommer cet appareil?",
+  "deviceNameDialogBody" : "Voulez-vous renommer cet appareil?",
   "removeDeviceConfirmTitle": "Supprimer l´appareil PLC ?",
   "removeDeviceConfirmBody": "Voulez-vous supprimer l´appareil PLC sélectionné du réseau ?",
   "resetDeviceConfirmTitle": "Réinitialiser l'appareil aux paramètres d'origine",

@@ -95,7 +95,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "deviceInfo":
             MessageLookupByLibrary.simpleMessage("Device information"),
         "deviceNameDialogBody": MessageLookupByLibrary.simpleMessage(
-            "Do you really want to rename this device?"),
+            "Do you want to rename this device?"),
         "deviceNameDialogTitle":
             MessageLookupByLibrary.simpleMessage("Confirm"),
         "deviceNameErrorBody": MessageLookupByLibrary.simpleMessage(

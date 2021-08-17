@@ -195,7 +195,7 @@
   "@_CONFIRM_DIALOGS": {
   },
   "deviceNameDialogTitle" : "Confirm",
-  "deviceNameDialogBody" : "Do you really want to rename this device?",
+  "deviceNameDialogBody" : "Do you want to rename this device?",
   "removeDeviceConfirmTitle": "Remove the PLC device?",
   "removeDeviceConfirmBody": "Do you want to remove the selected PLC device from the network?",
   "resetDeviceConfirmTitle": "Reset device to delivery state",

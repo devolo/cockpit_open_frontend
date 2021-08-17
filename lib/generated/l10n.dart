@@ -1430,10 +1430,10 @@ class S {
     );
   }
 
-  /// `Do you really want to rename this device?`
+  /// `Do you want to rename this device?`
   String get deviceNameDialogBody {
     return Intl.message(
-      'Do you really want to rename this device?',
+      'Do you want to rename this device?',
       name: 'deviceNameDialogBody',
       desc: '',
       args: [],

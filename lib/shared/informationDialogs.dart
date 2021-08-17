@@ -757,8 +757,24 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
 void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitDeviceVDSLList, String vdslProfile, hitDeviceMac, FontSize fontSize) async {
 
   bool vdslModeAutomatic = false;
+  var isSelected = <bool>[true, false]; // [MIMO, SISO]
+  String _dropVDSL = vdslProfile;
+
+  logger.d(hitDeviceVDSLList);
+  logger.d(hitDeviceVDSLmode);
+  logger.d(vdslProfile);
+
   if(hitDeviceVDSLmode == "2")
     vdslModeAutomatic = true;
+
+  if(vdslProfile.contains("siso")) {
+    isSelected[1] = true;
+    isSelected[0] = false;
+  }
+
+  if(hitDeviceVDSLList.any((String element) => !element.contains("mimo"))) {
+    //isSelected[0] = null;
+  }
 
   bool? returnVal = await showDialog(
       context: context,
@@ -808,29 +824,99 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                           ),
                           SelectableText(S.of(context).vdslExplanation2),
                         ],),
-                      for (String vdsl_profile in hitDeviceVDSLList)
-                        ListTile(
-                          title: Text(
-                            vdsl_profile,
-                            style:  TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
-                          ),
-                          leading: Theme(
-                            data: ThemeData(
-                              //here change to your color
-                              unselectedWidgetColor: fontColorOnBackground,
-                            ),
-                            child: Radio(
-                              value: vdsl_profile,
-                              groupValue: vdslProfile,
-                              activeColor: fontColorOnBackground,
-                              onChanged: (String? value) {
+                      Row(
+                        children: [
+                          Container(
+                        decoration: BoxDecoration(
+                        color: secondColor.withOpacity(0.2),
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        ),
+                            child: ToggleButtons(
+                              color: fontColorOnBackground,
+                              selectedColor: fontColorOnMain,
+                              fillColor: devoloGreen,
+                              //selectedBorderColor: devoloGreen,
+                              borderRadius: BorderRadius.circular(20.0),
+                              constraints: BoxConstraints(minHeight: 40.0, minWidth: 60),
+                              children: <Widget>[
+                                Text("MIMO"),
+                                Text("SISO"),
+                              ],
+                              onPressed: (int index) {
                                 setState(() {
-                                  vdslProfile = value!;
+                                  for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
+                                    if (buttonIndex == index) {
+                                      isSelected[buttonIndex] = true;
+                                    } else {
+                                      isSelected[buttonIndex] = false;
+                                    }
+                                  }
                                 });
                               },
+                              isSelected: isSelected,
                             ),
                           ),
-                        ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              width: 230,
+                              padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.0), color: secondColor.withOpacity(0.2), border: Border.all(color: fontColorOnBackground)),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                    value: _dropVDSL == null? _dropVDSL=hitDeviceVDSLList[0]: _dropVDSL,
+                                    dropdownColor: backgroundColor,
+                                    style: TextStyle(fontSize: fontSizeListTileSubtitle * fontSize.factor, color: fontColorOnBackground),
+                                    icon: Icon(
+                                      DevoloIcons.ic_arrow_drop_down_24px,
+                                      color: fontColorOnBackground,
+                                    ),
+                                    items: hitDeviceVDSLList.map<DropdownMenuItem<String>>((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: new Text(value),
+                                      );
+                                    }).toList(),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _dropVDSL = value!;
+                                        logger.d("Dropdown: $value");
+                                      });
+                                    }
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      // for (String vdsl_profile in hitDeviceVDSLList)
+                      //   ListTile(
+                      //     title: Text(
+                      //       vdsl_profile,
+                      //       style:  TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                      //     ),
+                      //     leading: Theme(
+                      //       data: ThemeData(
+                      //         //here change to your color
+                      //         unselectedWidgetColor: fontColorOnBackground,
+                      //       ),
+                      //       child: Row(
+                      //         children: [
+                      //           Radio(
+                      //             value: vdsl_profile,
+                      //             groupValue: vdslProfile,
+                      //             activeColor: fontColorOnBackground,
+                      //             onChanged: (String? value) {
+                      //               setState(() {
+                      //                 vdslProfile = value!;
+                      //               });
+                      //             },
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ),
+                      //   ),
                     ],
                   ),
                 );

@@ -814,6 +814,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 ),
               ],
             ),
+            insetPadding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 4),
             titlePadding: EdgeInsets.all(dialogTitlePadding),
             titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
             contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
@@ -1019,9 +1020,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                 });
                                 },
                               validator: (value) {
-                                if (value!.isEmpty) {
-                                  return S.of(context).pleaseEnterPassword;
-                                }
                                 return null;
                                 },
                             ),
@@ -1039,11 +1037,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       S.of(context).update,
                       style: TextStyle(
                       fontSize: dialogContentTextFontSize,
-                      color: (!passwordMap.containsValue("")) ? Colors.white : buttonDisabledForeground),
+                      color: Colors.white,),
                       textScaleFactor: fontSize.factor,
                     ),
-                    onPressed: (!passwordMap.containsValue(""))
-                        ? () async {
+                    onPressed:  () async {
                       if (_formKey.currentState!.validate()) {
 
                         for(String mac in _deviceList.getCheckedUpdateMacs()) {
@@ -1052,7 +1049,11 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
                         for(String mac in passwordSecuredMacs){
                           pwProtectedDeviceList.add(mac);
-                          pwProtectedDeviceList.add(passwordMap[mac]!);
+
+                          if(passwordMap[mac]! != ""){
+                            pwProtectedDeviceList.add(passwordMap[mac]!);
+                          }
+
                         }
 
                         updateDevices(socket,_deviceList, pwProtectedDeviceList: pwProtectedDeviceList);
@@ -1062,8 +1063,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       else {
 
                       }
-                    }
-                    : null,
+                    },
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.resolveWith<Color?>(
                               (states) {
@@ -1072,7 +1072,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                 } else if (states.contains(MaterialState.pressed)) {
                                   return devoloGreen.withOpacity(activeOpacity);
                                 }
-                                return (!passwordMap.containsValue("")) ? devoloGreen : buttonDisabledBackground;
+                                return devoloGreen;
                                 },
                         ),
                         padding: MaterialStateProperty.all<

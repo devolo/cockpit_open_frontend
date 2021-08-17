@@ -55,76 +55,144 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
           content:  StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
 
-              children: <Widget>[
-                SizedBox(
-                  height: 15,
-                  width: 800.0 * fontSize.factor,
-                ),
-                Table(
-                  children: [
-                    TableRow(children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5.0),
-                        child: Align(
-                            alignment: Alignment.centerRight,
-                            child: SelectableText(
-                              "${S
-                                  .of(context)
-                                  .name}:   ",
-                            )),
-                      ),
-                      Container(
-                        width: 60, // doesn´t affect the width in the text field
-                        child: TextFormField(
-                          controller: textFieldController,
-                          focusNode: myFocusNode,
-                          style: TextStyle(color: fontColorOnBackground,
-                              fontSize: dialogContentTextFontSize *
-                                  fontSize.factor),
-                          cursorColor: fontColorOnBackground,
-                          decoration: InputDecoration(
-                            isDense: true,
-                            hoverColor: fontColorOnBackground.withOpacity(0.2),
-                            contentPadding: new EdgeInsets.symmetric(
-                                vertical: 5.0, horizontal: 10.0),
-                            filled: true,
-                            fillColor: fontColorOnBackground.withOpacity(0.2),
-                            //myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                              borderSide: BorderSide(
-                                color: fontColorOnBackground,
-                                width: 2.0,
+                  children: <Widget>[
+                    SizedBox(
+                      height: 15,
+                      width: 800.0 * fontSize.factor,
+                    ),
+                    Table(
+                      children: [
+                        TableRow(children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            child: Align(
+                                alignment: Alignment.centerRight,
+                                child: SelectableText(
+                                  "${S
+                                      .of(context)
+                                      .name}:   ",
+                                )),
+                          ),
+                          Container(
+                            width: 60, // doesn´t affect the width in the text field
+                            child: TextFormField(
+                              controller: textFieldController,
+                              focusNode: myFocusNode,
+                              style: TextStyle(color: fontColorOnBackground,
+                                  fontSize: dialogContentTextFontSize *
+                                      fontSize.factor),
+                              cursorColor: fontColorOnBackground,
+                              decoration: InputDecoration(
+                                isDense: true,
+                                hoverColor: fontColorOnBackground.withOpacity(0.2),
+                                contentPadding: new EdgeInsets.symmetric(
+                                    vertical: 5.0, horizontal: 10.0),
+                                filled: true,
+                                fillColor: fontColorOnBackground.withOpacity(0.2),
+                                //myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  borderSide: BorderSide(
+                                    color: fontColorOnBackground,
+                                    width: 2.0,
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  borderSide: BorderSide(
+                                    color: fontColorOnBackground, //Colors.transparent,
+                                    //width: 2.0,
+                                  ),
+                                ),
+                                suffixIcon: (myFocusNode.hasPrimaryFocus && !changeNameLoading) ?
+                                Container(
+                                  width: 100,
+                                  child: Row(
+                                    children: [
+                                      IconButton(
+                                          icon: Icon(
+                                            DevoloIcons.devolo_UI_check_fill,
+                                            color: fontColorOnBackground,
+                                          ),
+                                          onPressed: () async {
+                                            if (newName != hitDevice.name) {
+                                              changeNameLoading = true;
+                                              AppBuilder.of(context)!.rebuild();
+                                              socket.sendXML(
+                                                  'SetAdapterName', mac: hitDevice.mac,
+                                                  newValue: newName,
+                                                  valueType: 'name');
+                                              var response = await socket.receiveXML(
+                                                  "SetAdapterNameStatus");
+                                              if (response!['result'] == "ok") {
+                                                hitDevice.name = newName;
+                                                await Future.delayed(
+                                                    const Duration(seconds: 1), () {});
+                                                socket.sendXML('RefreshNetwork');
+                                              } else if (response['result'] == "device_not_found") {
+                                                errorDialog(context, S
+                                                    .of(context)
+                                                    .deviceNameErrorTitle, S
+                                                    .of(context)
+                                                    .deviceNotFoundDeviceName + "\n\n" + S
+                                                    .of(context)
+                                                    .deviceNotFoundHint, fontSize);
+                                              } else if (response['result'] != "ok") {
+                                                errorDialog(context, S
+                                                    .of(context)
+                                                    .deviceNameErrorTitle, S
+                                                    .of(context)
+                                                    .deviceNameErrorBody, fontSize);
+                                              }
+
+                                              changeNameLoading = false;
+                                              myFocusNode.unfocus();
+                                            }
+                                          }
+                                      ),
+                                      IconButton(
+                                        icon: Icon(
+                                          DevoloIcons.devolo_UI_cancel_fill,
+                                          color: fontColorOnBackground,
+                                        ),
+                                        onPressed: () async {
+                                          textFieldController.text = hitDevice.name;
+                                          myFocusNode.unfocus();
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                )
+                                    : changeNameLoading ?
+                                SizedBox(
+                                    width: 0.5,
+                                    height: 0.5,
+                                    child: Padding(padding: const EdgeInsets.all(10.0), child: CircularProgressIndicator(
+                                      valueColor: new AlwaysStoppedAnimation<Color>(
+                                          fontColorOnBackground),
+                                      strokeWidth: 3.0,
+                                    )))
+                                    : Icon(
+                                  DevoloIcons.ic_edit_24px,
+                                  color: fontColorOnBackground,
+                                ),
                               ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                              borderSide: BorderSide(
-                                color: fontColorOnBackground, //Colors.transparent,
-                                //width: 2.0,
-                              ),
-                            ),
-                            suffixIcon: (myFocusNode.hasPrimaryFocus && !changeNameLoading) ?
-                      Container(
-                        width: 100,
-                        child: Row(
-                          children: [
-                            IconButton(
-                              icon: Icon(
-                                DevoloIcons.devolo_UI_check_fill,
-                                color: fontColorOnBackground,
-                              ),
-                              onPressed: () async {
+                              onChanged: (value) => (newName = value),
+                              onEditingComplete: () async {
                                 if (newName != hitDevice.name) {
+                                  bool confResponse = await confirmDialog(context, S
+                                      .of(context)
+                                      .deviceNameDialogTitle, S
+                                      .of(context)
+                                      .deviceNameDialogBody, fontSize);
+                                  if (confResponse) {
                                     changeNameLoading = true;
-                                    AppBuilder.of(context)!.rebuild();
-                                    socket.sendXML(
-                                        'SetAdapterName', mac: hitDevice.mac,
+                                    socket.sendXML('SetAdapterName', mac: hitDevice.mac,
                                         newValue: newName,
                                         valueType: 'name');
                                     var response = await socket.receiveXML(
@@ -134,8 +202,17 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                       await Future.delayed(
                                           const Duration(seconds: 1), () {});
                                       socket.sendXML('RefreshNetwork');
-                                    } else
-                                    if (response['result'] == "device_not_found") {
+
+                                      //setState(() {
+                                      //   socket.sendXML('RefreshNetwork');
+                                      //});
+                                    } else if (response['result'] == "timeout") {
+                                      errorDialog(context, S
+                                          .of(context)
+                                          .deviceNameErrorTitle, S
+                                          .of(context)
+                                          .deviceNameErrorBody, fontSize);
+                                    } else if (response['result'] == "device_not_found") {
                                       errorDialog(context, S
                                           .of(context)
                                           .deviceNameErrorTitle, S
@@ -143,621 +220,534 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                           .deviceNotFoundDeviceName + "\n\n" + S
                                           .of(context)
                                           .deviceNotFoundHint, fontSize);
-                                    } else if (response['result'] != "ok") {
-                                      errorDialog(context, S
-                                          .of(context)
-                                          .deviceNameErrorTitle, S
-                                          .of(context)
-                                          .deviceNameErrorBody, fontSize);
                                     }
 
                                     changeNameLoading = false;
-                                    myFocusNode.unfocus();
                                   }
                                 }
-                            ),
-                            IconButton(
-                              icon: Icon(
-                                DevoloIcons.devolo_UI_cancel_fill,
-                                color: fontColorOnBackground,
-                              ),
-                              onPressed: () async {
-                                textFieldController.text = hitDevice.name;
-                                myFocusNode.unfocus();
+                              },
+                              onTap: () {
+                                myFocusNode.hasFocus;
+                              },
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return S
+                                      .of(context)
+                                      .pleaseEnterDeviceName;
+                                }
+                                return null;
                               },
                             ),
-                          ],
-                        ),
-                    )
-                                : changeNameLoading ?
-                      SizedBox(
-                          width: 0.5,
-                          height: 0.5,
-                          child: Padding(padding: const EdgeInsets.all(10.0), child: CircularProgressIndicator(
-                            valueColor: new AlwaysStoppedAnimation<Color>(
-                                fontColorOnBackground),
-                            strokeWidth: 3.0,
-                          )))
-                      : Icon(
-                          DevoloIcons.ic_edit_24px,
-                          color: fontColorOnBackground,
-                        ),
-                    ),
-                    onChanged: (value) => (newName = value),
-                    onEditingComplete: () async {
-                      if (newName != hitDevice.name) {
-                        bool confResponse = await confirmDialog(context, S
-                            .of(context)
-                            .deviceNameDialogTitle, S
-                            .of(context)
-                            .deviceNameDialogBody, fontSize);
-                        if (confResponse) {
-                          changeNameLoading = true;
-                          socket.sendXML('SetAdapterName', mac: hitDevice.mac,
-                              newValue: newName,
-                              valueType: 'name');
-                          var response = await socket.receiveXML(
-                              "SetAdapterNameStatus");
-                          if (response!['result'] == "ok") {
-                            hitDevice.name = newName;
-                            await Future.delayed(
-                                const Duration(seconds: 1), () {});
-                            socket.sendXML('RefreshNetwork');
-
-                                  //setState(() {
-                                  //   socket.sendXML('RefreshNetwork');
-                                  //});
-                                } else if (response['result'] == "timeout") {
-                                  errorDialog(context, S
-                                      .of(context)
-                                      .deviceNameErrorTitle, S
-                                      .of(context)
-                                      .deviceNameErrorBody, fontSize);
-                                } else
-                                if (response['result'] == "device_not_found") {
-                                  errorDialog(context, S
-                                      .of(context)
-                                      .deviceNameErrorTitle, S
-                                      .of(context)
-                                      .deviceNotFoundDeviceName + "\n\n" + S
-                                      .of(context)
-                                      .deviceNotFoundHint, fontSize);
-                                }
-
-                                changeNameLoading = false;
-                              }
-                            }
-                          },
-                          onTap: () {
-                            myFocusNode.hasFocus;
-                          },
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return S
-                                  .of(context)
-                                  .pleaseEnterDeviceName;
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                    ]),
-                    TableRow(children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5.0),
-                        child: Align(
-                            alignment: Alignment.centerRight,
-                            child: SelectableText(
-                              "${S
-                                  .of(context)
-                                  .type}:   ",
-                            )),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5.0),
-                        child: SelectableText(hitDevice.type),
-                      ),
-                    ]),
-                    TableRow(children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5.0),
-                        child: Align(
-                            alignment: Alignment.centerRight,
-                            child: SelectableText(
-                              "${S
-                                  .of(context)
-                                  .serialNumber}:   ",
-                            )),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5.0),
-                        child: SelectableText(hitDevice.serialno),
-                      ),
-                    ]),
-                    TableRow(children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5.0),
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: SelectableText(
-                            "${S
-                                .of(context)
-                                .mtNumber}:   ",
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5.0),
-                        child: SelectableText(hitDevice.MT.substring(2)),
-                      ),
-                    ]),
-                    TableRow(children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5.0),
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: SelectableText(
-                            "${S
-                                .of(context)
-                                .version}:   ",
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5.0),
-                        child: SelectableText(
-                            hitDevice.version + "(" + hitDevice.versionDate +
-                                ")"),
-                      ),
-                    ]),
-                    TableRow(children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5.0),
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: SelectableText(
-                            "${S
-                                .of(context)
-                                .ipAddress}:   ",
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5.0),
-                        child: SelectableText(hitDevice.ip),
-                      ),
-                    ]),
-                    TableRow(children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5.0),
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: SelectableText(
-                            "${S
-                                .of(context)
-                                .macAddress}:   ",
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5.0),
-                        child: SelectableText(hitDevice.mac),
-                      ),
-                    ]),
-                  ],
-                ),
-//Text('Rates: ' +hitDeviceRx),
-                Padding(padding: EdgeInsets.fromLTRB(0, 40, 0, 0)),
-                Wrap(
-                  spacing: 20,
-                  runSpacing: 10,
-                  alignment: WrapAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        IconButton(
-                          icon: Icon(
-                            DevoloIcons.devolo_UI_internet,
-                          ),
-//tooltip: S.of(context).launchWebinterface,
-                          disabledColor: fontColorOnBackground.withOpacity(
-                              0.33),
-                          color: fontColorOnBackground,
-                          hoverColor: fontColorOnBackground.withAlpha(50),
-                          iconSize: 24.0 * fontSize.factor,
-                          onPressed: !hitDevice.webinterfaceAvailable
-                              ? null
-                              : () =>
-                              launchURL(hitDevice.webinterfaceURL),
-                          mouseCursor: !hitDevice.webinterfaceAvailable
-                              ? SystemMouseCursors
-                              .basic
-                              : SystemMouseCursors.click,
-                        ),
-                        Text(
-                          S
-                              .of(context)
-                              .launchWebInterface,
-                          style: TextStyle(fontSize: 14,
-                              color: !hitDevice.webinterfaceAvailable
-                                  ? fontColorOnBackground.withOpacity(0.33)
-                                  : fontColorOnBackground),
-                          textScaleFactor: fontSize.factor,
-                          textAlign: TextAlign.center,
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Tooltip(
-                          preferBelow: false,
-                          message: S
-                              .of(context)
-                              .identifyDeviceTooltip,
-                          textStyle: TextStyle(color: backgroundColor),
-                          decoration: BoxDecoration(
-                            color: fontColorOnBackground.withOpacity(0.6),
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          margin: EdgeInsets.only(),
-                          padding: EdgeInsets.symmetric(
-                              vertical: 5, horizontal: 20),
-                          child:
-                          IconButton(
-                            icon: Icon(
-                              lightbulbOn
-                                  ? DevoloIcons.devolo_icon_ui_led_on
-                                  : DevoloIcons
-                                  .devolo_icon_ui_led,
-                            ),
-                            //tooltip: S.of(context).identifyDevice,
-                            disabledColor: fontColorOnBackground.withOpacity(
-                                0.33),
-                            color: fontColorOnBackground,
-                            hoverColor: fontColorOnBackground.withAlpha(50),
-                            iconSize: 24.0 * fontSize.factor,
-                            onPressed: !hitDevice.identifyDeviceAvailable ||
-                                identifyDeviceActionRunning
-                                ? null
-                                : () async {
-                              identifyDeviceActionRunning = true;
-
-                              socket.sendXML(
-                                  'IdentifyDevice', mac: hitDevice.mac);
-
-                              bool toggleLightbulb = true;
-                              Timer(
-                                  Duration(seconds: 120),
-                                      () {
-                                    identifyDeviceActionRunning = false;
-                                    toggleLightbulb = false;
-                                  }
-                              );
-
-                              Timer.periodic(
-                                  Duration(seconds: 1),
-                                      (Timer t) {
-                                    if(dialogClosed) {
-                                      t.cancel();
-                                    }
-                                    else if (!toggleLightbulb) {
-                                      setState(() {
-                                        lightbulbOn = false;
-                                        t.cancel();
-                                      });
-                                    }
-                                    else {
-                                      setState(() {
-                                        lightbulbOn = !lightbulbOn;
-                                      });
-                                    }
-                                  }
-                              );
-
-                              var response = await socket.receiveXML(
-                                  "IdentifyDeviceStatus");
-                              if (response!['result'] == "device_not_found") {
-                                identifyDeviceActionRunning = false;
-                                toggleLightbulb = false;
-                                errorDialog(context, S
-                                    .of(context)
-                                    .identifyDeviceErrorTitle, S
-                                    .of(context)
-                                    .deviceNotFoundIdentifyDevice + "\n\n" + S
-                                    .of(context)
-                                    .deviceNotFoundHint, fontSize);
-                              }
-                              else if (response['result'] != "ok") {
-                                identifyDeviceActionRunning = false;
-                                toggleLightbulb = false;
-                                errorDialog(context, S
-                                    .of(context)
-                                    .identifyDeviceErrorTitle, S
-                                    .of(context)
-                                    .identifyDeviceErrorBody, fontSize);
-                              }
-                            },
-
-                            mouseCursor: !hitDevice.identifyDeviceAvailable ||
-                                identifyDeviceActionRunning ? SystemMouseCursors
-                                .basic : SystemMouseCursors.click,
-                          ),
-                        ),
-                        Text(
-                          S
-                              .of(context)
-                              .identifyDevice,
-                          style: TextStyle(fontSize: 14,
-                              color: !hitDevice.identifyDeviceAvailable ||
-                                  identifyDeviceActionRunning
-                                  ? fontColorOnBackground.withOpacity(0.33)
-                                  : fontColorOnBackground),
-                          textScaleFactor: fontSize.factor,
-                          textAlign: TextAlign.center,
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        IconButton(
-                            icon: Icon(
-                              DevoloIcons.ic_find_in_page_24px,
-                              color: fontColorOnBackground,
-                            ),
-//tooltip: S.of(context).showManual,
-                            hoverColor: fontColorOnBackground.withAlpha(50),
-                            iconSize: 24.0 * fontSize.factor,
-                            onPressed: () async {
-                              socket.sendXML(
-                                  'GetManual', newValue: hitDevice.MT,
-                                  valueType: 'product',
-                                  newValue2: config["language"],
-                                  valueType2: 'language');
-                              var response = await socket.receiveXML(
-                                  "GetManualResponse");
-                              if (response!['filename'] != "") {
-                                openFile(response['filename']);
-                              } else {
-                                errorDialog(context, S
-                                    .of(context)
-                                    .manualErrorTitle, S
-                                    .of(context)
-                                    .manualErrorBody, fontSize);
-                              }
-                            }),
-                        Text(
-                          S
-                              .of(context)
-                              .showManual,
-                          style: TextStyle(
-                              fontSize: 14, color: fontColorOnBackground),
-                          textScaleFactor: fontSize.factor,
-                          textAlign: TextAlign.center,
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        IconButton(
-                          icon: Icon(
-                            DevoloIcons.ic_router_24px,
-                          ),
-//tooltip: S.of(context).showManual,
-                          color: fontColorOnBackground,
-                          hoverColor: fontColorOnBackground.withAlpha(50),
-                          disabledColor: fontColorOnBackground.withOpacity(
-                              0.33),
-                          iconSize: 24.0 * fontSize.factor,
-                          onPressed: (hitDevice.supportedVDSL.isNotEmpty)
-                              ? () {
-                            showVDSLDialog(
-                                context,
-                                socket,
-                                hitDevice.modeVDSL,
-                                hitDevice.supportedVDSL,
-                                hitDevice.selectedVDSL,
-                                hitDevice.mac,
-                                fontSize);
-                              ? () {
-                            setState(() {
-                              showVDSLDialog(
-                                  context,socket, hitDevice.modeVDSL, hitDevice.supportedVDSL,
-                                  hitDevice.selectedVDSL, hitDevice.mac, fontSize);
-
-                            });
-
-                          }
-                              : null,
-                          mouseCursor: !hitDevice.supportedVDSL.isNotEmpty
-                              ? SystemMouseCursors
-                              .basic
-                              : SystemMouseCursors.click,
-                        ),
-                        Text(
-                          S
-                              .of(context)
-                              .setVdslCompatibility,
-                          style: TextStyle(fontSize: 14, color: !hitDevice
-                              .supportedVDSL.isNotEmpty ? fontColorOnBackground
-                              .withOpacity(0.33) : fontColorOnBackground),
-                          textScaleFactor: fontSize.factor,
-                          textAlign: TextAlign.center,
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        IconButton(
-                          icon: Icon(
-                            DevoloIcons.ic_file_upload_24px,
-                            color: fontColorOnBackground,
-                            semanticLabel: "update",
-                          ),
-//tooltip: S.of(context).factoryReset,
-                          hoverColor: fontColorOnBackground.withAlpha(50),
-                          iconSize: 24.0 * fontSize.factor,
-                          onPressed: () async {
-                            bool confResponse = false;
-                            hitDevice.attachedToRouter
-                                ? confResponse = await confirmDialog(context, S
-                                .of(context)
-                                .resetDeviceConfirmTitle, S
-                                .of(context)
-                                .resetDeviceConfirmBody + "\n" + S
-                                .of(context)
-                                .confirmActionConnectedToRouterWarning,
-                                fontSize)
-                                : confResponse = await confirmDialog(context, S
-                                .of(context)
-                                .resetDeviceConfirmTitle, S
-                                .of(context)
-                                .resetDeviceConfirmBody, fontSize);
-
-                            if (confResponse) {
-                              socket.sendXML("ResetAdapterToFactoryDefaults",
-                                  mac: hitDevice.mac);
-
-                              var response = await socket.receiveXML(
-                                  "ResetAdapterToFactoryDefaultsStatus");
-                              if (response!['result'] == "device_not_found") {
-                                errorDialog(context, S
-                                    .of(context)
-                                    .resetDeviceErrorTitle, S
-                                    .of(context)
-                                    .deviceNotFoundResetDevice + "\n\n" + S
-                                    .of(context)
-                                    .deviceNotFoundHint, fontSize);
-                              } else if (response['result'] != "ok") {
-                                errorDialog(context, S
-                                    .of(context)
-                                    .resetDeviceErrorTitle, S
-                                    .of(context)
-                                    .resetDeviceErrorBody, fontSize);
-                              }
-                            }
-                          },
-                        ),
-                        Text(
-                          S
-                              .of(context)
-                              .factoryReset,
-                          style: TextStyle(
-                              fontSize: 14, color: fontColorOnBackground),
-                          textScaleFactor: fontSize.factor,
-                          textAlign: TextAlign.center,
-                        )
-                      ],
-                    ),
-
-                    Column(
-                      children: [
-                        IconButton(
-                            icon: Icon(
-                              DevoloIcons.devolo_UI_delete,
-                              color: fontColorOnBackground,
-                            ),
-//tooltip: S.of(context).deleteDevice,
-                            hoverColor: fontColorOnBackground.withAlpha(50),
-                            iconSize: 24.0 * fontSize.factor,
-                            onPressed: () async {
-                              bool confResponse = false;
-                              hitDevice.attachedToRouter
-                                  ?
-                              confResponse = await confirmDialog(context, S
-                                  .of(context)
-                                  .removeDeviceConfirmTitle, S
-                                  .of(context)
-                                  .removeDeviceConfirmBody + "\n" + S
-                                  .of(context)
-                                  .confirmActionConnectedToRouterWarning,
-                                  fontSize)
-                                  : confResponse = await confirmDialog(
-                                  context, S
-                                  .of(context)
-                                  .removeDeviceConfirmTitle, S
-                                  .of(context)
-                                  .removeDeviceConfirmBody, fontSize);
-
-                              if (confResponse) {
-                                socket.sendXML(
-                                    "RemoveAdapter", mac: hitDevice.mac);
-
-                                var response = await socket.receiveXML(
-                                    "RemoveAdapterStatus");
-                                if (response!['result'] == "device_not_found") {
-                                  errorDialog(context, S
+                        ]),
+                        TableRow(children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            child: Align(
+                                alignment: Alignment.centerRight,
+                                child: SelectableText(
+                                  "${S
                                       .of(context)
-                                      .removeDeviceErrorTitle, S
+                                      .type}:   ",
+                                )),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            child: SelectableText(hitDevice.type),
+                          ),
+                        ]),
+                        TableRow(children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            child: Align(
+                                alignment: Alignment.centerRight,
+                                child: SelectableText(
+                                  "${S
                                       .of(context)
-                                      .deviceNotFoundRemoveDevice + "\n\n" + S
-                                      .of(context)
-                                      .deviceNotFoundHint, fontSize);
-                                } else if (response['result'] != "ok") {
-                                  errorDialog(context, S
-                                      .of(context)
-                                      .removeDeviceErrorTitle, S
-                                      .of(context)
-                                      .removeDeviceErrorBody, fontSize);
-                                }
-                              }
-                            }
-                        ),
-                        Text(
-                          S
-                              .of(context)
-                              .deleteDevice,
-                          style: TextStyle(
-                              fontSize: 14, color: fontColorOnBackground),
-                          textScaleFactor: fontSize.factor,
-                          textAlign: TextAlign.center,
-                        )
-                      ],
-                    ), //ToDo Delete Device see wiki
-                    if (hitDevice.disableTraffic[0] == 1 ||
-                        hitDevice.disableLeds[0] == 1 ||
-                        hitDevice.disableStandby[0] == 1 ||
-                        (hitDevice.ipConfigAddress.isNotEmpty ||
-                            hitDevice.ipConfigMac.isNotEmpty ||
-                            hitDevice.ipConfigNetmask.isNotEmpty))
-                      Column(
-                        children: [
-                          IconButton(
-                              icon: Icon(
-                                DevoloIcons.devolo_UI_more_horiz,
-                                color: fontColorOnBackground,
+                                      .serialNumber}:   ",
+                                )),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            child: SelectableText(hitDevice.serialno),
+                          ),
+                        ]),
+                        TableRow(children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: SelectableText(
+                                "${S
+                                    .of(context)
+                                    .mtNumber}:   ",
                               ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            child: SelectableText(hitDevice.MT.substring(2)),
+                          ),
+                        ]),
+                        TableRow(children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: SelectableText(
+                                "${S
+                                    .of(context)
+                                    .version}:   ",
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            child: SelectableText(
+                                hitDevice.version + "(" + hitDevice.versionDate +
+                                    ")"),
+                          ),
+                        ]),
+                        TableRow(children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: SelectableText(
+                                "${S
+                                    .of(context)
+                                    .ipAddress}:   ",
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            child: SelectableText(hitDevice.ip),
+                          ),
+                        ]),
+                        TableRow(children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: SelectableText(
+                                "${S
+                                    .of(context)
+                                    .macAddress}:   ",
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            child: SelectableText(hitDevice.mac),
+                          ),
+                        ]),
+                      ],
+                    ),
+//Text('Rates: ' +hitDeviceRx),
+                    Padding(padding: EdgeInsets.fromLTRB(0, 40, 0, 0)),
+                    Wrap(
+                      spacing: 20,
+                      runSpacing: 10,
+                      alignment: WrapAlignment.center,
+                      children: [
+                        Column(
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                DevoloIcons.devolo_UI_internet,
+                              ),
+//tooltip: S.of(context).launchWebinterface,
+                              disabledColor: fontColorOnBackground.withOpacity(
+                                  0.33),
+                              color: fontColorOnBackground,
                               hoverColor: fontColorOnBackground.withAlpha(50),
                               iconSize: 24.0 * fontSize.factor,
-                              onPressed: () {
-                                moreSettings(
+                              onPressed: !hitDevice.webinterfaceAvailable
+                                  ? null
+                                  : () =>
+                                  launchURL(hitDevice.webinterfaceURL),
+                              mouseCursor: !hitDevice.webinterfaceAvailable
+                                  ? SystemMouseCursors
+                                  .basic
+                                  : SystemMouseCursors.click,
+                            ),
+                            Text(
+                              S
+                                  .of(context)
+                                  .launchWebInterface,
+                              style: TextStyle(fontSize: 14,
+                                  color: !hitDevice.webinterfaceAvailable
+                                      ? fontColorOnBackground.withOpacity(0.33)
+                                      : fontColorOnBackground),
+                              textScaleFactor: fontSize.factor,
+                              textAlign: TextAlign.center,
+                            )
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Tooltip(
+                              preferBelow: false,
+                              message: S
+                                  .of(context)
+                                  .identifyDeviceTooltip,
+                              textStyle: TextStyle(color: backgroundColor),
+                              decoration: BoxDecoration(
+                                color: fontColorOnBackground.withOpacity(0.6),
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              margin: EdgeInsets.only(),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 5, horizontal: 20),
+                              child:
+                              IconButton(
+                                icon: Icon(
+                                  lightbulbOn
+                                      ? DevoloIcons.devolo_icon_ui_led_on
+                                      : DevoloIcons
+                                      .devolo_icon_ui_led,
+                                ),
+                                //tooltip: S.of(context).identifyDevice,
+                                disabledColor: fontColorOnBackground.withOpacity(
+                                    0.33),
+                                color: fontColorOnBackground,
+                                hoverColor: fontColorOnBackground.withAlpha(50),
+                                iconSize: 24.0 * fontSize.factor,
+                                onPressed: !hitDevice.identifyDeviceAvailable ||
+                                    identifyDeviceActionRunning
+                                    ? null
+                                    : () async {
+                                  identifyDeviceActionRunning = true;
+
+                                  socket.sendXML(
+                                      'IdentifyDevice', mac: hitDevice.mac);
+
+                                  bool toggleLightbulb = true;
+                                  Timer(
+                                      Duration(seconds: 120),
+                                          () {
+                                        identifyDeviceActionRunning = false;
+                                        toggleLightbulb = false;
+                                      }
+                                  );
+
+                                  Timer.periodic(
+                                      Duration(seconds: 1),
+                                          (Timer t) {
+                                        if (dialogClosed) {
+                                          t.cancel();
+                                        }
+                                        else if (!toggleLightbulb) {
+                                          setState(() {
+                                            lightbulbOn = false;
+                                            t.cancel();
+                                          });
+                                        }
+                                        else {
+                                          setState(() {
+                                            lightbulbOn = !lightbulbOn;
+                                          });
+                                        }
+                                      }
+                                  );
+
+                                  var response = await socket.receiveXML(
+                                      "IdentifyDeviceStatus");
+                                  if (response!['result'] == "device_not_found") {
+                                    identifyDeviceActionRunning = false;
+                                    toggleLightbulb = false;
+                                    errorDialog(context, S
+                                        .of(context)
+                                        .identifyDeviceErrorTitle, S
+                                        .of(context)
+                                        .deviceNotFoundIdentifyDevice + "\n\n" + S
+                                        .of(context)
+                                        .deviceNotFoundHint, fontSize);
+                                  }
+                                  else if (response['result'] != "ok") {
+                                    identifyDeviceActionRunning = false;
+                                    toggleLightbulb = false;
+                                    errorDialog(context, S
+                                        .of(context)
+                                        .identifyDeviceErrorTitle, S
+                                        .of(context)
+                                        .identifyDeviceErrorBody, fontSize);
+                                  }
+                                },
+
+                                mouseCursor: !hitDevice.identifyDeviceAvailable ||
+                                    identifyDeviceActionRunning ? SystemMouseCursors
+                                    .basic : SystemMouseCursors.click,
+                              ),
+                            ),
+                            Text(
+                              S
+                                  .of(context)
+                                  .identifyDevice,
+                              style: TextStyle(fontSize: 14,
+                                  color: !hitDevice.identifyDeviceAvailable ||
+                                      identifyDeviceActionRunning
+                                      ? fontColorOnBackground.withOpacity(0.33)
+                                      : fontColorOnBackground),
+                              textScaleFactor: fontSize.factor,
+                              textAlign: TextAlign.center,
+                            )
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            IconButton(
+                                icon: Icon(
+                                  DevoloIcons.ic_find_in_page_24px,
+                                  color: fontColorOnBackground,
+                                ),
+//tooltip: S.of(context).showManual,
+                                hoverColor: fontColorOnBackground.withAlpha(50),
+                                iconSize: 24.0 * fontSize.factor,
+                                onPressed: () async {
+                                  socket.sendXML(
+                                      'GetManual', newValue: hitDevice.MT,
+                                      valueType: 'product',
+                                      newValue2: config["language"],
+                                      valueType2: 'language');
+                                  var response = await socket.receiveXML(
+                                      "GetManualResponse");
+                                  if (response!['filename'] != "") {
+                                    openFile(response['filename']);
+                                  } else {
+                                    errorDialog(context, S
+                                        .of(context)
+                                        .manualErrorTitle, S
+                                        .of(context)
+                                        .manualErrorBody, fontSize);
+                                  }
+                                }),
+                            Text(
+                              S
+                                  .of(context)
+                                  .showManual,
+                              style: TextStyle(
+                                  fontSize: 14, color: fontColorOnBackground),
+                              textScaleFactor: fontSize.factor,
+                              textAlign: TextAlign.center,
+                            )
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                DevoloIcons.ic_router_24px,
+                              ),
+//tooltip: S.of(context).showManual,
+                              color: fontColorOnBackground,
+                              hoverColor: fontColorOnBackground.withAlpha(50),
+                              disabledColor: fontColorOnBackground.withOpacity(
+                                  0.33),
+                              iconSize: 24.0 * fontSize.factor,
+                              onPressed: (hitDevice.supportedVDSL.isNotEmpty)
+                                  ? () {
+                                showVDSLDialog(
                                     context,
                                     socket,
-                                    hitDevice.disableTraffic,
-                                    hitDevice.disableLeds,
-                                    hitDevice.disableStandby,
+                                    hitDevice.modeVDSL,
+                                    hitDevice.supportedVDSL,
+                                    hitDevice.selectedVDSL,
                                     hitDevice.mac,
-                                    hitDevice.ipConfigMac,
-                                    hitDevice.ipConfigAddress,
-                                    hitDevice.ipConfigNetmask,
                                     fontSize);
-                              }),
-                          Text(
-                            S
-                                .of(context)
-                                .additionalSettings,
-                            style: TextStyle(
-                                fontSize: 14, color: fontColorOnBackground),
-                            textScaleFactor: fontSize.factor,
-                            textAlign: TextAlign.center,
-                          )
-                        ],
-                      ),
+                              }
+                                  : null,
+                              mouseCursor: !hitDevice.supportedVDSL.isNotEmpty
+                                  ? SystemMouseCursors
+                                  .basic
+                                  : SystemMouseCursors.click,
+                            ),
+                            Text(
+                              S
+                                  .of(context)
+                                  .setVdslCompatibility,
+                              style: TextStyle(fontSize: 14, color: !hitDevice
+                                  .supportedVDSL.isNotEmpty ? fontColorOnBackground
+                                  .withOpacity(0.33) : fontColorOnBackground),
+                              textScaleFactor: fontSize.factor,
+                              textAlign: TextAlign.center,
+                            )
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                DevoloIcons.ic_file_upload_24px,
+                                color: fontColorOnBackground,
+                                semanticLabel: "update",
+                              ),
+//tooltip: S.of(context).factoryReset,
+                              hoverColor: fontColorOnBackground.withAlpha(50),
+                              iconSize: 24.0 * fontSize.factor,
+                              onPressed: () async {
+                                bool confResponse = false;
+                                hitDevice.attachedToRouter
+                                    ? confResponse = await confirmDialog(context, S
+                                    .of(context)
+                                    .resetDeviceConfirmTitle, S
+                                    .of(context)
+                                    .resetDeviceConfirmBody + "\n" + S
+                                    .of(context)
+                                    .confirmActionConnectedToRouterWarning,
+                                    fontSize)
+                                    : confResponse = await confirmDialog(context, S
+                                    .of(context)
+                                    .resetDeviceConfirmTitle, S
+                                    .of(context)
+                                    .resetDeviceConfirmBody, fontSize);
+
+                                if (confResponse) {
+                                  socket.sendXML("ResetAdapterToFactoryDefaults",
+                                      mac: hitDevice.mac);
+
+                                  var response = await socket.receiveXML(
+                                      "ResetAdapterToFactoryDefaultsStatus");
+                                  if (response!['result'] == "device_not_found") {
+                                    errorDialog(context, S
+                                        .of(context)
+                                        .resetDeviceErrorTitle, S
+                                        .of(context)
+                                        .deviceNotFoundResetDevice + "\n\n" + S
+                                        .of(context)
+                                        .deviceNotFoundHint, fontSize);
+                                  } else if (response['result'] != "ok") {
+                                    errorDialog(context, S
+                                        .of(context)
+                                        .resetDeviceErrorTitle, S
+                                        .of(context)
+                                        .resetDeviceErrorBody, fontSize);
+                                  }
+                                }
+                              },
+                            ),
+                            Text(
+                              S
+                                  .of(context)
+                                  .factoryReset,
+                              style: TextStyle(
+                                  fontSize: 14, color: fontColorOnBackground),
+                              textScaleFactor: fontSize.factor,
+                              textAlign: TextAlign.center,
+                            )
+                          ],
+                        ),
+
+                        Column(
+                          children: [
+                            IconButton(
+                                icon: Icon(
+                                  DevoloIcons.devolo_UI_delete,
+                                  color: fontColorOnBackground,
+                                ),
+//tooltip: S.of(context).deleteDevice,
+                                hoverColor: fontColorOnBackground.withAlpha(50),
+                                iconSize: 24.0 * fontSize.factor,
+                                onPressed: () async {
+                                  bool confResponse = false;
+                                  hitDevice.attachedToRouter
+                                      ?
+                                  confResponse = await confirmDialog(context, S
+                                      .of(context)
+                                      .removeDeviceConfirmTitle, S
+                                      .of(context)
+                                      .removeDeviceConfirmBody + "\n" + S
+                                      .of(context)
+                                      .confirmActionConnectedToRouterWarning,
+                                      fontSize)
+                                      : confResponse = await confirmDialog(
+                                      context, S
+                                      .of(context)
+                                      .removeDeviceConfirmTitle, S
+                                      .of(context)
+                                      .removeDeviceConfirmBody, fontSize);
+
+                                  if (confResponse) {
+                                    socket.sendXML(
+                                        "RemoveAdapter", mac: hitDevice.mac);
+
+                                    var response = await socket.receiveXML(
+                                        "RemoveAdapterStatus");
+                                    if (response!['result'] == "device_not_found") {
+                                      errorDialog(context, S
+                                          .of(context)
+                                          .removeDeviceErrorTitle, S
+                                          .of(context)
+                                          .deviceNotFoundRemoveDevice + "\n\n" + S
+                                          .of(context)
+                                          .deviceNotFoundHint, fontSize);
+                                    } else if (response['result'] != "ok") {
+                                      errorDialog(context, S
+                                          .of(context)
+                                          .removeDeviceErrorTitle, S
+                                          .of(context)
+                                          .removeDeviceErrorBody, fontSize);
+                                    }
+                                  }
+                                }
+                            ),
+                            Text(
+                              S
+                                  .of(context)
+                                  .deleteDevice,
+                              style: TextStyle(
+                                  fontSize: 14, color: fontColorOnBackground),
+                              textScaleFactor: fontSize.factor,
+                              textAlign: TextAlign.center,
+                            )
+                          ],
+                        ), //ToDo Delete Device see wiki
+                        if (hitDevice.disableTraffic[0] == 1 ||
+                            hitDevice.disableLeds[0] == 1 ||
+                            hitDevice.disableStandby[0] == 1 ||
+                            (hitDevice.ipConfigAddress.isNotEmpty ||
+                                hitDevice.ipConfigMac.isNotEmpty ||
+                                hitDevice.ipConfigNetmask.isNotEmpty))
+                          Column(
+                            children: [
+                              IconButton(
+                                  icon: Icon(
+                                    DevoloIcons.devolo_UI_more_horiz,
+                                    color: fontColorOnBackground,
+                                  ),
+                                  hoverColor: fontColorOnBackground.withAlpha(50),
+                                  iconSize: 24.0 * fontSize.factor,
+                                  onPressed: () {
+                                    moreSettings(
+                                        context,
+                                        socket,
+                                        hitDevice.disableTraffic,
+                                        hitDevice.disableLeds,
+                                        hitDevice.disableStandby,
+                                        hitDevice.mac,
+                                        hitDevice.ipConfigMac,
+                                        hitDevice.ipConfigAddress,
+                                        hitDevice.ipConfigNetmask,
+                                        fontSize);
+                                  }),
+                              Text(
+                                S
+                                    .of(context)
+                                    .additionalSettings,
+                                style: TextStyle(
+                                    fontSize: 14, color: fontColorOnBackground),
+                                textScaleFactor: fontSize.factor,
+                                textAlign: TextAlign.center,
+                              )
+                            ],
+                          ),
+                      ],
+                    ),
                   ],
                 ),
-              ],
-            ),
-          ),
-        );
+              );
+            }));
       });
     },
   ).then((value) => dialogClosed = true);
@@ -814,12 +804,21 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
   logger.d(otherProfilesList);
 
 
+  if(vdslProfile.contains("siso")) {
+    isSelected[1] = true;
+    isSelected[0] = false;
+  }
+
+  if(hitDeviceVDSLList.any((String element) => !element.contains("mimo"))) {
+    //isSelected[0] = null;
+  }
+
   bool? returnVal = await showDialog(
       context: context,
       barrierDismissible: true, // user doesn't need to tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          //insetPadding: EdgeInsets.symmetric(horizontal: 300),
+          insetPadding: EdgeInsets.symmetric(horizontal: 300),
           titlePadding: EdgeInsets.all(dialogTitlePadding),
           title: Column(
             children: [
@@ -927,7 +926,7 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                               decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.0), color: secondColor.withOpacity(0.2), border: Border.all(color: fontColorOnBackground)),
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton<String>(
-                                    value: _dropVDSL,
+                                    value: _dropVDSL == null? _dropVDSL=hitDeviceVDSLList[0]: _dropVDSL,
                                     dropdownColor: backgroundColor,
                                     hint: Text(S.of(context).selectProfile,style: TextStyle(color: fontColorOnMain),),
                                     style: TextStyle(fontSize: fontSizeListTileSubtitle * fontSize.factor, color: fontColorOnBackground),

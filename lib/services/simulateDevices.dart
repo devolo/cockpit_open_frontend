@@ -54,7 +54,10 @@ class DeviceSimulator {
         "1",
         [0,0], // Disable LEDs
         [1,0], // Disable Standby
-        [1,1]); // Disable traffic
+        [1,1], // Disable traffic
+        "", // IP config Mac
+        "", // IP config address
+        "");  // IP config netmask
 
     return device;
   }

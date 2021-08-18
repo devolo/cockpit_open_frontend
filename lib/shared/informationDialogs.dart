@@ -541,48 +541,41 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                 DevoloIcons.ic_router_24px,
                               ),
 //tooltip: S.of(context).showManual,
-                              color: fontColorOnBackground,
-                              hoverColor: fontColorOnBackground.withAlpha(50),
-                              disabledColor: fontColorOnBackground.withOpacity(
-                                  0.33),
-                              iconSize: 24.0 * fontSize.factor,
-                              onPressed: (hitDevice.supportedVDSL.isNotEmpty)
-                                  ? () {
-                                showVDSLDialog(
-                                    context,
-                                    socket,
-                                    hitDevice.modeVDSL,
-                                    hitDevice.supportedVDSL,
-                                    hitDevice.selectedVDSL,
-                                    hitDevice.mac,
-                                    fontSize);
-                              }
-                                  : null,
-                              mouseCursor: !hitDevice.supportedVDSL.isNotEmpty
-                                  ? SystemMouseCursors
-                                  .basic
-                                  : SystemMouseCursors.click,
-                            ),
-                            Text(
-                              S
-                                  .of(context)
-                                  .setVdslCompatibility,
-                              style: TextStyle(fontSize: 14, color: !hitDevice
-                                  .supportedVDSL.isNotEmpty ? fontColorOnBackground
-                                  .withOpacity(0.33) : fontColorOnBackground),
-                              textScaleFactor: fontSize.factor,
-                              textAlign: TextAlign.center,
-                            )
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            IconButton(
-                              icon: Icon(
-                                DevoloIcons.ic_file_upload_24px,
-                                color: fontColorOnBackground,
-                                semanticLabel: "update",
-                              ),
+                          color: fontColorOnBackground,
+                          hoverColor: fontColorOnBackground.withAlpha(50),
+                          disabledColor: fontColorOnBackground.withOpacity(0.33),
+                          iconSize: 24.0 * fontSize.factor,
+                          onPressed: (hitDevice.supportedVDSL.isNotEmpty)
+                              ? () {
+                            setState(() {
+                              showVDSLDialog(
+                                  context,socket, hitDevice.modeVDSL, hitDevice.supportedVDSL,
+                                  hitDevice.selectedVDSL, hitDevice.mac, fontSize);
+
+                            });
+
+                          }
+                          : null,
+                        mouseCursor: !hitDevice.supportedVDSL.isNotEmpty ? SystemMouseCursors
+                            .basic : SystemMouseCursors.click,
+                      ),
+                      Text(
+                        S
+                            .of(context)
+                            .setVdslCompatibility,
+                        style: TextStyle(fontSize: 14, color: !hitDevice.supportedVDSL.isNotEmpty ? fontColorOnBackground.withOpacity(0.33) : fontColorOnBackground),                        textScaleFactor: fontSize.factor,
+                        textAlign: TextAlign.center,
+                      )
+                    ],
+                  ),
+                Column(
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        DevoloIcons.ic_file_upload_24px,
+                        color: fontColorOnBackground,
+                        semanticLabel: "update",
+                      ),
 //tooltip: S.of(context).factoryReset,
                               hoverColor: fontColorOnBackground.withAlpha(50),
                               iconSize: 24.0 * fontSize.factor,

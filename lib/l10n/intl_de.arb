@@ -221,6 +221,12 @@
   "automaticCompatibilityMode": "Automatischer Kompatibilitäsmodus (empfohlen)",
   "vdslCompatibility": "VDSL Kompatibilität",
   "success": "Erfolgreich",
+  "mimoVdslProfil17a": "VDSL Profil 17a",
+  "sisoFull": "volle Leistung",
+  "sisoVdslProfil35b": "VDSL Profil 35b",
+  "sisoVdslProfil17a": "VDSL Profil 17a",
+  "mimoFull": "volle Leistung",
+  "mimoVdslProfil35a": "VDSL Profil 35a",
 
   "@_ADDITIONAL_SETTINGS_DIALOG": {
   },

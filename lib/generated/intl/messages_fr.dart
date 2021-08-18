@@ -155,6 +155,11 @@ class MessageLookup extends MessageLookupByLibrary {
             "Aucun manuel approprié n\'a été trouvé pour votre adapteur PLC..\n\nVous trouverez le manuel sur le CD du produit ou sur le site web de devolo."),
         "manualErrorTitle":
             MessageLookupByLibrary.simpleMessage("Manuel introuvable"),
+        "mimoFull": MessageLookupByLibrary.simpleMessage("Pleine puissance"),
+        "mimoVdslProfil17a":
+            MessageLookupByLibrary.simpleMessage("VDSL profil 17a"),
+        "mimoVdslProfil35a":
+            MessageLookupByLibrary.simpleMessage("VDSL profil 35a"),
         "mtNumber": MessageLookupByLibrary.simpleMessage("numéro MT devolo "),
         "name": MessageLookupByLibrary.simpleMessage("Nom "),
         "network": MessageLookupByLibrary.simpleMessage("Réseau"),
@@ -254,6 +259,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Afficher autres appareils"),
         "showPassword":
             MessageLookupByLibrary.simpleMessage("Montrer le mot de passe"),
+        "sisoFull": MessageLookupByLibrary.simpleMessage("Pleine puissance"),
+        "sisoVdslProfil17a":
+            MessageLookupByLibrary.simpleMessage("VDSL profil 17a"),
+        "sisoVdslProfil35b":
+            MessageLookupByLibrary.simpleMessage("VDSL profil 35b"),
         "state": MessageLookupByLibrary.simpleMessage("Statut d´actualisation"),
         "success": MessageLookupByLibrary.simpleMessage("Succès"),
         "supportInfoGenerateError": MessageLookupByLibrary.simpleMessage(

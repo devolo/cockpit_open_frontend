@@ -1630,6 +1630,66 @@ class S {
     );
   }
 
+  /// `VDSL Profil 17a`
+  String get mimoVdslProfil17a {
+    return Intl.message(
+      'VDSL Profil 17a',
+      name: 'mimoVdslProfil17a',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Full power`
+  String get sisoFull {
+    return Intl.message(
+      'Full power',
+      name: 'sisoFull',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `VDSL Profil 35b`
+  String get sisoVdslProfil35b {
+    return Intl.message(
+      'VDSL Profil 35b',
+      name: 'sisoVdslProfil35b',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `VDSL Profil 17a`
+  String get sisoVdslProfil17a {
+    return Intl.message(
+      'VDSL Profil 17a',
+      name: 'sisoVdslProfil17a',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Full power`
+  String get mimoFull {
+    return Intl.message(
+      'Full power',
+      name: 'mimoFull',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `VDSL Profil 35a`
+  String get mimoVdslProfil35a {
+    return Intl.message(
+      'VDSL Profil 35a',
+      name: 'mimoVdslProfil35a',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Additional settings`
   String get additionalDialogTitle {
     return Intl.message(

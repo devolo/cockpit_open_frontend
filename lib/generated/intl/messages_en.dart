@@ -152,6 +152,11 @@ class MessageLookup extends MessageLookupByLibrary {
             "No suitable manual was found for your PLC device.\n\nYou can find the manual on the product CD or on the devolo website"),
         "manualErrorTitle":
             MessageLookupByLibrary.simpleMessage("Manual not found"),
+        "mimoFull": MessageLookupByLibrary.simpleMessage("Full power"),
+        "mimoVdslProfil17a":
+            MessageLookupByLibrary.simpleMessage("VDSL Profil 17a"),
+        "mimoVdslProfil35a":
+            MessageLookupByLibrary.simpleMessage("VDSL Profil 35a"),
         "mtNumber": MessageLookupByLibrary.simpleMessage("devolo MT number"),
         "name": MessageLookupByLibrary.simpleMessage("Name"),
         "netmask": MessageLookupByLibrary.simpleMessage("Netmask"),
@@ -247,7 +252,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "showOtherDevices":
             MessageLookupByLibrary.simpleMessage("Show other devices"),
         "showPassword": MessageLookupByLibrary.simpleMessage("Show password"),
+        "sisoFull": MessageLookupByLibrary.simpleMessage("Full power"),
+        "sisoVdslProfil17a":
+            MessageLookupByLibrary.simpleMessage("VDSL Profil 17a"),
+        "sisoVdslProfil35b":
+            MessageLookupByLibrary.simpleMessage("VDSL Profil 35b"),
         "state": MessageLookupByLibrary.simpleMessage("Update status"),
+        "success": MessageLookupByLibrary.simpleMessage("Success"),
         "supportInfoGenerateError": MessageLookupByLibrary.simpleMessage(
             "An error occurred while creating the support informations.\nTry again later"),
         "supportInfoSendErrorBody1": MessageLookupByLibrary.simpleMessage(

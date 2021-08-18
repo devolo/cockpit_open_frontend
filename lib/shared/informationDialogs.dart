@@ -52,7 +52,9 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
             color: fontColorOnBackground,
             fontSize: dialogTitleTextFontSize,
           ),
-          content: SingleChildScrollView(
+          content:  StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -556,6 +558,14 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                 hitDevice.selectedVDSL,
                                 hitDevice.mac,
                                 fontSize);
+                              ? () {
+                            setState(() {
+                              showVDSLDialog(
+                                  context,socket, hitDevice.modeVDSL, hitDevice.supportedVDSL,
+                                  hitDevice.selectedVDSL, hitDevice.mac, fontSize);
+
+                            });
+
                           }
                               : null,
                           mouseCursor: !hitDevice.supportedVDSL.isNotEmpty
@@ -756,6 +766,9 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
 
 void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitDeviceVDSLList, String vdslProfile, hitDeviceMac, FontSize fontSize) async {
 
+  // ToDo remove translation dublicates ?
+  Map<String, String> vdslNames = {'mimo_vdsl17a': S.of(context).mimoVdslProfil17a, 'siso_full': S.of(context).sisoFull, 'siso_vdsl35b': S.of(context).sisoVdslProfil35b, 'siso_vdsl17a': S.of(context).sisoVdslProfil17a, 'mimo_full': S.of(context).mimoFull, 'mimo_vdsl35b': S.of(context).mimoVdslProfil35a};
+
   bool vdslModeAutomatic = true;
   var isSelected = <bool>[true, false]; // [MIMO, SISO] for toggle button
   bool showMSButton = false;
@@ -890,7 +903,7 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                              width: 230,
+                              width: MediaQuery.of(context).size.width/ 3.5,
                               padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
                               decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.0), color: secondColor.withOpacity(0.2), border: Border.all(color: fontColorOnBackground)),
                               child: DropdownButtonHideUnderline(
@@ -906,7 +919,7 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                                     items: selectedProfileList.map<DropdownMenuItem<String>>((String value) {
                                       return DropdownMenuItem<String>(
                                         value: value,
-                                        child: value == vdslProfile? new Text("$value (current) "): new Text(value),  // ToDo translate
+                                        child: new Text(vdslNames[value] == null? value:vdslNames[value]!),  // ToDo translate
                                       );
                                     }).toList(),
                                     onChanged: (value) {

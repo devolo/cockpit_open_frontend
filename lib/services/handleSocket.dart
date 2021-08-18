@@ -126,7 +126,8 @@ class DataHand extends ChangeNotifier {
 
         _networkList.clearNetworkList();
         logger.d('DeviceList found ->');
-        logger.v(document);
+        //logger.v(document);
+        logger.v("new Devicelist");
         var localDeviceList = document.findAllElements('LocalDeviceList').first.findElements('item'); //TODO: TEST call for every
 
         int listCounter = 0;
@@ -536,12 +537,14 @@ class DataHand extends ChangeNotifier {
         }
 
         else if (wantedMessageTypes == "SetVDSLCompatibilityStatus") {
+          String? responseStatus = await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'status');
           responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'result');
+          logger.w(xmlResponseMap[wantedMessageTypes].toString());
           if (responseElem != null) {
-            response['result'] = responseElem;
-          }
-          if(responseElem != ""){
-            wait = false;
+            if (responseStatus != "running") {
+              wait = false;
+              response['result'] = responseElem;
+            }
           }
         }
 

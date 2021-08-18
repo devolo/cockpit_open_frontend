@@ -254,6 +254,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "showPassword":
             MessageLookupByLibrary.simpleMessage("Passwort anzeigen "),
         "state": MessageLookupByLibrary.simpleMessage("Update Status"),
+        "success": MessageLookupByLibrary.simpleMessage("Erfolgreich"),
         "supportInfoGenerateError": MessageLookupByLibrary.simpleMessage(
             "Bei der Erstellung der Support Informationen ist ein Fehler aufgetreten.\nBitte versuchen Sie es erneut!"),
         "supportInfoSendErrorBody1": MessageLookupByLibrary.simpleMessage(

@@ -219,6 +219,7 @@
   "vdslSuccessful": "Les nouveaux paramètres VDSL ont été enregistrés sur l'appareil",
   "automaticCompatibilityMode": "Mode de compatibilité automatique (recommandé)",
   "vdslCompatibility": "Compatibilité VDSL",
+  "success": "Succès",
 
   "@_ADDITIONAL_SETTINGS_DIALOG": {
   },

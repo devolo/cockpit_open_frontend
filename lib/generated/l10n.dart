@@ -1620,6 +1620,16 @@ class S {
     );
   }
 
+  /// `Success`
+  String get success {
+    return Intl.message(
+      'Success',
+      name: 'success',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Additional settings`
   String get additionalDialogTitle {
     return Intl.message(

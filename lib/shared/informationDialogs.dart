@@ -756,25 +756,50 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
 
 void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitDeviceVDSLList, String vdslProfile, hitDeviceMac, FontSize fontSize) async {
 
-  bool vdslModeAutomatic = false;
-  var isSelected = <bool>[true, false]; // [MIMO, SISO]
-  String _dropVDSL = vdslProfile;
+  bool vdslModeAutomatic = true;
+  var isSelected = <bool>[true, false]; // [MIMO, SISO] for toggle button
+  bool showMSButton = false;
+  String? _dropVDSL = vdslProfile;
+  List<String> mimoVDSLList = [];
+  List<String> sisoVDSLList = [];
+  List<String> otherProfilesList = [];
+  List<String> selectedProfileList = mimoVDSLList;  // presents the the mimo or siso or other list based on selected mode in ToggleButton
+
 
   logger.d(hitDeviceVDSLList);
   logger.d(hitDeviceVDSLmode);
   logger.d(vdslProfile);
 
+  // Test if automatic mode is selected
   if(hitDeviceVDSLmode == "2")
-    vdslModeAutomatic = true;
+    vdslModeAutomatic = false;
 
+  // Test which profile is selected so MIMO/SISO button is already selected the right mode
   if(vdslProfile.contains("siso")) {
     isSelected[1] = true;
     isSelected[0] = false;
+    selectedProfileList = sisoVDSLList;
   }
 
-  if(hitDeviceVDSLList.any((String element) => !element.contains("mimo"))) {
-    //isSelected[0] = null;
+
+  // divide hitDeviceVDSLList into mimo/siso/other Profile Lists
+  for(var elem in hitDeviceVDSLList){
+    if (elem.contains("mimo")) {
+      mimoVDSLList.add(elem);
+      showMSButton = true;  // If hitDeviceVDSLList contains mimo profiles toggle button to choose between SISO and MIMO is displayed
+    }
+    else if (elem.contains("siso")) {
+      sisoVDSLList.add(elem);
+    }
+    else {
+      otherProfilesList.add(elem);
+    }
   }
+
+  logger.d(mimoVDSLList);
+  logger.d(sisoVDSLList);
+  logger.d(otherProfilesList);
+
 
   bool? returnVal = await showDialog(
       context: context,
@@ -806,7 +831,7 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                                   ),
                                   child: Checkbox(
                                       value: vdslModeAutomatic,
-                                      activeColor: fontColorOnBackground,
+                                      activeColor: mainColor,
                                       onChanged: (bool? newValue) async {
                                         vdslModeAutomatic = newValue!;
                                         setState(() {
@@ -826,6 +851,7 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                         ],),
                       Row(
                         children: [
+                          if (showMSButton)
                           Container(
                         decoration: BoxDecoration(
                         color: secondColor.withOpacity(0.2),
@@ -847,6 +873,11 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                                   for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
                                     if (buttonIndex == index) {
                                       isSelected[buttonIndex] = true;
+                                      if (buttonIndex == 0)
+                                        selectedProfileList = mimoVDSLList;
+                                      else
+                                        selectedProfileList = sisoVDSLList;
+                                      _dropVDSL = null;
                                     } else {
                                       isSelected[buttonIndex] = false;
                                     }
@@ -864,17 +895,18 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                               decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.0), color: secondColor.withOpacity(0.2), border: Border.all(color: fontColorOnBackground)),
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton<String>(
-                                    value: _dropVDSL == null? _dropVDSL=hitDeviceVDSLList[0]: _dropVDSL,
+                                    value: _dropVDSL,
                                     dropdownColor: backgroundColor,
+                                    hint: Text("select profile ...",style: TextStyle(color: fontColorOnMain),),  // TODO translate
                                     style: TextStyle(fontSize: fontSizeListTileSubtitle * fontSize.factor, color: fontColorOnBackground),
                                     icon: Icon(
                                       DevoloIcons.ic_arrow_drop_down_24px,
                                       color: fontColorOnBackground,
                                     ),
-                                    items: hitDeviceVDSLList.map<DropdownMenuItem<String>>((String value) {
+                                    items: selectedProfileList.map<DropdownMenuItem<String>>((String value) {
                                       return DropdownMenuItem<String>(
                                         value: value,
-                                        child: new Text(value),
+                                        child: value == vdslProfile? new Text("$value (current) "): new Text(value),  // ToDo translate
                                       );
                                     }).toList(),
                                     onChanged: (value) {
@@ -890,33 +922,7 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                         ],
                       ),
 
-                      // for (String vdsl_profile in hitDeviceVDSLList)
-                      //   ListTile(
-                      //     title: Text(
-                      //       vdsl_profile,
-                      //       style:  TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
-                      //     ),
-                      //     leading: Theme(
-                      //       data: ThemeData(
-                      //         //here change to your color
-                      //         unselectedWidgetColor: fontColorOnBackground,
-                      //       ),
-                      //       child: Row(
-                      //         children: [
-                      //           Radio(
-                      //             value: vdsl_profile,
-                      //             groupValue: vdslProfile,
-                      //             activeColor: fontColorOnBackground,
-                      //             onChanged: (String? value) {
-                      //               setState(() {
-                      //                 vdslProfile = value!;
-                      //               });
-                      //             },
-                      //           ),
-                      //         ],
-                      //       ),
-                      //     ),
-                      //   ),
+
                     ],
                   ),
                 );
@@ -934,26 +940,26 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
 
   if (returnVal == true) {
 
-    socket.sendXML('SetVDSLCompatibility', newValue: vdslProfile, valueType: 'profile', newValue2: hitDeviceVDSLmode, valueType2: 'mode', mac: hitDeviceMac);
+    socket.sendXML('SetVDSLCompatibility', newValue: _dropVDSL, valueType: 'profile', newValue2: hitDeviceVDSLmode, valueType2: 'mode', mac: hitDeviceMac);
 
       circularProgressIndicatorInMiddle(context);
 
     var response = await socket.receiveXML("SetVDSLCompatibilityStatus");
+    logger.v(response);
     if (response['result'] == "failed" || response['result'] == "timeout") {
       Navigator.maybeOf(context)!.pop(true);
       errorDialog(context, "Error", S.of(context).vdslFailed, fontSize);
     } else if (response['result'] == "ok") {
       Navigator.maybeOf(context)!.pop(true);
-      errorDialog(context, "Done", S.of(context).vdslSuccessful, fontSize);
+      errorDialog(context, S.of(context).success, S.of(context).vdslSuccessful, fontSize);
+      //TODO update device vdsl info
     }
     else {
       logger.w("[showVDSLDialog] - Unexpected response: " + response['result']);
       Navigator.maybeOf(context)!.pop();
     }
   }
-  // else {
-  //   Navigator.maybeOf(context)!.pop(false);
-  // }
+  // else {//Navigator.maybeOf(context)!.pop(false);// }
 }
 
 // add confirm button manually

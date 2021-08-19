@@ -451,14 +451,13 @@ void main() {
       dataHandler.setNetworkList(network);
 
       Map<String, dynamic>? expectedResponse = Map<String, dynamic>();
-      expectedResponse['messageType'] = 'UpdateIndication';
       expectedResponse['status'] = 'downloaded_setup';
       expectedResponse['commandline'] = 'setuplauncher.exe';
       expectedResponse['workdir'] = 'testWorkDir';
 
       dataHandler.xmlResponseMap['UpdateIndication'] = [XmlDocument.parse(updateIndication1)];
 
-      var response = await dataHandler.receiveXML('UpdateIndication');
+      var response = await dataHandler.receiveXML('UpdateIndication && FirmwareUpdateIndication');
 
       expect(response,expectedResponse);
       expect(dataHandler.xmlResponseMap.isEmpty,true);
@@ -476,7 +475,7 @@ void main() {
 
       dataHandler.xmlResponseMap['FirmwareUpdateIndication'] = [XmlDocument.parse(firmwareUpdateIndication1)];
 
-      var response = await dataHandler.receiveXML('FirmwareUpdateIndication');
+      var response = await dataHandler.receiveXML('UpdateIndication && FirmwareUpdateIndication');
 
       expect(response,expectedResponse);
       expect(dataHandler.xmlResponseMap.isEmpty,true);

@@ -279,15 +279,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       _searchingCockpitUpdate = true;
                     });
 
-                    var response1 = await socket.receiveXML("UpdateIndication");
+                    var response = await socket.receiveXML("UpdateIndication && FirmwareUpdateIndication");
                     setState(() {
                       _searchingCockpitUpdate = false;
-                      //if (response!["messageType"] != null) _lastPoll = DateTime.now();
-                    });
-                    var response2 = await socket.receiveXML("FirmwareUpdateIndication");
-                    setState(() {
                       _searchingDeviceUpdate = false;
-                      //if (response!["messageType"] != null) _lastPoll = DateTime.now();
                     });
                   },
                   child: Row(children: [

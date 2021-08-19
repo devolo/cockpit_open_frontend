@@ -153,6 +153,7 @@ class DataHand extends ChangeNotifier {
         logger.v(document);
       } else if (document.findAllElements('MessageType').first.innerText == "FirmwareUpdateIndication") {
 
+        logger.w("GOT UPDATE INDICATION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         if(!xmlResponseMap.containsKey("FirmwareUpdateIndication")) {
           xmlResponseMap["FirmwareUpdateIndication"] = [];
         }
@@ -340,7 +341,7 @@ class DataHand extends ChangeNotifier {
 
       await new Future.delayed(const Duration(seconds: 1));
 
-      if(xmlResponseMap.containsKey(wantedMessageTypes)){
+      if(xmlResponseMap.containsKey(wantedMessageTypes) || (wantedMessageTypes == "UpdateIndication && FirmwareUpdateIndication" && (xmlResponseMap.containsKey("UpdateIndication") || xmlResponseMap.containsKey("FirmwareUpdateIndication")))){
 
         if(wantedMessageTypes == "GetManualResponse"){
           wait = false;
@@ -358,33 +359,35 @@ class DataHand extends ChangeNotifier {
           }
         }
 
-        // variable cockpit update is already set in parseXML
-        else if (wantedMessageTypes == "UpdateIndication") {
+        else if (wantedMessageTypes == "UpdateIndication && FirmwareUpdateIndication") {
+          wait = false;
+
           //"UpdateIndication" for Cockpit Software updates
-          wait = false;
-
-          response['messageType'] = wantedMessageTypes;
-
-          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'status');
-          if (responseElem != null) {
-            response['status'] = responseElem;
+          if (xmlResponseMap.keys.contains("UpdateIndication")) {
+            responseElem = await findFirstElem(
+                xmlResponseMap["UpdateIndication"]!.first, 'status');
+            if (responseElem != null) {
+              response['status'] = responseElem;
+            }
+            responseElem = await findFirstElem(
+                xmlResponseMap["UpdateIndication"]!.first, 'commandline');
+            if (responseElem != null) {
+              response['commandline'] = responseElem;
+            }
+            responseElem = await findFirstElem(
+                xmlResponseMap["UpdateIndication"]!.first, 'workdir');
+            if (responseElem != null) {
+              response['workdir'] = responseElem;
+            }
           }
-          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'commandline');
-          if (responseElem != null) {
-            response['commandline'] = responseElem;
-          }
-          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'workdir');
-          if (responseElem != null) {
-            response['workdir'] = responseElem;
-          }
 
-        }
-
-        else if (wantedMessageTypes == "FirmwareUpdateIndication") {
-          wait = false;
-          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'macAddress');
-          if (responseElem != null) {
-            response['macAddress'] = responseElem;
+          //"FirmwareUpdateIndication" for device firmware updates
+          else if (xmlResponseMap.keys.contains("FirmwareUpdateIndication")) {
+            responseElem = await findFirstElem(
+                xmlResponseMap["FirmwareUpdateIndication"]!.first, 'macAddress');
+            if (responseElem != null) {
+              response['macAddress'] = responseElem;
+            }
           }
         }
 
@@ -520,12 +523,30 @@ class DataHand extends ChangeNotifier {
           }
         }
 
-        xmlResponseMap[wantedMessageTypes]!.remove(xmlResponseMap[wantedMessageTypes]!.first);
+        if(wantedMessageTypes == "UpdateIndication && FirmwareUpdateIndication"){
+          if(xmlResponseMap.containsKey("UpdateIndication")){
+            xmlResponseMap["UpdateIndication"]!.remove(xmlResponseMap["UpdateIndication"]!.first);
 
-        if(xmlResponseMap[wantedMessageTypes]!.length == 0){
-          xmlResponseMap.remove(wantedMessageTypes);
+            if(xmlResponseMap["UpdateIndication"]!.length == 0){
+              xmlResponseMap.remove("UpdateIndication");
+            }
+          }
+          else{
+            xmlResponseMap["FirmwareUpdateIndication"]!.remove(xmlResponseMap["FirmwareUpdateIndication"]!.first);
+
+            if(xmlResponseMap["FirmwareUpdateIndication"]!.length == 0){
+              xmlResponseMap.remove("FirmwareUpdateIndication");
+            }
+          }
         }
+        else{
+          logger.i(wantedMessageTypes);
+          xmlResponseMap[wantedMessageTypes]!.remove(xmlResponseMap[wantedMessageTypes]!.first);
 
+          if(xmlResponseMap[wantedMessageTypes]!.length == 0){
+            xmlResponseMap.remove(wantedMessageTypes);
+          }
+        }
       }
 
       return wait;

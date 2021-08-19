@@ -162,49 +162,14 @@ class _UpdateScreenState extends State<UpdateScreen> {
               ],
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              //mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(
-                  width: 20,
-                ),
-                Row(
-                    children: [
-                      Transform.scale(
-                        scale: fontSize.factor + checkboxScaleAddition,
-                        child: Checkbox(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
-                          fillColor: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || (_deviceList.getUpdateList().isEmpty && _deviceList.cockpitUpdate == false)) ? MaterialStateProperty.all(devoloLighterGray) : MaterialStateProperty.all(devoloGreen),
-                          checkColor: Colors.white,
-                          value: (_deviceList.getCheckedUpdateMacs().length == _deviceList.getUpdateList().length) & _checkedCockpit,
-                          onChanged: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || (_deviceList.getUpdateList().isEmpty && _deviceList.cockpitUpdate == false))
-                              ? null
-                              : (bool? value) {
-                            setState(() {
-                              if(value != null && value){
-                                _deviceList.getCheckedUpdateMacs().clear();
-                                for(String mac in _deviceList.getUpdateList()){
-                                  _deviceList.getCheckedUpdateMacs().add(mac);
-                                }
-                                if(_deviceList.cockpitUpdate)
-                                  _checkedCockpit = true;
-                              }
-                              else{
-                                _deviceList.getCheckedUpdateMacs().clear();
-                                if(_deviceList.cockpitUpdate)
-                                  _checkedCockpit = false;
-                              }
-                            });
-                          },
-                        ),
-                      ),
-                      SizedBox(width: 2 * fontSize.factor),
-                      Text(S.of(context).selectAll,textScaleFactor: fontSize.factor, style: TextStyle(color: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || (_deviceList.getUpdateList().isEmpty && _deviceList.cockpitUpdate == false)) ? devoloLighterGray : fontColorOnBackground),),
-                    ]
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                ButtonTheme(
+                Row(children:[
+                  SizedBox(
+                    width: 20,
+                  ),
+                  ButtonTheme(
                   minWidth: 270.0,
                   height: 50.0,
                   child: TextButton(
@@ -263,9 +228,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     ]),
                   ),
                 ),
-                SizedBox(
-                  width: 20,
-                ),
+                ]),
+                Row(children: [
                 TextButton(
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(28.0))),
@@ -339,6 +303,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     ),
                   ]),
                 ),
+                SizedBox(
+                  width: 20,
+                ),
+                ]),
               ],
             ),
             SizedBox(
@@ -347,9 +315,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
             Table(
               defaultVerticalAlignment: TableCellVerticalAlignment.middle,
               columnWidths: {
-                0: FlexColumnWidth(5),
-                1: FlexColumnWidth(3),
-                2: FlexColumnWidth(5),
+                0: FlexColumnWidth(1),
+                1: FlexColumnWidth(5),
+                2: FlexColumnWidth(3),
+                3: FlexColumnWidth(5),
               },
               children: [
                 TableRow(
@@ -360,6 +329,34 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         )
                     ),
                     children: [
+                  TableCell(child: Transform.scale(
+                    scale: fontSize.factor + checkboxScaleAddition,
+                    child: Checkbox(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
+                      fillColor: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || (_deviceList.getUpdateList().isEmpty && _deviceList.cockpitUpdate == false)) ? MaterialStateProperty.all(devoloLighterGray) : MaterialStateProperty.all(devoloGreen),
+                      checkColor: Colors.white,
+                      value: (_deviceList.getCheckedUpdateMacs().length != 0 && _deviceList.getUpdateList().length != 0) & (_deviceList.getCheckedUpdateMacs().length == _deviceList.getUpdateList().length) & _checkedCockpit,
+                      onChanged: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || (_deviceList.getUpdateList().isEmpty && _deviceList.cockpitUpdate == false))
+                          ? null
+                          : (bool? value) {
+                        setState(() {
+                          if(value != null && value){
+                            _deviceList.getCheckedUpdateMacs().clear();
+                            for(String mac in _deviceList.getUpdateList()){
+                              _deviceList.getCheckedUpdateMacs().add(mac);
+                            }
+                            if(_deviceList.cockpitUpdate)
+                              _checkedCockpit = true;
+                          }
+                          else{
+                            _deviceList.getCheckedUpdateMacs().clear();
+                            if(_deviceList.cockpitUpdate)
+                              _checkedCockpit = false;
+                          }
+                        });
+                      },
+                    ),
+                  ),),
                   TableCell(child: Text(
                     S.of(context).state,
                     textScaleFactor: fontSize.factor,
@@ -371,9 +368,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         margin: const EdgeInsets.symmetric(vertical: 1.0),
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
                         decoration: BoxDecoration(
-                          border: Border(
-                            left: BorderSide(width: 1.0, color: backgroundColor),
-                          ),
                         ),
                         child: Text(
                           S.of(context).name,
@@ -388,9 +382,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         margin: const EdgeInsets.symmetric(vertical: 1.0),
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
                         decoration: BoxDecoration(
-                          border: Border(
-                            left: BorderSide(width: 1.0, color: backgroundColor),
-                          ),
                         ),
                         child: Text(
                           S.of(context).currentVersion,
@@ -408,13 +399,43 @@ class _UpdateScreenState extends State<UpdateScreen> {
               child: Table(
                 defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                 columnWidths: {
-                  0: FlexColumnWidth(5),
-                  1: FlexColumnWidth(3),
-                  2: FlexColumnWidth(5),
+                  0: FlexColumnWidth(1),
+                  1: FlexColumnWidth(5),
+                  2: FlexColumnWidth(3),
+                  3: FlexColumnWidth(5),
                 },
                 children: [
                   if(_deviceList.getUpdateList().isEmpty)
                   TableRow(decoration: BoxDecoration(color: _deviceList.cockpitUpdate ? updateableDevicesColor : Colors.transparent), children: [
+                    TableCell(
+                      child: Row( mainAxisAlignment : MainAxisAlignment.center, children: [
+                        Material(
+                          type: MaterialType.transparency, // used to see the splash color over the background Color of the row
+                          child:
+                          Transform.scale(
+                            scale: fontSize.factor,
+                            child: Checkbox(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
+                              checkColor: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false) ? Colors.transparent : Colors.white,
+                              fillColor: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false) ? MaterialStateProperty.all(devoloLighterGray) : MaterialStateProperty.all(devoloGreen),
+                              value: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false) ? false : _checkedCockpit,
+                              onChanged: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false)
+                                  ? null
+                                  : (bool? value) {
+                                setState(() {
+                                  if(value != null && value){
+                                    _checkedCockpit = true;
+                                  }
+                                  else{
+                                    _checkedCockpit = false;
+                                  }
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      ]),
+                    ),
                     TableCell(
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -433,36 +454,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                         SizedBox(width: textSpacingUpdateStatus * fontSize.factor),
                                       ],
                                     )
-                                  : _deviceList.cockpitUpdate == false
-                                      ? Container()
-                                      : Row( children: [
-                                        Material(
-                                          type: MaterialType.transparency, // used to see the splash color over the background Color of the row
-                                          child:
-                                          Transform.scale(
-                                            scale: fontSize.factor,
-                                            child: Checkbox(
-                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
-                                              checkColor: Colors.white,
-                                              fillColor: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate) ? MaterialStateProperty.all(devoloLighterGray) : MaterialStateProperty.all(devoloGreen),
-                                              value: _checkedCockpit,
-                                              onChanged: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate)
-                                                  ? null
-                                                  : (bool? value) {
-                                                    setState(() {
-                                                      if(value != null && value){
-                                                        _checkedCockpit = true;
-                                                      }
-                                                      else{
-                                                        _checkedCockpit = false;
-                                                      }
-                                                    });
-                                                    },
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: textSpacingUpdateStatus * fontSize.factor)
-                                        ]),
+                                  : Container(),
 
                               _searchingCockpitUpdate || _upgradingCockpit
                                   ?  Container(
@@ -522,6 +514,36 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   for (int i = 0; i < allDevices.length; i++)
                     TableRow(decoration: BoxDecoration(color: _deviceList.getUpdateList().contains(allDevices[i].mac) ? updateableDevicesColor : i % 2 == 0 ? accentColor : Colors.transparent), children: [
                       TableCell(
+                        child: Row (mainAxisAlignment: MainAxisAlignment.center, children:[
+                          Material(
+                            type: MaterialType.transparency, // used to see the spash color over the background Color of the row
+                            child:
+                            Transform.scale(
+                              scale: fontSize.factor + checkboxScaleAddition,
+                              child: Checkbox(
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
+                                checkColor: Colors.white,
+                                fillColor: (_upgradingDevicesList.isNotEmpty || _upgradingCockpit || _deviceList.getUpdateList().contains(allDevices[i].mac) == false) ? MaterialStateProperty.all(devoloLightGray) : MaterialStateProperty.all(devoloGreen),
+                                value: _deviceList.getCheckedUpdateMacs().contains(allDevices[i].mac),
+                                onChanged: (_upgradingDevicesList.isNotEmpty || _upgradingCockpit || _deviceList.getUpdateList().contains(allDevices[i].mac) == false)
+                                    ? null
+                                    :(bool? value) {
+                                  setState(() {
+                                    if(value != null && value){
+                                      _deviceList.getCheckedUpdateMacs().add(allDevices[i].mac);
+                                    }
+                                    else{
+                                      _deviceList.getCheckedUpdateMacs().remove(allDevices[i].mac);
+                                    }
+                                  });
+                                  setState((){});
+                                },
+                              ),
+                            ),
+                          ),
+                        ]),
+                      ),
+                      TableCell(
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.center ,
                             children: [ _searchingDeviceUpdate || _upgradingDevicesList.contains(allDevices[i].mac)
@@ -537,37 +559,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                   ),
                                   SizedBox(width: textSpacingUpdateStatus * fontSize.factor),
                                 ],)
-                            : _deviceList.getUpdateList().contains(allDevices[i].mac) == false
-                                ? Container()
-                                : Row (children:[
-                                    Material(
-                                      type: MaterialType.transparency, // used to see the spash color over the background Color of the row
-                                      child:
-                                      Transform.scale(
-                                        scale: fontSize.factor + checkboxScaleAddition,
-                                        child: Checkbox(
-                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
-                                          checkColor: Colors.white,
-                                          fillColor: (_upgradingDevicesList.isNotEmpty || _upgradingCockpit) ? MaterialStateProperty.all(devoloLighterGray) : MaterialStateProperty.all(devoloGreen),
-                                          value: _deviceList.getCheckedUpdateMacs().contains(allDevices[i].mac),
-                                          onChanged: (_upgradingDevicesList.isNotEmpty || _upgradingCockpit)
-                                              ? null
-                                              :(bool? value) {
-                                                setState(() {
-                                                  if(value != null && value){
-                                                    _deviceList.getCheckedUpdateMacs().add(allDevices[i].mac);
-                                                  }
-                                                  else{
-                                                    _deviceList.getCheckedUpdateMacs().remove(allDevices[i].mac);
-                                                  }
-                                                });
-      setState((){});
-                                                },
-                                          ),
-                                      ),
-                                    ),
-                                    SizedBox(width: textSpacingUpdateStatus * fontSize.factor),
-                                  ]),
+                            : Container(),
 
                               _searchingDeviceUpdate || _upgradingDevicesList.contains(allDevices[i].mac)
                                   ?
@@ -660,6 +652,35 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         decoration: BoxDecoration(color: _deviceList.cockpitUpdate ? updateableDevicesColor : _deviceList.getAllDevices().length.isEven ? accentColor : Colors.transparent),
                         children: [
                         TableCell(
+                          child: Row( mainAxisAlignment: MainAxisAlignment.center, children:[
+                            Material(
+                              type: MaterialType.transparency, // used to see the splash color over the background Color of the row
+                              child:
+                              Transform.scale(
+                                scale: fontSize.factor,
+                                child: Checkbox(
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
+                                  checkColor: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false) ? Colors.transparent : Colors.white,
+                                  fillColor: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false) ? MaterialStateProperty.all(devoloLighterGray) : MaterialStateProperty.all(devoloGreen),
+                                  value: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false) ? false : _checkedCockpit,
+                                  onChanged: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false)
+                                      ? null
+                                      : (bool? value) {
+                                    setState(() {
+                                      if(value != null && value){
+                                        _checkedCockpit = true;
+                                      }
+                                      else{
+                                        _checkedCockpit = false;
+                                      }
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                          ]),
+                        ),
+                        TableCell(
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children:[
@@ -677,36 +698,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                     SizedBox(width: textSpacingUpdateStatus * fontSize.factor),
                                   ],
                                 )
-                                    : _deviceList.cockpitUpdate == false
-                                    ? Container()
-                                    : Row( children:[
-                                      Material(
-                                        type: MaterialType.transparency, // used to see the splash color over the background Color of the row
-                                        child:
-                                        Transform.scale(
-                                          scale: fontSize.factor,
-                                          child: Checkbox(
-                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
-                                            checkColor: Colors.white,
-                                            fillColor: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate) ? MaterialStateProperty.all(devoloLighterGray) : MaterialStateProperty.all(devoloGreen),
-                                            value: _checkedCockpit,
-                                            onChanged: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate)
-                                                ? null
-                                                : (bool? value) {
-                                              setState(() {
-                                                if(value != null && value){
-                                                  _checkedCockpit = true;
-                                                }
-                                                else{
-                                                  _checkedCockpit = false;
-                                                }
-                                              });
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(width: textSpacingUpdateStatus * fontSize.factor),
-                                    ]),
+                                    :  Container(),
+
                                 _searchingCockpitUpdate || _upgradingCockpit
                                     ?  Container(
                                     child: SelectableText(

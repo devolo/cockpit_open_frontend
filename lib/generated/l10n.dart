@@ -360,10 +360,10 @@ class S {
     );
   }
 
-  /// `Update Status`
+  /// `Update status`
   String get state {
     return Intl.message(
-      'Update Status',
+      'Update status',
       name: 'state',
       desc: '',
       args: [],

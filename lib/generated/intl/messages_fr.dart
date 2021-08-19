@@ -242,7 +242,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Afficher autres appareils"),
         "showPassword":
             MessageLookupByLibrary.simpleMessage("Montrer le mot de passe"),
-        "state": MessageLookupByLibrary.simpleMessage("Statut d´actualisation"),
+        "state": MessageLookupByLibrary.simpleMessage("Statut de mise à jour"),
         "supportInfoGenerateError": MessageLookupByLibrary.simpleMessage(
             "Une erreur s\'est produite lors de la création des informations de support.\nRéessayez plus tard"),
         "supportInfoSendErrorBody1": MessageLookupByLibrary.simpleMessage(

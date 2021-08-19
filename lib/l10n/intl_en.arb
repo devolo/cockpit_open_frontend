@@ -50,7 +50,7 @@
   },
   "name": "Name",
   "currentVersion": "Current version",
-  "state": "Update Status",
+  "state": "Update status",
   "update": "Update",
   "checkUpdates": "Check for updates",
   "selectAll": "Select all",

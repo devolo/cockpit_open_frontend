@@ -48,6 +48,11 @@ class _UpdateScreenState extends State<UpdateScreen> {
   double borderRadiusCheckbox = 3;
   double checkboxScaleAddition = 0;
 
+  double leftPaddingName = (3/14)/4;
+  double spacingIconText = 20;
+  double paddingVerticalName = 5;
+  double spacingTextType = 1;
+
   /* ===========  =========== */
 
   final String title;
@@ -132,13 +137,43 @@ class _UpdateScreenState extends State<UpdateScreen> {
     }
   }
 
+  // used to generate additional invisible text to left align the versions in column
+  generateText(String longestDeviceVersion, String deviceVersion)  {
+
+    int lengthDifference = longestDeviceVersion.length - (longestDeviceVersion.length - deviceVersion.length);
+    String additionalText = longestDeviceVersion.substring(lengthDifference,longestDeviceVersion.length);
+
+    return Text(additionalText, style: TextStyle(color: Colors.transparent),);
+  }
+
   @override
   Widget build(BuildContext context) {
     final socket = Provider.of<DataHand>(context);
     var _deviceList = Provider.of<NetworkList>(context);
     fontSize = context.watch<FontSize>();
 
+    // needed as the backend is sending not automatically a UpdateIndication after a updateable device for example quits the network
+    if(_deviceList.getUpdateList().length != 0){
+      List<String> toRemove = [];
+      for(String mac in _deviceList.getUpdateList()){
+        if(_deviceList.getDeviceByMac(mac) == null){
+          toRemove.add(mac);
+        }
+      }
+      for(String mac in toRemove){
+        _deviceList.getUpdateList().remove(mac);
+        _deviceList.getCheckedUpdateMacs().remove(mac);
+      }
+    }
+
     var allDevices = _filterState ? _deviceList.getAllDevicesFilteredByState() : _deviceList.getAllDevices();
+
+    String longestDeviceVersion = "";
+    for(Device device in allDevices) {
+      if(longestDeviceVersion.length < device.version.length) {
+        longestDeviceVersion = device.version;
+      }
+    }
 
     return new Scaffold(
       backgroundColor: Colors.transparent,
@@ -312,7 +347,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
               columnWidths: {
                 0: FlexColumnWidth(1),
                 1: FlexColumnWidth(5),
-                2: FlexColumnWidth(3),
+                2: FlexColumnWidth(4),
                 3: FlexColumnWidth(5),
               },
               children: [
@@ -328,7 +363,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     scale: fontSize.factor + checkboxScaleAddition,
                     child: Checkbox(
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
-                      fillColor: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || (_deviceList.getUpdateList().isEmpty && _deviceList.cockpitUpdate == false)) ? MaterialStateProperty.all(devoloLighterGray) : MaterialStateProperty.all(devoloGreen),
+                      fillColor: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || (_deviceList.getUpdateList().isEmpty && _deviceList.cockpitUpdate == false)) ? MaterialStateProperty.all(devoloLightGray66) : MaterialStateProperty.all(devoloGreen),
                       checkColor: Colors.white,
                       value: (_deviceList.getCheckedUpdateMacs().length != 0 && _deviceList.getUpdateList().length != 0) & (_deviceList.getCheckedUpdateMacs().length == _deviceList.getUpdateList().length) & _checkedCockpit,
                       onChanged: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || (_deviceList.getUpdateList().isEmpty && _deviceList.cockpitUpdate == false))
@@ -396,7 +431,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 columnWidths: {
                   0: FlexColumnWidth(1),
                   1: FlexColumnWidth(5),
-                  2: FlexColumnWidth(3),
+                  2: FlexColumnWidth(4),
                   3: FlexColumnWidth(5),
                 },
                 children: [
@@ -412,7 +447,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                             child: Checkbox(
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
                               checkColor: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false) ? Colors.transparent : Colors.white,
-                              fillColor: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false) ? MaterialStateProperty.all(devoloLighterGray) : MaterialStateProperty.all(devoloGreen),
+                              fillColor: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false) ? MaterialStateProperty.all(devoloLightGray66) : MaterialStateProperty.all(devoloGreen),
                               value: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false) ? false : _checkedCockpit,
                               onChanged: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false)
                                   ? null
@@ -478,25 +513,28 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     ]),
                     ),
                     TableCell(
-
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: verticalPaddingCockpitSoftware),
-                        child:ListTile(
-
-                          leading: Icon(
-                            Icons.speed_rounded,
-                            color: fontColorOnBackground,
-                            size: 24.0 * fontSize.factor,
-                          ),
-
-                          title: Text(
-                            "Cockpit Software",
-                            style: TextStyle(color: fontColorOnBackground, fontSize: 18),
-                            textAlign: TextAlign.center,
-                            textScaleFactor: fontSize.factor,
-                          ),
-                        ),
-                      ),
+                      child: Padding(padding: EdgeInsets.symmetric(vertical: 18), child: Row(
+                          mainAxisAlignment : MainAxisAlignment.start,
+                          children: [
+                            SizedBox(width: MediaQuery.of(context).size.width * leftPaddingName),
+                            Icon(
+                              Icons.speed_rounded,
+                              color: fontColorOnBackground,
+                              size: 24.0 * fontSize.factor,
+                            ),
+                            SizedBox(width: spacingIconText * fontSize.factor),
+                            Expanded( child:
+                                Column(crossAxisAlignment : CrossAxisAlignment.start, children: [
+                                  Text(
+                                    "Cockpit Software",
+                                    style: TextStyle(color: fontColorOnBackground, fontSize: 18),
+                                    textAlign: TextAlign.center,
+                                    textScaleFactor: fontSize.factor,
+                                  ),
+                                ])
+                            ),
+                          ]
+                      )),
                     ),
                     TableCell(
                       child: Text(
@@ -518,7 +556,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               child: Checkbox(
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
                                 checkColor: Colors.white,
-                                fillColor: (_upgradingDevicesList.isNotEmpty || _upgradingCockpit || _deviceList.getUpdateList().contains(allDevices[i].mac) == false) ? MaterialStateProperty.all(devoloLightGray) : MaterialStateProperty.all(devoloGreen),
+                                fillColor: (_upgradingDevicesList.isNotEmpty || _upgradingCockpit || _deviceList.getUpdateList().contains(allDevices[i].mac) == false) ? MaterialStateProperty.all(devoloLightGray66) : MaterialStateProperty.all(devoloGreen),
                                 value: _deviceList.getCheckedUpdateMacs().contains(allDevices[i].mac),
                                 onChanged: (_upgradingDevicesList.isNotEmpty || _upgradingCockpit || _deviceList.getUpdateList().contains(allDevices[i].mac) == false)
                                     ? null
@@ -573,30 +611,13 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                     textScaleFactor: fontSize.factor,
                                   )
                                   : _deviceList.getUpdateList().contains(allDevices[i].mac) == false
-                                  ? Row( children: [
-                                    if(_deviceList.getUpdateList().isNotEmpty || _deviceList.cockpitUpdate) // used to have CellContent in Column aligned
-                                      Transform.scale(
-                                        scale: fontSize.factor + checkboxScaleAddition,
-                                        child: Container(width: 29),
-                                      ),
-                                    if(_deviceList.getUpdateList().isNotEmpty || _deviceList.cockpitUpdate) // used to have CellContent in Column aligned
-                                      SizedBox(width: textSpacingUpdateStatus * fontSize.factor),
-                                      Text(
-                                        "${S.of(context).upToDate}",
-                                        style: TextStyle(color: fontColorOnBackground),
-                                        textAlign: TextAlign.center,
-                                        textScaleFactor: fontSize.factor,
-                                        textHeightBehavior:TextHeightBehavior()
-                                      ),
-                                    if(_deviceList.getUpdateList().isNotEmpty || _deviceList.cockpitUpdate) // used to have CellContent in Column aligned
-                                        Text(
-                                          "${S.of(context).upToDatePlaceholder}",
-                                          style: TextStyle(color: Colors.transparent),
-                                          textAlign: TextAlign.center,
-                                          textScaleFactor: fontSize.factor,
-                                          textHeightBehavior:TextHeightBehavior()
-                                        )
-                                    ])
+                                  ? Text(
+                                      "${S.of(context).upToDate}",
+                                      style: TextStyle(color: fontColorOnBackground),
+                                      textAlign: TextAlign.center,
+                                      textScaleFactor: fontSize.factor,
+                                      textHeightBehavior:TextHeightBehavior()
+                                    )
                                   : Text(
                                     S.of(context).updateAvailable,
                                     style: TextStyle(color: fontColorOnBackground),
@@ -608,39 +629,55 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
                       ),
                       TableCell(
-                        child: new Material(
-                          type: MaterialType.transparency, // used to see the spash color over the background Color of the row
-                          child: ListTile(
-                            leading: RawImage(
+                        child: InkWell(
+                            hoverColor: fontColorOnBackground.withOpacity(opacity),
+                            onTap: () => _handleTap(allDevices[i]),
+                            child:Row(
+                            mainAxisAlignment : MainAxisAlignment.start,
+                          children: [
+                            SizedBox(width: MediaQuery.of(context).size.width * leftPaddingName),
+                            RawImage(
                               image: getIconForDeviceType(allDevices[i].typeEnum),
                               height: (getIconForDeviceType(allDevices[i].typeEnum)!.height).toDouble() * fontSize.factor * 0.5,
                               width: (getIconForDeviceType(allDevices[i].typeEnum)!.width).toDouble() * fontSize.factor * 0.5,
                             ),
-                            hoverColor: fontColorOnBackground.withOpacity(opacity),
-                            onTap: () => _handleTap(allDevices[i]),
-                            title: Text(
-                              allDevices[i].name,
-                              style: TextStyle(fontWeight: FontWeight.bold, color: fontColorOnBackground, fontSize: 17,),
-                              textAlign: TextAlign.center,
-                              textScaleFactor: fontSize.factor,
+                            SizedBox(width: spacingIconText * fontSize.factor),
+                            Expanded( child:
+                              Column(
+                                crossAxisAlignment : CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(height: paddingVerticalName * fontSize.factor),
+                                  Text(
+                                    allDevices[i].name,
+                                    style: TextStyle(fontWeight: FontWeight.bold, color: fontColorOnBackground, fontSize: 17,),
+                                    textAlign: TextAlign.center,
+                                    textScaleFactor: fontSize.factor,
+                                  ),
+                                  SizedBox(height: spacingTextType * fontSize.factor),
+                                  Text(
+                                    '${allDevices[i].type}',
+                                    style: TextStyle(color: fontColorOnBackground, fontSize: 17,),
+                                    textAlign: TextAlign.center,
+                                    textScaleFactor: fontSize.factor,
+                                  ),
+                                  SizedBox(height: paddingVerticalName * fontSize.factor),
+                                  ]
+                              ),
                             ),
-                            subtitle: Text(
-                              '${allDevices[i].type}',
-                              style: TextStyle(color: fontColorOnBackground, fontSize: 17,),
-                              textAlign: TextAlign.center,
-                              textScaleFactor: fontSize.factor,
-                            ),
-                          ),
-                        ),
-                      ),
+                          ]
+                        )
+                      ),),
                       TableCell(
-                        child: Align(alignment: Alignment.center, child: Text(
-                          allDevices[i].version,
-                          style: TextStyle(color: fontColorOnBackground),
-                          textAlign: TextAlign.left,
-                          textScaleFactor: fontSize.factor,
-                        ),),
-                      ),
+                        child: Row( mainAxisAlignment : MainAxisAlignment.center, children : [
+                          Text(
+                            allDevices[i].version,
+                            style: TextStyle(color: fontColorOnBackground),
+                            textAlign: TextAlign.left,
+                            textScaleFactor: fontSize.factor,),
+                            generateText(longestDeviceVersion, allDevices[i].version) // add invisible text for left aligning
+                        ]
+                        ),
+                        ),
                     ]),
                   if(_deviceList.getUpdateList().isNotEmpty)
                     TableRow(
@@ -656,7 +693,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                 child: Checkbox(
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
                                   checkColor: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false) ? Colors.transparent : Colors.white,
-                                  fillColor: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false) ? MaterialStateProperty.all(devoloLighterGray) : MaterialStateProperty.all(devoloGreen),
+                                  fillColor: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false) ? MaterialStateProperty.all(devoloLightGray66) : MaterialStateProperty.all(devoloGreen),
                                   value: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false) ? false : _checkedCockpit,
                                   onChanged: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false)
                                       ? null
@@ -704,31 +741,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                       textScaleFactor: fontSize.factor,
                                     ))
                                     : _deviceList.cockpitUpdate == false
-                                    ?  Container(
-                                    child: Row( children: [
-                                      if(_deviceList.getUpdateList().isNotEmpty) // used to have CellContent in Column aligned
-                                        Transform.scale(
-                                          scale: fontSize.factor + checkboxScaleAddition,
-                                          child: Container(width: 29),
-                                        ),
-                                      if(_deviceList.getUpdateList().isNotEmpty) // used to have CellContent in Column aligned
-                                        SizedBox(width: textSpacingUpdateStatus * fontSize.factor),
-                                      Text(
+                                    ? Text(
                                         "${S.of(context).upToDate}",
                                         style: TextStyle(color: fontColorOnBackground),
                                         textAlign: TextAlign.center,
                                         textScaleFactor: fontSize.factor,
-                                      ),
-                                      if(_deviceList.getUpdateList().isNotEmpty) // used to have CellContent in Column aligned
-                                        Text(
-                                            "${S.of(context).upToDatePlaceholder}",
-                                            style: TextStyle(color: Colors.transparent),
-                                            textAlign: TextAlign.center,
-                                            textScaleFactor: fontSize.factor,
-                                            textHeightBehavior:TextHeightBehavior()
                                       )
-                                    ])
-                                    )
                                     :  Container(
                                   child: Text(
                                     S.of(context).updateAvailable,
@@ -739,25 +757,30 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                 )
                               ]),
                         ),
-                        TableCell(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: verticalPaddingCockpitSoftware),
-                            child:ListTile(
-                              leading: Icon(
-                                Icons.speed_rounded,
-                                color: fontColorOnBackground,
-                                size: 24.0 * fontSize.factor,
-                              ),
-
-                              title: Text(
-                                "Cockpit Software",
-                                style: TextStyle(color: fontColorOnBackground, fontSize: 18),
-                                textAlign: TextAlign.center,
-                                textScaleFactor: fontSize.factor,
-                              ),
-                            ),
+                          TableCell(
+                            child: Padding(padding: EdgeInsets.symmetric(vertical: 17), child: Row(
+                                mainAxisAlignment : MainAxisAlignment.start,
+                                children: [
+                                  SizedBox(width: MediaQuery.of(context).size.width * leftPaddingName),
+                                  Icon(
+                                    Icons.speed_rounded,
+                                    color: fontColorOnBackground,
+                                    size: 24.0 * fontSize.factor,
+                                  ),
+                                  SizedBox(width: spacingIconText * fontSize.factor),
+                                  Expanded( child:
+                                  Column(crossAxisAlignment : CrossAxisAlignment.start, children: [
+                                    Text(
+                                      "Cockpit Software",
+                                      style: TextStyle(color: fontColorOnBackground, fontSize: 18),
+                                      textAlign: TextAlign.center,
+                                      textScaleFactor: fontSize.factor,
+                                    ),
+                                  ])
+                                  ),
+                                ]
+                            )),
                           ),
-                        ),
                         TableCell(
                           child: Text(
                             "",

@@ -153,7 +153,6 @@ class DataHand extends ChangeNotifier {
         logger.v(document);
       } else if (document.findAllElements('MessageType').first.innerText == "FirmwareUpdateIndication") {
 
-        logger.w("GOT UPDATE INDICATION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         if(!xmlResponseMap.containsKey("FirmwareUpdateIndication")) {
           xmlResponseMap["FirmwareUpdateIndication"] = [];
         }
@@ -205,7 +204,13 @@ class DataHand extends ChangeNotifier {
         if (responseElem != null) {
           if (responseElem == "available" || responseElem == "downloaded_setup") {
             _networkList.cockpitUpdate = true;
-          } else {
+          }
+          else if( responseElem == "none"){
+            _networkList.setUpdateList([]);
+            _networkList.changedList();
+            _networkList.cockpitUpdate = false;
+            }
+          else {
             _networkList.cockpitUpdate = false;
           }
         }
@@ -611,6 +616,7 @@ class DataHand extends ChangeNotifier {
   }
 
   void parseFWUpdateIndication(XmlDocument xmlResponse) {
+
     var items = xmlResponse.findAllElements("item");
 
     List<String> macAdresses = [];

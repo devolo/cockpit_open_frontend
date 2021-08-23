@@ -58,6 +58,7 @@
   "upToDate": "Up-to-date",
   "upToDatePlaceholder": "ilable",
   "updateAvailable": "Update available",
+  "updateFailed": "Update failed",
   "updating": "Updating...",
   "searching": "Searching...",
   "complete": "complete",
@@ -71,6 +72,7 @@
   "updateDevicePasswordNeededBody2": "Enter the passwords of following devices to update them:",
   "updateDeviceFailedTitle": "Update failed",
   "updateDeviceFailedBody": "Following devices could not be updated:",
+  "samePasswordForAll": "Same password for all devices",
 
   "privacyWarningDialogTitle": "Update information",
   "privacyWarningDialogBody": "After this update, the devices will automatically check for new firmware on a regular basis and update it if necessary. In this case, your public IP address will be collected and deleted immediately after the update.\n\nWould you like to install them now?",

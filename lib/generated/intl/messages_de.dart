@@ -219,6 +219,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Es ist ein Fehler beim Zurücksetzen des Gerätes aufgetreten!\nBitte versuchen Sie es erneut."),
         "resetDeviceErrorTitle": MessageLookupByLibrary.simpleMessage(
             "Zurücksetzung fehlgeschlagen"),
+        "samePasswordForAll": MessageLookupByLibrary.simpleMessage(
+            "Gleiches Passwort für alle Geräte"),
         "save": MessageLookupByLibrary.simpleMessage("Speichern"),
         "searching": MessageLookupByLibrary.simpleMessage("suche..."),
         "securityId": MessageLookupByLibrary.simpleMessage("Security-ID"),
@@ -278,6 +280,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Passwort benötigt"),
         "updateDialogTitle": MessageLookupByLibrary.simpleMessage(
             "Aktualisierungsinformationen"),
+        "updateFailed": MessageLookupByLibrary.simpleMessage(
+            "Aktualisierung fehlgeschlagen"),
         "updateSelected":
             MessageLookupByLibrary.simpleMessage("Aktualisiere Auswahl"),
         "updates": MessageLookupByLibrary.simpleMessage("Aktualisierungen"),

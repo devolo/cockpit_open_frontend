@@ -58,6 +58,7 @@
   "upToDate": "À jour",
   "upToDatePlaceholder": " jour disponible",
   "updateAvailable": "Mise à jour disponible",
+  "updateFailed": "Mise à jour échoué",
   "updating": "l'appareil est en train de se mettre à jour...",
   "searching": "Recherche...",
   "complete": "terminé",
@@ -71,6 +72,7 @@
   "updateDevicePasswordNeededBody2": "Entrez les mots de passe des appareils suivants pour les mettre à jour:",
   "updateDeviceFailedTitle": "Mise à jour échoué",
   "updateDeviceFailedBody": "Les appareils suivants n'ont pas pu être mis à jour:",
+  "samePasswordForAll": "Même mot de passe pour tous les appareils",
 
   "privacyWarningDialogTitle": "Information sur la mise à jour",
   "privacyWarningDialogBody": "Après cette mise à jour, l'appareil vérifiera automatiquement et régulièrement la présence d'un nouveau microprogramme et le mettra à jour si nécessaire. Dans ce cas, votre adresse IP publique sera collectée et supprimée immédiatement après la mise à jour.\n\nSouhaitez-vous procéder à la mise à jour maintenant ?",

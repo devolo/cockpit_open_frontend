@@ -440,6 +440,16 @@ class S {
     );
   }
 
+  /// `Update failed`
+  String get updateFailed {
+    return Intl.message(
+      'Update failed',
+      name: 'updateFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Updating...`
   String get updating {
     return Intl.message(
@@ -555,6 +565,16 @@ class S {
     return Intl.message(
       'Following devices could not be updated:',
       name: 'updateDeviceFailedBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Same password for all devices`
+  String get samePasswordForAll {
+    return Intl.message(
+      'Same password for all devices',
+      name: 'samePasswordForAll',
       desc: '',
       args: [],
     );

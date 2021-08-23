@@ -216,6 +216,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "An error occurred while resetting the device!\nTry again later"),
         "resetDeviceErrorTitle":
             MessageLookupByLibrary.simpleMessage("Reset failed"),
+        "samePasswordForAll": MessageLookupByLibrary.simpleMessage(
+            "Same password for all devices"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
         "searching": MessageLookupByLibrary.simpleMessage("Searching..."),
         "securityId": MessageLookupByLibrary.simpleMessage("Security ID"),
@@ -271,6 +273,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Password required"),
         "updateDialogTitle":
             MessageLookupByLibrary.simpleMessage("Update information"),
+        "updateFailed": MessageLookupByLibrary.simpleMessage("Update failed"),
         "updateSelected":
             MessageLookupByLibrary.simpleMessage("Update selected"),
         "updates": MessageLookupByLibrary.simpleMessage("Updates"),

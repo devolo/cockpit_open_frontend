@@ -219,6 +219,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Une erreur s\'est produite lors de la réinitialisation de l\'appareil!\nRéessayez plus tard"),
         "resetDeviceErrorTitle":
             MessageLookupByLibrary.simpleMessage("Réinitialisation échouée"),
+        "samePasswordForAll": MessageLookupByLibrary.simpleMessage(
+            "Même mot de passe pour tous les appareils"),
         "save": MessageLookupByLibrary.simpleMessage("Enregistrer"),
         "searching": MessageLookupByLibrary.simpleMessage("Recherche..."),
         "securityId": MessageLookupByLibrary.simpleMessage("ID de sécurité"),
@@ -278,6 +280,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Mot de passe requis"),
         "updateDialogTitle": MessageLookupByLibrary.simpleMessage(
             "Informations sur la mise à jour"),
+        "updateFailed":
+            MessageLookupByLibrary.simpleMessage("Mise à jour échoué"),
         "updateSelected":
             MessageLookupByLibrary.simpleMessage("Mettre à jour la sélection"),
         "updates": MessageLookupByLibrary.simpleMessage("Actualisation"),

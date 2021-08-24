@@ -62,7 +62,6 @@ class _OverviewScreenState extends State<OverviewScreen> {
       _deviceList.selectedNetworkIndex = 0;
     }
 
-
     // reset pivotDeviceIndex when a new Network is added or a Network is removed
     int pivotDeviceIndex;
     if(_deviceList.getNetworkListLength() == 0){
@@ -147,7 +146,15 @@ class _OverviewScreenState extends State<OverviewScreen> {
                       ),
                     ),
                 ],
-              )
+              ),
+              if(!socket.connected)
+                AlertDialog(
+                    backgroundColor: mainColor,
+                    //titleTextStyle: TextStyle(color: fontColorOnMain),
+                    //contentTextStyle: TextStyle(color: fontColorOnMain),
+                    title: Text('Fehler mit der Verbindung', style: TextStyle(color: fontColorOnMain),),
+                    content:  Text('Es konnte keine Verbindung zum devolo Network Service aufgebaut werden', style: TextStyle(color: fontColorOnMain),),
+                  ),
             ],
           ),
         ),

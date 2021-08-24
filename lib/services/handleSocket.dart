@@ -21,6 +21,7 @@ class DataHand extends ChangeNotifier {
   late Socket socket;
   NetworkList _networkList = NetworkList();
   DeviceSimulator deviceSimulator = DeviceSimulator();
+  bool connected = false;
 
   List<dynamic> xmlDebugResponseList = []; // used for debugging log
   int maxResponseListSize = 50; // determines the max number of displayed responses in debugging log
@@ -45,13 +46,17 @@ class DataHand extends ChangeNotifier {
   }
 
   void handleSocket() async {
+    logger.v("ConnectSocket");
+
     socket = await Socket.connect("localhost", 24271);
     socket.listen(
-        (data) => dataHandler(data),
+            (data) => dataHandler(data),
         onError: errorHandler,
         onDone: doneHandler,
         cancelOnError: false
     );
+    connected = true;
+
 
     //commenting out this part of code resolves the starting issue when double clicking the application - seems not to be needed
     //stdin.listen((data) => socket.write(new String.fromCharCodes(data).trim() + '\n'));
@@ -76,7 +81,23 @@ class DataHand extends ChangeNotifier {
   //TODO - notify user about it?
   void doneHandler() {
     logger.w("Server left");
+    connected = false;
     socket.destroy();
+    tryReconnect();
+  }
+
+  void tryReconnect () async {
+    while(!connected) {
+      logger.v("Reconnecting...");
+      try {
+        handleSocket();
+      }
+     catch (error) {
+        logger.e(error);
+      }
+
+      await Future.delayed(Duration(seconds: 1));
+    }
   }
 
   Future<void> parseXML(String? rawData) async {

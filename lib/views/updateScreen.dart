@@ -363,7 +363,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     scale: fontSize.factor + checkboxScaleAddition,
                     child: Checkbox(
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
-                      fillColor: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || (_deviceList.getUpdateList().isEmpty && _deviceList.cockpitUpdate == false)) ? MaterialStateProperty.all(devoloLightGray66) : MaterialStateProperty.all(devoloGreen),
+                      fillColor: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || (_deviceList.getUpdateList().isEmpty && _deviceList.cockpitUpdate == false)) ? MaterialStateProperty.all(disabledColor) : MaterialStateProperty.all(devoloGreen),
                       checkColor: Colors.white,
                       value: (_deviceList.getCheckedUpdateMacs().length != 0 && _deviceList.getUpdateList().length != 0) & (_deviceList.getCheckedUpdateMacs().length == _deviceList.getUpdateList().length) & _checkedCockpit,
                       onChanged: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || (_deviceList.getUpdateList().isEmpty && _deviceList.cockpitUpdate == false))
@@ -447,7 +447,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                             child: Checkbox(
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
                               checkColor: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false) ? Colors.transparent : Colors.white,
-                              fillColor: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false) ? MaterialStateProperty.all(devoloLightGray66) : MaterialStateProperty.all(devoloGreen),
+                              fillColor: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false) ? MaterialStateProperty.all(disabledColor) : MaterialStateProperty.all(devoloGreen),
                               value: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false) ? false : _checkedCockpit,
                               onChanged: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false)
                                   ? null
@@ -517,11 +517,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
                           mainAxisAlignment : MainAxisAlignment.start,
                           children: [
                             SizedBox(width: MediaQuery.of(context).size.width * leftPaddingName),
-                            Icon(
-                              Icons.speed_rounded,
-                              color: fontColorOnBackground,
-                              size: 24.0 * fontSize.factor,
-                            ),
+                            Column(mainAxisAlignment : MainAxisAlignment.center,
+                                children:[ SizedBox(width: 50,), Icon(
+                                  Icons.speed_rounded,
+                                  color: fontColorOnBackground,
+                                  size: 24.0 * fontSize.factor,
+                                ),]),
                             SizedBox(width: spacingIconText * fontSize.factor),
                             Expanded( child:
                                 Column(crossAxisAlignment : CrossAxisAlignment.start, children: [
@@ -556,7 +557,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               child: Checkbox(
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
                                 checkColor: Colors.white,
-                                fillColor: (_upgradingDevicesList.isNotEmpty || _upgradingCockpit || _deviceList.getUpdateList().contains(allDevices[i].mac) == false) ? MaterialStateProperty.all(devoloLightGray66) : MaterialStateProperty.all(devoloGreen),
+                                fillColor: (_upgradingDevicesList.isNotEmpty || _upgradingCockpit || _deviceList.getUpdateList().contains(allDevices[i].mac) == false) ? MaterialStateProperty.all(disabledColor) : MaterialStateProperty.all(devoloGreen),
                                 value: _deviceList.getCheckedUpdateMacs().contains(allDevices[i].mac),
                                 onChanged: (_upgradingDevicesList.isNotEmpty || _upgradingCockpit || _deviceList.getUpdateList().contains(allDevices[i].mac) == false)
                                     ? null
@@ -636,11 +637,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
                             mainAxisAlignment : MainAxisAlignment.start,
                           children: [
                             SizedBox(width: MediaQuery.of(context).size.width * leftPaddingName),
-                            RawImage(
+                            Column(mainAxisAlignment : MainAxisAlignment.center,
+                            children:[ SizedBox(width: 50,), RawImage(
                               image: getIconForDeviceType(allDevices[i].typeEnum),
                               height: (getIconForDeviceType(allDevices[i].typeEnum)!.height).toDouble() * fontSize.factor * 0.5,
                               width: (getIconForDeviceType(allDevices[i].typeEnum)!.width).toDouble() * fontSize.factor * 0.5,
-                            ),
+                            ),]),
                             SizedBox(width: spacingIconText * fontSize.factor),
                             Expanded( child:
                               Column(
@@ -693,7 +695,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                 child: Checkbox(
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
                                   checkColor: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false) ? Colors.transparent : Colors.white,
-                                  fillColor: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false) ? MaterialStateProperty.all(devoloLightGray66) : MaterialStateProperty.all(devoloGreen),
+                                  fillColor: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false) ? MaterialStateProperty.all(disabledColor) : MaterialStateProperty.all(devoloGreen),
                                   value: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false) ? false : _checkedCockpit,
                                   onChanged: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false)
                                       ? null
@@ -762,11 +764,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                 mainAxisAlignment : MainAxisAlignment.start,
                                 children: [
                                   SizedBox(width: MediaQuery.of(context).size.width * leftPaddingName),
-                                  Icon(
-                                    Icons.speed_rounded,
-                                    color: fontColorOnBackground,
-                                    size: 24.0 * fontSize.factor,
-                                  ),
+                                  Column(mainAxisAlignment : MainAxisAlignment.center,
+                                    children:[ SizedBox(width: 50,), Icon(
+                                      Icons.speed_rounded,
+                                      color: fontColorOnBackground,
+                                      size: 24.0 * fontSize.factor,
+                                  ),]),
                                   SizedBox(width: spacingIconText * fontSize.factor),
                                   Expanded( child:
                                   Column(crossAxisAlignment : CrossAxisAlignment.start, children: [

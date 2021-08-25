@@ -26,6 +26,7 @@ void main() {
       expect(fontColorOnBackground, theme_highContrast["fontColorOnBackground"]);
       expect(fontColorOnSecond, theme_highContrast["fontColorOnSecond"]);
       expect(updateableDevicesColor, theme_highContrast["updateableDevicesColor"]);
+      expect(disabledColor, theme_highContrast["disabledColor"]);
     });
 
     test('Given_When_callSetThemeWithNoExistingTheme_Then_keepCurrentTheme', () {
@@ -43,6 +44,7 @@ void main() {
       expect(fontColorOnBackground, theme_light["fontColorOnBackground"]);
       expect(fontColorOnSecond, theme_light["fontColorOnSecond"]);
       expect(updateableDevicesColor, theme_light["updateableDevicesColor"]);
+      expect(disabledColor, theme_light["disabledColor"]);
     });
 
   });

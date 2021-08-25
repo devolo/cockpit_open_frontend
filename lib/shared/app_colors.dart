@@ -19,6 +19,7 @@ Color fontColorOnMain= Colors.white;
 Color fontColorOnBackground= Colors.white;
 Color fontColorOnSecond= Colors.white ;
 Color updateableDevicesColor = Colors.white;
+Color disabledColor = Colors.white; //disabled checkboxes in update Screen
 // Color surfaceColor= Colors.white;
 // Color fontColorOnSurface= Colors.white;
 // Color dialogColor= Colors.white;
@@ -66,6 +67,7 @@ void setTheme(String theme_name) {
     fontColorOnBackground = theme["fontColorOnBackground"];
     fontColorOnSecond = theme["fontColorOnSecond"];
     updateableDevicesColor = theme["updateableDevicesColor"];
+    disabledColor = theme["disabledColor"];
   }
 }
 
@@ -80,6 +82,7 @@ Map<String, dynamic> theme_dark = {
   "fontColorOnBackground" : Colors.white,
   "fontColorOnSecond" : devoloGray,
   "updateableDevicesColor" : devoloOrange.withOpacity(0.8),
+  "disabledColor" : devoloLightGray
 };
 
 
@@ -94,6 +97,7 @@ Map<String, dynamic> theme_devolo = {
   "fontColorOnBackground" : Colors.white,
   "fontColorOnSecond" : devoloGray,
   "updateableDevicesColor" : devoloOrange.withOpacity(0.8),
+  "disabledColor" : devoloLightGray66
 };
 
 Map<String, dynamic> theme_highContrast = {
@@ -107,6 +111,7 @@ Map<String, dynamic> theme_highContrast = {
   "fontColorOnBackground" : Colors.yellowAccent,
   "fontColorOnSecond" : devoloGray,
   "updateableDevicesColor" : devoloOrange.withOpacity(0.7),
+  "disabledColor" : devoloLightGray66
 };
 
 Map<String, dynamic> theme_light = {
@@ -120,5 +125,6 @@ Map<String, dynamic> theme_light = {
   "fontColorOnBackground" : devoloGray,
   "fontColorOnSecond" : devoloGray,
   "updateableDevicesColor" : devoloOrange,
+  "disabledColor" : devoloLightGray66
 };
 

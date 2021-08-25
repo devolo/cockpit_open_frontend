@@ -597,6 +597,8 @@ class DataHand extends ChangeNotifier {
         if (status == "complete") {
           dev.updateState = status;
           _networkList.getUpdateList().removeWhere((element) => element == dev.mac);
+          _networkList.getCheckedUpdateMacs().removeWhere((element) => element == dev.mac);
+
         }
         if (status.endsWith("%")){
           dev.updateState = status.substring(status.indexOf(" ")+1, status.indexOf("%"));

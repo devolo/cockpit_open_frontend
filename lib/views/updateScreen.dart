@@ -82,16 +82,22 @@ class _UpdateScreenState extends State<UpdateScreen> {
     });
   }
 
-  Future<void> updateDevices(DataHand socket, NetworkList _deviceList, {List<String>? pwProtectedDeviceList}) async {
+  Future<void> updateDevices(DataHand socket, NetworkList _deviceList, {Map<String,String>? pwProtectedDeviceMap}) async {
 
+    if(pwProtectedDeviceMap == null){
 
-    if(pwProtectedDeviceList == null){
-      logger.d("update following Devices ->" + _deviceList.getCheckedUpdateMacs().toString());
-      socket.sendXML('FirmwareUpdateResponse', newValue: _deviceList.getCheckedUpdateMacs().toString());
+      Map<String,String> updateDeviceMap = new Map<String,String>();
+
+        for(String mac in _deviceList.getCheckedUpdateMacs()) {
+          updateDeviceMap[mac] = "";
+      }
+
+      logger.d("update following Devices ->" + updateDeviceMap.toString());
+      socket.sendXML('FirmwareUpdateResponse', updateDevices: updateDeviceMap);
     }
     else{
-      logger.d("repeat updating following Devices ->" + _deviceList.getCheckedUpdateMacs().toString() + pwProtectedDeviceList.toString());
-      socket.sendXML('FirmwareUpdateResponse', newValue: _deviceList.getCheckedUpdateMacs().toString() + pwProtectedDeviceList.toString());
+      logger.d("repeat updating following Devices ->" + pwProtectedDeviceMap.toString());
+      socket.sendXML('FirmwareUpdateResponse', updateDevices: pwProtectedDeviceMap);
     }
 
     var response = await socket.receiveXML("FirmwareUpdateStatus");
@@ -125,7 +131,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
       }
 
       if(response['password'] != null){
-        errorUpdateDialog(socket, context, fontSize, _deviceList, passwordSecuredMacs: passwordSecuredMacs);
+        passwordUpdateDialog(socket, context, fontSize, _deviceList, passwordSecuredMacs: passwordSecuredMacs);
       }
     }
   }
@@ -612,13 +618,21 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                       textScaleFactor: fontSize.factor,
                                       textHeightBehavior:TextHeightBehavior()
                                     )
+                                  : allDevices[i].updateState == "failed"
+                                  ? Text(
+                                      S.of(context).update + " " + S.of(context).failed,
+                                      style: TextStyle(color: fontColorOnBackground),
+                                      textAlign: TextAlign.center,
+                                      textScaleFactor: fontSize.factor,
+                                      textHeightBehavior:TextHeightBehavior()
+                                    )
                                   : Text(
                                       S.of(context).updateAvailable,
                                       style: TextStyle(color: fontColorOnBackground),
                                       textAlign: TextAlign.center,
                                       textScaleFactor: fontSize.factor,
                                       textHeightBehavior:TextHeightBehavior()
-                                    ),
+                              )
                             ]),
 
                       ),
@@ -918,7 +932,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
         });
   }
 
-  void errorUpdateDialog(socket, context, FontSize fontSize, NetworkList _deviceList, {List<String>? passwordSecuredMacs}) {
+  void passwordUpdateDialog(socket, context, FontSize fontSize, NetworkList _deviceList, {List<String>? passwordSecuredMacs}) {
 
     double spacingBetweenFormFields = 20;
     double spacingFormFieldButton = 30;
@@ -929,12 +943,11 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
     Map<String, bool> hiddenPwMap = new Map<String, bool>();
     bool hiddenPw = true;
-    Map<String, String> passwordMap = new Map<String, String>();
-    List<String> pwProtectedDeviceList = [];
+    Map<String, String> updateDevicesMap = new Map<String, String>();
 
     if(passwordSecuredMacs != null){
       for(String mac in passwordSecuredMacs) {
-        passwordMap[mac] = "";
+        updateDevicesMap[mac] = "";
         hiddenPwMap[mac] = true;
       }
     }
@@ -1041,7 +1054,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               ),
                               onChanged: (value) {
                                 setState(() {
-                                  passwordMap[mac] = value;
+                                  updateDevicesMap[mac] = value;
                                 });
                                 },
                               validator: (value) {
@@ -1139,23 +1152,17 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     onPressed:  () async {
                       if (_formKey.currentState!.validate()) {
 
-                        for(String mac in _deviceList.getCheckedUpdateMacs()) {
+                        for(String mac in passwordSecuredMacs) {
                           _upgradingDevicesList.add(mac);
                         }
 
-                        for(String mac in passwordSecuredMacs){
-                          pwProtectedDeviceList.add(mac);
-
-                          if(sharedPasswordBool && sharedPassword != ""){
-                            pwProtectedDeviceList.add(sharedPassword);
+                        if(sharedPasswordBool){
+                          for(String mac in passwordSecuredMacs){
+                            updateDevicesMap[mac] = sharedPassword;
                           }
-                          else if(passwordMap[mac]! != "" && !sharedPasswordBool){
-                            pwProtectedDeviceList.add(passwordMap[mac]!);
-                          }
-
                         }
 
-                        updateDevices(socket,_deviceList, pwProtectedDeviceList: pwProtectedDeviceList);
+                        updateDevices(socket, _deviceList, pwProtectedDeviceMap : updateDevicesMap);
                         Navigator.pop(context);
 
                       }

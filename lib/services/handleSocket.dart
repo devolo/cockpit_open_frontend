@@ -264,6 +264,7 @@ class DataHand extends ChangeNotifier {
     String? newValue2,
     String? valueType2,
     String? mac,
+    Map<String,String>? updateDevices,
   }) {
 
     String? xmlString;
@@ -291,9 +292,21 @@ class DataHand extends ChangeNotifier {
           windowsNetworkThrottlingDisabled.toString() +
           '</second></item></Config></Message></boost_serialization>';
     } else if (messageType == "FirmwareUpdateResponse") {
-      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="2" version="0" tracking_level="0"><MessageType>FirmwareUpdateResponse</MessageType><DeviceList class_id="3" version="0" tracking_level="0"><count>1</count><item_version>0</item_version><item><first class_id="4" version="0" tracking_level="0"><macAddress>' +
-          newValue! +
-          '</macAddress></first><second></second></item></DeviceList></Message></boost_serialization>';
+      Map<String,String> updateDeviceMap = updateDevices!;
+      xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="2" version="0" tracking_level="0"><MessageType>FirmwareUpdateResponse</MessageType><DeviceList class_id="3" version="0" tracking_level="0">'
+          '<count>' + (updateDeviceMap.length).toString() + '</count>'
+          '<item_version>0</item_version>';
+
+      updateDeviceMap.forEach((mac,password) => {
+        xmlString = xmlString! + '<item><first class_id="4" version="0" tracking_level="0">'
+      '<macAddress>' + mac +'</macAddress>'
+      '</first>'
+      '<second>' + password + '</second>'
+      '</item>'
+      });
+
+      xmlString = xmlString! + '</DeviceList></Message></boost_serialization>';
+
     } else if (messageType == "UpdateResponse") {
       xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType>' + '<' + valueType! + '>' + newValue! + '</' + valueType + '>' + '</Message></boost_serialization>';
     } else if (messageType == "SetVDSLCompatibility" || messageType == "SetIpConfig") {
@@ -312,7 +325,7 @@ class DataHand extends ChangeNotifier {
     //logger.i('LEEENNNGGTHHH ' + xmlLength);
     logger.d("SendXML ->");
     logger.v(xmlString);
-    socket.write('MSGSOCK' + xmlLength + xmlString);
+    socket.write('MSGSOCK' + xmlLength + xmlString!);
   }
 
   void sendSupportInfo(String supportId, String userName, String emailAddr){

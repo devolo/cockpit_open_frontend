@@ -1690,6 +1690,26 @@ class S {
     );
   }
 
+  /// `select profile ...`
+  String get selectProfile {
+    return Intl.message(
+      'select profile ...',
+      name: 'selectProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Current compatibility`
+  String get currentCompatibility {
+    return Intl.message(
+      'Current compatibility',
+      name: 'currentCompatibility',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Additional settings`
   String get additionalDialogTitle {
     return Intl.message(

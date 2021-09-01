@@ -819,8 +819,19 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
       barrierDismissible: true, // user doesn't need to tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          insetPadding: EdgeInsets.symmetric(horizontal: 300),
-          title: Text(S.of(context).vdslCompatibility),
+          //insetPadding: EdgeInsets.symmetric(horizontal: 300),
+          titlePadding: EdgeInsets.all(dialogTitlePadding),
+          title: Column(
+            children: [
+              getCloseButton(context),
+              Center(
+                  child: Text(
+                    S.of(context).vdslCompatibility,
+                    style: TextStyle(color: fontColorOnBackground),
+                  )
+              ),
+            ],
+          ),
           titleTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
           contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
           content: StatefulBuilder(
@@ -862,6 +873,14 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                           ),
                           SelectableText(S.of(context).vdslExplanation2),
                         ],),
+                      Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical:8.0),
+                              child: Text("${S.of(context).currentCompatibility}: ${vdslNames[vdslProfile]}", ),
+                            )
+                          ]
+                      )
                       Row(
                         children: [
                           if (showMSButton)
@@ -910,7 +929,7 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                                 child: DropdownButton<String>(
                                     value: _dropVDSL,
                                     dropdownColor: backgroundColor,
-                                    hint: Text("select profile ...",style: TextStyle(color: fontColorOnMain),),  // TODO translate
+                                    hint: Text(S.of(context).selectProfile,style: TextStyle(color: fontColorOnMain),),
                                     style: TextStyle(fontSize: fontSizeListTileSubtitle * fontSize.factor, color: fontColorOnBackground),
                                     icon: Icon(
                                       DevoloIcons.ic_arrow_drop_down_24px,
@@ -919,7 +938,7 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                                     items: selectedProfileList.map<DropdownMenuItem<String>>((String value) {
                                       return DropdownMenuItem<String>(
                                         value: value,
-                                        child: new Text(vdslNames[value] == null? value:vdslNames[value]!),  // ToDo translate
+                                        child: new Text(vdslNames[value] == null? value:vdslNames[value]!),
                                       );
                                     }).toList(),
                                     onChanged: (value) {

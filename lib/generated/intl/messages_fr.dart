@@ -52,8 +52,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Entrez l´ID de sécurité du nouveau adapteur CPL.\nL\'ID de sécurité se trouve à l\'arrière de l\'appareil CPL."),
         "additionalDialogTitle":
             MessageLookupByLibrary.simpleMessage("Paramètres supplémentaires"),
-        "additionalSettings":
-            MessageLookupByLibrary.simpleMessage("Paramètres supplémentaires"),
+        "additionalSettings": MessageLookupByLibrary.simpleMessage(
+            "Paramètres\n supplémentaires"),
         "appInfo": MessageLookupByLibrary.simpleMessage("Info app"),
         "appInformation":
             MessageLookupByLibrary.simpleMessage("Information app"),
@@ -87,6 +87,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Information de contact"),
         "contactSupport":
             MessageLookupByLibrary.simpleMessage("Contacter le support"),
+        "currentCompatibility":
+            MessageLookupByLibrary.simpleMessage("Compatibilité actuelle"),
         "currentVersion":
             MessageLookupByLibrary.simpleMessage("Version actuelle"),
         "dataRatesArePermanentlyDisplayedInTheOverview":
@@ -148,9 +150,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "internet": MessageLookupByLibrary.simpleMessage("Internet"),
         "internetCentered": MessageLookupByLibrary.simpleMessage(
             "Centrer la vue d´ensamble sur l´internet"),
-        "ipAddress": MessageLookupByLibrary.simpleMessage("Adresse IP "),
+        "ipAddress": MessageLookupByLibrary.simpleMessage("Adresse IP"),
         "launchWebInterface": MessageLookupByLibrary.simpleMessage("Site web"),
-        "macAddress": MessageLookupByLibrary.simpleMessage("Adresse MAC "),
+        "macAddress": MessageLookupByLibrary.simpleMessage("Adresse MAC"),
         "manualErrorBody": MessageLookupByLibrary.simpleMessage(
             "Aucun manuel approprié n\'a été trouvé pour votre adapteur PLC..\n\nVous trouverez le manuel sur le CD du produit ou sur le site web de devolo."),
         "manualErrorTitle":
@@ -160,8 +162,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("VDSL profil 17a"),
         "mimoVdslProfil35a":
             MessageLookupByLibrary.simpleMessage("VDSL profil 35a"),
-        "mtNumber": MessageLookupByLibrary.simpleMessage("numéro MT devolo "),
-        "name": MessageLookupByLibrary.simpleMessage("Nom "),
+        "mtNumber": MessageLookupByLibrary.simpleMessage("numéro MT devolo"),
+        "name": MessageLookupByLibrary.simpleMessage("Nom"),
         "network": MessageLookupByLibrary.simpleMessage("Réseau"),
         "networkPasswordErrorBody": MessageLookupByLibrary.simpleMessage(
             "Une erreur s\'est produite lors de la définition du mot de passe du réseau"),
@@ -202,7 +204,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "powerSavingMode":
             MessageLookupByLibrary.simpleMessage("Mode d\'économie d\'énergie"),
         "powerSavingModeFailedBody": MessageLookupByLibrary.simpleMessage(
-            "Une erreur s\'est produite lors du réglage du mode d\'économie d\'énergie !\nRéessayez plus tard"),
+            "Une erreur s\'est produite lors du réglage du mode d\'économie d\'énergie!\nRéessayez plus tard"),
         "powerSavingModeFailedTitle":
             MessageLookupByLibrary.simpleMessage("Action échouée"),
         "privacyWarningDialogBody": MessageLookupByLibrary.simpleMessage(
@@ -220,16 +222,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "removeDeviceConfirmTitle":
             MessageLookupByLibrary.simpleMessage("Supprimer l´appareil PLC ?"),
         "removeDeviceErrorBody": MessageLookupByLibrary.simpleMessage(
-            "Une erreur s\'est produite lors de la suppression de l\'appareil !\nRéessayez plus tard"),
+            "Une erreur s\'est produite lors de la suppression de l\'appareil!\nRéessayez plus tard"),
         "removeDeviceErrorTitle":
             MessageLookupByLibrary.simpleMessage("Suppression échouée"),
-        "repeat": MessageLookupByLibrary.simpleMessage("Répéter"),
         "resetDeviceConfirmBody": MessageLookupByLibrary.simpleMessage(
-            "Voulez-vous réinitialiser l´appareil PLC sélectionné aux paramètres d\'origine ?"),
+            "Voulez-vous réinitialiser l´appareil PLC sélectionné aux paramètres d\'origine?"),
         "resetDeviceConfirmTitle": MessageLookupByLibrary.simpleMessage(
             "Réinitialiser l\'appareil aux paramètres d\'origine"),
         "resetDeviceErrorBody": MessageLookupByLibrary.simpleMessage(
-            "Une erreur s\'est produite lors de la réinitialisation de l\'appareil !\nRéessayez plus tard"),
+            "Une erreur s\'est produite lors de la réinitialisation de l\'appareil!\nRéessayez plus tard"),
         "resetDeviceErrorTitle":
             MessageLookupByLibrary.simpleMessage("Réinitialisation échouée"),
         "restart": MessageLookupByLibrary.simpleMessage("Redémarrer"),
@@ -239,9 +240,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "searching": MessageLookupByLibrary.simpleMessage("Recherche..."),
         "securityId": MessageLookupByLibrary.simpleMessage("ID de sécurité"),
         "selectAll": MessageLookupByLibrary.simpleMessage("Sélectionner tout"),
+        "selectProfile":
+            MessageLookupByLibrary.simpleMessage("choisir le profil ..."),
         "send": MessageLookupByLibrary.simpleMessage("Envoyer"),
-        "serialNumber":
-            MessageLookupByLibrary.simpleMessage("Numéro de série "),
+        "serialNumber": MessageLookupByLibrary.simpleMessage("Numéro de série"),
+        "setUpDevice":
+            MessageLookupByLibrary.simpleMessage("Ajouter un nouvel appareil"),
+        "setVdslCompatibility": MessageLookupByLibrary.simpleMessage(
+            "Définir la\n compatibilité VDSL"),
         "setIpConfigErrorBody": MessageLookupByLibrary.simpleMessage(
             "Une erreur s\'est produite lors du changement de l´adresse IP/masque de réseau.\nRéessayez plus tard"),
         "setIpConfigErrorTitle":
@@ -282,10 +288,8 @@ class MessageLookup extends MessageLookupByLibrary {
                 "La vue d\'ensemble sera centrée sur l´adapteur CPL connecté à l\'internet."),
         "thisPc": MessageLookupByLibrary.simpleMessage("Cet PC"),
         "title": MessageLookupByLibrary.simpleMessage("devolo Cockpit"),
-        "type": MessageLookupByLibrary.simpleMessage("Type "),
+        "type": MessageLookupByLibrary.simpleMessage("Type"),
         "upToDate": MessageLookupByLibrary.simpleMessage("À jour"),
-        "upToDatePlaceholder":
-            MessageLookupByLibrary.simpleMessage(" jour disponible"),
         "update": MessageLookupByLibrary.simpleMessage("Actualisation"),
         "updateAvailable":
             MessageLookupByLibrary.simpleMessage("Mise à jour disponible"),
@@ -318,7 +322,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Les nouveaux paramètres VDSL n\'ont pas pu être enregistrés sur l\'appareil"),
         "vdslSuccessful": MessageLookupByLibrary.simpleMessage(
             "Les nouveaux paramètres VDSL ont été enregistrés sur l\'appareil"),
-        "version": MessageLookupByLibrary.simpleMessage("Version firmware "),
+        "version": MessageLookupByLibrary.simpleMessage("Version firmware"),
         "yourEmailAddress":
             MessageLookupByLibrary.simpleMessage("Votre adresse e-mail"),
         "yourName": MessageLookupByLibrary.simpleMessage("Votre nom"),

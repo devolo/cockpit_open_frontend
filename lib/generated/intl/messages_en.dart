@@ -86,6 +86,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Contact information"),
         "contactSupport":
             MessageLookupByLibrary.simpleMessage("Contact support"),
+        "currentCompatibility":
+            MessageLookupByLibrary.simpleMessage("Current compatibility"),
         "currentVersion":
             MessageLookupByLibrary.simpleMessage("Current version"),
         "dataRatesArePermanentlyDisplayedInTheOverview":
@@ -236,6 +238,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "searching": MessageLookupByLibrary.simpleMessage("Searching..."),
         "securityId": MessageLookupByLibrary.simpleMessage("Security ID"),
         "selectAll": MessageLookupByLibrary.simpleMessage("Select all"),
+        "selectProfile":
+            MessageLookupByLibrary.simpleMessage("select profile ..."),
         "send": MessageLookupByLibrary.simpleMessage("Send"),
         "serialNumber": MessageLookupByLibrary.simpleMessage("Serial number"),
         "setIpConfigErrorBody": MessageLookupByLibrary.simpleMessage(

@@ -227,6 +227,8 @@
   "sisoVdslProfil17a": "VDSL Profil 17a",
   "mimoFull": "volle Leistung",
   "mimoVdslProfil35a": "VDSL Profil 35a",
+  "selectProfile": "Profil auswählen ...",
+  "currentCompatibility": "Aktuelle Kompatibilität",
 
   "@_ADDITIONAL_SETTINGS_DIALOG": {
   },

@@ -46,16 +46,23 @@ class DataHand extends ChangeNotifier {
   }
 
   void handleSocket() async {
-    logger.v("ConnectSocket");
+    logger.d("ConnectSocket");
+    try {
+      socket = await Socket.connect("localhost", 24271);
+      logger.d("connected!");
+      socket.listen(
+              (data) => dataHandler(data),
+          onError: errorHandler,
+          onDone: doneHandler,
+          cancelOnError: false
+      );
+      connected = true;
+    }
+    on Exception catch(_) {
+      print("ERR");
+      handleSocket();
+    }
 
-    socket = await Socket.connect("localhost", 24271);
-    socket.listen(
-            (data) => dataHandler(data),
-        onError: errorHandler,
-        onDone: doneHandler,
-        cancelOnError: false
-    );
-    connected = true;
 
 
     //commenting out this part of code resolves the starting issue when double clicking the application - seems not to be needed
@@ -72,8 +79,9 @@ class DataHand extends ChangeNotifier {
   //TODO - notify user about it?
   void errorHandler(error, StackTrace trace) {
     //FlutterError.dumpErrorToConsole(error);
-    // socket.destroy();
+    socket.destroy();
     logger.e(error);
+
     // return usefull?
     return (error);
   }
@@ -83,22 +91,10 @@ class DataHand extends ChangeNotifier {
     logger.w("Server left");
     connected = false;
     socket.destroy();
-    tryReconnect();
+    notifyListeners();
+    handleSocket();
   }
 
-  void tryReconnect () async {
-    while(!connected) {
-      logger.v("Reconnecting...");
-      try {
-        handleSocket();
-      }
-     catch (error) {
-        logger.e(error);
-      }
-
-      await Future.delayed(Duration(seconds: 1));
-    }
-  }
 
   Future<void> parseXML(String? rawData) async {
     logger.d("parsing XML ...");

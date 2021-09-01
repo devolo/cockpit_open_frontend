@@ -1440,6 +1440,26 @@ class S {
     );
   }
 
+  /// `Connection error`
+  String get noconnection {
+    return Intl.message(
+      'Connection error',
+      name: 'noconnection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No connection could be established to the devolo network service (devolonetworkservice).`
+  String get noconnectionbody {
+    return Intl.message(
+      'No connection could be established to the devolo network service (devolonetworkservice).',
+      name: 'noconnectionbody',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Confirm`
   String get deviceNameDialogTitle {
     return Intl.message(

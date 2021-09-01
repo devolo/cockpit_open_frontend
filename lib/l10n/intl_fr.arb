@@ -194,6 +194,9 @@
   "supportInfoSendErrorBody2": "Vérifiez que votre adresse e-mail est correcte et que vous avez saisi un numéro de processus valide.",
   "supportInfoGenerateError": "Une erreur s'est produite lors de la création des informations de support.\nRéessayez plus tard",
 
+  "noconnection": "Erreur de connexion",
+  "noconnectionbody": "Aucune connexion n'a pu être établie avec le service réseau de devolo (devolonetworkservice).",
+
   "@_CONFIRM_DIALOGS": {
   },
   "deviceNameDialogTitle" : "Confirmer",

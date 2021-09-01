@@ -194,6 +194,9 @@
   "supportInfoSendErrorBody2": "Check that your email address is correct and that you have entered a valid processing number.",
   "supportInfoGenerateError": "An error occurred while creating the support informations.\nTry again later",
 
+  "noconnection": "Connection error",
+  "noconnectionbody": "No connection could be established to the devolo network service (devolonetworkservice).",
+
   "@_CONFIRM_DIALOGS": {
   },
   "deviceNameDialogTitle" : "Confirm",

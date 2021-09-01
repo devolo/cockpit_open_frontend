@@ -161,6 +161,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "noDevicesFoundScanningForDevices":
             MessageLookupByLibrary.simpleMessage(
                 "No devices found. \n\nScanning for devices ..."),
+        "noconnection":
+            MessageLookupByLibrary.simpleMessage("Connection error"),
+        "noconnectionbody": MessageLookupByLibrary.simpleMessage(
+            "No connection could be established to the devolo network service (devolonetworkservice)."),
         "open": MessageLookupByLibrary.simpleMessage("Open"),
         "optimizationHelp":
             MessageLookupByLibrary.simpleMessage("Optimization help"),

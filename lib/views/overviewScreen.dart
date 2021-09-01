@@ -37,6 +37,9 @@ class OverviewScreen extends StatefulWidget {
 }
 
 class _OverviewScreenState extends State<OverviewScreen> {
+
+  late var socket;
+  late var _deviceList;
   int numDevices = 0;
   late Offset _lastTapDownPosition;
   late DrawOverview _Painter;
@@ -51,9 +54,10 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final socket = Provider.of<DataHand>(context);
-    final _deviceList = Provider.of<NetworkList>(context);
+    socket = Provider.of<DataHand>(context);
+    _deviceList = Provider.of<NetworkList>(context);
     socket.setNetworkList(_deviceList);
+
     if(_deviceList.getNetworkListLength() - 1 >= config["selected_network"]){
       _deviceList.selectedNetworkIndex = config["selected_network"];
     }
@@ -152,8 +156,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
                     backgroundColor: mainColor,
                     //titleTextStyle: TextStyle(color: fontColorOnMain),
                     //contentTextStyle: TextStyle(color: fontColorOnMain),
-                    title: Text('Fehler mit der Verbindung', style: TextStyle(color: fontColorOnMain),),
-                    content:  Text('Es konnte keine Verbindung zum devolo Network Service aufgebaut werden', style: TextStyle(color: fontColorOnMain),),
+                    title: Text(S.of(context).noconnection, style: TextStyle(color: fontColorOnMain),),
+                    content:  Text(S.of(context).noconnectionbody, style: TextStyle(color: fontColorOnMain),),
                   ),
             ],
           ),

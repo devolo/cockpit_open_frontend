@@ -194,6 +194,10 @@
   "supportInfoSendErrorBody2": " Bitte überprüfen Sie, ob Ihre E-Mail-Adresse korrekt ist und ob Sie eine gültige Bearbeitungsnummer angegeben haben.",
   "supportInfoGenerateError": "Bei der Erstellung der Support Informationen ist ein Fehler aufgetreten.\nBitte versuchen Sie es erneut!",
 
+  "noconnection": "Fehler mit der Verbindung",
+  "noconnectionbody": "Es konnte keine Verbindung zum devolo Netzwerk Dienst (devolonetworkservice) aufgebaut werden.",
+
+
   "@_CONFIRM_DIALOGS": {
   },
   "deviceNameDialogTitle" : "Bestätigung",

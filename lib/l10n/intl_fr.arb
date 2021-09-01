@@ -234,7 +234,8 @@
   "additionalDialogTitle": "Paramètres supplémentaires",
   "activateLEDs": "LEDs allumés",
   "activateTransmission": "Communication des données activé",
-  "powerSavingMode": "Mode d'économie d'énergie",
+  "powerSavingMode": "Mode d'économie d'énergie"
+,
   "Masque réseau": "Netmask",
   "fillInIpAddress": "Entrez l'adresse IP",
   "fillInNetmask": "Entrez la masque de réseau"

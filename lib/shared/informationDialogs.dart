@@ -811,7 +811,7 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
       barrierDismissible: true, // user doesn't need to tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          insetPadding: EdgeInsets.symmetric(horizontal: 300),
+          //insetPadding: EdgeInsets.symmetric(horizontal: 300),
           titlePadding: EdgeInsets.all(dialogTitlePadding),
           title: Column(
             children: [

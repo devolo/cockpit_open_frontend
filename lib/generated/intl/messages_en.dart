@@ -27,10 +27,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "SendCockpitSupportInformationBody":
             MessageLookupByLibrary.simpleMessage(
                 "Support informations are sent to devolo"),
-        "UpdateDeviceFailedBody": MessageLookupByLibrary.simpleMessage(
-            "Following devices could not be updated:"),
-        "UpdateDeviceFailedTitle":
-            MessageLookupByLibrary.simpleMessage("Update failed"),
         "activateLEDs": MessageLookupByLibrary.simpleMessage("LEDs activated"),
         "activateLEDsFailedBody": MessageLookupByLibrary.simpleMessage(
             "An error occurred while modifying the LEDs!\nTry again later"),

@@ -129,8 +129,8 @@
   "@_DEVICE_INFORMATION_DIALOG": {
   },
   "deviceInfo": "Informations sur l´appareil",
-  "showManual": "Voir le manuel",
-  "identifyDevice": "Identifier l´appareil",
+  "showManual": "Voir \n le manuel",
+  "identifyDevice": "Identifier\n l´appareil",
   "identifyDeviceTooltip": "Voyant lumineux LED clignote pendant deux minutes.",
   "launchWebInterface": "Site web",
   "factoryReset": "Réinitialisé aux\n paramètres d'origine",
@@ -234,7 +234,8 @@
   "additionalDialogTitle": "Paramètres supplémentaires",
   "activateLEDs": "LEDs allumés",
   "activateTransmission": "Communication des données activé",
-  "powerSavingMode": "Mode d'économie d'énergie",
+  "powerSavingMode": "Mode d'économie d'énergie"
+,
   "Masque réseau": "Netmask",
   "fillInIpAddress": "Entrez l'adresse IP",
   "fillInNetmask": "Entrez la masque de réseau"

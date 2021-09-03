@@ -131,6 +131,7 @@
   "deviceInfo": "Geräteinformationen",
   "showManual": "Handbuch \nanzeigen",
   "identifyDevice": "Gerät \nidentifizieren",
+  "identifyDeviceTooltip": "Leuchtdiode (LED) blinkt zwei Minuten lang",
   "launchWebInterface": "Webinterface \nöffnen ",
   "factoryReset": "Werkseinstellung \nsetzen",
   "deleteDevice": "Gerät \nlöschen",

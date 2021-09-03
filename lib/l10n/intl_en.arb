@@ -131,6 +131,7 @@
   "deviceInfo": "Device information",
   "showManual": "Show manual",
   "identifyDevice": "Identify device",
+  "identifyDeviceTooltip": "The light-emitting diode (LED) flashes for two minutes",
   "launchWebInterface": "Web interface",
   "factoryReset": "Factory reset",
   "deleteDevice": "Delete device",

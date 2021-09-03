@@ -139,6 +139,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Es ist ein Fehler bei der Identifizierung des Gerätes aufgetreten!\nBitte versuchen Sie es erneut."),
         "identifyDeviceErrorTitle": MessageLookupByLibrary.simpleMessage(
             "Identifizierung fehlgeschlagen"),
+        "identifyDeviceTooltip": MessageLookupByLibrary.simpleMessage(
+            "Leuchtdiode (LED) blinkt zwei Minuten lang"),
         "ignoreUpdates": MessageLookupByLibrary.simpleMessage(
             "Ignoriere zukünftige Aktualisierungen (Updates)"),
         "internet": MessageLookupByLibrary.simpleMessage("Internet"),

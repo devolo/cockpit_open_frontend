@@ -141,6 +141,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Une erreur s\'est produite lors de l\'identification de l\'appareil.\nRéessayez plus tard"),
         "identifyDeviceErrorTitle":
             MessageLookupByLibrary.simpleMessage("Identification échouée"),
+        "identifyDeviceTooltip": MessageLookupByLibrary.simpleMessage(
+            "Voyant lumineux LED clignote pendant deux minutes."),
         "ignoreUpdates": MessageLookupByLibrary.simpleMessage(
             "Ignorer les mises à jour des apparails"),
         "internet": MessageLookupByLibrary.simpleMessage("Internet"),

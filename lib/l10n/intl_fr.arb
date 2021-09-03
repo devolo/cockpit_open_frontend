@@ -131,6 +131,7 @@
   "deviceInfo": "Informations sur l´appareil",
   "showManual": "Voir le manuel",
   "identifyDevice": "Identifier l´appareil",
+  "identifyDeviceTooltip": "Voyant lumineux LED clignote pendant deux minutes.",
   "launchWebInterface": "Site web",
   "factoryReset": "Réinitialisé aux paramètres d'origine",
   "deleteDevice": "Supprimer l'appareil",

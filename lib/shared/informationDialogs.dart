@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:cockpit_devolo/models/fontSizeModel.dart';
@@ -17,6 +19,8 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
 
   String newName = hitDevice.name;
   bool changeNameLoading = false;
+  bool lightbulbOn = false;
+  bool identifyDeviceActionRunning = false;
 
   showDialog<void>(
     context: context,
@@ -351,48 +355,90 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                 ),
                 Column(
                   children: [
-                    IconButton(
-                      icon: Icon(
-                        DevoloIcons.ic_lightbulb_outline_24px,
+                    Tooltip(
+                preferBelow: true,
+                      message: S.of(context).identifyDeviceTooltip,
+                      textStyle: TextStyle(color: backgroundColor),
+                      decoration: BoxDecoration(
+                        color: fontColorOnBackground.withOpacity(0.8),
+                        borderRadius: BorderRadius.circular(25),
                       ),
-//tooltip: S.of(context).identifyDevice,
-                      disabledColor: fontColorOnBackground.withOpacity(0.33),
-                      color: fontColorOnBackground,
-                      hoverColor: fontColorOnBackground.withAlpha(50),
-                      iconSize: 24.0 * fontSize.factor,
-                      onPressed: !hitDevice.identifyDeviceAvailable
-                          ? null
-                          : () async {
-                        socket.sendXML('IdentifyDevice', mac: hitDevice.mac);
-                        var response = await socket.receiveXML(
-                            "IdentifyDeviceStatus");
-                        if (response!['result'] == "device_not_found") {
-                          errorDialog(context, S
-                              .of(context)
-                              .identifyDeviceErrorTitle, S
-                              .of(context)
-                              .deviceNotFoundIdentifyDevice + "\n\n" + S
-                              .of(context)
-                              .deviceNotFoundHint, fontSize);
-                        }
-                        else if(response['result'] != "ok"){
-                          errorDialog(context, S
-                              .of(context)
-                              .identifyDeviceErrorTitle, S
-                              .of(context)
-                              .identifyDeviceErrorBody, fontSize);
-                        }
-                      },
+      margin: EdgeInsets.only(),
+                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                      child:
+                      IconButton(
+                        icon: Icon(
+                          lightbulbOn ? DevoloIcons.ic_find_in_page_24px : DevoloIcons.ic_lightbulb_outline_24px, //TODO create "lightbulbOn" svg icon
+                        ),
+  //tooltip: S.of(context).identifyDevice,
+                        disabledColor: fontColorOnBackground.withOpacity(0.33),
+                        color: fontColorOnBackground,
+                        hoverColor: fontColorOnBackground.withAlpha(50),
+                        iconSize: 24.0 * fontSize.factor,
+                        onPressed: !hitDevice.identifyDeviceAvailable || identifyDeviceActionRunning
+                            ? null
+                            : () async {
+                          identifyDeviceActionRunning = true;
 
-                      mouseCursor: !hitDevice.identifyDeviceAvailable ? SystemMouseCursors
-                          .basic : SystemMouseCursors.click,
+                          socket.sendXML('IdentifyDevice', mac: hitDevice.mac);
+
+                          bool toggleLightbulb = true;
+                          Timer(
+                              Duration(seconds: 120),
+                                  (){
+                                identifyDeviceActionRunning = false;
+                                toggleLightbulb = false;
+                              }
+                          );
+
+                          Timer.periodic(
+                              Duration(seconds: 1),
+                                  (Timer t) {
+                                if(!toggleLightbulb){
+                                  lightbulbOn = false;
+                                  t.cancel();
+                                }
+                                else{
+                                  lightbulbOn = !lightbulbOn;
+                                }
+                                AppBuilder.of(context)!.rebuild();
+                              }
+                          );
+
+                          var response = await socket.receiveXML(
+                              "IdentifyDeviceStatus");
+                          if (response!['result'] == "device_not_found") {
+                            identifyDeviceActionRunning = false;
+                            toggleLightbulb = false;
+                            errorDialog(context, S
+                                .of(context)
+                                .identifyDeviceErrorTitle, S
+                                .of(context)
+                                .deviceNotFoundIdentifyDevice + "\n\n" + S
+                                .of(context)
+                                .deviceNotFoundHint, fontSize);
+                          }
+                          else if(response['result'] != "ok"){
+                            identifyDeviceActionRunning = false;
+                            toggleLightbulb = false;
+                            errorDialog(context, S
+                                .of(context)
+                                .identifyDeviceErrorTitle, S
+                                .of(context)
+                                .identifyDeviceErrorBody, fontSize);
+                          }
+                        },
+
+                        mouseCursor: !hitDevice.identifyDeviceAvailable || identifyDeviceActionRunning ? SystemMouseCursors
+                            .basic : SystemMouseCursors.click,
+                      ),
                     ),
                     Text(
                       S
                           .of(context)
                           .identifyDevice,
                       style: TextStyle(fontSize: 14,
-                          color: !hitDevice.identifyDeviceAvailable
+                          color: !hitDevice.identifyDeviceAvailable || identifyDeviceActionRunning
                               ? fontColorOnBackground.withOpacity(0.33)
                               : fontColorOnBackground),
                       textScaleFactor: fontSize.factor,

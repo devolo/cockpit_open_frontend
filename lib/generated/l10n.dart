@@ -940,6 +940,16 @@ class S {
     );
   }
 
+  /// `The light-emitting diode (LED) flashes for two minutes`
+  String get identifyDeviceTooltip {
+    return Intl.message(
+      'The light-emitting diode (LED) flashes for two minutes',
+      name: 'identifyDeviceTooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Web interface`
   String get launchWebInterface {
     return Intl.message(

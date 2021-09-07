@@ -19,6 +19,7 @@ import '../shared/globals.dart' as deviceCreationConfig;
 
 class DataHand extends ChangeNotifier {
   late Socket socket;
+  var stream;
   NetworkList _networkList = NetworkList();
   DeviceSimulator deviceSimulator = DeviceSimulator();
   bool connected = false;
@@ -48,9 +49,9 @@ class DataHand extends ChangeNotifier {
   void handleSocket() async {
     logger.d("ConnectSocket");
     try {
-      socket = await Socket.connect("localhost", 24271);
+      socket = await Socket.connect("localhost", 24271,);
       logger.d("connected!");
-      socket.listen(
+      stream = socket.listen(
               (data) => dataHandler(data),
           onError: errorHandler,
           onDone: doneHandler,
@@ -59,11 +60,10 @@ class DataHand extends ChangeNotifier {
       connected = true;
     }
     on Exception catch(_) {
-      print("ERR");
+      print("ERROR");
+      await Future.delayed(Duration(seconds: 1));
       handleSocket();
     }
-
-
 
     //commenting out this part of code resolves the starting issue when double clicking the application - seems not to be needed
     //stdin.listen((data) => socket.write(new String.fromCharCodes(data).trim() + '\n'));
@@ -76,21 +76,20 @@ class DataHand extends ChangeNotifier {
     notifyListeners();
   }
 
-  //TODO - notify user about it?
   void errorHandler(error, StackTrace trace) {
-    //FlutterError.dumpErrorToConsole(error);
+    logger.e(error);//FlutterError.dumpErrorToConsole(error);
+    connected = false;
     socket.destroy();
-    logger.e(error);
-
-    // return usefull?
-    return (error);
+    stream.cancel();
+    notifyListeners();
+    handleSocket();
   }
 
-  //TODO - notify user about it?
   void doneHandler() {
     logger.w("Server left");
     connected = false;
-    socket.destroy();
+    //socket.destroy();
+    stream.cancel();
     notifyListeners();
     handleSocket();
   }
@@ -677,3 +676,4 @@ class DataHand extends ChangeNotifier {
     _networkList.changedList();
   }
 }
+

@@ -79,7 +79,6 @@ class DataHand extends ChangeNotifier {
   void errorHandler(error, StackTrace trace) {
     logger.e(error);//FlutterError.dumpErrorToConsole(error);
     connected = false;
-    socket.destroy();
     stream.cancel();
     notifyListeners();
     handleSocket();

@@ -153,11 +153,11 @@ class _OverviewScreenState extends State<OverviewScreen> {
               ),
               if(!socket.connected)
                 AlertDialog(
-                    backgroundColor: mainColor,
+                    backgroundColor: backgroundColor,
                     //titleTextStyle: TextStyle(color: fontColorOnMain),
                     //contentTextStyle: TextStyle(color: fontColorOnMain),
-                    title: Text(S.of(context).noconnection, style: TextStyle(color: fontColorOnMain),),
-                    content:  Text(S.of(context).noconnectionbody, style: TextStyle(color: fontColorOnMain),),
+                    title: Text(S.of(context).noconnection, style: TextStyle(color: fontColorOnBackground),),
+                    content:  Text(S.of(context).noconnectionbody, style: TextStyle(color: fontColorOnBackground),),
                   ),
             ],
           ),

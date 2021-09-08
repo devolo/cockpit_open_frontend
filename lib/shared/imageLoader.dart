@@ -18,8 +18,8 @@ import 'package:flutter/services.dart';
 import 'helpers.dart';
 
 final List<ui.Image> deviceIconList = <ui.Image>[]; //ToDo put somewhere else
-final List<String> deviceIconPathList = ["assets/eu_wifi_icon.png","assets/eu_lan_icon_small.png","assets/mini_wifi_icon.png","assets/mini_lan_icon.png",
-  "assets/dinrail_icon_small.png"];
+final List<String> deviceIconPathList = ["assets/deviceImages/eu_wifi_icon.png","assets/deviceImages/eu_lan_icon_small.png","assets/deviceImages/mini_wifi_icon.png","assets/deviceImages/mini_lan_icon.png",
+  "assets/deviceImages/dinrail_icon_small.png"];
 
 final List<Offset> deviceIconOffsetList = <Offset>[];
 List<Offset> networkOffsetList = [];

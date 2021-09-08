@@ -69,32 +69,30 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/version.txt
-    - assets/eu_lan_icon.png
-    - assets/eu_lan_icon_small.png
-    - assets/eu_wifi_icon.png
-    - assets/mini_wifi_icon.png
-    - assets/mini_lan_icon.png
-    - assets/dinrail_icon_small.png
-    - assets/logo.svg
+    - assets/deviceImages/eu_lan_icon_small.png
+    - assets/deviceImages/eu_wifi_icon.png
+    - assets/deviceImages/mini_wifi_icon.png
+    - assets/deviceImages/mini_lan_icon.png
+    - assets/deviceImages/dinrail_icon_small.png
     - assets/optimisationImages/dLAN200AVmini2_A.png
     - assets/optimisationImages/dLAN200AVmini2_B.png
     - assets/optimisationImages/dLAN200AVmini2_C.png
     - assets/optimisationImages/dLAN200AVplus_A.png
-    - assets/addDevice1.png
-    - assets/addDevice2.png
-    - assets/addDevice3.png
-    - assets/addDevice4.png
-    - assets/network.png
-    - assets/theme_images/theme_dark.PNG
-    - assets/theme_images/theme_devolo.PNG
-    - assets/theme_images/theme_highContrast.PNG
-    - assets/addDevice/MagicWifi_step1.PNG
-    - assets/addDevice/MagicWifi_step2.PNG
-    - assets/addDevice/MagicWifi_step3.PNG
-    - assets/addDevice/MagicWifi_step4.PNG
-    - assets/addDevice/MagicWifi_step5.PNG
-    - assets/addDevice/MagicWifi_step6.PNG
-    - assets/addDevice/MagicWifi_step7.PNG
+    - assets/addDeviceImages/addDevice1.png
+    - assets/addDeviceImages/addDevice2.png
+    - assets/addDeviceImages/addDevice3.png
+    - assets/addDeviceImages/addDevice4.png
+    - assets/themeImages/theme_dark.PNG
+    - assets/themeImages/theme_devolo.PNG
+    - assets/themeImages/theme_highContrast.PNG
+    - assets/themeImages/theme_light.PNG
+    - assets/addDeviceImages/MagicWifi_step1.PNG
+    - assets/addDeviceImages/MagicWifi_step2.PNG
+    - assets/addDeviceImages/MagicWifi_step3.PNG
+    - assets/addDeviceImages/MagicWifi_step4.PNG
+    - assets/addDeviceImages/MagicWifi_step5.PNG
+    - assets/addDeviceImages/MagicWifi_step6.PNG
+    - assets/addDeviceImages/MagicWifi_step7.PNG
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

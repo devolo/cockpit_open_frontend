@@ -38,11 +38,11 @@ void main (){
 
     test('Given_ByteData_When_callLoadImage_Then_returnImage', () async{
 
-      ByteData data = await rootBundle.load('assets/network.png');
+      ByteData data = await rootBundle.load('assets/deviceImages/eu_wifi_icon.png');
 
       ui.Image image = await loadImage(new Uint8List.view(data.buffer));
 
-      expect(image.toString(),"[352×334]");
+      expect(image.toString(),"[35×79]");
     });
   });
 

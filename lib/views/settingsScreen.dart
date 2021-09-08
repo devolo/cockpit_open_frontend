@@ -736,7 +736,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           new TextButton(
                             child: Column(
                               children: [
-                                SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_devolo.PNG'))),
+                                SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_light.PNG'))),
                                 new Text(
                                   "Light Theme",
                                   style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),

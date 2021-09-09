@@ -157,6 +157,10 @@
 
   "@_ERROR_DIALOGS": {
   },
+
+  "errorScreenText" : "The content cannot be displayed!",
+  "restart" : "Restart",
+
   "deviceNotFoundDeviceName" : "An error occurred while setting the device name",
   "deviceNotFoundResetDevice" : "An error occurred while resetting the device",
   "deviceNotFoundRemoveDevice" : "An error occurred while removing the device",

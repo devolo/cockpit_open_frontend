@@ -119,6 +119,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Ungültige E-mail Adresse"),
         "enableShowingSpeeds":
             MessageLookupByLibrary.simpleMessage("Anzeigen der Datenraten"),
+        "errorScreenText": MessageLookupByLibrary.simpleMessage(
+            "Der Inhalt kann nicht angezeigt werden!"),
         "factoryReset":
             MessageLookupByLibrary.simpleMessage("Werkseinstellung \nsetzen"),
         "failed": MessageLookupByLibrary.simpleMessage("fehlgeschlagen"),
@@ -223,6 +225,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Es ist ein Fehler beim Zurücksetzen des Gerätes aufgetreten!\nBitte versuchen Sie es erneut."),
         "resetDeviceErrorTitle": MessageLookupByLibrary.simpleMessage(
             "Zurücksetzung fehlgeschlagen"),
+        "restart": MessageLookupByLibrary.simpleMessage("Neu starten"),
         "samePasswordForAll": MessageLookupByLibrary.simpleMessage(
             "Gleiches Passwort für alle Geräte"),
         "save": MessageLookupByLibrary.simpleMessage("Speichern"),

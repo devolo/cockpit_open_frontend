@@ -157,6 +157,9 @@
 
   "@_ERROR_DIALOGS": {
   },
+  "errorScreenText" : "Le contenu ne peut pas être affiché !",
+  "restart" : "Redémarrer",
+
   "deviceNotFoundDeviceName" : "Une erreur s'est produite lors de la définition du nom de l'appareil",
   "deviceNotFoundResetDevice" : "Une erreur s'est produite lors de la réinitialisation de l'appareil",
   "deviceNotFoundRemoveDevice" : "Une erreur s'est produite lors de la suppression de l'appareil",

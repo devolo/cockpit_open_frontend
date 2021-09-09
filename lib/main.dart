@@ -29,10 +29,11 @@ import 'package:window_size/window_size.dart';
 import 'dart:io';
 import 'package:cockpit_devolo/shared/globals.dart';
 import 'package:cockpit_devolo/shared/imageLoader.dart';
-
+import 'package:flutter/foundation.dart';
 import 'dart:convert';
 
 import 'models/fontSizeModel.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 void main() {
   //debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
@@ -49,7 +50,7 @@ void main() {
     setWindowTitle('devolo Cockpit');
   }
 
-  runApp(new MyApp());
+  runApp(Phoenix(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -137,6 +138,48 @@ class _MyHomePageState extends State<MyHomePage> {
     getVersions();
 
     fontSize = context.read<FontSize>();
+
+    if (kReleaseMode) {
+      ErrorWidget.builder = (errorDetails) {
+        return AlertDialog(
+            backgroundColor: backgroundColor,
+            content: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(S.of(context).errorScreenText, style: TextStyle(color: fontColorOnBackground), textScaleFactor: fontSize.factor,),
+                  SizedBox(height: 20),
+                  TextButton(
+                    child: Text(
+                      S.of(context).restart,
+                      style: TextStyle(fontSize: dialogContentTextFontSize, color: Colors.white),
+                      textScaleFactor: fontSize.factor,
+                    ),
+                    onPressed: () {
+                      Phoenix.rebirth(context);
+                    },
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                              (states) {
+                            if (states.contains(MaterialState.hovered)) {
+                              return devoloGreen.withOpacity(hoverOpacity);
+                            } else if (states.contains(MaterialState.pressed)) {
+                              return devoloGreen.withOpacity(activeOpacity);
+                            }
+                            return devoloGreen;
+                          },
+                        ),
+                        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 13.0, horizontal: 32.0)),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                            )
+                        )
+                    ),
+                  )
+                ]));
+      };
+    }
   }
 
 

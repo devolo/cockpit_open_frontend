@@ -120,6 +120,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Adresse e-mail non valide"),
         "enableShowingSpeeds": MessageLookupByLibrary.simpleMessage(
             "Afficher les taux de transmission"),
+        "errorScreenText": MessageLookupByLibrary.simpleMessage(
+            "Le contenu ne peut pas être affiché !"),
         "factoryReset": MessageLookupByLibrary.simpleMessage(
             "Réinitialisé aux paramètres d\'origine"),
         "failed": MessageLookupByLibrary.simpleMessage("échoué"),
@@ -223,6 +225,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Une erreur s\'est produite lors de la réinitialisation de l\'appareil !\nRéessayez plus tard"),
         "resetDeviceErrorTitle":
             MessageLookupByLibrary.simpleMessage("Réinitialisation échouée"),
+        "restart": MessageLookupByLibrary.simpleMessage("Redémarrer"),
         "samePasswordForAll": MessageLookupByLibrary.simpleMessage(
             "Même mot de passe pour tous les appareils"),
         "save": MessageLookupByLibrary.simpleMessage("Enregistrer"),

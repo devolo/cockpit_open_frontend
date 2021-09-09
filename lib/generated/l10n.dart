@@ -1110,6 +1110,26 @@ class S {
     );
   }
 
+  /// `The content cannot be displayed!`
+  String get errorScreenText {
+    return Intl.message(
+      'The content cannot be displayed!',
+      name: 'errorScreenText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Restart`
+  String get restart {
+    return Intl.message(
+      'Restart',
+      name: 'restart',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `An error occurred while setting the device name`
   String get deviceNotFoundDeviceName {
     return Intl.message(

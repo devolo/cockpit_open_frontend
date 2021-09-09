@@ -157,6 +157,9 @@
 
   "@_ERROR_DIALOGS": {
   },
+  "errorScreenText" : "Der Inhalt kann nicht angezeigt werden!",
+  "restart" : "Neu starten",
+
   "deviceNotFoundDeviceName" : "Es ist ein Fehler beim Setzen des Gerätenamens aufgetreten!",
   "deviceNotFoundResetDevice" : "Es ist ein Fehler beim Zurücksetzen des Gerätes aufgetreten!",
   "deviceNotFoundRemoveDevice" : "Es ist ein Fehler beim Entfernen des Gerätes aufgetreten!",

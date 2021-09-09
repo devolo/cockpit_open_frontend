@@ -118,6 +118,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("E-mail is invalid"),
         "enableShowingSpeeds":
             MessageLookupByLibrary.simpleMessage("Show network speeds"),
+        "errorScreenText": MessageLookupByLibrary.simpleMessage(
+            "The content cannot be displayed!"),
         "factoryReset": MessageLookupByLibrary.simpleMessage("Factory reset"),
         "failed": MessageLookupByLibrary.simpleMessage("failed"),
         "fillInIpAddress":
@@ -220,6 +222,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "An error occurred while resetting the device!\nTry again later"),
         "resetDeviceErrorTitle":
             MessageLookupByLibrary.simpleMessage("Reset failed"),
+        "restart": MessageLookupByLibrary.simpleMessage("Restart"),
         "samePasswordForAll": MessageLookupByLibrary.simpleMessage(
             "Same password for all devices"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),

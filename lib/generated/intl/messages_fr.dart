@@ -29,17 +29,17 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Les informations sont envoyées à devolo"),
         "activateLEDs": MessageLookupByLibrary.simpleMessage("LEDs allumés"),
         "activateLEDsFailedBody": MessageLookupByLibrary.simpleMessage(
-            "Une erreur s\'est produite lors de la modification des LED!\nRéessayez plus tard"),
+            "Une erreur s\'est produite lors de la modification des LED !\nRéessayez plus tard"),
         "activateLEDsFailedTitle":
             MessageLookupByLibrary.simpleMessage("Action échouée"),
         "activateTransmission": MessageLookupByLibrary.simpleMessage(
             "Communication des données activé"),
         "activateTransmissionFailedBody": MessageLookupByLibrary.simpleMessage(
-            "Une erreur s\'est produite lors du réglage de la communication de données!\nRéessayez plus tard"),
+            "Une erreur s\'est produite lors du réglage de la communication de données !\nRéessayez plus tard"),
         "activateTransmissionFailedTitle":
             MessageLookupByLibrary.simpleMessage("Action échouée"),
         "addDeviceErrorBody": MessageLookupByLibrary.simpleMessage(
-            "Une erreur s\'est produite lors de l\'ajout de l\'appareil!\nTRéessayez plus tard"),
+            "Une erreur s\'est produite lors de l\'ajout de l\'appareil !\nTRéessayez plus tard"),
         "addDeviceErrorTitle":
             MessageLookupByLibrary.simpleMessage("L\'installation échoué"),
         "addDeviceInstructionText": MessageLookupByLibrary.simpleMessage(
@@ -97,7 +97,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "deviceInfo":
             MessageLookupByLibrary.simpleMessage("Informations sur l´appareil"),
         "deviceNameDialogBody": MessageLookupByLibrary.simpleMessage(
-            "Voulez-vous renommer cet appareil?"),
+            "Voulez-vous renommer cet appareil ?"),
         "deviceNameDialogTitle":
             MessageLookupByLibrary.simpleMessage("Confirmer"),
         "deviceNameErrorBody": MessageLookupByLibrary.simpleMessage(
@@ -144,15 +144,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "internet": MessageLookupByLibrary.simpleMessage("Internet"),
         "internetCentered": MessageLookupByLibrary.simpleMessage(
             "Centrer la vue d´ensamble sur l´internet"),
-        "ipAddress": MessageLookupByLibrary.simpleMessage("Adresse IP"),
+        "ipAddress": MessageLookupByLibrary.simpleMessage("Adresse IP "),
         "launchWebInterface": MessageLookupByLibrary.simpleMessage("Site web"),
-        "macAddress": MessageLookupByLibrary.simpleMessage("Adresse MAC"),
+        "macAddress": MessageLookupByLibrary.simpleMessage("Adresse MAC "),
         "manualErrorBody": MessageLookupByLibrary.simpleMessage(
             "Aucun manuel approprié n\'a été trouvé pour votre adapteur PLC..\n\nVous trouverez le manuel sur le CD du produit ou sur le site web de devolo."),
         "manualErrorTitle":
             MessageLookupByLibrary.simpleMessage("Manuel introuvable"),
-        "mtNumber": MessageLookupByLibrary.simpleMessage("numéro MT devolo"),
-        "name": MessageLookupByLibrary.simpleMessage("Nom"),
+        "mtNumber": MessageLookupByLibrary.simpleMessage("numéro MT devolo "),
+        "name": MessageLookupByLibrary.simpleMessage("Nom "),
         "network": MessageLookupByLibrary.simpleMessage("Réseau"),
         "networkPasswordErrorBody": MessageLookupByLibrary.simpleMessage(
             "Une erreur s\'est produite lors de la définition du mot de passe du réseau"),
@@ -193,7 +193,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "powerSavingMode":
             MessageLookupByLibrary.simpleMessage("Mode d\'économie d\'énergie"),
         "powerSavingModeFailedBody": MessageLookupByLibrary.simpleMessage(
-            "Une erreur s\'est produite lors du réglage du mode d\'économie d\'énergie!\nRéessayez plus tard"),
+            "Une erreur s\'est produite lors du réglage du mode d\'économie d\'énergie !\nRéessayez plus tard"),
         "powerSavingModeFailedTitle":
             MessageLookupByLibrary.simpleMessage("Action échouée"),
         "privacyWarningDialogBody": MessageLookupByLibrary.simpleMessage(
@@ -211,16 +211,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "removeDeviceConfirmTitle":
             MessageLookupByLibrary.simpleMessage("Supprimer l´appareil PLC ?"),
         "removeDeviceErrorBody": MessageLookupByLibrary.simpleMessage(
-            "Une erreur s\'est produite lors de la suppression de l\'appareil!\nRéessayez plus tard"),
+            "Une erreur s\'est produite lors de la suppression de l\'appareil !\nRéessayez plus tard"),
         "removeDeviceErrorTitle":
             MessageLookupByLibrary.simpleMessage("Suppression échouée"),
         "repeat": MessageLookupByLibrary.simpleMessage("Répéter"),
         "resetDeviceConfirmBody": MessageLookupByLibrary.simpleMessage(
-            "Voulez-vous réinitialiser l´appareil PLC sélectionné aux paramètres d\'origine?"),
+            "Voulez-vous réinitialiser l´appareil PLC sélectionné aux paramètres d\'origine ?"),
         "resetDeviceConfirmTitle": MessageLookupByLibrary.simpleMessage(
             "Réinitialiser l\'appareil aux paramètres d\'origine"),
         "resetDeviceErrorBody": MessageLookupByLibrary.simpleMessage(
-            "Une erreur s\'est produite lors de la réinitialisation de l\'appareil!\nRéessayez plus tard"),
+            "Une erreur s\'est produite lors de la réinitialisation de l\'appareil !\nRéessayez plus tard"),
         "resetDeviceErrorTitle":
             MessageLookupByLibrary.simpleMessage("Réinitialisation échouée"),
         "samePasswordForAll": MessageLookupByLibrary.simpleMessage(
@@ -230,7 +230,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "securityId": MessageLookupByLibrary.simpleMessage("ID de sécurité"),
         "selectAll": MessageLookupByLibrary.simpleMessage("Sélectionner tout"),
         "send": MessageLookupByLibrary.simpleMessage("Envoyer"),
-        "serialNumber": MessageLookupByLibrary.simpleMessage("Numéro de série"),
+        "serialNumber":
+            MessageLookupByLibrary.simpleMessage("Numéro de série "),
         "setIpConfigErrorBody": MessageLookupByLibrary.simpleMessage(
             "Une erreur s\'est produite lors du changement de l´adresse IP/masque de réseau.\nRéessayez plus tard"),
         "setIpConfigErrorTitle":
@@ -265,7 +266,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "La vue d\'ensemble sera centrée sur l´adapteur CPL connecté à l\'internet."),
         "thisPc": MessageLookupByLibrary.simpleMessage("Cet PC"),
         "title": MessageLookupByLibrary.simpleMessage("devolo Cockpit"),
-        "type": MessageLookupByLibrary.simpleMessage("Type"),
+        "type": MessageLookupByLibrary.simpleMessage("Type "),
         "upToDate": MessageLookupByLibrary.simpleMessage("À jour"),
         "upToDatePlaceholder":
             MessageLookupByLibrary.simpleMessage(" jour disponible"),
@@ -273,13 +274,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "updateAvailable":
             MessageLookupByLibrary.simpleMessage("Mise à jour disponible"),
         "updateDeviceFailedBody": MessageLookupByLibrary.simpleMessage(
-            "Les appareils suivants n\'ont pas pu être mis à jour:"),
+            "Les appareils suivants n\'ont pas pu être mis à jour :"),
         "updateDeviceFailedTitle":
             MessageLookupByLibrary.simpleMessage("Mise à jour échoué"),
         "updateDevicePasswordNeededBody1": MessageLookupByLibrary.simpleMessage(
-            "L\'appareil suivant nécessite un mot de passe pour être mis à jour:"),
+            "L\'appareil suivant nécessite un mot de passe pour être mis à jour :"),
         "updateDevicePasswordNeededBody2": MessageLookupByLibrary.simpleMessage(
-            "Entrez les mots de passe des appareils suivants pour les mettre à jour:"),
+            "Entrez les mots de passe des appareils suivants pour les mettre à jour :"),
         "updateDevicePasswordNeededTitle":
             MessageLookupByLibrary.simpleMessage("Mot de passe requis"),
         "updateDialogTitle": MessageLookupByLibrary.simpleMessage(
@@ -301,7 +302,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Les nouveaux paramètres VDSL n\'ont pas pu être enregistrés sur l\'appareil"),
         "vdslSuccessful": MessageLookupByLibrary.simpleMessage(
             "Les nouveaux paramètres VDSL ont été enregistrés sur l\'appareil"),
-        "version": MessageLookupByLibrary.simpleMessage("Version firmware"),
+        "version": MessageLookupByLibrary.simpleMessage("Version firmware "),
         "yourEmailAddress":
             MessageLookupByLibrary.simpleMessage("Votre adresse e-mail"),
         "yourName": MessageLookupByLibrary.simpleMessage("Votre nom"),

@@ -547,6 +547,21 @@ class DataHand extends ChangeNotifier {
           }
         }
 
+        // ignore responses with <status>running</status>
+        else if (wantedMessageTypes == "SetIpConfigStatus") {
+
+          responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'status');
+          if (responseElem != "running") {
+            wait = false;
+
+            responseElem = await findFirstElem(xmlResponseMap[wantedMessageTypes]!.first, 'result');
+            if (responseElem != null) {
+              response['result'] = responseElem;
+            }
+          }
+        }
+
+
         // responses where we need only the result tag
         else {
           wait = false;

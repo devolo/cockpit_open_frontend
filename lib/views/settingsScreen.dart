@@ -421,6 +421,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
               Divider(color: dividerColor),
+              if(_deviceList.getNetworkListLength() != 0)
               ListTile(
                 contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
                 tileColor: secondColor,
@@ -619,6 +620,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ],
                 ),
               ),
+              if(_deviceList.getNetworkListLength() != 0)
               Divider(color: dividerColor),
               Row(mainAxisAlignment: MainAxisAlignment.end, crossAxisAlignment: CrossAxisAlignment.end, children: <Widget>[
                 IconButton(

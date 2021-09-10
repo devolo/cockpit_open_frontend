@@ -141,13 +141,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.1.1"
-  flag:
-    dependency: "direct main"
-    description:
-      name: flag
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "5.0.0-nullsafety"
   flutter:
     dependency: "direct main"
     description: flutter

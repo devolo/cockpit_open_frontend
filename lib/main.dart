@@ -16,7 +16,6 @@ import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:cockpit_devolo/views/helpScreen.dart';
 import 'package:cockpit_devolo/views/settingsScreen.dart';
 import 'package:cockpit_devolo/views/updateScreen.dart';
-import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:logger/logger.dart';
@@ -263,6 +262,17 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  String? getPathForLanguage(String language){
+    if(language == "de")
+      return  "assets/flagImages/devolo_DE.png";
+
+    else if(language == "fr")
+      return  "assets/flagImages/devolo_FR.png";
+
+    else if(language == "gb" || language == "en")
+      return  "assets/flagImages/devolo_UK.png";
+  }
+
   @override
   Widget build(BuildContext context) {
     // double mediaFontScaleFactor =  MediaQuery.textScaleFactorOf(context); // Query current device for the System FontSize
@@ -305,12 +315,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Flag(
-                        value == 'en' ? 'gb' : value, // ToDo which flag?
-                        height: 15,
-                        width: 25,
-                        fit: BoxFit.fill,
-                      ),
+                      Image.asset(getPathForLanguage(value)!, height: 20, width: 20, fit: BoxFit.fill),
                     ],
                   );
                 }).toList();
@@ -325,12 +330,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         _value2 + " ",
                         textScaleFactor: fontSize.factor,
                       ),
-                      Flag(
-                        _value2 == 'en' ? 'gb' : _value2, // ToDo which flag?
-                        height: 15,
-                        width: 25,
-                        fit: BoxFit.fill,
-                      ),
+                      Image.asset(getPathForLanguage(_value2)!, height: 20, width: 20, fit: BoxFit.fill),
                     ],
                   ),
                 );

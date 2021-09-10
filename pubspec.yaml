@@ -28,7 +28,6 @@ dependencies:
   url_launcher: ^6.0.4 # previous: ^5.7.10
   flutter_svg: ^0.21.0+1 #^0.20.0-nullsafety.3
   open_file: ^3.2.1
-  flag: ^5.0.0-nullsafety
   flutter_localizations:
     sdk: flutter
   flutter_spinbox: ^0.5.2 #^0.5.2
@@ -93,6 +92,9 @@ flutter:
     - assets/addDeviceImages/MagicWifi_step5.PNG
     - assets/addDeviceImages/MagicWifi_step6.PNG
     - assets/addDeviceImages/MagicWifi_step7.PNG
+    - assets/flagImages/devolo_DE.png
+    - assets/flagImages/devolo_FR.png
+    - assets/flagImages/devolo_UK.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

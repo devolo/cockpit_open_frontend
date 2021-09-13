@@ -6,6 +6,8 @@ This source code is licensed under the BSD-style license found in the
 LICENSE file in the root directory of this source tree.
 */
 
+import 'dart:async';
+
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:cockpit_devolo/models/fontSizeModel.dart';
@@ -43,6 +45,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
   int numDevices = 0;
   late Offset _lastTapDownPosition;
   late DrawOverview _Painter;
+  bool blockRefresh = false;
 
   bool showingSpeeds = false;
 
@@ -166,10 +169,18 @@ class _OverviewScreenState extends State<OverviewScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Warning! "UpdateCheck" and "RefreshNetwork" should only be triggered by a user interaction, not continously/automaticly
-          setState(() {
-            socket.sendXML('RefreshNetwork');
-            AppBuilder.of(context)!.rebuild();
-          });
+          if(!blockRefresh){
+            blockRefresh = true;
+            setState(() {
+              socket.sendXML('RefreshNetwork');
+              AppBuilder.of(context)!.rebuild();
+            });
+            Timer(Duration(seconds: 2), () {
+              setState(() {
+                blockRefresh = false;
+              });
+            });
+          }
         },
         tooltip: 'Neu laden',
         backgroundColor: secondColor,

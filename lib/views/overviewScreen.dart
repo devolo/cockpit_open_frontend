@@ -56,6 +56,12 @@ class _OverviewScreenState extends State<OverviewScreen> {
   var _dropNetwork;
 
   @override
+  void initState() {
+    super.initState();
+    myFocusNode.addListener(() {AppBuilder.of(context)!.rebuild();});
+  }
+
+  @override
   Widget build(BuildContext context) {
     socket = Provider.of<DataHand>(context);
     _deviceList = Provider.of<NetworkList>(context);

@@ -24,6 +24,8 @@ import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/shared/imageLoader.dart';
 
+import 'appBuilder.dart';
+
 class UpdateScreen extends StatefulWidget {
   UpdateScreen({Key? key, required this.title, NetworkList? deviceList}) : super(key: key);
 
@@ -72,6 +74,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
   late FontSize fontSize;
 
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    myFocusNode.addListener(() {AppBuilder.of(context)!.rebuild();});
+  }
 
   Future<void> updateCockpit(socket, _deviceList) async {
 

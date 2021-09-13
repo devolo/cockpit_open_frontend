@@ -23,6 +23,8 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
   bool dialogClosed = false;
   bool identifyDeviceActionRunning = false;
 
+  final textFieldController = TextEditingController(text: hitDevice.name);
+
   showDialog<void>(
     context: context,
     barrierDismissible: true, // user doesn't need to tap button!
@@ -77,7 +79,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                       Container(
                         width: 60, // doesn´t affect the width in the text field
                         child: TextFormField(
-                          initialValue: newName,
+                          controller: textFieldController,
                           focusNode: myFocusNode,
                           style: TextStyle(color: fontColorOnBackground,
                               fontSize: dialogContentTextFontSize *
@@ -105,32 +107,18 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                 //width: 2.0,
                               ),
                             ),
-                            suffixIcon: changeNameLoading
-                                ? SizedBox(
-                                width: 0.5,
-                                height: 0.5,
-                                child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: CircularProgressIndicator(
-                                      valueColor: new AlwaysStoppedAnimation<
-                                          Color>(
-                                          fontColorOnBackground),
-                                      strokeWidth: 3.0,
-                                    )))
-                                : IconButton(
+                            suffixIcon: (myFocusNode.hasPrimaryFocus && !changeNameLoading) ?
+                      Container(
+                        width: 100,
+                        child: Row(
+                          children: [
+                            IconButton(
                               icon: Icon(
-                                DevoloIcons.ic_edit_24px,
+                                DevoloIcons.devolo_UI_check_fill,
                                 color: fontColorOnBackground,
                               ),
                               onPressed: () async {
                                 if (newName != hitDevice.name) {
-                                  bool confResponse = await confirmDialog(
-                                      context, S
-                                      .of(context)
-                                      .deviceNameDialogTitle, S
-                                      .of(context)
-                                      .deviceNameDialogBody, fontSize);
-                                  if (confResponse) {
                                     changeNameLoading = true;
                                     AppBuilder.of(context)!.rebuild();
                                     socket.sendXML(
@@ -144,8 +132,8 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                       await Future.delayed(
                                           const Duration(seconds: 1), () {});
                                       socket.sendXML('RefreshNetwork');
-                                    } else if (response['result'] ==
-                                        "device_not_found") {
+                                    } else
+                                    if (response['result'] == "device_not_found") {
                                       errorDialog(context, S
                                           .of(context)
                                           .deviceNameErrorTitle, S
@@ -162,32 +150,57 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                     }
 
                                     changeNameLoading = false;
+                                    myFocusNode.unfocus();
                                   }
                                 }
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                DevoloIcons.devolo_UI_cancel_fill,
+                                color: fontColorOnBackground,
+                              ),
+                              onPressed: () async {
+                                textFieldController.text = hitDevice.name;
+                                myFocusNode.unfocus();
                               },
                             ),
-                          ),
-                          onChanged: (value) => (newName = value),
-                          onEditingComplete: () async {
-                            if (newName != hitDevice.name) {
-                              bool confResponse = await confirmDialog(context, S
-                                  .of(context)
-                                  .deviceNameDialogTitle, S
-                                  .of(context)
-                                  .deviceNameDialogBody, fontSize);
-                              if (confResponse) {
-                                changeNameLoading = true;
-                                socket.sendXML(
-                                    'SetAdapterName', mac: hitDevice.mac,
-                                    newValue: newName,
-                                    valueType: 'name');
-                                var response = await socket.receiveXML(
-                                    "SetAdapterNameStatus");
-                                if (response!['result'] == "ok") {
-                                  hitDevice.name = newName;
-                                  await Future.delayed(
-                                      const Duration(seconds: 1), () {});
-                                  socket.sendXML('RefreshNetwork');
+                          ],
+                        ),
+                    )
+                                : changeNameLoading ?
+                      SizedBox(
+                          width: 0.5,
+                          height: 0.5,
+                          child: Padding(padding: const EdgeInsets.all(10.0), child: CircularProgressIndicator(
+                            valueColor: new AlwaysStoppedAnimation<Color>(
+                                fontColorOnBackground),
+                            strokeWidth: 3.0,
+                          )))
+                      : Icon(
+                          DevoloIcons.ic_edit_24px,
+                          color: fontColorOnBackground,
+                        ),
+                    ),
+                    onChanged: (value) => (newName = value),
+                    onEditingComplete: () async {
+                      if (newName != hitDevice.name) {
+                        bool confResponse = await confirmDialog(context, S
+                            .of(context)
+                            .deviceNameDialogTitle, S
+                            .of(context)
+                            .deviceNameDialogBody, fontSize);
+                        if (confResponse) {
+                          changeNameLoading = true;
+                          socket.sendXML('SetAdapterName', mac: hitDevice.mac,
+                              newValue: newName,
+                              valueType: 'name');
+                          var response = await socket.receiveXML(
+                              "SetAdapterNameStatus");
+                          if (response!['result'] == "ok") {
+                            hitDevice.name = newName;
+                            await Future.delayed(
+                                const Duration(seconds: 1), () {});
+                            socket.sendXML('RefreshNetwork');
 
                                   //setState(() {
                                   //   socket.sendXML('RefreshNetwork');

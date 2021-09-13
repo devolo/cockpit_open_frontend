@@ -863,7 +863,8 @@ void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<in
   final _formKey = GlobalKey<FormState>();
   String formIpAdress = ipConfigAddress;
   String formNetmask = ipConfigNetmask;
-
+  final formIpAdressController = TextEditingController(text: ipConfigAddress);
+  final formNetmaskController = TextEditingController(text: ipConfigNetmask);
 
   // Styling
   Color switchActiveTrackColor = devoloGreen.withOpacity(0.4);
@@ -1021,7 +1022,7 @@ void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<in
                       child: Column(
                         children: <Widget>[
                           TextFormField(
-                            initialValue: formIpAdress,
+                            controller: formIpAdressController,
                             style: TextStyle(color: fontColorOnBackground),
                             decoration: InputDecoration(
                               labelText: S
@@ -1073,7 +1074,7 @@ void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<in
                             height: 20,
                           ),
                           TextFormField(
-                            initialValue: formNetmask,
+                            controller: formNetmaskController,
                             style: TextStyle(color: fontColorOnBackground),
                             decoration: InputDecoration(
                               labelText: S
@@ -1144,6 +1145,8 @@ void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<in
                                     var response = await socket.receiveXML(
                                         "SetIpConfigStatus");
                                     if (response!['result'] == "ok") {
+                                      ipConfigAddress = formIpAdress;
+                                      ipConfigNetmask = formNetmask;
                                       Navigator.maybeOf(context)!.pop();
                                       await Future.delayed(
                                           const Duration(seconds: 1), () {});
@@ -1151,6 +1154,10 @@ void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<in
 
                                     } else
                                     if (response['result'] == "device_not_found") {
+                                      formIpAdress = ipConfigAddress;
+                                      formIpAdressController.text = ipConfigAddress;
+                                      formNetmask = ipConfigNetmask;
+                                      formNetmaskController.text = ipConfigNetmask;
                                       Navigator.maybeOf(context)!.pop();
                                       errorDialog(context, S
                                           .of(context)
@@ -1160,6 +1167,10 @@ void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<in
                                           .of(context)
                                           .deviceNotFoundHint, fontSize);
                                     } else if (response['result'] != "ok") {
+                                      formIpAdress = ipConfigAddress;
+                                      formIpAdressController.text = ipConfigAddress;
+                                      formNetmask = ipConfigNetmask;
+                                      formNetmaskController.text = ipConfigNetmask;
                                       Navigator.maybeOf(context)!.pop();
                                       errorDialog(context, S
                                           .of(context)

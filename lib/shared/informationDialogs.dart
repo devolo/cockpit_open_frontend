@@ -1147,6 +1147,7 @@ void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<in
                                     if (response!['result'] == "ok") {
                                       ipConfigAddress = formIpAdress;
                                       ipConfigNetmask = formNetmask;
+                                      AppBuilder.of(context)!.rebuild();
                                       Navigator.maybeOf(context)!.pop();
                                       await Future.delayed(
                                           const Duration(seconds: 1), () {});
@@ -1158,6 +1159,7 @@ void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<in
                                       formIpAdressController.text = ipConfigAddress;
                                       formNetmask = ipConfigNetmask;
                                       formNetmaskController.text = ipConfigNetmask;
+                                      AppBuilder.of(context)!.rebuild();
                                       Navigator.maybeOf(context)!.pop();
                                       errorDialog(context, S
                                           .of(context)
@@ -1171,6 +1173,7 @@ void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<in
                                       formIpAdressController.text = ipConfigAddress;
                                       formNetmask = ipConfigNetmask;
                                       formNetmaskController.text = ipConfigNetmask;
+                                      AppBuilder.of(context)!.rebuild();
                                       Navigator.maybeOf(context)!.pop();
                                       errorDialog(context, S
                                           .of(context)

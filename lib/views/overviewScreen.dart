@@ -177,8 +177,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
                   titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
                   contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
-                  title: Text(S.of(context).noconnection, style: TextStyle(color: fontColorOnBackground),),
-                  content:  Text(S.of(context).noconnectionbody, style: TextStyle(color: fontColorOnBackground),),
+                  title: Text(S.of(context).noconnection),
+                  content:  Text(S.of(context).noconnectionbody),
                   ),
             ],
           ),

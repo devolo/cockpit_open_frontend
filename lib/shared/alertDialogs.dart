@@ -1,3 +1,4 @@
+import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/fontSizeModel.dart';
 import 'package:flutter/material.dart';
 

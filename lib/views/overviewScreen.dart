@@ -7,6 +7,7 @@ LICENSE file in the root directory of this source tree.
 */
 
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
@@ -14,6 +15,7 @@ import 'package:cockpit_devolo/models/fontSizeModel.dart';
 import 'package:cockpit_devolo/services/drawOverview.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
+import 'package:cockpit_devolo/shared/app_fontSize.dart';
 import 'package:cockpit_devolo/shared/devolo_icons_icons.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:cockpit_devolo/shared/informationDialogs.dart';
@@ -161,12 +163,22 @@ class _OverviewScreenState extends State<OverviewScreen> {
                 ],
               ),
               if(!socket.connected)
+              new BackdropFilter(
+                filter: new ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+                child: new Container(
+                  decoration: new BoxDecoration(color: Colors.grey[200]!.withOpacity(0.1)),
+                ),
+              ),
+              if(!socket.connected)
                 AlertDialog(
                     backgroundColor: backgroundColor,
                     //titleTextStyle: TextStyle(color: fontColorOnMain),
                     //contentTextStyle: TextStyle(color: fontColorOnMain),
-                    title: Text(S.of(context).noconnection, style: TextStyle(color: fontColorOnBackground),),
-                    content:  Text(S.of(context).noconnectionbody, style: TextStyle(color: fontColorOnBackground),),
+
+                  titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
+                  contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                  title: Text(S.of(context).noconnection, style: TextStyle(color: fontColorOnBackground),),
+                  content:  Text(S.of(context).noconnectionbody, style: TextStyle(color: fontColorOnBackground),),
                   ),
             ],
           ),

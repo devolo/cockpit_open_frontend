@@ -7,6 +7,7 @@ LICENSE file in the root directory of this source tree.
 */
 
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
@@ -73,132 +74,139 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
     return new Scaffold(
       backgroundColor: Colors.transparent,
 
-      body: new SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.only(top: paddingBarTop, left: 20, right: 20),
-          child: Column(
-            //crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                S
-                    .of(context)
-                    .help,
-                style: TextStyle(fontSize: fontSizeAppBarTitle * fontSize.factor, color: fontColorOnBackground),
-              ),
-              SizedBox(height: paddingBarTop),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ButtonTheme(
-                    minWidth: 300,
-                    child: RaisedButton(
-                      color: secondColor,
-                      textColor: fontColorOnSecond,
-                      hoverColor: mainColor.withOpacity(0.3),
-                      padding: EdgeInsets.only(
-                        top: 40,
-                        bottom: 20,
-                        left: 20,
-                        right: 20,
+      body: Stack(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: paddingBarTop, left: 20, right: 20),
+            child: Column(
+              //crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  S.of(context).help,
+                  style: TextStyle(fontSize: fontSizeAppBarTitle * fontSize.factor, color: fontColorOnBackground),
+                ),
+                SizedBox(height: paddingBarTop),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ButtonTheme(
+                      minWidth: 300,
+                      child: RaisedButton(
+                        color: secondColor,
+                        textColor: fontColorOnSecond,
+                        hoverColor: mainColor.withOpacity(0.3),
+                        padding: EdgeInsets.only(
+                          top: 40,
+                          bottom: 20,
+                          left: 20,
+                          right: 20,
+                        ),
+                        child: Column(
+                          children: [
+                            Icon(
+                              DevoloIcons.ic_add_24px,
+                              size: 100,
+                              color: mainColor,
+                            ),
+                            SizedBox(
+                              height: 40,
+                            ),
+                            Text(
+                              S
+                                  .of(context)
+                                  .setUpDevice,
+                              textScaleFactor: fontSize.factor,
+                            ),
+                          ],
+                        ),
+                        onPressed: () {
+                          _addDeviceAlert(context, socket);
+                        },
                       ),
-                      child: Column(
-                        children: [
-                          Icon(
-                            DevoloIcons.ic_add_24px,
-                            size: 100,
-                            color: mainColor,
-                          ),
-                          SizedBox(
-                            height: 40,
-                          ),
-                          Text(
-                            S
-                                .of(context)
-                                .setUpDevice,
-                            textScaleFactor: fontSize.factor,
-                          ),
-                        ],
-                      ),
-                      onPressed: () {
-                        _addDeviceAlert(context, socket);
-                      },
                     ),
-                  ),
-                  ButtonTheme(
-                    minWidth: 300,
-                    child: RaisedButton(
-                      color: secondColor,
-                      textColor: fontColorOnSecond,
-                      padding: EdgeInsets.only(
-                        top: 40,
-                        bottom: 20,
-                        left: 20,
-                        right: 20,
+                    ButtonTheme(
+                      minWidth: 300,
+                      child: RaisedButton(
+                        color: secondColor,
+                        textColor: fontColorOnSecond,
+                        padding: EdgeInsets.only(
+                          top: 40,
+                          bottom: 20,
+                          left: 20,
+                          right: 20,
+                        ),
+                        hoverColor: mainColor.withOpacity(0.3),
+                        child: Column(
+                          children: [
+                            Icon(
+                              DevoloIcons.devolo_UI_wifi,
+                              size: 100,
+                              color: mainColor,
+                            ),
+                            SizedBox(
+                              height: 40,
+                            ),
+                            Text(
+                              S
+                                  .of(context)
+                                  .optimizeReception,
+                              textScaleFactor: fontSize.factor,
+                            ),
+                          ],
+                        ),
+                        onPressed: () {
+                          _optimiseAlert(context);
+                        },
                       ),
-                      hoverColor: mainColor.withOpacity(0.3),
-                      child: Column(
-                        children: [
-                          Icon(
-                            DevoloIcons.devolo_UI_wifi,
-                            size: 100,
-                            color: mainColor,
-                          ),
-                          SizedBox(
-                            height: 40,
-                          ),
-                          Text(
-                            S
-                                .of(context)
-                                .optimizeReception,
-                            textScaleFactor: fontSize.factor,
-                          ),
-                        ],
-                      ),
-                      onPressed: () {
-                        _optimiseAlert(context);
-                      },
                     ),
-                  ),
-                  ButtonTheme(
-                    minWidth: 300,
-                    child: RaisedButton(
-                      color: secondColor,
-                      textColor: fontColorOnSecond,
-                      hoverColor: mainColor.withOpacity(0.3),
-                      padding: EdgeInsets.only(
-                        top: 40,
-                        bottom: 20,
-                        left: 20,
-                        right: 20,
+                    ButtonTheme(
+                      minWidth: 300,
+                      child: RaisedButton(
+                        color: secondColor,
+                        textColor: fontColorOnSecond,
+                        hoverColor: mainColor.withOpacity(0.3),
+                        padding: EdgeInsets.only(
+                          top: 40,
+                          bottom: 20,
+                          left: 20,
+                          right: 20,
+                        ),
+                        child: Column(
+                          children: [
+                            Icon(
+                              DevoloIcons.ic_question_answer_24px,
+                              size: 100,
+                              color: mainColor,
+                            ),
+                            SizedBox(
+                              height: 40,
+                            ),
+                            Text(
+                              S
+                                  .of(context)
+                                  .contactSupport,
+                              textScaleFactor: fontSize.factor,
+                            ),
+                          ],
+                        ),
+                        onPressed: () {
+                          _loadingSupportDialog(context, socket);
+                        },
                       ),
-                      child: Column(
-                        children: [
-                          Icon(
-                            DevoloIcons.ic_question_answer_24px,
-                            size: 100,
-                            color: mainColor,
-                          ),
-                          SizedBox(
-                            height: 40,
-                          ),
-                          Text(
-                            S
-                                .of(context)
-                                .contactSupport,
-                            textScaleFactor: fontSize.factor,
-                          ),
-                        ],
-                      ),
-                      onPressed: () {
-                        _loadingSupportDialog(context, socket);
-                      },
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
+          if(!socket.connected)
+            new BackdropFilter(
+              filter: new ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+              child: new Container(
+                decoration: new BoxDecoration(color: Colors.grey[200]!.withOpacity(0.1)),
+              ),
+            ),
+        ],
       ),
     );
   }

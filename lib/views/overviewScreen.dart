@@ -63,11 +63,22 @@ class _OverviewScreenState extends State<OverviewScreen> {
     myFocusNode.addListener(() {AppBuilder.of(context)!.rebuild();});
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     socket = Provider.of<DataHand>(context);
     _deviceList = Provider.of<NetworkList>(context);
     socket.setNetworkList(_deviceList);
+
+    if(!socket.connected) {
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        while(Navigator.canPop(context)){ // Navigator.canPop return true if can pop
+          Navigator.pop(context);
+        }
+        //Navigator.of(context).popUntil((route) => route.isActive);
+      });
+    }
 
     if(_deviceList.getNetworkListLength() - 1 >= config["selected_network"]){
       _deviceList.selectedNetworkIndex = config["selected_network"];
@@ -100,87 +111,89 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Container(
-        child: GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTapUp: _handleTap,
-          onTapDown: _handleTapDown,
-          onLongPress: () => _handleLongPressStart(context,_deviceList),
-          onLongPressUp: _handleLongPressEnd,
-          child: Stack(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: Center(
-                  child: CustomPaint(
-                    painter: _Painter,
-                    child: Container(
-                    ),
-                  ),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  for (var networkIdx = 0; networkIdx < _deviceList.getNetworkListLength(); networkIdx++)
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 5.0,vertical: 10.0),
-                      child:TextButton(
-                        style: ButtonStyle(
-                          foregroundColor: networkIdx !=
-                              _deviceList.selectedNetworkIndex
-                              ? MaterialStateProperty.all(drawingColor)
-                              : MaterialStateProperty.all(drawingColor),
-                          backgroundColor: MaterialStateProperty.resolveWith<
-                              Color?>(
-                                (states) {
-                              if (states.contains(MaterialState.hovered)) {
-                                return drawingColor.withOpacity(0.3);
-                              }
-                              return Colors.transparent;
-                            },
-                          ),
-                        ),
-                        child: networkIdx == 0
-                            ? networkIdx != _deviceList.selectedNetworkIndex
-                            ? Text("${_deviceList.getNetworkName(networkIdx)}", textScaleFactor: fontSize.factor-0.1)
-                            : Text("${_deviceList.getNetworkName(networkIdx)} ", textScaleFactor: fontSize.factor,
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )
-                            : networkIdx != _deviceList.selectedNetworkIndex
-                            ? Text("${_deviceList.getNetworkName(networkIdx)}", textScaleFactor: fontSize.factor-0.1)  // ${S.of(context).network}
-                            : Text("${_deviceList.getNetworkName(networkIdx)}", textScaleFactor: fontSize.factor,
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        onPressed: () {
-                          _deviceList.selectedNetworkIndex = networkIdx;
-                          config["selected_network"] = networkIdx;
-                          saveToSharedPrefs(config);
-                          AppBuilder.of(context)!.rebuild();
-                        },
+      body: IgnorePointer(
+        ignoring: socket.connected ? false: true,
+        child: Container(
+          child: GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTapUp: _handleTap,
+            onTapDown: _handleTapDown,
+            onLongPress: () => _handleLongPressStart(context,_deviceList),
+            onLongPressUp: _handleLongPressEnd,
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Center(
+                    child: CustomPaint(
+                      painter: _Painter,
+                      child: Container(
                       ),
                     ),
-                ],
-              ),
-              if(!socket.connected)
-              new BackdropFilter(
-                filter: new ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
-                child: new Container(
-                  decoration: new BoxDecoration(color: Colors.grey[200]!.withOpacity(0.1)),
-                ),
-              ),
-              if(!socket.connected)
-                AlertDialog(
-                    backgroundColor: backgroundColor,
-                    //titleTextStyle: TextStyle(color: fontColorOnMain),
-                    //contentTextStyle: TextStyle(color: fontColorOnMain),
-
-                  titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
-                  contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
-                  title: Text(S.of(context).noconnection),
-                  content:  Text(S.of(context).noconnectionbody),
                   ),
-            ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    for (var networkIdx = 0; networkIdx < _deviceList.getNetworkListLength(); networkIdx++)
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 5.0,vertical: 10.0),
+                        child:TextButton(
+                          style: ButtonStyle(
+                            foregroundColor: networkIdx !=
+                                _deviceList.selectedNetworkIndex
+                                ? MaterialStateProperty.all(drawingColor)
+                                : MaterialStateProperty.all(drawingColor),
+                            backgroundColor: MaterialStateProperty.resolveWith<
+                                Color?>(
+                                  (states) {
+                                if (states.contains(MaterialState.hovered)) {
+                                  return drawingColor.withOpacity(0.3);
+                                }
+                                return Colors.transparent;
+                              },
+                            ),
+                          ),
+                          child: networkIdx == 0
+                              ? networkIdx != _deviceList.selectedNetworkIndex
+                              ? Text("${_deviceList.getNetworkName(networkIdx)}", textScaleFactor: fontSize.factor-0.1)
+                              : Text("${_deviceList.getNetworkName(networkIdx)} ", textScaleFactor: fontSize.factor,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )
+                              : networkIdx != _deviceList.selectedNetworkIndex
+                              ? Text("${_deviceList.getNetworkName(networkIdx)}", textScaleFactor: fontSize.factor-0.1)  // ${S.of(context).network}
+                              : Text("${_deviceList.getNetworkName(networkIdx)}", textScaleFactor: fontSize.factor,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          onPressed: () {
+                            _deviceList.selectedNetworkIndex = networkIdx;
+                            config["selected_network"] = networkIdx;
+                            saveToSharedPrefs(config);
+                            AppBuilder.of(context)!.rebuild();
+                          },
+                        ),
+                      ),
+                  ],
+                ),
+                if(!socket.connected)
+                new BackdropFilter(
+                  filter: new ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+                  child: new Container(
+                    decoration: new BoxDecoration(color: Colors.grey[200]!.withOpacity(0.1)),
+                  ),
+                ),
+                if(!socket.connected)
+                  AlertDialog(
+                      backgroundColor: backgroundColor,
+                      //titleTextStyle: TextStyle(color: fontColorOnMain),
+                      //contentTextStyle: TextStyle(color: fontColorOnMain),
+                    titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
+                    contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                    title: Text(S.of(context).noconnection),
+                    content:  Text(S.of(context).noconnectionbody),
+                    ),
+              ],
+            ),
           ),
         ),
       ),

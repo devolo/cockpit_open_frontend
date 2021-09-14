@@ -112,6 +112,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     var width = MediaQuery.of(context).size.width;
 
+    if(!socket.connected) {
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        while(Navigator.canPop(context)){ // Navigator.canPop return true if can pop
+          Navigator.pop(context);
+        }
+        //Navigator.of(context).popUntil((route) => route.isActive);
+      });
+    }
+
     return new Scaffold(
       backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
@@ -652,6 +661,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   decoration: new BoxDecoration(color: Colors.grey[200]!.withOpacity(0.1)),
               ),
             ),
+            if(!socket.connected)
+              Center(
+                child: AlertDialog(
+                  backgroundColor: backgroundColor,
+                  //titleTextStyle: TextStyle(color: fontColorOnMain),
+                  //contentTextStyle: TextStyle(color: fontColorOnMain),
+                  titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
+                  contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                  title: Text(S.of(context).noconnection),
+                  content:  Text(S.of(context).noconnectionbody),
+                ),
+              ),
           ],
         ),
       ),

@@ -865,9 +865,9 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
       Navigator.maybeOf(context)!.pop();
     }
   }
-  else {
-    Navigator.maybeOf(context)!.pop(false);
-  }
+  // else {
+  //   Navigator.maybeOf(context)!.pop(false);
+  // }
 }
 
 // add confirm button manually

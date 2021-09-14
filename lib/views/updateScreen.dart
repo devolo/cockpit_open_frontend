@@ -160,6 +160,15 @@ class _UpdateScreenState extends State<UpdateScreen> {
     var _deviceList = Provider.of<NetworkList>(context);
     fontSize = context.watch<FontSize>();
 
+    if(!socket.connected) {
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        while(Navigator.canPop(context)){ // Navigator.canPop return true if can pop
+          Navigator.pop(context);
+        }
+        //Navigator.of(context).popUntil((route) => route.isActive);
+      });
+    }
+
     // needed as the backend is sending not automatically a UpdateIndication after a updateable device for example quits the network
     if(_deviceList.getUpdateList().length != 0){
       List<String> toRemove = [];
@@ -823,6 +832,16 @@ class _UpdateScreenState extends State<UpdateScreen> {
               child: new Container(
                 decoration: new BoxDecoration(color: Colors.grey[200]!.withOpacity(0.1)),
               ),
+            ),
+          if(!socket.connected)
+            AlertDialog(
+              backgroundColor: backgroundColor,
+              //titleTextStyle: TextStyle(color: fontColorOnMain),
+              //contentTextStyle: TextStyle(color: fontColorOnMain),
+              titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
+              contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+              title: Text(S.of(context).noconnection),
+              content:  Text(S.of(context).noconnectionbody),
             ),
         ],
       ),

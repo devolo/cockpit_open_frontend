@@ -61,6 +61,15 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
     var socket = Provider.of<DataHand>(context);
     final _deviceList = Provider.of<NetworkList>(context);
 
+    if(!socket.connected) {
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        while(Navigator.canPop(context)){ // Navigator.canPop return true if can pop
+          Navigator.pop(context);
+        }
+        //Navigator.of(context).popUntil((route) => route.isActive);
+      });
+    }
+
     localHpavDevices.clear();
     List<Device> localDevices = _deviceList.getLocalDevices();
     for (Device device in localDevices) {
@@ -205,6 +214,16 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
               child: new Container(
                 decoration: new BoxDecoration(color: Colors.grey[200]!.withOpacity(0.1)),
               ),
+            ),
+          if(!socket.connected)
+            AlertDialog(
+              backgroundColor: backgroundColor,
+              //titleTextStyle: TextStyle(color: fontColorOnMain),
+              //contentTextStyle: TextStyle(color: fontColorOnMain),
+              titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
+              contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+              title: Text(S.of(context).noconnection),
+              content:  Text(S.of(context).noconnectionbody),
             ),
         ],
       ),

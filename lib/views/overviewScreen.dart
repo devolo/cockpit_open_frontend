@@ -43,7 +43,7 @@ class OverviewScreen extends StatefulWidget {
 class _OverviewScreenState extends State<OverviewScreen> {
 
   late var socket;
-  late var _deviceList;
+  late NetworkList _deviceList;
   int numDevices = 0;
   late Offset _lastTapDownPosition;
   late DrawOverview _Painter;
@@ -55,7 +55,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
   late FontSize fontSize;
 
-  var _dropNetwork;
+  var hoveredDevice = 200;
 
   @override
   void initState() {
@@ -103,7 +103,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
       pivotDeviceIndex = _deviceList.pivotDeviceIndexList[_deviceList.selectedNetworkIndex];
 
 
-    _Painter = DrawOverview(context, _deviceList, showingSpeeds, pivotDeviceIndex);
+    _Painter = DrawOverview(context, _deviceList, showingSpeeds, pivotDeviceIndex, hoveredDevice);
 
     logger.d("[overviewScreen] - widget build...");
 
@@ -120,18 +120,23 @@ class _OverviewScreenState extends State<OverviewScreen> {
             onTapDown: _handleTapDown,
             onLongPress: () => _handleLongPressStart(context,_deviceList),
             onLongPressUp: _handleLongPressEnd,
-            child: Stack(
+            child:  Stack(
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0),
                   child: Center(
                     child: CustomPaint(
                       painter: _Painter,
-                      child: Container(
+                      child: MouseRegion(
+                      cursor: (hoveredDevice != 200) ? SystemMouseCursors.click : MouseCursor.defer,
+                      onHover: (details) => {
+                        _handleHover(details)
+                      },
+                      child:Container(
                       ),
                     ),
                   ),
-                ),
+                ),),
                 Container(
                   alignment: Alignment.topCenter,
                   padding: EdgeInsets.only(top: 20.0),
@@ -161,6 +166,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
             ),
           ),
         ),
+
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -191,32 +197,14 @@ class _OverviewScreenState extends State<OverviewScreen> {
   }
 
   void _handleTapDown(TapDownDetails details) {
-    //logger.i('entering tabDown');
     _lastTapDownPosition = details.localPosition;
   }
 
   void _handleTap(TapUpDetails details) {
-    //logger.i('entering dialog....');
     int index = 0;
 
     final socket = Provider.of<DataHand>(context, listen: false);
     final deviceList = Provider.of<NetworkList>(context, listen: false);
-
-    networkOffsetList.asMap().forEach((i, networkIconOffset) {
-      //for (Offset networkIconOffset in _Painter.networkOffsets) {
-      //Offset absoluteOffset = Offset(networkIconOffset.dx + (_Painter.screenWidth / 2), networkIconOffset.dy + (_Painter.screenHeight / 2));
-      //logger.i("NetworkIcon: " + networkIconOffset.toString());
-      //logger.i("Local: " + details.localPosition.toString());
-      //logger.i("absolute: " + absoluteOffset.toString());
-
-      //test if network got hit
-      if (_Painter.isPointInsideNetworkIcon(details.localPosition, networkIconOffset, _Painter.hnCircleRadius)) {
-        logger.i("Hit Network #" + i.toString());
-        setState(() {
-          deviceList.selectedNetworkIndex = i;
-        });
-      }
-    });
 
     for (Offset deviceIconOffset in deviceIconOffsetList) {
       if (index > _Painter.numberFoundDevices) //do not check invisible circles
@@ -239,10 +227,9 @@ class _OverviewScreenState extends State<OverviewScreen> {
   }
 
   void _handleLongPressStart(context, NetworkList _deviceList) {
-    RenderBox renderBox = context.findRenderObject();
 
     int index = 0;
-    String hitDeviceName;
+
     for (Offset deviceIconOffset in deviceIconOffsetList) {
       if (index > _Painter.numberFoundDevices) //do not check invisible circles
         break;
@@ -253,13 +240,11 @@ class _OverviewScreenState extends State<OverviewScreen> {
         logger.i("Long press on icon #" + index.toString());
 
         final deviceList = Provider.of<NetworkList>(context, listen: false);
-        hitDeviceName = deviceList.getDeviceList()[index].name;
 
         setState(() {
           //if (_Painter.showSpeedsPermanently && index == _Painter.pivotDeviceIndex) {
           showingSpeeds = true;
 
-          //_Painter.pivotDeviceIndex = index;
           _deviceList.pivotDeviceIndexList[deviceList.selectedNetworkIndex] = index;
 
           //do not update pivot device when the "router device" is long pressed
@@ -273,7 +258,6 @@ class _OverviewScreenState extends State<OverviewScreen> {
   }
 
   void _handleLongPressEnd() {
-    //logger.i("long press up");
 
     setState(() {
       if (!config["show_speeds_permanent"]) {
@@ -282,5 +266,42 @@ class _OverviewScreenState extends State<OverviewScreen> {
         if (!showingSpeeds) _Painter.pivotDeviceIndex = 0;
       }
     });
+  }
+
+  void _handleHover(PointerEvent details) {
+
+    var index = 0;
+    for (Offset deviceIconOffset in deviceIconOffsetList) {
+      if (index > _Painter.numberFoundDevices) //do not check invisible circles
+        break;
+
+      Offset absoluteOffset = Offset(
+          deviceIconOffset.dx + (_Painter.screenWidth / 2),
+          deviceIconOffset.dy + (_Painter.screenHeight / 2));
+
+      //test if device got hovered
+      if (_Painter.isPointInsideCircle(details.localPosition, absoluteOffset, _Painter.hnCircleRadius)) {
+
+        // ignore when item is already hovered.
+        if (!(hoveredDevice == index)) {
+          logger.i("Hovered icon #" + index.toString());
+          setState(() {
+            hoveredDevice = index;
+          });
+          break;
+        }
+
+      }
+
+      else if(hoveredDevice == index){
+        logger.i("Left Hovered icon #" + index.toString());
+        setState(() {
+          hoveredDevice = 200;
+        });
+        break;
+      }
+
+      index++;
+    }
   }
 }

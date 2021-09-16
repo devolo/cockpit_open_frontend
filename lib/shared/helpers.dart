@@ -53,22 +53,15 @@ List<XmlNode> findElements(List<XmlNode> xmlNodes, String searchString) {
 
 Future<void> getVersions() async {
   String fileData = await rootBundle.loadString('assets/version.txt');
-  String versionFrontendFile = "";
-  String versionBackendFile = "";
+  String versionCockpitFile = "";
 
-  if(fileData.contains("versionFrontend")){
-    versionFrontendFile = fileData.substring(fileData.indexOf("=")+2,fileData.indexOf(";")+1);
-    versionFrontendFile = versionFrontendFile.replaceAll('_', ' (');
-    versionFrontendFile = versionFrontendFile.replaceAll(';', ')');
-  }
-  if(fileData.contains("versionBackend")){
-    versionBackendFile = fileData.substring(fileData.lastIndexOf("=")+2,fileData.lastIndexOf(";")+1);
-    versionBackendFile = versionBackendFile.replaceAll('_', ' (');
-    versionBackendFile = versionBackendFile.replaceAll(';', ')');
+  if(fileData.contains("versionCockpit")){
+    versionCockpitFile = fileData.substring(fileData.indexOf("=")+2,fileData.indexOf(";")+1);
+    versionCockpitFile = versionCockpitFile.replaceAll('_', ' (');
+    versionCockpitFile = versionCockpitFile.replaceAll(';', ')');
   }
 
-  versionFrontend = versionFrontendFile;
-  versionBackend = versionBackendFile;
+  versionCockpit = versionCockpitFile;
 }
 
 void saveToSharedPrefs(Map<String, dynamic> inputMap) async {

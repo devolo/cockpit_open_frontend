@@ -1,2 +1,1 @@
-versionFrontend = 5.1.7.D0_2021-07-13;
-versionBackend = 5.1.7.638_2021-07-13; 
+versionCockpit = 5.1.7.D0_2021-07-13;

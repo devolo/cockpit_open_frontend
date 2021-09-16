@@ -560,8 +560,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(
                   height: 20,
                 ),
-                Text('Frontend Version: ${versionFrontend.toString()}'), // from package_info_plus
-                Text('Installed Backend Version: ${versionBackend.toString()}'), // from package_info_plus
+                Text('Cockpit Version: ${versionCockpit.toString()}'), // from package_info_plus
                 SizedBox(height: 20,),
                 TextButton(
                   child: Text(

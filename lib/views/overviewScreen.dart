@@ -130,7 +130,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                       child: MouseRegion(
                       cursor: (hoveredDevice != 200) ? SystemMouseCursors.click : MouseCursor.defer,
                       onHover: (details) => {
-                        _handleHover(details)
+                        _handleHover(details,_deviceList)
                       },
                       child:Container(
                       ),
@@ -268,7 +268,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
     });
   }
 
-  void _handleHover(PointerEvent details) {
+  void _handleHover(PointerEvent details, NetworkList _deviceList) {
 
     var index = 0;
     for (Offset deviceIconOffset in deviceIconOffsetList) {
@@ -285,6 +285,19 @@ class _OverviewScreenState extends State<OverviewScreen> {
         // ignore when item is already hovered.
         if (!(hoveredDevice == index)) {
           logger.i("Hovered icon #" + index.toString());
+
+          Timer(Duration(milliseconds: 800), (){
+            //only execute action when device is still hovered
+            if(hoveredDevice == index){
+              final deviceList = Provider.of<NetworkList>(context, listen: false);
+
+              setState(() {
+                showingSpeeds = true;
+                _deviceList.pivotDeviceIndexList[deviceList.selectedNetworkIndex] = index;
+              });
+            }
+          });
+
           setState(() {
             hoveredDevice = index;
           });
@@ -293,10 +306,21 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
       }
 
+      // when device is no more hovered
       else if(hoveredDevice == index){
+
         logger.i("Left Hovered icon #" + index.toString());
+        final deviceList = Provider.of<NetworkList>(context, listen: false);
+
         setState(() {
           hoveredDevice = 200;
+
+          _deviceList.pivotDeviceIndexList[deviceList.selectedNetworkIndex] = 0;
+          if (!config["show_speeds_permanent"]) {
+            showingSpeeds = false;
+          } else {
+            if (!showingSpeeds) _Painter.pivotDeviceIndex = 0;
+          }
         });
         break;
       }

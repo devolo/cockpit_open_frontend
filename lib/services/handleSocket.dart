@@ -368,11 +368,9 @@ class DataHand extends ChangeNotifier {
     String? responseElem;
 
     bool wait = true;
-    await new Future.delayed(const Duration(seconds: 2));
+    //await new Future.delayed(const Duration(seconds: 2)); //TODO what is the reason to have a timeout here?
 
     await Future.doWhile(() async {
-
-      await new Future.delayed(const Duration(seconds: 1));
 
       if(xmlResponseMap.containsKey(wantedMessageTypes) || (wantedMessageTypes == "UpdateIndication && FirmwareUpdateIndication" && (xmlResponseMap.containsKey("UpdateIndication") || xmlResponseMap.containsKey("FirmwareUpdateIndication")))){
 
@@ -596,6 +594,9 @@ class DataHand extends ChangeNotifier {
           }
         }
       }
+
+      if(wait)
+        await new Future.delayed(const Duration(milliseconds: 500));
 
       return wait;
     });

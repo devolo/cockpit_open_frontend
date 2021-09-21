@@ -509,7 +509,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                               socket.sendXML(
                                   'GetManual', newValue: hitDevice.MT,
                                   valueType: 'product',
-                                  newValue2: 'de',
+                                  newValue2: config["language"],
                                   valueType2: 'language');
                               var response = await socket.receiveXML(
                                   "GetManualResponse");

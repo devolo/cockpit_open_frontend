@@ -17,7 +17,7 @@ import 'package:cockpit_devolo/shared/alertDialogs.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/app_fontSize.dart';
 import 'package:cockpit_devolo/shared/buttons.dart';
-import 'package:cockpit_devolo/shared/devolo_icons_icons.dart';
+import 'package:cockpit_devolo/shared/devolo_icons.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:cockpit_devolo/shared/imageLoader.dart';
 import 'package:cockpit_devolo/views/appBuilder.dart';
@@ -473,17 +473,17 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                                             children: [
                                               Expanded(
                                                   child: Image(
-                                                    image: AssetImage('assets/addDevice/MagicWifi_step1.PNG'),
+                                                    image: AssetImage('assets/addDeviceImages/MagicWifi_step1.PNG'),
                                                     fit: BoxFit.scaleDown,
                                                   )),
                                               Expanded(
                                                   child: Image(
-                                                    image: AssetImage('assets/addDevice/MagicWifi_step2.PNG'),
+                                                    image: AssetImage('assets/addDeviceImages/MagicWifi_step2.PNG'),
                                                     fit: BoxFit.scaleDown,
                                                   )),
                                               Expanded(
                                                   child: Image(
-                                                    image: AssetImage('assets/addDevice/MagicWifi_step3.PNG'),
+                                                    image: AssetImage('assets/addDeviceImages/MagicWifi_step3.PNG'),
                                                     fit: BoxFit.scaleDown,
                                                   )),
                                             ],
@@ -514,7 +514,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                                             style: TextStyle(color: fontColorOnBackground),
                                           ),
                                           Image(
-                                            image: AssetImage('assets/addDevice/MagicWifi_step4.PNG'),
+                                            image: AssetImage('assets/addDeviceImages/MagicWifi_step4.PNG'),
                                             fit: BoxFit.scaleDown,
                                           ),
                                           Row(
@@ -559,7 +559,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                                             style: TextStyle(color: fontColorOnBackground),
                                           ),
                                           Image(
-                                            image: AssetImage('assets/addDevice/MagicWifi_step5.PNG'),
+                                            image: AssetImage('assets/addDeviceImages/MagicWifi_step5.PNG'),
                                             fit: BoxFit.scaleDown,
                                           ),
                                         ],
@@ -576,7 +576,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                                             style: TextStyle(color: fontColorOnBackground),
                                           ),
                                           Image(
-                                            image: AssetImage('assets/addDevice/MagicWifi_step6.PNG'),
+                                            image: AssetImage('assets/addDeviceImages/MagicWifi_step6.PNG'),
                                             fit: BoxFit.scaleDown,
                                           ),
                                         ],

@@ -17,7 +17,7 @@ import 'package:cockpit_devolo/shared/alertDialogs.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/app_fontSize.dart';
 import 'package:cockpit_devolo/shared/buttons.dart';
-import 'package:cockpit_devolo/shared/devolo_icons_icons.dart';
+import 'package:cockpit_devolo/shared/devolo_icons.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -713,7 +713,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           new TextButton(
                             child: Column(
                               children: [
-                                SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_devolo.PNG'))),
+                                SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/themeImages/theme_devolo.PNG'))),
                                 new Text(
                                   "Standard Theme",
                                   style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
@@ -744,7 +744,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           new TextButton(
                             child: Column(
                               children: [
-                                SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_dark.PNG'))),
+                                SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/themeImages/theme_dark.PNG'))),
                                 new Text(
                                   "Dark Theme",
                                   style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
@@ -774,7 +774,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           new TextButton(
                             child: Column(
                               children: [
-                                SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_light.PNG'))),
+                                SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/themeImages/theme_light.PNG'))),
                                 new Text(
                                   "Light Theme",
                                   style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
@@ -804,7 +804,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           new TextButton(
                             child: Column(
                               children: [
-                                SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/theme_images/theme_highContrast.PNG'))),
+                                SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/themeImages/theme_highContrast.PNG'))),
                                 new Text(
                                   "High Contrast Theme",
                                   style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),

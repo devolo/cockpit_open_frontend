@@ -21,10 +21,10 @@ class DevoloIcons {
   static const _kFontFam = 'DevoloIcons';
   static const String? _kFontPkg = null;
 
-  static const IconData ui_devolo_ui_led = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData ic_perm_data_setting_24px = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData ic_settings_power_24px = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData ic_battery_charging_full_24px = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData devolo_icon_ui_led = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData devolo_icon_ui_led_on = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData ic_battery_charging_full_24px = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData ic_perm_data_setting_24px = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData logo = IconData(0xe82b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData ic_add_24px = IconData(0xe82c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData ic_refresh_24px = IconData(0xe82e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
@@ -64,7 +64,7 @@ class DevoloIcons {
   static const IconData devolo_UI_ethernet = IconData(0xe906, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData devolo_UI_ethernet_plug = IconData(0xe907, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData devolo_UI_check = IconData(0xe908, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData devolo_UI_cancel_1 = IconData(0xe909, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData devolo_UI_cancel_2 = IconData(0xe909, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData devolo_UI_check_fill = IconData(0xe90a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData devolo_UI_cancel_fill = IconData(0xe90b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData devolo_UI_delete = IconData(0xe90c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
@@ -98,5 +98,4 @@ class DevoloIcons {
   static const IconData devolo_UI_cancel = IconData(0xe928, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData devolo_UI_favorite = IconData(0xe929, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData devolo_UI_favorite_off = IconData(0xe92a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData devolo_UI_led = IconData(0xe92b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

@@ -16,7 +16,7 @@ import 'package:cockpit_devolo/shared/alertDialogs.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/app_fontSize.dart';
 import 'package:cockpit_devolo/shared/buttons.dart';
-import 'package:cockpit_devolo/shared/devolo_icons_icons.dart';
+import 'package:cockpit_devolo/shared/devolo_icons.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:cockpit_devolo/shared/informationDialogs.dart';
 import 'package:flutter/material.dart';

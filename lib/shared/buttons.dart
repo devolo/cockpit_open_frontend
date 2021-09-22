@@ -1,6 +1,6 @@
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/fontSizeModel.dart';
-import 'package:cockpit_devolo/shared/devolo_icons_icons.dart';
+import 'package:cockpit_devolo/shared/devolo_icons.dart';
 import 'package:flutter/material.dart';
 
 import 'app_colors.dart';

@@ -11,7 +11,7 @@ import 'alertDialogs.dart';
 import 'app_colors.dart';
 import 'app_fontSize.dart';
 import 'buttons.dart';
-import 'devolo_icons_icons.dart';
+import 'devolo_icons.dart';
 import 'helpers.dart';
 
 // add closeButton manually
@@ -404,9 +404,9 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                           IconButton(
                             icon: Icon(
                               lightbulbOn
-                                  ? DevoloIcons.devolo_UI_led
+                                  ? DevoloIcons.devolo_icon_ui_led_on
                                   : DevoloIcons
-                                  .ic_lightbulb_outline_24px, //TODO create "lightbulbOn" svg icon
+                                  .devolo_icon_ui_led,
                             ),
                             //tooltip: S.of(context).identifyDevice,
                             disabledColor: fontColorOnBackground.withOpacity(

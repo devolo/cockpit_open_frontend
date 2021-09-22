@@ -15,7 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/shared/imageLoader.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
-import 'package:cockpit_devolo/shared/devolo_icons_icons.dart';
+import 'package:cockpit_devolo/shared/devolo_icons.dart';
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'dart:ui';
 

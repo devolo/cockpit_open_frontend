@@ -811,7 +811,7 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
       barrierDismissible: true, // user doesn't need to tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          //insetPadding: EdgeInsets.symmetric(horizontal: 300),
+          insetPadding: EdgeInsets.symmetric(horizontal: 300),
           titlePadding: EdgeInsets.all(dialogTitlePadding),
           title: Column(
             children: [
@@ -852,9 +852,9 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                                         vdslModeAutomatic = newValue!;
                                         setState(() {
                                           if (vdslModeAutomatic == true) {
-                                            hitDeviceVDSLmode = "2";
-                                          } else {
                                             hitDeviceVDSLmode = "1";
+                                          } else {
+                                            hitDeviceVDSLmode = "2";
                                           }
                                         });
                                       }),
@@ -876,43 +876,46 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                       Row(
                         children: [
                           if (showMSButton)
-                          Container(
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10.0),
+                            child: Container(
                         decoration: BoxDecoration(
                         color: secondColor.withOpacity(0.2),
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         ),
-                            child: ToggleButtons(
-                              color: fontColorOnBackground,
-                              selectedColor: fontColorOnMain,
-                              fillColor: devoloGreen,
-                              //selectedBorderColor: devoloGreen,
-                              borderRadius: BorderRadius.circular(20.0),
-                              constraints: BoxConstraints(minHeight: 40.0, minWidth: 60),
-                              children: <Widget>[
-                                Text("MIMO"),
-                                Text("SISO"),
-                              ],
-                              onPressed: (int index) {
-                                setState(() {
-                                  for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
-                                    if (buttonIndex == index) {
-                                      isSelected[buttonIndex] = true;
-                                      if (buttonIndex == 0)
-                                        selectedProfileList = mimoVDSLList;
-                                      else
-                                        selectedProfileList = sisoVDSLList;
-                                      _dropVDSL = null;
-                                    } else {
-                                      isSelected[buttonIndex] = false;
+                              child: ToggleButtons(
+                                color: fontColorOnBackground,
+                                selectedColor: fontColorOnMain,
+                                fillColor: devoloGreen,
+                                //selectedBorderColor: devoloGreen,
+                                borderRadius: BorderRadius.circular(20.0),
+                                constraints: BoxConstraints(minHeight: 40.0, minWidth: 60),
+                                children: <Widget>[
+                                  Text("MIMO"),
+                                  Text("SISO"),
+                                ],
+                                onPressed: (int index) {
+                                  setState(() {
+                                    for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
+                                      if (buttonIndex == index) {
+                                        isSelected[buttonIndex] = true;
+                                        if (buttonIndex == 0)
+                                          selectedProfileList = mimoVDSLList;
+                                        else
+                                          selectedProfileList = sisoVDSLList;
+                                        _dropVDSL = null;
+                                      } else {
+                                        isSelected[buttonIndex] = false;
+                                      }
                                     }
-                                  }
-                                });
-                              },
-                              isSelected: isSelected,
+                                  });
+                                },
+                                isSelected: isSelected,
+                              ),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.only(top: 8.0),
                             child: Container(
                               width: MediaQuery.of(context).size.width/ 3.5,
                               padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),

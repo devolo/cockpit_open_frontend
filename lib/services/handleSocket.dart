@@ -283,6 +283,7 @@ class DataHand extends ChangeNotifier {
     Map<String,String>? updateDevices,
   }) {
 
+
     String? xmlString;
 
     if (messageType == "Config") {
@@ -340,7 +341,7 @@ class DataHand extends ChangeNotifier {
     String xmlLength = xmlString!.runes.length.toRadixString(16).padLeft(8, '0'); // message length for backend !disconnects if header wrong or missing!
     //logger.i('LEEENNNGGTHHH ' + xmlLength);
     logger.d("SendXML ->");
-    logger.v(xmlString);
+    logger.d(xmlString);
     socket.write('MSGSOCK' + xmlLength + xmlString!);
   }
 
@@ -606,6 +607,7 @@ class DataHand extends ChangeNotifier {
 
     logger.d("return Response -> ");
     logger.v(response.toString());
+    notifyListeners();
     return response;
   }
 

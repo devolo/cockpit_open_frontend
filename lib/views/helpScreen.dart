@@ -66,7 +66,6 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
         while(Navigator.canPop(context)){ // Navigator.canPop return true if can pop
           Navigator.pop(context);
         }
-        //Navigator.of(context).popUntil((route) => route.isActive);
       });
     }
 

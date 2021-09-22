@@ -6,6 +6,8 @@ This source code is licensed under the BSD-style license found in the
 LICENSE file in the root directory of this source tree.
 */
 
+import 'dart:ui';
+
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
@@ -119,6 +121,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   late FontSize fontSize;
 
+  late DataHand socket;
+
   // String version;
   // String buildNr;
 
@@ -182,23 +186,6 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-
-  // Future<void> getVersion() async {
-  //   if (Platform.isLinux) {
-  //     File f = new File("data/flutter_assets/version.json");
-  //     f.readAsString().then((String text) {
-  //       Map<String, dynamic> versionJSON = jsonDecode(text);
-  //       logger.i(versionJSON['version']);
-  //       versionName = versionJSON['version'];
-  //       buildNum = versionJSON['build_number'];
-  //     });
-  //   }
-  //   else{
-  //     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-  //     version = packageInfo.version;
-  //     buildNr = packageInfo.buildNumber;
-  //   }
-  // }
 
   Future<void> readSharedPrefs() async {
 
@@ -318,8 +305,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // double mediaFontScaleFactor =  MediaQuery.textScaleFactorOf(context); // Query current device for the System FontSize
-    // logger.i('SIZE:  ${mediaFontScaleFactor}');
+    socket = Provider.of<DataHand>(context);
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -507,20 +493,22 @@ class _MyHomePageState extends State<MyHomePage> {
             ])),
       ),
       body: buildPageView(),
-
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: mainColor,
-        unselectedItemColor: fontColorOnMain,
-        selectedItemColor: fontColorOnMain,
-        selectedIconTheme: IconThemeData(size: 35),
-        selectedFontSize: 16 * fontSize.factor,
-        unselectedFontSize: 14 * fontSize.factor,
-        currentIndex: bottomSelectedIndex,
-        onTap: (index) {
-          bottomTapped(index);
-        },
-        items: buildBottomNavBarItems(),
+      bottomNavigationBar: IgnorePointer(
+        ignoring: socket.connected ? false: true,
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: mainColor,
+          unselectedItemColor: fontColorOnMain,
+          selectedItemColor: fontColorOnMain,
+          selectedIconTheme: IconThemeData(size: 35),
+          selectedFontSize: 16 * fontSize.factor,
+          unselectedFontSize: 14 * fontSize.factor,
+          currentIndex: bottomSelectedIndex,
+          onTap: (index) {
+            bottomTapped(index);
+          },
+          items: buildBottomNavBarItems(),
+        ),
       ),
     );
   }

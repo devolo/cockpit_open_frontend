@@ -38,9 +38,9 @@ Future<bool> confirmDialog(context, title, body, FontSize fontSize) async {
   return returnVal;
 }
 
-void errorDialog(context, title, body, FontSize fontSize) {
+Future<bool> errorDialog(context, title, body, FontSize fontSize) async {
 
-  showDialog<void>(
+  bool? returnVal = await showDialog(
       context: context,
       barrierDismissible: true, // user doesn't need to tap button!
       builder: (BuildContext context) {
@@ -61,4 +61,8 @@ void errorDialog(context, title, body, FontSize fontSize) {
           actions: <Widget>[],
         );
       });
+
+  if (returnVal == null) returnVal = false;
+
+  return returnVal;
 }

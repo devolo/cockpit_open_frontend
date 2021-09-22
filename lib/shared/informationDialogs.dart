@@ -969,16 +969,16 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
 
     socket.sendXML('SetVDSLCompatibility', newValue: _dropVDSL, valueType: 'profile', newValue2: hitDeviceVDSLmode, valueType2: 'mode', mac: hitDeviceMac);
 
-      circularProgressIndicatorInMiddle(context);
+    circularProgressIndicatorInMiddle(context);
 
     var response = await socket.receiveXML("SetVDSLCompatibilityStatus");
     logger.v(response);
     if (response['result'] == "failed" || response['result'] == "timeout") {
       Navigator.maybeOf(context)!.pop(true);
-      errorDialog(context, "Error", S.of(context).vdslFailed, fontSize);
+      errorDialog(context, "Error", S.of(context).vdslFailed, fontSize).then((val){Navigator.pop(context);});
     } else if (response['result'] == "ok") {
       Navigator.maybeOf(context)!.pop(true);
-      errorDialog(context, S.of(context).success, S.of(context).vdslSuccessful, fontSize);
+      errorDialog(context, S.of(context).success, S.of(context).vdslSuccessful, fontSize).then((val){Navigator.pop(context);});
       //TODO update device vdsl info
     }
     else {

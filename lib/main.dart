@@ -238,23 +238,6 @@ class _MyHomePageState extends State<MyHomePage> {
     AppBuilder.of(context)!.rebuild();
   }
 
-  List<BottomNavigationBarItem> buildBottomNavBarItems() {
-    return [
-      BottomNavigationBarItem(icon: Icon(Icons.workspaces_filled), label: S.of(context).overview, tooltip: ""),
-      BottomNavigationBarItem(
-        icon: Icon(DevoloIcons.ic_file_download_24px),
-        label: S.of(context).update,
-        tooltip: "",
-      ),
-      BottomNavigationBarItem(icon: Icon(DevoloIcons.ic_help_24px), label: S.of(context).help, tooltip: "",),
-      BottomNavigationBarItem(
-        icon: Icon(DevoloIcons.devolo_UI_settings),
-        label: S.of(context).settings,
-        tooltip: "",
-      ),
-    ];
-  }
-
   PageController pageController = PageController(
     initialPage: 0,
     keepPage: true,
@@ -493,23 +476,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ])),
       ),
       body: buildPageView(),
-      bottomNavigationBar: IgnorePointer(
-        ignoring: socket.connected ? false: true,
-        child: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: mainColor,
-          unselectedItemColor: fontColorOnMain,
-          selectedItemColor: fontColorOnMain,
-          selectedIconTheme: IconThemeData(size: 35),
-          selectedFontSize: 16 * fontSize.factor,
-          unselectedFontSize: 14 * fontSize.factor,
-          currentIndex: bottomSelectedIndex,
-          onTap: (index) {
-            bottomTapped(index);
-          },
-          items: buildBottomNavBarItems(),
-        ),
-      ),
     );
   }
 

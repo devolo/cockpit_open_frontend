@@ -156,7 +156,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Für Ihr PLC-Gerät wurde kein passendes Handbuch gefunden.\n\nSie können das Handbuch auf der Produkt-CD oder der devolo Internet-Seite finden."),
         "manualErrorTitle":
             MessageLookupByLibrary.simpleMessage("Handbuch nicht gefunden"),
-        "mimoFull": MessageLookupByLibrary.simpleMessage("volle Leistung"),
+        "mimoFull": MessageLookupByLibrary.simpleMessage("Volle Leistung"),
         "mimoVdslProfil17a":
             MessageLookupByLibrary.simpleMessage("VDSL Profil 17a"),
         "mimoVdslProfil35a":

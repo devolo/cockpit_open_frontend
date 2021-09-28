@@ -262,7 +262,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Anzeigen anderer Geräte"),
         "showPassword":
             MessageLookupByLibrary.simpleMessage("Passwort anzeigen "),
-        "sisoFull": MessageLookupByLibrary.simpleMessage("volle Leistung"),
+        "sisoFull": MessageLookupByLibrary.simpleMessage("Volle Leistung"),
         "sisoVdslProfil17a":
             MessageLookupByLibrary.simpleMessage("VDSL Profil 17a"),
         "sisoVdslProfil35b":

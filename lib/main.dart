@@ -121,8 +121,9 @@ class _MyHomePageState extends State<MyHomePage> {
   double paddingLeftDrawerUnderSection = 60;
   bool helpNavigationCollapsed = false;
   bool selectNetworkCollapsed = false;
-  int bottomSelectedIndex = 0;
   bool highContrast = false; // MediaQueryData().highContrast;  // Query current device if high Contrast theme is set
+  PageController pageController = PageController(initialPage: 0, keepPage: true);
+  int selectedPage = 0;
 
   late FontSize fontSize;
 
@@ -244,17 +245,10 @@ class _MyHomePageState extends State<MyHomePage> {
     AppBuilder.of(context)!.rebuild();
   }
 
-  PageController pageController = PageController(
-    initialPage: 0,
-    keepPage: true,
-  );
-
   Widget buildPageView() {
     return PageView(
       controller: pageController,
-      onPageChanged: (index) {
-        pageChanged(index);
-      },
+      physics: NeverScrollableScrollPhysics(),
       children: <Widget>[
         OverviewScreen(),
         UpdateScreen(
@@ -268,15 +262,9 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void pageChanged(int index) {
+  void changePage(int index) {
     setState(() {
-      bottomSelectedIndex = index;
-    });
-  }
-
-  void bottomTapped(int index) {
-    setState(() {
-      bottomSelectedIndex = index;
+      selectedPage = index;
       pageController.jumpToPage(index);
     });
   }
@@ -477,14 +465,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2), top: BorderSide(color: fontColorOnMain, width: 2)),
                     ),
                     child: ListTile(
-                      tileColor: pageController.page == 0.0 ? Colors.white.withOpacity(0.2) : null,
+                      tileColor: (selectedPage == 0) ? Colors.white.withOpacity(0.2) : null,
                       leading: Icon(Icons.workspaces_filled, color: fontColorOnMain, size: 24*fontSize.factor), //miscellaneous_services
                       title: Text(S.of(context).overview,
                           style: TextStyle(color: fontColorOnMain),
                           textScaleFactor: fontSize.factor),
                       contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
                       onTap: () {
-                        bottomTapped(0);
+                        changePage(0);
                         Navigator.pop(context); //close drawer
                       },
                     ),
@@ -494,14 +482,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
                     ),
                     child: ListTile(
-                        tileColor: pageController.page == 1.0 ? Colors.white.withOpacity(0.2) : null,
+                        tileColor: selectedPage == 1 ? Colors.white.withOpacity(0.2) : null,
                         leading: Icon(DevoloIcons.ic_file_download_24px, color: fontColorOnMain, size: 24*fontSize.factor),
                         title: Text(S.of(context).updates,
                             style: TextStyle(color: fontColorOnMain),
                             textScaleFactor: fontSize.factor),
                         contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
                         onTap: () {
-                          bottomTapped(1);
+                          changePage(1);
                           Navigator.pop(context); //close drawer
                         }),
                   ),
@@ -510,14 +498,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
                     ),
                     child: ListTile(
-                        tileColor: pageController.page == 3.0 ? Colors.white.withOpacity(0.2) : null,
+                        tileColor: selectedPage == 3 ? Colors.white.withOpacity(0.2) : null,
                         leading: Icon(DevoloIcons.devolo_UI_settings, color: fontColorOnMain, size: 24*fontSize.factor),
                         title: Text(S.of(context).settings,
                             style: TextStyle(color: fontColorOnMain),
                             textScaleFactor: fontSize.factor),
                         contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
                         onTap: () {
-                          bottomTapped(3);
+                          changePage(3);
                           Navigator.pop(context); //close drawer
                         }),
                   ),
@@ -526,7 +514,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
                     ),
                     child: ListTile(
-                        tileColor: (!helpNavigationCollapsed && pageController.page == 2.0) ? Colors.white.withOpacity(0.2) : null,
+                        tileColor: (!helpNavigationCollapsed && selectedPage == 2) ? Colors.white.withOpacity(0.2) : null,
                         leading: Icon(DevoloIcons.ic_help_24px, color: fontColorOnMain, size: 24*fontSize.factor),
                         trailing: Icon(helpNavigationCollapsed ? DevoloIcons.ic_remove_24px_1 : DevoloIcons.devolo_UI_add, color: fontColorOnMain, size: 20*fontSize.factor),
                         title: Text(S.of(context).help,
@@ -545,14 +533,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
                     ),
                     child: ListTile(
-                        tileColor: pageController.page == 2.0 ? Colors.white.withOpacity(0.2) : null,
+                        tileColor: selectedPage == 2 ? Colors.white.withOpacity(0.2) : null,
                         title: Padding(padding: EdgeInsets.only(left:paddingLeftDrawerUnderSection),child : Text(S.of(context).setUpDevice,
                             style: TextStyle(color: fontColorOnMain),
                             textScaleFactor: fontSize.factor
                         ),),
                         contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
                         onTap: () {
-                          bottomTapped(2);
+                          changePage(2);
                           Navigator.pop(context); //close drawer
                         }),
                   ),
@@ -562,14 +550,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
                     ),
                     child: ListTile(
-                        tileColor: pageController.page == 2.0 ? Colors.white.withOpacity(0.2) : null,
+                        tileColor: selectedPage == 2 ? Colors.white.withOpacity(0.2) : null,
                         title: Padding(padding: EdgeInsets.only(left:paddingLeftDrawerUnderSection),child : Text(S.of(context).optimizeReception,
                             style: TextStyle(color: fontColorOnMain),
                             textScaleFactor: fontSize.factor
                         ),),
                         contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
                         onTap: () {
-                          bottomTapped(2);
+                          changePage(2);
                           Navigator.pop(context); //close drawer
                         }),
                   ),
@@ -579,14 +567,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
                     ),
                     child: ListTile(
-                        tileColor: pageController.page == 2.0 ? Colors.white.withOpacity(0.2) : null,
+                        tileColor: selectedPage == 2 ? Colors.white.withOpacity(0.2) : null,
                         title: Padding(padding: EdgeInsets.only(left:paddingLeftDrawerUnderSection),child : Text(S.of(context).contactSupport,
                             style: TextStyle(color: fontColorOnMain),
                             textScaleFactor: fontSize.factor
                         ),),
                         contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
                         onTap: () {
-                          bottomTapped(2);
+                          changePage(2);
                           Navigator.pop(context); //close drawer
                         }),
                   ),

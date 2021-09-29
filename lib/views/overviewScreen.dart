@@ -132,48 +132,13 @@ class _OverviewScreenState extends State<OverviewScreen> {
                     ),
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    for (var networkIdx = 0; networkIdx < _deviceList.getNetworkListLength(); networkIdx++)
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 5.0,vertical: 10.0),
-                        child:TextButton(
-                          style: ButtonStyle(
-                            foregroundColor: networkIdx !=
-                                _deviceList.selectedNetworkIndex
-                                ? MaterialStateProperty.all(drawingColor)
-                                : MaterialStateProperty.all(drawingColor),
-                            backgroundColor: MaterialStateProperty.resolveWith<
-                                Color?>(
-                                  (states) {
-                                if (states.contains(MaterialState.hovered)) {
-                                  return drawingColor.withOpacity(0.3);
-                                }
-                                return Colors.transparent;
-                              },
-                            ),
-                          ),
-                          child: networkIdx == 0
-                              ? networkIdx != _deviceList.selectedNetworkIndex
-                              ? Text("${_deviceList.getNetworkName(networkIdx)}", textScaleFactor: fontSize.factor-0.1)
-                              : Text("${_deviceList.getNetworkName(networkIdx)} ", textScaleFactor: fontSize.factor,
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          )
-                              : networkIdx != _deviceList.selectedNetworkIndex
-                              ? Text("${_deviceList.getNetworkName(networkIdx)}", textScaleFactor: fontSize.factor-0.1)  // ${S.of(context).network}
-                              : Text("${_deviceList.getNetworkName(networkIdx)}", textScaleFactor: fontSize.factor,
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          onPressed: () {
-                            _deviceList.selectedNetworkIndex = networkIdx;
-                            config["selected_network"] = networkIdx;
-                            saveToSharedPrefs(config);
-                            AppBuilder.of(context)!.rebuild();
-                          },
-                        ),
-                      ),
-                  ],
+                Container(
+                  alignment: Alignment.topCenter,
+                  padding: EdgeInsets.only(top: 20.0),
+                  child: Text(
+                      _deviceList.getNetworkName(_deviceList.selectedNetworkIndex),
+                      style: TextStyle(color: fontColorOnBackground, fontSize: 18 * fontSize.factor, fontWeight: FontWeight.w600),
+                  ),
                 ),
                 if(!socket.connected)
                 new BackdropFilter(
@@ -213,7 +178,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
             });
           }
         },
-        tooltip: 'Neu laden',
+        tooltip: S.of(context).refresh,
         backgroundColor: secondColor,
         foregroundColor: fontColorOnSecond,
         hoverColor: fontColorOnMain,

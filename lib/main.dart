@@ -462,7 +462,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     SizedBox(height: 10.0),
                   Container(
                     decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2), top: BorderSide(color: fontColorOnMain, width: 2)),
+                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1), top: BorderSide(color: fontColorOnMain, width: 1)),
                     ),
                     child: ListTile(
                       tileColor: (selectedPage == 0) ? Colors.white.withOpacity(0.2) : null,
@@ -479,7 +479,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
+                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
                     ),
                     child: ListTile(
                         tileColor: selectedPage == 1 ? Colors.white.withOpacity(0.2) : null,
@@ -495,7 +495,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
+                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
                     ),
                     child: ListTile(
                         tileColor: selectedPage == 3 ? Colors.white.withOpacity(0.2) : null,
@@ -511,7 +511,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
+                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
                     ),
                     child: ListTile(
                         tileColor: (!helpNavigationCollapsed && selectedPage == 2) ? Colors.white.withOpacity(0.2) : null,
@@ -530,7 +530,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   if (helpNavigationCollapsed)
                   Container(
                     decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
+                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
                     ),
                     child: ListTile(
                         tileColor: selectedPage == 2 ? Colors.white.withOpacity(0.2) : null,
@@ -547,7 +547,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   if (helpNavigationCollapsed)
                   Container(
                     decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
+                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
                     ),
                     child: ListTile(
                         tileColor: selectedPage == 2 ? Colors.white.withOpacity(0.2) : null,
@@ -564,7 +564,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   if (helpNavigationCollapsed)
                   Container(
                     decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
+                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
                     ),
                     child: ListTile(
                         tileColor: selectedPage == 2 ? Colors.white.withOpacity(0.2) : null,
@@ -580,7 +580,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
+                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
                     ),
                     child: ListTile(
                         leading: Icon(DevoloIcons.ic_info_24px, color: fontColorOnMain, size: 24*fontSize.factor),

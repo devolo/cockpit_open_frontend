@@ -216,7 +216,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "recordTheTransmissionPowerOfTheDevicesAndTransmitIt":
             MessageLookupByLibrary.simpleMessage(
                 "Übertragungsleistung der Geräte Aufzeichnen und an devolo übermitteln"),
-        "refresh": MessageLookupByLibrary.simpleMessage("neu laden"),
+        "refresh": MessageLookupByLibrary.simpleMessage("Neu laden"),
         "removeDeviceConfirmBody": MessageLookupByLibrary.simpleMessage(
             "Wollen Sie das gewählte PLC-Gerät aus dem Netzwerk entfernen?"),
         "removeDeviceConfirmTitle":

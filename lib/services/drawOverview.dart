@@ -287,18 +287,12 @@ class DrawOverview extends CustomPainter {
           ..color = color);
   }
 
-  // circular border + shadow
+  // circular border
   void drawDeviceIconBorder(Canvas canvas, int deviceIndex) {
     Offset absoluteOffset = Offset(_deviceIconOffsetList.elementAt(deviceIndex).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(deviceIndex).dy + (screenHeight / 2));
     int additionalHoverSize = 2;
-    double shadowElevation = 15;
 
     canvas.drawCircle(absoluteOffset, hnCircleRadius + 15, _circleAreaPaint); //"shadow" of the device circle. covers the connection lines.s
-
-    //draw shadow
-    Path oval = Path()
-      ..addOval(Rect.fromCircle(center: absoluteOffset, radius: hnCircleRadius));
-    canvas.drawShadow(oval, Colors.black, shadowElevation, true);
 
     if(hoveredDevice == deviceIndex){
       canvas.drawCircle(absoluteOffset, hnCircleRadius + additionalHoverSize, _circleBorderPaint); //the actual circle for a device

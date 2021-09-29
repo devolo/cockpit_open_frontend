@@ -54,6 +54,7 @@ class DevoloIcons {
   static const IconData ic_edit_24px = IconData(0xe84a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData ic_search_24px = IconData(0xe84b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData ic_remove_24px = IconData(0xe84c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData ic_remove_24px_1 = IconData(0xe84d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData ic_question_answer_24px = IconData(0xe84e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData devolo_UI_internet = IconData(0xe900, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData devolo_UI_internet_off = IconData(0xe901, fontFamily: _kFontFam, fontPackage: _kFontPkg);

@@ -192,7 +192,10 @@ class NetworkList extends ChangeNotifier{
   }
 
   String getNetworkName(networkIndex) {
-    return _networkNames.elementAt(networkIndex);
+    if (_networkNames.isNotEmpty)
+      return _networkNames.elementAt(networkIndex);
+    else
+      return "";
   }
 
   List<String> getNetworkNames() {

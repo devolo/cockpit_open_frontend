@@ -265,7 +265,7 @@ class DataHand extends ChangeNotifier {
       }
     }
 
-    _networkList.fillNetworkNames();
+    _networkList.fillNetworkNames(); //TODO should it not only be done when we have a networkupdate
 
     logger.d('parsed XML - DeviceList ready!');
 

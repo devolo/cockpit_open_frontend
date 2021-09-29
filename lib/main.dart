@@ -116,6 +116,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  final GlobalKey<ScaffoldState> _drawerScaffoldKey = new GlobalKey<ScaffoldState>();
+  late NetworkList _deviceList;
+  double paddingLeftDrawerUnderSection = 60;
+  bool helpNavigationCollapsed = false;
+  bool selectNetworkCollapsed = false;
   int bottomSelectedIndex = 0;
   bool highContrast = false; // MediaQueryData().highContrast;  // Query current device if high Contrast theme is set
 
@@ -135,6 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+
     loadAllDeviceIcons();
 
     getConnection();
@@ -288,6 +294,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    _deviceList = Provider.of<NetworkList>(context);
     socket = Provider.of<DataHand>(context);
 
     return Scaffold(
@@ -296,6 +303,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: mainColor,
         centerTitle: true,
         iconTheme: IconThemeData(color: fontColorOnMain),
+        automaticallyImplyLeading: false,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -372,110 +380,235 @@ class _MyHomePageState extends State<MyHomePage> {
                 });
               },
             ),
+            IconButton(
+              onPressed: (){
+                setState(() {
+                  if(_drawerScaffoldKey.currentState!.isEndDrawerOpen){
+                    Navigator.pop(context);
+                  }else{
+                    _drawerScaffoldKey.currentState!.openEndDrawer();
+                  }
+                });
+              },
+              icon: _drawerScaffoldKey.currentState == null ? Icon(Icons.menu) : _drawerScaffoldKey.currentState!.isEndDrawerOpen ? Icon(DevoloIcons.devolo_UI_cancel) : Icon(Icons.menu),
+            ),
           ],
         ),
       ),
-      endDrawer: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: mainColor, //This will change the drawer background.
-          hoverColor: Colors.white.withOpacity(0.2),
-          primaryIconTheme: IconThemeData(color: fontColorOnMain),
-          //hoverColor: mainColor.withOpacity(0.7), doesn´t work !!!
-        ),
 
-
-        child: Drawer(
-            semanticLabel: "menu",
-            child: ListView(padding: EdgeInsets.zero, children: <Widget>[
-              DrawerHeader(
-                child: Text(
-                  "devolo Cockpit",
-                  style: TextStyle(fontSize: 23 * fontSize.factor, color: fontColorOnMain),
-                ),
-                margin: EdgeInsets.only(bottom: 0),
-                padding: EdgeInsets.symmetric(vertical: 50.0, horizontal:16.0),
-              ),
-              Container(
-
-                decoration: BoxDecoration(
-                  border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2), top: BorderSide(color: fontColorOnMain, width: 2)),
-                ),
-                child: ListTile(
-                    leading: Icon(Icons.workspaces_filled, color: fontColorOnMain, size: 24*fontSize.factor), //miscellaneous_services
-                    title: Text(S.of(context).overview,
-                        style: TextStyle(color: fontColorOnMain),
-                        textScaleFactor: fontSize.factor),
-                    contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
-                    onTap: () {
-                      bottomTapped(0);
-                      Navigator.pop(context); //close drawer
-                    },
-                ),
-
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
-                ),
-                child: ListTile(
-                    leading: Icon(DevoloIcons.ic_file_download_24px, color: fontColorOnMain, size: 24*fontSize.factor),
-                    title: Text(S.of(context).updates,
-                        style: TextStyle(color: fontColorOnMain),
-                        textScaleFactor: fontSize.factor),
-                    contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
-                    onTap: () {
-                      bottomTapped(1);
-                      Navigator.pop(context); //close drawer
-                    }),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
-                ),
-                child: ListTile(
-                    leading: Icon(DevoloIcons.ic_help_24px, color: fontColorOnMain, size: 24*fontSize.factor),
-                    title: Text(S.of(context).help,
-                        style: TextStyle(color: fontColorOnMain),
-                        textScaleFactor: fontSize.factor),
-                    contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
-                    onTap: () {
-                      bottomTapped(2);
-                      Navigator.pop(context); //close drawer
-                    }),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
-                ),
-                child: ListTile(
-                    leading: Icon(DevoloIcons.devolo_UI_settings, color: fontColorOnMain, size: 24*fontSize.factor),
-                    title: Text(S.of(context).settings,
-                        style: TextStyle(color: fontColorOnMain),
-                        textScaleFactor: fontSize.factor),
-                    contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
-                    onTap: () {
-                      bottomTapped(3);
-                      Navigator.pop(context); //close drawer
-                    }),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
-                ),
-                child: ListTile(
-                    leading: Icon(DevoloIcons.ic_info_24px, color: fontColorOnMain, size: 24*fontSize.factor),
-                    title: Text(S.of(context).appInfo,
-                        style: TextStyle(color: fontColorOnMain),
-                        textScaleFactor: fontSize.factor),
-                    contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
-                    onTap: () {
-                      Navigator.pop(context); //close drawer
-                      _appInfoAlert(context);
-                    }),
-              ),
-            ])),
-      ),
-      body: buildPageView(),
+      body: Scaffold(
+          //second scaffold
+          backgroundColor: backgroundColor,
+          key:_drawerScaffoldKey, //set gobal key defined above
+          onEndDrawerChanged: (isClosed){
+            setState(() {
+                // to refresh state when drawer is closed by clicking outside of it.
+            });
+          },
+          endDrawer: Theme(
+            data: Theme.of(context).copyWith(
+              canvasColor: mainColor, //This will change the drawer background.
+              hoverColor: Colors.white.withOpacity(0.2),
+              primaryIconTheme: IconThemeData(color: fontColorOnMain),
+            ),
+            child: Padding(padding: EdgeInsets.only(top: 2.5), child:Drawer(
+                semanticLabel: "menu",
+                child: ListView(padding: EdgeInsets.zero, children: <Widget>[
+                  Container(
+                    child: ListTile(
+                      title: Row(
+                          children: [
+                            Text(_deviceList.getNetworkName(_deviceList.selectedNetworkIndex),
+                                style: TextStyle(color: fontColorOnMain, fontSize: 15),
+                                textScaleFactor: fontSize.factor),
+                            if(_deviceList.getNetworkListLength() > 1)
+                              IconButton(
+                                icon: Icon(
+                                    selectNetworkCollapsed ? DevoloIcons.devolo_UI_chevron_up : DevoloIcons.devolo_UI_chevron_down,
+                                color: fontColorOnMain),
+                                iconSize: 24*fontSize.factor,
+                                onPressed: (){
+                                  setState(() {
+                                    selectNetworkCollapsed = !selectNetworkCollapsed;
+                                  });
+                                })
+                          ]),
+                      contentPadding: EdgeInsets.only(top: 15.0, left:30.0, right:30.0, bottom: selectNetworkCollapsed ? 3.0 : 15.0),
+                    ),
+                  ),
+                  if(selectNetworkCollapsed)
+                  for (var networkIdx = 0; networkIdx < _deviceList.selectedNetworkIndex; networkIdx++)
+                    Container(
+                      child: ListTile(
+                        title: Text(_deviceList.getNetworkName(networkIdx),
+                            style: TextStyle(color: fontColorOnMain),
+                            textScaleFactor: fontSize.factor),
+                        contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal:50.0),
+                        onTap: (){
+                          _deviceList.selectedNetworkIndex = networkIdx;
+                          config["selected_network"] = networkIdx;
+                          saveToSharedPrefs(config);
+                          AppBuilder.of(context)!.rebuild();
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                  if(selectNetworkCollapsed)
+                  for (var networkIdx = _deviceList.selectedNetworkIndex +1; networkIdx < _deviceList.getNetworkListLength(); networkIdx++)
+                    Container(
+                      child: ListTile(
+                        title: Text(_deviceList.getNetworkName(networkIdx),
+                            style: TextStyle(color: fontColorOnMain),
+                            textScaleFactor: fontSize.factor),
+                        contentPadding: EdgeInsets.only(bottom: 0.0, left: 50.0, right: 50.0),
+                        onTap: (){
+                          _deviceList.selectedNetworkIndex = networkIdx;
+                          config["selected_network"] = networkIdx;
+                          saveToSharedPrefs(config);
+                          AppBuilder.of(context)!.rebuild();
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                  if(selectNetworkCollapsed)
+                    SizedBox(height: 10.0),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2), top: BorderSide(color: fontColorOnMain, width: 2)),
+                    ),
+                    child: ListTile(
+                      tileColor: pageController.page == 0.0 ? Colors.white.withOpacity(0.2) : null,
+                      leading: Icon(Icons.workspaces_filled, color: fontColorOnMain, size: 24*fontSize.factor), //miscellaneous_services
+                      title: Text(S.of(context).overview,
+                          style: TextStyle(color: fontColorOnMain),
+                          textScaleFactor: fontSize.factor),
+                      contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
+                      onTap: () {
+                        bottomTapped(0);
+                        Navigator.pop(context); //close drawer
+                      },
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
+                    ),
+                    child: ListTile(
+                        tileColor: pageController.page == 1.0 ? Colors.white.withOpacity(0.2) : null,
+                        leading: Icon(DevoloIcons.ic_file_download_24px, color: fontColorOnMain, size: 24*fontSize.factor),
+                        title: Text(S.of(context).updates,
+                            style: TextStyle(color: fontColorOnMain),
+                            textScaleFactor: fontSize.factor),
+                        contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
+                        onTap: () {
+                          bottomTapped(1);
+                          Navigator.pop(context); //close drawer
+                        }),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
+                    ),
+                    child: ListTile(
+                        tileColor: pageController.page == 3.0 ? Colors.white.withOpacity(0.2) : null,
+                        leading: Icon(DevoloIcons.devolo_UI_settings, color: fontColorOnMain, size: 24*fontSize.factor),
+                        title: Text(S.of(context).settings,
+                            style: TextStyle(color: fontColorOnMain),
+                            textScaleFactor: fontSize.factor),
+                        contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
+                        onTap: () {
+                          bottomTapped(3);
+                          Navigator.pop(context); //close drawer
+                        }),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
+                    ),
+                    child: ListTile(
+                        tileColor: (!helpNavigationCollapsed && pageController.page == 2.0) ? Colors.white.withOpacity(0.2) : null,
+                        leading: Icon(DevoloIcons.ic_help_24px, color: fontColorOnMain, size: 24*fontSize.factor),
+                        trailing: Icon(helpNavigationCollapsed ? DevoloIcons.ic_remove_24px_1 : DevoloIcons.devolo_UI_add, color: fontColorOnMain, size: 20*fontSize.factor),
+                        title: Text(S.of(context).help,
+                            style: TextStyle(color: fontColorOnMain),
+                            textScaleFactor: fontSize.factor),
+                        contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
+                        onTap: () {
+                          setState(() {
+                            helpNavigationCollapsed = !helpNavigationCollapsed;
+                          });
+                        }),
+                  ),
+                  if (helpNavigationCollapsed)
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
+                    ),
+                    child: ListTile(
+                        tileColor: pageController.page == 2.0 ? Colors.white.withOpacity(0.2) : null,
+                        title: Padding(padding: EdgeInsets.only(left:paddingLeftDrawerUnderSection),child : Text(S.of(context).setUpDevice,
+                            style: TextStyle(color: fontColorOnMain),
+                            textScaleFactor: fontSize.factor
+                        ),),
+                        contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
+                        onTap: () {
+                          bottomTapped(2);
+                          Navigator.pop(context); //close drawer
+                        }),
+                  ),
+                  if (helpNavigationCollapsed)
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
+                    ),
+                    child: ListTile(
+                        tileColor: pageController.page == 2.0 ? Colors.white.withOpacity(0.2) : null,
+                        title: Padding(padding: EdgeInsets.only(left:paddingLeftDrawerUnderSection),child : Text(S.of(context).optimizeReception,
+                            style: TextStyle(color: fontColorOnMain),
+                            textScaleFactor: fontSize.factor
+                        ),),
+                        contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
+                        onTap: () {
+                          bottomTapped(2);
+                          Navigator.pop(context); //close drawer
+                        }),
+                  ),
+                  if (helpNavigationCollapsed)
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
+                    ),
+                    child: ListTile(
+                        tileColor: pageController.page == 2.0 ? Colors.white.withOpacity(0.2) : null,
+                        title: Padding(padding: EdgeInsets.only(left:paddingLeftDrawerUnderSection),child : Text(S.of(context).contactSupport,
+                            style: TextStyle(color: fontColorOnMain),
+                            textScaleFactor: fontSize.factor
+                        ),),
+                        contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
+                        onTap: () {
+                          bottomTapped(2);
+                          Navigator.pop(context); //close drawer
+                        }),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 2)),
+                    ),
+                    child: ListTile(
+                        leading: Icon(DevoloIcons.ic_info_24px, color: fontColorOnMain, size: 24*fontSize.factor),
+                        title: Text(S.of(context).appInfo,
+                            style: TextStyle(color: fontColorOnMain),
+                            textScaleFactor: fontSize.factor),
+                        contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
+                        onTap: () {
+                          Navigator.pop(context); //close drawer
+                          _appInfoAlert(context);
+                        }),
+                  ),
+                ])),),
+          ),
+          body: buildPageView()
+      )
     );
   }
 

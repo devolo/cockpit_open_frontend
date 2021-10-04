@@ -469,57 +469,56 @@ class _MyHomePageState extends State<MyHomePage> {
                           });
                         }),
                   ),
-                  if (helpNavigationCollapsed)
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
+                  if (helpNavigationCollapsed) ...[
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
+                      ),
+                      child: ListTile(
+                          tileColor: selectedPage == 2 ? Colors.white.withOpacity(0.2) : null,
+                          title: Padding(padding: EdgeInsets.only(left:paddingLeftDrawerUnderSection),child : Text(S.of(context).setUpDevice,
+                              style: TextStyle(color: fontColorOnMain),
+                              textScaleFactor: fontSize.factor
+                          ),),
+                          contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
+                          onTap: () {
+                            changePage(2);
+                            Navigator.pop(context); //close drawer
+                          }),
                     ),
-                    child: ListTile(
-                        tileColor: selectedPage == 2 ? Colors.white.withOpacity(0.2) : null,
-                        title: Padding(padding: EdgeInsets.only(left:paddingLeftDrawerUnderSection),child : Text(S.of(context).setUpDevice,
-                            style: TextStyle(color: fontColorOnMain),
-                            textScaleFactor: fontSize.factor
-                        ),),
-                        contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
-                        onTap: () {
-                          changePage(2);
-                          Navigator.pop(context); //close drawer
-                        }),
-                  ),
-                  if (helpNavigationCollapsed)
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
+                      ),
+                      child: ListTile(
+                          tileColor: selectedPage == 2 ? Colors.white.withOpacity(0.2) : null,
+                          title: Padding(padding: EdgeInsets.only(left:paddingLeftDrawerUnderSection),child : Text(S.of(context).optimizeReception,
+                              style: TextStyle(color: fontColorOnMain),
+                              textScaleFactor: fontSize.factor
+                          ),),
+                          contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
+                          onTap: () {
+                            changePage(2);
+                            Navigator.pop(context); //close drawer
+                          }),
                     ),
-                    child: ListTile(
-                        tileColor: selectedPage == 2 ? Colors.white.withOpacity(0.2) : null,
-                        title: Padding(padding: EdgeInsets.only(left:paddingLeftDrawerUnderSection),child : Text(S.of(context).optimizeReception,
-                            style: TextStyle(color: fontColorOnMain),
-                            textScaleFactor: fontSize.factor
-                        ),),
-                        contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
-                        onTap: () {
-                          changePage(2);
-                          Navigator.pop(context); //close drawer
-                        }),
-                  ),
-                  if (helpNavigationCollapsed)
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
+                      ),
+                      child: ListTile(
+                          tileColor: selectedPage == 2 ? Colors.white.withOpacity(0.2) : null,
+                          title: Padding(padding: EdgeInsets.only(left:paddingLeftDrawerUnderSection),child : Text(S.of(context).contactSupport,
+                              style: TextStyle(color: fontColorOnMain),
+                              textScaleFactor: fontSize.factor
+                          ),),
+                          contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
+                          onTap: () {
+                            changePage(2);
+                            Navigator.pop(context); //close drawer
+                          }),
                     ),
-                    child: ListTile(
-                        tileColor: selectedPage == 2 ? Colors.white.withOpacity(0.2) : null,
-                        title: Padding(padding: EdgeInsets.only(left:paddingLeftDrawerUnderSection),child : Text(S.of(context).contactSupport,
-                            style: TextStyle(color: fontColorOnMain),
-                            textScaleFactor: fontSize.factor
-                        ),),
-                        contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
-                        onTap: () {
-                          changePage(2);
-                          Navigator.pop(context); //close drawer
-                        }),
-                  ),
+                  ],
                   Container(
                     decoration: BoxDecoration(
                       border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),

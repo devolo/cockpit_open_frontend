@@ -403,64 +403,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 semanticLabel: "menu",
                 child: ListView(padding: EdgeInsets.zero, children: <Widget>[
                   Container(
-                    child: ListTile(
-                      title: Row(
-                          children: [
-                            Text(_deviceList.getNetworkName(_deviceList.selectedNetworkIndex),
-                                style: TextStyle(color: fontColorOnMain, fontSize: 15),
-                                textScaleFactor: fontSize.factor),
-                            if(_deviceList.getNetworkListLength() > 1)
-                              IconButton(
-                                icon: Icon(
-                                    selectNetworkCollapsed ? DevoloIcons.devolo_UI_chevron_up : DevoloIcons.devolo_UI_chevron_down,
-                                color: fontColorOnMain),
-                                iconSize: 24*fontSize.factor,
-                                onPressed: (){
-                                  setState(() {
-                                    selectNetworkCollapsed = !selectNetworkCollapsed;
-                                  });
-                                })
-                          ]),
-                      contentPadding: EdgeInsets.only(top: 15.0, left:30.0, right:30.0, bottom: selectNetworkCollapsed ? 3.0 : 15.0),
-                    ),
-                  ),
-                  if(selectNetworkCollapsed)
-                  for (var networkIdx = 0; networkIdx < _deviceList.selectedNetworkIndex; networkIdx++)
-                    Container(
-                      child: ListTile(
-                        title: Text(_deviceList.getNetworkName(networkIdx),
-                            style: TextStyle(color: fontColorOnMain),
-                            textScaleFactor: fontSize.factor),
-                        contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal:50.0),
-                        onTap: (){
-                          _deviceList.selectedNetworkIndex = networkIdx;
-                          config["selected_network"] = networkIdx;
-                          saveToSharedPrefs(config);
-                          AppBuilder.of(context)!.rebuild();
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                  if(selectNetworkCollapsed)
-                  for (var networkIdx = _deviceList.selectedNetworkIndex +1; networkIdx < _deviceList.getNetworkListLength(); networkIdx++)
-                    Container(
-                      child: ListTile(
-                        title: Text(_deviceList.getNetworkName(networkIdx),
-                            style: TextStyle(color: fontColorOnMain),
-                            textScaleFactor: fontSize.factor),
-                        contentPadding: EdgeInsets.only(bottom: 0.0, left: 50.0, right: 50.0),
-                        onTap: (){
-                          _deviceList.selectedNetworkIndex = networkIdx;
-                          config["selected_network"] = networkIdx;
-                          saveToSharedPrefs(config);
-                          AppBuilder.of(context)!.rebuild();
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                  if(selectNetworkCollapsed)
-                    SizedBox(height: 10.0),
-                  Container(
                     decoration: BoxDecoration(
                       border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1), top: BorderSide(color: fontColorOnMain, width: 1)),
                     ),

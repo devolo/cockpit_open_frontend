@@ -81,7 +81,9 @@
   },
   "setUpDevice": "Setup new device",
   "optimizeReception": "Optimize reception",
-  "contactSupport": "Contact support",
+  "contactSupport": "Support",
+  "currentlyNotAvailableTitle": "Beta-Notification",
+  "currentlyNotAvailableBody": "This feature is currently under development\nand will be available in the near future.",
 
   "@_SUPPORT_DIALOG": {
   },

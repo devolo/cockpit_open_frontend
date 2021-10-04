@@ -620,11 +620,31 @@ class S {
     );
   }
 
-  /// `Contact support`
+  /// `Support`
   String get contactSupport {
     return Intl.message(
-      'Contact support',
+      'Support',
       name: 'contactSupport',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Beta-Notification`
+  String get currentlyNotAvailableTitle {
+    return Intl.message(
+      'Beta-Notification',
+      name: 'currentlyNotAvailableTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This feature is currently under development\nand will be available in the near future.`
+  String get currentlyNotAvailableBody {
+    return Intl.message(
+      'This feature is currently under development\nand will be available in the near future.',
+      name: 'currentlyNotAvailableBody',
       desc: '',
       args: [],
     );

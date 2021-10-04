@@ -66,3 +66,28 @@ Future<bool> errorDialog(context, title, body, FontSize fontSize) async {
 
   return returnVal;
 }
+
+void notAvailableDialog(context, FontSize fontSize) async {
+
+  showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user doesn't need to tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Column(
+            children: [
+              getCloseButton(context),
+              Text(
+                S.of(context).currentlyNotAvailableTitle,
+                style: TextStyle(color: fontColorOnBackground),
+              ),
+            ],
+          ),
+          titlePadding: EdgeInsets.all(dialogTitlePadding),
+          titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
+          contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+          content: Text(S.of(context).currentlyNotAvailableBody),
+          actions: <Widget>[],
+        );
+      });
+}

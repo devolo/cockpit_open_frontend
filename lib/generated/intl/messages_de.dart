@@ -85,12 +85,15 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Achtung! Ihr Router ist an dieses PLC-Gerät angeschlossen. Sie verlieren damit die Verbindung zum Internet "),
         "contactInfo": MessageLookupByLibrary.simpleMessage("Kontakt info"),
-        "contactSupport":
-            MessageLookupByLibrary.simpleMessage("Support kontaktieren"),
+        "contactSupport": MessageLookupByLibrary.simpleMessage("Support"),
         "currentCompatibility":
             MessageLookupByLibrary.simpleMessage("Aktuelle Kompatibilität"),
         "currentVersion":
             MessageLookupByLibrary.simpleMessage("Aktuelle Version"),
+        "currentlyNotAvailableBody": MessageLookupByLibrary.simpleMessage(
+            "Dieses Feature befindet sich zur Zeit noch in Entwicklung\nund wird in naher Zukunft verfügbar sein."),
+        "currentlyNotAvailableTitle":
+            MessageLookupByLibrary.simpleMessage("Beta-Hinweis"),
         "dataRatesArePermanentlyDisplayedInTheOverview":
             MessageLookupByLibrary.simpleMessage(
                 "Datenraten werden dauerhaft in der Übersicht angezeigt "),

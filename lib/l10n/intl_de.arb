@@ -81,7 +81,9 @@
   },
   "setUpDevice": "Gerät einrichten",
   "optimizeReception": "Empfang optimieren",
-  "contactSupport": "Support kontaktieren",
+  "contactSupport": "Support",
+  "currentlyNotAvailableTitle": "Beta-Hinweis",
+  "currentlyNotAvailableBody": "Dieses Feature befindet sich zur Zeit noch in Entwicklung\nund wird in naher Zukunft verfügbar sein.",
 
   "@_SUPPORT_DIALOG": {
   },

@@ -81,7 +81,9 @@
   },
   "setUpDevice": "Ajouter un nouvel appareil",
   "optimizeReception": "Optimiser la connexion",
-  "contactSupport": "Contacter le support",
+  "contactSupport": "Support",
+  "currentlyNotAvailableTitle": "Notification-Beta",
+  "currentlyNotAvailableBody": "Cette fonctionnalité est en cours de développement\net sera disponible dans un avenir proche.",
 
   "@_SUPPORT_DIALOG": {
   },

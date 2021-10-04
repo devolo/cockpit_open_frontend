@@ -10,12 +10,13 @@ import 'dart:ui';
 
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
+import 'package:cockpit_devolo/shared/alertDialogs.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/app_fontSize.dart';
 import 'package:cockpit_devolo/shared/buttons.dart';
 import 'package:cockpit_devolo/shared/devolo_icons.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
-import 'package:cockpit_devolo/views/helpScreen.dart';
+import 'views/helpSection/supportScreen.dart';
 import 'package:cockpit_devolo/views/settingsScreen.dart';
 import 'package:cockpit_devolo/views/updateScreen.dart';
 import 'package:flutter/material.dart';
@@ -254,7 +255,6 @@ class _MyHomePageState extends State<MyHomePage> {
         UpdateScreen(
           title: S.of(context).update,
         ),
-        AddDeviceScreen(title: "Help screen"),
         SettingsScreen(
           title: S.of(context).settings,
         ),
@@ -447,7 +447,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             textScaleFactor: fontSize.factor),
                         contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
                         onTap: () {
-                          changePage(3);
+                          changePage(2);
                           Navigator.pop(context); //close drawer
                         }),
                   ),
@@ -482,40 +482,42 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),),
                           contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
                           onTap: () {
-                            changePage(2);
-                            Navigator.pop(context); //close drawer
+                            Navigator.pop(context);
+                          notAvailableDialog(context, fontSize);
                           }),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
-                      ),
-                      child: ListTile(
-                          tileColor: selectedPage == 2 ? Colors.white.withOpacity(0.2) : null,
-                          title: Padding(padding: EdgeInsets.only(left:paddingLeftDrawerUnderSection),child : Text(S.of(context).optimizeReception,
-                              style: TextStyle(color: fontColorOnMain),
-                              textScaleFactor: fontSize.factor
-                          ),),
-                          contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
-                          onTap: () {
-                            changePage(2);
-                            Navigator.pop(context); //close drawer
+
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
+                    ),
+                    child: ListTile(
+                        tileColor: selectedPage == 2 ? Colors.white.withOpacity(0.2) : null,
+                        title: Padding(padding: EdgeInsets.only(left:paddingLeftDrawerUnderSection),child : Text(S.of(context).optimizeReception,
+                            style: TextStyle(color: fontColorOnMain),
+                            textScaleFactor: fontSize.factor
+                        ),),
+                        contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
+                        onTap: () {
+                          Navigator.pop(context);
+                          notAvailableDialog(context, fontSize);
                           }),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
-                      ),
-                      child: ListTile(
-                          tileColor: selectedPage == 2 ? Colors.white.withOpacity(0.2) : null,
-                          title: Padding(padding: EdgeInsets.only(left:paddingLeftDrawerUnderSection),child : Text(S.of(context).contactSupport,
-                              style: TextStyle(color: fontColorOnMain),
-                              textScaleFactor: fontSize.factor
-                          ),),
-                          contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
-                          onTap: () {
-                            changePage(2);
-                            Navigator.pop(context); //close drawer
+
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
+                    ),
+                    child: ListTile(
+                        tileColor: selectedPage == 2 ? Colors.white.withOpacity(0.2) : null,
+                        title: Padding(padding: EdgeInsets.only(left:paddingLeftDrawerUnderSection),child : Text(S.of(context).contactSupport,
+                            style: TextStyle(color: fontColorOnMain),
+                            textScaleFactor: fontSize.factor
+                        ),),
+                        contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
+                        onTap: () {
+                          Navigator.pop(context);
+                          loadingSupportDialog(context, socket, fontSize);
                           }),
                     ),
                   ],

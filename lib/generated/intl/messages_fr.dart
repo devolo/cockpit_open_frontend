@@ -85,12 +85,15 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Attention ! Votre routeur est connecté à cet appareil CPL. Vous allez perdre la connexion à l\'internet"),
         "contactInfo":
             MessageLookupByLibrary.simpleMessage("Information de contact"),
-        "contactSupport":
-            MessageLookupByLibrary.simpleMessage("Contacter le support"),
+        "contactSupport": MessageLookupByLibrary.simpleMessage("Support"),
         "currentCompatibility":
             MessageLookupByLibrary.simpleMessage("Compatibilité actuelle"),
         "currentVersion":
             MessageLookupByLibrary.simpleMessage("Version actuelle"),
+        "currentlyNotAvailableBody": MessageLookupByLibrary.simpleMessage(
+            "Cette fonctionnalité est en cours de développement\net sera disponible dans un avenir proche."),
+        "currentlyNotAvailableTitle":
+            MessageLookupByLibrary.simpleMessage("Notification-Beta"),
         "dataRatesArePermanentlyDisplayedInTheOverview":
             MessageLookupByLibrary.simpleMessage(
                 "Les taux de transmission seront toujours indiqués dans la vue d\'ensemble"),

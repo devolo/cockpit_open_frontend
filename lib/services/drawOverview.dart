@@ -20,7 +20,7 @@ import 'package:cockpit_devolo/generated/l10n.dart';
 import 'dart:ui';
 
 class DrawOverview extends CustomPainter {
-  double hnCircleRadius = 35.0;
+  double hnCircleRadius = 35.0; //afwwafwafa
   double completeCircleRadius = 50.0;
   late List<Device> _deviceList;
   late NetworkList _providerList;
@@ -54,8 +54,8 @@ class DrawOverview extends CustomPainter {
     fontWeight: FontWeight.bold,
   );
 
-  late Paint _circleBorderPaint;
   late Paint _circleAreaPaint;
+  late Paint _circleAreaPaintComplement;
   late Paint _speedCircleAreaPaint;
   late Paint _linePaint;
   late Paint _speedLinePaint;
@@ -89,13 +89,13 @@ class DrawOverview extends CustomPainter {
     _screenGridWidth = (screenWidth / 5);
     _screenGridHeight = (screenHeight / 10);
 
-    _circleBorderPaint = Paint()
-      ..color = drawingColor
-      ..strokeWidth = 7.0
-      ..style = PaintingStyle.stroke;
-
     _circleAreaPaint = Paint()
       ..color = backgroundColor
+      ..strokeWidth = 0.0
+      ..style = PaintingStyle.fill;
+
+    _circleAreaPaintComplement = Paint()
+      ..color = fontColorOnBackground
       ..strokeWidth = 0.0
       ..style = PaintingStyle.fill;
 
@@ -290,20 +290,13 @@ class DrawOverview extends CustomPainter {
   // circular border
   void drawDeviceIconBorder(Canvas canvas, int deviceIndex) {
     Offset absoluteOffset = Offset(_deviceIconOffsetList.elementAt(deviceIndex).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(deviceIndex).dy + (screenHeight / 2));
-    int additionalHoverSize = 2;
 
     canvas.drawCircle(absoluteOffset, hnCircleRadius + 15, _circleAreaPaint); //"shadow" of the device circle. covers the connection lines.s
-
-    if(hoveredDevice == deviceIndex){
-      canvas.drawCircle(absoluteOffset, hnCircleRadius + additionalHoverSize, _circleBorderPaint); //the actual circle for a device
-    }
-    else
-      canvas.drawCircle(absoluteOffset, hnCircleRadius, _circleBorderPaint); //the actual circle for a device
 
     if (showingSpeeds && deviceIndex != pivotDeviceIndex) {
       canvas.drawCircle(absoluteOffset, hnCircleRadius, _speedCircleAreaPaint); //the inner filling of a device circle, when showing speeds
     } else {
-      canvas.drawCircle(absoluteOffset, hnCircleRadius, _circleAreaPaint); //the inner filling of a device circle, when showing icons
+      canvas.drawCircle(absoluteOffset, hnCircleRadius,  _circleAreaPaint); //the inner filling of a device circle, when showing icons
     }
   }
 
@@ -312,14 +305,27 @@ class DrawOverview extends CustomPainter {
     Offset lineStart = Offset(absoluteCenterOffset.dx - hnCircleRadius + 10, absoluteCenterOffset.dy - 5);
     Offset lineEnd = Offset(absoluteCenterOffset.dx + hnCircleRadius - 10, absoluteCenterOffset.dy - 5);
 
-    if (showingSpeeds /*&& deviceIndex != pivotDeviceIndex*/) {
-      int rx = 0, tx = 0;
+    if (showingSpeeds && deviceIndex != hoveredDevice) {
+      int rx = 0,
+          tx = 0;
       String speedUp = "";
       String speedDown = "";
 
-      if (_deviceList.elementAt(pivotDeviceIndex).speeds![_deviceList.elementAt(deviceIndex).mac] != null) {
-        rx = _deviceList.elementAt(pivotDeviceIndex).speeds![_deviceList.elementAt(deviceIndex).mac]!.rx;
-        tx = _deviceList.elementAt(pivotDeviceIndex).speeds![_deviceList.elementAt(deviceIndex).mac]!.tx;
+      if (_deviceList
+          .elementAt(pivotDeviceIndex)
+          .speeds![_deviceList
+          .elementAt(deviceIndex)
+          .mac] != null) {
+        rx = _deviceList
+            .elementAt(pivotDeviceIndex)
+            .speeds![_deviceList
+            .elementAt(deviceIndex)
+            .mac]!.rx;
+        tx = _deviceList
+            .elementAt(pivotDeviceIndex)
+            .speeds![_deviceList
+            .elementAt(deviceIndex)
+            .mac]!.tx;
       }
 
       if (rx > 0)
@@ -333,7 +339,9 @@ class DrawOverview extends CustomPainter {
         speedDown = "---";
 
       final downStreamTextSpan = TextSpan(
-        text: speedUp + " " + String.fromCharCode(0x2191) + "\n" + speedDown + " " + String.fromCharCode(0x2193), //text: String.fromCharCode(0x2191) + " " + speedUp + "\n" + String.fromCharCode(0x2193) + " " + speedDown,
+        text: speedUp + " " + String.fromCharCode(0x2191) + "\n" + speedDown +
+            " " + String.fromCharCode(0x2193),
+        //text: String.fromCharCode(0x2191) + " " + speedUp + "\n" + String.fromCharCode(0x2193) + " " + speedDown,
         style: _speedTextStyle,
       );
       final mbpsTextSpan = TextSpan(
@@ -345,42 +353,43 @@ class DrawOverview extends CustomPainter {
 
       _speedTextPainter.text = downStreamTextSpan;
       _speedTextPainter.layout(minWidth: 0, maxWidth: 150);
-      _speedTextPainter.paint(canvas, Offset(absoluteCenterOffset.dx - (_speedTextPainter.width / 2), absoluteCenterOffset.dy - (_speedTextPainter.height / 2) - 5));
+      _speedTextPainter.paint(canvas, Offset(
+          absoluteCenterOffset.dx - (_speedTextPainter.width / 2),
+          absoluteCenterOffset.dy - (_speedTextPainter.height / 2) - 5));
 
       _speedTextPainter.text = mbpsTextSpan;
       _speedTextPainter.layout(minWidth: 0, maxWidth: 150);
-      _speedTextPainter.paint(canvas, Offset(absoluteCenterOffset.dx - (_speedTextPainter.width / 2), absoluteCenterOffset.dy - (_speedTextPainter.height / 2) + 20));
+      _speedTextPainter.paint(canvas, Offset(
+          absoluteCenterOffset.dx - (_speedTextPainter.width / 2),
+          absoluteCenterOffset.dy - (_speedTextPainter.height / 2) + 20));
 
       if (deviceIndex == pivotDeviceIndex) {
-        Offset imageRectUpperLeft = Offset(absoluteCenterOffset.dx - (hnCircleRadius / 1.6), absoluteCenterOffset.dy - (hnCircleRadius / 1.6));
-        Offset imageRectLowerRight = Offset(absoluteCenterOffset.dx + (hnCircleRadius / 1.6), absoluteCenterOffset.dy + (hnCircleRadius / 1.6));
+        Offset iconPosition = Offset(absoluteCenterOffset.dx, absoluteCenterOffset.dy);
 
-        if (areDeviceIconsLoaded) {
-          var deviceIcon = getIconForDeviceType(_deviceList.elementAt(pivotDeviceIndex).typeEnum);
-
-          paintImage(
-              canvas: canvas,
-              image: deviceIcon!,
-              fit: BoxFit.scaleDown,
-              rect: Rect.fromPoints(imageRectUpperLeft, imageRectLowerRight),
-              );
-        }
+        IconData circledDeviceIcon = getCircledIconForDeviceType(_deviceList.elementAt(deviceIndex).typeEnum);
+        _iconPainter.text = TextSpan(text: String.fromCharCode(circledDeviceIcon.codePoint), style: TextStyle(fontSize: 70.0, fontFamily: circledDeviceIcon.fontFamily, color: drawingColor));
+        _iconPainter.layout();
+        _iconPainter.paint(canvas, Offset(iconPosition.dx - _iconPainter.width/2, iconPosition.dy - _iconPainter.height/2));
       }
-    } else {
-      Offset imageRectUpperLeft = Offset(absoluteCenterOffset.dx - (hnCircleRadius / 1.6), absoluteCenterOffset.dy - (hnCircleRadius / 1.6));
-      Offset imageRectLowerRight = Offset(absoluteCenterOffset.dx + (hnCircleRadius / 1.6), absoluteCenterOffset.dy + (hnCircleRadius / 1.6));
+    }else {
 
-      if (areDeviceIconsLoaded) {
-        var deviceIcon = getIconForDeviceType(_deviceList.elementAt(deviceIndex).typeEnum);
+      if(deviceIndex == hoveredDevice){
+        Offset iconPosition = Offset(absoluteCenterOffset.dx, absoluteCenterOffset.dy);
 
-        paintImage(
-            canvas: canvas,
-            image: deviceIcon!, //deviceIconList[0],
-            fit: BoxFit.scaleDown,
-            rect: Rect.fromPoints(imageRectUpperLeft, imageRectLowerRight),
-            //colorFilter: ColorFilter.mode(drawingColor, BlendMode.overlay)
-      );
+        IconData circledDeviceIcon = getFilledIconForDeviceType(_deviceList.elementAt(deviceIndex).typeEnum);
+        _iconPainter.text = TextSpan(text: String.fromCharCode(circledDeviceIcon.codePoint), style: TextStyle(fontSize: 70.0, fontFamily: circledDeviceIcon.fontFamily, color: drawingColor));
+        _iconPainter.layout();
+        _iconPainter.paint(canvas, Offset(iconPosition.dx - _iconPainter.width/2, iconPosition.dy - _iconPainter.height/2));
       }
+      else{
+        Offset iconPosition = Offset(absoluteCenterOffset.dx, absoluteCenterOffset.dy);
+
+        IconData circledDeviceIcon = getCircledIconForDeviceType(_deviceList.elementAt(deviceIndex).typeEnum);
+        _iconPainter.text = TextSpan(text: String.fromCharCode(circledDeviceIcon.codePoint), style: TextStyle(fontSize: 70.0, fontFamily: circledDeviceIcon.fontFamily, color: drawingColor));
+        _iconPainter.layout();
+        _iconPainter.paint(canvas, Offset(iconPosition.dx - _iconPainter.width/2, iconPosition.dy - _iconPainter.height/2));
+      }
+
     }
   }
 

@@ -378,7 +378,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   }
                 });
               },
-              icon: _drawerScaffoldKey.currentState == null ? Icon(Icons.menu) : _drawerScaffoldKey.currentState!.isEndDrawerOpen ? Icon(DevoloIcons.devolo_UI_cancel) : Icon(Icons.menu),
+              icon: _drawerScaffoldKey.currentState == null ? Icon(Icons.menu) : _drawerScaffoldKey.currentState!.isEndDrawerOpen ? Icon(DevoloIcons.devolo_UI_cancel_2) : Icon(Icons.menu),
             ),
           ],
         ),

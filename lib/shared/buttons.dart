@@ -129,7 +129,7 @@ getCloseButton(context) {
       },
       child: Container(
         alignment: FractionalOffset.topRight,
-        child: GestureDetector(child: Icon(DevoloIcons.devolo_UI_cancel,color: fontColorOnBackground,),
+        child: GestureDetector(child: Icon(DevoloIcons.devolo_UI_cancel_2,color: fontColorOnBackground,),
 
           onTap: (){
             Navigator.pop(context);

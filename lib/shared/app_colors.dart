@@ -32,7 +32,7 @@ Color devoloGray = Color.fromARGB(255, 67, 74, 79);
 Color devoloLighterGray = Color.fromARGB(255, 108, 116, 121);
 Color devoloLightGray = Color.fromARGB(255, 193, 195, 197);
 Color devoloLightGray66 = Color.fromARGB(255, 131, 136, 139);
-Color devoloGreen = Color.fromARGB(255, 149, 193, 31);
+Color devoloGreen = Color.fromARGB(255, 118, 184, 42);
 Color devoloOrange = Color.fromARGB(255, 243, 146, 0);
 Color devoloRed = Color.fromARGB(255, 199, 20, 61);
 
@@ -120,7 +120,7 @@ Map<String, dynamic> theme_light = {
   "backgroundColor" : Colors.white,
   "secondColor" : Color.fromARGB(255, 234, 235, 236),
   "accentColor" : Color.fromARGB(255, 234, 235, 236),
-  "drawingColor" : devoloBlue,
+  "drawingColor" : devoloGray,
   "fontColorOnMain" : Colors.white,
   "fontColorOnBackground" : devoloGray,
   "fontColorOnSecond" : devoloGray,

@@ -25,6 +25,7 @@ class DevoloIcons {
   static const IconData devolo_icon_ui_led_on = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData ic_battery_charging_full_24px = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData ic_perm_data_setting_24px = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData devolo_icon_ui_adapter_mini_wifi = IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData logo = IconData(0xe82b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData ic_add_24px = IconData(0xe82c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData ic_refresh_24px = IconData(0xe82e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
@@ -56,6 +57,21 @@ class DevoloIcons {
   static const IconData ic_remove_24px = IconData(0xe84c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData ic_remove_24px_1 = IconData(0xe84d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData ic_question_answer_24px = IconData(0xe84e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData devolo_icon_ui_adapter_mini = IconData(0xe84f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData devolo_icon_ui_adapter_lan = IconData(0xe850, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData devolo_icon_ui_adapter_wifi = IconData(0xe851, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData devolo_icon_ui_adapter_mini_wifi_filled = IconData(0xe852, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData devolo_icon_ui_adapter_mini_wifi_circled = IconData(0xe853, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData devolo_icon_ui_adapter_lan_filled = IconData(0xe854, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData devolo_icon_ui_adapter_lan_circled = IconData(0xe855, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData devolo_icon_ui_adapter_wifi_circled = IconData(0xe856, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData devolo_icon_ui_adapter_generic_circled = IconData(0xe857, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData devolo_icon_ui_adapter_mini_filled = IconData(0xe858, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData devolo_icon_ui_adapter_mini_circled = IconData(0xe859, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData devolo_icon_ui_adapter_dinrail_filled = IconData(0xe85a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData devolo_icon_ui_adapter_generic_filled = IconData(0xe85b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData devolo_icon_ui_adapter_dinrail_circled = IconData(0xe85c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData devolo_icon_ui_adapter_wifi_filled = IconData(0xe85d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData devolo_UI_internet = IconData(0xe900, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData devolo_UI_internet_off = IconData(0xe901, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData devolo_UI_wifi = IconData(0xe902, fontFamily: _kFontFam, fontPackage: _kFontPkg);
@@ -96,7 +112,7 @@ class DevoloIcons {
   static const IconData devolo_UI_more_vert = IconData(0xe925, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData devolo_UI_notification = IconData(0xe926, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData devolo_UI_notification_off = IconData(0xe927, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData devolo_UI_cancel = IconData(0xe928, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData devolo_UI_cancel_1 = IconData(0xe928, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData devolo_UI_favorite = IconData(0xe929, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData devolo_UI_favorite_off = IconData(0xe92a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

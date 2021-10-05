@@ -665,10 +665,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               children: [
                                 SizedBox(width: MediaQuery.of(context).size.width * leftPaddingName),
                                 Column(mainAxisAlignment : MainAxisAlignment.center,
-                                children:[ SizedBox(width: 50,), RawImage(
-                                  image: getIconForDeviceType(allDevices[i].typeEnum),
-                                  height: (getIconForDeviceType(allDevices[i].typeEnum)!.height).toDouble() * fontSize.factor * 0.5,
-                                  width: (getIconForDeviceType(allDevices[i].typeEnum)!.width).toDouble() * fontSize.factor * 0.5,
+                                children:[ SizedBox(width: 50,), Icon(
+                                  getIconForDeviceType(allDevices[i].typeEnum),
+                                  color: fontColorOnBackground,
+                                  size: 40 * fontSize.factor,
                                 ),]),
                                 SizedBox(width: spacingIconText * fontSize.factor),
                                 Expanded( child:

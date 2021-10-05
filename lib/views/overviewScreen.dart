@@ -286,7 +286,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
         if (!(hoveredDevice == index)) {
           logger.i("Hovered icon #" + index.toString());
 
-          Timer(Duration(milliseconds: 800), (){
+          Timer(Duration(milliseconds: 10), (){
             //only execute action when device is still hovered
             if(hoveredDevice == index){
               final deviceList = Provider.of<NetworkList>(context, listen: false);

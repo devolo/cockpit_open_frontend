@@ -15,11 +15,11 @@ import 'package:flutter/material.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:flutter/services.dart';
 
+import 'devolo_icons.dart';
 import 'helpers.dart';
 
 final List<ui.Image> deviceIconList = <ui.Image>[]; //ToDo put somewhere else
-final List<String> deviceIconPathList = ["assets/deviceImages/eu_wifi_icon.png","assets/deviceImages/eu_lan_icon_small.png","assets/deviceImages/mini_wifi_icon.png","assets/deviceImages/mini_lan_icon.png",
-  "assets/deviceImages/dinrail_icon_small.png"];
+final List<String> deviceIconPathList = ["assets/deviceImages/dinrail_icon_small.png"];
 
 final List<Offset> deviceIconOffsetList = <Offset>[];
 List<Offset> networkOffsetList = [];
@@ -63,28 +63,68 @@ Future<ui.Image> loadImage(var img) async {
   return completer.future;
 }
 
-ui.Image? getIconForDeviceType(DeviceType? dt) {
-  if(!areDeviceIconsLoaded) { //ToDo
-    logger.w("[getIconForDeviceType] - Device Icons are NOT loaded");
-    return null;
-  }
+
+IconData getIconForDeviceType(DeviceType? dt){
 
   if(dt == DeviceType.dtWiFiPlus)
-    return deviceIconList.elementAt(0);
+    return DevoloIcons.devolo_icon_ui_adapter_wifi;
 
   else if(dt == DeviceType.dtLanPlus)
-    return deviceIconList.elementAt(1);
+    return DevoloIcons.devolo_icon_ui_adapter_mini_wifi;
 
   else if(dt == DeviceType.dtWiFiOnly || dt == DeviceType.dtWiFiMini)
-    return deviceIconList.elementAt(2);
+    return DevoloIcons.devolo_icon_ui_adapter_mini_wifi;
 
   else if(dt == DeviceType.dtLanMini || dt == DeviceType.dtUnknown)
-    return deviceIconList.elementAt(3);
+    return DevoloIcons.devolo_icon_ui_adapter_mini;
 
   else if(dt == DeviceType.dtDINrail)
-    return deviceIconList.elementAt(4);
+    return DevoloIcons.devolo_icon_ui_adapter_mini; //TODO wait for icon on frontify
 
   else
-    return deviceIconList.elementAt(3);
+    return DevoloIcons.devolo_icon_ui_adapter_mini_wifi;
+}
 
+
+IconData getCircledIconForDeviceType(DeviceType? dt){
+
+  if(dt == DeviceType.dtWiFiPlus)
+    return DevoloIcons.devolo_icon_ui_adapter_wifi_circled;
+
+  else if(dt == DeviceType.dtLanPlus)
+    return DevoloIcons.devolo_icon_ui_adapter_lan_circled;
+
+  else if(dt == DeviceType.dtWiFiOnly || dt == DeviceType.dtWiFiMini)
+    return DevoloIcons.devolo_icon_ui_adapter_mini_wifi_circled;
+
+  else if(dt == DeviceType.dtLanMini || dt == DeviceType.dtUnknown)
+    return DevoloIcons.devolo_icon_ui_adapter_mini_circled;
+
+  else if(dt == DeviceType.dtDINrail)
+    return DevoloIcons.devolo_icon_ui_adapter_mini_circled; //TODO wait for icon on frontify
+
+  else
+    return DevoloIcons.devolo_icon_ui_adapter_mini_wifi_circled;
+}
+
+
+IconData getFilledIconForDeviceType(DeviceType? dt){
+
+  if(dt == DeviceType.dtWiFiPlus)
+    return DevoloIcons.devolo_icon_ui_adapter_wifi_filled;
+
+  else if(dt == DeviceType.dtLanPlus)
+    return DevoloIcons.devolo_icon_ui_adapter_lan_filled;
+
+  else if(dt == DeviceType.dtWiFiOnly || dt == DeviceType.dtWiFiMini)
+    return DevoloIcons.devolo_icon_ui_adapter_mini_wifi_filled;
+
+  else if(dt == DeviceType.dtLanMini || dt == DeviceType.dtUnknown)
+    return DevoloIcons.devolo_icon_ui_adapter_mini_filled;
+
+  else if(dt == DeviceType.dtDINrail)
+    return DevoloIcons.devolo_icon_ui_adapter_mini_filled; //TODO wait for icon on frontify
+
+  else
+    return DevoloIcons.devolo_icon_ui_adapter_mini_wifi_filled;
 }

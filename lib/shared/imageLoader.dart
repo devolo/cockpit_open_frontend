@@ -18,26 +18,7 @@ import 'package:flutter/services.dart';
 import 'devolo_icons.dart';
 import 'helpers.dart';
 
-final List<ui.Image> deviceIconList = <ui.Image>[]; //ToDo put somewhere else
-final List<String> deviceIconPathList = ["assets/deviceImages/dinrail_icon_small.png"];
-
 final List<Offset> deviceIconOffsetList = <Offset>[];
-List<Offset> networkOffsetList = [];
-bool areDeviceIconsLoaded = false;
-
-Future<void> loadAllDeviceIcons() async {
-  ByteData data;
-
-  for(var deviceIcon in deviceIconPathList){
-   data = await rootBundle.load(deviceIcon);
-   ui.Image image = await loadImage(new Uint8List.view(data.buffer));
-   deviceIconList.add(image);
-  }
-
-  areDeviceIconsLoaded = true;
-  logger.i("All device icons are loaded");
-
-}
 
 List<Image> loadOptimizeImages() {
   List<Image> retList = [];
@@ -70,7 +51,7 @@ IconData getIconForDeviceType(DeviceType? dt){
     return DevoloIcons.devolo_icon_ui_adapter_wifi;
 
   else if(dt == DeviceType.dtLanPlus)
-    return DevoloIcons.devolo_icon_ui_adapter_mini_wifi;
+    return DevoloIcons.devolo_icon_ui_adapter_lan;
 
   else if(dt == DeviceType.dtWiFiOnly || dt == DeviceType.dtWiFiMini)
     return DevoloIcons.devolo_icon_ui_adapter_mini_wifi;
@@ -82,7 +63,7 @@ IconData getIconForDeviceType(DeviceType? dt){
     return DevoloIcons.devolo_icon_ui_adapter_mini; //TODO wait for icon on frontify
 
   else
-    return DevoloIcons.devolo_icon_ui_adapter_mini_wifi;
+    return DevoloIcons.devolo_icon_ui_adapter_mini;
 }
 
 
@@ -104,7 +85,7 @@ IconData getCircledIconForDeviceType(DeviceType? dt){
     return DevoloIcons.devolo_icon_ui_adapter_mini_circled; //TODO wait for icon on frontify
 
   else
-    return DevoloIcons.devolo_icon_ui_adapter_mini_wifi_circled;
+    return DevoloIcons.devolo_icon_ui_adapter_mini_circled;
 }
 
 
@@ -126,5 +107,5 @@ IconData getFilledIconForDeviceType(DeviceType? dt){
     return DevoloIcons.devolo_icon_ui_adapter_mini_filled; //TODO wait for icon on frontify
 
   else
-    return DevoloIcons.devolo_icon_ui_adapter_mini_wifi_filled;
+    return DevoloIcons.devolo_icon_ui_adapter_mini_filled;
 }

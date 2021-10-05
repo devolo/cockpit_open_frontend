@@ -143,8 +143,6 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
 
-    loadAllDeviceIcons();
-
     getConnection();
     readSharedPrefs();
     getVersions();

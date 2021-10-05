@@ -9,6 +9,7 @@ LICENSE file in the root directory of this source tree.
 import 'dart:typed_data';
 
 import 'package:cockpit_devolo/models/deviceModel.dart';
+import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:cockpit_devolo/shared/imageLoader.dart';
@@ -17,22 +18,6 @@ import 'dart:ui' as ui;
 void main (){
 
   TestWidgetsFlutterBinding.ensureInitialized(); // needed to use rootBundle (in loadAllDeviceIcons())
-
-  group('Future<void> loadAllDeviceIcons()', () {
-
-    test('Given__When_callLoadAllDeviceIcons_Then_fillDeviceIconList', () async{
-
-      await loadAllDeviceIcons();
-
-      expect(areDeviceIconsLoaded,true);
-      expect(deviceIconList.length,5);
-      expect(deviceIconList[0].toString(),"[35×79]");
-      expect(deviceIconList[1].toString(),"[35×79]");
-      expect(deviceIconList[2].toString(),"[36×64]");
-      expect(deviceIconList[3].toString(),"[36×37]");
-      expect(deviceIconList[4].toString(),"[76×69]");
-    });
-  });
 
   group('Future<ui.Image> loadImage(var img)', () {
 
@@ -59,41 +44,4 @@ void main (){
       expect(optimizeImageList[3].toString(),'Image(image: AssetImage(bundle: null, name: "assets/optimisationImages/dLAN200AVplus_A.png"), frameBuilder: null, loadingBuilder: null, alignment: Alignment.center, this.excludeFromSemantics: false, filterQuality: low)');
     });
   });
-
-  group('ui.Image? getIconForDeviceType(DeviceType? dt)', () {
-
-    test('Given__When_callGetIconForDeviceType_Then_returnImage', () async{
-
-      await loadAllDeviceIcons();
-
-      var imageWiFiPlus = getIconForDeviceType(DeviceType.dtWiFiPlus);
-      var imageLanPlus = getIconForDeviceType(DeviceType.dtLanPlus);
-      var imageWiFiOnly = getIconForDeviceType(DeviceType.dtWiFiOnly);
-      var imageWiFiMini = getIconForDeviceType(DeviceType.dtWiFiMini);
-      var imageLanMini = getIconForDeviceType(DeviceType.dtLanMini);
-      var imageDINrail = getIconForDeviceType(DeviceType.dtDINrail);
-      var imageUnknown = getIconForDeviceType(DeviceType.dtUnknown);
-      var imageUnknown2 = getIconForDeviceType(null);
-
-      expect(areDeviceIconsLoaded,true);
-      expect(imageWiFiPlus.toString(),"[35×79]");
-      expect(imageLanPlus.toString(),"[35×79]");
-      expect(imageWiFiOnly.toString(),"[36×64]");
-      expect(imageWiFiMini.toString(),"[36×64]");
-      expect(imageLanMini.toString(),"[36×37]");
-      expect(imageUnknown.toString(),"[36×37]");
-      expect(imageDINrail.toString(),"[76×69]");
-      expect(imageUnknown2.toString(),"[36×37]");
-    });
-
-    test('Given__When_callGetIconForDeviceTypeANDdeviceInconsAreNotLoaded_Then_returnNull', () async{
-
-      areDeviceIconsLoaded = false;
-      var imageWiFiPlus = getIconForDeviceType(DeviceType.dtWiFiPlus);
-
-      expect(imageWiFiPlus,null);
-    });
-  });
-
-
 }

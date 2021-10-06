@@ -210,7 +210,7 @@ class DrawOverview extends CustomPainter {
     Offset absoluteOffset = Offset(deviceOffset.dx + (screenWidth / 2), deviceOffset.dy + (screenHeight / 2));
     Offset absolutePivotOffset = Offset(_deviceIconOffsetList.elementAt(pivotDeviceIndex).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(pivotDeviceIndex).dy + (screenHeight / 2));
 
-    double shiftFactor = 0.01; // how much space between lines
+    double shiftFactor = 5; // how much space between lines
 
     Offset lineDirection = Offset(absolutePivotOffset.dx - absoluteOffset.dx, absolutePivotOffset.dy - absoluteOffset.dy);
 
@@ -220,11 +220,13 @@ class DrawOverview extends CustomPainter {
       shiftFactor = -shiftFactor;
     }
 
-    Offset absoluteOffsetRx = Offset(deviceOffset.dx + (screenWidth / 2) + shiftFactor * lineDirectionOrtho.dx, deviceOffset.dy + (screenHeight / 2) + shiftFactor * lineDirectionOrtho.dy);
-    Offset absolutePivotOffsetRx = Offset(_deviceIconOffsetList.elementAt(pivotDeviceIndex).dx + (screenWidth / 2) + shiftFactor * lineDirectionOrtho.dx, _deviceIconOffsetList.elementAt(pivotDeviceIndex).dy + (screenHeight / 2) + shiftFactor * lineDirectionOrtho.dy);
+    var angle = atan2(lineDirectionOrtho.dy, lineDirectionOrtho.dx);
 
-    Offset absoluteOffsetTx = Offset(deviceOffset.dx + (screenWidth / 2) - shiftFactor * lineDirectionOrtho.dx, deviceOffset.dy + (screenHeight / 2) - shiftFactor * lineDirectionOrtho.dy);
-    Offset absolutePivotOffsetTx = Offset(_deviceIconOffsetList.elementAt(pivotDeviceIndex).dx + (screenWidth / 2) - shiftFactor * lineDirectionOrtho.dx, _deviceIconOffsetList.elementAt(pivotDeviceIndex).dy + (screenHeight / 2) - shiftFactor * lineDirectionOrtho.dy);
+    Offset absoluteOffsetRx = Offset(deviceOffset.dx + (screenWidth / 2) + shiftFactor * cos(angle), deviceOffset.dy + (screenHeight / 2) + shiftFactor * sin(angle));
+    Offset absolutePivotOffsetRx = Offset(_deviceIconOffsetList.elementAt(pivotDeviceIndex).dx + (screenWidth / 2) + shiftFactor * cos(angle), _deviceIconOffsetList.elementAt(pivotDeviceIndex).dy + (screenHeight / 2) + shiftFactor * sin(angle));
+
+    Offset absoluteOffsetTx = Offset(deviceOffset.dx + (screenWidth / 2) - shiftFactor * cos(angle), deviceOffset.dy + (screenHeight / 2) - shiftFactor * sin(angle));
+    Offset absolutePivotOffsetTx = Offset(_deviceIconOffsetList.elementAt(pivotDeviceIndex).dx + (screenWidth / 2) - shiftFactor * cos(angle), _deviceIconOffsetList.elementAt(pivotDeviceIndex).dy + (screenHeight / 2) - shiftFactor * sin(angle));
 
     drawArrow(canvas, absoluteOffsetRx, absolutePivotOffsetRx, color['rx']);
     drawArrow(canvas, absolutePivotOffsetTx, absoluteOffsetTx, color['tx']);
@@ -242,7 +244,7 @@ class DrawOverview extends CustomPainter {
     var angle = atan2(dy, dx);
 
     dynamic startDx = start.dx + cos(angle) * paddingStart;
-    dynamic startDy = start.dy+ sin(angle) * paddingStart;
+    dynamic startDy = start.dy + sin(angle) * paddingStart;
     dynamic endDx = end.dx - cos(angle) * paddingEnd;
     dynamic endDy = end.dy-sin(angle) * paddingEnd;
 

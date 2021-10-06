@@ -316,7 +316,7 @@ void _sendingSupportInformation(context, DataHand socket, FontSize fontSize) asy
                 child: Container(
                   alignment: FractionalOffset.topRight,
                   child: GestureDetector(
-                    child: Icon(DevoloIcons.devolo_UI_cancel,
+                    child: Icon(DevoloIcons.devolo_UI_cancel_2,
                         color: fontColorOnBackground),
                     onTap: () {
                       dialogIsOpen = false;
@@ -569,7 +569,7 @@ void loadingSupportDialog(context, DataHand socket, fontSize) async {
                 child: Container(
                   alignment: FractionalOffset.topRight,
                   child: GestureDetector(
-                    child: Icon(DevoloIcons.devolo_UI_cancel,
+                    child: Icon(DevoloIcons.devolo_UI_cancel_2,
                         color: fontColorOnBackground),
                     onTap: () {
                       dialogIsOpen = false;

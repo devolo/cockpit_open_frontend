@@ -5,3 +5,9 @@ String versionCockpit = "5.1.6_2021-05-05";
 // Define config options for device simulator
 const bool simulatedDevices = false;
 const int nDevices = 5;
+
+final List<String> languageList = <String>[
+  "de",
+  "en",
+  "fr",
+];

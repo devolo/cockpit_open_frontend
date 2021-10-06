@@ -45,6 +45,8 @@
   "showPassword": "Show password",
   "showLogs": "Show logs",
   "passwordMustBeGreaterThan8Characters": "The password must contain more than 8 characters",
+  "changeTheLanguageOfTheApp": "Change the language of the App",
+  "language": "Language",
 
   "@_UPDATE_SCREEN": {
   },

@@ -18,6 +18,7 @@ import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/app_fontSize.dart';
 import 'package:cockpit_devolo/shared/buttons.dart';
 import 'package:cockpit_devolo/shared/devolo_icons.dart';
+import 'package:cockpit_devolo/shared/globals.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -83,7 +84,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
   var minLength = 8;
   var textLength = 0;
 
+
+
   var _formKey = GlobalKey<FormState>();
+  final GlobalKey _dropdownKey = GlobalKey();
 
 
   void toggleCheckbox(bool value) {
@@ -91,6 +95,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
       config["show_speeds_permanent"] = value;
       saveToSharedPrefs(config);
     });
+  }
+
+  void openDropdown() {
+    dynamic detector;
+    void searchForGestureDetector(BuildContext element) {
+      element.visitChildElements((element) {
+        if (element.widget != null && element.widget is GestureDetector) {
+          detector = element.widget;
+          //return false;
+
+        } else {
+          searchForGestureDetector(element);
+        }
+
+        //return true;
+      });
+    }
+
+    searchForGestureDetector(_dropdownKey.currentContext!);
+    assert(detector != null);
+
+    detector.onTap();
   }
 
   //creating the timer that stops the loading after 15 secs
@@ -137,9 +163,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 child: new Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(
-                      S.of(context).settings,
-                      style: TextStyle(fontSize: fontSizeAppBarTitle * fontSize.factor, color: fontColorOnBackground),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        new Text(
+                          S.of(context).settings,
+                          style: TextStyle(fontSize: (fontSizeAppBarTitle -5) * fontSize.factor, color: fontColorOnBackground),
+                          textAlign: TextAlign.start,
+                        ),
+                        Divider(
+                          color: fontColorOnBackground,
+                        ),
+                        SizedBox(height:paddingBarTop),
+                      ],
                     ),
                     Divider(color: dividerColor, height: dividerTitleSpacing),
                     Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
@@ -148,6 +184,64 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         style: TextStyle(fontSize: fontSizeSectionTitle * fontSize.factor, color: fontColorOnBackground),
                       )
                     ]),
+                    Divider(color: dividerColor,),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          openDropdown();
+                        });
+                      },
+                      child: ListTile(
+                        contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
+                        tileColor: secondColor,
+                        subtitle: Padding(
+                          padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
+                          child: Text(S.of(context).changeTheLanguageOfTheApp, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor)),
+                        ),
+                        title: new Text(
+                          S.of(context).language,
+                          style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond),
+                        ),
+                        trailing:  DropdownButton<String>(
+                          key: _dropdownKey,
+                          value: config["language"] == "" ? "en" : config["language"], // this had to be done, because config["language"] isn´t directly initialized as reading SharedPreferences needs some time
+                          icon: Icon(
+                            Icons.arrow_drop_down_rounded,
+                            color: mainColor,
+                          ),
+                          iconSize: 24,
+                          elevation: 8,
+                          //style: TextStyle(color: Colors.deepPurple),
+                          underline: Container(
+                            height: 2,
+                            color: mainColor,
+                          ),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              config["language"] = newValue;
+                              S.load(Locale(newValue!, ''));
+                            });
+                            AppBuilder.of(context)!.rebuild();
+                            saveToSharedPrefs(config);
+                          },
+                          items: languageList.map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    value + "  ",
+                                    style: TextStyle(color: fontColorOnSecond),
+                                  ),
+                                  Image.asset(getPathForLanguage(value)!, height: 20, width: 20, fit: BoxFit.fill),
+                                ],
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),
                     Divider(color: dividerColor),
                     GestureDetector(
                       onTap: () {

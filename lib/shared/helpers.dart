@@ -130,3 +130,14 @@ DeviceType getDeviceType(String deviceType){
   return dt;
 }
 
+String? getPathForLanguage(String language){
+  if(language == "de")
+    return  "assets/flagImages/devolo_DE.png";
+
+  else if(language == "fr")
+    return  "assets/flagImages/devolo_FR.png";
+
+  else if(language == "gb" || language == "en")
+    return  "assets/flagImages/devolo_UK.png";
+}
+

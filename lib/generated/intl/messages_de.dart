@@ -67,6 +67,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "change": MessageLookupByLibrary.simpleMessage("ändern"),
         "changePlcNetworkPassword": MessageLookupByLibrary.simpleMessage(
             "PLC-Netzwerk Passwort ändern"),
+        "changeTheLanguageOfTheApp": MessageLookupByLibrary.simpleMessage(
+            "Ändere die Spache der Anwendung"),
         "checkUpdates":
             MessageLookupByLibrary.simpleMessage(" Aktualisierungen suchen "),
         "chooseNetwork": MessageLookupByLibrary.simpleMessage(
@@ -152,6 +154,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "internetCentered":
             MessageLookupByLibrary.simpleMessage("Internetzentrisch"),
         "ipAddress": MessageLookupByLibrary.simpleMessage("IP-Adresse"),
+        "language": MessageLookupByLibrary.simpleMessage("Sprache"),
         "launchWebInterface":
             MessageLookupByLibrary.simpleMessage("Webinterface \nöffnen "),
         "macAddress": MessageLookupByLibrary.simpleMessage("MAC-Adresse"),

@@ -45,6 +45,8 @@
   "showPassword": "Passwort anzeigen ",
   "showLogs": "Zeige Logs",
   "passwordMustBeGreaterThan8Characters": "Passwort muss länger als 8 Zeichen sein",
+  "changeTheLanguageOfTheApp": "Ändere die Spache der Anwendung",
+  "language": "Sprache",
 
   "@_UPDATE_SCREEN": {
   },
@@ -241,5 +243,4 @@
   "netmask": "Netzmaske",
   "fillInIpAddress": "Bitte IP-Adresse eintragen",
   "fillInNetmask": "Bitte Netzmaske eintragen"
-
 }

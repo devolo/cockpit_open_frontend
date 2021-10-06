@@ -340,6 +340,26 @@ class S {
     );
   }
 
+  /// `Change the language of the App`
+  String get changeTheLanguageOfTheApp {
+    return Intl.message(
+      'Change the language of the App',
+      name: 'changeTheLanguageOfTheApp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Language`
+  String get language {
+    return Intl.message(
+      'Language',
+      name: 'language',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Name`
   String get name {
     return Intl.message(

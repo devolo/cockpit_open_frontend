@@ -66,6 +66,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "change": MessageLookupByLibrary.simpleMessage("Modifier"),
         "changePlcNetworkPassword": MessageLookupByLibrary.simpleMessage(
             "Modifiez le mot de passe du réseau CPL"),
+        "changeTheLanguageOfTheApp": MessageLookupByLibrary.simpleMessage(
+            "Changer la langue de l\'application"),
         "checkUpdates":
             MessageLookupByLibrary.simpleMessage("Rechercher des mises à jour"),
         "chooseNetwork": MessageLookupByLibrary.simpleMessage(
@@ -154,6 +156,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "internetCentered": MessageLookupByLibrary.simpleMessage(
             "Centrer la vue d´ensamble sur l´internet"),
         "ipAddress": MessageLookupByLibrary.simpleMessage("Adresse IP "),
+        "language": MessageLookupByLibrary.simpleMessage("Langue"),
         "launchWebInterface": MessageLookupByLibrary.simpleMessage("Site web"),
         "macAddress": MessageLookupByLibrary.simpleMessage("Adresse MAC "),
         "manualErrorBody": MessageLookupByLibrary.simpleMessage(

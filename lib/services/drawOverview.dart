@@ -30,7 +30,7 @@ class DrawOverview extends CustomPainter {
   bool showingSpeeds = false; //true: draw the device circles with speeds as content. false: draw device circles with icons as content.
   double dashWidth = 9, dashSpace = 5, startX = 0;
   bool connect = false;
-  int hoveredDevice = 200;
+  int hoveredDevice = 999; // displays wich device index is hovered, if no device is hovered the index is set to 999
 
   final _textStyle = TextStyle(
     color: drawingColor,
@@ -341,7 +341,6 @@ class DrawOverview extends CustomPainter {
       final downStreamTextSpan = TextSpan(
         text: speedUp + " " + String.fromCharCode(0x2191) + "\n" + speedDown +
             " " + String.fromCharCode(0x2193),
-        //text: String.fromCharCode(0x2191) + " " + speedUp + "\n" + String.fromCharCode(0x2193) + " " + speedDown,
         style: _speedTextStyle,
       );
       final mbpsTextSpan = TextSpan(

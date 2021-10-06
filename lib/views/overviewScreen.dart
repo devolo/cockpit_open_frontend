@@ -55,7 +55,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
   late FontSize fontSize;
 
-  var hoveredDevice = 200;
+  var hoveredDevice = 999; //displays wich device index is hovered, if no device is hovered the index is set to 999
 
   @override
   void initState() {
@@ -128,7 +128,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                     child: CustomPaint(
                       painter: _Painter,
                       child: MouseRegion(
-                      cursor: (hoveredDevice != 200) ? SystemMouseCursors.click : MouseCursor.defer,
+                      cursor: (hoveredDevice != 999) ? SystemMouseCursors.click : MouseCursor.defer,
                       onHover: (details) => {
                         _handleHover(details,_deviceList)
                       },
@@ -313,7 +313,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
         final deviceList = Provider.of<NetworkList>(context, listen: false);
 
         setState(() {
-          hoveredDevice = 200;
+          hoveredDevice = 999;
 
           _deviceList.pivotDeviceIndexList[deviceList.selectedNetworkIndex] = 0;
           if (!config["show_speeds_permanent"]) {

@@ -202,44 +202,59 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           S.of(context).language,
                           style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond),
                         ),
-                        trailing:  DropdownButton<String>(
-                          key: _dropdownKey,
-                          value: config["language"] == "" ? "en" : config["language"], // this had to be done, because config["language"] isn´t directly initialized as reading SharedPreferences needs some time
-                          icon: Icon(
-                            Icons.arrow_drop_down_rounded,
-                            color: mainColor,
+                        trailing:  Container(
+                          //width: 70,
+                          padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.0), color: secondColor.withOpacity(0.2), border: Border.all(color: fontColorOnSecond)),
+                          child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            key: _dropdownKey,
+                            value: config["language"] == "" ? "en" : config["language"], // this had to be done, because config["language"] isn´t directly initialized as reading SharedPreferences needs some time
+                            icon: Icon(
+                              DevoloIcons.ic_arrow_drop_down_24px,
+                            ),
+                            iconSize: 24,
+                            elevation: 8,
+                            //style: TextStyle(color: Colors.deepPurple),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                config["language"] = newValue;
+                                S.load(Locale(newValue!, ''));
+                              });
+                              AppBuilder.of(context)!.rebuild();
+                              saveToSharedPrefs(config);
+                            },
+                            // selectedItemBuilder: (BuildContext context) {
+                            //   return languageList.map((String value) {
+                            //     return Container(
+                            //       width: 20,
+                            //       child: Row(
+                            //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            //         children: [
+                            //           Image.asset(getPathForLanguage(value)!, height: 20, width: 20, fit: BoxFit.fill),
+                            //         ],
+                            //       ),
+                            //     );
+                            //   }).toList();
+                            // },
+                            items: languageList.map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      languageMapFull[value].toString() + "  ",
+                                      style: TextStyle(color: fontColorOnSecond),
+                                    ),
+                                    Image.asset(getPathForLanguage(value)!, height: 20, width: 20, fit: BoxFit.fill),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
                           ),
-                          iconSize: 24,
-                          elevation: 8,
-                          //style: TextStyle(color: Colors.deepPurple),
-                          underline: Container(
-                            height: 2,
-                            color: mainColor,
-                          ),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              config["language"] = newValue;
-                              S.load(Locale(newValue!, ''));
-                            });
-                            AppBuilder.of(context)!.rebuild();
-                            saveToSharedPrefs(config);
-                          },
-                          items: languageList.map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    value + "  ",
-                                    style: TextStyle(color: fontColorOnSecond),
-                                  ),
-                                  Image.asset(getPathForLanguage(value)!, height: 20, width: 20, fit: BoxFit.fill),
-                                ],
-                              ),
-                            );
-                          }).toList(),
                         ),
+                      ),
                       ),
                     ),
                     Divider(color: dividerColor),

@@ -282,52 +282,6 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             InkWell(child: Icon(DevoloIcons.logo, color: fontColorOnMain,)),
             Spacer(),
-            // DropdownButton<String>(
-            //   value: config["language"] == "" ? "en" : config["language"], // this had to be done, because config["language"] isn´t directly initialized as reading SharedPreferences needs some time
-            //   dropdownColor: secondColor,
-            //   //isDense: true,
-            //   elevation: 8,
-            //   style: TextStyle(color: fontColorOnSecond),
-            //   iconEnabledColor: fontColorOnMain,
-            //   underline: Container(
-            //     height: 0,
-            //     color: secondColor,
-            //   ),
-            //   onChanged: (String? newValue2) {
-            //     setState(() {
-            //       config["language"] = newValue2;
-            //       //logger.i(newValue2);
-            //       S.load(Locale(newValue2!, ''));
-            //     });
-            //     AppBuilder.of(context)!.rebuild();
-            //     saveToSharedPrefs(config);
-            //   },
-            //   selectedItemBuilder: (BuildContext context) {
-            //     return languageList.map((String value) {
-            //       return Row(
-            //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-            //         children: [
-            //           Image.asset(getPathForLanguage(value)!, height: 20, width: 20, fit: BoxFit.fill),
-            //         ],
-            //       );
-            //     }).toList();
-            //   },
-            //   items: languageList.map<DropdownMenuItem<String>>((String _value2) {
-            //     return DropdownMenuItem<String>(
-            //       value: _value2,
-            //       child: Row(
-            //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-            //         children: [
-            //           Text(
-            //             _value2 + " ",
-            //             textScaleFactor: fontSize.factor,
-            //           ),
-            //           Image.asset(getPathForLanguage(_value2)!, height: 20, width: 20, fit: BoxFit.fill),
-            //         ],
-            //       ),
-            //     );
-            //   }).toList(),
-            // ),
             IconButton(
               icon: const Icon(DevoloIcons.ic_brightness_medium_24px),
               color: fontColorOnMain,

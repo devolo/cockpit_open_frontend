@@ -11,3 +11,5 @@ final List<String> languageList = <String>[
   "en",
   "fr",
 ];
+
+final Map<String,String> languageMapFull = {"de": "Deutsch", "en": "English", "fr": "Français"};

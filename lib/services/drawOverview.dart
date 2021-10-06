@@ -205,17 +205,12 @@ class DrawOverview extends CustomPainter {
     }
   }
 
-  void drawDeviceConnection(Canvas canvas, Offset deviceOffset, Map thickness, Map color) {
-    double arrowRadian = 30 / 57.295779513082; //Convert degree into radian - angle of the arrow to the baseline
+  void drawDeviceConnection(Canvas canvas, Offset deviceOffset, Map color) {
 
     Offset absoluteOffset = Offset(deviceOffset.dx + (screenWidth / 2), deviceOffset.dy + (screenHeight / 2));
     Offset absolutePivotOffset = Offset(_deviceIconOffsetList.elementAt(pivotDeviceIndex).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(pivotDeviceIndex).dy + (screenHeight / 2));
 
-    double lineLength = sqrt(pow(absoluteOffset.dx - absolutePivotOffset.dx, 2) + pow(absoluteOffset.dy - absolutePivotOffset.dy, 2));
-
-    double outerCircle = (completeCircleRadius + 7) / lineLength; // factor where the arrow tip ends
-    double shiftFactor = (1 + (thickness["rx"] + thickness["tx"]) / 4) / lineLength; // how much space between lines (dependents on line thickness)
-    double arrowLength = 27 / lineLength; // how long is the arrow tip
+    double shiftFactor = 0.01; // how much space between lines
 
     Offset lineDirection = Offset(absolutePivotOffset.dx - absoluteOffset.dx, absolutePivotOffset.dy - absoluteOffset.dy);
 
@@ -223,10 +218,7 @@ class DrawOverview extends CustomPainter {
 
     if (lineDirection.dx <= 0) {
       shiftFactor = -shiftFactor;
-      arrowRadian = -arrowRadian;
     }
-
-    Offset arrowDirection = Offset(lineDirection.dx * cos(arrowRadian) - lineDirection.dy * sin(arrowRadian), lineDirection.dx * sin(arrowRadian) + lineDirection.dy * cos(arrowRadian));
 
     Offset absoluteOffsetRx = Offset(deviceOffset.dx + (screenWidth / 2) + shiftFactor * lineDirectionOrtho.dx, deviceOffset.dy + (screenHeight / 2) + shiftFactor * lineDirectionOrtho.dy);
     Offset absolutePivotOffsetRx = Offset(_deviceIconOffsetList.elementAt(pivotDeviceIndex).dx + (screenWidth / 2) + shiftFactor * lineDirectionOrtho.dx, _deviceIconOffsetList.elementAt(pivotDeviceIndex).dy + (screenHeight / 2) + shiftFactor * lineDirectionOrtho.dy);
@@ -234,56 +226,43 @@ class DrawOverview extends CustomPainter {
     Offset absoluteOffsetTx = Offset(deviceOffset.dx + (screenWidth / 2) - shiftFactor * lineDirectionOrtho.dx, deviceOffset.dy + (screenHeight / 2) - shiftFactor * lineDirectionOrtho.dy);
     Offset absolutePivotOffsetTx = Offset(_deviceIconOffsetList.elementAt(pivotDeviceIndex).dx + (screenWidth / 2) - shiftFactor * lineDirectionOrtho.dx, _deviceIconOffsetList.elementAt(pivotDeviceIndex).dy + (screenHeight / 2) - shiftFactor * lineDirectionOrtho.dy);
 
-    Offset absoluteOffsetArrowStartRx = Offset(absolutePivotOffsetRx.dx - outerCircle * lineDirection.dx, absolutePivotOffsetRx.dy - outerCircle * lineDirection.dy);
-    Offset absoluteOffsetArrowEndRx;
-
-    Offset absoluteOffsetArrowStartTx = Offset(absoluteOffsetTx.dx + outerCircle * lineDirection.dx, absoluteOffsetTx.dy + outerCircle * lineDirection.dy);
-    Offset absoluteOffsetArrowEndTx;
-
-    if (lineDirection.dx > 0) {
-      absoluteOffsetArrowEndRx = Offset(absoluteOffsetArrowStartRx.dx - arrowLength * arrowDirection.dx, absoluteOffsetArrowStartRx.dy - arrowLength * arrowDirection.dy);
-      absoluteOffsetArrowEndTx = Offset(absoluteOffsetArrowStartTx.dx + arrowLength * arrowDirection.dx, absoluteOffsetArrowStartTx.dy + arrowLength * arrowDirection.dy);
-    } else {
-      absoluteOffsetArrowEndRx = Offset(absoluteOffsetArrowStartRx.dx - arrowLength * arrowDirection.dx, absoluteOffsetArrowStartRx.dy - arrowLength * arrowDirection.dy);
-      absoluteOffsetArrowEndTx = Offset(absoluteOffsetArrowStartTx.dx + arrowLength * arrowDirection.dx, absoluteOffsetArrowStartTx.dy + arrowLength * arrowDirection.dy);
-    }
-
-    if (thickness['rx'] < 1.0) {
-      canvas.drawLine(
-          absolutePivotOffsetRx,
-          absoluteOffsetRx,
-          _linePaint
-            ..colorFilter = ColorFilter.mode(Colors.blueGrey[200]!, BlendMode.color)
-            ..strokeWidth = 1.0); //thickness['rx']
-    }
-    if (thickness['tx'] < 1.0) {
-      canvas.drawLine(
-          absolutePivotOffsetTx,
-          absoluteOffsetTx,
-          _linePaint
-            ..colorFilter = ColorFilter.mode(Colors.blueGrey[200]!, BlendMode.color)
-            ..strokeWidth = 1.0); //thickness['tx']
-    } else {
-
-      drawArrow(canvas, absoluteOffsetRx, absoluteOffsetArrowStartRx, absoluteOffsetArrowEndRx, thickness['rx'], color['rx']);
-      drawArrow(canvas, absolutePivotOffsetTx, absoluteOffsetArrowStartTx, absoluteOffsetArrowEndTx, thickness['tx'], color['tx']);
-    }
+    drawArrow(canvas, absoluteOffsetRx, absolutePivotOffsetRx, color['rx']);
+    drawArrow(canvas, absolutePivotOffsetTx, absoluteOffsetTx, color['tx']);
 
   }
 
-  void drawArrow(Canvas canvas, start, middle, end, thickness, color) {
+  void drawArrow(Canvas canvas, start, end, color) {
+
+    var dx = end.dx - start.dx;
+    var dy = end.dy - start.dy;
+    var distance = sqrt(pow(dx, 2) + pow(dy, 2));
+    var headLength = 15; // length of head in pixels
+    double paddingEnd = distance/5;
+    double paddingStart = paddingEnd + headLength + 5;
+    var angle = atan2(dy, dx);
+
+    dynamic startDx = start.dx + cos(angle) * paddingStart;
+    dynamic startDy = start.dy+ sin(angle) * paddingStart;
+    dynamic endDx = end.dx - cos(angle) * paddingEnd;
+    dynamic endDy = end.dy-sin(angle) * paddingEnd;
+
     var path = Path();
-
-    path.moveTo(start.dx, start.dy);
-    path.lineTo(middle.dx, middle.dy);
-    path.lineTo(end.dx, end.dy);
-    path.lineTo(middle.dx, middle.dy);
-    path.close();
-
+    path.moveTo(startDx, startDy);
+    path.lineTo(endDx, endDy);
     canvas.drawPath(
         path,
         _arrowPaint
-          ..strokeWidth = thickness
+          ..strokeWidth = 2.5
+          ..color = color);
+
+    path.moveTo(endDx, endDy);
+    path.lineTo(endDx - headLength * cos(angle - pi / 6), endDy - headLength * sin(angle - pi / 6));
+    path.moveTo(endDx, endDy);
+    path.lineTo(endDx - headLength * cos(angle + pi / 6), endDy - headLength * sin(angle + pi / 6));
+    canvas.drawPath(
+        path,
+        _arrowPaint
+          ..strokeWidth = 2.5
           ..color = color);
   }
 
@@ -545,7 +524,7 @@ class DrawOverview extends CustomPainter {
 
       //do not draw pivot device line, since it would start and end at the same place
       if (numDev != pivotDeviceIndex) {
-        drawDeviceConnection(canvas, _deviceIconOffsetList.elementAt(numDev), {"rx": 5.0, "tx": 5.0}, getLineColor(numDev));
+        drawDeviceConnection(canvas, _deviceIconOffsetList.elementAt(numDev), getLineColor(numDev));
       }
 
       if (config["show_other_devices"]) {
@@ -560,20 +539,20 @@ class DrawOverview extends CustomPainter {
 
   Map<String, dynamic> getLineColor(int dev) {
     // ToDo
-    Map<String, Color> colors = {"rx": Colors.grey, "tx":Colors.grey};
+    Map<String, Color> colors = {"rx": devoloLightGray, "tx": devoloLightGray};
     dynamic rates = _deviceList[pivotDeviceIndex].speeds![_deviceList[dev].mac];
     if (rates != null) {
       if (rates.rx > 400)
         colors['rx'] = devoloGreen;
       else if (rates.rx > 100)
-        colors['rx'] = Colors.yellow;
-      else if (rates.rx < 100) colors['rx'] = Colors.red;
+        colors['rx'] = devoloOrange;
+      else if (rates.rx < 100) colors['rx'] = devoloRed;
 
       if (rates.tx > 400)
         colors['tx'] = devoloGreen;
       else if (rates.tx > 100)
-        colors['tx'] = Colors.yellow;
-      else if (rates.tx < 100) colors['tx'] = Colors.red;
+        colors['tx'] = devoloOrange;
+      else if (rates.tx < 100) colors['tx'] = devoloRed;
     }
     return colors;
   }

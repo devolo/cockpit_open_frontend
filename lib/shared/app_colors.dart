@@ -33,7 +33,7 @@ Color devoloLighterGray = Color.fromARGB(255, 108, 116, 121);
 Color devoloLightGray = Color.fromARGB(255, 193, 195, 197);
 Color devoloLightGray66 = Color.fromARGB(255, 131, 136, 139);
 Color devoloGreen = Color.fromARGB(255, 118, 184, 42);
-Color devoloOrange = Color.fromARGB(255, 243, 146, 0);
+Color devoloOrange = Color.fromARGB(255, 238, 114, 3);
 Color devoloRed = Color.fromARGB(255, 199, 20, 61);
 
 Color buttonDisabledBackground = Color.fromARGB(255,234, 235, 236);

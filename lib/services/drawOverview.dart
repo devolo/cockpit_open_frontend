@@ -20,7 +20,8 @@ import 'package:cockpit_devolo/generated/l10n.dart';
 import 'dart:ui';
 
 class DrawOverview extends CustomPainter {
-  double hnCircleRadius = 35.0; //afwwafwafa
+  double hnCircleRadius = 35.0;
+  double hnCircleShadowRadius = 50.0;
   double completeCircleRadius = 50.0;
   late List<Device> _deviceList;
   late NetworkList _providerList;
@@ -239,8 +240,10 @@ class DrawOverview extends CustomPainter {
     var dy = end.dy - start.dy;
     var distance = sqrt(pow(dx, 2) + pow(dy, 2));
     var headLength = 15; // length of head in pixels
-    double paddingEnd = distance/5;
+    double paddingEnd = (distance/8) + hnCircleShadowRadius;
     double paddingStart = paddingEnd + headLength + 5;
+
+
     var angle = atan2(dy, dx);
 
     dynamic startDx = start.dx + cos(angle) * paddingStart;
@@ -272,7 +275,7 @@ class DrawOverview extends CustomPainter {
   void drawDeviceIconBorder(Canvas canvas, int deviceIndex) {
     Offset absoluteOffset = Offset(_deviceIconOffsetList.elementAt(deviceIndex).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(deviceIndex).dy + (screenHeight / 2));
 
-    canvas.drawCircle(absoluteOffset, hnCircleRadius + 15, _circleAreaPaint); //"shadow" of the device circle. covers the connection lines.s
+    canvas.drawCircle(absoluteOffset, hnCircleShadowRadius, _circleAreaPaint); //"shadow" of the device circle. covers the connection lines.s
 
     if (showingSpeeds && deviceIndex != pivotDeviceIndex) {
       canvas.drawCircle(absoluteOffset, hnCircleRadius, _speedCircleAreaPaint); //the inner filling of a device circle, when showing speeds

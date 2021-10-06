@@ -65,8 +65,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "back": MessageLookupByLibrary.simpleMessage("zurück"),
         "cancel": MessageLookupByLibrary.simpleMessage("Abbrechen"),
         "change": MessageLookupByLibrary.simpleMessage("ändern"),
-        "changePlcNetworkPassword": MessageLookupByLibrary.simpleMessage(
-            "PLC-Netzwerk Passwort ändern"),
+        "changePlcNetworkPassword":
+            MessageLookupByLibrary.simpleMessage("PLC-Netzwerk Passwort"),
         "changeTheLanguageOfTheApp": MessageLookupByLibrary.simpleMessage(
             "Ändere die Spache der Anwendung"),
         "checkUpdates":

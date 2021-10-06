@@ -375,7 +375,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
                     ),
                     child: ListTile(
-                        tileColor: selectedPage == 3 ? Colors.white.withOpacity(0.2) : null,
+                        tileColor: selectedPage == 2 ? Colors.white.withOpacity(0.2) : null,
                         leading: Icon(DevoloIcons.devolo_UI_settings, color: fontColorOnMain, size: 24*fontSize.factor),
                         title: Text(S.of(context).settings,
                             style: TextStyle(color: fontColorOnMain),
@@ -391,7 +391,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
                     ),
                     child: ListTile(
-                        tileColor: (!helpNavigationCollapsed && selectedPage == 2) ? Colors.white.withOpacity(0.2) : null,
+                        tileColor: (!helpNavigationCollapsed && selectedPage == 3) ? Colors.white.withOpacity(0.2) : null,
                         leading: Icon(DevoloIcons.ic_help_24px, color: fontColorOnMain, size: 24*fontSize.factor),
                         trailing: Icon(helpNavigationCollapsed ? DevoloIcons.ic_remove_24px_1 : DevoloIcons.devolo_UI_add, color: fontColorOnMain, size: 20*fontSize.factor),
                         title: Text(S.of(context).help,
@@ -410,7 +410,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
                       ),
                       child: ListTile(
-                          tileColor: selectedPage == 2 ? Colors.white.withOpacity(0.2) : null,
+                          tileColor: selectedPage == 3 ? Colors.white.withOpacity(0.2) : null,
                           title: Padding(padding: EdgeInsets.only(left:paddingLeftDrawerUnderSection),child : Text(S.of(context).setUpDevice,
                               style: TextStyle(color: fontColorOnMain),
                               textScaleFactor: fontSize.factor
@@ -427,7 +427,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
                     ),
                     child: ListTile(
-                        tileColor: selectedPage == 2 ? Colors.white.withOpacity(0.2) : null,
+                        tileColor: selectedPage == 3 ? Colors.white.withOpacity(0.2) : null,
                         title: Padding(padding: EdgeInsets.only(left:paddingLeftDrawerUnderSection),child : Text(S.of(context).optimizeReception,
                             style: TextStyle(color: fontColorOnMain),
                             textScaleFactor: fontSize.factor
@@ -444,7 +444,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
                     ),
                     child: ListTile(
-                        tileColor: selectedPage == 2 ? Colors.white.withOpacity(0.2) : null,
+                        tileColor: selectedPage == 3 ? Colors.white.withOpacity(0.2) : null,
                         title: Padding(padding: EdgeInsets.only(left:paddingLeftDrawerUnderSection),child : Text(S.of(context).contactSupport,
                             style: TextStyle(color: fontColorOnMain),
                             textScaleFactor: fontSize.factor

@@ -64,8 +64,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "back": MessageLookupByLibrary.simpleMessage("Précédente"),
         "cancel": MessageLookupByLibrary.simpleMessage("Annuler"),
         "change": MessageLookupByLibrary.simpleMessage("Modifier"),
-        "changePlcNetworkPassword": MessageLookupByLibrary.simpleMessage(
-            "Modifiez le mot de passe du réseau CPL"),
+        "changePlcNetworkPassword":
+            MessageLookupByLibrary.simpleMessage("Mot de passe du réseau CPL"),
         "changeTheLanguageOfTheApp": MessageLookupByLibrary.simpleMessage(
             "Changer la langue de l\'application"),
         "checkUpdates":

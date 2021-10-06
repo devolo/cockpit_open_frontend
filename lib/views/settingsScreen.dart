@@ -824,7 +824,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               children: [
                                 SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/themeImages/theme_devolo.PNG'))),
                                 new Text(
-                                  "Standard Theme",
+                                  "Devolo Theme",
                                   style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
                                 ),
                               ],

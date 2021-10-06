@@ -20,6 +20,7 @@ import 'package:cockpit_devolo/shared/app_fontSize.dart';
 import 'package:cockpit_devolo/shared/devolo_icons.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:cockpit_devolo/shared/informationDialogs.dart';
+import 'package:cockpit_devolo/shared/networkSettingsDialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -155,7 +156,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                             icon: Icon(DevoloIcons.devolo_UI_more_horiz, color: fontColorOnBackground, size: 24 * fontSize.factor),
                             onSelected: (dynamic value){
                               if(value == "networkSettings"){
-                                notAvailableDialog(context, fontSize);
+                                networkSettingsDialog(context, _deviceList, myFocusNode, socket, fontSize);
                               }
                               else{
                                 _deviceList.selectedNetworkIndex = value;

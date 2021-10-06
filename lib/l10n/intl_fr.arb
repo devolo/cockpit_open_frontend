@@ -40,7 +40,7 @@
   "ignoreUpdates": "Ignorer les mises à jour des apparails",
   "recordTheTransmissionPowerOfTheDevicesAndTransmitIt": "Enregistrer les taux de transmission des appareils CPL et les envoyer à devolo.",
   "change": "Modifier",
-  "changePlcNetworkPassword": "Modifiez le mot de passe du réseau CPL",
+  "changePlcNetworkPassword": "Mot de passe du réseau CPL",
   "pleaseEnterPassword": "Entrez un mot de passe",
   "showPassword": "Montrer le mot de passe",
   "showLogs": "Voir le fichier journal",

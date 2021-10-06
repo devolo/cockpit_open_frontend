@@ -290,10 +290,10 @@ class S {
     );
   }
 
-  /// `Change PLC network password`
+  /// `PLC network password`
   String get changePlcNetworkPassword {
     return Intl.message(
-      'Change PLC network password',
+      'PLC network password',
       name: 'changePlcNetworkPassword',
       desc: '',
       args: [],

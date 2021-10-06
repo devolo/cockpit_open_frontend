@@ -40,7 +40,7 @@
   "ignoreUpdates": "Ignore device updates",
   "recordTheTransmissionPowerOfTheDevicesAndTransmitIt": "Record the transmission power of PLC devices and send it to devolo",
   "change": "Change",
-  "changePlcNetworkPassword": "Change PLC network password",
+  "changePlcNetworkPassword": "PLC network password",
   "pleaseEnterPassword": "Enter password",
   "showPassword": "Show password",
   "showLogs": "Show logs",

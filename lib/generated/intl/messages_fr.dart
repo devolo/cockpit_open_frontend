@@ -177,6 +177,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "- Vérifiez la connexion avec l´adapteur CPL et réessayez l\'action."),
         "networkPasswordErrorTitle": MessageLookupByLibrary.simpleMessage(
             "La définition du mot de passe réseau n\'a pas abouti"),
+        "networkSettings":
+            MessageLookupByLibrary.simpleMessage("Paramètres réseau"),
         "noDevicesFoundScanningForDevices":
             MessageLookupByLibrary.simpleMessage(
                 "Aucun adapteur trouvé. \n\nRecherche d\'appareils ..."),
@@ -284,6 +286,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Vérifiez que votre adresse e-mail est correcte et que vous avez saisi un numéro de processus valide."),
         "supportInfoSendErrorTitle":
             MessageLookupByLibrary.simpleMessage("Impossible d\'envoyer"),
+        "switchNetwork":
+            MessageLookupByLibrary.simpleMessage("Choisir un réseau"),
         "theCreatedSupportInformationCanNowBeSentToDevolo":
             MessageLookupByLibrary.simpleMessage(
                 "Les informations créées peuvent maintenant être envoyées au support de devolo.\nComplétez le formulaire ci-dessous."),

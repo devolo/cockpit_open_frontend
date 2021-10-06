@@ -175,6 +175,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "- Check the connection to the PLC device and repeat the action"),
         "networkPasswordErrorTitle": MessageLookupByLibrary.simpleMessage(
             "Failed to set the network password"),
+        "networkSettings":
+            MessageLookupByLibrary.simpleMessage("Network Settings"),
         "noDevicesFoundScanningForDevices":
             MessageLookupByLibrary.simpleMessage(
                 "No devices found. \n\nScanning for devices ..."),
@@ -277,6 +279,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Check that your email address is correct and that you have entered a valid processing number."),
         "supportInfoSendErrorTitle":
             MessageLookupByLibrary.simpleMessage("Failed to send"),
+        "switchNetwork": MessageLookupByLibrary.simpleMessage("Switch Network"),
         "theCreatedSupportInformationCanNowBeSentToDevolo":
             MessageLookupByLibrary.simpleMessage(
                 "The created support information can now be sent to devolo support.\nFill in the following fields"),

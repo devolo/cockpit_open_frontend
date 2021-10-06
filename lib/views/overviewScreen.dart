@@ -14,6 +14,7 @@ import 'package:cockpit_devolo/models/deviceModel.dart';
 import 'package:cockpit_devolo/models/fontSizeModel.dart';
 import 'package:cockpit_devolo/services/drawOverview.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
+import 'package:cockpit_devolo/shared/alertDialogs.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/app_fontSize.dart';
 import 'package:cockpit_devolo/shared/devolo_icons.dart';
@@ -140,10 +141,56 @@ class _OverviewScreenState extends State<OverviewScreen> {
                 Container(
                   alignment: Alignment.topCenter,
                   padding: EdgeInsets.only(top: 20.0),
-                  child: Text(
-                      _deviceList.getNetworkName(_deviceList.selectedNetworkIndex),
-                      style: TextStyle(color: fontColorOnBackground, fontSize: 18 * fontSize.factor, fontWeight: FontWeight.w600),
-                  ),
+                  child: Row(
+                      mainAxisAlignment : MainAxisAlignment.center,
+                      children:[
+                        Text(
+                          _deviceList.getNetworkName(_deviceList.selectedNetworkIndex),
+                          style: TextStyle(color: fontColorOnBackground, fontSize: 18 * fontSize.factor, fontWeight: FontWeight.w600),
+                        ),
+                        PopupMenuButton(
+                            offset: Offset(_deviceList.getNetworkName(_deviceList.selectedNetworkIndex).length.toDouble() + 185, 40),
+                            color: backgroundColor,
+                            tooltip: S.of(context).networkSettings,
+                            icon: Icon(DevoloIcons.devolo_UI_more_horiz, color: fontColorOnBackground, size: 24 * fontSize.factor),
+                            onSelected: (dynamic value){
+                              if(value == "networkSettings"){
+                                notAvailableDialog(context, fontSize);
+                              }
+                              else{
+                                _deviceList.selectedNetworkIndex = value;
+                                config["selected_network"] = value;
+                                saveToSharedPrefs(config);
+                                AppBuilder.of(context)!.rebuild();
+                              }
+                            },
+                            itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                              PopupMenuItem(
+                                value: "networkSettings",
+                                child: SizedBox(    // needed as different languages have different length which influences the offset
+                                  width: 180,
+                                  child: Text(S.of(context).networkSettings, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor),),
+                                ),
+                              ),
+                              if(_deviceList.getNetworkListLength() > 1) ...[
+                                PopupMenuDivider(),
+                                PopupMenuItem(
+                                  enabled: false,
+                                  child: Text(S.of(context).switchNetwork, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor)),
+                                  ),
+                                for(int i = 0; i < _deviceList.getNetworkListLength(); i++) ...[
+                                  PopupMenuItem(
+                                    enabled: _deviceList.selectedNetworkIndex == i ? false : true,
+                                    value: i,
+                                    child: Padding(
+                                        padding: EdgeInsets.only(left: 50, right: 10), //Needs to be done here as the parent padding gets ignored when the item is disabled
+                                        child: Text(_deviceList.getNetworkName(i), style: TextStyle(color: _deviceList.selectedNetworkIndex == i ? devoloLightGray : fontColorOnBackground, fontSize: 14 * fontSize.factor, fontWeight: _deviceList.selectedNetworkIndex == i ? FontWeight.w600 : null))),
+                                  ),
+                                ]
+                              ]
+                            ],
+                          )
+                      ]),
                 ),
                 if(!socket.connected)
                 new BackdropFilter(

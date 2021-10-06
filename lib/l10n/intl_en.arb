@@ -155,6 +155,8 @@
   "yourPc": "Your PC",
   "thisPc": "This PC",
   "internet": "Internet",
+  "switchNetwork": "Switch Network",
+  "networkSettings": "Network Settings",
 
   "@_DIALOG": {
   },

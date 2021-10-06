@@ -414,7 +414,7 @@ class DrawOverview extends CustomPainter {
     _textPainter.paint(canvas, Offset(absoluteOffset.dx - (_textPainter.width / 2), absoluteOffset.dy + hnCircleRadius + productNameHeight + userNameHeight));
   }
 
-  void drawInternetIcon(Canvas canvas, icon) {
+  void drawMainIcon(Canvas canvas, icon) {
     Offset absoluteRouterOffset = Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2));
     Offset absoluteAreaOffset = Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2) + 30);
     Offset absoluteRouterDeviceOffset = Offset(_deviceIconOffsetList.elementAt(0).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(0).dy + (screenHeight / 2));
@@ -623,12 +623,12 @@ class DrawOverview extends CustomPainter {
       getConnection();
       connect = connected;
       if (connected) {
-        drawInternetIcon(canvas, DevoloIcons.devolo_UI_internet);
+        drawMainIcon(canvas, DevoloIcons.devolo_UI_internet);
       } else {
-        drawInternetIcon(canvas, DevoloIcons.devolo_UI_internet_off);
+        drawMainIcon(canvas, DevoloIcons.devolo_UI_internet_off);
       }
     } else
-      drawInternetIcon(canvas, DevoloIcons.ic_laptop_24px);
+      drawMainIcon(canvas, DevoloIcons.ic_laptop_24px);
 
     drawAllDeviceConnections(canvas, size);
     drawAllDeviceIcons(canvas, size);

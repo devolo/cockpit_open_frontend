@@ -1150,6 +1150,26 @@ class S {
     );
   }
 
+  /// `Switch Network`
+  String get switchNetwork {
+    return Intl.message(
+      'Switch Network',
+      name: 'switchNetwork',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Network Settings`
+  String get networkSettings {
+    return Intl.message(
+      'Network Settings',
+      name: 'networkSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Confirm action`
   String get confirmAction {
     return Intl.message(

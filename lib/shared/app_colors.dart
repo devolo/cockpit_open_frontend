@@ -102,14 +102,14 @@ Map<String, dynamic> theme_devolo = {
 
 Map<String, dynamic> theme_highContrast = {
   "name": "High Contrast",
-  "mainColor" : devoloGray,
-  "backgroundColor" : devoloGray,
+  "mainColor" : Colors.black,
+  "backgroundColor" : Colors.black,
   "secondColor" : Colors.white,
   "accentColor" : Colors.yellowAccent.withOpacity(0.2),
   "drawingColor" : Colors.yellowAccent,
   "fontColorOnMain" : Colors.yellowAccent,
   "fontColorOnBackground" : Colors.yellowAccent,
-  "fontColorOnSecond" : devoloGray,
+  "fontColorOnSecond" : Colors.black,
   "updateableDevicesColor" : devoloOrange.withOpacity(0.7),
   "disabledColor" : devoloLightGray66
 };

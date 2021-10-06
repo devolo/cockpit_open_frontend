@@ -33,25 +33,30 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
         builder: (context, setState)
       {
         return AlertDialog(
-          contentTextStyle: TextStyle(color: fontColorOnBackground,
-              fontSize: dialogContentTextFontSize * fontSize.factor),
-          title: Column(
-            children: [
-              getCloseButton(context),
-              SelectableText(
-                S
-                    .of(context)
-                    .deviceInfo,
-                style: TextStyle(color: fontColorOnBackground),
-                textScaleFactor: fontSize.factor,
-              ),
-            ],
+          title: Container(
+            color: devoloBlue,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: SelectableText(
+                    S.of(context).deviceInfo,
+                    style: TextStyle(color: fontColorOnMain),
+                    textScaleFactor: fontSize.factor,
+                  ),
+                ),
+          getCloseButton(context, fontColorOnMain),
+              ],
+            ),
           ),
-          titlePadding: EdgeInsets.all(dialogTitlePadding),
+          titlePadding: EdgeInsets.all(0),
           titleTextStyle: TextStyle(
             color: fontColorOnBackground,
             fontSize: dialogTitleTextFontSize,
           ),
+            contentTextStyle: TextStyle(color: fontColorOnBackground,
+                fontSize: dialogContentTextFontSize * fontSize.factor),
           content:  StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return SingleChildScrollView(
@@ -63,291 +68,294 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                   children: <Widget>[
                     SizedBox(
                       height: 15,
-                      width: 800.0 * fontSize.factor,
+                      width: 600.0 * fontSize.factor,
                     ),
-                    Table(
-                      children: [
-                        TableRow(children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: Align(
-                                alignment: Alignment.centerRight,
-                                child: SelectableText(
-                                  "${S
-                                      .of(context)
-                                      .name}:   ",
-                                )),
-                          ),
-                          Container(
-                            width: 60, // doesn´t affect the width in the text field
-                            child: TextFormField(
-                              controller: textFieldController,
-                              focusNode: myFocusNode,
-                              style: TextStyle(color: fontColorOnBackground,
-                                  fontSize: dialogContentTextFontSize *
-                                      fontSize.factor),
-                              cursorColor: fontColorOnBackground,
-                              decoration: InputDecoration(
-                                isDense: true,
-                                hoverColor: fontColorOnBackground.withOpacity(0.2),
-                                contentPadding: new EdgeInsets.symmetric(
-                                    vertical: 5.0, horizontal: 10.0),
-                                filled: true,
-                                fillColor: fontColorOnBackground.withOpacity(0.2),
-                                //myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  borderSide: BorderSide(
-                                    color: fontColorOnBackground,
-                                    width: 2.0,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Table(
+                        children: [
+                          TableRow(children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: SelectableText(
+                                    "${S
+                                        .of(context)
+                                        .name}:   ",
+                                  )),
+                            ),
+                            Container(
+                              width: 60, // doesn´t affect the width in the text field
+                              child: TextFormField(
+                                controller: textFieldController,
+                                focusNode: myFocusNode,
+                                style: TextStyle(color: fontColorOnBackground,
+                                    fontSize: dialogContentTextFontSize *
+                                        fontSize.factor),
+                                cursorColor: fontColorOnBackground,
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  hoverColor: fontColorOnBackground.withOpacity(0.2),
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 5.0, horizontal: 10.0),
+                                  filled: true,
+                                  fillColor: fontColorOnBackground.withOpacity(0.2),
+                                  //myFocusNode.hasFocus ? secondColor.withOpacity(0.2):Colors.transparent,//secondColor.withOpacity(0.2),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    borderSide: BorderSide(
+                                      color: fontColorOnBackground,
+                                      width: 2.0,
+                                    ),
                                   ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  borderSide: BorderSide(
-                                    color: fontColorOnBackground, //Colors.transparent,
-                                    //width: 2.0,
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    borderSide: BorderSide(
+                                      color: fontColorOnBackground, //Colors.transparent,
+                                      //width: 2.0,
+                                    ),
                                   ),
-                                ),
-                                suffixIcon: (myFocusNode.hasPrimaryFocus && !changeNameLoading) ?
-                                Container(
-                                  width: 100,
-                                  child: Row(
-                                    children: [
-                                      IconButton(
+                                  suffixIcon: (myFocusNode.hasPrimaryFocus && !changeNameLoading) ?
+                                  Container(
+                                    width: 100,
+                                    child: Row(
+                                      children: [
+                                        IconButton(
+                                            icon: Icon(
+                                              DevoloIcons.devolo_UI_check_fill,
+                                              color: fontColorOnBackground,
+                                            ),
+                                            onPressed: () async {
+                                              if (newName != hitDevice.name) {
+                                                changeNameLoading = true;
+                                                AppBuilder.of(context)!.rebuild();
+                                                socket.sendXML(
+                                                    'SetAdapterName', mac: hitDevice.mac,
+                                                    newValue: newName,
+                                                    valueType: 'name');
+                                                var response = await socket.receiveXML(
+                                                    "SetAdapterNameStatus");
+                                                if (response!['result'] == "ok") {
+                                                  hitDevice.name = newName;
+                                                  await Future.delayed(
+                                                      const Duration(seconds: 1), () {});
+                                                  socket.sendXML('RefreshNetwork');
+                                                } else if (response['result'] == "device_not_found") {
+                                                  errorDialog(context, S
+                                                      .of(context)
+                                                      .deviceNameErrorTitle, S
+                                                      .of(context)
+                                                      .deviceNotFoundDeviceName + "\n\n" + S
+                                                      .of(context)
+                                                      .deviceNotFoundHint, fontSize);
+                                                } else if (response['result'] != "ok") {
+                                                  errorDialog(context, S
+                                                      .of(context)
+                                                      .deviceNameErrorTitle, S
+                                                      .of(context)
+                                                      .deviceNameErrorBody, fontSize);
+                                                }
+
+                                                changeNameLoading = false;
+                                                myFocusNode.unfocus();
+                                              }
+                                            }
+                                        ),
+                                        IconButton(
                                           icon: Icon(
-                                            DevoloIcons.devolo_UI_check_fill,
+                                            DevoloIcons.devolo_UI_cancel_fill,
                                             color: fontColorOnBackground,
                                           ),
                                           onPressed: () async {
-                                            if (newName != hitDevice.name) {
-                                              changeNameLoading = true;
-                                              AppBuilder.of(context)!.rebuild();
-                                              socket.sendXML(
-                                                  'SetAdapterName', mac: hitDevice.mac,
-                                                  newValue: newName,
-                                                  valueType: 'name');
-                                              var response = await socket.receiveXML(
-                                                  "SetAdapterNameStatus");
-                                              if (response!['result'] == "ok") {
-                                                hitDevice.name = newName;
-                                                await Future.delayed(
-                                                    const Duration(seconds: 1), () {});
-                                                socket.sendXML('RefreshNetwork');
-                                              } else if (response['result'] == "device_not_found") {
-                                                errorDialog(context, S
-                                                    .of(context)
-                                                    .deviceNameErrorTitle, S
-                                                    .of(context)
-                                                    .deviceNotFoundDeviceName + "\n\n" + S
-                                                    .of(context)
-                                                    .deviceNotFoundHint, fontSize);
-                                              } else if (response['result'] != "ok") {
-                                                errorDialog(context, S
-                                                    .of(context)
-                                                    .deviceNameErrorTitle, S
-                                                    .of(context)
-                                                    .deviceNameErrorBody, fontSize);
-                                              }
-
-                                              changeNameLoading = false;
-                                              myFocusNode.unfocus();
-                                            }
-                                          }
-                                      ),
-                                      IconButton(
-                                        icon: Icon(
-                                          DevoloIcons.devolo_UI_cancel_fill,
-                                          color: fontColorOnBackground,
+                                            textFieldController.text = hitDevice.name;
+                                            myFocusNode.unfocus();
+                                          },
                                         ),
-                                        onPressed: () async {
-                                          textFieldController.text = hitDevice.name;
-                                          myFocusNode.unfocus();
-                                        },
-                                      ),
-                                    ],
+                                      ],
+                                    ),
+                                  )
+                                      : changeNameLoading ?
+                                  SizedBox(
+                                      width: 0.5,
+                                      height: 0.5,
+                                      child: Padding(padding: const EdgeInsets.all(10.0), child: CircularProgressIndicator(
+                                        valueColor: new AlwaysStoppedAnimation<Color>(
+                                            fontColorOnBackground),
+                                        strokeWidth: 3.0,
+                                      )))
+                                      : Icon(
+                                    DevoloIcons.ic_edit_24px,
+                                    color: fontColorOnBackground,
                                   ),
-                                )
-                                    : changeNameLoading ?
-                                SizedBox(
-                                    width: 0.5,
-                                    height: 0.5,
-                                    child: Padding(padding: const EdgeInsets.all(10.0), child: CircularProgressIndicator(
-                                      valueColor: new AlwaysStoppedAnimation<Color>(
-                                          fontColorOnBackground),
-                                      strokeWidth: 3.0,
-                                    )))
-                                    : Icon(
-                                  DevoloIcons.ic_edit_24px,
-                                  color: fontColorOnBackground,
+                                ),
+                                onChanged: (value) => (newName = value),
+                                onEditingComplete: () async {
+                                  if (newName != hitDevice.name) {
+                                    bool confResponse = await confirmDialog(context, S
+                                        .of(context)
+                                        .deviceNameDialogTitle, S
+                                        .of(context)
+                                        .deviceNameDialogBody, fontSize);
+                                    if (confResponse) {
+                                      changeNameLoading = true;
+                                      socket.sendXML('SetAdapterName', mac: hitDevice.mac,
+                                          newValue: newName,
+                                          valueType: 'name');
+                                      var response = await socket.receiveXML(
+                                          "SetAdapterNameStatus");
+                                      if (response!['result'] == "ok") {
+                                        hitDevice.name = newName;
+                                        await Future.delayed(
+                                            const Duration(seconds: 1), () {});
+                                        socket.sendXML('RefreshNetwork');
+
+                                        //setState(() {
+                                        //   socket.sendXML('RefreshNetwork');
+                                        //});
+                                      } else if (response['result'] == "timeout") {
+                                        errorDialog(context, S
+                                            .of(context)
+                                            .deviceNameErrorTitle, S
+                                            .of(context)
+                                            .deviceNameErrorBody, fontSize);
+                                      } else if (response['result'] == "device_not_found") {
+                                        errorDialog(context, S
+                                            .of(context)
+                                            .deviceNameErrorTitle, S
+                                            .of(context)
+                                            .deviceNotFoundDeviceName + "\n\n" + S
+                                            .of(context)
+                                            .deviceNotFoundHint, fontSize);
+                                      }
+
+                                      changeNameLoading = false;
+                                    }
+                                  }
+                                },
+                                onTap: () {
+                                  myFocusNode.hasFocus;
+                                },
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return S
+                                        .of(context)
+                                        .pleaseEnterDeviceName;
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                          ]),
+                          TableRow(children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: SelectableText(
+                                    "${S
+                                        .of(context)
+                                        .type}:   ",
+                                  )),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: SelectableText(hitDevice.type),
+                            ),
+                          ]),
+                          TableRow(children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: SelectableText(
+                                    "${S
+                                        .of(context)
+                                        .serialNumber}:   ",
+                                  )),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: SelectableText(hitDevice.serialno),
+                            ),
+                          ]),
+                          TableRow(children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: SelectableText(
+                                  "${S
+                                      .of(context)
+                                      .mtNumber}:   ",
                                 ),
                               ),
-                              onChanged: (value) => (newName = value),
-                              onEditingComplete: () async {
-                                if (newName != hitDevice.name) {
-                                  bool confResponse = await confirmDialog(context, S
-                                      .of(context)
-                                      .deviceNameDialogTitle, S
-                                      .of(context)
-                                      .deviceNameDialogBody, fontSize);
-                                  if (confResponse) {
-                                    changeNameLoading = true;
-                                    socket.sendXML('SetAdapterName', mac: hitDevice.mac,
-                                        newValue: newName,
-                                        valueType: 'name');
-                                    var response = await socket.receiveXML(
-                                        "SetAdapterNameStatus");
-                                    if (response!['result'] == "ok") {
-                                      hitDevice.name = newName;
-                                      await Future.delayed(
-                                          const Duration(seconds: 1), () {});
-                                      socket.sendXML('RefreshNetwork');
-
-                                      //setState(() {
-                                      //   socket.sendXML('RefreshNetwork');
-                                      //});
-                                    } else if (response['result'] == "timeout") {
-                                      errorDialog(context, S
-                                          .of(context)
-                                          .deviceNameErrorTitle, S
-                                          .of(context)
-                                          .deviceNameErrorBody, fontSize);
-                                    } else if (response['result'] == "device_not_found") {
-                                      errorDialog(context, S
-                                          .of(context)
-                                          .deviceNameErrorTitle, S
-                                          .of(context)
-                                          .deviceNotFoundDeviceName + "\n\n" + S
-                                          .of(context)
-                                          .deviceNotFoundHint, fontSize);
-                                    }
-
-                                    changeNameLoading = false;
-                                  }
-                                }
-                              },
-                              onTap: () {
-                                myFocusNode.hasFocus;
-                              },
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return S
-                                      .of(context)
-                                      .pleaseEnterDeviceName;
-                                }
-                                return null;
-                              },
                             ),
-                          ),
-                        ]),
-                        TableRow(children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: Align(
-                                alignment: Alignment.centerRight,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: SelectableText(hitDevice.MT.substring(2)),
+                            ),
+                          ]),
+                          TableRow(children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
                                 child: SelectableText(
                                   "${S
                                       .of(context)
-                                      .type}:   ",
-                                )),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: SelectableText(hitDevice.type),
-                          ),
-                        ]),
-                        TableRow(children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: Align(
-                                alignment: Alignment.centerRight,
+                                      .version}:   ",
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: SelectableText(
+                                  hitDevice.version + "(" + hitDevice.versionDate +
+                                      ")"),
+                            ),
+                          ]),
+                          TableRow(children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
                                 child: SelectableText(
                                   "${S
                                       .of(context)
-                                      .serialNumber}:   ",
-                                )),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: SelectableText(hitDevice.serialno),
-                          ),
-                        ]),
-                        TableRow(children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: SelectableText(
-                                "${S
-                                    .of(context)
-                                    .mtNumber}:   ",
+                                      .ipAddress}:   ",
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: SelectableText(hitDevice.MT.substring(2)),
-                          ),
-                        ]),
-                        TableRow(children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: SelectableText(
-                                "${S
-                                    .of(context)
-                                    .version}:   ",
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: SelectableText(hitDevice.ip),
+                            ),
+                          ]),
+                          TableRow(children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: SelectableText(
+                                  "${S
+                                      .of(context)
+                                      .macAddress}:   ",
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: SelectableText(
-                                hitDevice.version + "(" + hitDevice.versionDate +
-                                    ")"),
-                          ),
-                        ]),
-                        TableRow(children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: SelectableText(
-                                "${S
-                                    .of(context)
-                                    .ipAddress}:   ",
-                              ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: SelectableText(hitDevice.mac),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: SelectableText(hitDevice.ip),
-                          ),
-                        ]),
-                        TableRow(children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: SelectableText(
-                                "${S
-                                    .of(context)
-                                    .macAddress}:   ",
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: SelectableText(hitDevice.mac),
-                          ),
-                        ]),
-                      ],
+                          ]),
+                        ],
+                      ),
                     ),
 //Text('Rates: ' +hitDeviceRx),
                     Padding(padding: EdgeInsets.fromLTRB(0, 40, 0, 0)),
                     Wrap(
-                      spacing: 20,
+                      spacing: 10,
                       runSpacing: 10,
                       alignment: WrapAlignment.center,
                       children: [
@@ -1257,7 +1265,7 @@ void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<in
                             height: 20,
                           ),
                           Container(
-                            alignment: Alignment.centerRight, child:
+                            alignment: Alignment.centerLeft, child:
                           TextButton(
                             child: Text(
                               S

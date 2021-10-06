@@ -119,17 +119,20 @@ getGreenButton(context, text, FontSize fontSize) {
   );
 }
 
-getCloseButton(context) {
+getCloseButton(context,[color]) {
+  if(color == null) {
+    color = fontColorOnBackground;
+  }
 
   return Padding(
-    padding: const EdgeInsets.fromLTRB(0, 5, 5, 0),
+    padding: const EdgeInsets.all(8.0),
     child: GestureDetector(
       onTap: () {
 
       },
       child: Container(
         alignment: FractionalOffset.topRight,
-        child: GestureDetector(child: Icon(DevoloIcons.devolo_UI_cancel_2,color: fontColorOnBackground,),
+        child: GestureDetector(child: Icon(DevoloIcons.devolo_UI_cancel_2,color: color,),
 
           onTap: (){
             Navigator.pop(context);

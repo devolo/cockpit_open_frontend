@@ -57,13 +57,13 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
   var hoveredDevice = 999; //displays wich device index is hovered, if no device is hovered the index is set to 999
 
+  bool floatingActionButtonHovered = false;
+
   @override
   void initState() {
     super.initState();
     myFocusNode.addListener(() {AppBuilder.of(context)!.rebuild();});
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -168,29 +168,49 @@ class _OverviewScreenState extends State<OverviewScreen> {
         ),
 
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Warning! "UpdateCheck" and "RefreshNetwork" should only be triggered by a user interaction, not continously/automaticly
-          if(!blockRefresh){
-            blockRefresh = true;
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(right: 20, bottom: 10),
+        child: MouseRegion(
+          onEnter: (pointerEnterEvent){
             setState(() {
-              socket.sendXML('RefreshNetwork');
-              AppBuilder.of(context)!.rebuild();
+              floatingActionButtonHovered = true;
             });
-            Timer(Duration(seconds: 2), () {
-              setState(() {
-                blockRefresh = false;
-              });
+          },
+          onExit: (pointerExitEvent){
+            setState(() {
+              floatingActionButtonHovered = false;
             });
-          }
-        },
-        tooltip: S.of(context).refresh,
-        backgroundColor: secondColor,
-        foregroundColor: fontColorOnSecond,
-        hoverColor: fontColorOnMain,
-        child: Icon(
-          DevoloIcons.ic_refresh_24px,
-          color: mainColor,
+          },
+          child: FloatingActionButton(
+            onPressed: () {
+              // Warning! "UpdateCheck" and "RefreshNetwork" should only be triggered by a user interaction, not continously/automaticly
+              if(!blockRefresh){
+                blockRefresh = true;
+                setState(() {
+                  socket.sendXML('RefreshNetwork');
+                  AppBuilder.of(context)!.rebuild();
+                });
+                Timer(Duration(seconds: 2), () {
+                  setState(() {
+                    blockRefresh = false;
+                  });
+                });
+              }
+            },
+            elevation: 0,
+            hoverElevation: 0,
+            shape: CircleBorder(
+              side: BorderSide(color: fontColorOnBackground, width: 2)
+                //borderRadius: BorderRadius.zero
+            ),
+            tooltip: S.of(context).refresh,
+            backgroundColor: backgroundColor,
+            foregroundColor: floatingActionButtonHovered ? backgroundColor : fontColorOnBackground,
+            hoverColor: fontColorOnBackground,
+            child: Icon(
+              DevoloIcons.ic_refresh_24px,
+            ),
+          ),
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );

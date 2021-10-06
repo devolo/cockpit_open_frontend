@@ -288,9 +288,6 @@ class _MyHomePageState extends State<MyHomePage> {
               tooltip: S.of(context).highContrast,
               onPressed: () {
                 setState(() {
-                  //logger.i("Theme: " + config["theme"]);
-                  //logger.i("Prev Theme: " + config["previous_theme"]);
-
                   if (config["theme"] == "High Contrast") {
                     config["theme"] = config["previous_theme"];
                     setTheme(config["previous_theme"]);

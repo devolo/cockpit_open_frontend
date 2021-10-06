@@ -19,18 +19,6 @@ void main (){
 
   TestWidgetsFlutterBinding.ensureInitialized(); // needed to use rootBundle (in loadAllDeviceIcons())
 
-  group('Future<ui.Image> loadImage(var img)', () {
-
-    test('Given_ByteData_When_callLoadImage_Then_returnImage', () async{
-
-      ByteData data = await rootBundle.load('assets/deviceImages/eu_wifi_icon.png');
-
-      ui.Image image = await loadImage(new Uint8List.view(data.buffer));
-
-      expect(image.toString(),"[35×79]");
-    });
-  });
-
   group('List<Image> loadOptimizeImages()', () {
 
     test('Given__When_callLoadOptimizeImages_Then_returnIconList', () {

@@ -150,7 +150,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                           style: TextStyle(color: fontColorOnBackground, fontSize: 18 * fontSize.factor, fontWeight: FontWeight.w600),
                         ),
                         PopupMenuButton(
-                            offset: Offset(_deviceList.getNetworkName(_deviceList.selectedNetworkIndex).length.toDouble() + 185, 40),
+                            offset: Offset(_deviceList.getNetworkName(_deviceList.selectedNetworkIndex).length.toDouble() - 25, 40),
                             color: backgroundColor,
                             tooltip: S.of(context).networkSettings,
                             icon: Icon(DevoloIcons.devolo_UI_more_horiz, color: fontColorOnBackground, size: 24 * fontSize.factor),
@@ -185,7 +185,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                     value: i,
                                     child: Padding(
                                         padding: EdgeInsets.only(left: 50, right: 10), //Needs to be done here as the parent padding gets ignored when the item is disabled
-                                        child: Text(_deviceList.getNetworkName(i), style: TextStyle(color: _deviceList.selectedNetworkIndex == i ? devoloLightGray : fontColorOnBackground, fontSize: 14 * fontSize.factor, fontWeight: _deviceList.selectedNetworkIndex == i ? FontWeight.w600 : null))),
+                                        child: Text(_deviceList.getNetworkName(i), style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor, fontWeight: _deviceList.selectedNetworkIndex == i ? FontWeight.w600 : null))),
                                   ),
                                 ]
                               ]

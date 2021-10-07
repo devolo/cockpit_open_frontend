@@ -60,7 +60,7 @@ IconData getIconForDeviceType(DeviceType? dt){
     return DevoloIcons.devolo_icon_ui_adapter_mini;
 
   else if(dt == DeviceType.dtDINrail)
-    return DevoloIcons.devolo_icon_ui_adapter_mini; //TODO wait for icon on frontify
+    return DevoloIcons.devolo_icon_ui_din_rail;
 
   else
     return DevoloIcons.devolo_icon_ui_adapter_mini;
@@ -82,7 +82,7 @@ IconData getCircledIconForDeviceType(DeviceType? dt){
     return DevoloIcons.devolo_icon_ui_adapter_mini_circled;
 
   else if(dt == DeviceType.dtDINrail)
-    return DevoloIcons.devolo_icon_ui_adapter_mini_circled; //TODO wait for icon on frontify
+    return DevoloIcons.devolo_icon_ui_adapter_dinrail_circled;
 
   else
     return DevoloIcons.devolo_icon_ui_adapter_mini_circled;
@@ -104,7 +104,7 @@ IconData getFilledIconForDeviceType(DeviceType? dt){
     return DevoloIcons.devolo_icon_ui_adapter_mini_filled;
 
   else if(dt == DeviceType.dtDINrail)
-    return DevoloIcons.devolo_icon_ui_adapter_mini_filled; //TODO wait for icon on frontify
+    return DevoloIcons.devolo_icon_ui_adapter_dinrail_filled;
 
   else
     return DevoloIcons.devolo_icon_ui_adapter_mini_filled;

@@ -163,7 +163,7 @@ class DrawOverview extends CustomPainter {
 
 
     if (config["internet_centered"]) {
-      canvas.drawLine(absoluteOffset, toOffset, _linePaint..strokeWidth = 2.0);
+      canvas.drawLine(absoluteOffset, toOffset.translate(-20, 0), _linePaint..strokeWidth = 2.0);
       drawIcon(canvas, toOffset, DevoloIcons.ic_laptop_24px);
       userNameTextSpan = TextSpan(
         text: S.current.thisPc,
@@ -176,7 +176,7 @@ class DrawOverview extends CustomPainter {
 
     } else {
       if(_providerList.getPivotDevice() != null) { // if there is no device attached to router don't paint line to the internet internet
-        canvas.drawLine(absoluteOffset, toOffset, _linePaint..strokeWidth = 2.0);
+        canvas.drawLine(absoluteOffset, toOffset.translate(-20, 0) , _linePaint..strokeWidth = 2.0);
         drawIcon(canvas, toOffset, DevoloIcons.devolo_UI_internet);
         userNameTextSpan = TextSpan(
           text: S.current.internet,
@@ -211,7 +211,7 @@ class DrawOverview extends CustomPainter {
     Offset absoluteOffset = Offset(deviceOffset.dx + (screenWidth / 2), deviceOffset.dy + (screenHeight / 2));
     Offset absolutePivotOffset = Offset(_deviceIconOffsetList.elementAt(pivotDeviceIndex).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(pivotDeviceIndex).dy + (screenHeight / 2));
 
-    double shiftFactor = 5; // how much space between lines
+    double shiftFactor = 3; // how much space between lines
 
     Offset lineDirection = Offset(absolutePivotOffset.dx - absoluteOffset.dx, absolutePivotOffset.dy - absoluteOffset.dy);
 
@@ -222,6 +222,7 @@ class DrawOverview extends CustomPainter {
     }
 
     var angle = atan2(lineDirectionOrtho.dy, lineDirectionOrtho.dx);
+
 
     Offset absoluteOffsetRx = Offset(deviceOffset.dx + (screenWidth / 2) + shiftFactor * cos(angle), deviceOffset.dy + (screenHeight / 2) + shiftFactor * sin(angle));
     Offset absolutePivotOffsetRx = Offset(_deviceIconOffsetList.elementAt(pivotDeviceIndex).dx + (screenWidth / 2) + shiftFactor * cos(angle), _deviceIconOffsetList.elementAt(pivotDeviceIndex).dy + (screenHeight / 2) + shiftFactor * sin(angle));
@@ -240,9 +241,12 @@ class DrawOverview extends CustomPainter {
     var dy = end.dy - start.dy;
     var distance = sqrt(pow(dx, 2) + pow(dy, 2));
     var headLength = 15; // length of head in pixels
-    double paddingEnd = (distance/8) + hnCircleShadowRadius;
-    double paddingStart = paddingEnd + headLength + 5;
-
+    double paddingEnd = 20 + hnCircleShadowRadius; // padding between end of arrow and device icon circle
+    double paddingStart = paddingEnd + headLength + 5; // padding between start of arrow and device icon circle DON`T TOUCH!!!
+    if(paddingStart + paddingEnd > distance){
+      paddingEnd = 1 + hnCircleShadowRadius;
+      paddingStart = paddingEnd + headLength + 5;
+    }
 
     var angle = atan2(dy, dx);
 
@@ -267,7 +271,7 @@ class DrawOverview extends CustomPainter {
     canvas.drawPath(
         path,
         _arrowPaint
-          ..strokeWidth = 2.5
+          ..strokeWidth = 3
           ..color = color);
   }
 
@@ -434,8 +438,6 @@ class DrawOverview extends CustomPainter {
   void drawIcon(Canvas canvas, Offset offset, icon, [double? size]) {
     size??=30.0;
 
-    canvas.drawCircle(offset, hnCircleRadius - 10, _circleAreaPaint);
-
     _iconPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: size, fontFamily: icon.fontFamily, color: drawingColor, backgroundColor: backgroundColor));
     _iconPainter.layout();
     _iconPainter.paint(canvas, Offset(offset.dx - (_iconPainter.width / 2), offset.dy - 15));
@@ -549,15 +551,13 @@ class DrawOverview extends CustomPainter {
     if (rates != null) {
       if (rates.rx > 400)
         colors['rx'] = devoloGreen;
-      else if (rates.rx > 100)
+      else if (rates.rx <= 400)
         colors['rx'] = devoloOrange;
-      else if (rates.rx < 100) colors['rx'] = devoloRed;
 
       if (rates.tx > 400)
         colors['tx'] = devoloGreen;
-      else if (rates.tx > 100)
+      else if (rates.tx <= 400)
         colors['tx'] = devoloOrange;
-      else if (rates.tx < 100) colors['tx'] = devoloRed;
     }
     return colors;
   }

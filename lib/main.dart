@@ -269,6 +269,20 @@ class _MyHomePageState extends State<MyHomePage> {
     _deviceList = Provider.of<NetworkList>(context);
     socket = Provider.of<DataHand>(context);
 
+    if(!socket.connected && widgetsPoped) {
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        while(Navigator.canPop(context)){ // Navigator.canPop return true if can pop
+          logger.i(Navigator.of(context).overlay.toString());
+          Navigator.pop(context);
+          changePage(0);
+        }
+      });
+      widgetsPoped = false;
+    }
+    else if(socket.connected && widgetsPoped == false) {
+      widgetsPoped = true;
+    }
+
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
@@ -334,7 +348,8 @@ class _MyHomePageState extends State<MyHomePage> {
               hoverColor: Colors.white.withOpacity(0.2),
               primaryIconTheme: IconThemeData(color: fontColorOnMain),
             ),
-            child: Padding(padding: EdgeInsets.only(top: 2.5), child:Drawer(
+            child: Padding(padding: EdgeInsets.only(top: 1.0), child:
+            Drawer(
                 semanticLabel: "menu",
                 child: ListView(padding: EdgeInsets.zero, children: <Widget>[
                   Container(
@@ -342,6 +357,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1), top: BorderSide(color: fontColorOnMain, width: 1)),
                     ),
                     child: ListTile(
+                      enabled: socket.connected ? true: false,
                       tileColor: (selectedPage == 0) ? Colors.white.withOpacity(0.2) : null,
                       leading: Icon(Icons.workspaces_filled, color: fontColorOnMain, size: 24*fontSize.factor), //miscellaneous_services
                       title: Text(S.of(context).overview,
@@ -359,6 +375,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
                     ),
                     child: ListTile(
+                        enabled: socket.connected ? true: false,
                         tileColor: selectedPage == 1 ? Colors.white.withOpacity(0.2) : null,
                         leading: Icon(DevoloIcons.ic_file_download_24px, color: fontColorOnMain, size: 24*fontSize.factor),
                         title: Text(S.of(context).updates,
@@ -375,6 +392,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
                     ),
                     child: ListTile(
+                        enabled: socket.connected ? true: false,
                         tileColor: selectedPage == 2 ? Colors.white.withOpacity(0.2) : null,
                         leading: Icon(DevoloIcons.devolo_UI_settings, color: fontColorOnMain, size: 24*fontSize.factor),
                         title: Text(S.of(context).settings,
@@ -391,6 +409,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
                     ),
                     child: ListTile(
+                        enabled: socket.connected ? true: false,
                         tileColor: (!helpNavigationCollapsed && selectedPage == 3) ? Colors.white.withOpacity(0.2) : null,
                         leading: Icon(DevoloIcons.ic_help_24px, color: fontColorOnMain, size: 24*fontSize.factor),
                         trailing: Icon(helpNavigationCollapsed ? DevoloIcons.ic_remove_24px_1 : DevoloIcons.devolo_UI_add, color: fontColorOnMain, size: 20*fontSize.factor),
@@ -410,6 +429,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
                       ),
                       child: ListTile(
+                          enabled: socket.connected ? true: false,
                           tileColor: selectedPage == 3 ? Colors.white.withOpacity(0.2) : null,
                           title: Padding(padding: EdgeInsets.only(left:paddingLeftDrawerUnderSection),child : Text(S.of(context).setUpDevice,
                               style: TextStyle(color: fontColorOnMain),
@@ -427,6 +447,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
                     ),
                     child: ListTile(
+                        enabled: socket.connected ? true: false,
                         tileColor: selectedPage == 3 ? Colors.white.withOpacity(0.2) : null,
                         title: Padding(padding: EdgeInsets.only(left:paddingLeftDrawerUnderSection),child : Text(S.of(context).optimizeReception,
                             style: TextStyle(color: fontColorOnMain),
@@ -444,6 +465,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
                     ),
                     child: ListTile(
+                        enabled: socket.connected ? true: false,
                         tileColor: selectedPage == 3 ? Colors.white.withOpacity(0.2) : null,
                         title: Padding(padding: EdgeInsets.only(left:paddingLeftDrawerUnderSection),child : Text(S.of(context).contactSupport,
                             style: TextStyle(color: fontColorOnMain),

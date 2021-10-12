@@ -18,6 +18,7 @@ import 'package:cockpit_devolo/shared/alertDialogs.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:cockpit_devolo/shared/app_fontSize.dart';
 import 'package:cockpit_devolo/shared/devolo_icons.dart';
+import 'package:cockpit_devolo/shared/globals.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:cockpit_devolo/shared/informationDialogs.dart';
 import 'package:cockpit_devolo/shared/networkSettingsDialog.dart';
@@ -73,14 +74,6 @@ class _OverviewScreenState extends State<OverviewScreen> {
     _deviceList = Provider.of<NetworkList>(context);
     socket.setNetworkList(_deviceList);
 
-    if(!socket.connected) {
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
-        while(Navigator.canPop(context)){ // Navigator.canPop return true if can pop
-          Navigator.pop(context);
-        }
-        //Navigator.of(context).popUntil((route) => route.isActive);
-      });
-    }
 
     if(_deviceList.getNetworkListLength() - 1 >= config["selected_network"]){
       _deviceList.selectedNetworkIndex = config["selected_network"];

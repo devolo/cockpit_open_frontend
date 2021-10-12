@@ -138,15 +138,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     var width = MediaQuery.of(context).size.width;
 
-    if(!socket.connected) {
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
-        while(Navigator.canPop(context)){ // Navigator.canPop return true if can pop
-          Navigator.pop(context);
-        }
-        //Navigator.of(context).popUntil((route) => route.isActive);
-      });
-    }
-
     return new Scaffold(
       backgroundColor: Colors.transparent,
       body: SingleChildScrollView(

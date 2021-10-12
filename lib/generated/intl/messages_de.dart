@@ -54,7 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "additionalDialogTitle":
             MessageLookupByLibrary.simpleMessage("Erweiterte Einstellungen"),
         "additionalSettings":
-            MessageLookupByLibrary.simpleMessage("erweiterte\nEinstellungen"),
+            MessageLookupByLibrary.simpleMessage("erweiterte Einstellungen"),
         "appInfo": MessageLookupByLibrary.simpleMessage("App Info"),
         "appInformation":
             MessageLookupByLibrary.simpleMessage("App Information"),
@@ -99,7 +99,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "dataRatesArePermanentlyDisplayedInTheOverview":
             MessageLookupByLibrary.simpleMessage(
                 "Datenraten werden dauerhaft in der Übersicht angezeigt "),
-        "deleteDevice": MessageLookupByLibrary.simpleMessage("Gerät \nlöschen"),
+        "deleteDevice": MessageLookupByLibrary.simpleMessage("Gerät löschen"),
         "deviceInfo":
             MessageLookupByLibrary.simpleMessage("Geräteinformationen"),
         "deviceNameDialogBody": MessageLookupByLibrary.simpleMessage(
@@ -122,6 +122,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Es ist ein Fehler beim Zurücksetzen des Gerätes aufgetreten!"),
         "deviceNotFoundSetIpConfig": MessageLookupByLibrary.simpleMessage(
             "Es ist ein Fehler beim Ändern der IP-Adresse/Netzmaske aufgetreten!"),
+        "deviceSettings":
+            MessageLookupByLibrary.simpleMessage("Geräte Einstellungen"),
         "emailIsInvalid":
             MessageLookupByLibrary.simpleMessage("Ungültige E-mail Adresse"),
         "enableShowingSpeeds":
@@ -129,7 +131,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorScreenText": MessageLookupByLibrary.simpleMessage(
             "Der Inhalt kann nicht angezeigt werden!"),
         "factoryReset":
-            MessageLookupByLibrary.simpleMessage("Werkseinstellung \nsetzen"),
+            MessageLookupByLibrary.simpleMessage("Werkseinstellung setzen"),
         "failed": MessageLookupByLibrary.simpleMessage("fehlgeschlagen"),
         "fillInIpAddress":
             MessageLookupByLibrary.simpleMessage("Bitte IP-Adresse eintragen"),
@@ -141,7 +143,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "help": MessageLookupByLibrary.simpleMessage("Hilfe"),
         "highContrast": MessageLookupByLibrary.simpleMessage("Hoher Kontrast"),
         "identifyDevice":
-            MessageLookupByLibrary.simpleMessage("Gerät \nidentifizieren"),
+            MessageLookupByLibrary.simpleMessage("Gerät identifizieren"),
         "identifyDeviceErrorBody": MessageLookupByLibrary.simpleMessage(
             "Es ist ein Fehler bei der Identifizierung des Gerätes aufgetreten!\nBitte versuchen Sie es erneut."),
         "identifyDeviceErrorTitle": MessageLookupByLibrary.simpleMessage(
@@ -156,7 +158,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ipAddress": MessageLookupByLibrary.simpleMessage("IP-Adresse"),
         "language": MessageLookupByLibrary.simpleMessage("Sprache"),
         "launchWebInterface":
-            MessageLookupByLibrary.simpleMessage("Webinterface \nöffnen "),
+            MessageLookupByLibrary.simpleMessage("Webinterface öffnen "),
         "macAddress": MessageLookupByLibrary.simpleMessage("MAC-Adresse"),
         "manualErrorBody": MessageLookupByLibrary.simpleMessage(
             "Für Ihr PLC-Gerät wurde kein passendes Handbuch gefunden.\n\nSie können das Handbuch auf der Produkt-CD oder der devolo Internet-Seite finden."),
@@ -258,14 +260,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "setIpConfigErrorTitle": MessageLookupByLibrary.simpleMessage(
             "Konfiguration fehlgeschlagen"),
         "setUpDevice": MessageLookupByLibrary.simpleMessage("Gerät einrichten"),
-        "setVdslCompatibility": MessageLookupByLibrary.simpleMessage(
-            "VDSL Kompatibilität \nsetzen"),
+        "setVdslCompatibility":
+            MessageLookupByLibrary.simpleMessage("VDSL Kompatibilität setzen"),
         "settings": MessageLookupByLibrary.simpleMessage("Einstellungen"),
         "showLicences":
             MessageLookupByLibrary.simpleMessage("Lizenzen anzeigen"),
         "showLogs": MessageLookupByLibrary.simpleMessage("Zeige Logs"),
-        "showManual":
-            MessageLookupByLibrary.simpleMessage("Handbuch \nanzeigen"),
+        "showManual": MessageLookupByLibrary.simpleMessage("Handbuch anzeigen"),
         "showOtherDevices":
             MessageLookupByLibrary.simpleMessage("Anzeigen anderer Geräte"),
         "showPassword":

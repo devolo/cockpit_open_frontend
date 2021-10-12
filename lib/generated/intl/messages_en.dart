@@ -53,7 +53,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "additionalDialogTitle":
             MessageLookupByLibrary.simpleMessage("Additional settings"),
         "additionalSettings":
-            MessageLookupByLibrary.simpleMessage("additional\nsettings"),
+            MessageLookupByLibrary.simpleMessage("additional settings"),
         "appInfo": MessageLookupByLibrary.simpleMessage("App info"),
         "appInformation":
             MessageLookupByLibrary.simpleMessage("App information"),
@@ -121,6 +121,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "An error occurred while resetting the device"),
         "deviceNotFoundSetIpConfig": MessageLookupByLibrary.simpleMessage(
             "An error occurred while changing the IP address/netmask"),
+        "deviceSettings":
+            MessageLookupByLibrary.simpleMessage("Device Settings"),
         "emailIsInvalid":
             MessageLookupByLibrary.simpleMessage("E-mail is invalid"),
         "enableShowingSpeeds":
@@ -256,7 +258,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Configuration failed"),
         "setUpDevice": MessageLookupByLibrary.simpleMessage("Setup new device"),
         "setVdslCompatibility":
-            MessageLookupByLibrary.simpleMessage("Set VDSL \ncompatibility"),
+            MessageLookupByLibrary.simpleMessage("Set VDSL compatibility"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "showLicences": MessageLookupByLibrary.simpleMessage("show licenses"),
         "showLogs": MessageLookupByLibrary.simpleMessage("Show logs"),

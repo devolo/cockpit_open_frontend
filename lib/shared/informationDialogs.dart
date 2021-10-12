@@ -22,7 +22,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
   bool lightbulbOn = false;
   bool dialogClosed = false;
   bool identifyDeviceActionRunning = false;
-
+  double maxWidthActions = 110;
   final textFieldController = TextEditingController(text: hitDevice.name);
 
   showDialog<void>(
@@ -380,17 +380,18 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                   .basic
                                   : SystemMouseCursors.click,
                             ),
-                            Text(
-                              S
-                                  .of(context)
-                                  .launchWebInterface,
-                              style: TextStyle(fontSize: 14,
-                                  color: !hitDevice.webinterfaceAvailable
-                                      ? fontColorOnBackground.withOpacity(0.33)
-                                      : fontColorOnBackground),
-                              textScaleFactor: fontSize.factor,
-                              textAlign: TextAlign.center,
-                            )
+                            Container(
+                              constraints: BoxConstraints(maxWidth: maxWidthActions * fontSize.factor),
+                              child: Text(
+                                S.of(context).launchWebInterface,
+                                style: TextStyle(fontSize: 14,
+                                    color: !hitDevice.webinterfaceAvailable
+                                        ? fontColorOnBackground.withOpacity(0.33)
+                                        : fontColorOnBackground),
+                                textScaleFactor: fontSize.factor,
+                                textAlign: TextAlign.center,
+                              )
+                            ),
                           ],
                         ),
                         Column(
@@ -489,18 +490,19 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                     .basic : SystemMouseCursors.click,
                               ),
                             ),
-                            Text(
-                              S
-                                  .of(context)
-                                  .identifyDevice,
-                              style: TextStyle(fontSize: 14,
-                                  color: !hitDevice.identifyDeviceAvailable ||
-                                      identifyDeviceActionRunning
-                                      ? fontColorOnBackground.withOpacity(0.33)
-                                      : fontColorOnBackground),
-                              textScaleFactor: fontSize.factor,
-                              textAlign: TextAlign.center,
-                            )
+                            Container(
+                              constraints: BoxConstraints(maxWidth: maxWidthActions * fontSize.factor),
+                              child: Text(
+                                S.of(context).identifyDevice,
+                                style: TextStyle(fontSize: 14,
+                                    color: !hitDevice.identifyDeviceAvailable ||
+                                        identifyDeviceActionRunning
+                                        ? fontColorOnBackground.withOpacity(0.33)
+                                        : fontColorOnBackground),
+                                textScaleFactor: fontSize.factor,
+                                textAlign: TextAlign.center,
+                              )
+                            ),
                           ],
                         ),
                         Column(
@@ -531,15 +533,16 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                         .manualErrorBody, fontSize);
                                   }
                                 }),
-                            Text(
-                              S
-                                  .of(context)
-                                  .showManual,
-                              style: TextStyle(
-                                  fontSize: 14, color: fontColorOnBackground),
-                              textScaleFactor: fontSize.factor,
-                              textAlign: TextAlign.center,
-                            )
+                            Container(
+                                constraints: BoxConstraints(maxWidth: maxWidthActions * fontSize.factor),
+                                child: Text(
+                                  S.of(context).showManual,
+                                style: TextStyle(
+                                    fontSize: 14, color: fontColorOnBackground),
+                                textScaleFactor: fontSize.factor,
+                                textAlign: TextAlign.center,
+                              )
+                            ),
                           ],
                         ),
                         Column(
@@ -567,13 +570,14 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                         mouseCursor: !hitDevice.supportedVDSL.isNotEmpty ? SystemMouseCursors
                             .basic : SystemMouseCursors.click,
                       ),
-                      Text(
-                        S
-                            .of(context)
-                            .setVdslCompatibility,
-                        style: TextStyle(fontSize: 14, color: !hitDevice.supportedVDSL.isNotEmpty ? fontColorOnBackground.withOpacity(0.33) : fontColorOnBackground),                        textScaleFactor: fontSize.factor,
-                        textAlign: TextAlign.center,
-                      )
+                            Container(
+                              constraints: BoxConstraints(maxWidth: maxWidthActions * fontSize.factor),
+                              child: Text(
+                                S.of(context).setVdslCompatibility,
+                                style: TextStyle(fontSize: 14, color: !hitDevice.supportedVDSL.isNotEmpty ? fontColorOnBackground.withOpacity(0.33) : fontColorOnBackground),                        textScaleFactor: fontSize.factor,
+                                textAlign: TextAlign.center,
+                              )
+                            ),
                     ],
                   ),
                 Column(
@@ -628,17 +632,18 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                 }
                               },
                             ),
-                            Text(
-                              S
-                                  .of(context)
-                                  .factoryReset,
-                              style: TextStyle(
-                                  fontSize: 14, color: fontColorOnBackground),
-                              textScaleFactor: fontSize.factor,
-                              textAlign: TextAlign.center,
-                            )
-                          ],
-                        ),
+                    Container(
+                      constraints: BoxConstraints(maxWidth: maxWidthActions * fontSize.factor),
+                      child: Text(
+                        S.of(context).factoryReset,
+                        style: TextStyle(
+                            fontSize: 14, color: fontColorOnBackground),
+                        textScaleFactor: fontSize.factor,
+                        textAlign: TextAlign.center,
+                      )
+                    )
+                  ],
+                ),
 
                         Column(
                           children: [
@@ -693,15 +698,16 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                   }
                                 }
                             ),
-                            Text(
-                              S
-                                  .of(context)
-                                  .deleteDevice,
-                              style: TextStyle(
-                                  fontSize: 14, color: fontColorOnBackground),
-                              textScaleFactor: fontSize.factor,
-                              textAlign: TextAlign.center,
-                            )
+                            Container(
+                              constraints: BoxConstraints(maxWidth: maxWidthActions * fontSize.factor),
+                              child: Text(
+                                S.of(context).deleteDevice,
+                                style: TextStyle(
+                                    fontSize: 14, color: fontColorOnBackground),
+                                textScaleFactor: fontSize.factor,
+                                textAlign: TextAlign.center,
+                              )
+                            ),
                           ],
                         ), //ToDo Delete Device see wiki
                         if (hitDevice.disableTraffic[0] == 1 ||
@@ -732,15 +738,16 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                         hitDevice.ipConfigNetmask,
                                         fontSize);
                                   }),
-                              Text(
-                                S
-                                    .of(context)
-                                    .additionalSettings,
-                                style: TextStyle(
-                                    fontSize: 14, color: fontColorOnBackground),
-                                textScaleFactor: fontSize.factor,
-                                textAlign: TextAlign.center,
-                              )
+                              Container(
+                                constraints: BoxConstraints(maxWidth: maxWidthActions * fontSize.factor),
+                                child: Text(
+                                  S.of(context).additionalSettings,
+                                  style: TextStyle(
+                                      fontSize: 14, color: fontColorOnBackground),
+                                  textScaleFactor: fontSize.factor,
+                                  textAlign: TextAlign.center,
+                                )
+                              ),
                             ],
                           ),
                       ],

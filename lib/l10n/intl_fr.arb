@@ -133,14 +133,14 @@
   "@_DEVICE_INFORMATION_DIALOG": {
   },
   "deviceInfo": "Informations sur l´appareil",
-  "showManual": "Voir \n le manuel",
-  "identifyDevice": "Identifier\n l´appareil",
+  "showManual": "Voir le manuel",
+  "identifyDevice": "Identifier l´appareil",
   "identifyDeviceTooltip": "Voyant lumineux LED clignote pendant deux minutes.",
   "launchWebInterface": "Site web",
-  "factoryReset": "Réinitialisé aux\n paramètres d'origine",
-  "deleteDevice": "Supprimer\n l'appareil",
-  "additionalSettings": "Paramètres\n supplémentaires",
-  "setVdslCompatibility": "Définir la\n compatibilité VDSL",
+  "factoryReset": "Réinitialisé aux paramètres d'origine",
+  "deleteDevice": "Supprimer l'appareil",
+  "additionalSettings": "Paramètres supplémentaires",
+  "setVdslCompatibility": "Définir la compatibilité VDSL",
   "pleaseEnterDeviceName": "Entrez le nom de l´appareil",
   "type": "Type ",
   "serialNumber": "Numéro de série ",
@@ -158,6 +158,7 @@
   "internet": "Internet",
   "switchNetwork": "Choisir un réseau",
   "networkSettings": "Paramètres réseau",
+  "deviceSettings": "Paramètres appareil",
 
   "@_DIALOG": {
   },

@@ -139,7 +139,7 @@
   "launchWebInterface": "Web interface",
   "factoryReset": "Factory reset",
   "deleteDevice": "Delete device",
-  "additionalSettings": "additional\nsettings",
+  "additionalSettings": "additional settings",
   "pleaseEnterDeviceName": "Enter device name",
   "type": "Type",
   "serialNumber": "Serial number",
@@ -157,6 +157,7 @@
   "internet": "Internet",
   "switchNetwork": "Switch Network",
   "networkSettings": "Network Settings",
+  "deviceSettings": "Device Settings",
 
   "@_DIALOG": {
   },
@@ -221,7 +222,7 @@
   },
   "vdslExplanation": "In rare cases, noise from Powerline signal can interfere with VDSL connection. Devices in automatic compatibility mode can automatically adjust transmission to limit interference",
   "vdslExplanation2": "Select a transmission profile from the given options as a fallback when automatic mode is OFF or reliable detection of interference is not possible",
-  "setVdslCompatibility": "Set VDSL \ncompatibility",
+  "setVdslCompatibility": "Set VDSL compatibility",
   "vdslFailed": "The new VDSL settings could not be saved on the device",
   "vdslSuccessful": "The new VDSL settings have been saved on the device",
   "automaticCompatibilityMode": "Automatic compatibility mode (recommended)",

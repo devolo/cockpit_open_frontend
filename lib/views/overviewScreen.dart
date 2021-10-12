@@ -20,6 +20,7 @@ import 'package:cockpit_devolo/shared/app_fontSize.dart';
 import 'package:cockpit_devolo/shared/devolo_icons.dart';
 import 'package:cockpit_devolo/shared/globals.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
+import 'package:cockpit_devolo/shared/informationDialogWithoutAction.dart';
 import 'package:cockpit_devolo/shared/informationDialogs.dart';
 import 'package:cockpit_devolo/shared/networkSettingsDialog.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,7 +29,6 @@ import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/views/appBuilder.dart';
-import 'package:cockpit_devolo/shared/imageLoader.dart';
 
 class OverviewScreen extends StatefulWidget {
   OverviewScreen({Key? key}) : super(key: key);
@@ -74,6 +74,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
     _deviceList = Provider.of<NetworkList>(context);
     socket.setNetworkList(_deviceList);
 
+    var screenWidth = MediaQuery.of(context).size.width;
+    var screenHeight = MediaQuery.of(context).size.height;
 
     if(_deviceList.getNetworkListLength() - 1 >= config["selected_network"]){
       _deviceList.selectedNetworkIndex = config["selected_network"];
@@ -132,6 +134,220 @@ class _OverviewScreenState extends State<OverviewScreen> {
                     ),
                   ),
                 ),),
+                for(var i = 0; i < _deviceList.getDeviceList().length; i++) ...[
+                  Positioned(
+                      left: (screenWidth/2) + _Painter.getDeviceIconOffsetList(_deviceList.getDeviceList().length)[i].dx + _Painter.getNameWidth(_deviceList.getDeviceList().elementAt(i).type, _deviceList.getDeviceList().elementAt(i).name)/2,
+                      top: (screenHeight/2) + _Painter.getDeviceIconOffsetList(_deviceList.getDeviceList().length)[i].dy + _Painter.hnCircleRadius + (_Painter.userNameTopPadding + _Painter.productNameTopPadding)/2,
+                      child: PopupMenuButton(
+                        offset: Offset(0, 40),
+                        color: backgroundColor,
+                        tooltip: S.of(context).deviceSettings,
+                        icon: Icon(DevoloIcons.devolo_UI_more_horiz, color: fontColorOnBackground, size: 24 * fontSize.factor),
+                        onSelected: (dynamic value) async {
+                          Device selectedDevice = _deviceList.getDeviceList().elementAt(i);
+
+                          if(value == "deviceSettings"){
+                            deviceInformationDialogWithoutAction(context, selectedDevice, myFocusNode, socket, fontSize);
+                          }
+                          else if(value == "webInterface"){
+                            launchURL(selectedDevice.webinterfaceURL);
+                          }
+                          else if(value == "identifyDevice"){
+                            socket.sendXML('IdentifyDevice', mac: selectedDevice.mac);
+                            var response = await socket.receiveXML(
+                                "IdentifyDeviceStatus");
+                            if (response!['result'] == "device_not_found") {
+                              errorDialog(context, S
+                                  .of(context)
+                                  .identifyDeviceErrorTitle, S
+                                  .of(context)
+                                  .deviceNotFoundIdentifyDevice + "\n\n" + S
+                                  .of(context)
+                                  .deviceNotFoundHint, fontSize);
+                            }
+                            else if (response['result'] != "ok") {
+                              errorDialog(context, S
+                                  .of(context)
+                                  .identifyDeviceErrorTitle, S
+                                  .of(context)
+                                  .identifyDeviceErrorBody, fontSize);
+                            }
+                          }
+                          else if(value == "showManual"){
+                            socket.sendXML(
+                                'GetManual', newValue: selectedDevice.MT,
+                                valueType: 'product',
+                                newValue2: config["language"],
+                                valueType2: 'language');
+                            var response = await socket.receiveXML(
+                                "GetManualResponse");
+                            if (response!['filename'] != "") {
+                              openFile(response['filename']);
+                            } else {
+                              errorDialog(context, S
+                                  .of(context)
+                                  .manualErrorTitle, S
+                                  .of(context)
+                                  .manualErrorBody, fontSize);
+                            }
+                          }
+                          else if(value == "factoryReset"){
+                            bool confResponse = false;
+                            selectedDevice.attachedToRouter
+                                ? confResponse = await confirmDialog(context, S
+                                .of(context)
+                                .resetDeviceConfirmTitle, S
+                                .of(context)
+                                .resetDeviceConfirmBody + "\n" + S
+                                .of(context)
+                                .confirmActionConnectedToRouterWarning,
+                                fontSize)
+                                : confResponse = await confirmDialog(context, S
+                                .of(context)
+                                .resetDeviceConfirmTitle, S
+                                .of(context)
+                                .resetDeviceConfirmBody, fontSize);
+
+                            if (confResponse) {
+                              socket.sendXML("ResetAdapterToFactoryDefaults",
+                                  mac: selectedDevice.mac);
+
+                              var response = await socket.receiveXML(
+                                  "ResetAdapterToFactoryDefaultsStatus");
+                              if (response!['result'] == "device_not_found") {
+                                errorDialog(context, S
+                                    .of(context)
+                                    .resetDeviceErrorTitle, S
+                                    .of(context)
+                                    .deviceNotFoundResetDevice + "\n\n" + S
+                                    .of(context)
+                                    .deviceNotFoundHint, fontSize);
+                              } else if (response['result'] != "ok") {
+                                errorDialog(context, S
+                                    .of(context)
+                                    .resetDeviceErrorTitle, S
+                                    .of(context)
+                                    .resetDeviceErrorBody, fontSize);
+                              }
+                            }
+                          }
+                          else if(value == "deleteDevice"){
+                            bool confResponse = false;
+                            selectedDevice.attachedToRouter
+                                ?
+                            confResponse = await confirmDialog(context, S
+                                .of(context)
+                                .removeDeviceConfirmTitle, S
+                                .of(context)
+                                .removeDeviceConfirmBody + "\n" + S
+                                .of(context)
+                                .confirmActionConnectedToRouterWarning,
+                                fontSize)
+                                : confResponse = await confirmDialog(
+                                context, S
+                                .of(context)
+                                .removeDeviceConfirmTitle, S
+                                .of(context)
+                                .removeDeviceConfirmBody, fontSize);
+
+                            if (confResponse) {
+                              socket.sendXML(
+                                  "RemoveAdapter", mac: selectedDevice.mac);
+
+                              var response = await socket.receiveXML(
+                                  "RemoveAdapterStatus");
+                              if (response!['result'] == "device_not_found") {
+                                errorDialog(context, S
+                                    .of(context)
+                                    .removeDeviceErrorTitle, S
+                                    .of(context)
+                                    .deviceNotFoundRemoveDevice + "\n\n" + S
+                                    .of(context)
+                                    .deviceNotFoundHint, fontSize);
+                              } else if (response['result'] != "ok") {
+                                errorDialog(context, S
+                                    .of(context)
+                                    .removeDeviceErrorTitle, S
+                                    .of(context)
+                                    .removeDeviceErrorBody, fontSize);
+                              }
+                            }
+                          }
+                          else if(value == "setVDSL"){
+                            setState(() {
+                              showVDSLDialog(
+                                  context,socket, selectedDevice.modeVDSL, selectedDevice.supportedVDSL,
+                                  selectedDevice.selectedVDSL, selectedDevice.mac, fontSize);
+
+                            });
+                          }
+                          else if(value == "additionalSettings"){
+                            moreSettings(
+                                context,
+                                socket,
+                                selectedDevice.disableTraffic,
+                                selectedDevice.disableLeds,
+                                selectedDevice.disableStandby,
+                                selectedDevice.mac,
+                                selectedDevice.ipConfigMac,
+                                selectedDevice.ipConfigAddress,
+                                selectedDevice.ipConfigNetmask,
+                                fontSize);
+                          }
+                        },
+                        itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                          PopupMenuItem(
+                            value: "deviceSettings",
+                            child: SizedBox(    // needed as different languages have different length which influences the offset
+                              child: Text(S.of(context).deviceInfo, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor),),
+                            ),
+                          ),
+                          PopupMenuDivider(),
+                          if(_deviceList.getDeviceList().elementAt(i).webinterfaceAvailable)
+                            PopupMenuItem(
+                              value: "webInterface",
+                              child: Text(S.of(context).launchWebInterface, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor)),
+                            ),
+                          if(_deviceList.getDeviceList().elementAt(i).identifyDeviceAvailable)
+                            PopupMenuItem(
+                              value: "identifyDevice",
+                              child: Text(S.of(context).identifyDevice, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor)),
+                            ),
+                          PopupMenuItem(
+                            value: "showManual",
+                            child: Text(S.of(context).showManual, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor)),
+                          ),
+                          PopupMenuDivider(),
+                          PopupMenuItem(
+                            value: "factoryReset",
+                            child: Text(S.of(context).factoryReset, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor)),
+                          ),
+                          PopupMenuItem(
+                            value: "deleteDevice",
+                            child: Text(S.of(context).deleteDevice, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor)),
+                          ),
+                          if(_deviceList.getDeviceList().elementAt(i).supportedVDSL.isNotEmpty)
+                            PopupMenuItem(
+                              value: "setVDSL",
+                              child: Text(S.of(context).setVdslCompatibility, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor)),
+                            ),
+                          if (_deviceList.getDeviceList().elementAt(i).disableTraffic[0] == 1 ||
+                              _deviceList.getDeviceList().elementAt(i).disableLeds[0] == 1 ||
+                              _deviceList.getDeviceList().elementAt(i).disableStandby[0] == 1 ||
+                              (_deviceList.getDeviceList().elementAt(i).ipConfigAddress.isNotEmpty ||
+                                  _deviceList.getDeviceList().elementAt(i).ipConfigMac.isNotEmpty ||
+                                  _deviceList.getDeviceList().elementAt(i).ipConfigNetmask.isNotEmpty)
+                          ) ...[
+                            PopupMenuDivider(),
+                            PopupMenuItem(
+                              value: "additionalSettings",
+                              child: Text(S.of(context).additionalSettings, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor)),
+                            ),
+                          ],
+                        ],
+                      )
+                  ),
+                ],
                 Container(
                   alignment: Alignment.topCenter,
                   padding: EdgeInsets.only(top: 20.0),
@@ -267,7 +483,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
     final socket = Provider.of<DataHand>(context, listen: false);
     final deviceList = Provider.of<NetworkList>(context, listen: false);
 
-    for (Offset deviceIconOffset in deviceIconOffsetList) {
+    for (Offset deviceIconOffset in _Painter.getDeviceIconOffsetList(_deviceList.getDeviceList().length)) {
       if (index > _Painter.numberFoundDevices) //do not check invisible circles
         break;
 
@@ -291,7 +507,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
     int index = 0;
 
-    for (Offset deviceIconOffset in deviceIconOffsetList) {
+    for (Offset deviceIconOffset in _Painter.getDeviceIconOffsetList(_deviceList.getDeviceList().length)) {
       if (index > _Painter.numberFoundDevices) //do not check invisible circles
         break;
 
@@ -332,7 +548,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
   void _handleHover(PointerEvent details, NetworkList _deviceList) {
 
     var index = 0;
-    for (Offset deviceIconOffset in deviceIconOffsetList) {
+    for (Offset deviceIconOffset in _Painter.getDeviceIconOffsetList(_deviceList.getDeviceList().length)) {
       if (index > _Painter.numberFoundDevices) //do not check invisible circles
         break;
 

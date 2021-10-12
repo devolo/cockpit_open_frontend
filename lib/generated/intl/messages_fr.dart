@@ -52,8 +52,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Entrez l´ID de sécurité du nouveau adapteur CPL.\nL\'ID de sécurité se trouve à l\'arrière de l\'appareil CPL."),
         "additionalDialogTitle":
             MessageLookupByLibrary.simpleMessage("Paramètres supplémentaires"),
-        "additionalSettings": MessageLookupByLibrary.simpleMessage(
-            "Paramètres\n supplémentaires"),
+        "additionalSettings":
+            MessageLookupByLibrary.simpleMessage("Paramètres supplémentaires"),
         "appInfo": MessageLookupByLibrary.simpleMessage("Info app"),
         "appInformation":
             MessageLookupByLibrary.simpleMessage("Information app"),
@@ -100,7 +100,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Les taux de transmission seront toujours indiqués dans la vue d\'ensemble"),
         "deleteDevice":
-            MessageLookupByLibrary.simpleMessage("Supprimer\n l\'appareil"),
+            MessageLookupByLibrary.simpleMessage("Supprimer l\'appareil"),
         "deviceInfo":
             MessageLookupByLibrary.simpleMessage("Informations sur l´appareil"),
         "deviceNameDialogBody": MessageLookupByLibrary.simpleMessage(
@@ -123,6 +123,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Une erreur s\'est produite lors de la réinitialisation de l\'appareil"),
         "deviceNotFoundSetIpConfig": MessageLookupByLibrary.simpleMessage(
             "Une erreur s\'est produite lors de la configuration de l\'adresse IP/masque de réseau"),
+        "deviceSettings":
+            MessageLookupByLibrary.simpleMessage("Paramètres appareil"),
         "emailIsInvalid":
             MessageLookupByLibrary.simpleMessage("Adresse e-mail non valide"),
         "enableShowingSpeeds": MessageLookupByLibrary.simpleMessage(
@@ -130,7 +132,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorScreenText": MessageLookupByLibrary.simpleMessage(
             "Le contenu ne peut pas être affiché !"),
         "factoryReset": MessageLookupByLibrary.simpleMessage(
-            "Réinitialisé aux\n paramètres d\'origine"),
+            "Réinitialisé aux paramètres d\'origine"),
         "failed": MessageLookupByLibrary.simpleMessage("échoué"),
         "fillInIpAddress":
             MessageLookupByLibrary.simpleMessage("Entrez l\'adresse IP"),
@@ -143,7 +145,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "help": MessageLookupByLibrary.simpleMessage("Aide"),
         "highContrast": MessageLookupByLibrary.simpleMessage("Haut contraste"),
         "identifyDevice":
-            MessageLookupByLibrary.simpleMessage("Identifier\n l´appareil"),
+            MessageLookupByLibrary.simpleMessage("Identifier l´appareil"),
         "identifyDeviceErrorBody": MessageLookupByLibrary.simpleMessage(
             "Une erreur s\'est produite lors de l\'identification de l\'appareil.\nRéessayez plus tard"),
         "identifyDeviceErrorTitle":
@@ -261,12 +263,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "setUpDevice":
             MessageLookupByLibrary.simpleMessage("Ajouter un nouvel appareil"),
         "setVdslCompatibility": MessageLookupByLibrary.simpleMessage(
-            "Définir la\n compatibilité VDSL"),
+            "Définir la compatibilité VDSL"),
         "settings": MessageLookupByLibrary.simpleMessage("Paramètres"),
         "showLicences": MessageLookupByLibrary.simpleMessage("licenses"),
         "showLogs":
             MessageLookupByLibrary.simpleMessage("Voir le fichier journal"),
-        "showManual": MessageLookupByLibrary.simpleMessage("Voir \n le manuel"),
+        "showManual": MessageLookupByLibrary.simpleMessage("Voir le manuel"),
         "showOtherDevices":
             MessageLookupByLibrary.simpleMessage("Afficher autres appareils"),
         "showPassword":

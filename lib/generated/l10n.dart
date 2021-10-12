@@ -1020,10 +1020,10 @@ class S {
     );
   }
 
-  /// `additional\nsettings`
+  /// `additional settings`
   String get additionalSettings {
     return Intl.message(
-      'additional\nsettings',
+      'additional settings',
       name: 'additionalSettings',
       desc: '',
       args: [],
@@ -1165,6 +1165,16 @@ class S {
     return Intl.message(
       'Network Settings',
       name: 'networkSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Device Settings`
+  String get deviceSettings {
+    return Intl.message(
+      'Device Settings',
+      name: 'deviceSettings',
       desc: '',
       args: [],
     );
@@ -1630,10 +1640,10 @@ class S {
     );
   }
 
-  /// `Set VDSL \ncompatibility`
+  /// `Set VDSL compatibility`
   String get setVdslCompatibility {
     return Intl.message(
-      'Set VDSL \ncompatibility',
+      'Set VDSL compatibility',
       name: 'setVdslCompatibility',
       desc: '',
       args: [],

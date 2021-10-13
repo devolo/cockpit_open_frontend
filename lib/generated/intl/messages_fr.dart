@@ -64,8 +64,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "back": MessageLookupByLibrary.simpleMessage("Précédente"),
         "cancel": MessageLookupByLibrary.simpleMessage("Annuler"),
         "change": MessageLookupByLibrary.simpleMessage("Modifier"),
-        "changePlcNetworkPassword":
-            MessageLookupByLibrary.simpleMessage("Mot de passe du réseau CPL"),
+        "changePlcNetworkPassword": MessageLookupByLibrary.simpleMessage(
+            "Changer le mot de passe du réseau CPL"),
         "changeTheLanguageOfTheApp": MessageLookupByLibrary.simpleMessage(
             "Changer la langue de l\'application"),
         "checkUpdates":
@@ -201,6 +201,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Le mot de passe doit contenir plus de 8 caractères"),
         "pending": MessageLookupByLibrary.simpleMessage("en attente"),
+        "plcNetworkPassword":
+            MessageLookupByLibrary.simpleMessage("Mot de passe du réseau CPL"),
         "pleaseEnterDeviceName":
             MessageLookupByLibrary.simpleMessage("Entrez le nom de l´appareil"),
         "pleaseEnterPassword":

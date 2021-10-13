@@ -61,6 +61,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
   var hoveredDevice = 999; //displays wich device index is hovered, if no device is hovered the index is set to 999
 
   bool floatingActionButtonHovered = false;
+  static const networkNameTopPadding = 20.0;
+  static const canvasTopPadding = 30.0;
 
   @override
   void initState() {
@@ -120,7 +122,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
             child:  Stack(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
+                  padding: const EdgeInsets.only(top: canvasTopPadding),
                   child: Center(
                     child: CustomPaint(
                       painter: _Painter,
@@ -137,7 +139,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                 for(var i = 0; i < _deviceList.getDeviceList().length; i++) ...[
                   Positioned(
                       left: (screenWidth/2) + _Painter.getDeviceIconOffsetList(_deviceList.getDeviceList().length)[i].dx + _Painter.getNameWidth(_deviceList.getDeviceList().elementAt(i).type, _deviceList.getDeviceList().elementAt(i).name)/2,
-                      top: (screenHeight/2) + _Painter.getDeviceIconOffsetList(_deviceList.getDeviceList().length)[i].dy + _Painter.hnCircleRadius + (_Painter.userNameTopPadding + _Painter.productNameTopPadding)/2,
+                      top: (screenHeight/2) + _Painter.getDeviceIconOffsetList(_deviceList.getDeviceList().length)[i].dy + _Painter.hnCircleRadius + _Painter.userNameTopPadding + networkNameTopPadding,
                       child: PopupMenuButton(
                         offset: Offset(0, 40),
                         color: backgroundColor,
@@ -318,19 +320,19 @@ class _OverviewScreenState extends State<OverviewScreen> {
                             child: Text(S.of(context).showManual, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor)),
                           ),
                           PopupMenuDivider(),
-                          PopupMenuItem(
-                            value: "factoryReset",
-                            child: Text(S.of(context).factoryReset, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor)),
-                          ),
-                          PopupMenuItem(
-                            value: "deleteDevice",
-                            child: Text(S.of(context).deleteDevice, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor)),
-                          ),
                           if(_deviceList.getDeviceList().elementAt(i).supportedVDSL.isNotEmpty)
                             PopupMenuItem(
                               value: "setVDSL",
                               child: Text(S.of(context).setVdslCompatibility, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor)),
                             ),
+                          PopupMenuItem(
+                            value: "deleteDevice",
+                            child: Text(S.of(context).deleteDevice, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor)),
+                          ),
+                          PopupMenuItem(
+                            value: "factoryReset",
+                            child: Text(S.of(context).factoryReset, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor)),
+                          ),
                           if (_deviceList.getDeviceList().elementAt(i).disableTraffic[0] == 1 ||
                               _deviceList.getDeviceList().elementAt(i).disableLeds[0] == 1 ||
                               _deviceList.getDeviceList().elementAt(i).disableStandby[0] == 1 ||
@@ -350,7 +352,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                 ],
                 Container(
                   alignment: Alignment.topCenter,
-                  padding: EdgeInsets.only(top: 20.0),
+                  padding: EdgeInsets.only(top: networkNameTopPadding),
                   child: Row(
                       mainAxisAlignment : MainAxisAlignment.center,
                       children:[
@@ -378,8 +380,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
                               PopupMenuItem(
                                 value: "networkSettings",
                                 child: SizedBox(    // needed as different languages have different length which influences the offset
-                                  width: 180,
-                                  child: Text(S.of(context).networkSettings, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor),),
+                                  width: 200,
+                                  child: Text(S.of(context).changePlcNetworkPassword, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor),),
                                 ),
                               ),
                               if(_deviceList.getNetworkListLength() > 1) ...[

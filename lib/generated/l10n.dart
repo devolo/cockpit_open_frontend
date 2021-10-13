@@ -291,9 +291,19 @@ class S {
   }
 
   /// `PLC network password`
-  String get changePlcNetworkPassword {
+  String get plcNetworkPassword {
     return Intl.message(
       'PLC network password',
+      name: 'plcNetworkPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change PLC network password`
+  String get changePlcNetworkPassword {
+    return Intl.message(
+      'Change PLC network password',
       name: 'changePlcNetworkPassword',
       desc: '',
       args: [],

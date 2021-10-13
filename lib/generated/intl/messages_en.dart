@@ -65,7 +65,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "change": MessageLookupByLibrary.simpleMessage("Change"),
         "changePlcNetworkPassword":
-            MessageLookupByLibrary.simpleMessage("PLC network password"),
+            MessageLookupByLibrary.simpleMessage("Change PLC network password"),
         "changeTheLanguageOfTheApp": MessageLookupByLibrary.simpleMessage(
             "Change the language of the App"),
         "checkUpdates":
@@ -199,6 +199,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "The password must contain more than 8 characters"),
         "pending": MessageLookupByLibrary.simpleMessage("pending"),
+        "plcNetworkPassword":
+            MessageLookupByLibrary.simpleMessage("PLC network password"),
         "pleaseEnterDeviceName":
             MessageLookupByLibrary.simpleMessage("Enter device name"),
         "pleaseEnterPassword":

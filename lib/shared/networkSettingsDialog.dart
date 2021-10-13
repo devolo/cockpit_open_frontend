@@ -39,7 +39,7 @@ void networkSettingsDialog(context, NetworkList _deviceList, FocusNode myFocusNo
                 children: [
                   getCloseButton(context),
                   SelectableText(
-                    S.of(context).networkSettings,
+                    S.of(context).changePlcNetworkPassword,
                     style: TextStyle(color: fontColorOnBackground),
                     textScaleFactor: fontSize.factor,
                   ),
@@ -73,7 +73,7 @@ void networkSettingsDialog(context, NetworkList _deviceList, FocusNode myFocusNo
                                 .toString()}',
                             labelText: S
                                 .of(context)
-                                .changePlcNetworkPassword,
+                                .plcNetworkPassword,
                             labelStyle: TextStyle(color: fontColorOnBackground,
                               fontSize: fontSizeListTileSubtitle *
                                   fontSize.factor,),

@@ -557,7 +557,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 decoration: InputDecoration(
                                   counterText: "",
                                   suffixText: '${textLength.toString()}/${maxLength.toString()}',
-                                  labelText: S.of(context).changePlcNetworkPassword,
+                                  labelText: S.of(context).plcNetworkPassword,
                                   labelStyle: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor,),
                                   hoverColor: mainColor.withOpacity(0.2),
                                   contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),

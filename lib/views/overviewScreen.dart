@@ -425,47 +425,50 @@ class _OverviewScreenState extends State<OverviewScreen> {
         ),
 
       ),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(right: 20, bottom: 10),
-        child: MouseRegion(
-          onEnter: (pointerEnterEvent){
-            setState(() {
-              floatingActionButtonHovered = true;
-            });
-          },
-          onExit: (pointerExitEvent){
-            setState(() {
-              floatingActionButtonHovered = false;
-            });
-          },
-          child: FloatingActionButton(
-            onPressed: () {
-              // Warning! "UpdateCheck" and "RefreshNetwork" should only be triggered by a user interaction, not continously/automaticly
-              if(!blockRefresh){
-                blockRefresh = true;
-                setState(() {
-                  socket.sendXML('RefreshNetwork');
-                  AppBuilder.of(context)!.rebuild();
-                });
-                Timer(Duration(seconds: 2), () {
-                  setState(() {
-                    blockRefresh = false;
-                  });
-                });
-              }
+      floatingActionButton: IgnorePointer(
+        ignoring: socket.connected ? false: true,
+        child: Padding(
+          padding: EdgeInsets.only(right: 20, bottom: 10),
+          child: MouseRegion(
+            onEnter: (pointerEnterEvent){
+              setState(() {
+                floatingActionButtonHovered = true;
+              });
             },
-            elevation: 0,
-            hoverElevation: 0,
-            shape: CircleBorder(
-              side: BorderSide(color: fontColorOnBackground, width: 2)
-                //borderRadius: BorderRadius.zero
-            ),
-            tooltip: S.of(context).refresh,
-            backgroundColor: backgroundColor,
-            foregroundColor: floatingActionButtonHovered ? backgroundColor : fontColorOnBackground,
-            hoverColor: fontColorOnBackground,
-            child: Icon(
-              DevoloIcons.ic_refresh_24px,
+            onExit: (pointerExitEvent){
+              setState(() {
+                floatingActionButtonHovered = false;
+              });
+            },
+            child: FloatingActionButton(
+              onPressed: () {
+                // Warning! "UpdateCheck" and "RefreshNetwork" should only be triggered by a user interaction, not continously/automaticly
+                if(!blockRefresh){
+                  blockRefresh = true;
+                  setState(() {
+                    socket.sendXML('RefreshNetwork');
+                    AppBuilder.of(context)!.rebuild();
+                  });
+                  Timer(Duration(seconds: 2), () {
+                    setState(() {
+                      blockRefresh = false;
+                    });
+                  });
+                }
+              },
+              elevation: 0,
+              hoverElevation: 0,
+              shape: CircleBorder(
+                side: BorderSide(color: fontColorOnBackground, width: 2)
+                  //borderRadius: BorderRadius.zero
+              ),
+              tooltip: S.of(context).refresh,
+              backgroundColor: backgroundColor,
+              foregroundColor: floatingActionButtonHovered ? backgroundColor : fontColorOnBackground,
+              hoverColor: fontColorOnBackground,
+              child: Icon(
+                DevoloIcons.ic_refresh_24px,
+              ),
             ),
           ),
         ),

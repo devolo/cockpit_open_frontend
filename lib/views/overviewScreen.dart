@@ -79,6 +79,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
 
+    //saveWindowSize();
+
     if(_deviceList.getNetworkListLength() - 1 >= config["selected_network"]){
       _deviceList.selectedNetworkIndex = config["selected_network"];
     }
@@ -107,6 +109,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
     logger.d("[overviewScreen] - widget build...");
 
     fontSize = context.watch<FontSize>();
+
+
 
     return Scaffold(
       backgroundColor: Colors.transparent,

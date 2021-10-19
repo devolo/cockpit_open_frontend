@@ -16,6 +16,7 @@ import 'package:cockpit_devolo/shared/app_fontSize.dart';
 import 'package:cockpit_devolo/shared/buttons.dart';
 import 'package:cockpit_devolo/shared/devolo_icons.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
+import 'package:desktop_window/desktop_window.dart';
 import 'views/helpSection/supportScreen.dart';
 import 'package:cockpit_devolo/views/settingsScreen.dart';
 import 'package:cockpit_devolo/views/updateScreen.dart';
@@ -38,6 +39,7 @@ import 'dart:convert';
 import 'models/fontSizeModel.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 
+
 void main() {
   //debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
 
@@ -56,7 +58,7 @@ void main() {
   runApp(Phoenix(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -116,7 +118,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
+  
   final GlobalKey<ScaffoldState> _drawerScaffoldKey = new GlobalKey<ScaffoldState>();
   late NetworkList _deviceList;
   double paddingLeftDrawerUnderSection = 60;
@@ -137,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-
+    
     getConnection();
     readSharedPrefs();
     getVersions();
@@ -188,6 +190,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 
+
   Future<void> readSharedPrefs() async {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -198,9 +201,10 @@ class _MyHomePageState extends State<MyHomePage> {
     if(checkSharedPreference){
 
       dynamic configuration = prefs.get("config");
-      var jsonconfig = json.decode(configuration);
-
+      var jsonconfig =  await json.decode(configuration);
       config = jsonconfig;
+
+      setWindowSize(jsonconfig["window_width"], jsonconfig["window_height"]);
 
       if(config["language"] == ""){
         if(Localizations.localeOf(context).languageCode == "und") { // This must not be null. It may be 'und', representing 'undefined'. See flutter documentation
@@ -219,8 +223,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
       setTheme(jsonconfig["theme"]);
       fontSize.factor = config["font_size_factor"];
-    }
 
+    }
     else{
       if(Localizations.localeOf(context).languageCode == "und") { // This must not be null. It may be 'und', representing 'undefined'. See flutter documentation
         config["language"] = "en";
@@ -232,12 +236,23 @@ class _MyHomePageState extends State<MyHomePage> {
 
       setTheme(config["theme"]);
       fontSize.factor = config["font_size_factor"];
+
     }
+
+
 
 
     // Rebuild the Widget to reflect changes to the app
     AppBuilder.of(context)!.rebuild();
   }
+
+  void setWindowSize(width, height) async {
+    logger.d("SetWindow");
+    await DesktopWindow.setWindowSize(Size(width,height));
+    await DesktopWindow.setMinWindowSize(Size(600,600));
+  }
+
+
 
   Widget buildPageView() {
     return PageView(
@@ -268,6 +283,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     _deviceList = Provider.of<NetworkList>(context);
     socket = Provider.of<DataHand>(context);
+
+    saveWindowSize();
 
     if(!socket.connected && widgetsPoped) {
       WidgetsBinding.instance!.addPostFrameCallback((_) {

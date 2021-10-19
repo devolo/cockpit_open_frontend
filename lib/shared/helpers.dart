@@ -9,8 +9,10 @@ LICENSE file in the root directory of this source tree.
 import 'dart:convert';
 import 'dart:async';
 import 'dart:io';
+import 'dart:ui';
 import 'package:cockpit_devolo/logging/log_printer.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
+import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -35,6 +37,8 @@ Map<String,dynamic> config = {
   "language": "",
   "font_size_factor": 1.0,
   "selected_network": 0,
+  "window_height": 720.0,
+  "window_width":1280.0,
 };
 
 var logger = Logger(
@@ -141,3 +145,23 @@ String? getPathForLanguage(String language){
     return  "assets/flagImages/devolo_UK.png";
 }
 
+Future saveWindowSize() async {
+  logger.d("get window size");
+
+  Size size = await DesktopWindow.getWindowSize();
+
+  if(size.height != config["window_height"] || size.width != config["window_width"]) {
+    logger.w("Saving window size...");
+    config["window_height"] = size.height;
+    config["window_width"] = size.width;
+    saveToSharedPrefs(config);
+  };
+
+  // if(config["window_height"] == 0.0 || config["window_width"] == 0.0) {
+  //   logger.w("Window size is 0.0");
+  //   return;
+  // }
+
+
+
+}

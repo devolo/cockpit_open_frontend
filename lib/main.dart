@@ -204,7 +204,7 @@ class _MyHomePageState extends State<MyHomePage> {
       var jsonconfig =  await json.decode(configuration);
       config = jsonconfig;
 
-      setWindowSize(jsonconfig["window_width"], jsonconfig["window_height"]);
+      setWindowSize(jsonconfig["window_width"], jsonconfig["window_height"], jsonconfig["fullscreen"]);
 
       if(config["language"] == ""){
         if(Localizations.localeOf(context).languageCode == "und") { // This must not be null. It may be 'und', representing 'undefined'. See flutter documentation
@@ -246,10 +246,11 @@ class _MyHomePageState extends State<MyHomePage> {
     AppBuilder.of(context)!.rebuild();
   }
 
-  void setWindowSize(width, height) async {
+  void setWindowSize(width, height, fullscreen) async {
     logger.d("SetWindow");
     await DesktopWindow.setWindowSize(Size(width,height));
-    await DesktopWindow.setMinWindowSize(Size(600,600));
+    await DesktopWindow.setMinWindowSize(Size(800,600));
+    await DesktopWindow.setFullScreen(fullscreen);
   }
 
 

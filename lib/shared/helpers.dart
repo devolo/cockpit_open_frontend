@@ -39,6 +39,7 @@ Map<String,dynamic> config = {
   "selected_network": 0,
   "window_height": 720.0,
   "window_width":1280.0,
+  "fullscreen": false,
 };
 
 var logger = Logger(
@@ -146,23 +147,26 @@ String? getPathForLanguage(String language){
 }
 
 Future saveWindowSize() async {
-  logger.d("get window size");
 
   Size size = await DesktopWindow.getWindowSize();
+  bool fullscreen = await DesktopWindow.getFullScreen();
 
-  if(size.height == 0.0 || size.width == 0.0) {
-    logger.w("Window size incorrect");
+  if(size.height == 0.0 || size.width == 0.0)
+    return;
+
+
+  if(fullscreen != config["fullscreen"]) {
+    logger.d("Saving window fullscreen...");
+    config["fullscreen"] = fullscreen;
+    saveToSharedPrefs(config);
     return;
   }
-
-  if(size.height != config["window_height"] || size.width != config["window_width"]) {
-    logger.w("Saving window size...");
+  else if(!fullscreen && (size.height != config["window_height"] || size.width != config["window_width"])) {
+    logger.d("Saving window size...");
     config["window_height"] = size.height;
     config["window_width"] = size.width;
     saveToSharedPrefs(config);
   };
-
-
 
 
 

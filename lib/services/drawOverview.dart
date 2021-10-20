@@ -253,13 +253,42 @@ class DrawOverview extends CustomPainter {
     var distance = sqrt(pow(dx, 2) + pow(dy, 2));
     var angle = atan2(dy, dx);
     var headLength = 15; // length of head in pixels
-    var textNamePaddingStart = (sin(angle) == 1) ? userNameTopPadding + productNameTopPadding : 0; // in case that we are drawing a vertical line we need the padding
-    var textNamePaddingEnd = (sin(angle) == -1) ? userNameTopPadding + productNameTopPadding : 0; // in case that we are drawing a vertical line we need the padding
-    double paddingEnd = 20 + hnCircleShadowRadius + textNamePaddingEnd; // padding between end of arrow and device icon circle
-    double paddingStart = paddingEnd + headLength + 5 + textNamePaddingStart - textNamePaddingEnd; // padding between start of arrow and device icon circle DON`T TOUCH!!!
+
+    double paddingEnd; // padding between end of arrow and device icon circle
+    double paddingStart; // padding between start of arrow and device icon circle DON`T TOUCH!!!
+    var paddingConstant;
+    if(sin(angle) == -1 || sin(angle) == 1){
+      paddingConstant = 20;
+    }
+    else if((sin(angle) >= -0.5 && sin(angle) <= -0.3) || sin(angle) >= 0.3 && sin(angle) <= 0.5){
+      logger.i("1");
+      paddingConstant = 80;
+    }
+    else if((sin(angle) < -0.5 && sin(angle) >= -1) || sin(angle) > 0.5 && sin(angle) <= 1){
+      logger.i("2");
+      paddingConstant = 40;
+    }
+    else{
+      logger.i("3");
+      paddingConstant = 40;
+    }
+
+    if(sin(angle) < -0.3 && sin(angle) >= -1){  // Arrow to top
+      paddingEnd = hnCircleRadius + getDeviceNameAndTypeHeight() + paddingConstant;
+      paddingStart = hnCircleRadius + paddingConstant + headLength + 5;
+    }
+    else if((sin(angle) > 0.3 && sin(angle) <= 1)){ // Arrow to bottom
+      paddingEnd = hnCircleRadius + paddingConstant;
+      paddingStart = hnCircleRadius + getDeviceNameAndTypeHeight() + paddingConstant + headLength + 5;
+    }
+    else{ // arrow where the name does not collide with
+      paddingEnd = hnCircleRadius + paddingConstant;
+      paddingStart = hnCircleRadius + paddingConstant + headLength + 5;
+    }
+
     if(paddingStart + paddingEnd > distance){
-      paddingEnd = 1 + hnCircleShadowRadius;
-      paddingStart = paddingEnd + headLength + 5;
+      paddingEnd = paddingEnd - paddingConstant + distance/16;
+      paddingStart = paddingStart - paddingConstant + distance/16;
     }
 
     dynamic startDx = start.dx + cos(angle) * paddingStart;
@@ -290,8 +319,6 @@ class DrawOverview extends CustomPainter {
   // circular border
   void drawDeviceIconBorder(Canvas canvas, int deviceIndex) {
     Offset absoluteOffset = Offset(_deviceIconOffsetList.elementAt(deviceIndex).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(deviceIndex).dy + (screenHeight / 2));
-
-    canvas.drawCircle(absoluteOffset, hnCircleShadowRadius, _circleAreaPaint); //"shadow" of the device circle. covers the connection lines.s
 
     if (showingSpeeds && deviceIndex != pivotDeviceIndex) {
       canvas.drawCircle(absoluteOffset, hnCircleRadius, _speedCircleAreaPaint); //the inner filling of a device circle, when showing speeds
@@ -434,6 +461,20 @@ class DrawOverview extends CustomPainter {
     return max(uNameWidth,pNameWidth);
   }
 
+  double getDeviceNameAndTypeHeight() {
+
+    final productNameTextSpan = TextSpan(
+      text: "WAfwafwAWfwaf",
+      style: _textNameStyle.apply(),
+    );
+
+    _textPainter.text = productNameTextSpan;
+    _textPainter.layout(minWidth: 0, maxWidth: 300);
+    double pNameHeight = _textPainter.height;
+
+    return pNameHeight + userNameTopPadding + productNameTopPadding;
+  }
+
 
   void drawMainIcon(Canvas canvas, icon) {
     Offset absoluteRouterOffset = Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2));
@@ -495,53 +536,56 @@ class DrawOverview extends CustomPainter {
         break;
       case 3:
         {
-          deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, 1 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, 1 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(0.7 * _screenGridWidth, 1.5 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(-0.7 * _screenGridWidth, 1.5 * _screenGridHeight));
         }
         break;
       case 4:
         {
-          deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, 1 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(0.0, 1.5 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, 1 * _screenGridHeight));
+          logger.i(_screenGridHeight - _screenGridHeight * 3.0);
+          logger.i(2.0 * _screenGridHeight);
+          logger.i(_screenGridHeight - _screenGridHeight * 3.0 + 2.0 * _screenGridHeight);
+          deviceIconOffsetList.add(Offset(1.2 * _screenGridWidth, (deviceIconOffsetList[0].dy + 2.0 * _screenGridHeight) /2));
+          deviceIconOffsetList.add(Offset(0.0, 2.0 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(-1.2 * _screenGridWidth, (deviceIconOffsetList[0].dy + 2.0 * _screenGridHeight) /2));
         }
         break;
       case 5:
         {
-          deviceIconOffsetList.add(Offset(1.6 * _screenGridWidth, -1 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, 1 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, 1 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-1.6 * _screenGridWidth, -1 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, -1 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(0.7 * _screenGridWidth, 1.8 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(-0.7 * _screenGridWidth, 1.8 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, -1 * _screenGridHeight));
         }
         break;
       case 6:
         {
-          deviceIconOffsetList.add(Offset(1.6 * _screenGridWidth, -1 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, 1 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(0.0, 1.5 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, 1 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-1.6 * _screenGridWidth, -1 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(1.6 * _screenGridWidth, -1.2 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(1.2 * _screenGridWidth, 1 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(0.0, 2 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(-1.2 * _screenGridWidth, 1 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(-1.6 * _screenGridWidth, -1.2 * _screenGridHeight));
         }
         break;
       case 7:
         {
-          deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, -3 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(1.6 * _screenGridWidth, -1 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, 1 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, 1 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-1.6 * _screenGridWidth, -1 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, -3 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, -3.2 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, -0.8 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(0.7 * _screenGridWidth, 1.8 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(-0.7 * _screenGridWidth, 1.8 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, -0.8* _screenGridHeight));
+          deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, -3.2 * _screenGridHeight));
         }
         break;
       case 8:
         {
-          deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, -3 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(1.6 * _screenGridWidth, -1 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, 1 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(0.0, 1.5 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, 1 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-1.6 * _screenGridWidth, -1 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, -3 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, -3.2 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, -0.8 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(0.9 * _screenGridWidth, 1 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(0.0, 2 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(-0.9 * _screenGridWidth, 1 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, -0.8* _screenGridHeight));
+          deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, -3.2 * _screenGridHeight));
         }
         break;
       default:

@@ -32,7 +32,6 @@ import 'package:cockpit_devolo/views/appBuilder.dart';
 import 'package:window_size/window_size.dart';
 import 'dart:io';
 import 'package:cockpit_devolo/shared/globals.dart';
-import 'package:cockpit_devolo/shared/imageLoader.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:convert';
 

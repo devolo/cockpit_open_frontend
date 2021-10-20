@@ -284,7 +284,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _deviceList = Provider.of<NetworkList>(context);
     socket = Provider.of<DataHand>(context);
 
-    saveWindowSize();
+
 
     if(!socket.connected && widgetsPoped) {
       WidgetsBinding.instance!.addPostFrameCallback((_) {
@@ -299,6 +299,8 @@ class _MyHomePageState extends State<MyHomePage> {
     else if(socket.connected && widgetsPoped == false) {
       widgetsPoped = true;
     }
+
+    saveWindowSize();
 
     return Scaffold(
       backgroundColor: backgroundColor,

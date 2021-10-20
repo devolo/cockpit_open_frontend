@@ -150,6 +150,11 @@ Future saveWindowSize() async {
 
   Size size = await DesktopWindow.getWindowSize();
 
+  if(size.height == 0.0 || size.width == 0.0) {
+    logger.w("Window size incorrect");
+    return;
+  }
+
   if(size.height != config["window_height"] || size.width != config["window_width"]) {
     logger.w("Saving window size...");
     config["window_height"] = size.height;
@@ -157,10 +162,7 @@ Future saveWindowSize() async {
     saveToSharedPrefs(config);
   };
 
-  // if(config["window_height"] == 0.0 || config["window_width"] == 0.0) {
-  //   logger.w("Window size is 0.0");
-  //   return;
-  // }
+
 
 
 

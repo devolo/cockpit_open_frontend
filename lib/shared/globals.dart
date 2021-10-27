@@ -4,8 +4,8 @@ String dateCockpit = "";
 String versionLetterCockpit = "";
 
 // Define config options for device simulator
-const bool simulatedDevices = false;
-const int nDevices = 5;
+const bool simulatedDevices = true;
+const int nDevices = 8;
 bool widgetsPoped = false;
 
 final List<String> languageList = <String>[

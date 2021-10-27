@@ -218,36 +218,37 @@ class DrawOverview extends CustomPainter {
 
     double paddingEnd; // padding between end of arrow and device icon circle
     double paddingStart; // padding between start of arrow and device icon circle
-    var paddingConstant;
+    var collisionAvoidPadding;
+    var standardPadding = 40;
     if(sin(angle) == -1 || sin(angle) == 1){
-      paddingConstant = 20;
+      collisionAvoidPadding = 20;
     }
     else if((sin(angle) >= -0.5 && sin(angle) <= -0.3) || sin(angle) >= 0.3 && sin(angle) <= 0.5){
-      paddingConstant = 80;
+      collisionAvoidPadding = 80;
     }
     else if((sin(angle) < -0.5 && sin(angle) >= -1) || sin(angle) > 0.5 && sin(angle) <= 1){
-      paddingConstant = 40;
+      collisionAvoidPadding = 40;
     }
     else{
-      paddingConstant = 40;
+      collisionAvoidPadding = standardPadding;
     }
 
-    if(sin(angle) < -0.3 && sin(angle) >= -1){  // Arrow to top
-      paddingEnd = hnCircleRadius + getDeviceNameAndTypeHeight() + paddingConstant;
-      paddingStart = hnCircleRadius + paddingConstant + headLength + 5;
+    if(sin(angle) < -0.3 && sin(angle) >= -1){  // Arrow to top - As the arrow points to the top, we need no extra padding between the start of the arrow and the icon, as there will be no name collision.
+      paddingEnd = hnCircleRadius + getDeviceNameAndTypeHeight() + collisionAvoidPadding;
+      paddingStart = hnCircleRadius + standardPadding + headLength + 5;
     }
-    else if((sin(angle) > 0.3 && sin(angle) <= 1)){ // Arrow to bottom
-      paddingEnd = hnCircleRadius + paddingConstant;
-      paddingStart = hnCircleRadius + getDeviceNameAndTypeHeight() + paddingConstant + headLength + 5;
+    else if((sin(angle) > 0.3 && sin(angle) <= 1)){ // Arrow to bottom - As the arrow points to the bottom, we need no extra padding between the arrow cross and the icon, as there will be no name collision.
+      paddingEnd = hnCircleRadius + standardPadding;
+      paddingStart = hnCircleRadius + getDeviceNameAndTypeHeight() + collisionAvoidPadding + headLength + 5;
     }
     else{ // arrow where the name does not collide with
-      paddingEnd = hnCircleRadius + paddingConstant;
-      paddingStart = hnCircleRadius + paddingConstant + headLength + 5;
+      paddingEnd = hnCircleRadius + collisionAvoidPadding;
+      paddingStart = hnCircleRadius + collisionAvoidPadding + headLength + 5;
     }
 
     if(paddingStart + paddingEnd > distance){
-      paddingEnd = paddingEnd - paddingConstant + distance/16;
-      paddingStart = paddingStart - paddingConstant + distance/16;
+      paddingEnd = paddingEnd - collisionAvoidPadding + distance/16;
+      paddingStart = paddingStart - collisionAvoidPadding + distance/16;
     }
 
     dynamic startDx = start.dx + cos(angle) * paddingStart;
@@ -564,17 +565,12 @@ class DrawOverview extends CustomPainter {
 
   void drawAllDeviceConnections(Canvas canvas, Size size) {
     //draw all device connection lines to the pivot device
-    int localIndex = _deviceList.indexWhere((element) => element.isLocalDevice == true);
     int attachedToRouterIndex = _deviceList.indexWhere((element) => element.attachedToRouter == true);
     if(attachedToRouterIndex == -1) { // -1 when element is not found
       attachedToRouterIndex = 0;
     }
     for (int numDev = 0; numDev < _deviceList.length; numDev++) {
       if (numDev > _deviceIconOffsetList.length) break;
-
-      if (config["show_other_devices"]) {
-        drawOtherConnection(canvas, _deviceIconOffsetList.elementAt(localIndex), size);
-      }
 
       //do not draw pivot device line, since it would start and end at the same place
       if (numDev != pivotDeviceIndex) {
@@ -602,6 +598,13 @@ class DrawOverview extends CustomPainter {
     return colors;
   }
 
+  void drawLocalDeviceIcon(Canvas canvas, Size size){
+    int localIndex = _deviceList.indexWhere((element) => element.isLocalDevice == true);
+    if (config["show_other_devices"]) {
+      drawOtherConnection(canvas, _deviceIconOffsetList.elementAt(localIndex), size);
+    }
+  }
+  
   void drawAllDeviceIcons(Canvas canvas, Size size) {
 
     //the draw all the device names, so they are above the lines
@@ -650,9 +653,9 @@ class DrawOverview extends CustomPainter {
       drawMainIcon(canvas, DevoloIcons.devolo_UI_internet_off);
     }
 
-    drawAllDeviceIcons(canvas, size);
     drawAllDeviceConnections(canvas, size);
-
+    drawAllDeviceIcons(canvas, size);
+    drawLocalDeviceIcon(canvas,size);
 
     canvas.save();
     canvas.restore();

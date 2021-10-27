@@ -56,17 +56,37 @@ List<XmlNode> findElements(List<XmlNode> xmlNodes, String searchString) {
   return deviceItems;
 }
 
+// TODO try to use package_info_plus once the version in the pubspec.yaml is supported by all platforms
 Future<void> getVersions() async {
   String fileData = await rootBundle.loadString('assets/version.txt');
-  String versionCockpitFile = "";
 
+  int startIndex = 0;
   if(fileData.contains("versionCockpit")){
-    versionCockpitFile = fileData.substring(fileData.indexOf("=")+2,fileData.indexOf(";")+1);
-    versionCockpitFile = versionCockpitFile.replaceAll('_', ' (');
-    versionCockpitFile = versionCockpitFile.replaceAll(';', ')');
+    versionCockpit = fileData.substring(fileData.indexOf("=",startIndex)+2,fileData.indexOf(";",startIndex));
+    startIndex = fileData.indexOf("buildNumberCockpit");
+    buildNumberCockpit = fileData.substring(fileData.indexOf("=",startIndex)+2,fileData.indexOf(";",startIndex));
+    startIndex = fileData.indexOf("dateCockpit");
+    dateCockpit = fileData.substring(fileData.indexOf("=",startIndex)+2,fileData.indexOf(";",startIndex));
+    startIndex = fileData.indexOf("versionLetterCockpit");
+    versionLetterCockpit = fileData.substring(fileData.indexOf("=",startIndex)+2,fileData.indexOf(";",startIndex));
   }
+}
 
-  versionCockpit = versionCockpitFile;
+String getVersionSyntax(){
+  String version = "";
+  if(versionCockpit != "")
+    version += versionCockpit;
+
+  if(versionLetterCockpit != "")
+    version += "." + versionLetterCockpit;
+
+  if(buildNumberCockpit != "")
+    version += buildNumberCockpit;
+
+  if(dateCockpit != "")
+    version += " (" + dateCockpit + ")";
+
+  return version;
 }
 
 void saveToSharedPrefs(Map<String, dynamic> inputMap) async {

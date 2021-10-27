@@ -555,7 +555,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(
                   height: 20,
                 ),
-                Text('Cockpit Version: ${versionCockpit.toString()}'), // from package_info_plus
+                Text('Cockpit Version: ' + getVersionSyntax()), // from package_info_plus
                 SizedBox(height: 20,),
                 TextButton(
                   child: Text(

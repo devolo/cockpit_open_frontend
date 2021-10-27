@@ -226,7 +226,7 @@ class NetworkList extends ChangeNotifier{
       this._networkList.insert(whichNetworkIndex, []);
     }
 
-    if(device.attachedToRouter & config["internet_centered"]){
+    if(device.attachedToRouter){
       this._networkList[whichNetworkIndex].insert(0, device);
     }
     else{

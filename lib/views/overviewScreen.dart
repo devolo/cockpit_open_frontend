@@ -110,7 +110,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
     size = context.watch<SizeModel>();
 
-
+    List<Offset> _deviceIconOffsetList = _Painter.getDeviceIconOffsetList(_deviceList.getDeviceList().length);
+    int _localIndex = _deviceList.getDeviceList().indexWhere((element) => element.isLocalDevice == true);
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -408,6 +409,19 @@ class _OverviewScreenState extends State<OverviewScreen> {
                           )
                       ]),
                 ),
+                // hover tooltip area for laptop icon (local device)
+                if(_localIndex != -1)
+                  Positioned(
+                    left: _Painter.getLaptopIconOffset(_localIndex, _deviceIconOffsetList).dx + _Painter.laptopCircleRadius/2,
+                    top: _Painter.getLaptopIconOffset(_localIndex, _deviceIconOffsetList).dy + _Painter.laptopCircleRadius,
+                    child: IconButton(
+                      tooltip: S.of(context).thisPc,
+                      iconSize: _Painter.laptopCircleRadius*2,
+                      icon: Icon(null),
+                      onPressed: null,
+                      mouseCursor: MouseCursor.defer,
+                    ),
+                  ),
                 if(!socket.connected)
                 new BackdropFilter(
                   filter: new ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),

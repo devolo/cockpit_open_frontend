@@ -21,6 +21,7 @@ import 'dart:ui';
 
 class DrawOverview extends CustomPainter {
   double hnCircleRadius = 35.0;
+  double laptopCircleRadius = 15.0;
   double productNameTopPadding = 0;
   double userNameTopPadding = 0;
   double hnCircleShadowRadius = 50.0;
@@ -166,55 +167,16 @@ class DrawOverview extends CustomPainter {
     _textPainter.paint(canvas, Offset(absoluteOffset.dx - (_textPainter.width / 2), absoluteOffset.dy + (hnCircleRadius + _textPainter.height) - 5));
   }
 
-  //connection line to other Devices like PC
+  //connection to other Devices like PC
   void drawOtherConnection(Canvas canvas, Offset deviceOffset, Size size) {
-    Offset absoluteOffset = Offset(deviceOffset.dx + (screenWidth / 2), deviceOffset.dy + (screenHeight / 2));
-    Offset toOffset = Offset(deviceOffset.dx + (screenWidth / 2) + 110 , deviceOffset.dy + (screenHeight / 2));
-    Offset absoluteRouterOffset = Offset(screenWidth / 2 + 100, -4.5 * _screenGridHeight + (screenHeight / 2) +18);
-    var userNameTextSpan;
+    int localIndex = _deviceList.indexWhere((element) => element.isLocalDevice == true);
 
+    Offset toOffset = getLaptopIconOffset(localIndex, _deviceIconOffsetList);
 
-    if (config["internet_centered"]) {
-      canvas.drawLine(absoluteOffset, toOffset.translate(-20, 0), _linePaint..strokeWidth = 2.0);
-      drawIcon(canvas, toOffset, DevoloIcons.ic_laptop_24px);
-      userNameTextSpan = TextSpan(
-        text: S.current.thisPc,
-        style: _textNameStyle.apply(),
-      );
-
-      _textPainter.text = userNameTextSpan;
-      _textPainter.layout(minWidth: 0, maxWidth: 300);
-      _textPainter.paint(canvas, toOffset.translate(-23, 15));
-
+    if ((showingSpeeds && localIndex != pivotDeviceIndex) || localIndex == hoveredDevice) {
+      drawIcon(canvas, toOffset, DevoloIcons.ic_laptop_24px_filled,laptopCircleRadius*2,drawingColor);
     } else {
-      if(_providerList.getPivotDevice() != null) { // if there is no device attached to router don't paint line to the internet internet
-        canvas.drawLine(absoluteOffset, toOffset.translate(-20, 0) , _linePaint..strokeWidth = 2.0);
-        drawIcon(canvas, toOffset, DevoloIcons.devolo_UI_internet);
-        userNameTextSpan = TextSpan(
-          text: S.current.internet,
-          style: _textNameStyle.apply(),
-        );
-
-        _textPainter.text = userNameTextSpan;
-        _textPainter.layout(minWidth: 0, maxWidth: 300);
-        _textPainter.paint(canvas, toOffset.translate(-23, 15));
-
-      }else{
-        canvas.drawLine(absoluteRouterOffset, absoluteRouterOffset, _linePaint..strokeWidth = 2.0);
-        if(connect) {
-          drawIcon(canvas, absoluteRouterOffset, DevoloIcons.devolo_UI_internet_off, 50);
-        } else {
-          drawIcon(canvas, absoluteRouterOffset, DevoloIcons.devolo_UI_internet, 50);
-        }
-
-        userNameTextSpan = TextSpan(
-          text: "Internet",
-          style: _textNameStyle.apply(),
-        );
-        _textPainter.text = userNameTextSpan;
-        _textPainter.layout(minWidth: 0, maxWidth: 300);
-        _textPainter.paint(canvas, absoluteRouterOffset.translate(-25, 35));
-      }
+      drawIcon(canvas, toOffset, DevoloIcons.ic_laptop_24px_filled,laptopCircleRadius*2,drawingColor);
     }
   }
 
@@ -255,21 +217,18 @@ class DrawOverview extends CustomPainter {
     var headLength = 15; // length of head in pixels
 
     double paddingEnd; // padding between end of arrow and device icon circle
-    double paddingStart; // padding between start of arrow and device icon circle DON`T TOUCH!!!
+    double paddingStart; // padding between start of arrow and device icon circle
     var paddingConstant;
     if(sin(angle) == -1 || sin(angle) == 1){
       paddingConstant = 20;
     }
     else if((sin(angle) >= -0.5 && sin(angle) <= -0.3) || sin(angle) >= 0.3 && sin(angle) <= 0.5){
-      logger.i("1");
       paddingConstant = 80;
     }
     else if((sin(angle) < -0.5 && sin(angle) >= -1) || sin(angle) > 0.5 && sin(angle) <= 1){
-      logger.i("2");
       paddingConstant = 40;
     }
     else{
-      logger.i("3");
       paddingConstant = 40;
     }
 
@@ -485,42 +444,43 @@ class DrawOverview extends CustomPainter {
       style: _textNameStyle.apply(),
     );
 
-    if (_deviceList.length > 0 ) {
-      if(_providerList.getPivotDevice() != null) { // if there is no device attached to router don't paint line to the internet internet
-        canvas.drawLine(Offset(absoluteRouterOffset.dx, absoluteRouterOffset.dy + 50), absoluteRouterDeviceOffset, _linePaint..strokeWidth = 3.0);
-      }
-      if (!config["internet_centered"]) { // if view is not internet centered draw the connection line to the PC (local device)
-        canvas.drawLine(Offset(absoluteRouterOffset.dx, absoluteRouterOffset.dy + 50), absoluteRouterDeviceOffset, _linePaint..strokeWidth = 3.0);
-      }
-
-    }
-
-    if (config["internet_centered"]) {
-      _textPainter.text = internetTextSpan;
-      _textPainter.layout(minWidth: 0, maxWidth: 300);
-      _textPainter.paint(canvas, absoluteAreaOffset.translate(35* sizes.icon_factor, -7));
-    }
-
-    canvas.drawCircle(absoluteAreaOffset, hnCircleRadius , _circleAreaPaint); //"shadow" of the device circle. covers the connection lines.
-
     _iconPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: 60.0, fontFamily: icon.fontFamily, color: drawingColor));
     _iconPainter.layout();
     _iconPainter.paint(canvas, Offset(absoluteRouterOffset.dx - (_iconPainter.width / 2), absoluteRouterOffset.dy));
 
+    if (_deviceList.length > 0 ) {
+
+      var dx = absoluteRouterDeviceOffset.dx - absoluteRouterOffset.dx;
+      var dy = absoluteRouterDeviceOffset.dy - absoluteRouterOffset.dy;
+      var distance = sqrt(pow(dx, 2) + pow(dy, 2));
+
+      if(_providerList.getPivotDevice() != null) { // if there is no device attached to router don't paint line to the internet internet
+        canvas.drawLine(Offset(absoluteRouterOffset.dx, absoluteRouterOffset.dy + _iconPainter.height + distance/12), Offset(absoluteRouterDeviceOffset.dx, absoluteRouterDeviceOffset.dy - hnCircleRadius - distance/12), _linePaint..strokeWidth = 3.0);
+      }
+    }
+
+    _textPainter.text = internetTextSpan;
+    _textPainter.layout(minWidth: 0, maxWidth: 300);
+    _textPainter.paint(canvas, absoluteAreaOffset.translate(35* sizes.icon_factor, -7));
+
   }
 
-  void drawIcon(Canvas canvas, Offset offset, icon, [double? size]) {
-    size??=30.0;
+  void drawIcon(Canvas canvas, Offset offset, icon, double size, Color color) {
 
-    _iconPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: size, fontFamily: icon.fontFamily, color: drawingColor, backgroundColor: backgroundColor));
+    _iconPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: size, fontFamily: icon.fontFamily, color: color));
     _iconPainter.layout();
-    _iconPainter.paint(canvas, Offset(offset.dx - (_iconPainter.width / 2), offset.dy - 15));
+    _iconPainter.paint(canvas, Offset(offset.dx , offset.dy ));
   }
 
   void fillDeviceIconPositionList() {
     _deviceIconOffsetList.clear();
     _deviceIconOffsetList = getDeviceIconOffsetList(_deviceList.length);
 
+  }
+
+  Offset getLaptopIconOffset(localIndex,deviceIconOffsetList){
+
+    return Offset(localIndex == -1 ? 0 : deviceIconOffsetList.elementAt(localIndex).dx + (screenWidth / 2) + hnCircleRadius/2, localIndex == -1 ? 0 :deviceIconOffsetList.elementAt(localIndex).dy + (screenHeight / 2) - hnCircleRadius);
   }
 
   List<Offset> getDeviceIconOffsetList(int numberDevices) {
@@ -542,9 +502,6 @@ class DrawOverview extends CustomPainter {
         break;
       case 4:
         {
-          logger.i(_screenGridHeight - _screenGridHeight * 3.0);
-          logger.i(2.0 * _screenGridHeight);
-          logger.i(_screenGridHeight - _screenGridHeight * 3.0 + 2.0 * _screenGridHeight);
           deviceIconOffsetList.add(Offset(1.2 * _screenGridWidth, (deviceIconOffsetList[0].dy + 2.0 * _screenGridHeight) /2));
           deviceIconOffsetList.add(Offset(0.0, 2.0 * _screenGridHeight));
           deviceIconOffsetList.add(Offset(-1.2 * _screenGridWidth, (deviceIconOffsetList[0].dy + 2.0 * _screenGridHeight) /2));
@@ -615,18 +572,15 @@ class DrawOverview extends CustomPainter {
     for (int numDev = 0; numDev < _deviceList.length; numDev++) {
       if (numDev > _deviceIconOffsetList.length) break;
 
+      if (config["show_other_devices"]) {
+        drawOtherConnection(canvas, _deviceIconOffsetList.elementAt(localIndex), size);
+      }
+
       //do not draw pivot device line, since it would start and end at the same place
       if (numDev != pivotDeviceIndex) {
         drawDeviceConnection(canvas, _deviceIconOffsetList.elementAt(numDev), getLineColor(numDev));
       }
 
-      if (config["show_other_devices"]) {
-        if (config["internet_centered"]) {
-          drawOtherConnection(canvas, _deviceIconOffsetList.elementAt(localIndex), size);
-        } else {
-          drawOtherConnection(canvas, _deviceIconOffsetList.elementAt(attachedToRouterIndex), size);
-        }
-      }
     }
   }
 
@@ -688,19 +642,17 @@ class DrawOverview extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     fillDeviceIconPositionList();
 
-    if (config["internet_centered"]) {
-      getConnection();
-      connect = connected;
-      if (connected) {
-        drawMainIcon(canvas, DevoloIcons.devolo_UI_internet);
-      } else {
-        drawMainIcon(canvas, DevoloIcons.devolo_UI_internet_off);
-      }
-    } else
-      drawMainIcon(canvas, DevoloIcons.ic_laptop_24px);
+    getConnection();
+    connect = connected;
+    if (connected) {
+      drawMainIcon(canvas, DevoloIcons.devolo_UI_internet);
+    } else {
+      drawMainIcon(canvas, DevoloIcons.devolo_UI_internet_off);
+    }
 
-    drawAllDeviceConnections(canvas, size);
     drawAllDeviceIcons(canvas, size);
+    drawAllDeviceConnections(canvas, size);
+
 
     canvas.save();
     canvas.restore();

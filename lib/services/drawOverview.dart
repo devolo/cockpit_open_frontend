@@ -24,42 +24,19 @@ class DrawOverview extends CustomPainter {
   double laptopCircleRadius = 15.0;
   double productNameTopPadding = 0;
   double userNameTopPadding = 0;
-  double hnCircleShadowRadius = 50.0;
-  double completeCircleRadius = 50.0;
   late List<Device> _deviceList;
   late NetworkList _providerList;
   List<Offset> _deviceIconOffsetList = [];
   int pivotDeviceIndex = 0;
   int selectedNetworkIndex = 0;
   bool showingSpeeds = false; //true: draw the device circles with speeds as content. false: draw device circles with icons as content.
-  double dashWidth = 9, dashSpace = 5, startX = 0;
   bool connect = false;
   int hoveredDevice = 999; // displays wich device index is hovered, if no device is hovered the index is set to 999
 
-  final _textStyle = TextStyle(
-    color: drawingColor,
-    fontFamily: 'OpenSans',
-    fontSize: 14,
-    backgroundColor: backgroundColor,
-    fontWeight: FontWeight.bold,
-  );
-
-  final _textNameStyle = TextStyle(
-    color: drawingColor,
-    fontFamily: 'OpenSans',
-    fontSize: 14,
-    backgroundColor: backgroundColor,
-  );
-
-  final _speedTextStyle = TextStyle(
-    color: backgroundColor,
-    fontFamily: 'OpenSans',
-    fontSize: 15,
-    fontWeight: FontWeight.bold,
-  );
-
+  late TextStyle _textStyle;
+  late TextStyle _textNameStyle;
+  late TextStyle _speedTextStyle;
   late Paint _circleAreaPaint;
-  late Paint _circleAreaPaintComplement;
   late Paint _speedCircleAreaPaint;
   late Paint _linePaint;
   late Paint _speedLinePaint;
@@ -73,6 +50,7 @@ class DrawOverview extends CustomPainter {
   late double _screenGridWidth;
   late double _screenGridHeight;
   late SizeModel sizes;
+  late double windowScaleSize;
 
   DrawOverview(BuildContext context, NetworkList foundDevices, bool showSpeeds, int pivot, int hoveredDeviceIndex) {
     logger.d("[draw Overview] DrawNetworkOverview -> ");
@@ -98,16 +76,43 @@ class DrawOverview extends CustomPainter {
 
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
+
+    if( screenWidth < 883 && screenHeight < 670 ){
+      windowScaleSize = 0.8;
+      hnCircleRadius *= windowScaleSize;
+      laptopCircleRadius *= windowScaleSize;
+    }
+    else{
+      windowScaleSize = 1;
+    }
+
     _screenGridWidth = (screenWidth / 5);
     _screenGridHeight = (screenHeight / 10);
 
+    _textStyle = TextStyle(
+      color: drawingColor,
+      fontFamily: 'OpenSans',
+      fontSize: 14 * windowScaleSize,
+      backgroundColor: backgroundColor,
+      fontWeight: FontWeight.bold,
+    );
+
+    _textNameStyle = TextStyle(
+      color: drawingColor,
+      fontFamily: 'OpenSans',
+      fontSize: 14 * windowScaleSize,
+      backgroundColor: backgroundColor,
+    );
+
+    _speedTextStyle = TextStyle(
+      color: backgroundColor,
+      fontFamily: 'OpenSans',
+      fontSize: 15 * windowScaleSize,
+      fontWeight: FontWeight.bold,
+    );
+
     _circleAreaPaint = Paint()
       ..color = backgroundColor
-      ..strokeWidth = 0.0
-      ..style = PaintingStyle.fill;
-
-    _circleAreaPaintComplement = Paint()
-      ..color = fontColorOnBackground
       ..strokeWidth = 0.0
       ..style = PaintingStyle.fill;
 
@@ -143,7 +148,7 @@ class DrawOverview extends CustomPainter {
 
     _arrowPaint = Paint()
       ..color = drawingColor
-      ..strokeWidth = 3.0
+      ..strokeWidth = 3.0 * windowScaleSize
       ..style = PaintingStyle.stroke;
 
   }
@@ -174,9 +179,9 @@ class DrawOverview extends CustomPainter {
     Offset toOffset = getLaptopIconOffset(localIndex, _deviceIconOffsetList);
 
     if ((showingSpeeds && localIndex != pivotDeviceIndex) || localIndex == hoveredDevice) {
-      drawIcon(canvas, toOffset, DevoloIcons.ic_laptop_24px_filled,laptopCircleRadius*2,drawingColor);
+      drawIcon(canvas, toOffset, DevoloIcons.ic_laptop_24px_circled,laptopCircleRadius*2 * windowScaleSize,drawingColor, false);
     } else {
-      drawIcon(canvas, toOffset, DevoloIcons.ic_laptop_24px_filled,laptopCircleRadius*2,drawingColor);
+      drawIcon(canvas, toOffset, DevoloIcons.ic_laptop_24px_filled,laptopCircleRadius*2 * windowScaleSize,drawingColor, false);
     }
   }
 
@@ -259,11 +264,6 @@ class DrawOverview extends CustomPainter {
     var path = Path();
     path.moveTo(startDx, startDy);
     path.lineTo(endDx, endDy);
-    canvas.drawPath(
-        path,
-        _arrowPaint
-          ..strokeWidth = 2.5
-          ..color = color);
 
     path.moveTo(endDx, endDy);
     path.lineTo(endDx - headLength * cos(angle - pi / 6), endDy - headLength * sin(angle - pi / 6));
@@ -272,7 +272,6 @@ class DrawOverview extends CustomPainter {
     canvas.drawPath(
         path,
         _arrowPaint
-          ..strokeWidth = 3
           ..color = color);
   }
 
@@ -332,7 +331,7 @@ class DrawOverview extends CustomPainter {
       );
       final mbpsTextSpan = TextSpan(
         text: "Mbps",
-        style: TextStyle(color: backgroundColor, fontSize: 12),
+        style: TextStyle(color: backgroundColor, fontSize: 12 * windowScaleSize),
       );
 
       canvas.drawLine(lineStart, lineEnd, _speedLinePaint);
@@ -353,7 +352,7 @@ class DrawOverview extends CustomPainter {
         Offset iconPosition = Offset(absoluteCenterOffset.dx, absoluteCenterOffset.dy);
 
         IconData circledDeviceIcon = getCircledIconForDeviceType(_deviceList.elementAt(deviceIndex).typeEnum);
-        _iconPainter.text = TextSpan(text: String.fromCharCode(circledDeviceIcon.codePoint), style: TextStyle(fontSize: 70.0, fontFamily: circledDeviceIcon.fontFamily, color: drawingColor));
+        _iconPainter.text = TextSpan(text: String.fromCharCode(circledDeviceIcon.codePoint), style: TextStyle(fontSize: 70.0 * windowScaleSize, fontFamily: circledDeviceIcon.fontFamily, color: drawingColor));
         _iconPainter.layout();
         _iconPainter.paint(canvas, Offset(iconPosition.dx - _iconPainter.width/2, iconPosition.dy - _iconPainter.height/2));
       }
@@ -363,7 +362,7 @@ class DrawOverview extends CustomPainter {
         Offset iconPosition = Offset(absoluteCenterOffset.dx, absoluteCenterOffset.dy);
 
         IconData circledDeviceIcon = getFilledIconForDeviceType(_deviceList.elementAt(deviceIndex).typeEnum);
-        _iconPainter.text = TextSpan(text: String.fromCharCode(circledDeviceIcon.codePoint), style: TextStyle(fontSize: 70.0, fontFamily: circledDeviceIcon.fontFamily, color: drawingColor));
+        _iconPainter.text = TextSpan(text: String.fromCharCode(circledDeviceIcon.codePoint), style: TextStyle(fontSize: 70.0 * windowScaleSize, fontFamily: circledDeviceIcon.fontFamily, color: drawingColor));
         _iconPainter.layout();
         _iconPainter.paint(canvas, Offset(iconPosition.dx - _iconPainter.width/2, iconPosition.dy - _iconPainter.height/2));
       }
@@ -371,7 +370,7 @@ class DrawOverview extends CustomPainter {
         Offset iconPosition = Offset(absoluteCenterOffset.dx, absoluteCenterOffset.dy);
 
         IconData circledDeviceIcon = getCircledIconForDeviceType(_deviceList.elementAt(deviceIndex).typeEnum);
-        _iconPainter.text = TextSpan(text: String.fromCharCode(circledDeviceIcon.codePoint), style: TextStyle(fontSize: 70.0, fontFamily: circledDeviceIcon.fontFamily, color: drawingColor));
+        _iconPainter.text = TextSpan(text: String.fromCharCode(circledDeviceIcon.codePoint), style: TextStyle(fontSize: 70.0 * windowScaleSize, fontFamily: circledDeviceIcon.fontFamily, color: drawingColor));
         _iconPainter.layout();
         _iconPainter.paint(canvas, Offset(iconPosition.dx - _iconPainter.width/2, iconPosition.dy - _iconPainter.height/2));
       }
@@ -445,7 +444,7 @@ class DrawOverview extends CustomPainter {
       style: _textNameStyle.apply(),
     );
 
-    _iconPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: 60.0, fontFamily: icon.fontFamily, color: drawingColor));
+    _iconPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: 60.0 * windowScaleSize, fontFamily: icon.fontFamily, color: drawingColor));
     _iconPainter.layout();
     _iconPainter.paint(canvas, Offset(absoluteRouterOffset.dx - (_iconPainter.width / 2), absoluteRouterOffset.dy));
 
@@ -466,7 +465,12 @@ class DrawOverview extends CustomPainter {
 
   }
 
-  void drawIcon(Canvas canvas, Offset offset, icon, double size, Color color) {
+  void drawIcon(Canvas canvas, Offset offset, icon, double size, Color color, [bool transparentBackground = true]) {
+
+    if(transparentBackground == false){
+      Offset offsetBackground = Offset(offset.dx + size/2,offset.dy + size/2);
+      canvas.drawCircle(offsetBackground, (size/2)-1,  _circleAreaPaint);
+    }
 
     _iconPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: size, fontFamily: icon.fontFamily, color: color));
     _iconPainter.layout();
@@ -600,11 +604,11 @@ class DrawOverview extends CustomPainter {
 
   void drawLocalDeviceIcon(Canvas canvas, Size size){
     int localIndex = _deviceList.indexWhere((element) => element.isLocalDevice == true);
-    if (config["show_other_devices"]) {
+    if (localIndex != -1 && config["show_other_devices"]) {
       drawOtherConnection(canvas, _deviceIconOffsetList.elementAt(localIndex), size);
     }
   }
-  
+
   void drawAllDeviceIcons(Canvas canvas, Size size) {
 
     //the draw all the device names, so they are above the lines

@@ -73,8 +73,8 @@ class DevoloIcons {
   static const IconData devolo_icon_ui_adapter_dinrail_circled = IconData(0xe85c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData devolo_icon_ui_adapter_wifi_filled = IconData(0xe85d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData devolo_icon_ui_din_rail = IconData(0xe85e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData ic_laptop_24px_filled = IconData(0xe85f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData ic_laptop_24px_circled = IconData(0xe860, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData ic_laptop_24px_filled = IconData(0xe861, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData devolo_UI_internet = IconData(0xe900, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData devolo_UI_internet_off = IconData(0xe901, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData devolo_UI_wifi = IconData(0xe902, fontFamily: _kFontFam, fontPackage: _kFontPkg);

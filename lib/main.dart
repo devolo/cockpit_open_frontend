@@ -36,7 +36,7 @@ import 'package:cockpit_devolo/shared/imageLoader.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:convert';
 
-import 'models/fontSizeModel.dart';
+import 'models/sizeModel.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 
@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget{
       providers: [
         ChangeNotifierProvider<DataHand>(create: (_) => DataHand()),
         ChangeNotifierProvider<NetworkList>(create: (_) => NetworkList()),
-        ChangeNotifierProvider<FontSize>(create: (_) => FontSize(1.0)),
+        ChangeNotifierProvider<SizeModel>(create: (_) => SizeModel(1.0, 1.0)),
       ],
       child: Consumer<DataHand>(
         builder: (context, counter, _) {
@@ -128,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
   PageController pageController = PageController(initialPage: 0, keepPage: true);
   int selectedPage = 0;
 
-  late FontSize fontSize;
+  late SizeModel size;
 
   late DataHand socket;
 
@@ -144,7 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
     readSharedPrefs();
     getVersions();
 
-    fontSize = context.read<FontSize>();
+    size = context.read<SizeModel>();
 
     if (kReleaseMode) {
       ErrorWidget.builder = (errorDetails) {
@@ -154,13 +154,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(S.of(context).errorScreenText, style: TextStyle(color: fontColorOnBackground), textScaleFactor: fontSize.factor,),
+                  Text(S.of(context).errorScreenText, style: TextStyle(color: fontColorOnBackground), textScaleFactor: size.font_factor,),
                   SizedBox(height: 20),
                   TextButton(
                     child: Text(
                       S.of(context).restart,
                       style: TextStyle(fontSize: dialogContentTextFontSize, color: Colors.white),
-                      textScaleFactor: fontSize.factor,
+                      textScaleFactor: size.font_factor,
                     ),
                     onPressed: () {
                       Phoenix.rebirth(context);
@@ -222,7 +222,8 @@ class _MyHomePageState extends State<MyHomePage> {
       }
 
       setTheme(jsonconfig["theme"]);
-      fontSize.factor = config["font_size_factor"];
+      size.font_factor = config["font_size_factor"];
+      size.icon_factor = config["icon_size_factor"];
 
     }
     else{
@@ -235,7 +236,7 @@ class _MyHomePageState extends State<MyHomePage> {
       saveToSharedPrefs(config);
 
       setTheme(config["theme"]);
-      fontSize.factor = config["font_size_factor"];
+      size.font_factor = config["font_size_factor"];
 
     }
 
@@ -319,6 +320,7 @@ class _MyHomePageState extends State<MyHomePage> {
             IconButton(
               icon: const Icon(DevoloIcons.ic_brightness_medium_24px),
               color: fontColorOnMain,
+              iconSize: 24 * size.icon_factor,
               tooltip: S.of(context).highContrast,
               onPressed: () {
                 setState(() {
@@ -347,6 +349,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   }
                 });
               },
+              iconSize: 24 * size.icon_factor,
               icon: _drawerScaffoldKey.currentState == null ? Icon(Icons.menu) : _drawerScaffoldKey.currentState!.isEndDrawerOpen ? Icon(DevoloIcons.devolo_UI_cancel_2) : Icon(Icons.menu),
             ),
           ],
@@ -366,7 +369,7 @@ class _MyHomePageState extends State<MyHomePage> {
             data: Theme.of(context).copyWith(
               canvasColor: mainColor, //This will change the drawer background.
               hoverColor: Colors.white.withOpacity(0.2),
-              primaryIconTheme: IconThemeData(color: fontColorOnMain),
+              primaryIconTheme: IconThemeData(color: fontColorOnMain, size: 24 * size.icon_factor,),
             ),
             child: Padding(padding: EdgeInsets.only(top: 1.0), child:
             Drawer(
@@ -379,10 +382,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: ListTile(
                       enabled: socket.connected ? true: false,
                       tileColor: (selectedPage == 0) ? Colors.white.withOpacity(0.2) : null,
-                      leading: Icon(Icons.workspaces_filled, color: fontColorOnMain, size: 24*fontSize.factor), //miscellaneous_services
+                      leading: Icon(Icons.workspaces_filled, color: fontColorOnMain, size: 24 * size.icon_factor,), //miscellaneous_services
                       title: Text(S.of(context).overview,
                           style: TextStyle(color: fontColorOnMain),
-                          textScaleFactor: fontSize.factor),
+                          textScaleFactor: size.font_factor),
                       contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
                       onTap: () {
                         changePage(0);
@@ -397,10 +400,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: ListTile(
                         enabled: socket.connected ? true: false,
                         tileColor: selectedPage == 1 ? Colors.white.withOpacity(0.2) : null,
-                        leading: Icon(DevoloIcons.ic_file_download_24px, color: fontColorOnMain, size: 24*fontSize.factor),
+                        leading: Icon(DevoloIcons.ic_file_download_24px, color: fontColorOnMain, size: 24 * size.icon_factor,),
                         title: Text(S.of(context).updates,
                             style: TextStyle(color: fontColorOnMain),
-                            textScaleFactor: fontSize.factor),
+                            textScaleFactor: size.font_factor),
                         contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
                         onTap: () {
                           changePage(1);
@@ -414,10 +417,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: ListTile(
                         enabled: socket.connected ? true: false,
                         tileColor: selectedPage == 2 ? Colors.white.withOpacity(0.2) : null,
-                        leading: Icon(DevoloIcons.devolo_UI_settings, color: fontColorOnMain, size: 24*fontSize.factor),
+                        leading: Icon(DevoloIcons.devolo_UI_settings, color: fontColorOnMain, size: 24 * size.icon_factor),
                         title: Text(S.of(context).settings,
                             style: TextStyle(color: fontColorOnMain),
-                            textScaleFactor: fontSize.factor),
+                            textScaleFactor: size.font_factor),
                         contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
                         onTap: () {
                           changePage(2);
@@ -431,11 +434,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: ListTile(
                         enabled: socket.connected ? true: false,
                         tileColor: (!helpNavigationCollapsed && selectedPage == 3) ? Colors.white.withOpacity(0.2) : null,
-                        leading: Icon(DevoloIcons.ic_help_24px, color: fontColorOnMain, size: 24*fontSize.factor),
-                        trailing: Icon(helpNavigationCollapsed ? DevoloIcons.ic_remove_24px_1 : DevoloIcons.devolo_UI_add, color: fontColorOnMain, size: 20*fontSize.factor),
+                        leading: Icon(DevoloIcons.ic_help_24px, color: fontColorOnMain, size: 24 * size.icon_factor),
+                        trailing: Icon(helpNavigationCollapsed ? DevoloIcons.ic_remove_24px_1 : DevoloIcons.devolo_UI_add, color: fontColorOnMain, size: 20*size.font_factor),
                         title: Text(S.of(context).help,
                             style: TextStyle(color: fontColorOnMain),
-                            textScaleFactor: fontSize.factor),
+                            textScaleFactor: size.font_factor),
                         contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
                         onTap: () {
                           setState(() {
@@ -453,12 +456,12 @@ class _MyHomePageState extends State<MyHomePage> {
                           tileColor: selectedPage == 3 ? Colors.white.withOpacity(0.2) : null,
                           title: Padding(padding: EdgeInsets.only(left:paddingLeftDrawerUnderSection),child : Text(S.of(context).setUpDevice,
                               style: TextStyle(color: fontColorOnMain),
-                              textScaleFactor: fontSize.factor
+                              textScaleFactor: size.font_factor
                           ),),
                           contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
                           onTap: () {
                             Navigator.pop(context);
-                          notAvailableDialog(context, fontSize);
+                          notAvailableDialog(context, size);
                           }),
                     ),
 
@@ -471,12 +474,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         tileColor: selectedPage == 3 ? Colors.white.withOpacity(0.2) : null,
                         title: Padding(padding: EdgeInsets.only(left:paddingLeftDrawerUnderSection),child : Text(S.of(context).optimizeReception,
                             style: TextStyle(color: fontColorOnMain),
-                            textScaleFactor: fontSize.factor
+                            textScaleFactor: size.font_factor
                         ),),
                         contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
                         onTap: () {
                           Navigator.pop(context);
-                          notAvailableDialog(context, fontSize);
+                          notAvailableDialog(context, size);
                           }),
                     ),
 
@@ -489,12 +492,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         tileColor: selectedPage == 3 ? Colors.white.withOpacity(0.2) : null,
                         title: Padding(padding: EdgeInsets.only(left:paddingLeftDrawerUnderSection),child : Text(S.of(context).contactSupport,
                             style: TextStyle(color: fontColorOnMain),
-                            textScaleFactor: fontSize.factor
+                            textScaleFactor: size.font_factor
                         ),),
                         contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
                         onTap: () {
                           Navigator.pop(context);
-                          loadingSupportDialog(context, socket, fontSize);
+                          loadingSupportDialog(context, socket, size);
                           }),
                     ),
                   ],
@@ -503,10 +506,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       border: Border(bottom: BorderSide(color: fontColorOnMain, width: 1)),
                     ),
                     child: ListTile(
-                        leading: Icon(DevoloIcons.ic_info_24px, color: fontColorOnMain, size: 24*fontSize.factor),
+                        leading: Icon(DevoloIcons.ic_info_24px, color: fontColorOnMain, size: 24 * size.icon_factor),
                         title: Text(S.of(context).appInfo,
                             style: TextStyle(color: fontColorOnMain),
-                            textScaleFactor: fontSize.factor),
+                            textScaleFactor: size.font_factor),
                         contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal:16.0),
                         onTap: () {
                           Navigator.pop(context); //close drawer
@@ -530,7 +533,7 @@ class _MyHomePageState extends State<MyHomePage> {
           return AlertDialog(
             title: Column(
               children: [
-                getCloseButton(context),
+                getCloseButton(context, size),
                 Center(
                     child: Text(
                       S.of(context).appInformation,
@@ -539,14 +542,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
-            titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
-            contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+            titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * size.font_factor),
+            contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * size.font_factor),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Padding(padding: EdgeInsets.only(right: 110 * fontSize.factor),child: Icon(DevoloIcons.logo, color: drawingColor, size: 24 * fontSize.factor)),
+                Padding(padding: EdgeInsets.only(right: 110 * size.font_factor),child: Icon(DevoloIcons.logo, color: drawingColor, size: 24 * size.font_factor)),
                 GestureDetector(
                     child: Text("\nwww.devolo.de", style: TextStyle(decoration: TextDecoration.underline, color: drawingColor)),
                     onTap: () {
@@ -561,7 +564,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text(
                     S.of(context).showLicences,
                     style: TextStyle(fontSize: dialogContentTextFontSize, color: Colors.white),
-                    textScaleFactor: fontSize.factor,
+                    textScaleFactor: size.font_factor,
                   ),
                   onPressed: () {
                     Navigator.maybeOf(context)!.pop(true);

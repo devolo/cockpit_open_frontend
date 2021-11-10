@@ -10,7 +10,7 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
-import 'package:cockpit_devolo/models/fontSizeModel.dart';
+import 'package:cockpit_devolo/models/sizeModel.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/alertDialogs.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
@@ -72,7 +72,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
   FocusNode myFocusNode = new FocusNode();
 
-  late FontSize fontSize;
+  late SizeModel size;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -140,7 +140,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
       }
 
       if(response['password'] != null){
-        passwordUpdateDialog(socket, context, fontSize, _deviceList, passwordSecuredMacs: passwordSecuredMacs);
+        passwordUpdateDialog(socket, context, size, _deviceList, passwordSecuredMacs: passwordSecuredMacs);
       }
     }
   }
@@ -158,7 +158,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
   Widget build(BuildContext context) {
     final socket = Provider.of<DataHand>(context);
     var _deviceList = Provider.of<NetworkList>(context);
-    fontSize = context.watch<FontSize>();
+    size = context.watch<SizeModel>();
 
 
 
@@ -199,7 +199,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   children: [
                     new Text(
                       S.of(context).updates,
-                      style: TextStyle(fontSize: (fontSizeAppBarTitle -5) * fontSize.factor, color: fontColorOnBackground),
+                      style: TextStyle(fontSize: (fontSizeAppBarTitle -5) * size.font_factor, color: fontColorOnBackground),
                       textAlign: TextAlign.start,
                     ),
                     Divider(
@@ -244,7 +244,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                           if(_deviceList.getUpdateList().isNotEmpty && _deviceList.getCheckedUpdateMacs().isNotEmpty){
 
                             if(_deviceList.getPrivacyWarningMacs().isNotEmpty){
-                              privacyWarningDialog(socket, context, fontSize, _deviceList);
+                              privacyWarningDialog(socket, context, size, _deviceList);
                             }
                             else{
                               for(String mac in _deviceList.getCheckedUpdateMacs()) {
@@ -265,11 +265,11 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         child: Row(children: [
                           Icon(
                             DevoloIcons.ic_file_download_24px,
-                            size: 24 * fontSize.factor,
+                            size: 24 * size.icon_factor,
                             color: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true ||_upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || ((_deviceList.cockpitUpdate == false || (_deviceList.cockpitUpdate == true && _checkedCockpit == false)) && _deviceList.getCheckedUpdateMacs().isEmpty) ||(_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty)) ? buttonDisabledForeground : Colors.white,
                           ),
                           Text(
-                            S.of(context).updateSelected, textScaleFactor: fontSize.factor,
+                            S.of(context).updateSelected, textScaleFactor: size.font_factor,
                               style:TextStyle(color: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true ||_upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || ((_deviceList.cockpitUpdate == false || (_deviceList.cockpitUpdate == true && _checkedCockpit == false)) && _deviceList.getCheckedUpdateMacs().isEmpty) ||(_deviceList.cockpitUpdate == false && _deviceList.getUpdateList().isEmpty)) ? buttonDisabledForeground : Colors.white)
                           ),
                         ]),
@@ -335,12 +335,11 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       child: Row(children: [
                         Icon(
                           DevoloIcons.ic_refresh_24px,
-                          size: 24 * fontSize.factor,
+                          size: 24 * size.icon_factor,
                           color: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true) ? buttonDisabledForeground : drawingColor,
-
                         ),
                         Text(
-                            S.of(context).checkUpdates, textScaleFactor: fontSize.factor,
+                            S.of(context).checkUpdates, textScaleFactor: size.font_factor,
                             style:TextStyle(color: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true) ? buttonDisabledForeground : drawingColor)
                         ),
                       ]),
@@ -372,7 +371,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         ),
                         children: [
                       TableCell(child: Transform.scale(
-                        scale: fontSize.factor + checkboxScaleAddition,
+                        scale: size.font_factor + checkboxScaleAddition,
                         child: Checkbox(
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
                           fillColor: (_searchingDeviceUpdate == true || _searchingCockpitUpdate == true || _upgradingDevicesList.isNotEmpty || _upgradingCockpit == true || (_deviceList.getUpdateList().isEmpty && _deviceList.cockpitUpdate == false)) ? MaterialStateProperty.all(disabledColor) : MaterialStateProperty.all(devoloGreen),
@@ -401,7 +400,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       ),),
                       TableCell(child: Text(
                         S.of(context).state,
-                        textScaleFactor: fontSize.factor,
+                        textScaleFactor: size.font_factor,
                         style: TextStyle(color: fontColorOnMain),
                         textAlign: TextAlign.center,
                       ),),
@@ -415,7 +414,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               S.of(context).name,
                               style: TextStyle(color: fontColorOnMain),
                               textAlign: TextAlign.center,
-                              textScaleFactor: fontSize.factor,
+                              textScaleFactor: size.font_factor,
                             ),
                           )
                       ),
@@ -429,7 +428,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               S.of(context).currentVersion,
                               style: TextStyle(color: fontColorOnMain),
                               textAlign: TextAlign.center,
-                              textScaleFactor: fontSize.factor,
+                              textScaleFactor: size.font_factor,
                             ),
                           )
                       ),
@@ -455,7 +454,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               type: MaterialType.transparency, // used to see the splash color over the background Color of the row
                               child:
                               Transform.scale(
-                                scale: fontSize.factor,
+                                scale: size.font_factor,
                                 child: Checkbox(
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
                                   checkColor: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false) ? Colors.transparent : Colors.white,
@@ -487,13 +486,13 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             Transform.scale(
-                                              scale: fontSize.factor - 0.4,
+                                              scale: size.font_factor - 0.4,
                                               child: CircularProgressIndicator(
                                                 valueColor: new AlwaysStoppedAnimation<Color>(fontColorOnBackground),
                                                 strokeWidth: 3,
                                               ),
                                             ),
-                                            SizedBox(width: textSpacingUpdateStatus * fontSize.factor),
+                                            SizedBox(width: textSpacingUpdateStatus * size.font_factor),
                                           ],
                                         )
                                       : Container(),
@@ -504,7 +503,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                         _searchingCockpitUpdate ? " ${S.of(context).searching}" : " ${S.of(context).updating}",
                                         style: TextStyle(color: fontColorOnBackground),
                                         textAlign: TextAlign.center,
-                                        textScaleFactor: fontSize.factor,
+                                        textScaleFactor: size.font_factor,
                                       ))
                                       : _deviceList.cockpitUpdate == false
                                       ?  Container(
@@ -512,14 +511,14 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                         "${S.of(context).upToDate}",
                                         style: TextStyle(color: fontColorOnBackground),
                                         textAlign: TextAlign.center,
-                                        textScaleFactor: fontSize.factor,
+                                        textScaleFactor: size.font_factor,
                                       ))
                                       :  Container(
                                     child: Text(
                                       S.of(context).updateAvailable,
                                       style: TextStyle(color: fontColorOnBackground),
                                       textAlign: TextAlign.center,
-                                      textScaleFactor: fontSize.factor,
+                                      textScaleFactor: size.font_factor,
                                     ),
                                   )
                         ]),
@@ -533,16 +532,16 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                     children:[ SizedBox(width: 50,), Icon(
                                       Icons.speed_rounded,
                                       color: fontColorOnBackground,
-                                      size: 24.0 * fontSize.factor,
+                                      size: 24 * size.icon_factor
                                     ),]),
-                                SizedBox(width: spacingIconText * fontSize.factor),
+                                SizedBox(width: spacingIconText * size.font_factor),
                                 Expanded( child:
                                     Column(crossAxisAlignment : CrossAxisAlignment.start, children: [
                                       Text(
                                         "Cockpit Software",
                                         style: TextStyle(color: fontColorOnBackground, fontSize: 18),
                                         textAlign: TextAlign.center,
-                                        textScaleFactor: fontSize.factor,
+                                        textScaleFactor: size.font_factor,
                                       ),
                                     ])
                                 ),
@@ -565,7 +564,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                 type: MaterialType.transparency, // used to see the spash color over the background Color of the row
                                 child:
                                 Transform.scale(
-                                  scale: fontSize.factor + checkboxScaleAddition,
+                                  scale: size.font_factor + checkboxScaleAddition,
                                   child: Checkbox(
                                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
                                     checkColor: Colors.white,
@@ -597,13 +596,13 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Transform.scale(
-                                        scale: fontSize.factor - 0.4,
+                                        scale: size.font_factor - 0.4,
                                         child: CircularProgressIndicator(
                                           valueColor: new AlwaysStoppedAnimation<Color>(fontColorOnBackground),
                                           strokeWidth: 3,
                                         ),
                                       ),
-                                      SizedBox(width: textSpacingUpdateStatus * fontSize.factor),
+                                      SizedBox(width: textSpacingUpdateStatus * size.font_factor),
                                     ],)
                                 : Container(),
 
@@ -621,14 +620,14 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                             :" ${S.of(context).update} : ${ allDevices[i].updateState}%",
                                         style: TextStyle(color: fontColorOnBackground),
                                         textAlign: TextAlign.center,
-                                        textScaleFactor: fontSize.factor,
+                                        textScaleFactor: size.font_factor,
                                       )
                                       : _deviceList.getUpdateList().contains(allDevices[i].mac) == false
                                       ? Text(
                                           "${S.of(context).upToDate}",
                                           style: TextStyle(color: fontColorOnBackground),
                                           textAlign: TextAlign.center,
-                                          textScaleFactor: fontSize.factor,
+                                          textScaleFactor: size.font_factor,
                                           textHeightBehavior:TextHeightBehavior()
                                         )
                                       : allDevices[i].updateState == "failed"
@@ -636,14 +635,14 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                           S.of(context).update + " " + S.of(context).failed,
                                           style: TextStyle(color: fontColorOnBackground),
                                           textAlign: TextAlign.center,
-                                          textScaleFactor: fontSize.factor,
+                                          textScaleFactor: size.font_factor,
                                           textHeightBehavior:TextHeightBehavior()
                                         )
                                       : Text(
                                           S.of(context).updateAvailable,
                                           style: TextStyle(color: fontColorOnBackground),
                                           textAlign: TextAlign.center,
-                                          textScaleFactor: fontSize.factor,
+                                          textScaleFactor: size.font_factor,
                                           textHeightBehavior:TextHeightBehavior()
                                   )
                                 ]),
@@ -661,28 +660,28 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                 children:[ SizedBox(width: 50,), Icon(
                                   getIconForDeviceType(allDevices[i].typeEnum),
                                   color: fontColorOnBackground,
-                                  size: 40 * fontSize.factor,
+                                  size: 24 * size.icon_factor,//size: 40 * fontSize.factor,
                                 ),]),
-                                SizedBox(width: spacingIconText * fontSize.factor),
+                                SizedBox(width: spacingIconText * size.font_factor),
                                 Expanded( child:
                                   Column(
                                     crossAxisAlignment : CrossAxisAlignment.start,
                                     children: [
-                                      SizedBox(height: paddingVerticalName * fontSize.factor),
+                                      SizedBox(height: paddingVerticalName * size.font_factor),
                                       Text(
                                         allDevices[i].name,
                                         style: TextStyle(fontWeight: FontWeight.bold, color: fontColorOnBackground, fontSize: 17,),
                                         textAlign: TextAlign.center,
-                                        textScaleFactor: fontSize.factor,
+                                        textScaleFactor: size.font_factor,
                                       ),
-                                      SizedBox(height: spacingTextType * fontSize.factor),
+                                      SizedBox(height: spacingTextType * size.font_factor),
                                       Text(
                                         '${allDevices[i].type}',
                                         style: TextStyle(color: fontColorOnBackground, fontSize: 17,),
                                         textAlign: TextAlign.center,
-                                        textScaleFactor: fontSize.factor,
+                                        textScaleFactor: size.font_factor,
                                       ),
-                                      SizedBox(height: paddingVerticalName * fontSize.factor),
+                                      SizedBox(height: paddingVerticalName * size.font_factor),
                                       ]
                                   ),
                                 ),
@@ -695,7 +694,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                 allDevices[i].version,
                                 style: TextStyle(color: fontColorOnBackground),
                                 textAlign: TextAlign.left,
-                                textScaleFactor: fontSize.factor,),
+                                textScaleFactor: size.font_factor,),
                                 generateText(longestDeviceVersion, allDevices[i].version) // add invisible text for left aligning
                             ]
                             ),
@@ -711,7 +710,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                   type: MaterialType.transparency, // used to see the splash color over the background Color of the row
                                   child:
                                   Transform.scale(
-                                    scale: fontSize.factor,
+                                    scale: size.font_factor,
                                     child: Checkbox(
                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
                                       checkColor: (_upgradingDevicesList.isNotEmpty || _searchingDeviceUpdate || _deviceList.cockpitUpdate == false) ? Colors.transparent : Colors.white,
@@ -743,13 +742,13 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Transform.scale(
-                                          scale: fontSize.factor - 0.4,
+                                          scale: size.font_factor - 0.4,
                                           child: CircularProgressIndicator(
                                             valueColor: new AlwaysStoppedAnimation<Color>(fontColorOnBackground),
                                             strokeWidth: 3,
                                           ),
                                         ),
-                                        SizedBox(width: textSpacingUpdateStatus * fontSize.factor),
+                                        SizedBox(width: textSpacingUpdateStatus * size.font_factor),
                                       ],
                                     )
                                         :  Container(),
@@ -760,21 +759,21 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                           _searchingCockpitUpdate ? " ${S.of(context).searching}" : " ${S.of(context).updating}",
                                           style: TextStyle(color: fontColorOnBackground),
                                           textAlign: TextAlign.center,
-                                          textScaleFactor: fontSize.factor,
+                                          textScaleFactor: size.font_factor,
                                         ))
                                         : _deviceList.cockpitUpdate == false
                                         ? Text(
                                             "${S.of(context).upToDate}",
                                             style: TextStyle(color: fontColorOnBackground),
                                             textAlign: TextAlign.center,
-                                            textScaleFactor: fontSize.factor,
+                                            textScaleFactor: size.font_factor,
                                           )
                                         :  Container(
                                       child: Text(
                                         S.of(context).updateAvailable,
                                         style: TextStyle(color: fontColorOnBackground),
                                         textAlign: TextAlign.center,
-                                        textScaleFactor: fontSize.factor,
+                                        textScaleFactor: size.font_factor,
                                       ),
                                     )
                                   ]),
@@ -788,16 +787,16 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                         children:[ SizedBox(width: 50,), Icon(
                                           Icons.speed_rounded,
                                           color: fontColorOnBackground,
-                                          size: 24.0 * fontSize.factor,
+                                          size: 24 * size.icon_factor
                                       ),]),
-                                      SizedBox(width: spacingIconText * fontSize.factor),
+                                      SizedBox(width: spacingIconText * size.font_factor),
                                       Expanded( child:
                                       Column(crossAxisAlignment : CrossAxisAlignment.start, children: [
                                         Text(
                                           "Cockpit Software",
                                           style: TextStyle(color: fontColorOnBackground, fontSize: 18),
                                           textAlign: TextAlign.center,
-                                          textScaleFactor: fontSize.factor,
+                                          textScaleFactor: size.font_factor,
                                         ),
                                       ])
                                       ),
@@ -831,8 +830,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
               backgroundColor: backgroundColor,
               //titleTextStyle: TextStyle(color: fontColorOnMain),
               //contentTextStyle: TextStyle(color: fontColorOnMain),
-              titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
-              contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+              titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * size.font_factor),
+              contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * size.font_factor),
               title: Text(S.of(context).noconnection),
               content:  Text(S.of(context).noconnectionbody),
             ),
@@ -847,11 +846,11 @@ class _UpdateScreenState extends State<UpdateScreen> {
     final socket = Provider.of<DataHand>(context, listen: false);
 
     //openDialog
-    deviceInformationDialog(context, dev, myFocusNode, socket, fontSize);
+    deviceInformationDialog(context, dev, myFocusNode, socket, size);
 
   }
 
-  void privacyWarningDialog(socket, context, FontSize fontSize, NetworkList _deviceList) {
+  void privacyWarningDialog(socket, context, SizeModel fontSize, NetworkList _deviceList) {
 
     showDialog<void>(
         context: context,
@@ -860,7 +859,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
           return AlertDialog(
             title: Column(
               children: [
-                getCloseButton(context),
+                getCloseButton(context, fontSize),
                 Text(
                   S.of(context).privacyWarningDialogTitle,
                   style: TextStyle(color: fontColorOnBackground),
@@ -869,11 +868,11 @@ class _UpdateScreenState extends State<UpdateScreen> {
             ),
             insetPadding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 4),
             titlePadding: EdgeInsets.all(dialogTitlePadding),
-            titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
-            contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+            titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.font_factor),
+            contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.font_factor),
             content: StatefulBuilder( builder: (BuildContext context, StateSetter setState) {
               return
-                Text("${S.of(context).privacyWarningDialogBody}", textScaleFactor: fontSize.factor);
+                Text("${S.of(context).privacyWarningDialogBody}", textScaleFactor: fontSize.font_factor);
 
             }),
             actions: <Widget>[
@@ -883,7 +882,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   style: TextStyle(
                       fontSize: dialogContentTextFontSize,
                       color: Colors.white),
-                  textScaleFactor: fontSize.factor,
+                  textScaleFactor: fontSize.font_factor,
                 ),
                 onPressed: () async {
 
@@ -915,7 +914,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 child: Text(
                   S.of(context).cancel,
                   style: TextStyle(fontSize: dialogContentTextFontSize),
-                  textScaleFactor: fontSize.factor,
+                  textScaleFactor: fontSize.font_factor,
                 ),
                 onPressed: () {
                   Navigator.pop(context);
@@ -964,7 +963,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
         });
   }
 
-  void passwordUpdateDialog(socket, context, FontSize fontSize, NetworkList _deviceList, {List<String>? passwordSecuredMacs}) {
+  void passwordUpdateDialog(socket, context, SizeModel fontSize, NetworkList _deviceList, {List<String>? passwordSecuredMacs}) {
 
     double spacingBetweenFormFields = 20;
     double spacingFormFieldButton = 30;
@@ -990,7 +989,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
           return AlertDialog(
             title: Column(
               children: [
-                getCloseButton(context),
+                getCloseButton(context, fontSize),
                 Text(
                   S.of(context).updateDevicePasswordNeededTitle,
                   style: TextStyle(color: fontColorOnBackground),
@@ -998,8 +997,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
               ],
             ),
             titlePadding: EdgeInsets.all(dialogTitlePadding),
-            titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
-            contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+            titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.font_factor),
+            contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.font_factor),
             content: StatefulBuilder( builder: (BuildContext context, StateSetter setState) {
               return Column(mainAxisSize: MainAxisSize.min, mainAxisAlignment: MainAxisAlignment.center, children: [
                 if(passwordSecuredMacs != null)
@@ -1012,7 +1011,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   if(passwordSecuredMacs.length > 1)
                     Row(children: [
                       Transform.scale(
-                        scale: fontSize.factor + checkboxScaleAddition,
+                        scale: fontSize.font_factor + checkboxScaleAddition,
                         child: Checkbox(
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadiusCheckbox)),
                           fillColor: MaterialStateProperty.all(devoloGreen),
@@ -1037,10 +1036,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
                           Column(children: [
                               TextFormField(
                               obscureText: hiddenPwMap[mac]!,
-                                style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                                style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.font_factor),
                               decoration: InputDecoration(
                                 labelText: _deviceList.getDeviceByMac(mac)!.name + " (" + mac + ")",
-                                labelStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                                labelStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.font_factor),
                                 hoverColor: fontColorOnBackground.withOpacity(0.2),
                                 contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                                 filled: true,
@@ -1065,6 +1064,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                   icon: Icon(
                                     DevoloIcons.devolo_UI_visibility_off,
                                     color: fontColorOnBackground,
+                                    size: 24 * fontSize.icon_factor,
                                   ),
                                   onPressed: () {
                                     setState(() {
@@ -1076,6 +1076,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                   icon: Icon(
                                     DevoloIcons.devolo_UI_visibility,
                                     color: fontColorOnBackground,
+                                    size: 24 * fontSize.icon_factor,
                                   ),
                                   onPressed: () {
                                     setState(() {
@@ -1108,10 +1109,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
                             Column(children: [
                               TextFormField(
                                 //obscureText: hiddenPwMap[mac]!,
-                                style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                                style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.font_factor),
                                 decoration: InputDecoration(
                                   labelText: S.of(context).pleaseEnterPassword,
-                                  labelStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                                  labelStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.font_factor),
                                   hoverColor: fontColorOnBackground.withOpacity(0.2),
                                   contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                                   filled: true,
@@ -1136,6 +1137,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                     icon: Icon(
                                       DevoloIcons.devolo_UI_visibility_off,
                                       color: fontColorOnBackground,
+                                      size: 24 * fontSize.icon_factor,
                                     ),
                                     onPressed: () {
                                       setState(() {
@@ -1147,6 +1149,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                     icon: Icon(
                                       DevoloIcons.devolo_UI_visibility,
                                       color: fontColorOnBackground,
+                                      size: 24 * fontSize.icon_factor,
                                     ),
                                     onPressed: () {
                                       setState(() {
@@ -1179,7 +1182,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       style: TextStyle(
                       fontSize: dialogContentTextFontSize,
                       color: Colors.white,),
-                      textScaleFactor: fontSize.factor,
+                      textScaleFactor: fontSize.font_factor,
                     ),
                     onPressed:  () async {
                       if (_formKey.currentState!.validate()) {

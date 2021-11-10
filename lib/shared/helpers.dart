@@ -36,6 +36,7 @@ Map<String,dynamic> config = {
   "previous_theme": theme_light["name"],
   "language": "",
   "font_size_factor": 1.0,
+  "icon_size_factor": 1.0,
   "selected_network": 0,
   "window_height": 720.0,
   "window_width":1280.0,

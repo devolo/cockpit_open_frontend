@@ -8,7 +8,7 @@ LICENSE file in the root directory of this source tree.
 
 import 'dart:math';
 import 'package:cockpit_devolo/models/deviceModel.dart';
-import 'package:cockpit_devolo/models/fontSizeModel.dart';
+import 'package:cockpit_devolo/models/sizeModel.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -71,7 +71,7 @@ class DrawOverview extends CustomPainter {
   late int numberFoundDevices;
   late double _screenGridWidth;
   late double _screenGridHeight;
-  late FontSize fontSize;
+  late SizeModel sizes;
 
   DrawOverview(BuildContext context, NetworkList foundDevices, bool showSpeeds, int pivot, int hoveredDeviceIndex) {
     logger.d("[draw Overview] DrawNetworkOverview -> ");
@@ -84,9 +84,15 @@ class DrawOverview extends CustomPainter {
     showingSpeeds = showSpeeds | config['show_speeds_permanent'];
     pivotDeviceIndex = pivot; // ToDo same
 
-    fontSize = context.watch<FontSize>();
 
-    productNameTopPadding = 20 * fontSize.factor;
+
+    sizes = context.watch<SizeModel>();
+
+    hnCircleRadius *= sizes.icon_factor;
+    //completeCircleRadius *= fontSize.factor_icon;
+    hnCircleShadowRadius *= sizes.icon_factor;
+
+    productNameTopPadding = 20 * sizes.font_factor;
     userNameTopPadding = 15;
 
     screenWidth = MediaQuery.of(context).size.width;
@@ -122,15 +128,17 @@ class DrawOverview extends CustomPainter {
     _textPainter = TextPainter()
       ..textDirection = TextDirection.ltr
       ..textAlign = TextAlign.center
-      ..textScaleFactor = fontSize.factor;
+      ..textScaleFactor = sizes.font_factor;
 
     _speedTextPainter = TextPainter()
       ..textDirection = TextDirection.rtl
-      ..textAlign = TextAlign.left;
+      ..textAlign = TextAlign.left
+      ..textScaleFactor = sizes.icon_factor;
 
     _iconPainter = TextPainter()
       ..textDirection = TextDirection.ltr
-      ..textAlign = TextAlign.center;
+      ..textAlign = TextAlign.center
+    ..textScaleFactor = sizes.icon_factor;
 
     _arrowPaint = Paint()
       ..color = drawingColor
@@ -161,7 +169,7 @@ class DrawOverview extends CustomPainter {
   //connection line to other Devices like PC
   void drawOtherConnection(Canvas canvas, Offset deviceOffset, Size size) {
     Offset absoluteOffset = Offset(deviceOffset.dx + (screenWidth / 2), deviceOffset.dy + (screenHeight / 2));
-    Offset toOffset = Offset(deviceOffset.dx + (screenWidth / 2) + 110, deviceOffset.dy + (screenHeight / 2));
+    Offset toOffset = Offset(deviceOffset.dx + (screenWidth / 2) + 110 , deviceOffset.dy + (screenHeight / 2));
     Offset absoluteRouterOffset = Offset(screenWidth / 2 + 100, -4.5 * _screenGridHeight + (screenHeight / 2) +18);
     var userNameTextSpan;
 
@@ -333,7 +341,7 @@ class DrawOverview extends CustomPainter {
       final downStreamTextSpan = TextSpan(
         text: speedUp + " " + String.fromCharCode(0x2191) + "\n" + speedDown +
             " " + String.fromCharCode(0x2193),
-        style: _speedTextStyle,
+        style: _speedTextStyle//..fontSize = 15 * fontSize.factor,
       );
       final mbpsTextSpan = TextSpan(
         text: "Mbps",
@@ -352,7 +360,7 @@ class DrawOverview extends CustomPainter {
       _speedTextPainter.layout(minWidth: 0, maxWidth: 150);
       _speedTextPainter.paint(canvas, Offset(
           absoluteCenterOffset.dx - (_speedTextPainter.width / 2),
-          absoluteCenterOffset.dy - (_speedTextPainter.height / 2) + 20));
+          absoluteCenterOffset.dy - (_speedTextPainter.height / 2) + 20 * sizes.icon_factor));
 
       if (deviceIndex == pivotDeviceIndex) {
         Offset iconPosition = Offset(absoluteCenterOffset.dx, absoluteCenterOffset.dy);
@@ -449,10 +457,10 @@ class DrawOverview extends CustomPainter {
     if (config["internet_centered"]) {
       _textPainter.text = internetTextSpan;
       _textPainter.layout(minWidth: 0, maxWidth: 300);
-      _textPainter.paint(canvas, absoluteAreaOffset.translate(35, -7));
+      _textPainter.paint(canvas, absoluteAreaOffset.translate(35* sizes.icon_factor, -7));
     }
 
-    canvas.drawCircle(absoluteAreaOffset, hnCircleRadius, _circleAreaPaint); //"shadow" of the device circle. covers the connection lines.
+    canvas.drawCircle(absoluteAreaOffset, hnCircleRadius , _circleAreaPaint); //"shadow" of the device circle. covers the connection lines.
 
     _iconPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: 60.0, fontFamily: icon.fontFamily, color: drawingColor));
     _iconPainter.layout();
@@ -603,7 +611,7 @@ class DrawOverview extends CustomPainter {
       if (numDev > _deviceIconOffsetList.length) break;
 
       //do not draw pivot device name yet
-      drawDeviceName(canvas, _deviceList.elementAt(numDev).type, _deviceList.elementAt(numDev).name, _deviceIconOffsetList.elementAt(numDev), size);
+      drawDeviceName(canvas, _deviceList.elementAt(numDev).type, _deviceList.elementAt(numDev).name, _deviceIconOffsetList.elementAt(numDev), size * sizes.icon_factor);
     }
 
     //first, draw all device circles and their lines to the pivot device

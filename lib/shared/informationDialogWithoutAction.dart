@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
-import 'package:cockpit_devolo/models/fontSizeModel.dart';
+import 'package:cockpit_devolo/models/sizeModel.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/views/appBuilder.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +14,7 @@ import 'buttons.dart';
 import 'devolo_icons.dart';
 
 // add closeButton manually
-void deviceInformationDialogWithoutAction(context, Device hitDevice, FocusNode myFocusNode, DataHand socket, FontSize fontSize) {
+void deviceInformationDialogWithoutAction(context, Device hitDevice, FocusNode myFocusNode, DataHand socket, SizeModel fontSize) {
 
   String newName = hitDevice.name;
   bool changeNameLoading = false;
@@ -39,10 +39,10 @@ void deviceInformationDialogWithoutAction(context, Device hitDevice, FocusNode m
                         child: SelectableText(
                           S.of(context).deviceInfo,
                           style: TextStyle(color: fontColorOnMain),
-                          textScaleFactor: fontSize.factor,
+                          textScaleFactor: fontSize.font_factor,
                         ),
                       ),
-                      getCloseButton(context, fontColorOnMain),
+                      getCloseButton(context, fontSize, fontColorOnMain),
                     ],
                   ),
                 ),
@@ -52,7 +52,7 @@ void deviceInformationDialogWithoutAction(context, Device hitDevice, FocusNode m
                   fontSize: dialogTitleTextFontSize,
                 ),
                 contentTextStyle: TextStyle(color: fontColorOnBackground,
-                    fontSize: dialogContentTextFontSize * fontSize.factor),
+                    fontSize: dialogContentTextFontSize * fontSize.font_factor),
                 content:  StatefulBuilder(
                     builder: (BuildContext context, StateSetter setState) {
                       return SingleChildScrollView(
@@ -64,7 +64,7 @@ void deviceInformationDialogWithoutAction(context, Device hitDevice, FocusNode m
                           children: <Widget>[
                             SizedBox(
                               height: 15,
-                              width: 600.0 * fontSize.factor,
+                              width: 600.0 * fontSize.font_factor,
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -88,7 +88,7 @@ void deviceInformationDialogWithoutAction(context, Device hitDevice, FocusNode m
                                         focusNode: myFocusNode,
                                         style: TextStyle(color: fontColorOnBackground,
                                             fontSize: dialogContentTextFontSize *
-                                                fontSize.factor),
+                                                fontSize.font_factor),
                                         cursorColor: fontColorOnBackground,
                                         decoration: InputDecoration(
                                           isDense: true,

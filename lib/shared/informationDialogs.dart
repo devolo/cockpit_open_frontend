@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
-import 'package:cockpit_devolo/models/fontSizeModel.dart';
+import 'package:cockpit_devolo/models/sizeModel.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/views/appBuilder.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ import 'devolo_icons.dart';
 import 'helpers.dart';
 
 // add closeButton manually
-void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, DataHand socket, FontSize fontSize) {
+void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, DataHand socket, SizeModel fontSize) {
 
   String newName = hitDevice.name;
   bool changeNameLoading = false;
@@ -43,10 +43,10 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                   child: SelectableText(
                     S.of(context).deviceInfo,
                     style: TextStyle(color: fontColorOnMain),
-                    textScaleFactor: fontSize.factor,
+                    textScaleFactor: fontSize.font_factor,
                   ),
                 ),
-          getCloseButton(context, fontColorOnMain),
+          getCloseButton(context, fontSize, fontColorOnMain),
               ],
             ),
           ),
@@ -56,7 +56,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
             fontSize: dialogTitleTextFontSize,
           ),
             contentTextStyle: TextStyle(color: fontColorOnBackground,
-                fontSize: dialogContentTextFontSize * fontSize.factor),
+                fontSize: dialogContentTextFontSize * fontSize.font_factor),
           content:  StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return SingleChildScrollView(
@@ -68,7 +68,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                   children: <Widget>[
                     SizedBox(
                       height: 15,
-                      width: 600.0 * fontSize.factor,
+                      width: 600.0 * fontSize.font_factor,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -92,7 +92,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                 focusNode: myFocusNode,
                                 style: TextStyle(color: fontColorOnBackground,
                                     fontSize: dialogContentTextFontSize *
-                                        fontSize.factor),
+                                        fontSize.font_factor),
                                 cursorColor: fontColorOnBackground,
                                 decoration: InputDecoration(
                                   isDense: true,
@@ -370,7 +370,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                   0.33),
                               color: fontColorOnBackground,
                               hoverColor: fontColorOnBackground.withAlpha(50),
-                              iconSize: 24.0 * fontSize.factor,
+                              iconSize: 24.0 * fontSize.font_factor,
                               onPressed: !hitDevice.webinterfaceAvailable
                                   ? null
                                   : () =>
@@ -381,14 +381,14 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                   : SystemMouseCursors.click,
                             ),
                             Container(
-                              constraints: BoxConstraints(maxWidth: maxWidthActions * fontSize.factor),
+                              constraints: BoxConstraints(maxWidth: maxWidthActions * fontSize.font_factor),
                               child: Text(
                                 S.of(context).launchWebInterface,
                                 style: TextStyle(fontSize: 14,
                                     color: !hitDevice.webinterfaceAvailable
                                         ? fontColorOnBackground.withOpacity(0.33)
                                         : fontColorOnBackground),
-                                textScaleFactor: fontSize.factor,
+                                textScaleFactor: fontSize.font_factor,
                                 textAlign: TextAlign.center,
                               )
                             ),
@@ -422,7 +422,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                     0.33),
                                 color: fontColorOnBackground,
                                 hoverColor: fontColorOnBackground.withAlpha(50),
-                                iconSize: 24.0 * fontSize.factor,
+                                iconSize: 24.0 * fontSize.font_factor,
                                 onPressed: !hitDevice.identifyDeviceAvailable ||
                                     identifyDeviceActionRunning
                                     ? null
@@ -491,7 +491,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                               ),
                             ),
                             Container(
-                              constraints: BoxConstraints(maxWidth: maxWidthActions * fontSize.factor),
+                              constraints: BoxConstraints(maxWidth: maxWidthActions * fontSize.font_factor),
                               child: Text(
                                 S.of(context).identifyDevice,
                                 style: TextStyle(fontSize: 14,
@@ -499,7 +499,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                         identifyDeviceActionRunning
                                         ? fontColorOnBackground.withOpacity(0.33)
                                         : fontColorOnBackground),
-                                textScaleFactor: fontSize.factor,
+                                textScaleFactor: fontSize.font_factor,
                                 textAlign: TextAlign.center,
                               )
                             ),
@@ -514,7 +514,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                 ),
 //tooltip: S.of(context).showManual,
                                 hoverColor: fontColorOnBackground.withAlpha(50),
-                                iconSize: 24.0 * fontSize.factor,
+                                iconSize: 24.0 * fontSize.font_factor,
                                 onPressed: () async {
                                   socket.sendXML(
                                       'GetManual', newValue: hitDevice.MT,
@@ -534,12 +534,12 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                   }
                                 }),
                             Container(
-                                constraints: BoxConstraints(maxWidth: maxWidthActions * fontSize.factor),
+                                constraints: BoxConstraints(maxWidth: maxWidthActions * fontSize.font_factor),
                                 child: Text(
                                   S.of(context).showManual,
                                 style: TextStyle(
                                     fontSize: 14, color: fontColorOnBackground),
-                                textScaleFactor: fontSize.factor,
+                                textScaleFactor: fontSize.font_factor,
                                 textAlign: TextAlign.center,
                               )
                             ),
@@ -555,7 +555,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                           color: fontColorOnBackground,
                           hoverColor: fontColorOnBackground.withAlpha(50),
                           disabledColor: fontColorOnBackground.withOpacity(0.33),
-                          iconSize: 24.0 * fontSize.factor,
+                          iconSize: 24.0 * fontSize.font_factor,
                           onPressed: (hitDevice.supportedVDSL.isNotEmpty)
                               ? () {
                             setState(() {
@@ -571,10 +571,10 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                             .basic : SystemMouseCursors.click,
                       ),
                             Container(
-                              constraints: BoxConstraints(maxWidth: maxWidthActions * fontSize.factor),
+                              constraints: BoxConstraints(maxWidth: maxWidthActions * fontSize.font_factor),
                               child: Text(
                                 S.of(context).setVdslCompatibility,
-                                style: TextStyle(fontSize: 14, color: !hitDevice.supportedVDSL.isNotEmpty ? fontColorOnBackground.withOpacity(0.33) : fontColorOnBackground),                        textScaleFactor: fontSize.factor,
+                                style: TextStyle(fontSize: 14, color: !hitDevice.supportedVDSL.isNotEmpty ? fontColorOnBackground.withOpacity(0.33) : fontColorOnBackground),                        textScaleFactor: fontSize.font_factor,
                                 textAlign: TextAlign.center,
                               )
                             ),
@@ -590,7 +590,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                       ),
 //tooltip: S.of(context).factoryReset,
                               hoverColor: fontColorOnBackground.withAlpha(50),
-                              iconSize: 24.0 * fontSize.factor,
+                              iconSize: 24.0 * fontSize.font_factor,
                               onPressed: () async {
                                 bool confResponse = false;
                                 hitDevice.attachedToRouter
@@ -633,12 +633,12 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                               },
                             ),
                     Container(
-                      constraints: BoxConstraints(maxWidth: maxWidthActions * fontSize.factor),
+                      constraints: BoxConstraints(maxWidth: maxWidthActions * fontSize.font_factor),
                       child: Text(
                         S.of(context).factoryReset,
                         style: TextStyle(
                             fontSize: 14, color: fontColorOnBackground),
-                        textScaleFactor: fontSize.factor,
+                        textScaleFactor: fontSize.font_factor,
                         textAlign: TextAlign.center,
                       )
                     )
@@ -654,7 +654,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                 ),
 //tooltip: S.of(context).deleteDevice,
                                 hoverColor: fontColorOnBackground.withAlpha(50),
-                                iconSize: 24.0 * fontSize.factor,
+                                iconSize: 24.0 * fontSize.font_factor,
                                 onPressed: () async {
                                   bool confResponse = false;
                                   hitDevice.attachedToRouter
@@ -699,12 +699,12 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                 }
                             ),
                             Container(
-                              constraints: BoxConstraints(maxWidth: maxWidthActions * fontSize.factor),
+                              constraints: BoxConstraints(maxWidth: maxWidthActions * fontSize.font_factor),
                               child: Text(
                                 S.of(context).deleteDevice,
                                 style: TextStyle(
                                     fontSize: 14, color: fontColorOnBackground),
-                                textScaleFactor: fontSize.factor,
+                                textScaleFactor: fontSize.font_factor,
                                 textAlign: TextAlign.center,
                               )
                             ),
@@ -724,7 +724,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                     color: fontColorOnBackground,
                                   ),
                                   hoverColor: fontColorOnBackground.withAlpha(50),
-                                  iconSize: 24.0 * fontSize.factor,
+                                  iconSize: 24.0 * fontSize.font_factor,
                                   onPressed: () {
                                     moreSettings(
                                         context,
@@ -739,12 +739,12 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                                         fontSize);
                                   }),
                               Container(
-                                constraints: BoxConstraints(maxWidth: maxWidthActions * fontSize.factor),
+                                constraints: BoxConstraints(maxWidth: maxWidthActions * fontSize.font_factor),
                                 child: Text(
                                   S.of(context).additionalSettings,
                                   style: TextStyle(
                                       fontSize: 14, color: fontColorOnBackground),
-                                  textScaleFactor: fontSize.factor,
+                                  textScaleFactor: fontSize.font_factor,
                                   textAlign: TextAlign.center,
                                 )
                               ),
@@ -762,7 +762,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
 }
 
 
-void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitDeviceVDSLList, String vdslProfile, hitDeviceMac, FontSize fontSize) async {
+void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitDeviceVDSLList, String vdslProfile, hitDeviceMac, SizeModel fontSize) async {
 
   // ToDo remove translation dublicates ?
   Map<String, String> vdslNames = {'mimo_vdsl17a': S.of(context).mimoVdslProfil17a, 'siso_full': S.of(context).sisoFull, 'siso_vdsl35b': S.of(context).sisoVdslProfil35b, 'siso_vdsl17a': S.of(context).sisoVdslProfil17a, 'mimo_full': S.of(context).mimoFull, 'mimo_vdsl35b': S.of(context).mimoVdslProfil35a};
@@ -830,7 +830,7 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
           titlePadding: EdgeInsets.all(dialogTitlePadding),
           title: Column(
             children: [
-              getCloseButton(context),
+              getCloseButton(context, fontSize),
               Center(
                   child: Text(
                     S.of(context).vdslCompatibility,
@@ -839,8 +839,8 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
               ),
             ],
           ),
-          titleTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
-          contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+          titleTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.font_factor),
+          contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.font_factor),
           content: StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
                 return SingleChildScrollView(
@@ -940,7 +940,7 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                                     value: _dropVDSL == null? _dropVDSL=hitDeviceVDSLList[0]: _dropVDSL,
                                     dropdownColor: backgroundColor,
                                     hint: Text(S.of(context).selectProfile,style: TextStyle(color: fontColorOnMain),),
-                                    style: TextStyle(fontSize: fontSizeListTileSubtitle * fontSize.factor, color: fontColorOnBackground),
+                                    style: TextStyle(fontSize: fontSizeListTileSubtitle * fontSize.font_factor, color: fontColorOnBackground),
                                     icon: Icon(
                                       DevoloIcons.ic_arrow_drop_down_24px,
                                       color: fontColorOnBackground,
@@ -1005,7 +1005,7 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
 }
 
 // add confirm button manually
-void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<int> disableLeds, List<int> disableStandby, String mac, String ipConfigMac, String ipConfigAddress, String ipConfigNetmask, FontSize fontSize) {
+void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<int> disableLeds, List<int> disableStandby, String mac, String ipConfigMac, String ipConfigAddress, String ipConfigNetmask, SizeModel size) {
 
   final _formKey = GlobalKey<FormState>();
   String formIpAdress = ipConfigAddress;
@@ -1025,11 +1025,11 @@ void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<in
       builder: (BuildContext context) {
         return AlertDialog(
           insetPadding: EdgeInsets.symmetric(horizontal: 0),
-          titleTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
-          contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+          titleTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogTitleTextFontSize * size.font_factor),
+          contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * size.font_factor),
           title: Column(
             children: [
-              getCloseButton(context),
+              getCloseButton(context, size),
               Center(
                   child: Text(
                     S.of(context).additionalDialogTitle,
@@ -1050,7 +1050,7 @@ void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<in
                           .activateLEDs, style: TextStyle(
                           color: fontColorOnBackground,
                           fontSize: dialogContentTextFontSize *
-                              fontSize.factor)),
+                              size.font_factor)),
                       value: disableLeds[1] == 0 ? true : false,
                       onChanged: (bool value) async {
                         String newStatus = value ? "0" : "1";
@@ -1070,12 +1070,12 @@ void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<in
                               .of(context)
                               .activateLEDsFailedTitle, S
                               .of(context)
-                              .activateLEDsFailedBody, fontSize);
+                              .activateLEDsFailedBody, size);
                         }
                       },
                       secondary: Icon(DevoloIcons.ic_lightbulb_outline_24px,
                           color: fontColorOnBackground,
-                          size: 24 * fontSize.factor),
+                          size: 24 * size.font_factor),
                       activeTrackColor: switchActiveTrackColor,
                       activeColor: switchActiveThumbColor,
                       inactiveThumbColor: switchInactiveThumbColor,
@@ -1088,7 +1088,7 @@ void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<in
                           .activateTransmission, style: TextStyle(
                           color: fontColorOnBackground,
                           fontSize: dialogContentTextFontSize *
-                              fontSize.factor)),
+                              size.font_factor)),
                       value: disableTraffic[1] == 0 ? true : false,
                       onChanged: (bool value) async {
                         String newStatus = value ? "0" : "1";
@@ -1108,12 +1108,12 @@ void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<in
                               .of(context)
                               .activateTransmissionFailedTitle, S
                               .of(context)
-                              .activateTransmissionFailedBody, fontSize);
+                              .activateTransmissionFailedBody, size);
                         }
                       },
                       secondary: Icon(DevoloIcons.ic_perm_data_setting_24px,
                           color: fontColorOnBackground,
-                          size: 24 * fontSize.factor),
+                          size: 24 * size.font_factor),
                       activeTrackColor: switchActiveTrackColor,
                       activeColor: switchActiveThumbColor,
                       inactiveThumbColor: switchInactiveThumbColor,
@@ -1126,7 +1126,7 @@ void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<in
                           .powerSavingMode, style: TextStyle(
                           color: fontColorOnBackground,
                           fontSize: dialogContentTextFontSize *
-                              fontSize.factor)),
+                              size.font_factor)),
                       value: disableStandby[1] == 0 ? true : false,
                       onChanged: (bool value) async {
                         String newStatus = value ? "0" : "1";
@@ -1146,12 +1146,12 @@ void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<in
                               .of(context)
                               .powerSavingModeFailedTitle, S
                               .of(context)
-                              .powerSavingModeFailedBody, fontSize);
+                              .powerSavingModeFailedBody, size);
                         }
                       },
                       secondary: Icon(DevoloIcons.ic_battery_charging_full_24px,
                           color: fontColorOnBackground,
-                          size: 24 * fontSize.factor),
+                          size: 24 * size.font_factor),
                       activeTrackColor: switchActiveTrackColor,
                       activeColor: switchActiveThumbColor,
                       inactiveThumbColor: switchInactiveThumbColor,
@@ -1178,7 +1178,7 @@ void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<in
                               labelStyle: TextStyle(
                                   color: fontColorOnBackground,
                                   fontSize: dialogContentTextFontSize *
-                                      fontSize.factor),
+                                      size.font_factor),
                               hoverColor: fontColorOnBackground.withOpacity(
                                   0.2),
                               contentPadding: new EdgeInsets.symmetric(
@@ -1230,7 +1230,7 @@ void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<in
                               labelStyle: TextStyle(
                                   color: fontColorOnBackground,
                                   fontSize: dialogContentTextFontSize *
-                                      fontSize.factor),
+                                      size.font_factor),
                               hoverColor: fontColorOnBackground.withOpacity(
                                   0.2),
                               contentPadding: new EdgeInsets.symmetric(
@@ -1281,7 +1281,7 @@ void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<in
                               style: TextStyle(
                                   fontSize: dialogContentTextFontSize,
                                   color: (formIpAdress != ipConfigAddress || formNetmask != ipConfigNetmask) ? Colors.white : buttonDisabledForeground),
-                              textScaleFactor: fontSize.factor,
+                              textScaleFactor: size.font_factor,
                             ),
                             onPressed: (formIpAdress != ipConfigAddress ||
                                 formNetmask != ipConfigNetmask)
@@ -1314,7 +1314,7 @@ void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<in
                                           .of(context)
                                           .deviceNotFoundSetIpConfig + "\n\n" + S
                                           .of(context)
-                                          .deviceNotFoundHint, fontSize);
+                                          .deviceNotFoundHint, size);
                                     } else if (response['result'] != "ok") {
                                       formIpAdress = ipConfigAddress;
                                       formIpAdressController.text = ipConfigAddress;
@@ -1326,7 +1326,7 @@ void moreSettings(BuildContext context, socket, List<int> disableTraffic,List<in
                                           .of(context)
                                           .setIpConfigErrorTitle, S
                                           .of(context)
-                                          .setIpConfigErrorBody, fontSize);
+                                          .setIpConfigErrorBody, size);
                                     }
                                   }
                                   else {

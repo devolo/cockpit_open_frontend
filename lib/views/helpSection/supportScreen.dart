@@ -7,7 +7,7 @@ LICENSE file in the root directory of this source tree.
 */
 
 import 'package:cockpit_devolo/generated/l10n.dart';
-import 'package:cockpit_devolo/models/fontSizeModel.dart';
+import 'package:cockpit_devolo/models/sizeModel.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +18,7 @@ import '../../shared/buttons.dart';
 import '../../shared/devolo_icons.dart';
 import '../../shared/helpers.dart';
 
-void _contactInfoAlert(context, DataHand socket, FontSize fontSize) {
+void _contactInfoAlert(context, DataHand socket, SizeModel size) {
   String _processNr = "";
   String _name = "";
   String _email = "";
@@ -35,16 +35,16 @@ void _contactInfoAlert(context, DataHand socket, FontSize fontSize) {
                 .contactInfo,
           ),
           titleTextStyle: TextStyle(color: fontColorOnBackground,
-              fontSize: dialogTitleTextFontSize * fontSize.factor),
+              fontSize: dialogTitleTextFontSize * size.font_factor),
           contentTextStyle: TextStyle(color: fontColorOnBackground,
-              fontSize: dialogContentTextFontSize * fontSize.factor),
+              fontSize: dialogContentTextFontSize * size.font_factor),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Text(S
                   .of(context)
                   .theCreatedSupportInformationCanNowBeSentToDevolo,
-                textScaleFactor: fontSize.factor,),
+                textScaleFactor: size.font_factor,),
               SizedBox(
                 height: 20,
               ),
@@ -60,7 +60,7 @@ void _contactInfoAlert(context, DataHand socket, FontSize fontSize) {
                               .processNumber,
                           labelStyle: TextStyle(color: fontColorOnBackground,
                               fontSize: dialogContentTextFontSize *
-                                  fontSize.factor),
+                                  size.font_factor),
                           hoverColor: fontColorOnBackground.withOpacity(0.2),
                           contentPadding: new EdgeInsets.symmetric(
                               vertical: 5.0, horizontal: 10.0),
@@ -105,7 +105,7 @@ void _contactInfoAlert(context, DataHand socket, FontSize fontSize) {
                               .yourName,
                           labelStyle: TextStyle(color: fontColorOnBackground,
                               fontSize: dialogContentTextFontSize *
-                                  fontSize.factor),
+                                  size.font_factor),
                           hoverColor: fontColorOnBackground.withOpacity(0.2),
                           contentPadding: new EdgeInsets.symmetric(
                               vertical: 5.0, horizontal: 10.0),
@@ -150,7 +150,7 @@ void _contactInfoAlert(context, DataHand socket, FontSize fontSize) {
                               .yourEmailAddress,
                           labelStyle: TextStyle(color: fontColorOnBackground,
                               fontSize: dialogContentTextFontSize *
-                                  fontSize.factor),
+                                  size.font_factor),
                           counterStyle: TextStyle(
                               color: fontColorOnBackground),
                           hoverColor: fontColorOnBackground.withOpacity(0.2),
@@ -204,13 +204,13 @@ void _contactInfoAlert(context, DataHand socket, FontSize fontSize) {
                     .confirm,
                 style: TextStyle(
                     fontSize: dialogContentTextFontSize, color: Colors.white),
-                textScaleFactor: fontSize.factor,
+                textScaleFactor: size.font_factor,
               ),
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   socket.sendSupportInfo(_processNr, _name, _email);
                   Navigator.of(dialogContext).pop();
-                  _sendingSupportInformation(context, socket, fontSize);
+                  _sendingSupportInformation(context, socket, size);
                 }
                 else {
                   logger.i("failed");
@@ -243,7 +243,7 @@ void _contactInfoAlert(context, DataHand socket, FontSize fontSize) {
                     .of(context)
                     .cancel,
                 style: TextStyle(fontSize: dialogContentTextFontSize),
-                textScaleFactor: fontSize.factor,
+                textScaleFactor: size.font_factor,
               ),
               onPressed: () {
                 Navigator.maybeOf(context)!.pop(false);
@@ -301,7 +301,7 @@ void _contactInfoAlert(context, DataHand socket, FontSize fontSize) {
 }
 
 //!!! add manually confirm/cancel buttons
-void _sendingSupportInformation(context, DataHand socket, FontSize fontSize) async {
+void _sendingSupportInformation(context, DataHand socket, SizeModel fontSize) async {
   bool dialogIsOpen = true;
 
   showDialog<void>(
@@ -317,7 +317,8 @@ void _sendingSupportInformation(context, DataHand socket, FontSize fontSize) asy
                   alignment: FractionalOffset.topRight,
                   child: GestureDetector(
                     child: Icon(DevoloIcons.devolo_UI_cancel_2,
-                        color: fontColorOnBackground),
+                        color: fontColorOnBackground,
+                        size: 24 * fontSize.icon_factor),
                     onTap: () {
                       dialogIsOpen = false;
                       Navigator.maybeOf(context)!.pop();
@@ -330,7 +331,7 @@ void _sendingSupportInformation(context, DataHand socket, FontSize fontSize) asy
           titlePadding: EdgeInsets.all(dialogTitlePadding),
           contentTextStyle: TextStyle(color: fontColorOnBackground,
               decorationColor: fontColorOnBackground,
-              fontSize: dialogContentTextFontSize * fontSize.factor),
+              fontSize: dialogContentTextFontSize * fontSize.font_factor),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -375,7 +376,7 @@ void _sendingSupportInformation(context, DataHand socket, FontSize fontSize) asy
   }
 }
 
-void _contactSupportAlert(context, DataHand socket, htmlFileName, zipFileName, FontSize fontSize) {
+void _contactSupportAlert(context, DataHand socket, htmlFileName, zipFileName, SizeModel fontSize) {
   showDialog<void>(
       context: context,
       barrierDismissible: true, // user doesn't need to tap button!
@@ -383,7 +384,7 @@ void _contactSupportAlert(context, DataHand socket, htmlFileName, zipFileName, F
         return AlertDialog(
           title: Column(
             children: [
-              getCloseButton(context),
+              getCloseButton(context, fontSize),
               Center(
                   child: Text(
                     S
@@ -394,10 +395,10 @@ void _contactSupportAlert(context, DataHand socket, htmlFileName, zipFileName, F
             ],
           ),
           titleTextStyle: TextStyle(color: fontColorOnBackground,
-              fontSize: dialogTitleTextFontSize * fontSize.factor),
+              fontSize: dialogTitleTextFontSize * fontSize.font_factor),
           titlePadding: EdgeInsets.all(dialogTitlePadding),
           contentTextStyle: TextStyle(color: fontColorOnBackground,
-              fontSize: dialogContentTextFontSize * fontSize.factor),
+              fontSize: dialogContentTextFontSize * fontSize.font_factor),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -417,7 +418,7 @@ void _contactSupportAlert(context, DataHand socket, htmlFileName, zipFileName, F
                   Icon(
                     DevoloIcons.ic_send_24px,
                     color: fontColorOnMain,
-                    size: 24 * fontSize.factor,
+                      size: 24 * fontSize.icon_factor
                   ),
                   SizedBox(width: 4,),
                   Text(
@@ -426,7 +427,7 @@ void _contactSupportAlert(context, DataHand socket, htmlFileName, zipFileName, F
                         .send,
                     style: TextStyle(fontSize: dialogContentTextFontSize,
                         color: fontColorOnMain),
-                    textScaleFactor: fontSize.factor,
+                    textScaleFactor: fontSize.font_factor,
                   ),
                 ]),
                 onPressed: () {
@@ -461,7 +462,7 @@ void _contactSupportAlert(context, DataHand socket, htmlFileName, zipFileName, F
                   Icon(
                     Icons.open_in_browser,
                     color: fontColorOnMain,
-                    size: 24 * fontSize.factor,
+                      size: 24 * fontSize.icon_factor
                   ),
                   SizedBox(width: 4,),
                   Text(
@@ -470,7 +471,7 @@ void _contactSupportAlert(context, DataHand socket, htmlFileName, zipFileName, F
                         .open,
                     style: TextStyle(fontSize: dialogContentTextFontSize,
                         color: fontColorOnMain),
-                    textScaleFactor: fontSize.factor,
+                    textScaleFactor: fontSize.font_factor,
                   ),
                 ]),
                 onPressed: () {
@@ -505,7 +506,7 @@ void _contactSupportAlert(context, DataHand socket, htmlFileName, zipFileName, F
                   Icon(
                     DevoloIcons.ic_archive_24px,
                     color: fontColorOnMain,
-                    size: 24 * fontSize.factor,
+                      size: 24 * fontSize.icon_factor
                   ),
                   SizedBox(width: 4,),
                   Text(
@@ -514,7 +515,7 @@ void _contactSupportAlert(context, DataHand socket, htmlFileName, zipFileName, F
                         .save,
                     style: TextStyle(fontSize: dialogContentTextFontSize,
                         color: fontColorOnMain),
-                    textScaleFactor: fontSize.factor,
+                    textScaleFactor: fontSize.font_factor,
                   ),
                 ]),
                 onPressed: () {
@@ -553,7 +554,7 @@ void _contactSupportAlert(context, DataHand socket, htmlFileName, zipFileName, F
 }
 
 // !!! closeButton is added manually
-void loadingSupportDialog(context, DataHand socket, fontSize) async {
+void loadingSupportDialog(context, DataHand socket, SizeModel fontSize) async {
   bool dialogIsOpen = true;
   bool actionSucessfull = true;
 
@@ -570,7 +571,8 @@ void loadingSupportDialog(context, DataHand socket, fontSize) async {
                   alignment: FractionalOffset.topRight,
                   child: GestureDetector(
                     child: Icon(DevoloIcons.devolo_UI_cancel_2,
-                        color: fontColorOnBackground),
+                        color: fontColorOnBackground,
+                        size: 24* fontSize.icon_factor),
                     onTap: () {
                       dialogIsOpen = false;
                       Navigator.pop(context);
@@ -583,7 +585,7 @@ void loadingSupportDialog(context, DataHand socket, fontSize) async {
           titlePadding: EdgeInsets.all(dialogTitlePadding),
           contentTextStyle: TextStyle(color: fontColorOnBackground,
               decorationColor: fontColorOnBackground,
-              fontSize: dialogContentTextFontSize * fontSize.factor),
+              fontSize: dialogContentTextFontSize * fontSize.font_factor),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

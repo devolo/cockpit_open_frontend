@@ -1,18 +1,18 @@
 import 'package:cockpit_devolo/generated/l10n.dart';
-import 'package:cockpit_devolo/models/fontSizeModel.dart';
+import 'package:cockpit_devolo/models/sizeModel.dart';
 import 'package:cockpit_devolo/shared/devolo_icons.dart';
 import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
 import 'app_fontSize.dart';
 
-getConfirmButton(context, FontSize fontSize) {
+getConfirmButton(context, SizeModel size) {
 
   return TextButton(
     child: Text(
       S.of(context).confirm,
       style: TextStyle(fontSize: dialogContentTextFontSize, color: Colors.white),
-      textScaleFactor: fontSize.factor,
+      textScaleFactor: size.font_factor,
     ),
     onPressed: () {
       Navigator.maybeOf(context)!.pop(true);
@@ -38,13 +38,13 @@ getConfirmButton(context, FontSize fontSize) {
   );
 }
 
-getCancelButton(context, FontSize fontSize) {
+getCancelButton(context, SizeModel size) {
 
   return TextButton(
     child: Text(
       S.of(context).cancel,
       style: TextStyle(fontSize: dialogContentTextFontSize),
-      textScaleFactor: fontSize.factor,
+      textScaleFactor: size.font_factor,
     ),
     onPressed: () {
       Navigator.maybeOf(context)!.pop(false);
@@ -90,13 +90,13 @@ getCancelButton(context, FontSize fontSize) {
   );
 }
 
-getGreenButton(context, text, FontSize fontSize) {
+getGreenButton(context, text, SizeModel size) {
 
   return TextButton(
     child: Text(
       text,
       style: TextStyle(fontSize: dialogContentTextFontSize, color: fontColorOnMain),
-      textScaleFactor: fontSize.factor,
+      textScaleFactor: size.font_factor,
     ),
     style: ButtonStyle(
         backgroundColor: MaterialStateProperty.resolveWith<Color?>(
@@ -119,7 +119,7 @@ getGreenButton(context, text, FontSize fontSize) {
   );
 }
 
-getCloseButton(context,[color]) {
+getCloseButton(context, SizeModel size, [color]) {
   if(color == null) {
     color = fontColorOnBackground;
   }
@@ -132,7 +132,7 @@ getCloseButton(context,[color]) {
       },
       child: Container(
         alignment: FractionalOffset.topRight,
-        child: GestureDetector(child: Icon(DevoloIcons.devolo_UI_cancel_2,color: color,),
+        child: GestureDetector(child: Icon(DevoloIcons.devolo_UI_cancel_2,color: color, size: 24 * size.icon_factor),
 
           onTap: (){
             Navigator.pop(context);

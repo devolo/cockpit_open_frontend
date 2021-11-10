@@ -11,7 +11,7 @@ import 'dart:ui';
 
 import 'package:cockpit_devolo/generated/l10n.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
-import 'package:cockpit_devolo/models/fontSizeModel.dart';
+import 'package:cockpit_devolo/models/sizeModel.dart';
 import 'package:cockpit_devolo/services/drawOverview.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/shared/alertDialogs.dart';
@@ -56,7 +56,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
   FocusNode myFocusNode = new FocusNode();
 
-  late FontSize fontSize;
+  late SizeModel size;
 
   var hoveredDevice = 999; //displays wich device index is hovered, if no device is hovered the index is set to 999
 
@@ -108,7 +108,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
     logger.d("[overviewScreen] - widget build...");
 
-    fontSize = context.watch<FontSize>();
+    size = context.watch<SizeModel>();
 
 
 
@@ -148,12 +148,12 @@ class _OverviewScreenState extends State<OverviewScreen> {
                         offset: Offset(0, 40),
                         color: backgroundColor,
                         tooltip: S.of(context).deviceSettings,
-                        icon: Icon(DevoloIcons.devolo_UI_more_horiz, color: fontColorOnBackground, size: 24 * fontSize.factor),
+                        icon: Icon(DevoloIcons.devolo_UI_more_horiz, color: fontColorOnBackground, size: 24 * size.icon_factor),
                         onSelected: (dynamic value) async {
                           Device selectedDevice = _deviceList.getDeviceList().elementAt(i);
 
                           if(value == "deviceSettings"){
-                            deviceInformationDialogWithoutAction(context, selectedDevice, myFocusNode, socket, fontSize);
+                            deviceInformationDialogWithoutAction(context, selectedDevice, myFocusNode, socket, size);
                           }
                           else if(value == "webInterface"){
                             launchURL(selectedDevice.webinterfaceURL);
@@ -169,14 +169,14 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   .of(context)
                                   .deviceNotFoundIdentifyDevice + "\n\n" + S
                                   .of(context)
-                                  .deviceNotFoundHint, fontSize);
+                                  .deviceNotFoundHint, size);
                             }
                             else if (response['result'] != "ok") {
                               errorDialog(context, S
                                   .of(context)
                                   .identifyDeviceErrorTitle, S
                                   .of(context)
-                                  .identifyDeviceErrorBody, fontSize);
+                                  .identifyDeviceErrorBody, size);
                             }
                           }
                           else if(value == "showManual"){
@@ -194,7 +194,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   .of(context)
                                   .manualErrorTitle, S
                                   .of(context)
-                                  .manualErrorBody, fontSize);
+                                  .manualErrorBody, size);
                             }
                           }
                           else if(value == "factoryReset"){
@@ -207,12 +207,12 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                 .resetDeviceConfirmBody + "\n" + S
                                 .of(context)
                                 .confirmActionConnectedToRouterWarning,
-                                fontSize)
+                                size)
                                 : confResponse = await confirmDialog(context, S
                                 .of(context)
                                 .resetDeviceConfirmTitle, S
                                 .of(context)
-                                .resetDeviceConfirmBody, fontSize);
+                                .resetDeviceConfirmBody, size);
 
                             if (confResponse) {
                               socket.sendXML("ResetAdapterToFactoryDefaults",
@@ -227,13 +227,13 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                     .of(context)
                                     .deviceNotFoundResetDevice + "\n\n" + S
                                     .of(context)
-                                    .deviceNotFoundHint, fontSize);
+                                    .deviceNotFoundHint, size);
                               } else if (response['result'] != "ok") {
                                 errorDialog(context, S
                                     .of(context)
                                     .resetDeviceErrorTitle, S
                                     .of(context)
-                                    .resetDeviceErrorBody, fontSize);
+                                    .resetDeviceErrorBody, size);
                               }
                             }
                           }
@@ -248,13 +248,13 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                 .removeDeviceConfirmBody + "\n" + S
                                 .of(context)
                                 .confirmActionConnectedToRouterWarning,
-                                fontSize)
+                                size)
                                 : confResponse = await confirmDialog(
                                 context, S
                                 .of(context)
                                 .removeDeviceConfirmTitle, S
                                 .of(context)
-                                .removeDeviceConfirmBody, fontSize);
+                                .removeDeviceConfirmBody, size);
 
                             if (confResponse) {
                               socket.sendXML(
@@ -269,13 +269,13 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                     .of(context)
                                     .deviceNotFoundRemoveDevice + "\n\n" + S
                                     .of(context)
-                                    .deviceNotFoundHint, fontSize);
+                                    .deviceNotFoundHint, size);
                               } else if (response['result'] != "ok") {
                                 errorDialog(context, S
                                     .of(context)
                                     .removeDeviceErrorTitle, S
                                     .of(context)
-                                    .removeDeviceErrorBody, fontSize);
+                                    .removeDeviceErrorBody, size);
                               }
                             }
                           }
@@ -283,7 +283,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                             setState(() {
                               showVDSLDialog(
                                   context,socket, selectedDevice.modeVDSL, selectedDevice.supportedVDSL,
-                                  selectedDevice.selectedVDSL, selectedDevice.mac, fontSize);
+                                  selectedDevice.selectedVDSL, selectedDevice.mac, size);
 
                             });
                           }
@@ -298,44 +298,44 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                 selectedDevice.ipConfigMac,
                                 selectedDevice.ipConfigAddress,
                                 selectedDevice.ipConfigNetmask,
-                                fontSize);
+                                size);
                           }
                         },
                         itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                           PopupMenuItem(
                             value: "deviceSettings",
                             child: SizedBox(    // needed as different languages have different length which influences the offset
-                              child: Text(S.of(context).deviceInfo, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor),),
+                              child: Text(S.of(context).deviceInfo, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * size.font_factor),),
                             ),
                           ),
                           PopupMenuDivider(),
                           if(_deviceList.getDeviceList().elementAt(i).webinterfaceAvailable)
                             PopupMenuItem(
                               value: "webInterface",
-                              child: Text(S.of(context).launchWebInterface, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor)),
+                              child: Text(S.of(context).launchWebInterface, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * size.font_factor)),
                             ),
                           if(_deviceList.getDeviceList().elementAt(i).identifyDeviceAvailable)
                             PopupMenuItem(
                               value: "identifyDevice",
-                              child: Text(S.of(context).identifyDevice, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor)),
+                              child: Text(S.of(context).identifyDevice, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * size.font_factor)),
                             ),
                           PopupMenuItem(
                             value: "showManual",
-                            child: Text(S.of(context).showManual, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor)),
+                            child: Text(S.of(context).showManual, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * size.font_factor)),
                           ),
                           PopupMenuDivider(),
                           if(_deviceList.getDeviceList().elementAt(i).supportedVDSL.isNotEmpty)
                             PopupMenuItem(
                               value: "setVDSL",
-                              child: Text(S.of(context).setVdslCompatibility, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor)),
+                              child: Text(S.of(context).setVdslCompatibility, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * size.font_factor)),
                             ),
                           PopupMenuItem(
                             value: "deleteDevice",
-                            child: Text(S.of(context).deleteDevice, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor)),
+                            child: Text(S.of(context).deleteDevice, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * size.font_factor)),
                           ),
                           PopupMenuItem(
                             value: "factoryReset",
-                            child: Text(S.of(context).factoryReset, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor)),
+                            child: Text(S.of(context).factoryReset, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * size.font_factor)),
                           ),
                           if (_deviceList.getDeviceList().elementAt(i).disableTraffic[0] == 1 ||
                               _deviceList.getDeviceList().elementAt(i).disableLeds[0] == 1 ||
@@ -347,7 +347,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                             PopupMenuDivider(),
                             PopupMenuItem(
                               value: "additionalSettings",
-                              child: Text(S.of(context).additionalSettings, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor)),
+                              child: Text(S.of(context).additionalSettings, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * size.font_factor)),
                             ),
                           ],
                         ],
@@ -362,16 +362,16 @@ class _OverviewScreenState extends State<OverviewScreen> {
                       children:[
                         Text(
                           _deviceList.getNetworkName(_deviceList.selectedNetworkIndex),
-                          style: TextStyle(color: fontColorOnBackground, fontSize: 18 * fontSize.factor, fontWeight: FontWeight.w600),
+                          style: TextStyle(color: fontColorOnBackground, fontSize: 18 * size.font_factor, fontWeight: FontWeight.w600),
                         ),
                         PopupMenuButton(
                             offset: Offset(_deviceList.getNetworkName(_deviceList.selectedNetworkIndex).length.toDouble() - 25, 40),
                             color: backgroundColor,
                             tooltip: S.of(context).networkSettings,
-                            icon: Icon(DevoloIcons.devolo_UI_more_horiz, color: fontColorOnBackground, size: 24 * fontSize.factor),
+                            icon: Icon(DevoloIcons.devolo_UI_more_horiz, color: fontColorOnBackground, size: 24 * size.icon_factor),
                             onSelected: (dynamic value){
                               if(value == "networkSettings"){
-                                networkSettingsDialog(context, _deviceList, myFocusNode, socket, fontSize);
+                                networkSettingsDialog(context, _deviceList, myFocusNode, socket, size);
                               }
                               else{
                                 _deviceList.selectedNetworkIndex = value;
@@ -385,14 +385,14 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                 value: "networkSettings",
                                 child: SizedBox(    // needed as different languages have different length which influences the offset
                                   width: 200,
-                                  child: Text(S.of(context).changePlcNetworkPassword, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor),),
+                                  child: Text(S.of(context).changePlcNetworkPassword, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * size.font_factor),),
                                 ),
                               ),
                               if(_deviceList.getNetworkListLength() > 1) ...[
                                 PopupMenuDivider(),
                                 PopupMenuItem(
                                   enabled: false,
-                                  child: Text(S.of(context).switchNetwork, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor)),
+                                  child: Text(S.of(context).switchNetwork, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * size.font_factor)),
                                   ),
                                 for(int i = 0; i < _deviceList.getNetworkListLength(); i++) ...[
                                   PopupMenuItem(
@@ -400,7 +400,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                     value: i,
                                     child: Padding(
                                         padding: EdgeInsets.only(left: 50, right: 10), //Needs to be done here as the parent padding gets ignored when the item is disabled
-                                        child: Text(_deviceList.getNetworkName(i), style: TextStyle(color: fontColorOnBackground, fontSize: 14 * fontSize.factor, fontWeight: _deviceList.selectedNetworkIndex == i ? FontWeight.w600 : null))),
+                                        child: Text(_deviceList.getNetworkName(i), style: TextStyle(color: fontColorOnBackground, fontSize: 14 * size.font_factor, fontWeight: _deviceList.selectedNetworkIndex == i ? FontWeight.w600 : null))),
                                   ),
                                 ]
                               ]
@@ -420,8 +420,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
                       backgroundColor: backgroundColor,
                       //titleTextStyle: TextStyle(color: fontColorOnMain),
                       //contentTextStyle: TextStyle(color: fontColorOnMain),
-                    titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
-                    contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                    titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * size.font_factor),
+                    contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * size.font_factor),
                     title: Text(S.of(context).noconnection),
                     content:  Text(S.of(context).noconnectionbody),
                     ),
@@ -474,6 +474,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
               hoverColor: fontColorOnBackground,
               child: Icon(
                 DevoloIcons.ic_refresh_24px,
+                  size: 24 * size.icon_factor
               ),
             ),
           ),
@@ -505,7 +506,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
         Device hitDevice = deviceList.getDeviceList()[index];
 
         //openDialog
-        deviceInformationDialog(context, hitDevice, myFocusNode, socket, fontSize);
+        deviceInformationDialog(context, hitDevice, myFocusNode, socket, size);
 
       }
       index++;

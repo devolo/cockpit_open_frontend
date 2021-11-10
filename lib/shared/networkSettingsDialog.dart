@@ -1,5 +1,5 @@
 import 'package:cockpit_devolo/generated/l10n.dart';
-import 'package:cockpit_devolo/models/fontSizeModel.dart';
+import 'package:cockpit_devolo/models/sizeModel.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +12,7 @@ import 'devolo_icons.dart';
 import 'helpers.dart';
 
 // add closeButton manually
-void networkSettingsDialog(context, NetworkList _deviceList, FocusNode myFocusNode, DataHand socket, FontSize fontSize) {
+void networkSettingsDialog(context, NetworkList _deviceList, FocusNode myFocusNode, DataHand socket, SizeModel size) {
   bool networkPasswordResponseTrue = false;
   bool networkPasswordResponseFalse = false;
   bool waitForNetworkPasswordResponse = false;
@@ -34,14 +34,14 @@ void networkSettingsDialog(context, NetworkList _deviceList, FocusNode myFocusNo
           builder: (context, setState) {
             return AlertDialog(
               contentTextStyle: TextStyle(color: fontColorOnBackground,
-                  fontSize: dialogContentTextFontSize * fontSize.factor),
+                  fontSize: dialogContentTextFontSize * size.font_factor),
               title: Column(
                 children: [
-                  getCloseButton(context),
+                  getCloseButton(context, size),
                   SelectableText(
                     S.of(context).changePlcNetworkPassword,
                     style: TextStyle(color: fontColorOnBackground),
-                    textScaleFactor: fontSize.factor,
+                    textScaleFactor: size.font_factor,
                   ),
                 ],
               ),
@@ -65,7 +65,7 @@ void networkSettingsDialog(context, NetworkList _deviceList, FocusNode myFocusNo
                           maxLength: maxLength,
                           style: TextStyle(color: fontColorOnBackground,
                               fontSize: fontSizeListTileSubtitle *
-                                  fontSize.factor),
+                                  size.font_factor),
                           cursorColor: fontColorOnBackground,
                           decoration: InputDecoration(
                             counterText: "",
@@ -76,7 +76,7 @@ void networkSettingsDialog(context, NetworkList _deviceList, FocusNode myFocusNo
                                 .plcNetworkPassword,
                             labelStyle: TextStyle(color: fontColorOnBackground,
                               fontSize: fontSizeListTileSubtitle *
-                                  fontSize.factor,),
+                                  size.font_factor,),
                             hoverColor: mainColor.withOpacity(0.2),
                             contentPadding: new EdgeInsets.symmetric(
                                 vertical: 5.0, horizontal: 10.0),
@@ -172,7 +172,7 @@ void networkSettingsDialog(context, NetworkList _deviceList, FocusNode myFocusNo
                       S.of(context).change,
                       style: TextStyle(fontSize: dialogContentTextFontSize,
                           color: waitForNetworkPasswordResponse ? buttonDisabledForeground  : fontColorOnMain),
-                      textScaleFactor: fontSize.factor,
+                      textScaleFactor: size.font_factor,
                     ),
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.resolveWith<
@@ -209,7 +209,7 @@ void networkSettingsDialog(context, NetworkList _deviceList, FocusNode myFocusNo
                             .of(context)
                             .networkPasswordErrorBody + "\n\n" + S
                             .of(context)
-                            .networkPasswordErrorHint, fontSize);
+                            .networkPasswordErrorHint, size);
                       } else {
                         socket.sendXML('SetNetworkPassword', newValue: _newPw,
                             valueType: "password",
@@ -236,7 +236,7 @@ void networkSettingsDialog(context, NetworkList _deviceList, FocusNode myFocusNo
                               .of(context)
                               .networkPasswordErrorBody + "\n\n" + S
                               .of(context)
-                              .networkPasswordErrorHint, fontSize);
+                              .networkPasswordErrorHint, size);
                           waitForNetworkPasswordResponse = false;
                           networkPasswordResponseFalse = true;
                         }

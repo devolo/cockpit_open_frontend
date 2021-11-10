@@ -9,7 +9,7 @@ LICENSE file in the root directory of this source tree.
 import 'dart:async';
 import 'dart:ui';
 import 'package:cockpit_devolo/generated/l10n.dart';
-import 'package:cockpit_devolo/models/fontSizeModel.dart';
+import 'package:cockpit_devolo/models/sizeModel.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/services/drawOverview.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
@@ -78,7 +78,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final _scrollController = ScrollController();
   FocusNode myFocusNode = new FocusNode();
 
-  late FontSize fontSize;
+  late SizeModel size;
 
   var maxLength = 12;
   var minLength = 8;
@@ -134,7 +134,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     DataHand socket = Provider.of<DataHand>(context);
     var _deviceList = Provider.of<NetworkList>(context);
 
-    fontSize = context.watch<FontSize>();
+    size = context.watch<SizeModel>();
 
     var width = MediaQuery.of(context).size.width;
 
@@ -159,7 +159,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       children: [
                         new Text(
                           S.of(context).settings,
-                          style: TextStyle(fontSize: (fontSizeAppBarTitle -5) * fontSize.factor, color: fontColorOnBackground),
+                          style: TextStyle(fontSize: (fontSizeAppBarTitle -5) * size.font_factor, color: fontColorOnBackground),
                           textAlign: TextAlign.start,
                         ),
                         Divider(
@@ -172,7 +172,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                       Text(
                         S.of(context).general,
-                        style: TextStyle(fontSize: fontSizeSectionTitle * fontSize.factor, color: fontColorOnBackground),
+                        style: TextStyle(fontSize: fontSizeSectionTitle * size.font_factor, color: fontColorOnBackground),
                       )
                     ]),
                     Divider(color: dividerColor,),
@@ -187,11 +187,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         tileColor: secondColor,
                         subtitle: Padding(
                           padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
-                          child: Text(S.of(context).changeTheLanguageOfTheApp, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor)),
+                          child: Text(S.of(context).changeTheLanguageOfTheApp, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * size.font_factor)),
                         ),
                         title: new Text(
                           S.of(context).language,
-                          style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond),
+                          style: TextStyle(fontSize: fontSizeListTileTitle * size.font_factor, color: fontColorOnSecond),
                         ),
                         trailing:  Container(
                           //width: 70,
@@ -261,9 +261,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         tileColor: secondColor,
                         subtitle: Padding(
                           padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
-                          child: Text(S.of(context).dataRatesArePermanentlyDisplayedInTheOverview, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor, fontFamily: 'OpenSans')),
+                          child: Text(S.of(context).dataRatesArePermanentlyDisplayedInTheOverview, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * size.font_factor, fontFamily: 'OpenSans')),
                         ),
-                        title: Text(S.of(context).enableShowingSpeeds, style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond), semanticsLabel: "Show Speeds"),
+                        title: Text(S.of(context).enableShowingSpeeds, style: TextStyle(fontSize: fontSizeListTileTitle * size.font_factor, color: fontColorOnSecond), semanticsLabel: "Show Speeds"),
                         trailing: Switch(
                           value: config["show_speeds_permanent"],
                           //widget.painter.showSpeedsPermanently,
@@ -289,11 +289,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         tileColor: secondColor,
                         subtitle: Padding(
                           padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
-                          child: Text(S.of(context).theOverviewWillBeCenteredAroundThePlcDeviceConnected, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor)),
+                          child: Text(S.of(context).theOverviewWillBeCenteredAroundThePlcDeviceConnected, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * size.font_factor)),
                         ),
                         title: Text(
                           S.of(context).internetCentered,
-                          style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond),
+                          style: TextStyle(fontSize: fontSizeListTileTitle * size.font_factor, color: fontColorOnSecond),
                         ),
                         trailing: Switch(
                           value: config["internet_centered"],
@@ -325,11 +325,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         tileColor: secondColor,
                         subtitle: Padding(
                           padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
-                          child: Text(S.of(context).otherDevicesEgPcAreDisplayedInTheOverview, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor)),
+                          child: Text(S.of(context).otherDevicesEgPcAreDisplayedInTheOverview, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * size.font_factor)),
                         ),
                         title: Text(
                           S.of(context).showOtherDevices,
-                          style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond),
+                          style: TextStyle(fontSize: fontSizeListTileTitle * size.font_factor, color: fontColorOnSecond),
                         ),
                         trailing: Switch(
                           value: config["show_other_devices"],
@@ -351,7 +351,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                       Text(
                         S.of(context).appearance,
-                        style: TextStyle(fontSize: fontSizeSectionTitle * fontSize.factor, color: fontColorOnBackground),
+                        style: TextStyle(fontSize: fontSizeSectionTitle * size.font_factor, color: fontColorOnBackground),
                       )
                     ]),
                     Divider(color: dividerColor),
@@ -365,15 +365,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         tileColor: secondColor,
                         subtitle: Padding(
                           padding: EdgeInsets.only(top: listTileSubTitlePaddingTop),
-                          child: Text(S.of(context).chooseTheAppTheme, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor)),
+                          child: Text(S.of(context).chooseTheAppTheme, style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * size.font_factor)),
                         ),
                         title: Text(
                           S.of(context).appTheme,
-                          style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond),
+                          style: TextStyle(fontSize: fontSizeListTileTitle * size.font_factor, color: fontColorOnSecond),
                         ),
                         trailing: Padding(
                           padding: const EdgeInsets.only(right: 12.0),
-                          child: Text(config["theme"], style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond)),
+                          child: Text(config["theme"], style: TextStyle(fontSize: fontSizeListTileTitle * size.font_factor, color: fontColorOnSecond)),
                         ),
                       ),
                     ),
@@ -383,7 +383,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       tileColor: secondColor,
                       title: Text(
                         S.of(context).fontSize,
-                        style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond),
+                        style: TextStyle(fontSize: fontSizeListTileTitle * size.font_factor, color: fontColorOnSecond),
                       ),
                       trailing: SizedBox(
                           width: 170,
@@ -406,13 +406,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           style: ButtonStyle(overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33))),
                                           onPressed: () {
                                             setState(() {
-                                              fontSize.factor = 0.9;
+                                              size.font_factor = 0.9;
+                                              size.icon_factor = 0.8;
                                               config["font_size_factor"] = 0.9;
+                                              config["icon_size_factor"] = 0.8;
                                             });
                                             saveToSharedPrefs(config);
                                             AppBuilder.of(context)!.rebuild();
                                           },
-                                          child: Icon(Icons.text_format, size: 23, color: fontColorOnSecond,),
+                                          child: Icon(Icons.text_format, size: 23 * size.icon_factor, color: fontColorOnSecond,),
                                         ),
                                     )
                                   ]),
@@ -427,13 +429,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           style: ButtonStyle(overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33))),
                                           onPressed: () {
                                             setState(() {
-                                              fontSize.factor = 1.1;
+                                              size.font_factor = 1.1;
+                                              size.icon_factor = 1.0;
                                               config["font_size_factor"] = 1.1;
+                                              config["icon_size_factor"] = 1.0;
                                             });
                                             saveToSharedPrefs(config);
                                             AppBuilder.of(context)!.rebuild();
                                           },
-                                          child: Icon(Icons.text_format, size: 29, color: fontColorOnSecond,),
+                                          child: Icon(Icons.text_format, size: 29 * size.icon_factor, color: fontColorOnSecond,),
                                         ),
                                     )
                                 ]),
@@ -448,13 +452,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           style: ButtonStyle(overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33))),
                                           onPressed: () {
                                             setState(() {
-                                              fontSize.factor = 1.4;
+                                              size.font_factor = 1.4;
+                                              size.icon_factor = 1.2;
                                               config["font_size_factor"] = 1.4;
+                                              config["icon_size_factor"] = 1.2;
                                             });
                                             saveToSharedPrefs(config);
                                             AppBuilder.of(context)!.rebuild();
                                           },
-                                          child: Icon(Icons.text_format, size: 38, color: fontColorOnSecond,),
+                                          child: Icon(Icons.text_format, size: 38 * size.icon_factor, color: fontColorOnSecond,),
                                         ),
                                       )
                                 ]),
@@ -467,7 +473,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                       Text(
                         S.of(context).network,
-                        style: TextStyle(fontSize: fontSizeSectionTitle * fontSize.factor, color: fontColorOnBackground),
+                        style: TextStyle(fontSize: fontSizeSectionTitle * size.font_factor, color: fontColorOnBackground),
                       )
                     ]),
                     Divider(color: dividerColor),
@@ -484,7 +490,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         tileColor: secondColor,
                         title: Text(
                           S.of(context).ignoreUpdates,
-                          style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond),
+                          style: TextStyle(fontSize: fontSizeListTileTitle * size.font_factor, color: fontColorOnSecond),
                         ),
                         trailing: Switch(
                           value: config["ignore_updates"],
@@ -516,7 +522,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         tileColor: secondColor,
                         title: Text(
                           S.of(context).recordTheTransmissionPowerOfTheDevicesAndTransmitIt,
-                          style: TextStyle(fontSize: fontSizeListTileTitle * fontSize.factor, color: fontColorOnSecond),
+                          style: TextStyle(fontSize: fontSizeListTileTitle * size.font_factor, color: fontColorOnSecond),
                         ),
                         trailing: Switch(
                           value: config["allow_data_collection"],
@@ -552,13 +558,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 obscureText: _hiddenPw,
                                 maxLength: maxLength,
                                 //maxLengthEnforcement: MaxLengthEnforcement.none,
-                                style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor),
+                                style: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * size.font_factor),
                                 cursorColor: fontColorOnSecond,
                                 decoration: InputDecoration(
                                   counterText: "",
                                   suffixText: '${textLength.toString()}/${maxLength.toString()}',
                                   labelText: S.of(context).plcNetworkPassword,
-                                  labelStyle: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * fontSize.factor,),
+                                  labelStyle: TextStyle(color: fontColorOnSecond, fontSize: fontSizeListTileSubtitle * size.font_factor,),
                                   hoverColor: mainColor.withOpacity(0.2),
                                   contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                                   filled: true,
@@ -584,6 +590,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           icon: Icon(
                                             DevoloIcons.devolo_UI_visibility_off,
                                             color: fontColorOnSecond,
+                                            size: 24 * size.icon_factor,
                                           ),
                                           onPressed: () {
                                             //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
@@ -596,6 +603,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           icon: Icon(
                                             DevoloIcons.devolo_UI_visibility,
                                             color: fontColorOnSecond,
+                                            size: 24 * size.icon_factor,
                                           ),
                                           onPressed: () {
                                             //socket.sendXML('SetAdapterName', mac: hitDeviceMac, newValue: _newName, valueType: 'name');
@@ -637,10 +645,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 child: DropdownButton<String>(
                                     value: _dropNetwork == null? _dropNetwork=_deviceList.getNetworkNames()[0]: _dropNetwork,
                                     dropdownColor: secondColor,
-                                    style: TextStyle(fontSize: fontSizeListTileSubtitle * fontSize.factor, color: fontColorOnSecond),
+                                    style: TextStyle(fontSize: fontSizeListTileSubtitle * size.font_factor, color: fontColorOnSecond),
                                     icon: Icon(
                                       DevoloIcons.ic_arrow_drop_down_24px,
                                       color: fontColorOnSecond,
+                                      size: 24 * size.icon_factor,
                                     ),
                                     items: _deviceList.getNetworkNames().map<DropdownMenuItem<String>>((String value) {
                                       return DropdownMenuItem<String>(
@@ -667,9 +676,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               if(waitForNetworkPasswordResponse)
                                 CircularProgressIndicator(color: fontColorOnSecond,),
                               if(networkPasswordResponseTrue)
-                                Icon(DevoloIcons.devolo_UI_check_fill, color: devoloGreen),
+                                Icon(DevoloIcons.devolo_UI_check_fill, color: devoloGreen, size: 24 * size.icon_factor,),
                               if(networkPasswordResponseFalse)
-                                Icon(DevoloIcons.devolo_UI_cancel_fill, color: fontColorOnSecond),
+                                Icon(DevoloIcons.devolo_UI_cancel_fill, color: fontColorOnSecond, size: 24 * size.icon_factor,),
                             ],),
                           ),
 
@@ -678,7 +687,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             child: Text(
                               S.of(context).change,
                               style: TextStyle(fontSize: dialogContentTextFontSize, color: fontColorOnMain),
-                              textScaleFactor: fontSize.factor,
+                              textScaleFactor: size.font_factor,
                             ),
                             style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.resolveWith<Color?>(
@@ -705,7 +714,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 if (_deviceList.getNetworkListLength() == 0) {
                                   waitForNetworkPasswordResponse = false;
                                   networkPasswordResponseFalse = true;
-                                  errorDialog(context, S.of(context).networkPasswordErrorTitle, S.of(context).networkPasswordErrorBody + "\n\n" + S.of(context).networkPasswordErrorHint,fontSize);
+                                  errorDialog(context, S.of(context).networkPasswordErrorTitle, S.of(context).networkPasswordErrorBody + "\n\n" + S.of(context).networkPasswordErrorHint,size);
                                 } else {
                                   int index = _deviceList.getNetworkNames().indexWhere((element) => element == _dropNetwork);
                                   socket.sendXML('SetNetworkPassword', newValue: _newPw, valueType: "password", mac: _deviceList.getLocalDevice(index)!.mac);
@@ -721,7 +730,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       networkPasswordResponseTrue = true;
                                     });
                                   } else {
-                                    errorDialog(context, S.of(context).networkPasswordErrorTitle, S.of(context).networkPasswordErrorBody + "\n\n" + S.of(context).networkPasswordErrorHint,fontSize);
+                                    errorDialog(context, S.of(context).networkPasswordErrorTitle, S.of(context).networkPasswordErrorBody + "\n\n" + S.of(context).networkPasswordErrorHint,size);
                                     waitForNetworkPasswordResponse = false;
                                     networkPasswordResponseFalse = true;
                                   }
@@ -738,8 +747,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Divider(color: dividerColor),
                     Row(mainAxisAlignment: MainAxisAlignment.end, crossAxisAlignment: CrossAxisAlignment.end, children: <Widget>[
                       IconButton(
-                        iconSize: 30 * fontSize.factor,
-                        icon: Icon(DevoloIcons.ic_view_list_24px),
+                        icon: Icon(DevoloIcons.ic_view_list_24px,size: 30 * size.icon_factor,),
                         tooltip: S.of(context).showLogs,
                         color: drawingColor,
                         onPressed: () {
@@ -767,8 +775,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   backgroundColor: backgroundColor,
                   //titleTextStyle: TextStyle(color: fontColorOnMain),
                   //contentTextStyle: TextStyle(color: fontColorOnMain),
-                  titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * fontSize.factor),
-                  contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                  titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * size.font_factor),
+                  contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * size.font_factor),
                   title: Text(S.of(context).noconnection),
                   content:  Text(S.of(context).noconnectionbody),
                 ),
@@ -787,14 +795,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
         return AlertDialog(
           title: Column(
             children: [
-              getCloseButton(context),
+              getCloseButton(context, size),
               Text(
                 S.of(context).appTheme,
                 textAlign: TextAlign.center,
               ),
             ],
           ),
-          titleTextStyle: TextStyle(color: fontColorOnBackground,fontSize: dialogTitleTextFontSize * fontSize.factor),
+          titleTextStyle: TextStyle(color: fontColorOnBackground,fontSize: dialogTitleTextFontSize * size.font_factor),
           titlePadding: EdgeInsets.all(dialogTitlePadding),
           content: StatefulBuilder(
             // You need this, notice the parameters below:
@@ -816,7 +824,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/themeImages/theme_devolo.PNG'))),
                                 new Text(
                                   "Devolo Theme",
-                                  style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                                  style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * size.font_factor),
                                 ),
                               ],
                             ),
@@ -847,7 +855,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/themeImages/theme_dark.PNG'))),
                                 new Text(
                                   "Dark Theme",
-                                  style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                                  style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * size.font_factor),
                                 ),
                               ],
                             ),
@@ -877,7 +885,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/themeImages/theme_light.PNG'))),
                                 new Text(
                                   "Light Theme",
-                                  style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                                  style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * size.font_factor),
                                 ),
                               ],
                             ),
@@ -907,7 +915,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 SizedBox(width: 200, height: 130, child: Image(image: AssetImage('assets/themeImages/theme_highContrast.PNG'))),
                                 new Text(
                                   "High Contrast Theme",
-                                  style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * fontSize.factor),
+                                  style: TextStyle(color: fontColorOnBackground, fontSize: dialogContentTextFontSize * size.font_factor),
                                 ),
                               ],
                             ),

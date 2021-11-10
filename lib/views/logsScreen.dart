@@ -6,7 +6,7 @@ This source code is licensed under the BSD-style license found in the
 LICENSE file in the root directory of this source tree.
 */
 
-import 'package:cockpit_devolo/models/fontSizeModel.dart';
+import 'package:cockpit_devolo/models/sizeModel.dart';
 import 'package:cockpit_devolo/shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +28,7 @@ class _DebugScreenState extends State<DebugScreen> {
   _DebugScreenState({required this.title});
 
   final String title;
-  late FontSize fontSize;
+  late SizeModel size;
   final _scrollController = ScrollController();
   final _scrollControllerInside = ScrollController();
 
@@ -58,7 +58,7 @@ class _DebugScreenState extends State<DebugScreen> {
   Widget build(BuildContext context) {
     final socket = Provider.of<DataHand>(context);
     final deviceList = Provider.of<NetworkList>(context);
-    fontSize = context.watch<FontSize>();
+    size = context.watch<SizeModel>();
     return new Scaffold(
       backgroundColor: backgroundColor,
       appBar: new AppBar(
@@ -83,7 +83,7 @@ class _DebugScreenState extends State<DebugScreen> {
                   SelectableText(
                     'All devices',
                     style: TextStyle(
-                      fontSize: titleFontSize * fontSize.factor,
+                      fontSize: titleFontSize * size.font_factor,
                     ),
                   ),
                   SizedBox(
@@ -91,7 +91,7 @@ class _DebugScreenState extends State<DebugScreen> {
                   ),
                   SelectableText(
                     deviceList.networkListToRealString(),
-                    style: TextStyle(fontSize: textFontSize * fontSize.factor)
+                    style: TextStyle(fontSize: textFontSize * size.font_factor)
                   ),
                   SizedBox(
                     height: titlePadding,
@@ -99,7 +99,7 @@ class _DebugScreenState extends State<DebugScreen> {
                   SelectableText(
                     'Devices of selected Network',
                     style: TextStyle(
-                      fontSize: titleFontSize * fontSize.factor,
+                      fontSize: titleFontSize * size.font_factor,
                     ),
                   ),
                   SizedBox(
@@ -112,7 +112,7 @@ class _DebugScreenState extends State<DebugScreen> {
                   SelectableText(
                     'XML-Responses',
                     style: TextStyle(
-                      fontSize: titleFontSize * fontSize.factor,
+                      fontSize: titleFontSize * size.font_factor,
                     ),
                   ),
                   SizedBox(
@@ -121,7 +121,7 @@ class _DebugScreenState extends State<DebugScreen> {
                   SelectableText(
                       socket.xmlDebugResponseList != [] ? printResponseList(socket) : "nothing send yet",
                       style: TextStyle(
-                        fontSize: textFontSize * fontSize.factor,
+                        fontSize: textFontSize * size.font_factor,
                       ),
                   ),
                   SizedBox(
@@ -130,7 +130,7 @@ class _DebugScreenState extends State<DebugScreen> {
                   SelectableText(
                     'Config',
                     style: TextStyle(
-                      fontSize: titleFontSize * fontSize.factor,
+                      fontSize: titleFontSize * size.font_factor,
                     ),
                   ),
                   SizedBox(
@@ -139,7 +139,7 @@ class _DebugScreenState extends State<DebugScreen> {
                   SelectableText(
                       config.toString(),
                       style: TextStyle(
-                        fontSize: textFontSize * fontSize.factor,
+                        fontSize: textFontSize * size.font_factor,
                       ),
                   ),
                 ]),

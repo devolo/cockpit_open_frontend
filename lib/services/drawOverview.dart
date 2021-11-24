@@ -32,7 +32,6 @@ class DrawOverview extends CustomPainter {
   bool showingSpeeds = false; //true: draw the device circles with speeds as content. false: draw device circles with icons as content.
   bool connect = false;
   int hoveredDevice = 999; // displays wich device index is hovered, if no device is hovered the index is set to 999
-
   late TextStyle _textStyle;
   late TextStyle _textNameStyle;
   late TextStyle _speedTextStyle;
@@ -44,13 +43,12 @@ class DrawOverview extends CustomPainter {
   late TextPainter _textPainter;
   late TextPainter _speedTextPainter;
   late TextPainter _iconPainter;
-  late double screenWidth;
-  late double screenHeight;
+  late double canvasWidth;
+  late double canvasHeight;
+  late double canvasGridWidth;
+  late double canvasGridHeight;
   late int numberFoundDevices;
-  late double _screenGridWidth;
-  late double _screenGridHeight;
   late SizeModel sizes;
-  late double windowScaleSize;
 
   DrawOverview(BuildContext context, NetworkList foundDevices, bool showSpeeds, int pivot, int hoveredDeviceIndex) {
     logger.d("[draw Overview] DrawNetworkOverview -> ");
@@ -74,25 +72,10 @@ class DrawOverview extends CustomPainter {
     productNameTopPadding = 20 * sizes.font_factor;
     userNameTopPadding = 15;
 
-    screenWidth = MediaQuery.of(context).size.width;
-    screenHeight = MediaQuery.of(context).size.height;
-
-    if( screenWidth < 883 && screenHeight < 670 ){
-      windowScaleSize = 0.8;
-      hnCircleRadius *= windowScaleSize;
-      laptopCircleRadius *= windowScaleSize;
-    }
-    else{
-      windowScaleSize = 1;
-    }
-
-    _screenGridWidth = (screenWidth / 5);
-    _screenGridHeight = (screenHeight / 10);
-
     _textStyle = TextStyle(
       color: drawingColor,
       fontFamily: 'OpenSans',
-      fontSize: 14 * windowScaleSize,
+      fontSize: 14,
       backgroundColor: backgroundColor,
       fontWeight: FontWeight.bold,
     );
@@ -100,14 +83,14 @@ class DrawOverview extends CustomPainter {
     _textNameStyle = TextStyle(
       color: drawingColor,
       fontFamily: 'OpenSans',
-      fontSize: 14 * windowScaleSize,
+      fontSize: 14,
       backgroundColor: backgroundColor,
     );
 
     _speedTextStyle = TextStyle(
       color: backgroundColor,
       fontFamily: 'OpenSans',
-      fontSize: 15 * windowScaleSize,
+      fontSize: 15,
       fontWeight: FontWeight.bold,
     );
 
@@ -148,13 +131,13 @@ class DrawOverview extends CustomPainter {
 
     _arrowPaint = Paint()
       ..color = drawingColor
-      ..strokeWidth = 3.0 * windowScaleSize
+      ..strokeWidth = 3.0
       ..style = PaintingStyle.stroke;
 
   }
 
   void drawDevicesNotFound(Canvas canvas, Offset offset) {
-    Offset absoluteOffset = Offset(offset.dx + (screenWidth / 2), offset.dy + (screenHeight / 2));
+    Offset absoluteOffset = Offset(offset.dx + (canvasWidth / 2), offset.dy + (canvasHeight / 2));
     var textSpan;
 
    textSpan = TextSpan(
@@ -179,16 +162,16 @@ class DrawOverview extends CustomPainter {
     Offset toOffset = getLaptopIconOffset(localIndex, _deviceIconOffsetList);
 
     if ((showingSpeeds && localIndex != pivotDeviceIndex) || localIndex == hoveredDevice) {
-      drawIcon(canvas, toOffset, DevoloIcons.ic_laptop_24px_circled,laptopCircleRadius*2 * windowScaleSize,drawingColor, false);
+      drawIcon(canvas, toOffset, DevoloIcons.ic_laptop_24px_circled,laptopCircleRadius*2,drawingColor, false);
     } else {
-      drawIcon(canvas, toOffset, DevoloIcons.ic_laptop_24px_filled,laptopCircleRadius*2 * windowScaleSize,drawingColor, false);
+      drawIcon(canvas, toOffset, DevoloIcons.ic_laptop_24px_filled,laptopCircleRadius*2,drawingColor, false);
     }
   }
 
   void drawDeviceConnection(Canvas canvas, Offset deviceOffset, Map color) {
 
-    Offset absoluteOffset = Offset(deviceOffset.dx + (screenWidth / 2), deviceOffset.dy + (screenHeight / 2));
-    Offset absolutePivotOffset = Offset(_deviceIconOffsetList.elementAt(pivotDeviceIndex).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(pivotDeviceIndex).dy + (screenHeight / 2));
+    Offset absoluteOffset = deviceOffset;
+    Offset absolutePivotOffset = _deviceIconOffsetList.elementAt(pivotDeviceIndex);
 
     double shiftFactor = 3; // how much space between lines
 
@@ -202,11 +185,11 @@ class DrawOverview extends CustomPainter {
 
     var angle = atan2(lineDirectionOrtho.dy, lineDirectionOrtho.dx);
 
-    Offset absoluteOffsetRx = Offset(deviceOffset.dx + (screenWidth / 2) + shiftFactor * cos(angle), deviceOffset.dy + (screenHeight / 2) + shiftFactor * sin(angle));
-    Offset absolutePivotOffsetRx = Offset(_deviceIconOffsetList.elementAt(pivotDeviceIndex).dx + (screenWidth / 2) + shiftFactor * cos(angle), _deviceIconOffsetList.elementAt(pivotDeviceIndex).dy + (screenHeight / 2) + shiftFactor * sin(angle));
+    Offset absoluteOffsetRx = Offset(deviceOffset.dx + shiftFactor * cos(angle), deviceOffset.dy + shiftFactor * sin(angle));
+    Offset absolutePivotOffsetRx = Offset(_deviceIconOffsetList.elementAt(pivotDeviceIndex).dx + shiftFactor * cos(angle), _deviceIconOffsetList.elementAt(pivotDeviceIndex).dy + shiftFactor * sin(angle));
 
-    Offset absoluteOffsetTx = Offset(deviceOffset.dx + (screenWidth / 2) - shiftFactor * cos(angle), deviceOffset.dy + (screenHeight / 2) - shiftFactor * sin(angle));
-    Offset absolutePivotOffsetTx = Offset(_deviceIconOffsetList.elementAt(pivotDeviceIndex).dx + (screenWidth / 2) - shiftFactor * cos(angle), _deviceIconOffsetList.elementAt(pivotDeviceIndex).dy + (screenHeight / 2) - shiftFactor * sin(angle));
+    Offset absoluteOffsetTx = Offset(deviceOffset.dx - shiftFactor * cos(angle), deviceOffset.dy - shiftFactor * sin(angle));
+    Offset absolutePivotOffsetTx = Offset(_deviceIconOffsetList.elementAt(pivotDeviceIndex).dx - shiftFactor * cos(angle), _deviceIconOffsetList.elementAt(pivotDeviceIndex).dy - shiftFactor * sin(angle));
 
     drawArrow(canvas, absoluteOffsetRx, absolutePivotOffsetRx, color['rx']);
     drawArrow(canvas, absolutePivotOffsetTx, absoluteOffsetTx, color['tx']);
@@ -277,7 +260,7 @@ class DrawOverview extends CustomPainter {
 
   // circular border
   void drawDeviceIconBorder(Canvas canvas, int deviceIndex) {
-    Offset absoluteOffset = Offset(_deviceIconOffsetList.elementAt(deviceIndex).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(deviceIndex).dy + (screenHeight / 2));
+    Offset absoluteOffset = _deviceIconOffsetList.elementAt(deviceIndex);
 
     if (showingSpeeds && deviceIndex != pivotDeviceIndex) {
       canvas.drawCircle(absoluteOffset, hnCircleRadius, _speedCircleAreaPaint); //the inner filling of a device circle, when showing speeds
@@ -287,7 +270,7 @@ class DrawOverview extends CustomPainter {
   }
 
   void drawDeviceIconContent(Canvas canvas, int deviceIndex) {
-    Offset absoluteCenterOffset = Offset(_deviceIconOffsetList.elementAt(deviceIndex).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(deviceIndex).dy + (screenHeight / 2));
+    Offset absoluteCenterOffset = _deviceIconOffsetList.elementAt(deviceIndex);
     Offset lineStart = Offset(absoluteCenterOffset.dx - hnCircleRadius + 10, absoluteCenterOffset.dy - 5);
     Offset lineEnd = Offset(absoluteCenterOffset.dx + hnCircleRadius - 10, absoluteCenterOffset.dy - 5);
 
@@ -331,7 +314,7 @@ class DrawOverview extends CustomPainter {
       );
       final mbpsTextSpan = TextSpan(
         text: "Mbps",
-        style: TextStyle(color: backgroundColor, fontSize: 12 * windowScaleSize),
+        style: TextStyle(color: backgroundColor, fontSize: 12),
       );
 
       canvas.drawLine(lineStart, lineEnd, _speedLinePaint);
@@ -352,7 +335,7 @@ class DrawOverview extends CustomPainter {
         Offset iconPosition = Offset(absoluteCenterOffset.dx, absoluteCenterOffset.dy);
 
         IconData circledDeviceIcon = getCircledIconForDeviceType(_deviceList.elementAt(deviceIndex).typeEnum);
-        _iconPainter.text = TextSpan(text: String.fromCharCode(circledDeviceIcon.codePoint), style: TextStyle(fontSize: 70.0 * windowScaleSize, fontFamily: circledDeviceIcon.fontFamily, color: drawingColor));
+        _iconPainter.text = TextSpan(text: String.fromCharCode(circledDeviceIcon.codePoint), style: TextStyle(fontSize: 70.0, fontFamily: circledDeviceIcon.fontFamily, color: drawingColor));
         _iconPainter.layout();
         _iconPainter.paint(canvas, Offset(iconPosition.dx - _iconPainter.width/2, iconPosition.dy - _iconPainter.height/2));
       }
@@ -362,7 +345,7 @@ class DrawOverview extends CustomPainter {
         Offset iconPosition = Offset(absoluteCenterOffset.dx, absoluteCenterOffset.dy);
 
         IconData circledDeviceIcon = getFilledIconForDeviceType(_deviceList.elementAt(deviceIndex).typeEnum);
-        _iconPainter.text = TextSpan(text: String.fromCharCode(circledDeviceIcon.codePoint), style: TextStyle(fontSize: 70.0 * windowScaleSize, fontFamily: circledDeviceIcon.fontFamily, color: drawingColor));
+        _iconPainter.text = TextSpan(text: String.fromCharCode(circledDeviceIcon.codePoint), style: TextStyle(fontSize: 70.0, fontFamily: circledDeviceIcon.fontFamily, color: drawingColor));
         _iconPainter.layout();
         _iconPainter.paint(canvas, Offset(iconPosition.dx - _iconPainter.width/2, iconPosition.dy - _iconPainter.height/2));
       }
@@ -370,7 +353,7 @@ class DrawOverview extends CustomPainter {
         Offset iconPosition = Offset(absoluteCenterOffset.dx, absoluteCenterOffset.dy);
 
         IconData circledDeviceIcon = getCircledIconForDeviceType(_deviceList.elementAt(deviceIndex).typeEnum);
-        _iconPainter.text = TextSpan(text: String.fromCharCode(circledDeviceIcon.codePoint), style: TextStyle(fontSize: 70.0 * windowScaleSize, fontFamily: circledDeviceIcon.fontFamily, color: drawingColor));
+        _iconPainter.text = TextSpan(text: String.fromCharCode(circledDeviceIcon.codePoint), style: TextStyle(fontSize: 70.0, fontFamily: circledDeviceIcon.fontFamily, color: drawingColor));
         _iconPainter.layout();
         _iconPainter.paint(canvas, Offset(iconPosition.dx - _iconPainter.width/2, iconPosition.dy - _iconPainter.height/2));
       }
@@ -379,8 +362,7 @@ class DrawOverview extends CustomPainter {
   }
 
   void drawDeviceName(Canvas canvas, String pName, String uName, Offset offset, [Size? size]) {
-    Offset absoluteOffset = Offset(offset.dx + (screenWidth / 2), offset.dy + (screenHeight / 2));
-
+    Offset absoluteOffset = offset;
     final userNameTextSpan = TextSpan(
       text: (uName.length > 0 ? uName : ""),
       style: _textStyle.apply(),
@@ -436,15 +418,15 @@ class DrawOverview extends CustomPainter {
 
 
   void drawMainIcon(Canvas canvas, icon) {
-    Offset absoluteRouterOffset = Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2));
-    Offset absoluteAreaOffset = Offset(screenWidth / 2, -4.5 * _screenGridHeight + (screenHeight / 2) + 30);
-    Offset absoluteRouterDeviceOffset = Offset(_deviceIconOffsetList.elementAt(0).dx + (screenWidth / 2), _deviceIconOffsetList.elementAt(0).dy + (screenHeight / 2));
+    Offset absoluteRouterOffset = Offset(canvasWidth / 2, canvasGridHeight * -45 + canvasHeight/2);
+    Offset absoluteAreaOffset = Offset(canvasWidth / 2, canvasGridHeight * -45 + 30 + canvasHeight/2);
+    Offset absoluteRouterDeviceOffset = _deviceIconOffsetList.elementAt(0);
     var internetTextSpan = TextSpan(
       text: S.current.internet,
       style: _textNameStyle.apply(),
     );
 
-    _iconPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: 60.0 * windowScaleSize, fontFamily: icon.fontFamily, color: drawingColor));
+    _iconPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: 60.0, fontFamily: icon.fontFamily, color: drawingColor));
     _iconPainter.layout();
     _iconPainter.paint(canvas, Offset(absoluteRouterOffset.dx - (_iconPainter.width / 2), absoluteRouterOffset.dy));
 
@@ -477,89 +459,99 @@ class DrawOverview extends CustomPainter {
     _iconPainter.paint(canvas, Offset(offset.dx , offset.dy ));
   }
 
-  void fillDeviceIconPositionList() {
+  void fillDeviceIconPositionList(Size size) {
     _deviceIconOffsetList.clear();
-    _deviceIconOffsetList = getDeviceIconOffsetList(_deviceList.length);
+    _deviceIconOffsetList = getDeviceIconOffsetList(_deviceList.length, size.width, size.height);
 
   }
 
-  Offset getLaptopIconOffset(localIndex,deviceIconOffsetList){
-
-    return Offset(localIndex == -1 ? 0 : deviceIconOffsetList.elementAt(localIndex).dx + (screenWidth / 2) + hnCircleRadius/2, localIndex == -1 ? 0 :deviceIconOffsetList.elementAt(localIndex).dy + (screenHeight / 2) - hnCircleRadius);
+  Offset getLaptopIconOffset(int localIndex,List<Offset>deviceIconOffsetList){
+    return Offset(localIndex == -1 ? 0 : deviceIconOffsetList.elementAt(localIndex).dx + hnCircleRadius/2, localIndex == -1 ? 0 :deviceIconOffsetList.elementAt(localIndex).dy - hnCircleRadius);
   }
 
-  List<Offset> getDeviceIconOffsetList(int numberDevices) {
+  List<Offset> getDeviceIconOffsetListVariable() {
+    return _deviceIconOffsetList;
+  }
+
+
+  List<Offset> getDeviceIconOffsetList(int numberDevices, double canvasWidth, double canvasHeight) {
+    double canvasGridWidth = canvasWidth/100;
+    double canvasGridHeight = canvasHeight/100;
     List<Offset> deviceIconOffsetList = [];
 
-    deviceIconOffsetList.add(Offset(0.0, _screenGridHeight - _screenGridHeight * 3.0));
+    //coordinate and value explanation
+    //Offset.dx = (value * canvasGridWidth) + canvasWidth/2 -> where value = [-50,50] and canvasWidth/2 moves the origin of the coordinate system to the center
+    //Offset.dy = (value * canvasGridHeight) + canvasHeight/2 -> where value = [-50,50] and canvasHeight/2 moves the origin of the coordinate system to the center
+
+    deviceIconOffsetList.add(Offset(0.0 + canvasWidth/2, canvasGridHeight * -20 + canvasHeight/2));
 
     switch (numberDevices) {
       case 2:
         {
-          deviceIconOffsetList.add(Offset(0.0, 1.5 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(0.0 + canvasWidth/2, canvasGridHeight * 15 + canvasHeight/2));
         }
         break;
       case 3:
         {
-          deviceIconOffsetList.add(Offset(0.7 * _screenGridWidth, 1.5 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-0.7 * _screenGridWidth, 1.5 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(14 * canvasGridWidth + canvasWidth/2, (canvasGridHeight * 30) + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-14 * canvasGridWidth + canvasWidth/2, (canvasGridHeight * 30) + canvasHeight/2));
         }
         break;
       case 4:
         {
-          deviceIconOffsetList.add(Offset(1.2 * _screenGridWidth, (deviceIconOffsetList[0].dy + 2.0 * _screenGridHeight) /2));
-          deviceIconOffsetList.add(Offset(0.0, 2.0 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-1.2 * _screenGridWidth, (deviceIconOffsetList[0].dy + 2.0 * _screenGridHeight) /2));
+          deviceIconOffsetList.add(Offset(24 * canvasGridWidth + canvasWidth/2, canvasGridHeight * 0 + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(0.0 + canvasWidth/2, canvasGridHeight * 20 + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-24 * canvasGridWidth + canvasWidth/2, canvasGridHeight * 0 + canvasHeight/2));
         }
         break;
       case 5:
         {
-          deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, -1 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(0.7 * _screenGridWidth, 1.8 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-0.7 * _screenGridWidth, 1.8 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, -1 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(28 * canvasGridWidth + canvasWidth/2, -10 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(14 * canvasGridWidth + canvasWidth/2, 18 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-14 * canvasGridWidth + canvasWidth/2, 18 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-28 * canvasGridWidth + canvasWidth/2, -10 * canvasGridHeight + canvasHeight/2));
         }
         break;
       case 6:
         {
-          deviceIconOffsetList.add(Offset(1.6 * _screenGridWidth, -1.2 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(1.2 * _screenGridWidth, 1 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(0.0, 2 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-1.2 * _screenGridWidth, 1 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-1.6 * _screenGridWidth, -1.2 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(32 * canvasGridWidth + canvasWidth/2, -12 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(24 * canvasGridWidth + canvasWidth/2, 10 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(0.0 + canvasWidth/2, 20 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-24 * canvasGridWidth + canvasWidth/2, 10 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-32 * canvasGridWidth + canvasWidth/2, -12 * canvasGridHeight + canvasHeight/2));
         }
         break;
       case 7:
         {
-          deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, -3.2 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, -0.8 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(0.7 * _screenGridWidth, 1.8 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-0.7 * _screenGridWidth, 1.8 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, -0.8* _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, -3.2 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(28 * canvasGridWidth + canvasWidth/2, -32 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(28 * canvasGridWidth + canvasWidth/2, -8 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(14 * canvasGridWidth + canvasWidth/2, 18 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-14 * canvasGridWidth + canvasWidth/2, 18 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-28 * canvasGridWidth + canvasWidth/2, -8* canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-28 * canvasGridWidth + canvasWidth/2, -32 * canvasGridHeight + canvasHeight/2));
         }
         break;
       case 8:
         {
-          deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, -3.2 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, -0.8 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(0.9 * _screenGridWidth, 1 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(0.0, 2 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-0.9 * _screenGridWidth, 1 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, -0.8* _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, -3.2 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(28 * canvasGridWidth + canvasWidth/2, -32 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(28 * canvasGridWidth + canvasWidth/2, -8 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(18 * canvasGridWidth + canvasWidth/2, 10 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(0.0 + canvasWidth/2, 20 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-18 * canvasGridWidth + canvasWidth/2, 10 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-28 * canvasGridWidth + canvasWidth/2, -8* canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-28 * canvasGridWidth + canvasWidth/2, -32 * canvasGridHeight + canvasHeight/2));
         }
         break;
       default:
         {
           //ToDo more than 8 not supported, yet
-          deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, -3 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(1.6 * _screenGridWidth, -1 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(1.4 * _screenGridWidth, 1 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(0.0, 1.5 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, 1 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-1.6 * _screenGridWidth, -1 * _screenGridHeight));
-          deviceIconOffsetList.add(Offset(-1.4 * _screenGridWidth, -3 * _screenGridHeight));
+          deviceIconOffsetList.add(Offset(28 * canvasGridWidth + canvasWidth/2, -30 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(32 * canvasGridWidth + canvasWidth/2, -10 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(28 * canvasGridWidth + canvasWidth/2, 10 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(0.0 + canvasWidth/2, 15 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-28 * canvasGridWidth + canvasWidth/2, 10 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-32 * canvasGridWidth + canvasWidth/2, -10 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-28 * canvasGridWidth + canvasWidth/2, -30 * canvasGridHeight + canvasHeight/2));
         }
         break;
     }
@@ -647,7 +639,14 @@ class DrawOverview extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    fillDeviceIconPositionList();
+
+    canvasWidth = size.width;
+    canvasHeight = size.height;
+
+    canvasGridHeight = canvasHeight / 100;
+    canvasGridWidth = canvasWidth / 100;
+
+    fillDeviceIconPositionList(size);
 
     getConnection();
     connect = connected;

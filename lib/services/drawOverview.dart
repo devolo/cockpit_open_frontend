@@ -66,8 +66,9 @@ class DrawOverview extends CustomPainter {
     sizes = context.watch<SizeModel>();
 
     hnCircleRadius *= sizes.icon_factor;
+
+
     //completeCircleRadius *= fontSize.factor_icon;
-    hnCircleShadowRadius *= sizes.icon_factor;
 
     productNameTopPadding = 20 * sizes.font_factor;
     userNameTopPadding = 15;
@@ -221,11 +222,11 @@ class DrawOverview extends CustomPainter {
       collisionAvoidPadding = standardPadding;
     }
 
-    if(sin(angle) < -0.3 && sin(angle) >= -1){  // Arrow to top - As the arrow points to the top, we need no extra padding between the start of the arrow and the icon, as there will be no name collision.
+    if(sin(angle) < -0.4 && sin(angle) >= -1){  // Arrow to top - As the arrow points to the top, we need no extra padding between the start of the arrow and the icon, as there will be no name collision.
       paddingEnd = hnCircleRadius + getDeviceNameAndTypeHeight() + collisionAvoidPadding;
       paddingStart = hnCircleRadius + standardPadding + headLength + 5;
     }
-    else if((sin(angle) > 0.3 && sin(angle) <= 1)){ // Arrow to bottom - As the arrow points to the bottom, we need no extra padding between the arrow cross and the icon, as there will be no name collision.
+    else if((sin(angle) > 0.4 && sin(angle) <= 1)){ // Arrow to bottom - As the arrow points to the bottom, we need no extra padding between the arrow cross and the icon, as there will be no name collision.
       paddingEnd = hnCircleRadius + standardPadding;
       paddingStart = hnCircleRadius + getDeviceNameAndTypeHeight() + collisionAvoidPadding + headLength + 5;
     }
@@ -234,9 +235,10 @@ class DrawOverview extends CustomPainter {
       paddingStart = hnCircleRadius + collisionAvoidPadding + headLength + 5;
     }
 
-    if(paddingStart + paddingEnd > distance){
-      paddingEnd = paddingEnd - collisionAvoidPadding + distance/16;
-      paddingStart = paddingStart - collisionAvoidPadding + distance/16;
+    while(paddingStart + paddingEnd > distance){
+      paddingEnd -= distance/20;
+      paddingStart -= distance/20;
+
     }
 
     dynamic startDx = start.dx + cos(angle) * paddingStart;
@@ -449,9 +451,9 @@ class DrawOverview extends CustomPainter {
 
   void drawIcon(Canvas canvas, Offset offset, icon, double size, Color color, [bool transparentBackground = true]) {
 
-    if(transparentBackground == false){
-      Offset offsetBackground = Offset(offset.dx + size/2,offset.dy + size/2);
-      canvas.drawCircle(offsetBackground, (size/2)-1,  _circleAreaPaint);
+    if(transparentBackground == false){   //draws circle behind icon
+      Offset offsetBackground = Offset(offset.dx + (size*sizes.icon_factor)/2,offset.dy + (size*sizes.icon_factor)/2);
+      canvas.drawCircle(offsetBackground, ((size*sizes.icon_factor)/2),  _circleAreaPaint);
     }
 
     _iconPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: size, fontFamily: icon.fontFamily, color: color));

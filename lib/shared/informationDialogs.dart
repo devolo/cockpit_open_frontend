@@ -346,7 +346,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 5.0),
-                              child: SelectableText(hitDevice.mac),
+                              child: (hitDevice.networkType == "wifi:other" && hitDevice.mac[0]=="0" && hitDevice.mac[1]=="1") ? null : SelectableText(hitDevice.mac),
                             ),
                           ]),
                         ],

@@ -18,6 +18,7 @@ import 'package:cockpit_devolo/shared/app_fontSize.dart';
 import 'package:cockpit_devolo/shared/buttons.dart';
 import 'package:cockpit_devolo/shared/devolo_icons.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
+import 'package:cockpit_devolo/shared/informationDialogWithoutAction.dart';
 import 'package:cockpit_devolo/shared/informationDialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -846,7 +847,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
     final socket = Provider.of<DataHand>(context, listen: false);
 
     //openDialog
-    deviceInformationDialog(context, dev, myFocusNode, socket, size);
+    deviceInformationDialogWithoutAction(context, dev, myFocusNode, socket, size);
 
   }
 

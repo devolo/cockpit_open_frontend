@@ -122,7 +122,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
               Expanded(child: Column(
                 mainAxisAlignment : MainAxisAlignment.center,
                 children: [
-                  Row(
+                  Padding(padding: EdgeInsets.only(top: 20), child:Row(
                       mainAxisAlignment : MainAxisAlignment.center,
                       children:[
                         Text(
@@ -172,7 +172,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                             ]
                           ],
                         )
-                      ]),
+                      ])),
                   Expanded(child:
                     LayoutBuilder(builder: (context, constraints) {
                       double height = constraints.maxHeight;
@@ -206,8 +206,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
                               top: _Painter.getDeviceIconOffsetList(_deviceList
                                   .getDeviceList()
                                   .length, width, height)[i].dy +
-                                  _Painter.hnCircleRadius +
-                                  _Painter.userNameTopPadding,
+                                  _Painter.deviceCircleRadius +
+                                  _Painter.getDeviceNameHeight(_deviceList.getDeviceList()[i].name),
                               child: PopupMenuButton(
                                 offset: Offset(0, 40),
                                 color: backgroundColor,
@@ -522,14 +522,15 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                     .getDeviceList()
                                     .length, width, height))
                                 .dy,
-                            child: IconButton(
-                              tooltip: S
-                                  .of(context)
-                                  .thisPc,
-                              iconSize: _Painter.laptopCircleRadius,
-                              icon: Icon(null),
-                              onPressed: null,
-                              mouseCursor: MouseCursor.defer,
+                            child: Container(
+                              height:_Painter.laptopCircleRadius*2,
+                              width:_Painter.laptopCircleRadius*2,
+                              child: Tooltip( message: S
+                                   .of(context)
+                                  .thisPc),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(Radius.circular(20))
+                              ),
                             ),
                           ),
                       ],);
@@ -621,7 +622,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
       Offset absoluteOffset = deviceIconOffset;
 
       //test if device got hovered
-      if (_Painter.isPointInsideCircle(details.localPosition, absoluteOffset, _Painter.hnCircleRadius)) {
+      if (_Painter.isPointInsideCircle(details.localPosition, absoluteOffset, _Painter.deviceCircleRadius)) {
 
         // ignore when item is already hovered.
         if (!(hoveredDevice == index)) {

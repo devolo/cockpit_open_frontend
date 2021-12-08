@@ -152,6 +152,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Voyant lumineux LED clignote pendant deux minutes."),
         "ignoreUpdates": MessageLookupByLibrary.simpleMessage(
             "Ignorer les mises à jour des apparails"),
+        "incompleteDeviceInfoText": MessageLookupByLibrary.simpleMessage(
+            "Cette unité ne peut pas être atteinte via le protocole IP. Cela indique une configuration réseau défectueuse, peut-être que l\'appareil n\'a pas reçu d\'adresse IP de votre routeur Internet. Certaines fonctions ne sont donc pas disponibles."),
         "internet": MessageLookupByLibrary.simpleMessage("Internet"),
         "internetCentered": MessageLookupByLibrary.simpleMessage(
             "Centrer la vue d´ensamble sur l´internet"),

@@ -148,6 +148,7 @@
   "version": "Firmware-Version",
   "ipAddress": "IP-Adresse",
   "macAddress": "MAC-Adresse",
+  "incompleteDeviceInfoText": "Dieses Gerät kann nicht über das IP-Protokoll erreicht werden. Dies deutet auf eine fehlerhafte Netwerkkonfiguration hin, vielleicht hat das Gerät keine IP-Adresse von Ihrem Internet Router erhalten. Einige Funktionen sind daher nicht verfügbar.",
   "searchManual": "Suche nach Handbuch",
 
   "@_OVERVIEW_PAGE": {

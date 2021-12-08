@@ -42,9 +42,10 @@ class Device extends ChangeNotifier {
   String ipConfigMac = "";
   String ipConfigAddress = "";
   String ipConfigNetmask = "";
+  bool incomplete = false;
 
 
-  Device(String type, String networkType, String name, String mac, String ip, String MT, String serialno, String version, String versionDate, atRouter, isLocal, bool webinterfaceAvailable, String webinterfaceURL, bool identifyDeviceAvailable, selectedVDSL, supportedVDSL, modeVDSL, List<int> disableLeds, List<int> disableStandby, List<int> disableTraffic, String ipConfigMac, String ipConfigAddress, String ipConfigNetmask) {
+  Device(String type, String networkType, String name, String mac, String ip, String MT, String serialno, String version, String versionDate, atRouter, isLocal, bool webinterfaceAvailable, String webinterfaceURL, bool identifyDeviceAvailable, selectedVDSL, supportedVDSL, modeVDSL, List<int> disableLeds, List<int> disableStandby, List<int> disableTraffic, String ipConfigMac, String ipConfigAddress, String ipConfigNetmask, bool incomplete) {
     this.typeEnum = getDeviceType(type);
     this.type = type;
     this.networkType = networkType;
@@ -67,6 +68,7 @@ class Device extends ChangeNotifier {
     this.ipConfigMac = ipConfigMac;
     this.ipConfigAddress = ipConfigAddress;
     this.ipConfigNetmask = ipConfigNetmask;
+    this.incomplete = incomplete;
 
     if(version.contains("_")) {
       this.version = version.substring(0,version.indexOf("_"));
@@ -108,6 +110,7 @@ class Device extends ChangeNotifier {
     String ipConfigMac = "";
     String ipConfigAddress = "";
     String ipConfigNetmask = "";
+    bool incomplete = false;
 
     if (element.getElement('actions') != null) {
 
@@ -175,6 +178,11 @@ class Device extends ChangeNotifier {
       //logger.i("${element.getElement('name').text}: ${selected_VDSL} , ${supported_VDSL}");
     }
 
+    //incomplete = vdslCompat.findAllElements("item").toList().firstWhere((element) => element.innerText.contains("mode"),).lastElementChild!.innerText;
+    if(element.getElement('incomplete') == null || element.getElement('incomplete')!.text == 1)
+      incomplete = true;
+
+
     Device retDevice = Device(
       element.getElement('type')!.text,
       networkType,
@@ -198,7 +206,8 @@ class Device extends ChangeNotifier {
       disable_traffic,
       ipConfigMac,
       ipConfigAddress,
-      ipConfigNetmask
+      ipConfigNetmask,
+      incomplete,
     );
 
     if (element.getElement('remotes') != null) {

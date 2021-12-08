@@ -70,10 +70,13 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                       height: 15,
                       width: 600.0 * fontSize.font_factor,
                     ),
+                    if(hitDevice.incomplete)
+                      Text(S.of(context).incompleteDeviceInfoText),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Table(
                         children: [
+              if(!hitDevice.incomplete)...[
                           TableRow(children: [
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -332,6 +335,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                               child: SelectableText(hitDevice.ip),
                             ),
                           ]),
+                          ],
                           TableRow(children: [
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 5.0),

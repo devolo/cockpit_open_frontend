@@ -148,6 +148,7 @@
   "version": "Firmware version",
   "ipAddress": "IP address",
   "macAddress": "MAC address",
+  "incompleteDeviceInfoText": "This device cannot be reached via the IP protocol. This indicates a faulty network configuration, perhaps the device has not received an IP address from your Internet router. Some functions are therefore not available.",
   "searchManual": "Search for manual",
 
   "@_OVERVIEW_PAGE": {

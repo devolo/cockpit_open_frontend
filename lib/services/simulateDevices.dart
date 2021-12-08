@@ -57,7 +57,8 @@ class DeviceSimulator {
         [1,1], // Disable traffic
         "", // IP config Mac
         "", // IP config address
-        "");  // IP config netmask
+        "",
+        false);  // IP config netmask
 
     return device;
   }

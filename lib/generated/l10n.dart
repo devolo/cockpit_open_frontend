@@ -1110,6 +1110,16 @@ class S {
     );
   }
 
+  /// `This device cannot be reached via the IP protocol. This indicates a faulty network configuration, perhaps the device has not received an IP address from your Internet router. Some functions are therefore not available.`
+  String get incompleteDeviceInfoText {
+    return Intl.message(
+      'This device cannot be reached via the IP protocol. This indicates a faulty network configuration, perhaps the device has not received an IP address from your Internet router. Some functions are therefore not available.',
+      name: 'incompleteDeviceInfoText',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Search for manual`
   String get searchManual {
     return Intl.message(
@@ -1801,7 +1811,7 @@ class S {
   }
 
   /// `(default)`
-  String get standard {
+  String get standart {
     return Intl.message(
       '(default)',
       name: 'standart',

@@ -149,6 +149,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "The light-emitting diode (LED) flashes for two minutes"),
         "ignoreUpdates":
             MessageLookupByLibrary.simpleMessage("Ignore device updates"),
+        "incompleteDeviceInfoText": MessageLookupByLibrary.simpleMessage(
+            "This device cannot be reached via the IP protocol. This indicates a faulty network configuration, perhaps the device has not received an IP address from your Internet router. Some functions are therefore not available."),
         "internet": MessageLookupByLibrary.simpleMessage("Internet"),
         "internetCentered": MessageLookupByLibrary.simpleMessage(
             "Use internet-centered overview"),

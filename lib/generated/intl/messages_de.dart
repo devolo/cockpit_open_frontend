@@ -151,6 +151,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Leuchtdiode (LED) blinkt zwei Minuten lang"),
         "ignoreUpdates": MessageLookupByLibrary.simpleMessage(
             "Ignoriere zukünftige Aktualisierungen (Updates)"),
+        "incompleteDeviceInfoText": MessageLookupByLibrary.simpleMessage(
+            "Dieses Gerät kann nicht über das IP-Protokoll erreicht werden. Dies deutet auf eine fehlerhafte Netwerkkonfiguration hin, vielleicht hat das Gerät keine IP-Adresse von Ihrem Internet Router erhalten. Einige Funktionen sind daher nicht verfügbar."),
         "internet": MessageLookupByLibrary.simpleMessage("Internet"),
         "internetCentered":
             MessageLookupByLibrary.simpleMessage("Internetzentrisch"),
@@ -280,7 +282,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("VDSL Profil 17a"),
         "sisoVdslProfil35b":
             MessageLookupByLibrary.simpleMessage("VDSL Profil 35b"),
-        "standard": MessageLookupByLibrary.simpleMessage("(Standard)"),
+        "standart": MessageLookupByLibrary.simpleMessage("(Standard)"),
         "state": MessageLookupByLibrary.simpleMessage("Update Status"),
         "success": MessageLookupByLibrary.simpleMessage("Erfolgreich"),
         "supportInfoGenerateError": MessageLookupByLibrary.simpleMessage(

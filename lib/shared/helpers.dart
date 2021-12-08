@@ -77,11 +77,11 @@ String getVersionSyntax(){
   if(versionCockpit != "")
     version += versionCockpit;
 
-  if(versionLetterCockpit != "")
-    version += "." + versionLetterCockpit;
-
   if(buildNumberCockpit != "")
-    version += buildNumberCockpit;
+    version += "." + buildNumberCockpit;
+
+  if(versionLetterCockpit != "")
+    version += versionLetterCockpit;
 
   if(dateCockpit != "")
     version += " (" + dateCockpit + ")";

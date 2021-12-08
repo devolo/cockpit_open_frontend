@@ -129,6 +129,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                           _deviceList.getNetworkName(_deviceList.selectedNetworkIndex),
                           style: TextStyle(color: fontColorOnBackground, fontSize: 18 * size.font_factor, fontWeight: FontWeight.w600),
                         ),
+                        if(_deviceList.getNetworkListLength() != 0)
                         PopupMenuButton(
                           offset: Offset(_deviceList.getNetworkName(_deviceList.selectedNetworkIndex).length.toDouble() - 25, 40),
                           color: backgroundColor,
@@ -181,7 +182,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                       return Stack(children: [
                         CustomPaint(
                           painter: _Painter,
-                          child: MouseRegion(
+                          child: (_deviceList.getNetworkListLength() == 0) ? Container() : MouseRegion(       //Disable MouseRegion when no Device is found
                             //cursor: (hoveredDevice != 999) ? SystemMouseCursors.click : MouseCursor.defer,
                             onHover: (details) =>
                             {
@@ -189,6 +190,18 @@ class _OverviewScreenState extends State<OverviewScreen> {
                             },
                           ),
                         ),
+                        if(_deviceList.getNetworkListLength() == 0)
+                          Positioned(
+                            left: _Painter.getCircularProgressIndicatorPosition(width, height).dx,
+                            top: _Painter.getCircularProgressIndicatorPosition(width, height).dy - (_Painter.fontSizeDeviceInfo * size.icon_factor)/2,
+                            child: SizedBox(
+                                width: _Painter.fontSizeDeviceInfo * size.icon_factor,
+                                height: _Painter.fontSizeDeviceInfo * size.icon_factor,
+                                child: CircularProgressIndicator(
+                                    valueColor: new AlwaysStoppedAnimation<Color>(fontColorOnBackground),
+                                    strokeWidth: _Painter.getScaleSize(0.2, 1, 3, width) * size.icon_factor)
+                            ),
+                          ),
                         for(var i = 0; i < _deviceList
                             .getDeviceList()
                             .length; i++) ...[

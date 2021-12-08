@@ -183,7 +183,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Paramètres réseau"),
         "noDevicesFoundScanningForDevices":
             MessageLookupByLibrary.simpleMessage(
-                "Aucun adapteur trouvé. \n\nRecherche d\'appareils ..."),
+                "Aucun périphérique local trouvé.\nRecherche de périphériques"),
         "noconnection":
             MessageLookupByLibrary.simpleMessage("Erreur de connexion"),
         "noconnectionbody": MessageLookupByLibrary.simpleMessage(

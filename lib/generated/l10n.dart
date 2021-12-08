@@ -1110,10 +1110,10 @@ class S {
     );
   }
 
-  /// `No devices found. \n\nScanning for devices ...`
+  /// `No local device found.\nScanning for devices`
   String get noDevicesFoundScanningForDevices {
     return Intl.message(
-      'No devices found. \n\nScanning for devices ...',
+      'No local device found.\nScanning for devices',
       name: 'noDevicesFoundScanningForDevices',
       desc: '',
       args: [],

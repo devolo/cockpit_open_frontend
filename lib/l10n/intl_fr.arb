@@ -152,7 +152,7 @@
 
   "@_OVERVIEW_PAGE": {
   },
-  "noDevicesFoundScanningForDevices": "Aucun adapteur trouvé. \n\nRecherche d'appareils ...",
+  "noDevicesFoundScanningForDevices": "Aucun périphérique local trouvé.\nRecherche de périphériques",
   "refresh": "Actualiser",
   "yourPc": "Votre PC",
   "thisPc": "Cet PC",

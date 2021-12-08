@@ -151,7 +151,7 @@
 
   "@_OVERVIEW_PAGE": {
   },
-  "noDevicesFoundScanningForDevices": "No devices found. \n\nScanning for devices ...",
+  "noDevicesFoundScanningForDevices": "No local device found.\nScanning for devices",
   "refresh": "Refresh",
   "yourPc": "Your PC",
   "thisPc": "This PC",

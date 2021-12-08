@@ -54,6 +54,7 @@ class DrawOverview extends CustomPainter {
   late double fontSizeSpeedInfo;
   late double connectionLineWidth;
   late double screenWidth;
+  late BuildContext context;
 
   DrawOverview(BuildContext context, NetworkList foundDevices, bool showSpeeds, int pivot, int hoveredDeviceIndex) {
     logger.d("[draw Overview] DrawNetworkOverview -> ");
@@ -65,7 +66,7 @@ class DrawOverview extends CustomPainter {
     selectedNetworkIndex = _providerList.selectedNetworkIndex;
     showingSpeeds = showSpeeds | config['show_speeds_permanent'];
     pivotDeviceIndex = pivot; // ToDo same
-
+    this.context = context;
 
 
     sizes = context.watch<SizeModel>();
@@ -154,22 +155,31 @@ class DrawOverview extends CustomPainter {
   }
 
   void drawDevicesNotFound(Canvas canvas, Offset offset) {
-    Offset absoluteOffset = Offset(offset.dx + (canvasWidth / 2), offset.dy + (canvasHeight / 2));
+    Offset absoluteOffset = Offset(offset.dx, offset.dy);
     var textSpan;
 
    textSpan = TextSpan(
-      text: "No devices found \nScanning for devices ...",
+      text: S.of(context).noDevicesFoundScanningForDevices,
       style: _textStyle,
     );
 
-    final loading = CircularProgressIndicator(
-      valueColor: AlwaysStoppedAnimation<Color>(mainColor),
-    ); // ToDo Progressbar maybe?
+    _textPainter.text = textSpan;
+    _textPainter.layout(minWidth: 0, maxWidth: double.infinity);
+    _textPainter.paint(canvas, Offset(canvasWidth/2 - _textPainter.width/2 , canvasHeight/2 - _textPainter.height/2));
+  }
+
+  Offset getCircularProgressIndicatorPosition(double canvasWidth, canvasHeight) {
+    var textSpan;
+
+    textSpan = TextSpan(
+      text: S.of(context).noDevicesFoundScanningForDevices,
+      style: _textStyle,
+    );
 
     _textPainter.text = textSpan;
-    //_textPainter.text = loading as InlineSpan;
-    _textPainter.layout(minWidth: 0, maxWidth: 250);
-    _textPainter.paint(canvas, Offset(absoluteOffset.dx - (_textPainter.width / 2), absoluteOffset.dy + (deviceCircleRadius + _textPainter.height) - 5));
+    _textPainter.layout(minWidth: 0, maxWidth: double.infinity);
+
+    return Offset(canvasWidth/2 + _textPainter.width/2 , canvasHeight/2 + _textPainter.height/4);
   }
 
   //connection to other Devices like PC

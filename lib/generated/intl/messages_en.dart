@@ -181,7 +181,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Network Settings"),
         "noDevicesFoundScanningForDevices":
             MessageLookupByLibrary.simpleMessage(
-                "No devices found. \n\nScanning for devices ..."),
+                "No local device found.\nScanning for devices"),
         "noconnection":
             MessageLookupByLibrary.simpleMessage("Connection error"),
         "noconnectionbody": MessageLookupByLibrary.simpleMessage(

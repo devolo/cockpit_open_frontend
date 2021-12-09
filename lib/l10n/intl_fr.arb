@@ -236,6 +236,7 @@
   "mimoVdslProfil35a": "VDSL profil 35a",
   "selectProfile": "choisir le profil ...",
   "currentCompatibility": "Compatibilité actuelle",
+  "standart": "(par défaut)",
 
   "@_ADDITIONAL_SETTINGS_DIALOG": {
   },

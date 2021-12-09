@@ -937,7 +937,7 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                               decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.0), color: secondColor.withOpacity(0.2), border: Border.all(color: fontColorOnBackground)),
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton<String>(
-                                    value: _dropVDSL == null? _dropVDSL=hitDeviceVDSLList[0]: _dropVDSL,
+                                    value: _dropVDSL == null? _dropVDSL=selectedProfileList[0]: _dropVDSL,
                                     dropdownColor: backgroundColor,
                                     hint: Text(S.of(context).selectProfile,style: TextStyle(color: fontColorOnMain),),
                                     style: TextStyle(fontSize: fontSizeListTileSubtitle * fontSize.font_factor, color: fontColorOnBackground),
@@ -948,7 +948,12 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                                     items: selectedProfileList.map<DropdownMenuItem<String>>((String value) {
                                       return DropdownMenuItem<String>(
                                         value: value,
-                                        child: new Text(vdslNames[value] == null? value:vdslNames[value]!),
+                                        child: Row(
+                                          children: [
+                                            new Text(vdslNames[value] == null? value:vdslNames[value]!),
+                                            new Text(value == hitDeviceVDSLList[0]? " ${S.of(context).standart}":""),
+                                          ],
+                                        ),
                                       );
                                     }).toList(),
                                     onChanged: (value) {

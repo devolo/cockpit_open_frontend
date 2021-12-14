@@ -301,7 +301,7 @@ void _contactInfoAlert(context, DataHand socket, SizeModel size) {
 }
 
 //!!! add manually confirm/cancel buttons
-void _sendingSupportInformation(context, DataHand socket, SizeModel fontSize) async {
+void _sendingSupportInformation(context, DataHand socket, SizeModel size) async {
   bool dialogIsOpen = true;
 
   showDialog<void>(
@@ -311,15 +311,19 @@ void _sendingSupportInformation(context, DataHand socket, SizeModel fontSize) as
         return AlertDialog(
           title: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 5, 5, 0),
-                child: Container(
-                  alignment: FractionalOffset.topRight,
-                  child: GestureDetector(
-                    child: Icon(DevoloIcons.devolo_UI_cancel_2,
-                        color: fontColorOnBackground,
-                        size: 24 * fontSize.icon_factor),
-                    onTap: () {
+              Container(
+                padding: const EdgeInsets.only(right: 8.0),
+                alignment: FractionalOffset.topRight,
+                child: Material( // needed to have the splashAnimation in foreground
+                  color: Colors.transparent,
+                  child:IconButton(
+                    padding: EdgeInsets.zero,
+                    splashRadius: 15 * size.icon_factor,
+                    iconSize: 24 * size.icon_factor,
+                    alignment: Alignment.center,
+                    color: fontColorOnBackground,
+                    icon: Icon(DevoloIcons.devolo_UI_cancel_2),
+                    onPressed: (){
                       dialogIsOpen = false;
                       Navigator.maybeOf(context)!.pop();
                     },
@@ -331,7 +335,7 @@ void _sendingSupportInformation(context, DataHand socket, SizeModel fontSize) as
           titlePadding: EdgeInsets.all(dialogTitlePadding),
           contentTextStyle: TextStyle(color: fontColorOnBackground,
               decorationColor: fontColorOnBackground,
-              fontSize: dialogContentTextFontSize * fontSize.font_factor),
+              fontSize: dialogContentTextFontSize * size.font_factor),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -372,7 +376,7 @@ void _sendingSupportInformation(context, DataHand socket, SizeModel fontSize) as
         .of(context)
         .supportInfoSendErrorBody1 + "\n\n" + S
         .of(context)
-        .supportInfoSendErrorBody2, fontSize);
+        .supportInfoSendErrorBody2, size);
   }
 }
 
@@ -554,7 +558,7 @@ void _contactSupportAlert(context, DataHand socket, htmlFileName, zipFileName, S
 }
 
 // !!! closeButton is added manually
-void loadingSupportDialog(context, DataHand socket, SizeModel fontSize) async {
+void loadingSupportDialog(context, DataHand socket, SizeModel size) async {
   bool dialogIsOpen = true;
   bool actionSucessfull = true;
 
@@ -565,15 +569,19 @@ void loadingSupportDialog(context, DataHand socket, SizeModel fontSize) async {
         return AlertDialog(
           title: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 5, 5, 0),
-                child: Container(
-                  alignment: FractionalOffset.topRight,
-                  child: GestureDetector(
-                    child: Icon(DevoloIcons.devolo_UI_cancel_2,
-                        color: fontColorOnBackground,
-                        size: 24* fontSize.icon_factor),
-                    onTap: () {
+              Container(
+                padding: const EdgeInsets.only(right: 8.0),
+                alignment: FractionalOffset.topRight,
+                child: Material( // needed to have the splashAnimation in foreground
+                  color: Colors.transparent,
+                  child:IconButton(
+                    padding: EdgeInsets.zero,
+                    splashRadius: 15 * size.icon_factor,
+                    iconSize: 24 * size.icon_factor,
+                    alignment: Alignment.center,
+                    color: fontColorOnBackground,
+                    icon: Icon(DevoloIcons.devolo_UI_cancel_2),
+                    onPressed: (){
                       dialogIsOpen = false;
                       Navigator.pop(context);
                     },
@@ -585,7 +593,7 @@ void loadingSupportDialog(context, DataHand socket, SizeModel fontSize) async {
           titlePadding: EdgeInsets.all(dialogTitlePadding),
           contentTextStyle: TextStyle(color: fontColorOnBackground,
               decorationColor: fontColorOnBackground,
-              fontSize: dialogContentTextFontSize * fontSize.font_factor),
+              fontSize: dialogContentTextFontSize * size.font_factor),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -627,7 +635,7 @@ void loadingSupportDialog(context, DataHand socket, SizeModel fontSize) async {
     }
 
     _contactSupportAlert(
-        context, socket, response["htmlfilename"], response["zipfilename"], fontSize);
+        context, socket, response["htmlfilename"], response["zipfilename"], size);
   }
 
   else

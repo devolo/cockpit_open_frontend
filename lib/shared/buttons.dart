@@ -124,20 +124,22 @@ getCloseButton(context, SizeModel size, [color]) {
     color = fontColorOnBackground;
   }
 
-  return Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: GestureDetector(
-      onTap: () {
-
-      },
-      child: Container(
-        alignment: FractionalOffset.topRight,
-        child: GestureDetector(child: Icon(DevoloIcons.devolo_UI_cancel_2,color: color, size: 24 * size.icon_factor),
-
-          onTap: (){
+  return Container(
+      padding: const EdgeInsets.only(right: 8.0),
+      alignment: FractionalOffset.topRight,
+      child: Material( // needed to have the splashAnimation in foreground
+        color: Colors.transparent,
+        child:IconButton(
+          padding: EdgeInsets.zero,
+          splashRadius: 15 * size.icon_factor,
+          iconSize: 24 * size.icon_factor,
+          alignment: Alignment.center,
+          color: color,
+          icon: Icon(DevoloIcons.devolo_UI_cancel_2),
+          onPressed: (){
             Navigator.pop(context);
-          },),
+          },
+        ),
       ),
-    ),
-  );
+    );
 }

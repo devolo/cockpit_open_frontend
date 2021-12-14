@@ -11,7 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
 
-enum DeviceType { dtLanMini, dtLanPlus, dtWiFiMini, dtWiFiPlus, dtWiFiOnly, dtDINrail, dtUnknown }
+enum DeviceType { dtLanMini, dtLanPlus, dtWiFiMini, dtWiFiPlus, dtWiFiOnly, dtDINrail, dtUnknown, dtRepeater }
 
 //=========================================== Device =========================================
 class Device extends ChangeNotifier {

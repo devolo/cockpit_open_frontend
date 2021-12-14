@@ -37,12 +37,14 @@ void main() {
       DeviceType deviceType3 = getDeviceType("Magic 2 WiFi 2-1");
       DeviceType deviceType4 = getDeviceType("dLAN 1000 mini");
       DeviceType deviceType5 = getDeviceType("1200 DINrail");
+      DeviceType deviceType6 = getDeviceType("WiFi Repeater+ ac");
 
       expect(deviceType1, DeviceType.dtWiFiPlus);
       expect(deviceType2, DeviceType.dtLanPlus);
       expect(deviceType3, DeviceType.dtWiFiPlus);
       expect(deviceType4, DeviceType.dtLanMini);
       expect(deviceType5, DeviceType.dtDINrail);
+      expect(deviceType6, DeviceType.dtRepeater);
     });
   });
 

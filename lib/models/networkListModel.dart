@@ -152,33 +152,30 @@ class NetworkList extends ChangeNotifier{
   void fillNetworkNames(){
     _networkNames.clear();
     String type = "";
-    bool meshDevice = false;
 
     for(int networkIndex = 0; networkIndex < _networkList.length; networkIndex++) {
       for (var device in _networkList[networkIndex]) {
         if (device.type.contains('Magic')) {
           type = "Magic";
-          logger.d("Type: " + type);
           break;
         }
         else if (device.type.contains('dLAN')) {
           type = "dLAN";
-          //logger.i("Type: " + type);
           break;
         }
         else if(device.type.contains('Mesh')){
-          meshDevice = true;
+          type = "Mesh";
+          break;
+        }
+        else if(device.type.toLowerCase().contains('repeater')){
+          type = "Repeater";
+          break;
         }
         else {
           type = "PLC";
-          //logger.i("Type: " + type);
           break;
         }
       }
-
-      // name network "Mesh" if one mesh device exists.
-      if(meshDevice)
-        type = "Mesh";
 
       if(!_networkNames.contains("$type Network")) {
         _networkNames.insert(networkIndex, "$type Network");

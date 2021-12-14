@@ -26,6 +26,7 @@ class DevoloIcons {
   static const IconData ic_battery_charging_full_24px = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData ic_perm_data_setting_24px = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData devolo_icon_ui_adapter_mini_wifi = IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData devolo_icon_ui_repeater_circled = IconData(0xe805, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData logo = IconData(0xe82b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData ic_add_24px = IconData(0xe82c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData ic_refresh_24px = IconData(0xe82e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
@@ -75,6 +76,8 @@ class DevoloIcons {
   static const IconData devolo_icon_ui_din_rail = IconData(0xe85e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData ic_laptop_24px_circled = IconData(0xe860, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData ic_laptop_24px_filled = IconData(0xe861, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData devolo_icon_ui_repeater = IconData(0xe862, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData devolo_icon_ui_repeater_filled = IconData(0xe863, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData devolo_UI_internet = IconData(0xe900, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData devolo_UI_internet_off = IconData(0xe901, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData devolo_UI_wifi = IconData(0xe902, fontFamily: _kFontFam, fontPackage: _kFontPkg);

@@ -126,7 +126,11 @@ Future<void> openFile(var path) async {
 
 DeviceType getDeviceType(String deviceType){
   DeviceType dt;
-  if (deviceType.toLowerCase().contains("wifi")) {
+
+  if(deviceType.toLowerCase().contains("repeater")){
+    return DeviceType.dtRepeater;
+  }
+  else if (deviceType.toLowerCase().contains("wifi")) {
     if (deviceType.toLowerCase().contains("plus") ||
         deviceType.toLowerCase().contains("+")) {
       dt = DeviceType.dtWiFiPlus;

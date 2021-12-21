@@ -88,7 +88,8 @@ bool compareDevice(Device first, Device other){
       listEquals(first.disableStandby,other.disableStandby) &&
       first.ipConfigMac== other.ipConfigMac &&
       first.ipConfigAddress == other.ipConfigAddress &&
-      first.ipConfigNetmask == other.ipConfigNetmask
+      first.ipConfigNetmask == other.ipConfigNetmask &&
+      first.incomplete == other.incomplete
 
   ){
     return true;

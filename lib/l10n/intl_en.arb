@@ -148,7 +148,7 @@
   "version": "Firmware version",
   "ipAddress": "IP address",
   "macAddress": "MAC address",
-  "incompleteDeviceInfoText": "This device cannot be reached via the IP protocol. This indicates a faulty network configuration, perhaps the device has not received an IP address from your Internet router. Some functions are therefore not available.",
+  "incompleteDeviceInfoText": "This device cannot be reached via the IP protocol. This indicates a faulty network configuration, for example, the device may not have received an IP address from your Internet router. Some functions are therefore not available.",
   "searchManual": "Search for manual",
 
   "@_OVERVIEW_PAGE": {
@@ -239,7 +239,7 @@
   "mimoVdslProfil35a": "VDSL Profil 35a",
   "selectProfile": "select profile ...",
   "currentCompatibility": "Current compatibility",
-  "standart": "(default)",
+  "standard": "(default)",
 
   "@_ADDITIONAL_SETTINGS_DIALOG": {
   },

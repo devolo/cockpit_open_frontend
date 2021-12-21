@@ -149,7 +149,7 @@
   "version": "Version firmware ",
   "ipAddress": "Adresse IP ",
   "macAddress": "Adresse MAC ",
-  "incompleteDeviceInfoText": "Cette unité ne peut pas être atteinte via le protocole IP. Cela indique une configuration réseau défectueuse, peut-être que l'appareil n'a pas reçu d'adresse IP de votre routeur Internet. Certaines fonctions ne sont donc pas disponibles.",
+  "incompleteDeviceInfoText": "Cet appareil n'est pas accessible via le protocole IP. Cela indique une mauvaise configuration du réseau, peut-être que l'appareil n'a pas reçu d'adresse IP de votre routeur Internet. Certaines fonctions ne sont donc pas disponibles.",
   "searchManual": "Rechercher le manuel",
 
   "@_OVERVIEW_PAGE": {
@@ -238,7 +238,7 @@
   "mimoVdslProfil35a": "VDSL profil 35a",
   "selectProfile": "choisir le profil ...",
   "currentCompatibility": "Compatibilité actuelle",
-  "standart": "(par défaut)",
+  "standard": "(par défaut)",
 
   "@_ADDITIONAL_SETTINGS_DIALOG": {
   },

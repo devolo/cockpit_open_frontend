@@ -153,7 +153,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ignoreUpdates": MessageLookupByLibrary.simpleMessage(
             "Ignorer les mises à jour des apparails"),
         "incompleteDeviceInfoText": MessageLookupByLibrary.simpleMessage(
-            "Cette unité ne peut pas être atteinte via le protocole IP. Cela indique une configuration réseau défectueuse, peut-être que l\'appareil n\'a pas reçu d\'adresse IP de votre routeur Internet. Certaines fonctions ne sont donc pas disponibles."),
+            "Cet appareil n\'est pas accessible via le protocole IP. Cela indique une mauvaise configuration du réseau, peut-être que l\'appareil n\'a pas reçu d\'adresse IP de votre routeur Internet. Certaines fonctions ne sont donc pas disponibles."),
         "internet": MessageLookupByLibrary.simpleMessage("Internet"),
         "internetCentered": MessageLookupByLibrary.simpleMessage(
             "Centrer la vue d´ensamble sur l´internet"),
@@ -284,7 +284,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("VDSL profil 17a"),
         "sisoVdslProfil35b":
             MessageLookupByLibrary.simpleMessage("VDSL profil 35b"),
-        "standart": MessageLookupByLibrary.simpleMessage("(par défaut)"),
+        "standard": MessageLookupByLibrary.simpleMessage("(par défaut)"),
         "state": MessageLookupByLibrary.simpleMessage("Statut d´actualisation"),
         "success": MessageLookupByLibrary.simpleMessage("Succès"),
         "supportInfoGenerateError": MessageLookupByLibrary.simpleMessage(

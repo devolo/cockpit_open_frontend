@@ -76,7 +76,7 @@ void main() {
     test('Given Device When toRealString is called Then DeviceString returns', () {
       //ARRANGE - Initialisation
       final dev = Device("Magic 1 WiFi 2-1","powerline:ghn", "devolo-045", "B8:BE:F4:00:08:B5", "192.168.178.137", "MT3064", "1807255601000045", "5.3.2", "2020-06-05", false, false, true,"http://192.168.137.213/", true, "siso_vdsl17a", ["siso_vdsl17a", "siso_full", "siso_vdsl35b"], "0",[0,0],[1,1],[0,0],"E4:B9:7A:DE:00:94","192.168.0.1","255.255.255.0", false);
-      final deviceString = "Name: devolo-045,\n type: Magic 1 WiFi 2-1,\n typeEnum: DeviceType.dtWiFiPlus,\n networkType: powerline:ghn,\n mac: B8:BE:F4:00:08:B5,\n ip: 192.168.178.137,\n version: 5.3.2,\n version_date: 2020-06-05,\n MT: MT3064,\n serialno: 1807255601000045,\n remoteDevices: [],\n speeds: {},\n attachedToRouter: false,\n isLocalDevice: false,\n webinterfaceAvailable: true,\n webinterfaceURL: http://192.168.137.213/,\n identifyDeviceAvailable: true,\n UpdateStatus: 0,\n SelectedVDSL: siso_vdsl17a,\n SupportedVDSL: [siso_vdsl17a, siso_full, siso_vdsl35b],\n ModeVDSL: 0,\n disable_leds: [0, 0],\n disable_standby: [1, 1],\n disable_traffic: [0, 0],\n ipConfigMac: E4:B9:7A:DE:00:94,\n ipConfigAddress: 192.168.0.1,\n ipConfigNetmask: 255.255.255.0\n";
+      final deviceString = "Name: devolo-045,\n type: Magic 1 WiFi 2-1,\n typeEnum: DeviceType.dtWiFiPlus,\n networkType: powerline:ghn,\n mac: B8:BE:F4:00:08:B5,\n ip: 192.168.178.137,\n version: 5.3.2,\n version_date: 2020-06-05,\n MT: MT3064,\n serialno: 1807255601000045,\n remoteDevices: [],\n speeds: {},\n attachedToRouter: false,\n isLocalDevice: false,\n webinterfaceAvailable: true,\n webinterfaceURL: http://192.168.137.213/,\n identifyDeviceAvailable: true,\n UpdateStatus: 0,\n SelectedVDSL: siso_vdsl17a,\n SupportedVDSL: [siso_vdsl17a, siso_full, siso_vdsl35b],\n ModeVDSL: 0,\n disable_leds: [0, 0],\n disable_standby: [1, 1],\n disable_traffic: [0, 0],\n ipConfigMac: E4:B9:7A:DE:00:94,\n ipConfigAddress: 192.168.0.1,\n ipConfigNetmask: 255.255.255.0,\n incomplete: false\n";
 
       //ACT - Execute
       String devStr = dev.toRealString();
@@ -88,6 +88,7 @@ void main() {
     test('Given device xmlElement When toRealString is called Then DeviceString returns', () {
       //ARRANGE - Initialisation
       String devXML = '''<?xml version="1.0"?> <item class_id="9" tracking_level="0" version="0">
+					<incomplete>0</incomplete>
 					<type>Magic 1 WiFi 2-1</type>
 					<name>devolo-045</name>
 					<network></network>
@@ -189,7 +190,7 @@ void main() {
       final doc = XmlDocument.parse(devXML);
       final devElement = doc.getElement("item");
       final dev = Device.fromXML(devElement!, false);
-      final deviceString = "Name: devolo-045,\n type: Magic 1 WiFi 2-1,\n typeEnum: DeviceType.dtWiFiPlus,\n networkType: powerline:ghn,\n mac: B8:BE:F4:00:08:B5,\n ip: 192.168.178.137,\n version: 5.3.2,\n version_date: 2020-06-05,\n MT: MT3064,\n serialno: 1807255601000045,\n remoteDevices: [],\n speeds: {},\n attachedToRouter: false,\n isLocalDevice: false,\n webinterfaceAvailable: true,\n webinterfaceURL: 192.168.178.137/,\n identifyDeviceAvailable: true,\n UpdateStatus: 0,\n SelectedVDSL: siso_vdsl17a,\n SupportedVDSL: [siso_vdsl17a, siso_full, siso_vdsl35b],\n ModeVDSL: 0,\n disable_leds: [0, 0],\n disable_standby: [1, 1],\n disable_traffic: [0, 0],\n ipConfigMac: E4:B9:7A:DE:00:94,\n ipConfigAddress: 192.168.0.1,\n ipConfigNetmask: 255.255.255.0\n";
+      final deviceString = "Name: devolo-045,\n type: Magic 1 WiFi 2-1,\n typeEnum: DeviceType.dtWiFiPlus,\n networkType: powerline:ghn,\n mac: B8:BE:F4:00:08:B5,\n ip: 192.168.178.137,\n version: 5.3.2,\n version_date: 2020-06-05,\n MT: MT3064,\n serialno: 1807255601000045,\n remoteDevices: [],\n speeds: {},\n attachedToRouter: false,\n isLocalDevice: false,\n webinterfaceAvailable: true,\n webinterfaceURL: 192.168.178.137/,\n identifyDeviceAvailable: true,\n UpdateStatus: 0,\n SelectedVDSL: siso_vdsl17a,\n SupportedVDSL: [siso_vdsl17a, siso_full, siso_vdsl35b],\n ModeVDSL: 0,\n disable_leds: [0, 0],\n disable_standby: [1, 1],\n disable_traffic: [0, 0],\n ipConfigMac: E4:B9:7A:DE:00:94,\n ipConfigAddress: 192.168.0.1,\n ipConfigNetmask: 255.255.255.0,\n incomplete: false\n";
 
       //ACT - Execute
       String devStr = dev.toRealString();

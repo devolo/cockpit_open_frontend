@@ -126,7 +126,6 @@ class DataHand extends ChangeNotifier {
 
         _networkList.clearNetworkList();
         logger.d('DeviceList found ->');
-        logger.w(document);
         logger.v("new Devicelist");
         var localDeviceList = document.findAllElements('LocalDeviceList').first.findElements('item'); //TODO: TEST call for every
 

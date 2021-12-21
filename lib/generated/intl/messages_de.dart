@@ -282,7 +282,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("VDSL Profil 17a"),
         "sisoVdslProfil35b":
             MessageLookupByLibrary.simpleMessage("VDSL Profil 35b"),
-        "standart": MessageLookupByLibrary.simpleMessage("(Standard)"),
+        "standard": MessageLookupByLibrary.simpleMessage("(Standard)"),
         "state": MessageLookupByLibrary.simpleMessage("Update Status"),
         "success": MessageLookupByLibrary.simpleMessage("Erfolgreich"),
         "supportInfoGenerateError": MessageLookupByLibrary.simpleMessage(

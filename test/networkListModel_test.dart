@@ -573,7 +573,7 @@ void main() {
       var dataratePair8 = new DataratePair(double.parse("2.94719999999999970e+02").round(), double.parse("3.70133333333333326e+02").round());
       device2.speeds = {"B8:BE:F4:31:96:8B": dataratePair7, "B8:BE:F4:31:96:AF": dataratePair8};
 
-      var device7 = new Device("WiFi Repeater+ ac","wifi:other","RepeaterName","B8:BE:F4:0A:AE:B9","192.168.1.134","MT3005","1807044980025550","7.10.2.77","2021-04-01",true,true,true,"169.254.8.113/",true,"mimo_vdsl17a",["mimo_vdsl17a", "siso_full", "siso_vdsl17a", "siso_vdsl35b", "mimo_full", "mimo_vdsl35b"],"1",[1,0],[0,0],[1,1],"","","");
+      var device7 = new Device("WiFi Repeater+ ac","wifi:other","RepeaterName","B8:BE:F4:0A:AE:B9","192.168.1.134","MT3005","1807044980025550","7.10.2.77","2021-04-01",true,true,true,"169.254.8.113/",true,"mimo_vdsl17a",["mimo_vdsl17a", "siso_full", "siso_vdsl17a", "siso_vdsl35b", "mimo_full", "mimo_vdsl35b"],"1",[1,0],[0,0],[1,1],"","","", false);
 
       device1.remoteDevices.add(device2);
       device1.remoteDevices.add(device3);
@@ -843,7 +843,8 @@ void main() {
  disable_traffic: [1, 1],
  ipConfigMac: ,
  ipConfigAddress: ,
- ipConfigNetmask: 
+ ipConfigNetmask: ,
+ incomplete: false
  
 Name: AP-Unten2,
  type: Magic 1 WiFi 2-1,
@@ -871,7 +872,8 @@ Name: AP-Unten2,
  disable_traffic: [1, 1],
  ipConfigMac: ,
  ipConfigAddress: ,
- ipConfigNetmask: 
+ ipConfigNetmask: ,
+ incomplete: false
  
 ''';
 
@@ -945,7 +947,8 @@ Name: AP-Unten2,
  disable_traffic: [1, 1],
  ipConfigMac: ,
  ipConfigAddress: ,
- ipConfigNetmask: 
+ ipConfigNetmask: ,
+ incomplete: false
  
 Name: AP-Unten2,
  type: Magic 1 WiFi 2-1,
@@ -973,7 +976,8 @@ Name: AP-Unten2,
  disable_traffic: [1, 1],
  ipConfigMac: ,
  ipConfigAddress: ,
- ipConfigNetmask: 
+ ipConfigNetmask: ,
+ incomplete: false
  
 ''';
 

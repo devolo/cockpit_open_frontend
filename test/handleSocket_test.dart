@@ -255,7 +255,6 @@ void main() {
       dataHandler.setNetworkList(network);
 
       dataHandler.parseXML(networkUpdate1);
-
       expect(compareNetworkList(dataHandler.getNetworkList(), expectedNetwork),true);
 
     });

@@ -66,8 +66,13 @@ void deviceInformationDialogWithoutAction(context, Device hitDevice, FocusNode m
                               height: 15,
                               width: 600.0 * fontSize.font_factor,
                             ),
+                            if(hitDevice.incomplete)
+                              Container(
+                                constraints: BoxConstraints(maxWidth: 600.0 * fontSize.font_factor),
+                                child: Text(S.of(context).incompleteDeviceInfoText),
+                              ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                              padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 40.0),
                               child: Table(
                                 children: [
                                   TableRow(children: [

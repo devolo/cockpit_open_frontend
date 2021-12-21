@@ -178,10 +178,8 @@ class Device extends ChangeNotifier {
       //logger.i("${element.getElement('name').text}: ${selected_VDSL} , ${supported_VDSL}");
     }
 
-    //incomplete = vdslCompat.findAllElements("item").toList().firstWhere((element) => element.innerText.contains("mode"),).lastElementChild!.innerText;
-    if(element.getElement('incomplete') == null || element.getElement('incomplete')!.text == 1)
-      incomplete = true;
-
+     if(element.getElement('incomplete') != null && element.getElement('incomplete')!.text == 1)
+       incomplete = true;
 
     Device retDevice = Device(
       element.getElement('type')!.text,
@@ -276,7 +274,8 @@ class Device extends ChangeNotifier {
  disable_traffic: ${this.disableTraffic},
  ipConfigMac: ${this.ipConfigMac},
  ipConfigAddress: ${this.ipConfigAddress},
- ipConfigNetmask: ${this.ipConfigNetmask}
+ ipConfigNetmask: ${this.ipConfigNetmask},
+ incomplete: ${this.incomplete}
 ''';
   }
 }

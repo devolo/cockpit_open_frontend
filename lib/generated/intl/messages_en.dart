@@ -150,7 +150,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ignoreUpdates":
             MessageLookupByLibrary.simpleMessage("Ignore device updates"),
         "incompleteDeviceInfoText": MessageLookupByLibrary.simpleMessage(
-            "This device cannot be reached via the IP protocol. This indicates a faulty network configuration, perhaps the device has not received an IP address from your Internet router. Some functions are therefore not available."),
+            "This device cannot be reached via the IP protocol. This indicates a faulty network configuration, for example, the device may not have received an IP address from your Internet router. Some functions are therefore not available."),
         "internet": MessageLookupByLibrary.simpleMessage("Internet"),
         "internetCentered": MessageLookupByLibrary.simpleMessage(
             "Use internet-centered overview"),
@@ -277,7 +277,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("VDSL Profil 17a"),
         "sisoVdslProfil35b":
             MessageLookupByLibrary.simpleMessage("VDSL Profil 35b"),
-        "standart": MessageLookupByLibrary.simpleMessage("(default)"),
+        "standard": MessageLookupByLibrary.simpleMessage("(default)"),
         "state": MessageLookupByLibrary.simpleMessage("Update status"),
         "success": MessageLookupByLibrary.simpleMessage("Success"),
         "supportInfoGenerateError": MessageLookupByLibrary.simpleMessage(

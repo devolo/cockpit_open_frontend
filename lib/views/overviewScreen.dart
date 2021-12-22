@@ -278,11 +278,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                     if (response!['filename'] != "") {
                                       openFile(response['filename']);
                                     } else {
-                                      errorDialog(context, S
-                                          .of(context)
-                                          .manualErrorTitle, S
-                                          .of(context)
-                                          .manualErrorBody, size);
+                                      searchManualDialog(context, socket,selectedDevice.MT, size);
                                     }
                                   }
                                   else if (value == "factoryReset") {
@@ -623,6 +619,60 @@ class _OverviewScreenState extends State<OverviewScreen> {
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  void searchManualDialog(context, DataHand socket, String mtNumber, SizeModel size) async {
+
+    showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            contentTextStyle: TextStyle(color: fontColorOnBackground,
+                decorationColor: fontColorOnBackground,
+                fontSize: dialogContentTextFontSize * size.font_factor),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                  SizedBox(height: 20),
+                  Container(
+                    child: CircularProgressIndicator(
+                        color: fontColorOnBackground),
+                    height: 50.0,
+                    width: 50.0,
+                  ),
+                  SizedBox(height: 20,),
+                  Text(
+                    S.of(context).searchManual,
+                    style: TextStyle(color: fontColorOnBackground),
+                  ),
+              ],
+            ),
+            actions: <Widget>[],
+          );
+        });
+
+    socket.sendXML('UpdateCheck');
+    var response = await socket.receiveXML("UpdateIndication && FirmwareUpdateIndication");
+
+    if (response!["status"] != null && response["status"] == "downloaded_other") {
+
+      socket.sendXML('GetManual', newValue: mtNumber, valueType: 'product', newValue2: config["language"], valueType2: 'language');
+      var response = await socket.receiveXML("GetManualResponse");
+
+      if (response!['filename'] != "") {
+        Navigator.pop(context, true);
+        openFile(response['filename']);
+      }
+      else {
+        Navigator.pop(context, true);
+        errorDialog(context, S.of(context).manualErrorTitle, S.of(context).manualErrorBody, size);
+      }
+    }
+    else{
+      Navigator.pop(context, true);
+      errorDialog(context, S.of(context).manualErrorTitle, S.of(context).manualErrorBody, size);
+    }
   }
 
   void _handleHover(PointerEvent details, NetworkList _deviceList, double width, double height) {

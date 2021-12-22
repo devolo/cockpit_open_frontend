@@ -149,6 +149,7 @@
   "version": "Version firmware ",
   "ipAddress": "Adresse IP ",
   "macAddress": "Adresse MAC ",
+  "searchManual": "Rechercher le manuel",
 
   "@_OVERVIEW_PAGE": {
   },

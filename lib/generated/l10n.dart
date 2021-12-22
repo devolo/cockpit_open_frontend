@@ -1110,6 +1110,16 @@ class S {
     );
   }
 
+  /// `Search for manual`
+  String get searchManual {
+    return Intl.message(
+      'Search for manual',
+      name: 'searchManual',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No local device found.\nScanning for devices`
   String get noDevicesFoundScanningForDevices {
     return Intl.message(
@@ -1785,6 +1795,16 @@ class S {
     return Intl.message(
       'Current compatibility',
       name: 'currentCompatibility',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `(default)`
+  String get standart {
+    return Intl.message(
+      '(default)',
+      name: 'standart',
       desc: '',
       args: [],
     );

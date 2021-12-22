@@ -250,6 +250,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "samePasswordForAll": MessageLookupByLibrary.simpleMessage(
             "Même mot de passe pour tous les appareils"),
         "save": MessageLookupByLibrary.simpleMessage("Enregistrer"),
+        "searchManual":
+            MessageLookupByLibrary.simpleMessage("Rechercher le manuel"),
         "searching": MessageLookupByLibrary.simpleMessage("Recherche..."),
         "securityId": MessageLookupByLibrary.simpleMessage("ID de sécurité"),
         "selectAll": MessageLookupByLibrary.simpleMessage("Sélectionner tout"),
@@ -280,6 +282,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("VDSL profil 17a"),
         "sisoVdslProfil35b":
             MessageLookupByLibrary.simpleMessage("VDSL profil 35b"),
+        "standart": MessageLookupByLibrary.simpleMessage("(par défaut)"),
         "state": MessageLookupByLibrary.simpleMessage("Statut d´actualisation"),
         "success": MessageLookupByLibrary.simpleMessage("Succès"),
         "supportInfoGenerateError": MessageLookupByLibrary.simpleMessage(

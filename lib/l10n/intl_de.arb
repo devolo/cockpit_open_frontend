@@ -148,6 +148,7 @@
   "version": "Firmware-Version",
   "ipAddress": "IP-Adresse",
   "macAddress": "MAC-Adresse",
+  "searchManual": "Suche nach Handbuch",
 
   "@_OVERVIEW_PAGE": {
   },

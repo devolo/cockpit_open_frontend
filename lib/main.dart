@@ -549,10 +549,13 @@ class _MyHomePageState extends State<MyHomePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(padding: EdgeInsets.only(right: 110 * size.font_factor),child: Icon(DevoloIcons.logo, color: drawingColor, size: 24 * size.font_factor)),
-                GestureDetector(
-                    child: Text("\nwww.devolo.de", style: TextStyle(decoration: TextDecoration.underline, color: drawingColor)),
+                SizedBox(
+                  height: 20,
+                ),
+                InkWell(
+                    child: Text(getDevoloWebsiteLink().substring(8), style: TextStyle(decoration: TextDecoration.underline, color: drawingColor)),
                     onTap: () {
-                      launch("https://www.devolo.de/");
+                      launch(getDevoloWebsiteLink());
                     }),
                 SizedBox(
                   height: 20,

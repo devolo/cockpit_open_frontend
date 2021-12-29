@@ -190,8 +190,14 @@ Future saveWindowSize() async {
     config["window_height"] = size.height;
     config["window_width"] = size.width;
     saveToSharedPrefs(config);
-  };
+  }
+}
 
+String getDevoloWebsiteLink() {
 
-
+  if(config["language"] == "en")
+    return "https://www.devolo.com";
+  else{
+    return "https://www.devolo." + config["language"];
+  }
 }

@@ -566,7 +566,17 @@ class _MyHomePageState extends State<MyHomePage> {
                     textScaleFactor: size.font_factor,
                   ),
                   onPressed: () {
-                    Navigator.maybeOf(context)!.pop(true);
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(builder: (context) => new LicensePage(
+                          applicationVersion: getVersionSyntax(),
+                          applicationIcon: Padding(
+                              padding: EdgeInsets.only(top:15),
+                              child: Image.asset("assets/app_icon/app_icon_128.png", width: 80)
+                          ),
+                          applicationLegalese: "Copyright © 2021, devolo AG"
+                          )),
+                    );
                   },
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.resolveWith<Color?>(

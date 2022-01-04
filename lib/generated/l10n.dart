@@ -1020,11 +1020,11 @@ class S {
     );
   }
 
-  /// `Delete device`
-  String get deleteDevice {
+  /// `Remove device`
+  String get removeDevice {
     return Intl.message(
-      'Delete device',
-      name: 'deleteDevice',
+      'Remove device',
+      name: 'removeDevice',
       desc: '',
       args: [],
     );

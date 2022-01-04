@@ -99,7 +99,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "dataRatesArePermanentlyDisplayedInTheOverview":
             MessageLookupByLibrary.simpleMessage(
                 "Datenraten werden dauerhaft in der Übersicht angezeigt "),
-        "deleteDevice": MessageLookupByLibrary.simpleMessage("Gerät löschen"),
         "deviceInfo":
             MessageLookupByLibrary.simpleMessage("Geräteinformationen"),
         "deviceNameDialogBody": MessageLookupByLibrary.simpleMessage(
@@ -229,6 +228,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Übertragungsleistung der Geräte Aufzeichnen und an devolo übermitteln"),
         "refresh": MessageLookupByLibrary.simpleMessage("Neu laden"),
+        "removeDevice": MessageLookupByLibrary.simpleMessage("Gerät entfernen"),
         "removeDeviceConfirmBody": MessageLookupByLibrary.simpleMessage(
             "Wollen Sie das gewählte PLC-Gerät aus dem Netzwerk entfernen?"),
         "removeDeviceConfirmTitle":

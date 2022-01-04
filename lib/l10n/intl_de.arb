@@ -139,7 +139,7 @@
   "identifyDeviceTooltip": "Leuchtdiode (LED) blinkt zwei Minuten lang",
   "launchWebInterface": "Webinterface öffnen ",
   "factoryReset": "Werkseinstellung setzen",
-  "deleteDevice": "Gerät löschen",
+  "removeDevice": "Gerät entfernen",
   "additionalSettings": "erweiterte Einstellungen",
   "pleaseEnterDeviceName": "Bitte Gerätenamen eintragen",
   "type": "Typ",

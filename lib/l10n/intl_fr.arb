@@ -139,7 +139,7 @@
   "identifyDeviceTooltip": "Voyant lumineux LED clignote pendant deux minutes.",
   "launchWebInterface": "Site web",
   "factoryReset": "Réinitialisé aux paramètres d'origine",
-  "deleteDevice": "Supprimer l'appareil",
+  "removeDevice": "Supprimer l'appareil",
   "additionalSettings": "Paramètres supplémentaires",
   "setVdslCompatibility": "Définir la compatibilité VDSL",
   "pleaseEnterDeviceName": "Entrez le nom de l´appareil",

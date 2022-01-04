@@ -462,7 +462,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                     value: "deleteDevice",
                                     child: Text(S
                                         .of(context)
-                                        .deleteDevice, style: TextStyle(
+                                        .removeDevice, style: TextStyle(
                                         color: fontColorOnBackground,
                                         fontSize: 14 * size.font_factor)),
                                   ),

@@ -99,8 +99,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "dataRatesArePermanentlyDisplayedInTheOverview":
             MessageLookupByLibrary.simpleMessage(
                 "Les taux de transmission seront toujours indiqués dans la vue d\'ensemble"),
-        "deleteDevice":
-            MessageLookupByLibrary.simpleMessage("Supprimer l\'appareil"),
         "deviceInfo":
             MessageLookupByLibrary.simpleMessage("Informations sur l´appareil"),
         "deviceNameDialogBody": MessageLookupByLibrary.simpleMessage(
@@ -229,6 +227,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Enregistrer les taux de transmission des appareils CPL et les envoyer à devolo."),
         "refresh": MessageLookupByLibrary.simpleMessage("Actualiser"),
+        "removeDevice":
+            MessageLookupByLibrary.simpleMessage("Supprimer l\'appareil"),
         "removeDeviceConfirmBody": MessageLookupByLibrary.simpleMessage(
             "Voulez-vous supprimer l´appareil PLC sélectionné du réseau ?"),
         "removeDeviceConfirmTitle":

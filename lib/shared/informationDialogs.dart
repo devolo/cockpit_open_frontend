@@ -701,7 +701,7 @@ void deviceInformationDialog(context, Device hitDevice, FocusNode myFocusNode, D
                             Container(
                               constraints: BoxConstraints(maxWidth: maxWidthActions * fontSize.font_factor),
                               child: Text(
-                                S.of(context).deleteDevice,
+                                S.of(context).removeDevice,
                                 style: TextStyle(
                                     fontSize: 14, color: fontColorOnBackground),
                                 textScaleFactor: fontSize.font_factor,

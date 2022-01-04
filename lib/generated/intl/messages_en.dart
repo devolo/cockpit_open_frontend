@@ -98,7 +98,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "dataRatesArePermanentlyDisplayedInTheOverview":
             MessageLookupByLibrary.simpleMessage(
                 "Data transfer rates are always shown in overview"),
-        "deleteDevice": MessageLookupByLibrary.simpleMessage("Delete device"),
         "deviceInfo":
             MessageLookupByLibrary.simpleMessage("Device information"),
         "deviceNameDialogBody": MessageLookupByLibrary.simpleMessage(
@@ -226,6 +225,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Record the transmission power of PLC devices and send it to devolo"),
         "refresh": MessageLookupByLibrary.simpleMessage("Refresh"),
+        "removeDevice": MessageLookupByLibrary.simpleMessage("Remove device"),
         "removeDeviceConfirmBody": MessageLookupByLibrary.simpleMessage(
             "Do you want to remove the selected PLC device from the network?"),
         "removeDeviceConfirmTitle":

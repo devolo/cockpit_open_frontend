@@ -661,7 +661,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                 children:[ SizedBox(width: 50,), Icon(
                                   getIconForDeviceType(allDevices[i].typeEnum),
                                   color: fontColorOnBackground,
-                                  size: 24 * size.icon_factor,//size: 40 * fontSize.factor,
+                                  size: 30 * size.icon_factor,//size: 40 * fontSize.factor,
                                 ),]),
                                 SizedBox(width: spacingIconText * size.font_factor),
                                 Expanded( child:

@@ -331,7 +331,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         height: 23.5,
                                         width: 50,
                                         child: TextButton(
-                                          style: ButtonStyle(overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33))),
+                                          style: ButtonStyle(
+                                              overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.2)),
+                                              backgroundColor: (config["font_size_factor"] == 0.9) ? MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.2)) : null,
+                                          ),
                                           onPressed: () {
                                             setState(() {
                                               size.font_factor = 0.9;
@@ -342,7 +345,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                             saveToSharedPrefs(config);
                                             AppBuilder.of(context)!.rebuild();
                                           },
-                                          child: Icon(Icons.text_format, size: 23 * size.icon_factor, color: fontColorOnSecond,),
+                                          child: Icon(Icons.text_format, size: 23, color: fontColorOnSecond,),
                                         ),
                                     )
                                   ]),
@@ -354,7 +357,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         height: 29.0,
                                         width: 50,
                                         child: TextButton(
-                                          style: ButtonStyle(overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33))),
+                                          style: ButtonStyle(
+                                              overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.2)),
+                                              backgroundColor: (config["font_size_factor"] == 1.1) ? MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.2)) : null,
+                                          ),
                                           onPressed: () {
                                             setState(() {
                                               size.font_factor = 1.1;
@@ -365,7 +371,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                             saveToSharedPrefs(config);
                                             AppBuilder.of(context)!.rebuild();
                                           },
-                                          child: Icon(Icons.text_format, size: 29 * size.icon_factor, color: fontColorOnSecond,),
+                                          child: Icon(Icons.text_format, size: 29, color: fontColorOnSecond,),
                                         ),
                                     )
                                 ]),
@@ -377,7 +383,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           height: 36.0,
                                           width: 55,
                                           child: TextButton(
-                                          style: ButtonStyle(overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.33))),
+                                          style: ButtonStyle(
+                                            overlayColor: MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.2)),
+                                            backgroundColor: (config["font_size_factor"] == 1.4) ? MaterialStateProperty.all<Color?>(fontColorOnSecond.withOpacity(0.2)) : null,
+                                          ),
                                           onPressed: () {
                                             setState(() {
                                               size.font_factor = 1.4;
@@ -388,7 +397,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                             saveToSharedPrefs(config);
                                             AppBuilder.of(context)!.rebuild();
                                           },
-                                          child: Icon(Icons.text_format, size: 38 * size.icon_factor, color: fontColorOnSecond,),
+                                          child: Icon(Icons.text_format, size: 38, color: fontColorOnSecond,),
                                         ),
                                       )
                                 ]),
@@ -675,7 +684,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Divider(color: dividerColor),
                     Row(mainAxisAlignment: MainAxisAlignment.end, crossAxisAlignment: CrossAxisAlignment.end, children: <Widget>[
                       IconButton(
-                        icon: Icon(DevoloIcons.ic_view_list_24px,size: 30 * size.icon_factor,),
+                        iconSize: 30 * size.icon_factor,
+                        icon: Icon(DevoloIcons.ic_view_list_24px),
                         tooltip: S.of(context).showLogs,
                         color: drawingColor,
                         onPressed: () {

@@ -23,6 +23,8 @@ It is written in [Flutter](https://flutter.dev) and supports all desktops: Windo
 ### Tips
 * To ensure Flutter is setup correctly, you can run the `$ flutter doctor` command in Terminal or Command Prompt.
 * To ensure that you have enabled desktop support for your device, run the `$ flutter devices` command in Terminal or Command Prompt.
+* For flutter, desktop support must be added separately for each platform. (see: https://docs.flutter.dev/desktop#set-up)
+  Foe example for Linux: flutter config --enable-linux-desktop
 
 ## Building and Running the App
 

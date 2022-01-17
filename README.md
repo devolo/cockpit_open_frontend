@@ -16,7 +16,7 @@ It is written in [Flutter](https://flutter.dev) and supports all desktops: Windo
 ## Installation
 - Download devolo Cockpit application from https://www.devolo.de/support/downloads/download/devolo-cockpit.
 - Install Flutter SDK by following the instructions on https://flutter.dev/docs/get-started/install. 
-- Make sure your computer meets the desktop-specific requirements for Flutter development by following the instructions on https://flutter.dev/desktop#requirements.
+- Make sure your computer meets the desktop-specific requirements for Flutter development by following the instructions on https://docs.flutter.dev/desktop#requirements.
 - Installing Flutter SDK by following the given instructions would require you to setup Android Studio. Although you can use your own code editors, such as Sublime Text and Atom, Flutter recommends using Android Studio, IntelliJ or Visual Studio Code programming IDEs with _Flutter_, _Dart_, and _Flutter Intl_ plugins. Please see https://flutter.dev/docs/get-started/editor for detailed instructions.
 
 

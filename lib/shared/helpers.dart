@@ -194,10 +194,5 @@ Future saveWindowSize() async {
 }
 
 String getDevoloWebsiteLink() {
-
-  if(config["language"] == "en")
-    return "https://www.devolo.com";
-  else{
-    return "https://www.devolo." + config["language"];
-  }
+    return "https://www.devolo.global";
 }

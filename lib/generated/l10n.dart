@@ -1801,7 +1801,7 @@ class S {
   }
 
   /// `(default)`
-  String get standart {
+  String get standard {
     return Intl.message(
       '(default)',
       name: 'standart',

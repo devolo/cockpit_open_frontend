@@ -951,7 +951,7 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                                         child: Row(
                                           children: [
                                             new Text(vdslNames[value] == null? value:vdslNames[value]!),
-                                            new Text(value == hitDeviceVDSLList[0]? " ${S.of(context).standart}":""),
+                                            new Text(value == hitDeviceVDSLList[0]? " ${S.of(context).standard}":""),
                                           ],
                                         ),
                                       );

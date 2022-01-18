@@ -530,19 +530,28 @@ class _MyHomePageState extends State<MyHomePage> {
         barrierDismissible: true, // user doesn't need to tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Column(
-              children: [
-                getCloseButton(context, size),
-                Center(
-                    child: Text(
+            insetPadding: EdgeInsets.symmetric(horizontal: 0),
+            title: Container(
+              color: devoloBlue,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: SelectableText(
                       S.of(context).appInformation,
-                      textAlign: TextAlign.center,
+                      style: TextStyle(color: fontColorOnMain),
+                      textScaleFactor: size.font_factor,
                     ),
-                ),
-              ],
+                  ),
+                  getCloseButton(context, size, fontColorOnMain),
+                ],
+              ),
             ),
+            titlePadding: EdgeInsets.all(0),
             titleTextStyle: TextStyle(color: fontColorOnBackground, fontSize: dialogTitleTextFontSize * size.font_factor),
             contentTextStyle: TextStyle(color: fontColorOnBackground, decorationColor: fontColorOnBackground, fontSize: dialogContentTextFontSize * size.font_factor),
+            //titlePadding: EdgeInsets.all(dialogTitlePadding),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,

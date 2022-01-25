@@ -68,6 +68,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Change PLC network password"),
         "changeTheLanguageOfTheApp": MessageLookupByLibrary.simpleMessage(
             "Change the language of the App"),
+        "checkForUpdates":
+            MessageLookupByLibrary.simpleMessage("Regularly check for updates"),
         "checkUpdates":
             MessageLookupByLibrary.simpleMessage("Check for updates"),
         "chooseNetwork": MessageLookupByLibrary.simpleMessage(
@@ -147,8 +149,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Identifying failed"),
         "identifyDeviceTooltip": MessageLookupByLibrary.simpleMessage(
             "The light-emitting diode (LED) flashes for two minutes"),
-        "ignoreUpdates":
-            MessageLookupByLibrary.simpleMessage("Ignore device updates"),
         "incompleteDeviceInfoText": MessageLookupByLibrary.simpleMessage(
             "This device cannot be reached via the IP protocol. This indicates a faulty network configuration, for example, the device may not have received an IP address from your Internet router. Some functions are therefore not available."),
         "internet": MessageLookupByLibrary.simpleMessage("Internet"),
@@ -160,7 +160,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Web interface"),
         "macAddress": MessageLookupByLibrary.simpleMessage("MAC address"),
         "manualErrorBody": MessageLookupByLibrary.simpleMessage(
-            "No suitable manual was found for your PLC device.\n\nYou can find the manual on the product CD or on the devolo website"),
+            "No suitable manual was found for your PLC device.\nYou can find the manual on the product CD or on the devolo website."),
         "manualErrorTitle":
             MessageLookupByLibrary.simpleMessage("Manual not found"),
         "mimoFull": MessageLookupByLibrary.simpleMessage("Full power"),
@@ -249,8 +249,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "samePasswordForAll": MessageLookupByLibrary.simpleMessage(
             "Same password for all devices"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
-        "searchManual":
-            MessageLookupByLibrary.simpleMessage("Search for manual"),
+        "searchManualAndUpdates": MessageLookupByLibrary.simpleMessage(
+            "Search for manual and updates"),
+        "searchManualConfirmBody": MessageLookupByLibrary.simpleMessage(
+            "No suitable manual was found for your device.\nDo you want to check if manuals and updates are available?"),
         "searching": MessageLookupByLibrary.simpleMessage("Searching..."),
         "securityId": MessageLookupByLibrary.simpleMessage("Security ID"),
         "selectAll": MessageLookupByLibrary.simpleMessage("Select all"),

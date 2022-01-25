@@ -37,8 +37,8 @@
   "appTheme": "App Design",
   "chooseTheAppTheme": "Wähle das App Design",
   "fontSize": "Schriftgröße",
-  "ignoreUpdates": "Ignoriere zukünftige Aktualisierungen (Updates)",
-  "recordTheTransmissionPowerOfTheDevicesAndTransmitIt": "Übertragungsleistung der Geräte Aufzeichnen und an devolo übermitteln",
+  "checkForUpdates": "Regelmäßig prüfen, ob Updates verfügbar sind",
+  "recordTheTransmissionPowerOfTheDevicesAndTransmitIt": "Übertragungsleistung der Geräte aufzeichnen und an devolo übermitteln",
   "change": "ändern",
   "plcNetworkPassword": "PLC-Netzwerk Passwort",
   "changePlcNetworkPassword": "Ändern des PLC-Netzwerk Passwort",
@@ -149,7 +149,7 @@
   "ipAddress": "IP-Adresse",
   "macAddress": "MAC-Adresse",
   "incompleteDeviceInfoText": "Dieses Gerät kann nicht über das IP-Protokoll erreicht werden. Dies deutet auf eine fehlerhafte Netwerkkonfiguration hin, vielleicht hat das Gerät keine IP-Adresse von Ihrem Internet Router erhalten. Einige Funktionen sind daher nicht verfügbar.",
-  "searchManual": "Suche nach Handbuch",
+  "searchManualAndUpdates": "Suche nach Handbuch und Updates",
 
   "@_OVERVIEW_PAGE": {
   },
@@ -192,7 +192,7 @@
   "addDeviceErrorTitle" : "Einrichtung fehlgeschlagen",
   "addDeviceErrorBody" : "Es ist ein Fehler beim Hinzufügen des Gerätes aufgetreten!\nBitte versuchen Sie es erneut.",
   "manualErrorTitle" : "Handbuch nicht gefunden",
-  "manualErrorBody" : "Für Ihr PLC-Gerät wurde kein passendes Handbuch gefunden.\n\nSie können das Handbuch auf der Produkt-CD oder der devolo Internet-Seite finden.",
+  "manualErrorBody" : "Für Ihr PLC-Gerät wurde kein passendes Handbuch gefunden.\nSie können das Handbuch auf der Produkt-CD oder der devolo Internet-Seite finden.",
   "setIpConfigErrorTitle" : "Konfiguration fehlgeschlagen",
   "setIpConfigErrorBody" : "Es ist ein Fehler bei der Änderung der IP-Adresse/Netzmaske aufgetreten!.\nBitte versuchen Sie es erneut.",
 
@@ -220,6 +220,8 @@
   "removeDeviceConfirmBody": "Wollen Sie das gewählte PLC-Gerät aus dem Netzwerk entfernen?",
   "resetDeviceConfirmTitle": "Gerät in den Auslieferunszustand zurücksetzen",
   "resetDeviceConfirmBody": "Wollen Sie das gewählte PLC-Gerät in den Auslieferungszustand zurücksetzen?",
+  "searchManualConfirmBody" : "Für Ihr Gerät wurde kein passendes Handbuch gefunden.\nSoll geprüft werden, ob Handbücher und Updates verfügbar sind?",
+
 
   "@_VDSL_DIALOG": {
   },

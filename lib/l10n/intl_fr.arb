@@ -37,7 +37,7 @@
   "appTheme": "App design",
   "chooseTheAppTheme": "Choisir le design de l´application",
   "fontSize": "Choisir la taille des caractères",
-  "ignoreUpdates": "Ignorer les mises à jour des apparails",
+  "checkForUpdates": "Vérifier régulièrement les mises à jour",
   "recordTheTransmissionPowerOfTheDevicesAndTransmitIt": "Enregistrer les taux de transmission des appareils CPL et les envoyer à devolo.",
   "change": "Modifier",
   "plcNetworkPassword": "Mot de passe du réseau CPL",
@@ -150,7 +150,7 @@
   "ipAddress": "Adresse IP ",
   "macAddress": "Adresse MAC ",
   "incompleteDeviceInfoText": "Cet appareil n'est pas accessible via le protocole IP. Cela indique une mauvaise configuration du réseau, peut-être que l'appareil n'a pas reçu d'adresse IP de votre routeur Internet. Certaines fonctions ne sont donc pas disponibles.",
-  "searchManual": "Rechercher le manuel",
+  "searchManualAndUpdates": "Rechercher le manuel et des mises à jour",
 
   "@_OVERVIEW_PAGE": {
   },
@@ -193,7 +193,7 @@
   "addDeviceErrorTitle" : "L'installation échoué",
   "addDeviceErrorBody" : "Une erreur s'est produite lors de l'ajout de l'appareil !\nTRéessayez plus tard",
   "manualErrorTitle" : "Manuel introuvable",
-  "manualErrorBody" : "Aucun manuel approprié n'a été trouvé pour votre adapteur PLC..\n\nVous trouverez le manuel sur le CD du produit ou sur le site web de devolo.",
+  "manualErrorBody" : "Aucun manuel approprié n'a été trouvé pour votre adapteur PLC.\nVous trouverez le manuel sur le CD du produit ou sur le site web de devolo.",
   "setIpConfigErrorTitle" : "Configuration échoué",
   "setIpConfigErrorBody" : "Une erreur s'est produite lors du changement de l´adresse IP/masque de réseau.\nRéessayez plus tard",
 
@@ -220,6 +220,7 @@
   "removeDeviceConfirmBody": "Voulez-vous supprimer l´appareil PLC sélectionné du réseau ?",
   "resetDeviceConfirmTitle": "Réinitialiser l'appareil aux paramètres d'origine",
   "resetDeviceConfirmBody": "Voulez-vous réinitialiser l´appareil PLC sélectionné aux paramètres d'origine ?",
+  "searchManualConfirmBody" : "Aucun manuel correspondant à votre appareil n'a été trouvé.\nFaut-il vérifier si des manuels et des mises à jour sont disponibles ?",
 
   "@_VDSL_DIALOG": {
   },

@@ -68,6 +68,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Changer le mot de passe du réseau CPL"),
         "changeTheLanguageOfTheApp": MessageLookupByLibrary.simpleMessage(
             "Changer la langue de l\'application"),
+        "checkForUpdates": MessageLookupByLibrary.simpleMessage(
+            "Vérifier régulièrement les mises à jour"),
         "checkUpdates":
             MessageLookupByLibrary.simpleMessage("Rechercher des mises à jour"),
         "chooseNetwork": MessageLookupByLibrary.simpleMessage(
@@ -150,8 +152,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Identification échouée"),
         "identifyDeviceTooltip": MessageLookupByLibrary.simpleMessage(
             "Voyant lumineux LED clignote pendant deux minutes."),
-        "ignoreUpdates": MessageLookupByLibrary.simpleMessage(
-            "Ignorer les mises à jour des apparails"),
         "incompleteDeviceInfoText": MessageLookupByLibrary.simpleMessage(
             "Cet appareil n\'est pas accessible via le protocole IP. Cela indique une mauvaise configuration du réseau, peut-être que l\'appareil n\'a pas reçu d\'adresse IP de votre routeur Internet. Certaines fonctions ne sont donc pas disponibles."),
         "internet": MessageLookupByLibrary.simpleMessage("Internet"),
@@ -162,7 +162,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "launchWebInterface": MessageLookupByLibrary.simpleMessage("Site web"),
         "macAddress": MessageLookupByLibrary.simpleMessage("Adresse MAC "),
         "manualErrorBody": MessageLookupByLibrary.simpleMessage(
-            "Aucun manuel approprié n\'a été trouvé pour votre adapteur PLC..\n\nVous trouverez le manuel sur le CD du produit ou sur le site web de devolo."),
+            "Aucun manuel approprié n\'a été trouvé pour votre adapteur PLC.\nVous trouverez le manuel sur le CD du produit ou sur le site web de devolo."),
         "manualErrorTitle":
             MessageLookupByLibrary.simpleMessage("Manuel introuvable"),
         "mimoFull": MessageLookupByLibrary.simpleMessage("Pleine puissance"),
@@ -252,8 +252,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "samePasswordForAll": MessageLookupByLibrary.simpleMessage(
             "Même mot de passe pour tous les appareils"),
         "save": MessageLookupByLibrary.simpleMessage("Enregistrer"),
-        "searchManual":
-            MessageLookupByLibrary.simpleMessage("Rechercher le manuel"),
+        "searchManualAndUpdates": MessageLookupByLibrary.simpleMessage(
+            "Rechercher le manuel et des mises à jour"),
+        "searchManualConfirmBody": MessageLookupByLibrary.simpleMessage(
+            "Aucun manuel correspondant à votre appareil n\'a été trouvé.\nFaut-il vérifier si des manuels et des mises à jour sont disponibles ?"),
         "searching": MessageLookupByLibrary.simpleMessage("Recherche..."),
         "securityId": MessageLookupByLibrary.simpleMessage("ID de sécurité"),
         "selectAll": MessageLookupByLibrary.simpleMessage("Sélectionner tout"),

@@ -426,11 +426,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         contentPadding: EdgeInsets.only(top: listTilePaddingContentTop, bottom: listTilePaddingContentBottom, left: listTilePaddingContentLeft, right: listTilePaddingContentRight),
                         tileColor: secondColor,
                         title: Text(
-                          S.of(context).ignoreUpdates,
+                          S.of(context).checkForUpdates,
                           style: TextStyle(fontSize: fontSizeListTileTitle * size.font_factor, color: fontColorOnSecond),
                         ),
                         trailing: Switch(
-                          value: config["ignore_updates"],
+                          value: !config["ignore_updates"],
                           onChanged: (bool value) {
                             setState(() {
                               config["ignore_updates"] = !config["ignore_updates"];

@@ -623,17 +623,19 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
   void searchManualDialog(context, DataHand socket, String mtNumber, SizeModel size) async {
 
-    showDialog<void>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            contentTextStyle: TextStyle(color: fontColorOnBackground,
-                decorationColor: fontColorOnBackground,
-                fontSize: dialogContentTextFontSize * size.font_factor),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
+    bool confResponse = await confirmDialog(context, S.of(context).manualErrorTitle, S.of(context).searchManualConfirmBody, size);
+    if(confResponse) {
+      showDialog<void>(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              contentTextStyle: TextStyle(color: fontColorOnBackground,
+                  decorationColor: fontColorOnBackground,
+                  fontSize: dialogContentTextFontSize * size.font_factor),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
                   SizedBox(height: 20),
                   Container(
                     child: CircularProgressIndicator(
@@ -643,35 +645,50 @@ class _OverviewScreenState extends State<OverviewScreen> {
                   ),
                   SizedBox(height: 20,),
                   Text(
-                    S.of(context).searchManual,
+                    S
+                        .of(context)
+                        .searchManualAndUpdates,
                     style: TextStyle(color: fontColorOnBackground),
                   ),
-              ],
-            ),
-            actions: <Widget>[],
-          );
-        });
+                ],
+              ),
+              actions: <Widget>[],
+            );
+          });
 
-    socket.sendXML('UpdateCheck');
-    var response = await socket.receiveXML("UpdateIndication && FirmwareUpdateIndication");
+      socket.sendXML('UpdateCheck');
+      var response = await socket.receiveXML(
+          "UpdateIndication && FirmwareUpdateIndication");
 
-    if (response!["status"] != null && response["status"] == "downloaded_other") {
+      if (response!["status"] != null &&
+          response["status"] == "downloaded_other") {
+        socket.sendXML('GetManual', newValue: mtNumber,
+            valueType: 'product',
+            newValue2: config["language"],
+            valueType2: 'language');
+        var response = await socket.receiveXML("GetManualResponse");
 
-      socket.sendXML('GetManual', newValue: mtNumber, valueType: 'product', newValue2: config["language"], valueType2: 'language');
-      var response = await socket.receiveXML("GetManualResponse");
-
-      if (response!['filename'] != "") {
-        Navigator.pop(context, true);
-        openFile(response['filename']);
+        if (response!['filename'] != "") {
+          Navigator.pop(context, true);
+          openFile(response['filename']);
+        }
+        else {
+          Navigator.pop(context, true);
+          errorDialog(context, S
+              .of(context)
+              .manualErrorTitle, S
+              .of(context)
+              .manualErrorBody, size);
+        }
       }
       else {
         Navigator.pop(context, true);
-        errorDialog(context, S.of(context).manualErrorTitle, S.of(context).manualErrorBody, size);
+        errorDialog(context, S
+            .of(context)
+            .manualErrorTitle, S
+            .of(context)
+            .manualErrorBody, size);
       }
-    }
-    else{
-      Navigator.pop(context, true);
-      errorDialog(context, S.of(context).manualErrorTitle, S.of(context).manualErrorBody, size);
     }
   }
 

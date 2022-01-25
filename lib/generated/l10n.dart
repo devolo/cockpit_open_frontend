@@ -260,11 +260,11 @@ class S {
     );
   }
 
-  /// `Ignore device updates`
-  String get ignoreUpdates {
+  /// `Regularly check for updates`
+  String get checkForUpdates {
     return Intl.message(
-      'Ignore device updates',
-      name: 'ignoreUpdates',
+      'Regularly check for updates',
+      name: 'checkForUpdates',
       desc: '',
       args: [],
     );
@@ -1120,11 +1120,11 @@ class S {
     );
   }
 
-  /// `Search for manual`
-  String get searchManual {
+  /// `Search for manual and updates`
+  String get searchManualAndUpdates {
     return Intl.message(
-      'Search for manual',
-      name: 'searchManual',
+      'Search for manual and updates',
+      name: 'searchManualAndUpdates',
       desc: '',
       args: [],
     );
@@ -1440,10 +1440,10 @@ class S {
     );
   }
 
-  /// `No suitable manual was found for your PLC device.\n\nYou can find the manual on the product CD or on the devolo website`
+  /// `No suitable manual was found for your PLC device.\nYou can find the manual on the product CD or on the devolo website.`
   String get manualErrorBody {
     return Intl.message(
-      'No suitable manual was found for your PLC device.\n\nYou can find the manual on the product CD or on the devolo website',
+      'No suitable manual was found for your PLC device.\nYou can find the manual on the product CD or on the devolo website.',
       name: 'manualErrorBody',
       desc: '',
       args: [],
@@ -1645,6 +1645,16 @@ class S {
     return Intl.message(
       'Do you want to reset the selected PLC device to the delivery state?',
       name: 'resetDeviceConfirmBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No suitable manual was found for your device.\nDo you want to check if manuals and updates are available?`
+  String get searchManualConfirmBody {
+    return Intl.message(
+      'No suitable manual was found for your device.\nDo you want to check if manuals and updates are available?',
+      name: 'searchManualConfirmBody',
       desc: '',
       args: [],
     );

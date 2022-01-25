@@ -69,6 +69,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Ändern des PLC-Netzwerk Passwort"),
         "changeTheLanguageOfTheApp": MessageLookupByLibrary.simpleMessage(
             "Ändere die Spache der Anwendung"),
+        "checkForUpdates": MessageLookupByLibrary.simpleMessage(
+            "Regelmäßig prüfen, ob Updates verfügbar sind"),
         "checkUpdates":
             MessageLookupByLibrary.simpleMessage(" Aktualisierungen suchen "),
         "chooseNetwork": MessageLookupByLibrary.simpleMessage(
@@ -149,8 +151,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "Identifizierung fehlgeschlagen"),
         "identifyDeviceTooltip": MessageLookupByLibrary.simpleMessage(
             "Leuchtdiode (LED) blinkt zwei Minuten lang"),
-        "ignoreUpdates": MessageLookupByLibrary.simpleMessage(
-            "Ignoriere zukünftige Aktualisierungen (Updates)"),
         "incompleteDeviceInfoText": MessageLookupByLibrary.simpleMessage(
             "Dieses Gerät kann nicht über das IP-Protokoll erreicht werden. Dies deutet auf eine fehlerhafte Netwerkkonfiguration hin, vielleicht hat das Gerät keine IP-Adresse von Ihrem Internet Router erhalten. Einige Funktionen sind daher nicht verfügbar."),
         "internet": MessageLookupByLibrary.simpleMessage("Internet"),
@@ -162,7 +162,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Webinterface öffnen "),
         "macAddress": MessageLookupByLibrary.simpleMessage("MAC-Adresse"),
         "manualErrorBody": MessageLookupByLibrary.simpleMessage(
-            "Für Ihr PLC-Gerät wurde kein passendes Handbuch gefunden.\n\nSie können das Handbuch auf der Produkt-CD oder der devolo Internet-Seite finden."),
+            "Für Ihr PLC-Gerät wurde kein passendes Handbuch gefunden.\nSie können das Handbuch auf der Produkt-CD oder der devolo Internet-Seite finden."),
         "manualErrorTitle":
             MessageLookupByLibrary.simpleMessage("Handbuch nicht gefunden"),
         "mimoFull": MessageLookupByLibrary.simpleMessage("Volle Leistung"),
@@ -228,7 +228,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Bearbeitungsnummer"),
         "recordTheTransmissionPowerOfTheDevicesAndTransmitIt":
             MessageLookupByLibrary.simpleMessage(
-                "Übertragungsleistung der Geräte Aufzeichnen und an devolo übermitteln"),
+                "Übertragungsleistung der Geräte aufzeichnen und an devolo übermitteln"),
         "refresh": MessageLookupByLibrary.simpleMessage("Neu laden"),
         "removeDevice": MessageLookupByLibrary.simpleMessage("Gerät entfernen"),
         "removeDeviceConfirmBody": MessageLookupByLibrary.simpleMessage(
@@ -252,8 +252,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "samePasswordForAll": MessageLookupByLibrary.simpleMessage(
             "Gleiches Passwort für alle Geräte"),
         "save": MessageLookupByLibrary.simpleMessage("Speichern"),
-        "searchManual":
-            MessageLookupByLibrary.simpleMessage("Suche nach Handbuch"),
+        "searchManualAndUpdates": MessageLookupByLibrary.simpleMessage(
+            "Suche nach Handbuch und Updates"),
+        "searchManualConfirmBody": MessageLookupByLibrary.simpleMessage(
+            "Für Ihr Gerät wurde kein passendes Handbuch gefunden.\nSoll geprüft werden, ob Handbücher und Updates verfügbar sind?"),
         "searching": MessageLookupByLibrary.simpleMessage("suche..."),
         "securityId": MessageLookupByLibrary.simpleMessage("Security-ID"),
         "selectAll": MessageLookupByLibrary.simpleMessage("Alle auswählen"),

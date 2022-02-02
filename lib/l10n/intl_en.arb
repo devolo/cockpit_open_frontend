@@ -99,9 +99,9 @@
   "pleaseEnterYourMailAddress": "Enter your email address",
   "contactInfo": "Contact information",
   "yourEmailAddress": "Your email address",
-  "LoadCockpitSupportInformationBody": "Support informations are getting generated",
-  "SendCockpitSupportInformationBody": "Support informations are sent to devolo",
-  "cockpitSupportInformationBody": "The support informations have been created and are now available to you. Please select an action.",
+  "LoadCockpitSupportInformationBody": "Support information is getting generated",
+  "SendCockpitSupportInformationBody": "Support information is sent to devolo",
+  "cockpitSupportInformationBody": "The support information have been created and are now available to you. Please select an action.",
   "emailIsInvalid": "E-mail is invalid",
 
   "@_OPTIMIZATION_DIALOG": {

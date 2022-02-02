@@ -23,10 +23,10 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "LoadCockpitSupportInformationBody":
             MessageLookupByLibrary.simpleMessage(
-                "Support informations are getting generated"),
+                "Support information is getting generated"),
         "SendCockpitSupportInformationBody":
             MessageLookupByLibrary.simpleMessage(
-                "Support informations are sent to devolo"),
+                "Support information is sent to devolo"),
         "activateLEDs": MessageLookupByLibrary.simpleMessage("LEDs activated"),
         "activateLEDsFailedBody": MessageLookupByLibrary.simpleMessage(
             "An error occurred while modifying the LEDs!\nTry again later"),

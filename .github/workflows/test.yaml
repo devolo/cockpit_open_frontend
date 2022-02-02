@@ -10,10 +10,12 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: unit_test
+      - name: Add Flutter environment
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
+
+      - name: unit_test
         run: |
           flutter pub get
           flutter clean
@@ -32,9 +34,6 @@ jobs:
           report_paths: test_results_junit.xml
 
       - name: test_coverage
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
         run: |
           flutter pub get
           flutter clean

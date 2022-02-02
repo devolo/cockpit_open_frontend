@@ -1,6 +1,6 @@
 name: Test
 
-on: [push, pull_request]
+on: [ push, pull_request ]
 
 jobs:
   test:
@@ -20,7 +20,7 @@ jobs:
           export PATH="$PATH":"$HOME/.pub-cache/bin"
 
           flutter test --machine > test_report.json
-        # replace all "\u001b" in jsonreport cause its not valid for xml:
+          # replace all "\u001b" in jsonreport cause its not valid for xml:
           sed -i 's/\\u001b//g' test_report.json
           flutter pub global run junitreport:tojunit --input test_report.json --output test_results_junit.xml
 

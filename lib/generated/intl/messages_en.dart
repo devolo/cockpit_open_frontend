@@ -77,7 +77,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "chooseTheAppTheme":
             MessageLookupByLibrary.simpleMessage("Choose the app theme"),
         "cockpitSupportInformationBody": MessageLookupByLibrary.simpleMessage(
-            "The support informations have been created and are now available to you. Please select an action."),
+            "The support information have been created and are now available to you. Please select an action."),
         "cockpitSupportInformationTitle": MessageLookupByLibrary.simpleMessage(
             "devolo Cockpit support information"),
         "complete": MessageLookupByLibrary.simpleMessage("complete"),

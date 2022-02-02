@@ -1,0 +1,49 @@
+name: Test
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: unit_test
+        uses: docker://cirrusci/flutter:stable
+        run: |
+          flutter pub get
+          flutter clean
+          flutter --version
+          flutter pub pub global activate junitreport
+          export PATH="$PATH":"$HOME/.pub-cache/bin"
+
+          flutter test --machine > test_report.json
+        # replace all "\u001b" in jsonreport cause its not valid for xml:
+          sed -i 's/\\u001b//g' test_report.json
+          flutter pub global run junitreport:tojunit --input test_report.json --output test_results_junit.xml
+
+      - name: Code Review test report
+        uses: mikepenz/action-junit-report@v2
+        with:
+          report_paths: test_results_junit.xml
+
+      - name: test_coverage
+        uses: docker://cirrusci/flutter:stable
+        run: |
+          flutter pub get
+          flutter clean
+          flutter --version
+          flutter pub pub global activate junitreport
+          export PATH="$PATH":"$HOME/.pub-cache/bin"
+
+          flutter test --coverage ./lib
+          lcov -r coverage/lcov.info '*/__test*__/*' -o coverage/lcov_cleaned.info
+          genhtml coverage/lcov_cleaned.info --output=coverage
+
+      - name: Coverage test artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage
+          path: coverage

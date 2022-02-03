@@ -4,6 +4,7 @@ on: [push]
 
 jobs:
   test:
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
@@ -11,7 +12,9 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
+          flutter-version: '2.8.1'
           channel: stable
+
       - name: Run unit tests
         run: |
           flutter config --no-analytics

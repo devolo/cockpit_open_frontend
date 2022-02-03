@@ -101,7 +101,7 @@
   "yourEmailAddress": "Your email address",
   "LoadCockpitSupportInformationBody": "Support information is getting generated",
   "SendCockpitSupportInformationBody": "Support information is sent to devolo",
-  "cockpitSupportInformationBody": "The support information have been created and are now available to you. Please select an action.",
+  "cockpitSupportInformationBody": "The support information has been created and is now available to you. Please select an action.",
   "emailIsInvalid": "E-mail is invalid",
 
   "@_OPTIMIZATION_DIALOG": {

@@ -390,7 +390,7 @@ class DrawOverview extends CustomPainter {
   void drawDeviceName(Canvas canvas, String pName, String uName, Offset offset, [Size? size]) {
     Offset absoluteOffset = offset;
     final userNameTextSpan = TextSpan(
-      text: (uName.length > 0 ? uName : ""),
+      text: uName.length > 0 ? uName : "",
       style: _textStyle.apply(),
     );
     _textPainter.text = userNameTextSpan;

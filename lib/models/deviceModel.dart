@@ -5,6 +5,8 @@ All rights reserved.
 This source code is licensed under the BSD-style license found in the
 LICENSE file in the root directory of this source tree.
 */
+import 'dart:convert';
+
 import 'package:cockpit_devolo/models/dataRateModel.dart';
 import 'package:cockpit_devolo/shared/helpers.dart';
 import 'package:flutter/foundation.dart';
@@ -49,7 +51,7 @@ class Device extends ChangeNotifier {
     this.typeEnum = getDeviceType(type);
     this.type = type;
     this.networkType = networkType;
-    this.name = name;
+    this.name = utf8.decode(name.runes.toList(),allowMalformed: true).toString();
     this.mac = mac;
     this.ip = ip;
     this.MT = MT; // product

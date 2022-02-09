@@ -6,6 +6,7 @@ This source code is licensed under the BSD-style license found in the
 LICENSE file in the root directory of this source tree.
 */
 
+import 'dart:convert';
 import 'dart:io'; //only for non-web apps!!!
 import 'dart:async';
 import 'package:cockpit_devolo/models/deviceModel.dart';
@@ -337,10 +338,11 @@ class DataHand extends ChangeNotifier {
       xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><!DOCTYPE boost_serialization><boost_serialization version="5" signature="serialization::archive"><Message class_id="1" version="0" tracking_level="0"><MessageType>' + messageType + '</MessageType></Message></boost_serialization>';
     }
 
-    String xmlLength = xmlString!.runes.length.toRadixString(16).padLeft(8, '0'); // message length for backend !disconnects if header wrong or missing!
+    String xmlLength = utf8.encode(xmlString!).length.toRadixString(16).padLeft(8, '0');// xmlString!.runes.length.toRadixString(16).padLeft(8, '0'); // message length for backend disconnects if header wrong or missing!
     //logger.i('LEEENNNGGTHHH ' + xmlLength);
     logger.d("SendXML ->");
     logger.d(xmlString);
+
     socket.write('MSGSOCK' + xmlLength + xmlString!);
   }
 

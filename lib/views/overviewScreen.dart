@@ -48,7 +48,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
   late SizeModel size;
 
-  var hoveredDevice = 999; //if no device is hovered the index is set to 999
+  bool hoveredDevice = false;
   var selectedDeviceIndex = 999; //if no device is selected the index is set to 999
   late Device selectedDevice;
   bool changeNameLoading = false;
@@ -112,7 +112,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
       pivotDeviceIndex = _deviceList.pivotDeviceIndexList[_deviceList.selectedNetworkIndex];
 
 
-    _painter = DrawOverview(context, _deviceList, showingSpeeds, pivotDeviceIndex, hoveredDevice);
+    _painter = DrawOverview(context, _deviceList, showingSpeeds, pivotDeviceIndex, selectedDeviceIndex);
 
     logger.d("[overviewScreen] - widget build...");
 
@@ -136,10 +136,20 @@ class _OverviewScreenState extends State<OverviewScreen> {
                 children: [
                   Padding(padding: EdgeInsets.only(top: 20), child:Row(
                       mainAxisAlignment : MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
                       children:[
+                        if(_deviceList.getNetworkListLength() != 0)
+                        Padding(                                      // needed to have network name centered
+                            padding: EdgeInsets.only(right: 8),
+                            child:Icon(
+                                DevoloIcons.devolo_UI_more_horiz,
+                                color: Colors.transparent,
+                                size: 24 * size.icon_factor)
+                        ),
                         Text(
                           _deviceList.getNetworkName(_deviceList.selectedNetworkIndex),
                           style: TextStyle(color: fontColorOnBackground, fontSize: 18 * size.font_factor, fontWeight: FontWeight.w600),
+                          textAlign: TextAlign.center,
                         ),
                         if(_deviceList.getNetworkListLength() != 0)
                         PopupMenuButton(
@@ -199,8 +209,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
                             behavior: HitTestBehavior.translucent,
                             onTapUp: (details) => _handleTap(details, _deviceList, width, height),
                             child: (_deviceList.getNetworkListLength() == 0) ? Container() : MouseRegion(       //Disable MouseRegion when no Device is found
-                            cursor: (hoveredDevice != 999) ? SystemMouseCursors.click : MouseCursor.defer,
-                            onHover: (details) => _handleHover(details, _deviceList, width, height)
+                                cursor: (hoveredDevice) ? SystemMouseCursors.click : MouseCursor.defer,
+                                onHover: (details) => _checkIfDeviceIsHovered(details, _deviceList, width, height)
                             ),
                           ),
                         ),
@@ -1019,63 +1029,34 @@ class _OverviewScreenState extends State<OverviewScreen> {
     }
   }
 
-  void _handleHover(PointerEvent details, NetworkList _deviceList, double width, double height) {
+  void _checkIfDeviceIsHovered(PointerEvent details, NetworkList _deviceList, double width, double height) {
 
     var index = 0;
+    var deviceGotHovered = false;
     for (Offset deviceIconOffset in _painter.getDeviceIconOffsetList(_deviceList.getDeviceList().length, width, height)) {
       if (index > _painter.numberFoundDevices) //do not check invisible circles
         break;
 
-      Offset absoluteOffset = deviceIconOffset;
-
       //test if device got hovered
-      if (_painter.isPointInsideCircle(details.localPosition, absoluteOffset, _painter.deviceCircleRadius)) {
-
-        // ignore when item is already hovered.
-        if (!(hoveredDevice == index)) {
-          logger.i("Hovered icon #" + index.toString());
-
-          Timer(Duration(milliseconds: 10), (){
-            //only execute action when device is still hovered
-            if(hoveredDevice == index){
-              final deviceList = Provider.of<NetworkList>(context, listen: false);
-
-              setState(() {
-                showingSpeeds = true;
-                _deviceList.pivotDeviceIndexList[deviceList.selectedNetworkIndex] = index;
-              });
-            }
-          });
-
+      if (_painter.isPointInsideCircle(details.localPosition, deviceIconOffset, _painter.deviceCircleRadius)){
+        deviceGotHovered = true;
+        if(!hoveredDevice){
           setState(() {
-            hoveredDevice = index;
+            hoveredDevice = true;
+            return;
           });
-          break;
         }
-
       }
-
-      // when device is no more hovered
-      else if(hoveredDevice == index){
-
-        logger.i("Left Hovered icon #" + index.toString());
-        final deviceList = Provider.of<NetworkList>(context, listen: false);
-
-        setState(() {
-          hoveredDevice = 999;
-
-          _deviceList.pivotDeviceIndexList[deviceList.selectedNetworkIndex] = 0;
-          if (!config["show_speeds_permanent"]) {
-            showingSpeeds = false;
-          } else {
-            if (!showingSpeeds) _painter.pivotDeviceIndex = 0;
-          }
-        });
-        break;
-      }
-
       index++;
     }
+
+    if(!deviceGotHovered && hoveredDevice){
+      setState(() {
+        hoveredDevice = false;
+      });
+    }
+
+
   }
   void _handleTap(TapUpDetails details, NetworkList _deviceList, width, height) {
 
@@ -1097,15 +1078,14 @@ class _OverviewScreenState extends State<OverviewScreen> {
           selectedDevice = _deviceList.getDeviceList()[index];
           selectedDeviceIndex = index;
           textFieldController.text = selectedDevice.name;
+
+          showingSpeeds = true;
+          _deviceList.pivotDeviceIndexList[_deviceList.selectedNetworkIndex] = index;
+
         });
         break;
       }
       index++;
     }
   }
-
-  void _textFieldControllerListener() {
-    textFieldController.text = "awfa";
-  }
-
 }

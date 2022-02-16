@@ -31,7 +31,7 @@ class DrawOverview extends CustomPainter {
   int selectedNetworkIndex = 0;
   bool showingSpeeds = false; //true: draw the device circles with speeds as content. false: draw device circles with icons as content.
   bool connect = false;
-  int hoveredDevice = 999; // displays wich device index is hovered, if no device is hovered the index is set to 999
+  int selectedDevice = 999; // displays wich device index is hovered, if no device is hovered the index is set to 999
   late TextStyle _textStyle;
   late TextStyle _productTypeStyle;
   late TextStyle _speedTextStyle;
@@ -56,12 +56,12 @@ class DrawOverview extends CustomPainter {
   late double screenWidth;
   late BuildContext context;
 
-  DrawOverview(BuildContext context, NetworkList foundDevices, bool showSpeeds, int pivot, int hoveredDeviceIndex) {
+  DrawOverview(BuildContext context, NetworkList foundDevices, bool showSpeeds, int pivot, int selectedDeviceIndex) {
     logger.d("[draw Overview] DrawNetworkOverview -> ");
 
     _providerList = Provider.of<NetworkList>(context);
     _deviceList = _providerList.getDeviceList();
-    hoveredDevice = hoveredDeviceIndex;
+    selectedDevice = selectedDeviceIndex;
     numberFoundDevices = _deviceList.length;
     selectedNetworkIndex = _providerList.selectedNetworkIndex;
     showingSpeeds = showSpeeds | config['show_speeds_permanent'];
@@ -188,7 +188,7 @@ class DrawOverview extends CustomPainter {
 
     Offset toOffset = getLaptopIconOffset(localIndex, _deviceIconOffsetList);
 
-    if ((showingSpeeds && localIndex != pivotDeviceIndex) || localIndex == hoveredDevice) {
+    if ((showingSpeeds && localIndex != pivotDeviceIndex) || localIndex == selectedDevice) {
       drawIcon(canvas, toOffset, DevoloIcons.ic_laptop_24px_circled,laptopCircleRadius*2,drawingColor, false);
     } else {
       drawIcon(canvas, toOffset, DevoloIcons.ic_laptop_24px_filled,laptopCircleRadius*2,drawingColor, false);
@@ -298,7 +298,7 @@ class DrawOverview extends CustomPainter {
   void drawDeviceIconContent(Canvas canvas, int deviceIndex) {
     Offset absoluteCenterOffset = _deviceIconOffsetList.elementAt(deviceIndex);
 
-    if (showingSpeeds && deviceIndex != hoveredDevice) {
+    if (showingSpeeds && deviceIndex != selectedDevice) {
       int rx = 0,
           tx = 0;
       String speedUp = "";
@@ -367,7 +367,7 @@ class DrawOverview extends CustomPainter {
       }
     }else {
 
-      if(deviceIndex == hoveredDevice){
+      if(deviceIndex == selectedDevice){
         Offset iconPosition = Offset(absoluteCenterOffset.dx, absoluteCenterOffset.dy);
 
         IconData circledDeviceIcon = getFilledIconForDeviceType(_deviceList.elementAt(deviceIndex).typeEnum);
@@ -459,14 +459,9 @@ class DrawOverview extends CustomPainter {
 
   void drawMainIcon(Canvas canvas, icon) {
     Offset absoluteRouterOffset = Offset(canvasWidth / 2, canvasGridHeight * -45 + canvasHeight/2);
-    Offset absoluteAreaOffset = Offset(canvasWidth / 2, canvasGridHeight * -45 + 30 + canvasHeight/2);
     Offset absoluteRouterDeviceOffset = _deviceIconOffsetList.elementAt(0);
-    var internetTextSpan = TextSpan(
-      text: S.current.internet,
-      style: _productTypeStyle.apply(),
-    );
 
-    _iconPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: iconScale, fontFamily: icon.fontFamily, color: drawingColor));
+    _iconPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: 30 * sizes.icon_factor, fontFamily: icon.fontFamily, color: drawingColor));
     _iconPainter.layout();
     _iconPainter.paint(canvas, Offset(absoluteRouterOffset.dx - (_iconPainter.width / 2), absoluteRouterOffset.dy));
 
@@ -480,11 +475,6 @@ class DrawOverview extends CustomPainter {
         canvas.drawLine(Offset(absoluteRouterOffset.dx, absoluteRouterOffset.dy + _iconPainter.height + distance/12), Offset(absoluteRouterDeviceOffset.dx, absoluteRouterDeviceOffset.dy - deviceCircleRadius - distance/12), _linePaint..strokeWidth = connectionLineWidth);
       }
     }
-
-    _textPainter.text = internetTextSpan;
-    _textPainter.layout(minWidth: 0, maxWidth: 300);
-    _textPainter.paint(canvas, absoluteRouterOffset.translate(_iconPainter.width/2, _iconPainter.height/2 - _textPainter.height/2));
-
   }
 
   void drawIcon(Canvas canvas, Offset offset, icon, double size, Color color, [bool transparentBackground = true]) {
@@ -721,7 +711,7 @@ class DrawOverview extends CustomPainter {
     if (oldDelegate.pivotDeviceIndex != pivotDeviceIndex) return true;
     if (oldDelegate.selectedNetworkIndex != selectedNetworkIndex) return true;
     if (oldDelegate.connect != connect) return true;
-    if (oldDelegate.hoveredDevice != hoveredDevice) return true;
+    if (oldDelegate.selectedDevice != selectedDevice) return true;
 
     return false;
   }

@@ -579,6 +579,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
                                   if(selectedDevice.webinterfaceAvailable)...[
                                     ListTile(
+                                      hoverColor: Colors.white.withOpacity(0.2),
                                       leading: Icon(
                                         DevoloIcons.devolo_UI_internet,
                                         size: 24 * size.icon_factor,
@@ -597,6 +598,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   if(selectedDevice.identifyDeviceAvailable)...[
                                     Divider(height: dividerHeight, color: fontColorOnBackground),
                                     ListTile(
+                                      hoverColor: Colors.white.withOpacity(0.2),
                                       leading: Icon(
                                         DevoloIcons.devolo_icon_ui_led,
                                         size: 24 * size.icon_factor,
@@ -647,6 +649,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   if(selectedDevice.supportedVDSL.isNotEmpty)...[
                                     Divider(height: dividerHeight, color: fontColorOnBackground),
                                     ListTile(
+                                      hoverColor: Colors.white.withOpacity(0.2),
                                       leading: Icon(
                                         DevoloIcons.ic_router_24px,
                                         size: 24 * size.icon_factor,
@@ -673,6 +676,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   ],
                                   Divider(height: dividerHeight, color: fontColorOnBackground),
                                   ListTile(
+                                    hoverColor: Colors.white.withOpacity(0.2),
                                     leading: Icon(
                                       DevoloIcons.ic_find_in_page_24px,
                                       size: 24 * size.icon_factor,
@@ -699,9 +703,127 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                       }
                                     },
                                   ),
+                                  if(sideInformationEnabled && selectedDevice.disableLeds[0] == 1)...[
+                                    Divider(height: dividerHeight, color: fontColorOnBackground),
+                                    SwitchListTile(
+                                      hoverColor: Colors.white.withOpacity(0.2),
+                                      title: Text(S.of(context).activateLEDs,
+                                        style: TextStyle(color: fontColorOnBackground),
+                                        textScaleFactor: size.font_factor
+                                      ),
+                                      value: selectedDevice.disableLeds[1] == 0 ? true : false,
+                                      onChanged: (bool value) async {
+                                        String newStatus = value ? "0" : "1";
+                                        socket.sendXML('DisableLEDs', newValue: newStatus,
+                                            valueType: 'state',
+                                            mac: selectedDevice.mac);
+                                        circularProgressIndicatorInMiddle(context);
+                                        var response = await socket.receiveXML(
+                                            "DisableLEDsStatus");
+                                        if (response!['result'] == "ok") {
+                                          selectedDevice.disableLeds[1] = value ? 0 : 1;
+                                          Navigator.maybeOf(context)!.pop();
+                                        }
+                                        else {
+                                          Navigator.maybeOf(context)!.pop();
+                                          errorDialog(context, S
+                                              .of(context)
+                                              .activateLEDsFailedTitle, S
+                                              .of(context)
+                                              .activateLEDsFailedBody, size);
+                                        }
+                                      },
+                                      secondary: Icon(DevoloIcons.ic_lightbulb_outline_24px,
+                                          color: fontColorOnBackground,
+                                          size: 24 * size.font_factor),
+                                      activeTrackColor: devoloGreen.withOpacity(0.4),
+                                      activeColor: devoloGreen,
+                                      inactiveThumbColor: Colors.white,
+                                      inactiveTrackColor: Color(0x61000000),
+                                    ),
+                                  ],
+                                  if(sideInformationEnabled && selectedDevice.disableTraffic[0] == 1)...[
+                                    Divider(height: dividerHeight, color: fontColorOnBackground),
+                                    SwitchListTile(
+                                      hoverColor: Colors.white.withOpacity(0.2),
+                                      title: Text(S.of(context).activateTransmission,
+                                          style: TextStyle(color: fontColorOnBackground),
+                                          textScaleFactor: size.font_factor
+                                      ),
+                                      value: selectedDevice.disableTraffic[1] == 0 ? true : false,
+                                      onChanged: (bool value) async {
+                                        String newStatus = value ? "0" : "1";
+                                        socket.sendXML('DisableTraffic', newValue: newStatus,
+                                            valueType: 'state',
+                                            mac: selectedDevice.mac);
+                                        circularProgressIndicatorInMiddle(context);
+                                        var response = await socket.receiveXML(
+                                            "DisableTrafficStatus");
+                                        if (response!['result'] == "ok") {
+                                          selectedDevice.disableTraffic[1] = value ? 0 : 1;
+                                          Navigator.maybeOf(context)!.pop();
+                                        }
+                                        else {
+                                          Navigator.maybeOf(context)!.pop();
+                                          errorDialog(context, S
+                                              .of(context)
+                                              .activateTransmissionFailedTitle, S
+                                              .of(context)
+                                              .activateTransmissionFailedBody, size);
+                                        }
+                                      },
+                                      secondary: Icon(DevoloIcons.ic_perm_data_setting_24px,
+                                          color: fontColorOnBackground,
+                                          size: 24 * size.font_factor),
+                                      activeTrackColor: devoloGreen.withOpacity(0.4),
+                                      activeColor: devoloGreen,
+                                      inactiveThumbColor: Colors.white,
+                                      inactiveTrackColor: Color(0x61000000),
+                                    ),
+                                  ],
+                                  if(sideInformationEnabled && selectedDevice.disableStandby[0] == 1)...[
+                                    Divider(height: dividerHeight, color: fontColorOnBackground),
+                                    SwitchListTile(
+                                      hoverColor: Colors.white.withOpacity(0.2),
+                                      title: Text(S.of(context).powerSavingMode,
+                                          style: TextStyle(color: fontColorOnBackground),
+                                          textScaleFactor: size.font_factor
+                                      ),
+                                      value: selectedDevice.disableStandby[1] == 0 ? true : false,
+                                      onChanged: (bool value) async {
+                                        String newStatus = value ? "0" : "1";
+                                        socket.sendXML('DisableStandby', newValue: newStatus,
+                                            valueType: 'state',
+                                            mac: selectedDevice.mac);
+                                        circularProgressIndicatorInMiddle(context);
+                                        var response = await socket.receiveXML(
+                                            "DisableStandbyStatus");
+                                        if (response!['result'] == "ok") {
+                                          selectedDevice.disableStandby[1] = value ? 0 : 1;
+                                          Navigator.maybeOf(context)!.pop();
+                                        }
+                                        else {
+                                          Navigator.maybeOf(context)!.pop();
+                                          errorDialog(context, S
+                                              .of(context)
+                                              .powerSavingModeFailedTitle, S
+                                              .of(context)
+                                              .powerSavingModeFailedBody, size);
+                                        }
+                                      },
+                                      secondary: Icon(DevoloIcons.ic_battery_charging_full_24px,
+                                          color: fontColorOnBackground,
+                                          size: 24 * size.font_factor),
+                                      activeTrackColor: devoloGreen.withOpacity(0.4),
+                                      activeColor: devoloGreen,
+                                      inactiveThumbColor: Colors.white,
+                                      inactiveTrackColor: Color(0x61000000),
+                                    ),
+                                  ],
                                   if(sideInformationEnabled)...[
                                     Divider(height: dividerHeight, color: fontColorOnBackground),
                                     ListTile(
+                                      hoverColor: Colors.white.withOpacity(0.2),
                                       leading: Icon(
                                         DevoloIcons.devolo_UI_delete,
                                         size: 24 * size.icon_factor,
@@ -763,6 +885,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   if(sideInformationEnabled)...[
                                     Divider(height: dividerHeight, color: fontColorOnBackground),
                                     ListTile(
+                                      hoverColor: Colors.white.withOpacity(0.2),
                                       leading: Icon(
                                         DevoloIcons.ic_file_upload_24px,
                                         size: 24 * size.icon_factor,
@@ -817,40 +940,6 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                                 .resetDeviceErrorBody, size);
                                           }
                                         }
-                                      },
-                                    ),
-                                  ],
-                                  if(selectedDevice.disableTraffic[0] == 1 ||
-                                      selectedDevice.disableLeds[0] == 1 ||
-                                      selectedDevice.disableStandby[0] == 1 ||
-                                      (selectedDevice.ipConfigAddress.isNotEmpty ||
-                                          selectedDevice.ipConfigMac.isNotEmpty ||
-                                          selectedDevice.ipConfigNetmask.isNotEmpty
-                                      ))...[
-                                    Divider(height: dividerHeight, color: fontColorOnBackground),
-                                    ListTile(
-                                      leading: Icon(
-                                        DevoloIcons.devolo_UI_more_horiz,
-                                        size: 24 * size.icon_factor,
-                                      ),
-                                      title: Text(
-                                        S.of(context).additionalSettings,
-                                        textScaleFactor: size.font_factor,
-                                      ),
-                                      iconColor: fontColorOnBackground,
-                                      textColor: fontColorOnBackground,
-                                      onTap: () {
-                                        moreSettings(
-                                            context,
-                                            socket,
-                                            selectedDevice.disableTraffic,
-                                            selectedDevice.disableLeds,
-                                            selectedDevice.disableStandby,
-                                            selectedDevice.mac,
-                                            selectedDevice.ipConfigMac,
-                                            selectedDevice.ipConfigAddress,
-                                            selectedDevice.ipConfigNetmask,
-                                            size);
                                       },
                                     ),
                                   ],

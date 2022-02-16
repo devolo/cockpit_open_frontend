@@ -56,7 +56,7 @@ class DrawOverview extends CustomPainter {
   late double screenWidth;
   late BuildContext context;
 
-  DrawOverview(BuildContext context, NetworkList foundDevices, bool showSpeeds, int pivot, int selectedDeviceIndex) {
+  DrawOverview(BuildContext context, NetworkList foundDevices, int pivot, int selectedDeviceIndex) {
     logger.d("[draw Overview] DrawNetworkOverview -> ");
 
     _providerList = Provider.of<NetworkList>(context);
@@ -64,7 +64,7 @@ class DrawOverview extends CustomPainter {
     selectedDevice = selectedDeviceIndex;
     numberFoundDevices = _deviceList.length;
     selectedNetworkIndex = _providerList.selectedNetworkIndex;
-    showingSpeeds = showSpeeds | config['show_speeds_permanent'];
+    showingSpeeds = config['show_speeds_permanent'];
     pivotDeviceIndex = pivot; // ToDo same
     this.context = context;
 
@@ -221,6 +221,80 @@ class DrawOverview extends CustomPainter {
     drawArrow(canvas, absoluteOffsetRx, absolutePivotOffsetRx, color['rx']);
     drawArrow(canvas, absolutePivotOffsetTx, absoluteOffsetTx, color['tx']);
 
+  }
+
+  void drawDeviceConnection2(Canvas canvas, Offset deviceOffset, Map color) {
+
+    Offset absoluteOffset = deviceOffset;
+    Offset absolutePivotOffset = _deviceIconOffsetList.elementAt(pivotDeviceIndex);
+
+    Offset lineDirection = Offset(absolutePivotOffset.dx - absoluteOffset.dx, absolutePivotOffset.dy - absoluteOffset.dy);
+
+    Offset lineDirectionOrtho = Offset(lineDirection.dy, -lineDirection.dx); // orthogonal to connection line
+
+    var angle = atan2(lineDirectionOrtho.dy, lineDirectionOrtho.dx);
+
+    drawLine(canvas, absoluteOffset, absolutePivotOffset, Colors.white);
+
+  }
+
+  void drawLine(Canvas canvas, start, end, color) {
+
+    var dx = end.dx - start.dx;
+    var dy = end.dy - start.dy;
+    var distance = sqrt(pow(dx, 2) + pow(dy, 2));
+    var angle = atan2(dy, dx);
+
+    double paddingStart;
+    double paddingEnd;
+
+    var collisionAvoidPadding;
+    var standardPadding = 40;
+    if(sin(angle) == -1 || sin(angle) == 1){
+      collisionAvoidPadding = 20;
+    }
+    else if((sin(angle) >= -0.5 && sin(angle) <= -0.3) || sin(angle) >= 0.3 && sin(angle) <= 0.5){
+      collisionAvoidPadding = 80;
+    }
+    else if((sin(angle) < -0.5 && sin(angle) >= -1) || sin(angle) > 0.5 && sin(angle) <= 1){
+      collisionAvoidPadding = 40;
+    }
+    else{
+      collisionAvoidPadding = standardPadding;
+    }
+
+    if(sin(angle) < -0.4 && sin(angle) >= -1){  // Arrow to top - As the arrow points to the top, we need no extra padding between the start of the arrow and the icon, as there will be no name collision.
+      paddingStart = deviceCircleRadius + collisionAvoidPadding;
+      paddingEnd= deviceCircleRadius + getDeviceNameAndTypeHeight() + collisionAvoidPadding;
+    }
+    else if((sin(angle) > 0.4 && sin(angle) <= 1)){ // Arrow to bottom - As the arrow points to the bottom, we need no extra padding between the arrow cross and the icon, as there will be no name collision.
+      paddingStart = deviceCircleRadius + getDeviceNameAndTypeHeight() + collisionAvoidPadding;
+      paddingEnd = deviceCircleRadius + collisionAvoidPadding;
+    }
+    else{ // arrow where the name does not collide with
+      paddingStart = deviceCircleRadius + collisionAvoidPadding;
+      paddingEnd= deviceCircleRadius + collisionAvoidPadding;
+    }
+
+    while(paddingStart + paddingEnd > distance){
+      paddingEnd -= distance/20;
+      paddingStart -= distance/20;
+    }
+
+    dynamic startDx = start.dx + cos(angle) * paddingStart;
+    dynamic startDy = start.dy + sin(angle) * paddingStart;
+    dynamic endDx = end.dx - cos(angle) * paddingEnd;
+    dynamic endDy = end.dy-sin(angle) * paddingEnd;
+
+    var path = Path();
+    path.moveTo(startDx, startDy);
+    path.lineTo(endDx, endDy);
+
+
+    canvas.drawPath(
+        path,
+        _arrowPaint
+          ..color = color);
   }
 
   void drawArrow(Canvas canvas, start, end, color) {
@@ -610,7 +684,7 @@ class DrawOverview extends CustomPainter {
 
       //do not draw pivot device line, since it would start and end at the same place
       if (numDev != pivotDeviceIndex) {
-        drawDeviceConnection(canvas, _deviceIconOffsetList.elementAt(numDev), getLineColor(numDev));
+        showingSpeeds ? drawDeviceConnection(canvas, _deviceIconOffsetList.elementAt(numDev), getLineColor(numDev)) : drawDeviceConnection2(canvas, _deviceIconOffsetList.elementAt(numDev), getLineColor(numDev));
       }
 
     }

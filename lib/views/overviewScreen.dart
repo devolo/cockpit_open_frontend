@@ -42,7 +42,6 @@ class _OverviewScreenState extends State<OverviewScreen> {
   late DrawOverview _painter;
 
   bool blockRefresh = false;
-  bool showingSpeeds = false;
 
   FocusNode deviceNameFormFocusNode = new FocusNode();
 
@@ -112,7 +111,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
       pivotDeviceIndex = _deviceList.pivotDeviceIndexList[_deviceList.selectedNetworkIndex];
 
 
-    _painter = DrawOverview(context, _deviceList, showingSpeeds, pivotDeviceIndex, selectedDeviceIndex);
+    _painter = DrawOverview(context, _deviceList, pivotDeviceIndex, selectedDeviceIndex);
 
     logger.d("[overviewScreen] - widget build...");
 
@@ -877,6 +876,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                             onPressed: (){
                               setState(() {
                                 selectedDeviceIndex = 999;
+                                _deviceList.pivotDeviceIndexList[_deviceList.selectedNetworkIndex] = 0;
                               });
                             },
 
@@ -1079,7 +1079,6 @@ class _OverviewScreenState extends State<OverviewScreen> {
           selectedDeviceIndex = index;
           textFieldController.text = selectedDevice.name;
 
-          showingSpeeds = true;
           _deviceList.pivotDeviceIndexList[_deviceList.selectedNetworkIndex] = index;
 
         });

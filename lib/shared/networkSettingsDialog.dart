@@ -12,7 +12,7 @@ import 'devolo_icons.dart';
 import 'helpers.dart';
 
 // add closeButton manually
-void networkSettingsDialog(context, NetworkList _deviceList, FocusNode myFocusNode, DataHand socket, SizeModel size) {
+void networkSettingsDialog(context, NetworkList _deviceList, DataHand socket, SizeModel size) {
   bool networkPasswordResponseTrue = false;
   bool networkPasswordResponseFalse = false;
   bool waitForNetworkPasswordResponse = false;
@@ -59,7 +59,6 @@ void networkSettingsDialog(context, NetworkList _deviceList, FocusNode myFocusNo
                       child: Container(
                         width: 250.0,
                         child: TextFormField(
-                          focusNode: myFocusNode,
                           initialValue: _newPw,
                           obscureText: _hiddenPw,
                           maxLength: maxLength,

@@ -129,7 +129,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
         ignoring: socket.connected ? false: true,
         child: Stack(
           children: [
-            Row(children: [
+            Row(crossAxisAlignment : CrossAxisAlignment.start, children: [
               Expanded(child: Column(
                 mainAxisAlignment : MainAxisAlignment.center,
                 children: [
@@ -174,14 +174,14 @@ class _OverviewScreenState extends State<OverviewScreen> {
                               value: "networkSettings",
                               child: SizedBox(    // needed as different languages have different length which influences the offset
                                 width: 200,
-                                child: Text(S.of(context).changePlcNetworkPassword, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * size.font_factor),),
+                                child: Text(S.of(context).changePlcNetworkPassword, style: TextStyle(color: fontColorOnBackground)),
                               ),
                             ),
                             if(_deviceList.getNetworkListLength() > 1) ...[
                               PopupMenuDivider(),
                               PopupMenuItem(
                                 enabled: false,
-                                child: Text(S.of(context).switchNetwork, style: TextStyle(color: fontColorOnBackground, fontSize: 14 * size.font_factor)),
+                                child: Text(S.of(context).switchNetwork, style: TextStyle(color: fontColorOnBackground)),
                               ),
                               for(int i = 0; i < _deviceList.getNetworkListLength(); i++) ...[
                                 PopupMenuItem(
@@ -189,7 +189,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   value: i,
                                   child: Padding(
                                       padding: EdgeInsets.only(left: 50, right: 10), //Needs to be done here as the parent padding gets ignored when the item is disabled
-                                      child: Text(_deviceList.getNetworkName(i), style: TextStyle(color: fontColorOnBackground, fontSize: 14 * size.font_factor, fontWeight: _deviceList.selectedNetworkIndex == i ? FontWeight.w600 : null))),
+                                      child: Text(_deviceList.getNetworkName(i), style: TextStyle(color: fontColorOnBackground, fontWeight: _deviceList.selectedNetworkIndex == i ? FontWeight.w600 : null))),
                                 ),
                               ]
                             ]
@@ -258,7 +258,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
               ),
               if(selectedDeviceIndex != 999)
                 Container(
-                  margin: EdgeInsets.only(right: 120),  // to avoid collision with refresh button
+                  margin: EdgeInsets.only(top: 40, right: 120),  // to avoid collision with refresh button
                   padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),  // scrollbar padding
                   width: containerWidth,
                   constraints: BoxConstraints(maxHeight: screenHeight/1.2),
@@ -320,6 +320,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                               child: SelectableText(
                                                 "${S.of(context).name}:",
                                                 style: TextStyle(color: fontColorOnBackground),
+                                                textScaleFactor: size.font_factor,
                                               )),
                                         ),
                                         TextFormField(
@@ -328,9 +329,10 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                           maxLines: 5,// when user presses enter it will adapt to it
                                           controller: textFieldController,
                                           focusNode: deviceNameFormFocusNode,
-                                          style: TextStyle(color: fontColorOnBackground,
-                                              fontSize: 14 *
-                                                  size.font_factor),
+                                          style: TextStyle(
+                                              color: fontColorOnBackground,
+                                              fontSize: 16 * size.font_factor
+                                          ),
                                           cursorColor: fontColorOnBackground,
                                           decoration: InputDecoration(
                                             isDense: deviceNameFormFocusNode.hasPrimaryFocus? false : true,
@@ -486,13 +488,15 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                                 child: SelectableText(
                                                   "${S.of(context).type}:",
                                                   style: TextStyle(color: fontColorOnBackground),
+                                                  textScaleFactor: size.font_factor
                                                 )),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.symmetric(vertical: 5.0),
                                             child: SelectableText(
                                                 selectedDevice.type,
-                                                style: TextStyle(color: fontColorOnBackground)
+                                                style: TextStyle(color: fontColorOnBackground),
+                                                textScaleFactor: size.font_factor,
                                             ),
                                           ),
                                         ]),
@@ -506,12 +510,15 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                                 child: SelectableText(
                                                   "${S.of(context).serialNumber}:",
                                                   style: TextStyle(color: fontColorOnBackground),
+                                                  textScaleFactor: size.font_factor,
                                                 )),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.symmetric(vertical: 5.0),
                                             child: SelectableText(selectedDevice.serialno,
-                                                style: TextStyle(color: fontColorOnBackground)),
+                                                style: TextStyle(color: fontColorOnBackground),
+                                                textScaleFactor: size.font_factor,
+                                            ),
                                           ),
                                         ]),
                                       ],
@@ -524,6 +531,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                               child: SelectableText(
                                                 "${S.of(context).version}:",
                                                 style: TextStyle(color: fontColorOnBackground),
+                                                textScaleFactor: size.font_factor,
                                               ),
                                             ),
                                           ),
@@ -532,7 +540,9 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                             child: SelectableText(
                                                 selectedDevice.version + " (" + selectedDevice.versionDate +
                                                     ")",
-                                                style: TextStyle(color: fontColorOnBackground)),
+                                                style: TextStyle(color: fontColorOnBackground),
+                                                textScaleFactor: size.font_factor,
+                                            ),
                                           ),
                                         ]),
                                       ],
@@ -545,17 +555,20 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                               child: SelectableText(
                                                 "${S.of(context).ipAddress}:",
                                                 style: TextStyle(color: fontColorOnBackground),
+                                                textScaleFactor: size.font_factor,
                                               ),
                                             ),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.symmetric(vertical: 5.0),
                                             child: SelectableText(selectedDevice.ip,
-                                                style: TextStyle(color: fontColorOnBackground)),
+                                                style: TextStyle(color: fontColorOnBackground),
+                                                textScaleFactor: size.font_factor,
+                                            ),
                                           ),
                                         ]),
                                       ],
-                                      if(sideInformationEnabled && selectedDevice.mac != "")...[
+                                      if(sideInformationEnabled && selectedDevice.mac != "" && !(selectedDevice.networkType == "wifi:other" && selectedDevice.mac[0]=="0" && selectedDevice.mac[1]=="1"))...[ //don´t display multicast address
                                         TableRow(children: [
                                           Padding(
                                             padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -564,12 +577,17 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                               child: SelectableText(
                                                 "${S.of(context).macAddress}:",
                                                 style: TextStyle(color: fontColorOnBackground),
+                                                textScaleFactor: size.font_factor,
                                               ),
                                             ),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.symmetric(vertical: 5.0),
-                                            child: (selectedDevice.networkType == "wifi:other" && selectedDevice.mac[0]=="0" && selectedDevice.mac[1]=="1") ? null : SelectableText(selectedDevice.mac,style: TextStyle(color: fontColorOnBackground)),  //don´t display multicast address
+                                            child: SelectableText(
+                                              selectedDevice.mac,
+                                              style: TextStyle(color: fontColorOnBackground),
+                                              textScaleFactor: size.font_factor,
+                                            ),
                                           ),
                                         ]),
                                       ],

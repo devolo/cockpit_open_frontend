@@ -77,11 +77,20 @@ class MyApp extends StatelessWidget{
                   dialogTheme: DialogTheme(backgroundColor: backgroundColor.withOpacity(0.9)),
 
                   highlightColor: Colors.transparent,
-                  textTheme: Theme.of(context).textTheme.apply(
-                        fontFamily: 'OpenSans',
-                        displayColor: fontColorOnSecond,
-                        bodyColor: fontColorOnSecond,
-                        decorationColor: fontColorOnSecond,
+                  textTheme: TextTheme( //see https://api.flutter.dev/flutter/material/TextTheme-class.html
+                    bodyText2: TextStyle(fontSize: 16, fontFamily: "OpenSans"),
+                    bodyText1: TextStyle(fontSize: 16, fontFamily: "OpenSans"),
+                    button: TextStyle(fontSize: 16, fontFamily: "OpenSans"),
+                    caption: TextStyle(fontSize: 16, fontFamily: "OpenSans"),
+                    overline: TextStyle(fontSize: 16, fontFamily: "OpenSans"),
+                    subtitle2: TextStyle(fontSize: 16, fontFamily: "OpenSans"),
+                    subtitle1: TextStyle(fontSize: 16, fontFamily: "OpenSans"),
+                    headline6: TextStyle(fontSize: 16, fontFamily: "OpenSans"),
+                    headline5: TextStyle(fontSize: 16, fontFamily: "OpenSans"),
+                    headline4: TextStyle(fontSize: 16, fontFamily: "OpenSans"),
+                    headline3: TextStyle(fontSize: 16, fontFamily: "OpenSans"),
+                    headline2: TextStyle(fontSize: 16, fontFamily: "OpenSans"),
+                    headline1: TextStyle(fontSize: 16, fontFamily: "OpenSans"),
                       ),
                 ),
                 localizationsDelegates: [

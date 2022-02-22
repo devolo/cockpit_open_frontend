@@ -58,7 +58,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
   final textFieldController = TextEditingController();
 
   bool identifyDeviceActionRunning = false;
-  bool sideInformationEnabled = false;
+  bool sideInformationExtended = false;
 
   @override
   void initState() {
@@ -546,7 +546,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                           ),
                                         ]),
                                       ],
-                                      if(sideInformationEnabled && selectedDevice.ip != "")...[
+                                      if(sideInformationExtended && selectedDevice.ip != "")...[
                                         TableRow(children: [
                                           Padding(
                                             padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -568,7 +568,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                           ),
                                         ]),
                                       ],
-                                      if(sideInformationEnabled && selectedDevice.mac != "" && !(selectedDevice.networkType == "wifi:other" && selectedDevice.mac[0]=="0" && selectedDevice.mac[1]=="1"))...[ //don´t display multicast address
+                                      if(sideInformationExtended && selectedDevice.mac != "" && !(selectedDevice.networkType == "wifi:other" && selectedDevice.mac[0]=="0" && selectedDevice.mac[1]=="1"))...[ //don´t display multicast address
                                         TableRow(children: [
                                           Padding(
                                             padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -721,7 +721,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                       }
                                     },
                                   ),
-                                  if(sideInformationEnabled && selectedDevice.disableLeds[0] == 1)...[
+                                  if(sideInformationExtended && selectedDevice.disableLeds[0] == 1)...[
                                     Divider(height: dividerHeight, color: fontColorOnBackground),
                                     SwitchListTile(
                                       hoverColor: Colors.white.withOpacity(0.2),
@@ -760,7 +760,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                       inactiveTrackColor: Color(0x61000000),
                                     ),
                                   ],
-                                  if(sideInformationEnabled && selectedDevice.disableTraffic[0] == 1)...[
+                                  if(sideInformationExtended && selectedDevice.disableTraffic[0] == 1)...[
                                     Divider(height: dividerHeight, color: fontColorOnBackground),
                                     SwitchListTile(
                                       hoverColor: Colors.white.withOpacity(0.2),
@@ -799,7 +799,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                       inactiveTrackColor: Color(0x61000000),
                                     ),
                                   ],
-                                  if(sideInformationEnabled && selectedDevice.disableStandby[0] == 1)...[
+                                  if(sideInformationExtended && selectedDevice.disableStandby[0] == 1)...[
                                     Divider(height: dividerHeight, color: fontColorOnBackground),
                                     SwitchListTile(
                                       hoverColor: Colors.white.withOpacity(0.2),
@@ -838,7 +838,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                       inactiveTrackColor: Color(0x61000000),
                                     ),
                                   ],
-                                  if(sideInformationEnabled)...[
+                                  if(sideInformationExtended)...[
                                     Divider(height: dividerHeight, color: fontColorOnBackground),
                                     ListTile(
                                       hoverColor: Colors.white.withOpacity(0.2),
@@ -900,7 +900,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                       },
                                     ),
                                   ],
-                                  if(sideInformationEnabled)...[
+                                  if(sideInformationExtended)...[
                                     Divider(height: dividerHeight, color: fontColorOnBackground),
                                     ListTile(
                                       hoverColor: Colors.white.withOpacity(0.2),
@@ -962,11 +962,11 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                     ),
                                   ],
                                   IconButton(
-                                    icon: Icon(sideInformationEnabled ? DevoloIcons.devolo_UI_chevron_up : DevoloIcons.devolo_UI_chevron_down),
+                                    icon: Icon(sideInformationExtended ? DevoloIcons.devolo_UI_chevron_up : DevoloIcons.devolo_UI_chevron_down),
                                     color: fontColorOnBackground,
                                     onPressed: (){
                                       setState(() {
-                                        sideInformationEnabled = !sideInformationEnabled;
+                                        sideInformationExtended = !sideInformationExtended;
                                       });
                                     },
                                   ),
@@ -1182,6 +1182,9 @@ class _OverviewScreenState extends State<OverviewScreen> {
         logger.i("Clicked icon #" + index.toString());
 
         setState(() {
+          if(selectedDeviceIndex != index)
+            sideInformationExtended = false;
+
           selectedDevice = _deviceList.getDeviceList()[index];
           selectedDeviceIndex = index;
           textFieldController.text = selectedDevice.name;

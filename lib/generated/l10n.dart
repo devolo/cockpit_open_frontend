@@ -770,30 +770,30 @@ class S {
     );
   }
 
-  /// `Support informations are getting generated`
+  /// `Support information is getting generated`
   String get LoadCockpitSupportInformationBody {
     return Intl.message(
-      'Support informations are getting generated',
+      'Support information is getting generated',
       name: 'LoadCockpitSupportInformationBody',
       desc: '',
       args: [],
     );
   }
 
-  /// `Support informations are sent to devolo`
+  /// `Support information is sent to devolo`
   String get SendCockpitSupportInformationBody {
     return Intl.message(
-      'Support informations are sent to devolo',
+      'Support information is sent to devolo',
       name: 'SendCockpitSupportInformationBody',
       desc: '',
       args: [],
     );
   }
 
-  /// `The support informations have been created and are now available to you. Please select an action.`
+  /// `The support information has been created and is now available to you. Please select an action.`
   String get cockpitSupportInformationBody {
     return Intl.message(
-      'The support informations have been created and are now available to you. Please select an action.',
+      'The support information has been created and is now available to you. Please select an action.',
       name: 'cockpitSupportInformationBody',
       desc: '',
       args: [],

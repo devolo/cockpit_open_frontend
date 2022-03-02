@@ -442,6 +442,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                                                 const Duration(seconds: 1), () {});
                                                             socket.sendXML('RefreshNetwork');
                                                           } else if (response['result'] == "device_not_found") {
+                                                            textFieldController.text = selectedDevice.name;
                                                             errorDialog(context, S
                                                                 .of(context)
                                                                 .deviceNameErrorTitle, S
@@ -450,6 +451,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                                                 .of(context)
                                                                 .deviceNotFoundHint, size);
                                                           } else if (response['result'] != "ok") {
+                                                            textFieldController.text = selectedDevice.name;
                                                             errorDialog(context, S
                                                                 .of(context)
                                                                 .deviceNameErrorTitle, S

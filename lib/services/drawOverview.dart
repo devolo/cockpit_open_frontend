@@ -327,7 +327,7 @@ class DrawOverview extends CustomPainter {
       collisionAvoidPadding = 20;
     }
     else if((sin(angle) >= -0.5 && sin(angle) <= -0.3) || sin(angle) >= 0.3 && sin(angle) <= 0.5){
-      collisionAvoidPadding = 80;
+      collisionAvoidPadding = 40;
     }
     else if((sin(angle) < -0.5 && sin(angle) >= -1) || sin(angle) > 0.5 && sin(angle) <= 1){
       collisionAvoidPadding = 40;
@@ -382,7 +382,7 @@ class DrawOverview extends CustomPainter {
     double orthogonalAngle = 0;
 
     final dataRateTextSpan = TextSpan(
-      text: dataRateText.toString() + "Mbps",
+      text: dataRateText.toString() + " Mbps",
       style: _productTypeStyle.apply(),
     );
 
@@ -403,7 +403,10 @@ class DrawOverview extends CustomPainter {
 
     // horizontal arrow
     if(orthogonalAngle * 180/pi == 90 || orthogonalAngle * 180/pi == -90 || orthogonalAngle * 180/pi == 270 || orthogonalAngle * 180/pi == -270) {
-      _textPainter.paint(canvas, Offset(((startDx + endDx) / 2) - _textPainter.width/2 + dataRatePadding * cos(orthogonalAngle), ((startDy + endDy) / 2) - topTextPadding + dataRatePadding * sin(orthogonalAngle)));
+      if(angle == 0)
+        _textPainter.paint(canvas, Offset(canvasWidth/2 - _textPainter.width/2, ((startDy + endDy) / 2) - topTextPadding + dataRatePadding * sin(orthogonalAngle)));
+      else
+        _textPainter.paint(canvas, Offset(canvasWidth/2 - _textPainter.width/2, ((startDy + endDy) / 2) - topTextPadding + dataRatePadding * sin(orthogonalAngle)));
     }
 
     // vertical arrow
@@ -411,10 +414,10 @@ class DrawOverview extends CustomPainter {
       dataRatePadding = -dataRatePadding;
 
       if(textOnLeft){
-        _textPainter.paint(canvas, Offset(((startDx + endDx) / 2) - _textPainter.width + dataRatePadding * cos(orthogonalAngle), ((startDy + endDy) / 2) - _textPainter.height/2));
+        _textPainter.paint(canvas, Offset(((startDx + endDx) / 2) - _textPainter.width + dataRatePadding * cos(orthogonalAngle), ((startDy + endDy) / 2) - _textPainter.height/2 ));
       }
       else{
-        _textPainter.paint(canvas, Offset(((startDx + endDx) / 2) + dataRatePadding * cos(orthogonalAngle), ((startDy + endDy) / 2) - _textPainter.height/2));
+        _textPainter.paint(canvas, Offset(((startDx + endDx) / 2) + dataRatePadding * cos(orthogonalAngle), ((startDy + endDy) / 2) - _textPainter.height/2 ));
       }
     }
 
@@ -451,6 +454,10 @@ class DrawOverview extends CustomPainter {
 
   void drawDeviceName(Canvas canvas, String pName, String uName, Offset offset, [Size? size]) {
     Offset absoluteOffset = offset;
+
+    if(uName.length > 14){
+      uName = uName.replaceRange(14, uName.length, "...");
+    }
     final userNameTextSpan = TextSpan(
       text: uName.length > 0 ? uName : "",
       style: _textStyle.apply(),

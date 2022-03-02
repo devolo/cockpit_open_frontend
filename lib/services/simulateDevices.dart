@@ -8,6 +8,7 @@ LICENSE file in the root directory of this source tree.
 
 import 'dart:io';
 import 'dart:math';
+import 'package:cockpit_devolo/models/dataRateModel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
 
@@ -60,6 +61,7 @@ class DeviceSimulator {
         "",
         false);  // IP config netmask
 
+    device.speeds = {"FF:FF:FF:FF:FF" : new DataratePair(randomNumberGenerator.nextInt(800), randomNumberGenerator.nextInt(800))};
     return device;
   }
 }

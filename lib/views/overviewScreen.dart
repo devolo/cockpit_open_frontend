@@ -174,14 +174,14 @@ class _OverviewScreenState extends State<OverviewScreen> {
                               value: "networkSettings",
                               child: SizedBox(    // needed as different languages have different length which influences the offset
                                 width: 200,
-                                child: Text(S.of(context).changePlcNetworkPassword, style: TextStyle(color: fontColorOnBackground)),
+                                child: Text(S.of(context).changePlcNetworkPassword, style: TextStyle(color: fontColorOnBackground), textScaleFactor: size.font_factor),
                               ),
                             ),
                             if(_deviceList.getNetworkListLength() > 1) ...[
                               PopupMenuDivider(),
                               PopupMenuItem(
                                 enabled: false,
-                                child: Text(S.of(context).switchNetwork, style: TextStyle(color: fontColorOnBackground)),
+                                child: Text(S.of(context).switchNetwork, style: TextStyle(color: fontColorOnBackground), textScaleFactor: size.font_factor),
                               ),
                               for(int i = 0; i < _deviceList.getNetworkListLength(); i++) ...[
                                 PopupMenuItem(

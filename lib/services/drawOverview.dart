@@ -68,26 +68,20 @@ class DrawOverview extends CustomPainter {
     pivotDeviceIndex = pivot; // ToDo same
     this.context = context;
 
-
     sizes = context.watch<SizeModel>();
-
-
-
-
-    //completeCircleRadius *= fontSize.factor_icon;
 
     productNameTopPadding = 20 * sizes.font_factor;
     userNameTopPadding = 15;
 
     screenWidth = MediaQuery.of(context).size.width;
 
-    fontSizeDeviceInfo = getScaleSize(1,10,20,screenWidth);  //Device Name + Device Type
-    iconScale = getScaleSize(5,10,70,screenWidth);  //Device Icon
+    fontSizeDeviceInfo = 16 * sizes.font_factor;  //Device Name + Device Type
+    iconScale = 70 * sizes.icon_factor;  //Device Icon
 
     deviceCircleRadius = iconScale/2; // Device Icon
     laptopCircleRadius = (deviceCircleRadius/2) * sizes.icon_factor;  // local Icon (PC)
     fontSizeSpeedInfo = deviceCircleRadius/2.5;  //Inner Device Text
-    connectionLineWidth = getScaleSize(0.3,1,3,screenWidth); //dataRate Arrows
+    connectionLineWidth = 2.5 * sizes.icon_factor; //dataRate Arrows
     // scale of arrowhead in arrow method itself
 
     _textStyle = TextStyle(
@@ -389,7 +383,7 @@ class DrawOverview extends CustomPainter {
 
     final dataRateTextSpan = TextSpan(
       text: dataRateText.toString() + "Mbps",
-      style: _textStyle.apply(),
+      style: _productTypeStyle.apply(),
     );
 
     _textPainter.text = dataRateTextSpan;

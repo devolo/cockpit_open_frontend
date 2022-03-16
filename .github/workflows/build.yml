@@ -9,60 +9,6 @@ env:
   FLUTTER_VERSION: '2.8.1'
 
 jobs:
-  android:
-    name: Build Android APK and app bundle
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout sources
-        uses: actions/checkout@v2
-      - name: Set up Java
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'zulu'
-          java-version: '11'
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: stable
-      - name: Run build
-        run: |
-          flutter config --no-analytics
-          flutter build apk
-          flutter build appbundle
-
-  ios:
-    name: Build for iOS
-    runs-on: macos-latest
-    steps:
-      - name: Checkout sources
-        uses: actions/checkout@v2
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: stable
-      - name: Run build
-        run: |
-          flutter config --no-analytics
-          flutter build ios --release --no-codesign
-
-  web:
-    name: Build for web
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout sources
-        uses: actions/checkout@v2
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: stable
-      - name: Run build
-        run: |
-          flutter config --no-analytics
-          flutter build web
-
   windows:
     name: Build for windows
     runs-on: windows-latest

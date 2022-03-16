@@ -257,9 +257,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void setWindowSize(width, height, fullscreen) async {
     logger.d("SetWindow");
-    await DesktopWindow.setWindowSize(Size(width,height));
+    if(fullscreen)
+      await DesktopWindow.setFullScreen(fullscreen);
+    else
+      await DesktopWindow.setWindowSize(Size(width,height));
     await DesktopWindow.setMinWindowSize(Size(800,600));
-    await DesktopWindow.setFullScreen(fullscreen);
+
   }
 
 
@@ -293,8 +296,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     _deviceList = Provider.of<NetworkList>(context);
     socket = Provider.of<DataHand>(context);
-
-
 
     if(!socket.connected && widgetsPoped) {
       WidgetsBinding.instance!.addPostFrameCallback((_) {

@@ -389,9 +389,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           ),
                                           onPressed: () {
                                             setState(() {
-                                              size.font_factor = 1.4;
+                                              size.font_factor = 1.5;
                                               size.icon_factor = 1.2;
-                                              config["font_size_factor"] = 1.4;
+                                              config["font_size_factor"] = 1.5;
                                               config["icon_size_factor"] = 1.2;
                                             });
                                             saveToSharedPrefs(config);

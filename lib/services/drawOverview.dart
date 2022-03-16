@@ -34,7 +34,7 @@ class DrawOverview extends CustomPainter {
   int selectedDevice = 999; // displays wich device index is hovered, if no device is hovered the index is set to 999
   late TextStyle _textStyle;
   late TextStyle _productTypeStyle;
-  late TextStyle _speedTextStyle;
+  late TextStyle _dataRateTypeStyle;
   late Paint _circleAreaPaint;
   late Paint _speedCircleAreaPaint;
   late Paint _linePaint;
@@ -49,9 +49,7 @@ class DrawOverview extends CustomPainter {
   late double canvasGridHeight;
   late int numberFoundDevices;
   late SizeModel sizes;
-  late double iconScale;
   late double fontSizeDeviceInfo;
-  late double fontSizeSpeedInfo;
   late double connectionLineWidth;
   late double screenWidth;
   late BuildContext context;
@@ -75,13 +73,11 @@ class DrawOverview extends CustomPainter {
 
     screenWidth = MediaQuery.of(context).size.width;
 
-    fontSizeDeviceInfo = 16 * sizes.font_factor;  //Device Name + Device Type
-    iconScale = 70 * sizes.icon_factor;  //Device Icon
+    fontSizeDeviceInfo = 16;  //Device Name + Device Type
 
-    deviceCircleRadius = iconScale/2; // Device Icon
-    laptopCircleRadius = (deviceCircleRadius/2) * sizes.icon_factor;  // local Icon (PC)
-    fontSizeSpeedInfo = deviceCircleRadius/2.5;  //Inner Device Text
-    connectionLineWidth = 2.5 * sizes.icon_factor; //dataRate Arrows
+    deviceCircleRadius = 35; // Device Icon
+    laptopCircleRadius = deviceCircleRadius/2;  // local Icon (PC)
+    connectionLineWidth = 2.5; //dataRate Arrows
     // scale of arrowhead in arrow method itself
 
     _textStyle = TextStyle(
@@ -99,11 +95,11 @@ class DrawOverview extends CustomPainter {
       backgroundColor: backgroundColor,
     );
 
-    _speedTextStyle = TextStyle(
-      color: backgroundColor,
+    _dataRateTypeStyle = TextStyle(
+      color: drawingColor,
       fontFamily: 'OpenSans',
-      fontSize: fontSizeSpeedInfo,
-      fontWeight: FontWeight.bold,
+      fontSize: 16,
+      backgroundColor: backgroundColor,
     );
 
     _circleAreaPaint = Paint()
@@ -132,14 +128,13 @@ class DrawOverview extends CustomPainter {
       ..textScaleFactor = sizes.font_factor;
 
     _speedTextPainter = TextPainter()
-      ..textDirection = TextDirection.rtl
-      ..textAlign = TextAlign.left
-      ..textScaleFactor = sizes.icon_factor;
+      ..textDirection = TextDirection.ltr
+      ..textAlign = TextAlign.center
+      ..textScaleFactor = sizes.font_factor;
 
     _iconPainter = TextPainter()
       ..textDirection = TextDirection.ltr
-      ..textAlign = TextAlign.center
-    ..textScaleFactor = sizes.icon_factor;
+      ..textAlign = TextAlign.center;
 
     _arrowPaint = Paint()
       ..color = drawingColor
@@ -199,10 +194,6 @@ class DrawOverview extends CustomPainter {
     Offset lineDirection = Offset(absolutePivotOffset.dx - absoluteOffset.dx, absolutePivotOffset.dy - absoluteOffset.dy);
 
     Offset lineDirectionOrtho = Offset(lineDirection.dy, -lineDirection.dx); // orthogonal to connection line
-
-    if (lineDirection.dx <= 0) {
-      shiftFactor = -shiftFactor;
-    }
 
     var angle = atan2(lineDirectionOrtho.dy, lineDirectionOrtho.dx);
 
@@ -268,7 +259,7 @@ class DrawOverview extends CustomPainter {
       collisionAvoidPadding = 20;
     }
     else if((sin(angle) >= -0.5 && sin(angle) <= -0.3) || sin(angle) >= 0.3 && sin(angle) <= 0.5){
-      collisionAvoidPadding = 80;
+      collisionAvoidPadding = 40;
     }
     else if((sin(angle) < -0.5 && sin(angle) >= -1) || sin(angle) > 0.5 && sin(angle) <= 1){
       collisionAvoidPadding = 40;
@@ -377,13 +368,13 @@ class DrawOverview extends CustomPainter {
   }
 
   void drawDataRateText(Canvas canvas, dataRateText, double angle, bool textOnTop, bool textOnLeft, startDx, endDx, startDy, endDy) {
-    var dataRatePadding = -12;
+    var dataRatePadding = -5.0;
     double topTextPadding = 0;
     double orthogonalAngle = 0;
 
     final dataRateTextSpan = TextSpan(
       text: dataRateText.toString() + " Mbps",
-      style: _productTypeStyle.apply(),
+      style: _dataRateTypeStyle.apply(),
     );
 
     _textPainter.text = dataRateTextSpan;
@@ -396,38 +387,83 @@ class DrawOverview extends CustomPainter {
       orthogonalAngle = angle - pi / 2;
     }
 
-    if(textOnTop && !(orthogonalAngle * 180/pi == 0 || orthogonalAngle * 180/pi == 180 || orthogonalAngle * 180/pi == -180)){
-      topTextPadding = _textPainter.height;
-      dataRatePadding = -dataRatePadding;
-    }
-
     // horizontal arrow
     if(orthogonalAngle * 180/pi == 90 || orthogonalAngle * 180/pi == -90 || orthogonalAngle * 180/pi == 270 || orthogonalAngle * 180/pi == -270) {
-      if(angle == 0)
-        _textPainter.paint(canvas, Offset(canvasWidth/2 - _textPainter.width/2, ((startDy + endDy) / 2) - topTextPadding + dataRatePadding * sin(orthogonalAngle)));
-      else
-        _textPainter.paint(canvas, Offset(canvasWidth/2 - _textPainter.width/2, ((startDy + endDy) / 2) - topTextPadding + dataRatePadding * sin(orthogonalAngle)));
+
+      if(textOnTop){
+        dataRatePadding = dataRatePadding - _textPainter.height;
+      }
+      else{
+        dataRatePadding = -dataRatePadding;
+      }
+
+        _textPainter.paint(canvas, Offset(canvasWidth/2 - _textPainter.width/2, ((startDy + endDy) / 2) + dataRatePadding));
     }
 
     // vertical arrow
     else if(orthogonalAngle * 180/pi == 0 || orthogonalAngle * 180/pi == 180 || orthogonalAngle * 180/pi == -180) {
       dataRatePadding = -dataRatePadding;
 
+      canvas.save();
+
       if(textOnLeft){
-        _textPainter.paint(canvas, Offset(((startDx + endDx) / 2) - _textPainter.width + dataRatePadding * cos(orthogonalAngle), ((startDy + endDy) / 2) - _textPainter.height/2 ));
+        canvas.translate(-_textPainter.width/2 - _textPainter.height/2 - dataRatePadding, -_textPainter.height/2);
       }
       else{
-        _textPainter.paint(canvas, Offset(((startDx + endDx) / 2) + dataRatePadding * cos(orthogonalAngle), ((startDy + endDy) / 2) - _textPainter.height/2 ));
+        canvas.translate(-_textPainter.width/2 + _textPainter.height/2 + dataRatePadding, -_textPainter.height/2);
       }
+
+      //put padding between text and arrow
+      final pivot = _textPainter.size.center( Offset(((startDx + endDx) / 2) , ((startDy + endDy) / 2) ));
+      canvas.translate(pivot.dx, pivot.dy);
+      //rotate text
+      canvas.rotate(-90 * pi/180);
+      canvas.translate(-pivot.dx, -pivot.dy);
+      _textPainter.paint(canvas, Offset(((startDx + endDx) / 2) , ((startDy + endDy) / 2) ));
+
+      canvas.restore();
+
+      /*
+      if(textOnLeft){
+        _textPainter.paint(canvas, Offset(((startDx + endDx) / 2) - _textPainter.width - dataRatePadding, ((startDy + endDy) / 2) - _textPainter.height/2));
+      }
+      else{
+        _textPainter.paint(canvas, Offset(((startDx + endDx) / 2) + 5, ((startDy + endDy) / 2) - _textPainter.height/2 ));
+      }*/
     }
 
-    // arrow that needs text on left
-    else if(textOnLeft){
-      _textPainter.paint(canvas, Offset(((startDx + endDx) / 2) - _textPainter.width + dataRatePadding * cos(orthogonalAngle), ((startDy + endDy) / 2) - topTextPadding + dataRatePadding * sin(orthogonalAngle)));
-    }
+    // other arrows
     else{
-      _textPainter.paint(canvas, Offset(((startDx + endDx) / 2) + dataRatePadding * cos(orthogonalAngle), ((startDy + endDy) / 2) - topTextPadding + dataRatePadding * sin(orthogonalAngle)));
+
+      if(textOnTop){
+        dataRatePadding = -dataRatePadding + _textPainter.height/2;
+      }
+      else{
+        dataRatePadding = dataRatePadding - _textPainter.height/2;
+      }
+
+      canvas.save();
+
+      if (angle * 180/pi < -90 )
+        angle = angle + 180 *pi/180;
+      if (angle * 180/pi > 100 )
+        angle = angle + 180 *pi/180;
+
+      //put text on center of arrow
+      canvas.translate(-_textPainter.width/2, -_textPainter.height/2);
+      //put padding between text and arrow
+      canvas.translate(dataRatePadding * cos(orthogonalAngle), dataRatePadding * sin(orthogonalAngle));
+      final pivot = _textPainter.size.center( Offset(((startDx + endDx) / 2) , ((startDy + endDy) / 2) ));
+      canvas.translate(pivot.dx, pivot.dy);
+      //rotate text
+      canvas.rotate(angle);
+      canvas.translate(-pivot.dx, -pivot.dy);
+      _textPainter.paint(canvas, Offset(((startDx + endDx) / 2) , ((startDy + endDy) / 2) ));
+
+      canvas.restore();
     }
+
+
   }
 
   void drawDeviceIconContent(Canvas canvas, int deviceIndex) {
@@ -527,10 +563,18 @@ class DrawOverview extends CustomPainter {
 
 
   void drawMainIcon(Canvas canvas, icon) {
-    Offset absoluteRouterOffset = Offset(canvasWidth / 2, canvasGridHeight * -45 + canvasHeight/2);
+
+    Offset absoluteRouterOffset = Offset(0,0);
+    if (_deviceIconOffsetList.length >= 5){
+      absoluteRouterOffset = Offset(canvasWidth / 2, canvasGridHeight * -50 + canvasHeight/2);
+    }
+    else{
+      absoluteRouterOffset = Offset(canvasWidth / 2, canvasGridHeight * -45 + canvasHeight/2);
+    }
+
     Offset absoluteRouterDeviceOffset = _deviceIconOffsetList.elementAt(0);
 
-    _iconPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: 30 * sizes.icon_factor, fontFamily: icon.fontFamily, color: drawingColor));
+    _iconPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: 30, fontFamily: icon.fontFamily, color: drawingColor));
     _iconPainter.layout();
     _iconPainter.paint(canvas, Offset(absoluteRouterOffset.dx - (_iconPainter.width / 2), absoluteRouterOffset.dy));
 
@@ -549,8 +593,8 @@ class DrawOverview extends CustomPainter {
   void drawIcon(Canvas canvas, Offset offset, icon, double size, Color color, [bool transparentBackground = true]) {
 
     if(transparentBackground == false){   //draws circle behind icon
-      Offset offsetBackground = Offset(offset.dx + (size*sizes.icon_factor)/2,offset.dy + (size*sizes.icon_factor)/2);
-      canvas.drawCircle(offsetBackground, ((size*sizes.icon_factor)/2),  _circleAreaPaint);
+      Offset offsetBackground = Offset(offset.dx + (size/2),offset.dy + (size/2));
+      canvas.drawCircle(offsetBackground, (size/2),  _circleAreaPaint);
     }
 
     _iconPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint), style: TextStyle(fontSize: size, fontFamily: icon.fontFamily, color: color));
@@ -592,12 +636,18 @@ class DrawOverview extends CustomPainter {
     //Offset.dx = (value * canvasGridWidth) + canvasWidth/2 -> where value = [-50,50] and canvasWidth/2 moves the origin of the coordinate system to the center
     //Offset.dy = (value * canvasGridHeight) + canvasHeight/2 -> where value = [-50,50] and canvasHeight/2 moves the origin of the coordinate system to the center
 
-    deviceIconOffsetList.add(Offset(0.0 + canvasWidth/2, canvasGridHeight * -20 + canvasHeight/2));
+    if(numberDevices == 8){
+      deviceIconOffsetList.add(Offset(0.0 + canvasWidth/2, canvasGridHeight * -39 + canvasHeight/2));
+    }
+    else if(numberDevices >= 5)
+      deviceIconOffsetList.add(Offset(0.0 + canvasWidth/2, canvasGridHeight * -35 + canvasHeight/2));
+    else
+      deviceIconOffsetList.add(Offset(0.0 + canvasWidth/2, canvasGridHeight * -25 + canvasHeight/2));
 
     switch (numberDevices) {
       case 2:
         {
-          deviceIconOffsetList.add(Offset(0.0 + canvasWidth/2, canvasGridHeight * 15 + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(0.0 + canvasWidth/2, canvasGridHeight * 25 + canvasHeight/2));
         }
         break;
       case 3:
@@ -608,47 +658,55 @@ class DrawOverview extends CustomPainter {
         break;
       case 4:
         {
-          deviceIconOffsetList.add(Offset(24 * canvasGridWidth + canvasWidth/2, canvasGridHeight * 0 + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(0.0 + canvasWidth/2, canvasGridHeight * 20 + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(-24 * canvasGridWidth + canvasWidth/2, canvasGridHeight * 0 + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(35 * canvasGridWidth + canvasWidth/2, canvasGridHeight * 0 + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(0.0 + canvasWidth/2, canvasGridHeight * 25 + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-35 * canvasGridWidth + canvasWidth/2, canvasGridHeight * 0 + canvasHeight/2));
         }
         break;
       case 5:
         {
-          deviceIconOffsetList.add(Offset(28 * canvasGridWidth + canvasWidth/2, -10 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(14 * canvasGridWidth + canvasWidth/2, 18 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(-14 * canvasGridWidth + canvasWidth/2, 18 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(-28 * canvasGridWidth + canvasWidth/2, -10 * canvasGridHeight + canvasHeight/2));
+          /*
+          deviceIconOffsetList.add(Offset(35 * canvasGridWidth + canvasWidth/2, 0 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(14 * canvasGridWidth + canvasWidth/2, 25 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-14 * canvasGridWidth + canvasWidth/2, 25 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-35 * canvasGridWidth + canvasWidth/2, 0 * canvasGridHeight + canvasHeight/2));
+          */
+          deviceIconOffsetList.add(Offset(35 * canvasGridWidth + canvasWidth/2, -10 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(35 * canvasGridWidth + canvasWidth/2, 30 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-35 * canvasGridWidth + canvasWidth/2, 30 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-35 * canvasGridWidth + canvasWidth/2, -10 * canvasGridHeight + canvasHeight/2));
         }
         break;
       case 6:
         {
-          deviceIconOffsetList.add(Offset(32 * canvasGridWidth + canvasWidth/2, -12 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(24 * canvasGridWidth + canvasWidth/2, 10 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(0.0 + canvasWidth/2, 20 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(-24 * canvasGridWidth + canvasWidth/2, 10 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(-32 * canvasGridWidth + canvasWidth/2, -12 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(35 * canvasGridWidth + canvasWidth/2, -10 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(35 * canvasGridWidth + canvasWidth/2, 20 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(0.0 + canvasWidth/2, 30 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-35 * canvasGridWidth + canvasWidth/2, 20 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-35 * canvasGridWidth + canvasWidth/2, -10 * canvasGridHeight + canvasHeight/2));
         }
         break;
       case 7:
         {
-          deviceIconOffsetList.add(Offset(28 * canvasGridWidth + canvasWidth/2, -32 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(28 * canvasGridWidth + canvasWidth/2, -8 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(14 * canvasGridWidth + canvasWidth/2, 18 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(-14 * canvasGridWidth + canvasWidth/2, 18 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(-28 * canvasGridWidth + canvasWidth/2, -8* canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(-28 * canvasGridWidth + canvasWidth/2, -32 * canvasGridHeight + canvasHeight/2));
+
+          deviceIconOffsetList.add(Offset(35 * canvasGridWidth + canvasWidth/2, -15 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(35 * canvasGridWidth + canvasWidth/2, 13 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(12 * canvasGridWidth + canvasWidth/2, 30 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-12 * canvasGridWidth + canvasWidth/2, 30 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-35 * canvasGridWidth + canvasWidth/2, 13* canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-35 * canvasGridWidth + canvasWidth/2, -15 * canvasGridHeight + canvasHeight/2));
+
         }
         break;
       case 8:
         {
-          deviceIconOffsetList.add(Offset(28 * canvasGridWidth + canvasWidth/2, -32 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(28 * canvasGridWidth + canvasWidth/2, -8 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(18 * canvasGridWidth + canvasWidth/2, 10 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(0.0 + canvasWidth/2, 20 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(-18 * canvasGridWidth + canvasWidth/2, 10 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(-28 * canvasGridWidth + canvasWidth/2, -8* canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(-28 * canvasGridWidth + canvasWidth/2, -32 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(35 * canvasGridWidth + canvasWidth/2, -20 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(35 * canvasGridWidth + canvasWidth/2, 10 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(20 * canvasGridWidth + canvasWidth/2, 30 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(0.0 + canvasWidth/2, 35 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-20 * canvasGridWidth + canvasWidth/2, 30 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-35 * canvasGridWidth + canvasWidth/2, 10* canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(-35 * canvasGridWidth + canvasWidth/2, -20 * canvasGridHeight + canvasHeight/2));
         }
         break;
       default:
@@ -722,7 +780,7 @@ class DrawOverview extends CustomPainter {
       if (numDev > _deviceIconOffsetList.length) break;
 
       //do not draw pivot device name yet
-      drawDeviceName(canvas, _deviceList.elementAt(numDev).type, _deviceList.elementAt(numDev).name, _deviceIconOffsetList.elementAt(numDev), size * sizes.icon_factor);
+      drawDeviceName(canvas, _deviceList.elementAt(numDev).type, _deviceList.elementAt(numDev).name, _deviceIconOffsetList.elementAt(numDev), size);
     }
 
     //first, draw all device circles and their lines to the pivot device

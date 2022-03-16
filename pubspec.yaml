@@ -40,7 +40,7 @@ dependencies:
   flutter_phoenix: ^1.0.0
   window_size:
     git:
-      url: git://github.com/google/flutter-desktop-embedding.git
+      url: https://github.com/google/flutter-desktop-embedding
       path: plugins/window_size
       ref: 7812516a5c1fc8ef379e244106953a2b534432b9
 

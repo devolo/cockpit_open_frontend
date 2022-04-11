@@ -243,7 +243,7 @@ class NetworkList extends ChangeNotifier{
     }
     return searchedDevice;
   }
-
+  
   void clearDeviceList() {
     _networkList[selectedNetworkIndex].clear();
     notifyListeners();

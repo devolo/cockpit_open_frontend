@@ -52,6 +52,7 @@ class DrawOverview extends CustomPainter {
   late double fontSizeDeviceInfo;
   late double connectionLineWidth;
   late double screenWidth;
+  late int maxDisplayedCharactersOfDevice;
   late BuildContext context;
 
   DrawOverview(BuildContext context, NetworkList foundDevices, int pivot, int selectedDeviceIndex) {
@@ -74,6 +75,7 @@ class DrawOverview extends CustomPainter {
     screenWidth = MediaQuery.of(context).size.width;
 
     fontSizeDeviceInfo = 16;  //Device Name + Device Type
+    maxDisplayedCharactersOfDevice = 14;
 
     deviceCircleRadius = 35; // Device Icon
     laptopCircleRadius = deviceCircleRadius/2;  // local Icon (PC)
@@ -491,8 +493,8 @@ class DrawOverview extends CustomPainter {
   void drawDeviceName(Canvas canvas, String pName, String uName, Offset offset, [Size? size]) {
     Offset absoluteOffset = offset;
 
-    if(uName.length > 14){
-      uName = uName.replaceRange(14, uName.length, "...");
+    if(uName.length > maxDisplayedCharactersOfDevice){
+      uName = uName.replaceRange(maxDisplayedCharactersOfDevice, uName.length, "...");
     }
     final userNameTextSpan = TextSpan(
       text: uName.length > 0 ? uName : "",
@@ -533,6 +535,60 @@ class DrawOverview extends CustomPainter {
     double pNameWidth = _textPainter.width;
 
     return max(uNameWidth,pNameWidth);
+  }
+
+  String generateRandomString(int len) {
+    var r = Random();
+    const _chars = "W"; //as this is one of the largest
+    return List.generate(len, (index) => _chars[r.nextInt(_chars.length)]).join();
+  }
+  double getGeneralNameWidth() {
+
+    var userNameTextSpan = TextSpan(
+      text: "",
+      style: _textStyle.apply(),
+    );
+
+    TextPainter widestText = _textPainter;
+    widestText.text = userNameTextSpan;
+
+    var devices = _providerList.getDeviceList();
+
+    for(int i = 0; i < devices.length; i++){
+
+      var deviceName = devices[i].name;
+
+      if(deviceName.length > maxDisplayedCharactersOfDevice){
+        deviceName = deviceName.replaceRange(maxDisplayedCharactersOfDevice, deviceName.length, "...");
+      }
+
+      var userNameTextSpan = TextSpan(
+        text: deviceName,
+        style: _textStyle.apply(),
+      );
+
+      _textPainter.text = userNameTextSpan;
+      _textPainter.layout();
+
+      if(_textPainter.width > widestText.width){
+        widestText = _textPainter;
+      }
+
+      var deviceType = devices[i].type;
+
+      final productNameTextSpan = TextSpan(
+        text: deviceType,
+        style: _productTypeStyle.apply(),
+      );
+      _textPainter.text = productNameTextSpan;
+      _textPainter.layout();
+
+      if(_textPainter.width > widestText.width){
+        widestText = _textPainter;
+      }
+    }
+
+    return _textPainter.width;
   }
 
   double getDeviceNameHeight(String name) {
@@ -631,6 +687,7 @@ class DrawOverview extends CustomPainter {
     double canvasGridWidth = canvasWidth/100;
     double canvasGridHeight = canvasHeight/100;
     List<Offset> deviceIconOffsetList = [];
+    var widthPadding = 20;
 
     //coordinate and value explanation
     //Offset.dx = (value * canvasGridWidth) + canvasWidth/2 -> where value = [-50,50] and canvasWidth/2 moves the origin of the coordinate system to the center
@@ -652,28 +709,40 @@ class DrawOverview extends CustomPainter {
         break;
       case 3:
         {
-          deviceIconOffsetList.add(Offset(30 * canvasGridWidth + canvasWidth/2, (canvasGridHeight * 25) + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(-30 * canvasGridWidth + canvasWidth/2, (canvasGridHeight * 25) + canvasHeight/2));
+          if((canvasGridHeight * 25) + canvasHeight/2 + pixelToCoordinateSystem(deviceCircleRadius) + pixelToCoordinateSystem(getDeviceNameAndTypeHeight()) > canvasHeight){
+            deviceIconOffsetList.add(Offset(30 * canvasGridWidth + canvasWidth/2, (50 * canvasGridHeight + canvasHeight/2) - pixelToCoordinateSystem(deviceCircleRadius) - pixelToCoordinateSystem(getDeviceNameAndTypeHeight())));
+            deviceIconOffsetList.add(Offset(-30 * canvasGridWidth + canvasWidth/2, (50 * canvasGridHeight + canvasHeight/2) - pixelToCoordinateSystem(deviceCircleRadius) - pixelToCoordinateSystem(getDeviceNameAndTypeHeight())));
+          }
+          else{
+            deviceIconOffsetList.add(Offset(30 * canvasGridWidth + canvasWidth/2, (canvasGridHeight * 25) + canvasHeight/2));
+            deviceIconOffsetList.add(Offset(-30 * canvasGridWidth + canvasWidth/2, (canvasGridHeight * 25) + canvasHeight/2));
+          }
         }
         break;
       case 4:
         {
           deviceIconOffsetList.add(Offset(35 * canvasGridWidth + canvasWidth/2, canvasGridHeight * 0 + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(0.0 + canvasWidth/2, canvasGridHeight * 25 + canvasHeight/2));
+          if((canvasGridHeight * 25) + canvasHeight/2 + pixelToCoordinateSystem(deviceCircleRadius) + pixelToCoordinateSystem(getDeviceNameAndTypeHeight()) > canvasHeight){
+            deviceIconOffsetList.add(Offset(0.0 + canvasWidth/2, (50 * canvasGridHeight + canvasHeight/2) - pixelToCoordinateSystem(deviceCircleRadius) - pixelToCoordinateSystem(getDeviceNameAndTypeHeight())));
+          }
+          else{
+            deviceIconOffsetList.add(Offset(0.0 + canvasWidth/2, canvasGridHeight * 25 + canvasHeight/2));
+          }
           deviceIconOffsetList.add(Offset(-35 * canvasGridWidth + canvasWidth/2, canvasGridHeight * 0 + canvasHeight/2));
         }
         break;
       case 5:
         {
-          /*
-          deviceIconOffsetList.add(Offset(35 * canvasGridWidth + canvasWidth/2, 0 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(14 * canvasGridWidth + canvasWidth/2, 25 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(-14 * canvasGridWidth + canvasWidth/2, 25 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(-35 * canvasGridWidth + canvasWidth/2, 0 * canvasGridHeight + canvasHeight/2));
-          */
           deviceIconOffsetList.add(Offset(35 * canvasGridWidth + canvasWidth/2, -10 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(35 * canvasGridWidth + canvasWidth/2, 30 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(-35 * canvasGridWidth + canvasWidth/2, 30 * canvasGridHeight + canvasHeight/2));
+          if((canvasGridHeight * 30) + canvasHeight/2 + pixelToCoordinateSystem(deviceCircleRadius) + pixelToCoordinateSystem(getDeviceNameAndTypeHeight()) > canvasHeight){
+            deviceIconOffsetList.add(Offset(35 * canvasGridWidth + canvasWidth/2, (50 * canvasGridHeight + canvasHeight/2) - pixelToCoordinateSystem(deviceCircleRadius) - pixelToCoordinateSystem(getDeviceNameAndTypeHeight())));
+            deviceIconOffsetList.add(Offset(-35 * canvasGridWidth + canvasWidth/2, (50 * canvasGridHeight + canvasHeight/2) - pixelToCoordinateSystem(deviceCircleRadius) - pixelToCoordinateSystem(getDeviceNameAndTypeHeight())));
+
+          }
+          else{
+            deviceIconOffsetList.add(Offset(35 * canvasGridWidth + canvasWidth/2, 30 * canvasGridHeight + canvasHeight/2));
+            deviceIconOffsetList.add(Offset(-35 * canvasGridWidth + canvasWidth/2, 30 * canvasGridHeight + canvasHeight/2));
+          }
           deviceIconOffsetList.add(Offset(-35 * canvasGridWidth + canvasWidth/2, -10 * canvasGridHeight + canvasHeight/2));
         }
         break;
@@ -681,7 +750,7 @@ class DrawOverview extends CustomPainter {
         {
           deviceIconOffsetList.add(Offset(35 * canvasGridWidth + canvasWidth/2, -10 * canvasGridHeight + canvasHeight/2));
           deviceIconOffsetList.add(Offset(35 * canvasGridWidth + canvasWidth/2, 20 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(0.0 + canvasWidth/2, 30 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(0.0 + canvasWidth/2, (50 * canvasGridHeight + canvasHeight/2) - pixelToCoordinateSystem(deviceCircleRadius) - pixelToCoordinateSystem(getDeviceNameAndTypeHeight())));
           deviceIconOffsetList.add(Offset(-35 * canvasGridWidth + canvasWidth/2, 20 * canvasGridHeight + canvasHeight/2));
           deviceIconOffsetList.add(Offset(-35 * canvasGridWidth + canvasWidth/2, -10 * canvasGridHeight + canvasHeight/2));
         }
@@ -689,24 +758,24 @@ class DrawOverview extends CustomPainter {
       case 7:
         {
 
-          deviceIconOffsetList.add(Offset(35 * canvasGridWidth + canvasWidth/2, -15 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(35 * canvasGridWidth + canvasWidth/2, 13 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(12 * canvasGridWidth + canvasWidth/2, 30 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(-12 * canvasGridWidth + canvasWidth/2, 30 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(-35 * canvasGridWidth + canvasWidth/2, 13* canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(-35 * canvasGridWidth + canvasWidth/2, -15 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset((50 * canvasGridWidth + canvasWidth/2) - pixelToCoordinateSystem(getGeneralNameWidth()/2) - widthPadding, -15 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset((50 * canvasGridWidth + canvasWidth/2) - pixelToCoordinateSystem(getGeneralNameWidth()/2) - widthPadding, 18 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(13 * canvasGridWidth + canvasWidth/2, (50 * canvasGridHeight + canvasHeight/2) - pixelToCoordinateSystem(deviceCircleRadius) - pixelToCoordinateSystem(getDeviceNameAndTypeHeight())));
+          deviceIconOffsetList.add(Offset(-13 * canvasGridWidth + canvasWidth/2, (50 * canvasGridHeight + canvasHeight/2) - pixelToCoordinateSystem(deviceCircleRadius) - pixelToCoordinateSystem(getDeviceNameAndTypeHeight())));
+          deviceIconOffsetList.add(Offset((-50 * canvasGridWidth + canvasWidth/2) + pixelToCoordinateSystem(getGeneralNameWidth()/2) + widthPadding, 18 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset((-50 * canvasGridWidth + canvasWidth/2) + pixelToCoordinateSystem(getGeneralNameWidth()/2) + widthPadding, -15 * canvasGridHeight + canvasHeight/2));
 
         }
         break;
       case 8:
         {
-          deviceIconOffsetList.add(Offset(35 * canvasGridWidth + canvasWidth/2, -20 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(35 * canvasGridWidth + canvasWidth/2, 10 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(20 * canvasGridWidth + canvasWidth/2, 30 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(0.0 + canvasWidth/2, 35 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(-20 * canvasGridWidth + canvasWidth/2, 30 * canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(-35 * canvasGridWidth + canvasWidth/2, 10* canvasGridHeight + canvasHeight/2));
-          deviceIconOffsetList.add(Offset(-35 * canvasGridWidth + canvasWidth/2, -20 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset((50 * canvasGridWidth + canvasWidth/2) - pixelToCoordinateSystem(getGeneralNameWidth()/2) - widthPadding, -20 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset((50 * canvasGridWidth + canvasWidth/2) - pixelToCoordinateSystem(getGeneralNameWidth()/2) - widthPadding, 10 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(24 * canvasGridWidth + canvasWidth/2, 30 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset(0.0 + canvasWidth/2, (50 * canvasGridHeight + canvasHeight/2) - pixelToCoordinateSystem(deviceCircleRadius) - pixelToCoordinateSystem(getDeviceNameAndTypeHeight())));
+          deviceIconOffsetList.add(Offset(-24 * canvasGridWidth + canvasWidth/2, 30 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset((-50 * canvasGridWidth + canvasWidth/2) + pixelToCoordinateSystem(getGeneralNameWidth()/2) + widthPadding, 10 * canvasGridHeight + canvasHeight/2));
+          deviceIconOffsetList.add(Offset((-50 * canvasGridWidth + canvasWidth/2) + pixelToCoordinateSystem(getGeneralNameWidth()/2) + widthPadding, -20 * canvasGridHeight + canvasHeight/2));
         }
         break;
       default:
@@ -741,6 +810,10 @@ class DrawOverview extends CustomPainter {
       }
 
     }
+  }
+
+  double pixelToCoordinateSystem(double pixel){
+    return pixel*(2/100 + 1);
   }
 
   Map<String, dynamic> getLineColor(int dev) {

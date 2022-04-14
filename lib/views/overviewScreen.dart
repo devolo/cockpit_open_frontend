@@ -81,7 +81,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
     socket.setNetworkList(_deviceList);
 
     double deviceInfoActionsPadding = 20;
-    double dividerHeight = 10;
+    double dividerHeight = 0;
 
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
@@ -662,6 +662,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
                                   if(selectedDevice.webinterfaceAvailable)...[
                                     ListTile(
+                                      visualDensity: VisualDensity(vertical: 0.4),
                                       hoverColor: Colors.white.withOpacity(0.2),
                                       leading: Icon(
                                         DevoloIcons.devolo_UI_internet,
@@ -681,6 +682,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   if(selectedDevice.identifyDeviceAvailable)...[
                                     Divider(height: dividerHeight, color: fontColorOnBackground),
                                     ListTile(
+                                      visualDensity: VisualDensity(vertical: 0.4),
                                       hoverColor: Colors.white.withOpacity(0.2),
                                       leading: Icon(
                                         DevoloIcons.devolo_icon_ui_led,
@@ -732,6 +734,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   if(selectedDevice.supportedVDSL.isNotEmpty)...[
                                     Divider(height: dividerHeight, color: fontColorOnBackground),
                                     ListTile(
+                                      visualDensity: VisualDensity(vertical: 0.4),
                                       hoverColor: Colors.white.withOpacity(0.2),
                                       leading: Icon(
                                         DevoloIcons.ic_router_24px,
@@ -759,6 +762,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   ],
                                   Divider(height: dividerHeight, color: fontColorOnBackground),
                                   ListTile(
+                                    visualDensity: VisualDensity(vertical: 0.4),
                                     hoverColor: Colors.white.withOpacity(0.2),
                                     leading: Icon(
                                       DevoloIcons.ic_find_in_page_24px,
@@ -789,6 +793,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   if(sideInformationExtended && selectedDevice.disableLeds[0] == 1)...[
                                     Divider(height: dividerHeight, color: fontColorOnBackground),
                                     SwitchListTile(
+                                      visualDensity: VisualDensity(vertical: 0.4),
                                       hoverColor: Colors.white.withOpacity(0.2),
                                       title: Text(S.of(context).activateLEDs,
                                         style: TextStyle(color: fontColorOnBackground),
@@ -828,6 +833,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   if(sideInformationExtended && selectedDevice.disableTraffic[0] == 1)...[
                                     Divider(height: dividerHeight, color: fontColorOnBackground),
                                     SwitchListTile(
+                                      visualDensity: VisualDensity(vertical: 0.4),
                                       hoverColor: Colors.white.withOpacity(0.2),
                                       title: Text(S.of(context).activateTransmission,
                                           style: TextStyle(color: fontColorOnBackground),
@@ -867,6 +873,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   if(sideInformationExtended && selectedDevice.disableStandby[0] == 1)...[
                                     Divider(height: dividerHeight, color: fontColorOnBackground),
                                     SwitchListTile(
+                                      visualDensity: VisualDensity(vertical: 0.4),
                                       hoverColor: Colors.white.withOpacity(0.2),
                                       title: Text(S.of(context).powerSavingMode,
                                           style: TextStyle(color: fontColorOnBackground),
@@ -906,6 +913,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   if(sideInformationExtended)...[
                                     Divider(height: dividerHeight, color: fontColorOnBackground),
                                     ListTile(
+                                      visualDensity: VisualDensity(vertical: 0.4),
                                       hoverColor: Colors.white.withOpacity(0.2),
                                       leading: Icon(
                                         DevoloIcons.devolo_UI_delete,
@@ -968,6 +976,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                   if(sideInformationExtended)...[
                                     Divider(height: dividerHeight, color: fontColorOnBackground),
                                     ListTile(
+                                      visualDensity: VisualDensity(vertical: 0.4),
                                       hoverColor: Colors.white.withOpacity(0.2),
                                       leading: Icon(
                                         DevoloIcons.ic_file_upload_24px,

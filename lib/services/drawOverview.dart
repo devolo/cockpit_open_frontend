@@ -179,7 +179,7 @@ class DrawOverview extends CustomPainter {
 
     Offset toOffset = getLaptopIconOffset(localIndex, _deviceIconOffsetList);
 
-    if ((showingSpeeds && localIndex != pivotDeviceIndex) || localIndex == selectedDevice) {
+    if (localIndex == selectedDevice) {
       drawIcon(canvas, toOffset, DevoloIcons.ic_laptop_24px_circled,laptopCircleRadius*2,drawingColor, false);
     } else {
       drawIcon(canvas, toOffset, DevoloIcons.ic_laptop_24px_filled,laptopCircleRadius*2,drawingColor, false);

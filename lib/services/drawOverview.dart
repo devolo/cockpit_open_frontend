@@ -230,18 +230,13 @@ class DrawOverview extends CustomPainter {
 
   }
 
-  void drawDeviceConnection2(Canvas canvas, Offset deviceOffset, Map color) {
+  void drawDeviceConnectionWithoutSpeed(Canvas canvas, Offset deviceOffset, Map color) {
 
     Offset absoluteOffset = deviceOffset;
-    Offset absolutePivotOffset = _deviceIconOffsetList.elementAt(pivotDeviceIndex);
+    Offset absolutePivotOffset = _deviceIconOffsetList.elementAt(0);  // draw connection always to first device -> not dynamic
 
-    Offset lineDirection = Offset(absolutePivotOffset.dx - absoluteOffset.dx, absolutePivotOffset.dy - absoluteOffset.dy);
-
-    Offset lineDirectionOrtho = Offset(lineDirection.dy, -lineDirection.dx); // orthogonal to connection line
-
-    var angle = atan2(lineDirectionOrtho.dy, lineDirectionOrtho.dx);
-
-    drawLine(canvas, absoluteOffset, absolutePivotOffset, Colors.white);
+    if(absoluteOffset != absolutePivotOffset)
+      drawLine(canvas, absoluteOffset, absolutePivotOffset, Colors.white);
 
   }
 
@@ -804,9 +799,12 @@ class DrawOverview extends CustomPainter {
     for (int numDev = 0; numDev < _deviceList.length; numDev++) {
       if (numDev > _deviceIconOffsetList.length) break;
 
+      if(!showingSpeeds)
+        drawDeviceConnectionWithoutSpeed(canvas, _deviceIconOffsetList.elementAt(numDev), getLineColor(numDev));
+
       //do not draw pivot device line, since it would start and end at the same place
-      if (numDev != pivotDeviceIndex) {
-        showingSpeeds ? drawDeviceConnection(canvas, _deviceIconOffsetList.elementAt(numDev), getLineColor(numDev), getDataRate(numDev)) : drawDeviceConnection2(canvas, _deviceIconOffsetList.elementAt(numDev), getLineColor(numDev));
+      else if (numDev != pivotDeviceIndex) {
+        drawDeviceConnection(canvas, _deviceIconOffsetList.elementAt(numDev), getLineColor(numDev), getDataRate(numDev));
       }
 
     }

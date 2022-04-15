@@ -12,8 +12,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '2.8.1'
-          channel: stable
+          channel: 'stable'
       - name: Run unit tests
         run: |
           flutter config --no-analytics

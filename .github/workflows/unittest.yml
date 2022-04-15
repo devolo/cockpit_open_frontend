@@ -16,6 +16,7 @@ jobs:
       - name: Run unit tests
         run: |
           flutter config --no-analytics
+          flutter pub upgrade
           flutter test --coverage -r expanded
       - name: Report code coverage
         uses: zgosalvez/github-actions-report-lcov@v1

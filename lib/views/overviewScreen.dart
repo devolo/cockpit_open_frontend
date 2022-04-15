@@ -87,6 +87,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
     var screenHeight = MediaQuery.of(context).size.height;
 
     double containerWidth = (screenWidth/2.5) - 120;
+    double canvasWidth = screenWidth - containerWidth;
 
     if(_deviceList.getNetworkListLength() - 1 >= config["selected_network"]){
       _deviceList.selectedNetworkIndex = config["selected_network"];
@@ -196,6 +197,68 @@ class _OverviewScreenState extends State<OverviewScreen> {
                           ],
                         )
                       ])),
+                  if(selectedDeviceIndex == 999)
+                    Expanded(child:
+                    LayoutBuilder(builder: (context, constraints) {
+                      double height = constraints.maxHeight;
+                      double width = canvasWidth;
+
+                      return Container(
+                        width: canvasWidth,
+                        child:Stack(children: [
+                          CustomPaint(
+                            painter: _painter,
+                            child: GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTapUp: (details) => _handleTap(details, _deviceList, width, height),
+                              child: (_deviceList.getNetworkListLength() == 0) ? Container() : MouseRegion(       //Disable MouseRegion when no Device is found
+                                  cursor: (hoveredDevice) ? SystemMouseCursors.click : MouseCursor.defer,
+                                  onHover: (details) => _checkIfDeviceIsHovered(details, _deviceList, width, height)
+                              ),
+                            ),
+                          ),
+                          if(_deviceList.getNetworkListLength() == 0)
+                            Positioned(
+                              left: _painter.getCircularProgressIndicatorPosition(width, height).dx,
+                              top: _painter.getCircularProgressIndicatorPosition(width, height).dy - (_painter.fontSizeDeviceInfo * size.icon_factor)/2,
+                              child: SizedBox(
+                                  width: _painter.fontSizeDeviceInfo * size.icon_factor,
+                                  height: _painter.fontSizeDeviceInfo * size.icon_factor,
+                                  child: CircularProgressIndicator(
+                                      valueColor: new AlwaysStoppedAnimation<Color>(fontColorOnBackground),
+                                      strokeWidth: _painter.getScaleSize(0.2, 1, 3, width) * size.icon_factor)
+                              ),
+                            ),
+                          // hover tooltip area for laptop icon (local device)
+                          if(_localIndex != -1)
+                            Positioned(
+                              left: _painter
+                                  .getLaptopIconOffset(_localIndex,
+                                  _painter.getDeviceIconOffsetList(_deviceList
+                                      .getDeviceList()
+                                      .length, width, height))
+                                  .dx,
+                              top: _painter
+                                  .getLaptopIconOffset(_localIndex,
+                                  _painter.getDeviceIconOffsetList(_deviceList
+                                      .getDeviceList()
+                                      .length, width, height))
+                                  .dy,
+                              child: Container(
+                                height:_painter.laptopCircleRadius*2,
+                                width:_painter.laptopCircleRadius*2,
+                                child: Tooltip( message: S
+                                    .of(context)
+                                    .thisPc),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(Radius.circular(20))
+                                ),
+                              ),
+                            ),
+                        ],),);
+                    }),
+                    ),
+                  if(selectedDeviceIndex != 999)
                   Expanded(child:
                     LayoutBuilder(builder: (context, constraints) {
                       double height = constraints.maxHeight;
@@ -379,6 +442,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                                                 const Duration(seconds: 1), () {});
                                                             socket.sendXML('RefreshNetwork');
                                                           } else if (response['result'] == "device_not_found") {
+                                                            textFieldController.text = selectedDevice.name;
                                                             errorDialog(context, S
                                                                 .of(context)
                                                                 .deviceNameErrorTitle, S
@@ -387,6 +451,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                                                 .of(context)
                                                                 .deviceNotFoundHint, size);
                                                           } else if (response['result'] != "ok") {
+                                                            textFieldController.text = selectedDevice.name;
                                                             errorDialog(context, S
                                                                 .of(context)
                                                                 .deviceNameErrorTitle, S

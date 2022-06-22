@@ -298,7 +298,7 @@ class _MyHomePageState extends State<MyHomePage> {
     socket = Provider.of<DataHand>(context);
 
     if(!socket.connected && widgetsPoped) {
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         while(Navigator.canPop(context)){ // Navigator.canPop return true if can pop
           logger.i(Navigator.of(context).overlay.toString());
           Navigator.pop(context);

@@ -892,7 +892,7 @@ void showVDSLDialog(context, socket, String hitDeviceVDSLmode, List<String> hitD
                               child: Text("${S.of(context).currentCompatibility}: ${vdslNames[vdslProfile]}", ),
                             )
                           ]
-                      )
+                      ),
                       Row(
                         children: [
                           if (showMSButton)

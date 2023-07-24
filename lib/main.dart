@@ -1,5 +1,5 @@
 /*
-Copyright © 2021, devolo AG
+Copyright © 2023, devolo GmbH
 All rights reserved.
 
 This source code is licensed under the BSD-style license found in the
@@ -596,7 +596,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               padding: EdgeInsets.only(top:15),
                               child: Image.asset("assets/app_icon/app_icon_128.png", width: 80)
                           ),
-                          applicationLegalese: "Copyright © 2021, devolo AG"
+                          applicationLegalese: "Copyright © 2023, devolo GmbH"
                           )),
                     );
                   },

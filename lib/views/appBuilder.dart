@@ -1,5 +1,5 @@
 /*
-Copyright © 2021, devolo AG
+Copyright © 2023, devolo GmbH
 All rights reserved.
 
 This source code is licensed under the BSD-style license found in the

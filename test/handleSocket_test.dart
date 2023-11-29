@@ -11,6 +11,7 @@ import 'dart:async';
 import 'package:cockpit_devolo/models/dataRateModel.dart';
 import 'package:cockpit_devolo/models/networkListModel.dart';
 import 'package:cockpit_devolo/models/deviceModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test/test.dart';
 import 'package:cockpit_devolo/services/handleSocket.dart';
 import 'package:cockpit_devolo/mock-data/mock.dart';
@@ -20,6 +21,8 @@ import 'package:xml/xml.dart';
 
 
 void main() {
+
+  SharedPreferences.setMockInitialValues({});
 
   group('Future<void> dataHandler(data) async',() {
 

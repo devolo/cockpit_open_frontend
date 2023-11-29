@@ -333,7 +333,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                   child: Theme(
                     data:
                     Theme.of(context).copyWith(scrollbarTheme: ScrollbarThemeData().copyWith(
-                      isAlwaysShown: true,
+                      thumbVisibility: MaterialStateProperty.all<bool>(true),
                       thumbColor: MaterialStateProperty.resolveWith<Color?>(
                             (states) {
                           if (states.contains(MaterialState.hovered)) {

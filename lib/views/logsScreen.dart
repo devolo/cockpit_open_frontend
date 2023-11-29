@@ -71,7 +71,7 @@ class _DebugScreenState extends State<DebugScreen> {
           color: backgroundColor,
           child: Scrollbar(
             controller: _scrollController, // <---- Here, the controller
-            isAlwaysShown: true, // <---- Required
+            thumbVisibility: true, // <---- Required
             child: new SingleChildScrollView(
               controller: _scrollController,
               child: Padding(
